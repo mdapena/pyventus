@@ -1,0 +1,36 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pyeelib"
+dynamic = ["version"]
+description = "A versatile Python library for managing multiple, decoupled event emitters."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Manuel Da Pena", email = "dapensoft@gmail.com" },
+]
+keywords = []
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/NachoDPP/pyeelib"
+Documentation = "https://github.com/NachoDPP/pyeelib"
+Repository = "https://github.com/NachoDPP/pyeelib"
+
+[project.optional-dependencies]
+all = []
+
+[tool.hatch.version]
+path = "pyeelib/__init__.py"

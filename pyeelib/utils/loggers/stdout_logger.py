@@ -13,10 +13,10 @@ class StdOutLogger(ABC):
             """ Inner class that defines color codes for log formatting. """
 
             DEFAULT: str = '\033[0m'
-            DEBUG: str = '\033[35m'
-            WARNING: str = '\033[33m'
-            INFO: str = '\033[34m'
-            ERROR: str = '\033[31m'
+            PURPLE: str = '\033[35m'
+            YELLOW: str = '\033[33m'
+            BLUE: str = '\033[34m'
+            RED: str = '\033[31m'
             CYAN: str = '\033[36m'
             GREEN: str = '\033[32m'
             BOLD: str = '\033[1m'
@@ -30,13 +30,13 @@ class StdOutLogger(ABC):
             :return: The color code associated with the log level.
             """
             if level == logging.INFO:
-                return cls.Colors.INFO
+                return cls.Colors.GREEN
             elif level == logging.DEBUG:
-                return cls.Colors.DEBUG
+                return cls.Colors.PURPLE
             elif level == logging.WARNING:
-                return cls.Colors.WARNING
+                return cls.Colors.YELLOW
             elif level == logging.ERROR:
-                return cls.Colors.ERROR
+                return cls.Colors.RED
             return cls.Colors.DEFAULT
 
         @classmethod

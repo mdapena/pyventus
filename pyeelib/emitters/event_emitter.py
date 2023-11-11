@@ -1,28 +1,43 @@
 from abc import ABC, abstractmethod
+from typing import Any, Tuple, ParamSpec, List, Coroutine, Callable, Type
 
 from pyeelib.events import Event
+from pyeelib.linkers import EventLinker
+from pyeelib.listeners import EventListener
+
+P = ParamSpec("P")
 
 
 class EventEmitter(ABC):
-    """
-    An abstract base class for event emitters.
+    _EVENT_TYPES = Event | BaseException | str
 
-    This class serves as an event emitter that can handle string events with arguments and keyword arguments or
-    an instance of Event. It provides a common interface for emitting events and can be used as a base class for
-    implementing specific event emitter classes.
+    def __init__(self, event_linker: Type[EventLinker] = EventLinker):
+        self._event_linker: Type[EventLinker] = event_linker
 
-    The purpose of this class is to decouple the event listener's callback invocations from the real implementation,
-    allowing for more flexibility and versatility. By using this base class as a dependency, you can easily change the
-    behavior of the event emitter at runtime.
-    """
+    def emit(self, event: _EVENT_TYPES, *args: P.args, supress_exceptions: bool = False, **kwargs: P.kwargs) -> None:
+        try:
+            event_args: Tuple[Any] = args if isinstance(event, str) else (event, *args)
+
+            event_key: str = event if isinstance(event, str) else event.__class__
+
+            event_listeners: List[EventListener] = self._event_linker.get_listeners_by_event(event_key)
+
+            for event_listener in event_listeners:
+                self._execute(*event_args, callback=event_listener, **kwargs)
+                if event_listener.ttl <= 0:
+                    self._event_linker.unsubscribe(event_key, event_listener=event_listener)
+        except BaseException as exception:
+            if supress_exceptions:
+                event_listeners = self._event_linker.get_listeners_by_event(event=exception.__class__)
+
+                if not isinstance(exception, BaseException):
+                    event_listeners.extend(self._event_linker.get_listeners_by_event(event=BaseException))
+
+                for event_listener in event_listeners:
+                    self._execute(exception, callback=event_listener)
+            else:
+                raise exception
 
     @abstractmethod
-    def emit(self, event: str | Event, *args, **kwargs) -> None:
-        """
-        Invokes all registered callback functions for a given event.
-        :param event: The event to emit. It can be a string or an instance of Event.
-        :param args: Additional positional arguments to pass to the event listeners.
-        :param kwargs: Additional keyword arguments to pass to the event listeners.
-        :return: None
-        """
+    def _execute(self, *args: P.args, callback: Callable[P, Coroutine], **kwargs: P.args) -> None:
         pass

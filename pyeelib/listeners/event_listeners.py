@@ -2,9 +2,11 @@ import asyncio
 from sys import version_info
 from typing import Callable, Any
 
-if version_info >= (3, 10):
+from pyeelib.exceptions import PyeelibException
+
+if version_info >= (3, 10):  # pragma: no cover
     from typing import ParamSpec
-else:
+else:  # pragma: no cover
     from typing_extensions import ParamSpec
 
 P = ParamSpec("P")
@@ -15,20 +17,26 @@ class EventListener:
     """
     A class that encapsulates event callback functions.
 
-    The `EventListener` class provides a mechanism for managing event listeners and their associated callback functions.
+    The `EventListener` class provides a mechanism for managing event
+    listeners and their associated callback functions.
 
-    The event listener can be triggered by invoking the instance as a function and passing the necessary arguments.
-    If the event listener has a TTL value set, it will be decremented each time the listener is triggered.
-    Once the TTL reaches zero, the event listener will no longer be triggered.
+    **Note**: The event listener can be invoked by calling the instance as a function
+    and passing the necessary arguments. If the event listener has the `once` property
+    set to `True`, it will only be invoked once when the event occurs. If `once` is set
+    to `False` (default), the event listener will be invoked every time the event occurs
+    until explicitly unsubscribed.
     """
 
+    # Event listener attributes
+    __slots__ = ('_is_async', '_callback', '_once')
+
     @property
-    def ttl(self) -> int | None:
+    def once(self) -> bool:
         """
-        Retrieves the Time to Listen (TTL) value for the event listener.
-        :return: The TTL value representing the maximum number of times the listener can be triggered.
+        Determines if the listener is a one-time listener.
+        :return: `True` if the listener is a one-time listener; otherwise, `False`.
         """
-        return self._ttl
+        return self._once
 
     @property
     def is_async(self) -> bool:
@@ -38,15 +46,18 @@ class EventListener:
         """
         return self._is_async
 
-    def __init__(self, callback: Callable[P, Any], ttl: int | None = None) -> None:
+    def __init__(self, callback: Callable[P, Any], once: bool = False) -> None:
         """
         Initializes an instance of the `EventListener` class.
         :param callback: The callback function to be executed when the event occurs.
-        :param ttl: The Time to Listen (TTL) value for the event listener. Defaults to None.
-        :raise ValueError: If `ttl` is not `None` and is less than 1.
+        :param once: Specifies if the listener is a one-time listener. If set to `True`,
+            the listener will be invoked once when the event occurs and then automatically
+            unsubscribed. If set to `False` (default), the listener can be invoked multiple
+            times until explicitly unsubscribed.
+        :raise PyeelibException: If `callback` is not a callable.
         """
-        if ttl is not None and ttl < 1:
-            raise ValueError("EventListener 'ttl' must be greater than 0.")
+        if not callable(callback):
+            raise PyeelibException("EventListener 'callback' must be a callable.")
 
         self._is_async: bool = asyncio.iscoroutinefunction(callback)
         """ A boolean flag indicating whether the callback function is asynchronous (coroutine). """
@@ -54,8 +65,8 @@ class EventListener:
         self._callback: Callable[P, Any] = callback
         """ The callback function to be executed when the event occurs. """
 
-        self._ttl: int | None = ttl
-        """ The maximum number of times the listener can be triggered. (Time to Listen). """
+        self._once: bool = once
+        """ Specifies if the listener is a one-time listener. """
 
     async def __call__(self, *args: P.args, **kwargs: P.kwargs) -> None:
         """
@@ -64,13 +75,6 @@ class EventListener:
         :param kwargs: Arbitrary keyword arguments.
         :return: Coroutine
         """
-        # Check ttl: return if zero, decrement if greater than zero
-        if self.ttl is not None:
-            if self.ttl > 0:
-                self._ttl -= 1
-            else:
-                return
-
         # Check callback: await if asynchronous, thread and await if synchronous
         if self._is_async:
             await self._callback(*args, **kwargs)

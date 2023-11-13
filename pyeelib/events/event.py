@@ -1,12 +1,11 @@
-from abc import ABC
 from dataclasses import dataclass, field
 from datetime import datetime
 
 
 @dataclass(frozen=True)
-class Event(ABC):
+class Event:
     """
-    An abstract base class for event objects.
+    A base class for event objects.
 
     This class serves as a blueprint for creating event objects.
     It is intended to be subclassed and extended by concrete event classes.

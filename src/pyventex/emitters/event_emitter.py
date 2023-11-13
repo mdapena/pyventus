@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import List, Type, TypeAlias, Any, Tuple
 
+from src.pyventex.core.exceptions import PyventexException
 from src.pyventex.events import Event
-from src.pyventex.exceptions import PyventexException
 from src.pyventex.linkers import EventLinker
 from src.pyventex.listeners import EventListener
 

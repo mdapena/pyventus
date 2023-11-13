@@ -1,8 +1,14 @@
-from src.pyventex.utils.loggers.stdout_logger import StdOutLogger
+from src.pyventex.core.loggers.stdout_logger import StdOutLogger
 
 
 class Logger:
-    """ A custom logger class that wraps the logging module. """
+    """
+    Logger is a custom logger class that wraps the logging module and provides additional functionality.
+
+    This class extends the functionality of the `StdOutLogger` class and adds additional attributes and methods for
+    logging and controlling log behavior. It allows for easy logging of messages, events, and errors, and provides
+    options to enable or disable debug mode and specify a custom name to be displayed with log messages.
+    """
 
     # Strict class attributes
     __slots__ = ["_name", "_debug"]
@@ -31,7 +37,7 @@ class Logger:
         """
         Logs an ERROR level message.
         :param msg: The message to be logged.
-        :param action: The name of the action from which the message was logged.
+        :param action: The action or method associated with the log. Defaults to None.
         :return: None
         """
         StdOutLogger.error(msg=msg, name=self._name, action=action)
@@ -40,7 +46,7 @@ class Logger:
         """
         Logs a WARNING level message.
         :param msg: The message to be logged.
-        :param action: The name of the action from which the message was logged.
+        :param action: The action or method associated with the log. Defaults to None.
         :return: None
         """
         StdOutLogger.warning(msg=msg, name=self._name, action=action)
@@ -49,7 +55,7 @@ class Logger:
         """
         Logs an INFO level message.
         :param msg: The message to be logged.
-        :param action: The name of the action from which the message was logged.
+        :param action: The action or method associated with the log. Defaults to None.
         :return: None
         """
         StdOutLogger.info(msg=msg, name=self._name, action=action)
@@ -58,7 +64,7 @@ class Logger:
         """
         Logs a DEBUG level message.
         :param msg: The message to be logged.
-        :param action: The name of the action from which the message was logged.
+        :param action: The action or method associated with the log. Defaults to None.
         :return: None
         """
         if self.debug_enabled:

@@ -4,8 +4,8 @@ from sys import version_info
 from threading import Lock
 from typing import Dict, List, Mapping, Callable, Type, TypeAlias, Any, Set
 
+from src.pyventex.core.exceptions import PyventexException
 from src.pyventex.events import Event
-from src.pyventex.exceptions import PyventexException
 from src.pyventex.listeners import EventListener
 
 if version_info >= (3, 10):  # pragma: no cover

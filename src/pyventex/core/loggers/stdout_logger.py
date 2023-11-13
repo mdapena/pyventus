@@ -2,25 +2,18 @@ import logging
 import sys
 from abc import ABC
 
+from src.pyventex.core.constants import StdOutColors
+
 
 class StdOutLogger(ABC):
-    """ The StdOutLogger class provides a simple logging interface for logging operations to the standard output. """
+    """
+    StdOutLogger is a simple logging interface for logging operations to the standard output.
+
+    This class provides a straightforward logging interface for writing log messages to the standard output.
+    """
 
     class Handler:
         """ Inner class representing a logger handler. """
-
-        class Colors:
-            """ Inner class that defines color codes for log formatting. """
-
-            DEFAULT: str = '\033[0m'
-            PURPLE: str = '\033[35m'
-            YELLOW: str = '\033[33m'
-            BLUE: str = '\033[34m'
-            RED: str = '\033[31m'
-            CYAN: str = '\033[36m'
-            GREEN: str = '\033[32m'
-            BOLD: str = '\033[1m'
-            UNDERLINE: str = '\033[4m'
 
         @classmethod
         def get_color_by_level(cls, level: int):
@@ -30,14 +23,14 @@ class StdOutLogger(ABC):
             :return: The color code associated with the log level.
             """
             if level == logging.INFO:
-                return cls.Colors.GREEN
+                return StdOutColors.GREEN
             elif level == logging.DEBUG:
-                return cls.Colors.PURPLE
+                return StdOutColors.PURPLE
             elif level == logging.WARNING:
-                return cls.Colors.YELLOW
+                return StdOutColors.YELLOW
             elif level == logging.ERROR:
-                return cls.Colors.RED
-            return cls.Colors.DEFAULT
+                return StdOutColors.RED
+            return StdOutColors.DEFAULT
 
         @classmethod
         def get_stream_handler_by_level(cls, level: int) -> logging.StreamHandler:
@@ -51,7 +44,7 @@ class StdOutLogger(ABC):
 
             # Define the logger format
             logger_format: str = f"{level_color}[Logger]  " + \
-                                 f"{cls.Colors.DEFAULT}%(asctime)s " + \
+                                 f"{StdOutColors.DEFAULT}%(asctime)s " + \
                                  f"{level_color}%(levelname)8s" + \
                                  f"{level_color} %(message)s"
 
@@ -73,17 +66,17 @@ class StdOutLogger(ABC):
             Builds a log message string with the specified log level, message, name, and action.
             :param level: The log level of the message.
             :param msg: The log message.
-            :param name: The name of the logger instance.
-            :param action: The name of the action from which the message was logged.
+            :param name: The name of the logger or class associated with the log. Defaults to None.
+            :param action: The action or method associated with the log. Defaults to None.
             :return: The formatted log message string.
             """
             # Determine the color based on the log level
             level_color: str = cls.get_color_by_level(level=level)
 
             # Build the log message string
-            log: str = f"{cls.Colors.DEFAULT}[{name if name else 'StdOut'}]" + \
+            log: str = f"{StdOutColors.DEFAULT}[{name if name else 'StdOutLogger'}]" + \
                        f"{level_color} {action if action else 'Message: '}" + \
-                       f"{cls.Colors.DEFAULT}{msg}"
+                       f"{StdOutColors.DEFAULT}{msg}"
             return log
 
     # Configure loggers for each logging level
@@ -110,8 +103,8 @@ class StdOutLogger(ABC):
         """
         Logs an ERROR level message.
         :param msg: The message to be logged.
-        :param name: The name of the logger instance.
-        :param action: The name of the action from which the message was logged.
+        :param name: The name of the logger or class associated with the log. Defaults to None.
+        :param action: The action or method associated with the log. Defaults to None.
         :return: None
         """
         cls.__error_logger.error(cls.Handler.build_log(level=logging.ERROR, msg=msg, name=name, action=action))
@@ -121,8 +114,8 @@ class StdOutLogger(ABC):
         """
         Logs a WARNING level message.
         :param msg: The message to be logged.
-        :param name: The name of the logger instance.
-        :param action: The name of the action from which the message was logged.
+        :param name: The name of the logger or class associated with the log. Defaults to None.
+        :param action: The action or method associated with the log. Defaults to None.
         :return: None
         """
         cls.__warning_logger.warning(cls.Handler.build_log(level=logging.WARNING, msg=msg, name=name, action=action))
@@ -132,8 +125,8 @@ class StdOutLogger(ABC):
         """
         Logs an INFO level message.
         :param msg: The message to be logged.
-        :param name: The name of the logger instance.
-        :param action: The name of the action from which the message was logged.
+        :param name: The name of the logger or class associated with the log. Defaults to None.
+        :param action: The action or method associated with the log. Defaults to None.
         :return: None
         """
         cls.__info_logger.info(cls.Handler.build_log(level=logging.INFO, msg=msg, name=name, action=action))
@@ -143,8 +136,8 @@ class StdOutLogger(ABC):
         """
         Logs a DEBUG level message.
         :param msg: The message to be logged.
-        :param name: The name of the logger instance.
-        :param action: The name of the action from which the message was logged.
+        :param name: The name of the logger or class associated with the log. Defaults to None.
+        :param action: The action or method associated with the log. Defaults to None.
         :return: None
         """
         cls.__debug_logger.debug(cls.Handler.build_log(level=logging.DEBUG, msg=msg, name=name, action=action))

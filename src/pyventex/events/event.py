@@ -1,6 +1,8 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 
+from src.pyventex.core.constants import StdOutColors
+
 
 @dataclass(frozen=True)
 class Event:
@@ -36,6 +38,6 @@ class Event:
         Returns a formatted string representation of the event.
         :return: The formatted string representation of the event.
         """
-        default, highlight = '\033[0m', '\033[32m'
+        default, highlight = StdOutColors.DEFAULT, StdOutColors.GREEN
         return (f"{highlight}{self.name}{default}  {self.timestamp.strftime('%Y-%m-%d %H:%M:%S %p')}"
                 f"\t{highlight}[Payload]{default} {super().__str__()}")

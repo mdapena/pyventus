@@ -2,7 +2,7 @@ import asyncio
 from sys import version_info
 from typing import Callable, Any
 
-from src.pyventex.exceptions import PyventexException
+from src.pyventex.core.exceptions import PyventexException
 
 if version_info >= (3, 10):  # pragma: no cover
     from typing import ParamSpec

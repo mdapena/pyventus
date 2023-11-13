@@ -17,14 +17,19 @@ class EventListener:
     """
     A class that encapsulates event callback functions.
 
-    The `EventListener` class provides a mechanism for managing event
-    listeners and their associated callback functions.
+    The `EventListener` class provides a mechanism for managing event listeners and their
+    associated callback functions.
 
     **Note**: The event listener can be invoked by calling the instance as a function
     and passing the necessary arguments. If the event listener has the `once` property
     set to `True`, it will only be invoked once when the event occurs. If `once` is set
     to `False` (default), the event listener will be invoked every time the event occurs
-    until explicitly unsubscribed.
+    until explicitly unsubscribed. Also, this class is not intended to be subclassed or
+    created manually. It is used internally to encapsulate the callback function associated
+    with an event listener.
+
+    **Important**: The `__call__` method of the `EventListener` class is always an async method
+    and returns a coroutine. It should never be treated as a synchronous function.
     """
 
     # Event listener attributes

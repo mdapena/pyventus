@@ -13,7 +13,7 @@ if version_info >= (3, 10):  # pragma: no cover
 else:  # pragma: no cover
     from typing_extensions import ParamSpec
 
-SubscribableEventType: TypeAlias = Type[Event] | Type[BaseException] | Type[object] | str
+SubscribableEventType: TypeAlias = Type[Event] | Type[Exception] | str
 """ A type alias representing the supported event types for subscription. """
 
 P = ParamSpec("P")
@@ -94,13 +94,21 @@ class EventLinker(ABC):
         Determines the event string key based on the given event.
         :param event: The event to obtain the key for.
         :return: The event string key.
-        :raise PyeelibException: If the event type is not supported.
+        :raise PyeelibException: If the `event` argument is None
+            or if the event type is not supported.
         """
+        # Validate the event argument
+        if event is None:
+            raise PyeelibException("The 'event' argument cannot be None.")
+
         if isinstance(event, str):
+            # If the event is already a string, return it as the key
             return event
-        elif issubclass(event, (Event, BaseException, object)):
+        elif issubclass(event, (Event, Exception)):
+            # If the event is a subclass of Event or Exception, return its name as the key
             return event.__name__
         else:
+            # If the event type is not supported, raise an exception
             raise PyeelibException('Unsupported event type')
 
     @classmethod
@@ -109,7 +117,12 @@ class EventLinker(ABC):
         Retrieves a list of event names associated with the specified event listener.
         :param event_listener: The listener to retrieve the associated events for.
         :return: A list of event names.
+        :raise PyeelibException: If the `event_listener` argument is None.
         """
+        # Validate the event_listener argument
+        if event_listener is None:
+            raise PyeelibException("The 'event_listener' argument cannot be None.")
+
         with cls._thread_lock:
             return [
                 event
@@ -118,15 +131,26 @@ class EventLinker(ABC):
             ]
 
     @classmethod
-    def get_listeners_by_event(cls, event: SubscribableEventType) -> List[EventListener]:
+    def get_listeners_by_events(cls, *events: SubscribableEventType) -> List[EventListener]:
         """
-        Retrieves a list of event listeners associated with the specified event.
-        :param event: The event to retrieve the listeners for.
+        Retrieves a list of event listeners associated with the specified events.
+        :param events: Events to retrieve the listeners for.
         :return: A list of event listeners.
+        :raise PyeelibException: If the `events` argument is None or empty.
         """
-        key: str = cls._get_event_key(event=event)
+        # Validate the events argument
+        if events is None or len(events) <= 0:
+            raise PyeelibException("The 'events' argument cannot be None or empty.")
+
+        # Retrieve all unique event keys
+        event_keys: Set[str] = set([cls._get_event_key(event=event) for event in events])
+
         with cls._thread_lock:
-            return cls._event_registry.get(key, [])
+            return [
+                event_listener
+                for event_key in event_keys
+                for event_listener in cls._event_registry.get(event_key, [])
+            ]
 
     @classmethod
     def once(cls, *events: SubscribableEventType) -> Callable[[Callable[P, Any]], Callable[P, Any]]:
@@ -168,8 +192,13 @@ class EventLinker(ABC):
             If set to `False` (default), the listener can be invoked multiple times until explicitly
             unsubscribed.
         :return: The event listener object associated with the subscribed callback function.
-        :raise PyeelibException: If the maximum number of listeners for an event has been exceeded.
+        :raise PyeelibException: If the maximum number of listeners for an event has been exceeded
+            or if the `events` argument is None or empty.
         """
+        # Validate the events argument
+        if events is None or len(events) <= 0:
+            raise PyeelibException("The 'events' argument cannot be None or empty.")
+
         # Retrieve all unique event keys
         event_keys: Set[str] = set([cls._get_event_key(event=event) for event in events])
 
@@ -212,7 +241,16 @@ class EventLinker(ABC):
         :param events: The events to unsubscribe from.
         :param event_listener: The event listener to unsubscribe.
         :return: `True` if the event listener associated with the events was found and removed, `False` otherwise.
+        :raise PyeelibException: If the `events` argument is None, empty or if the `event_listener` argument is None.
         """
+        # Validate the events argument
+        if events is None or len(events) <= 0:
+            raise PyeelibException("The 'events' argument cannot be None or empty.")
+
+        # Validate the event_listener argument
+        if event_listener is None:
+            raise PyeelibException("The 'event_listener' argument cannot be None.")
+
         # Retrieve all unique event keys
         event_keys: Set[str] = set([cls._get_event_key(event=event) for event in events])
 
@@ -247,7 +285,12 @@ class EventLinker(ABC):
         listeners for a particular event, that event is removed from the registry.
         :param event_listener: The event listener to remove.
         :return: `True` if the event listener was found and removed, `False` otherwise.
+        :raise PyeelibException: If the `event_listener` argument is None.
         """
+        # Validate the event_listener argument
+        if event_listener is None:
+            raise PyeelibException("The 'event_listener' argument cannot be None.")
+
         # A flag indicating if the event listener gets removed
         deleted: bool = False
 

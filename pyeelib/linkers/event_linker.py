@@ -298,7 +298,9 @@ class EventLinker(ABC):
         with cls._thread_lock:
 
             # Iterate through each event and its associated listeners in the event registry
-            for event, event_listeners in cls._event_registry.items():
+            for event in list(cls._event_registry.keys()):
+                # Get the list of event listeners for the event key, or an empty list if it doesn't exist
+                event_listeners = cls._event_registry.get(event, [])
 
                 # Check if the event listener is present in the list of listeners for the event
                 if event_listener in event_listeners:

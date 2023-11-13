@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "pyeelib"
+name = "pyventex"
 dynamic = ["version"]
 description = "A versatile Python library for managing multiple, decoupled event emitters."
 readme = "README.md"
@@ -33,4 +33,4 @@ Repository = "https://github.com/NachoDPP/pyeelib"
 all = []
 
 [tool.hatch.version]
-path = "pyeelib/__init__.py"
+path = "src/pyventex/__init__.py"

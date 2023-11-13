@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import List, Type, TypeAlias, Any, Tuple
 
-from pyventex.events import Event
-from pyventex.exceptions import PyventexException
-from pyventex.linkers import EventLinker
-from pyventex.listeners import EventListener
+from src.pyventex.events import Event
+from src.pyventex.exceptions import PyventexException
+from src.pyventex.linkers import EventLinker
+from src.pyventex.listeners import EventListener
 
 EmittableEventType: TypeAlias = Event | Exception | str
 """ A type alias representing the supported types of events that can be emitted. """

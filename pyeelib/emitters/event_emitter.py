@@ -131,9 +131,9 @@ class EventEmitter(ABC):
         Subclasses should provide their own implementation of this method to handle the execution of event listener
         callbacks based on their specific requirements and context.
 
-        :param args: Positional arguments to pass to the callback function.
+        :param args: The positional arguments to pass to the callback function.
         :param event_listener: The event listener whose callback function should be executed.
-        :param kwargs: Keyword arguments to pass to the callback function.
+        :param kwargs: The keyword arguments to pass to the callback function.
         :return: None
         """
         pass

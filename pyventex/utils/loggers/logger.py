@@ -1,4 +1,4 @@
-from pyeelib.utils.loggers.stdout_logger import StdOutLogger
+from pyventex.utils.loggers.stdout_logger import StdOutLogger
 
 
 class Logger:

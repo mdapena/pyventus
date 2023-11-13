@@ -2,7 +2,7 @@ import asyncio
 from sys import version_info
 from typing import Callable, Any
 
-from pyeelib.exceptions import PyeelibException
+from pyventex.exceptions import PyventexException
 
 if version_info >= (3, 10):  # pragma: no cover
     from typing import ParamSpec
@@ -59,10 +59,10 @@ class EventListener:
             the listener will be invoked once when the event occurs and then automatically
             unsubscribed. If set to `False` (default), the listener can be invoked multiple
             times until explicitly unsubscribed.
-        :raise PyeelibException: If `callback` is not a callable.
+        :raise PyventexException: If `callback` is not a callable.
         """
         if not callable(callback):
-            raise PyeelibException("EventListener 'callback' must be a callable.")
+            raise PyventexException("EventListener 'callback' must be a callable.")
 
         self._is_async: bool = asyncio.iscoroutinefunction(callback)
         """ A boolean flag indicating whether the callback function is asynchronous (coroutine). """

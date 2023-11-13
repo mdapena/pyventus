@@ -4,9 +4,9 @@ from sys import version_info
 from threading import Lock
 from typing import Dict, List, Mapping, Callable, Type, TypeAlias, Any, Set
 
-from pyeelib.events import Event
-from pyeelib.exceptions import PyeelibException
-from pyeelib.listeners import EventListener
+from pyventex.events import Event
+from pyventex.exceptions import PyventexException
+from pyventex.listeners import EventListener
 
 if version_info >= (3, 10):  # pragma: no cover
     from typing import ParamSpec
@@ -94,12 +94,12 @@ class EventLinker(ABC):
         Determines the event string key based on the given event.
         :param event: The event to obtain the key for.
         :return: The event string key.
-        :raise PyeelibException: If the `event` argument is None
+        :raise PyventexException: If the `event` argument is None
             or if the event type is not supported.
         """
         # Validate the event argument
         if event is None:
-            raise PyeelibException("The 'event' argument cannot be None.")
+            raise PyventexException("The 'event' argument cannot be None.")
 
         if isinstance(event, str):
             # If the event is already a string, return it as the key
@@ -109,7 +109,7 @@ class EventLinker(ABC):
             return event.__name__
         else:
             # If the event type is not supported, raise an exception
-            raise PyeelibException('Unsupported event type')
+            raise PyventexException('Unsupported event type')
 
     @classmethod
     def get_events_by_listener(cls, event_listener: EventListener) -> List[str]:
@@ -117,11 +117,11 @@ class EventLinker(ABC):
         Retrieves a list of event names associated with the specified event listener.
         :param event_listener: The listener to retrieve the associated events for.
         :return: A list of event names.
-        :raise PyeelibException: If the `event_listener` argument is None.
+        :raise PyventexException: If the `event_listener` argument is None.
         """
         # Validate the event_listener argument
         if event_listener is None:
-            raise PyeelibException("The 'event_listener' argument cannot be None.")
+            raise PyventexException("The 'event_listener' argument cannot be None.")
 
         with cls._thread_lock:
             return [
@@ -136,11 +136,11 @@ class EventLinker(ABC):
         Retrieves a list of event listeners associated with the specified events.
         :param events: Events to retrieve the listeners for.
         :return: A list of event listeners.
-        :raise PyeelibException: If the `events` argument is None or empty.
+        :raise PyventexException: If the `events` argument is None or empty.
         """
         # Validate the events argument
         if events is None or len(events) <= 0:
-            raise PyeelibException("The 'events' argument cannot be None or empty.")
+            raise PyventexException("The 'events' argument cannot be None or empty.")
 
         # Retrieve all unique event keys
         event_keys: Set[str] = set([cls._get_event_key(event=event) for event in events])
@@ -192,12 +192,12 @@ class EventLinker(ABC):
             If set to `False` (default), the listener can be invoked multiple times until explicitly
             unsubscribed.
         :return: The event listener object associated with the subscribed callback function.
-        :raise PyeelibException: If the maximum number of listeners for an event has been exceeded
+        :raise PyventexException: If the maximum number of listeners for an event has been exceeded
             or if the `events` argument is None or empty.
         """
         # Validate the events argument
         if events is None or len(events) <= 0:
-            raise PyeelibException("The 'events' argument cannot be None or empty.")
+            raise PyventexException("The 'events' argument cannot be None or empty.")
 
         # Retrieve all unique event keys
         event_keys: Set[str] = set([cls._get_event_key(event=event) for event in events])
@@ -211,7 +211,7 @@ class EventLinker(ABC):
                 # For each event key, check if the maximum number of listeners for the event has been exceeded
                 for event_key in event_keys:
                     if len(cls._event_registry.get(event_key, [])) > cls._max_listeners:
-                        raise PyeelibException(
+                        raise PyventexException(
                             f"The event '{event_key}' has exceeded the maximum number of listeners allowed. "
                             f"The '{callback.__name__}' listener cannot be added."
                         )
@@ -241,15 +241,15 @@ class EventLinker(ABC):
         :param events: The events to unsubscribe from.
         :param event_listener: The event listener to unsubscribe.
         :return: `True` if the event listener associated with the events was found and removed, `False` otherwise.
-        :raise PyeelibException: If the `events` argument is None, empty or if the `event_listener` argument is None.
+        :raise PyventexException: If the `events` argument is None, empty or if the `event_listener` argument is None.
         """
         # Validate the events argument
         if events is None or len(events) <= 0:
-            raise PyeelibException("The 'events' argument cannot be None or empty.")
+            raise PyventexException("The 'events' argument cannot be None or empty.")
 
         # Validate the event_listener argument
         if event_listener is None:
-            raise PyeelibException("The 'event_listener' argument cannot be None.")
+            raise PyventexException("The 'event_listener' argument cannot be None.")
 
         # Retrieve all unique event keys
         event_keys: Set[str] = set([cls._get_event_key(event=event) for event in events])
@@ -285,11 +285,11 @@ class EventLinker(ABC):
         listeners for a particular event, that event is removed from the registry.
         :param event_listener: The event listener to remove.
         :return: `True` if the event listener was found and removed, `False` otherwise.
-        :raise PyeelibException: If the `event_listener` argument is None.
+        :raise PyventexException: If the `event_listener` argument is None.
         """
         # Validate the event_listener argument
         if event_listener is None:
-            raise PyeelibException("The 'event_listener' argument cannot be None.")
+            raise PyventexException("The 'event_listener' argument cannot be None.")
 
         # A flag indicating if the event listener gets removed
         deleted: bool = False

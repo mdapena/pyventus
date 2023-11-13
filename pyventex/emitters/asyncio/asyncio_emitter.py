@@ -2,9 +2,9 @@ import asyncio
 from asyncio import AbstractEventLoop, Future
 from typing import Set, Type, Any, cast
 
-from pyeelib.emitters import EventEmitter
-from pyeelib.linkers import EventLinker
-from pyeelib.listeners import EventListener
+from pyventex.emitters import EventEmitter
+from pyventex.linkers import EventLinker
+from pyventex.listeners import EventListener
 
 
 class AsyncioEmitter(EventEmitter):

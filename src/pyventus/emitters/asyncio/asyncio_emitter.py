@@ -2,9 +2,9 @@ import asyncio
 from asyncio import AbstractEventLoop, Future
 from typing import Set, Type, Any, cast
 
-from src.pyventex.emitters import EventEmitter
-from src.pyventex.linkers import EventLinker
-from src.pyventex.listeners import EventListener
+from src.pyventus.emitters import EventEmitter
+from src.pyventus.linkers import EventLinker
+from src.pyventus.listeners import EventListener
 
 
 class AsyncioEmitter(EventEmitter):

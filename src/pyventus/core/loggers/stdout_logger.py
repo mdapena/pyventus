@@ -2,7 +2,7 @@ import logging
 import sys
 from abc import ABC
 
-from src.pyventex.core.constants import StdOutColors
+from src.pyventus.core.constants import StdOutColors
 
 
 class StdOutLogger(ABC):

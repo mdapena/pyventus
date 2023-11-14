@@ -1,10 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import List, Type, TypeAlias, Any, Tuple
 
-from src.pyventex.core.exceptions import PyventexException
-from src.pyventex.events import Event
-from src.pyventex.linkers import EventLinker
-from src.pyventex.listeners import EventListener
+from src.pyventus.core.exceptions import PyventusException
+from src.pyventus.events import Event
+from src.pyventus.linkers import EventLinker
+from src.pyventus.listeners import EventListener
 
 EmittableEventType: TypeAlias = Event | Exception | str
 """ A type alias representing the supported types of events that can be emitted. """
@@ -31,7 +31,7 @@ class EventEmitter(ABC):
         """
         # Validate the event linker argument
         if event_linker is None:
-            raise PyventexException("The 'event_linker' argument cannot be None.")
+            raise PyventusException("The 'event_linker' argument cannot be None.")
 
         # Set the event_linker value
         self._event_linker: Type[EventLinker] = event_linker
@@ -57,11 +57,11 @@ class EventEmitter(ABC):
         """
         # Raises an exception if the event is None
         if event is None:
-            raise PyventexException("The 'event' argument cannot be None.")
+            raise PyventusException("The 'event' argument cannot be None.")
 
         # Raises an exception if the event is a type object
         if event.__class__ is Type:
-            raise PyventexException("The 'event' argument cannot be a type object.")
+            raise PyventusException("The 'event' argument cannot be a type object.")
 
         # Determines if the event is a string instance
         is_string: bool = isinstance(event, str)

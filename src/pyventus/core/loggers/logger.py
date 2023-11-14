@@ -1,4 +1,4 @@
-from src.pyventex.core.loggers.stdout_logger import StdOutLogger
+from src.pyventus.core.loggers.stdout_logger import StdOutLogger
 
 
 class Logger:

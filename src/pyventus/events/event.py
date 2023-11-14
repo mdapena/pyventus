@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from src.pyventex.core.constants import StdOutColors
+from src.pyventus.core.constants import StdOutColors
 
 
 @dataclass(frozen=True)

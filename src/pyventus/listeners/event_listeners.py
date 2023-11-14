@@ -43,14 +43,6 @@ class EventListener:
         """
         return self._once
 
-    @property
-    def is_async(self) -> bool:
-        """
-        Determines if the callback function is asynchronous (coroutine).
-        :return: `True` if the callback is asynchronous; otherwise, `False`.
-        """
-        return self._is_async
-
     def __init__(self, callback: Callable[P, Any], once: bool = False) -> None:
         """
         Initializes an instance of the `EventListener` class.

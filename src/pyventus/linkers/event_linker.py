@@ -39,7 +39,7 @@ class EventLinker(ABC):
     The keys represent event names, and the values are lists of `EventListener` objects. 
     """
 
-    _max_listeners: int | None = None
+    _max_event_listeners: int | None = None
     """ The maximum number of `EventListener` allowed per event, or None if no limit. """
 
     _thread_lock: Lock = Lock()
@@ -77,16 +77,16 @@ class EventLinker(ABC):
         :return: A mapping of event names to event listeners.
         """
         with cls._thread_lock:
-            return cls._event_registry
+            return {event: list(event_listeners) for event, event_listeners in cls._event_registry.items()}
 
     @classmethod
     @property
-    def max_listeners(cls) -> None | int:
+    def max_event_listeners(cls) -> None | int:
         """
         Retrieves the maximum number of listeners allowed per event.
         :return: The maximum number of listeners or None if there is no limit.
         """
-        return cls._max_listeners
+        return cls._max_event_listeners
 
     @classmethod
     def _get_event_key(cls, event: SubscribableEventType) -> str:
@@ -133,7 +133,7 @@ class EventLinker(ABC):
     @classmethod
     def get_listeners_by_events(cls, *events: SubscribableEventType) -> List[EventListener]:
         """
-        Retrieves a list of event listeners associated with the specified events.
+        Retrieves a list of non-duplicated event listeners associated with the specified events.
         :param events: Events to retrieve the listeners for.
         :return: A list of event listeners.
         :raise PyventusException: If the `events` argument is None or empty.
@@ -146,11 +146,11 @@ class EventLinker(ABC):
         event_keys: Set[str] = set([cls._get_event_key(event=event) for event in events])
 
         with cls._thread_lock:
-            return [
+            return list({
                 event_listener
                 for event_key in event_keys
                 for event_listener in cls._event_registry.get(event_key, [])
-            ]
+            })
 
     @classmethod
     def once(cls, *events: SubscribableEventType) -> Callable[[Callable[P, Any]], Callable[P, Any]]:
@@ -206,11 +206,11 @@ class EventLinker(ABC):
         with cls._thread_lock:
 
             # Check if the maximum number of listeners property is set
-            if cls._max_listeners is not None:
+            if cls._max_event_listeners is not None:
 
                 # For each event key, check if the maximum number of listeners for the event has been exceeded
                 for event_key in event_keys:
-                    if len(cls._event_registry.get(event_key, [])) > cls._max_listeners:
+                    if len(cls._event_registry.get(event_key, [])) >= cls._max_event_listeners:
                         raise PyventusException(
                             f"The event '{event_key}' has exceeded the maximum number of listeners allowed. "
                             f"The '{callback.__name__}' listener cannot be added."

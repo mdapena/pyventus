@@ -1,10 +1,11 @@
 from abc import ABC
 from itertools import chain
-from sys import version_info
+from sys import version_info, gettrace
 from threading import Lock
 from typing import Dict, List, Mapping, Callable, Type, TypeAlias, Any, Set
 
 from src.pyventus.core.exceptions import PyventusException
+from src.pyventus.core.loggers import Logger
 from src.pyventus.events import Event
 from src.pyventus.listeners import EventListener
 
@@ -59,15 +60,26 @@ class EventLinker(ABC):
     to ensure thread safety. It prevents multiple threads from accessing or modifying the registry simultaneously.
     """
 
-    def __init_subclass__(cls, max_event_listeners: int | None = None, **kwargs):
+    __logger: Logger = Logger(name="EventLinker", debug=bool(gettrace() is not None))
+    """
+    An instance of the logger used for logging events and debugging information. The debug mode
+    of the logger depends on the execution environment and the value returned by the `gettrace()`
+    function. The debug mode can also be influenced by subclassing and overridden in subclasses.
+    """
+
+    def __init_subclass__(cls, max_event_listeners: int | None = None, debug_mode: bool | None = None, **kwargs):
         """
-        Custom __init_subclass__ method called when a subclass is created.
+        Custom `__init_subclass__` method called when a subclass is created.
 
         This method initializes the subclass by setting up the event registry and thread lock.
         It also allows specifying the maximum number of event listeners per event.
 
-        :param max_event_listeners: The maximum number of `EventListener` allowed per event, or None if no limit.
-        :param kwargs: The keyword arguments to pass to the superclass __init_subclass__ method.
+        :param max_event_listeners: The maximum number of `EventListener`
+            allowed per event, or `None` if no limit.
+        :param debug_mode: Specifies the debug mode for the subclass logger.
+            If `None`, it is determined based on the execution environment.
+        :param kwargs: The keyword arguments to pass to the superclass
+            `__init_subclass__` method.
         :raises PyventusException: If `max_event_listeners` is less than 1.
         :return: Any
         """
@@ -86,6 +98,12 @@ class EventLinker(ABC):
 
         # Set the maximum number of event listeners per event
         cls.__max_event_listeners = max_event_listeners
+
+        # Set up the logger for the subclass
+        cls.__logger = Logger(
+            name=cls.__name__,
+            debug=debug_mode if debug_mode is not None else bool(gettrace() is not None),
+        )
 
     @classmethod
     @property

@@ -60,18 +60,23 @@ class EventEmitter(ABC):
             raise PyventusException("The 'event' argument cannot be None.")
 
         # Raises an exception if the event is a type object
-        if event.__class__ is Type:
+        if event.__class__ is type:
             raise PyventusException("The 'event' argument cannot be a type object.")
 
         # Determines if the event is a string instance
         is_string: bool = isinstance(event, str)
+
+        # Raises an exception if the event is a string and it is empty
+        if is_string and len(event) == 0:
+            raise PyventusException("The 'event' argument cannot be an empty string.")
 
         # Constructs the arguments tuple based on whether the event is a string or an object
         event_args: Tuple[Any, ...] = args if is_string else (event, *args)
 
         # Retrieves the event listeners associated with the event
         event_listeners: List[EventListener] = self._event_linker.get_listeners_by_events(
-            event if is_string else event.__class__, Event
+            Event if not issubclass(event.__class__, Exception) else Exception,
+            event if is_string else event.__class__,
         )
 
         # Iterates through each event listener and triggers the associated callback function
@@ -88,36 +93,6 @@ class EventEmitter(ABC):
             else:
                 # Executes the event listener callback function with the arguments and keyword arguments
                 self._execute(*event_args, event_listener=event_listener, **kwargs)
-
-    def _emit_exception(self, exception: Exception):
-        """
-        Emits an exception and triggers the associated exception event listeners.
-
-        **Notes**: If there are event listeners subscribed to the emission
-        of any exception (`Exception`), they will also be executed.
-
-        :param exception: The exception to emit.
-        :return: None
-        """
-        # Retrieves the exception event listeners associated with the exception class
-        event_listeners: List[EventListener] = self._event_linker.get_listeners_by_events(
-            exception.__class__, Exception
-        )
-
-        # Iterates through each exception event listener and triggers the associated callback function
-        for event_listener in event_listeners:
-
-            # Checks if the exception event listener is a one-time listener before executing the event listener
-            if event_listener.once:
-
-                # If the exception event listener is a one-time listener, we try to remove it. If it is
-                # successfully removed, it means it hasn't been executed before, so we execute the callback
-                if self._event_linker.remove_event_listener(event_listener=event_listener):
-                    # Executes the event listener callback function with the exception as the first positional argument
-                    self._execute(exception, event_listener=event_listener)
-            else:
-                # Executes the event listener callback function with the exception as the first positional argument
-                self._execute(exception, event_listener=event_listener)
 
     @abstractmethod
     def _execute(self, *args: Any, event_listener: EventListener, **kwargs: Any) -> None:

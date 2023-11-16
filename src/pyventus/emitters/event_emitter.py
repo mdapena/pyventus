@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
+from sys import gettrace
 from typing import List, Type, TypeAlias, Any, Tuple
 
 from src.pyventus.core.exceptions import PyventusException
+from src.pyventus.core.loggers import Logger
 from src.pyventus.events import Event
 from src.pyventus.linkers import EventLinker
 from src.pyventus.listeners import EventListener
@@ -23,11 +25,14 @@ class EventEmitter(ABC):
     class as a dependency, you can easily modify the behavior of the event emitter during runtime.
     """
 
-    def __init__(self, event_linker: Type[EventLinker] = EventLinker):
+    def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug_mode: bool | None = None):
         """
         Initializes an instance of the `EventEmitter`.
         :param event_linker: Specifies the type of event linker to use for associating
             events with their respective event listeners. Defaults to `EventLinker`.
+        :param debug_mode: Specifies the debug mode for the subclass logger.
+            If `None`, it is determined based on the execution environment.
+        :raises PyventusException: If the `event_linker` argument is None.
         """
         # Validate the event linker argument
         if event_linker is None:
@@ -38,6 +43,17 @@ class EventEmitter(ABC):
         """
         The `EventLinker` attribute specifies the type of event linker to 
         use for associating events with their respective event listeners.
+        """
+
+        self._logger: Logger = Logger(
+            name=self.__class__.__name__,
+            debug=debug_mode if debug_mode is not None else bool(gettrace() is not None),
+        )
+        """
+        An instance of the logger used for logging events and debugging information. The debug mode
+        of the logger can be explicitly set by providing a boolean value for the `debug_mode` argument in 
+        the constructor. If `debug_mode` is set to `None`, the debug mode will be automatically determined
+        based on the execution environment and the value returned by the `gettrace()` function.
         """
 
     def emit(self, event: EmittableEventType, *args: Any, **kwargs: Any) -> None:

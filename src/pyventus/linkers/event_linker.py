@@ -4,6 +4,7 @@ from sys import version_info, gettrace
 from threading import Lock
 from typing import Dict, List, Mapping, Callable, Type, TypeAlias, Any, Set
 
+from src.pyventus.core.constants import StdOutColors
 from src.pyventus.core.exceptions import PyventusException
 from src.pyventus.core.loggers import Logger
 from src.pyventus.events import Event
@@ -286,6 +287,13 @@ class EventLinker(ABC):
                 # Append the event listener to the list of listeners for the event
                 cls.__event_registry[event_key].append(event_listener)
 
+                # Log the subscription if debug mode is enabled
+                if cls.__logger.debug_enabled:
+                    cls.__logger.debug(
+                        action="Subscribed:",
+                        msg=f"[{event_listener}] {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} [{event_key}]"
+                    )
+
         # Return the new event listener
         return event_listener
 
@@ -332,6 +340,13 @@ class EventLinker(ABC):
                     if not event_listeners:
                         cls.__event_registry.pop(event_key)
 
+                    # Log the unsubscription if debug mode is enabled
+                    if cls.__logger.debug_enabled:
+                        cls.__logger.debug(
+                            action="Unsubscribed",
+                            msg=f"[{event_listener}] {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} [{event_key}]"
+                        )
+
         # Return the flag indicating whether the event listener was deleted
         return deleted
 
@@ -355,9 +370,9 @@ class EventLinker(ABC):
         with cls.__thread_lock:
 
             # Iterate through each event and its associated listeners in the event registry
-            for event in list(cls.__event_registry.keys()):
+            for event_key in list(cls.__event_registry.keys()):
                 # Get the list of event listeners for the event key, or an empty list if it doesn't exist
-                event_listeners = cls.__event_registry.get(event, [])
+                event_listeners = cls.__event_registry.get(event_key, [])
 
                 # Check if the event listener is present in the list of listeners for the event
                 if event_listener in event_listeners:
@@ -367,7 +382,14 @@ class EventLinker(ABC):
 
                     # If there are no more listeners for the event, remove the event from the registry
                     if not event_listeners:
-                        cls.__event_registry.pop(event)
+                        cls.__event_registry.pop(event_key)
+
+                    # Log the removal of the event listener if debug mode is enabled
+                    if cls.__logger.debug_enabled:
+                        cls.__logger.debug(
+                            action="Listener Removed:",
+                            msg=f"[{event_listener}] {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} [{event_key}]"
+                        )
 
         # Return the flag indicating if the event listener was found and deleted
         return deleted
@@ -388,6 +410,12 @@ class EventLinker(ABC):
             if event_key in cls.__event_registry:
                 # Remove the event from the registry
                 cls.__event_registry.pop(event_key)
+
+                # Log the removal of the event if debug mode is enabled
+                if cls.__logger.debug_enabled:
+                    cls.__logger.debug(action="Event Removed:", msg=f"[{event_key}]")
+
+                # Return True to indicate successful removal
                 return True
 
         return False
@@ -402,5 +430,9 @@ class EventLinker(ABC):
         with cls.__thread_lock:
             # Clear the event registry by assigning an empty dictionary
             cls.__event_registry = {}
+
+        # Log a debug message if debug mode is enabled
+        if cls.__logger.debug_enabled:
+            cls.__logger.debug(msg=f"All events and listeners were successfully removed")
 
         return True

@@ -9,17 +9,23 @@ class Event:
     """
     A base class for event objects.
 
-    This class serves as a blueprint for creating event objects.
-    It is intended to be subclassed and extended by concrete event classes.
+    This class serves as a blueprint for creating event objects. It is
+    intended to be subclassed and extended by concrete event classes.
 
-    Example:
-    ```py
-    @dataclass(frozen=True)
-    class OrderCreated(Event):
-        id: str
+    **Note**: The Event class is marked as `frozen=True`, which makes
+    its instances immutable. This ensures that once an event object
+    is created, its attributes cannot be modified.
 
-    event = OrderCreated(id="65486c788bba30ff7e0152ae")
-    ```
+    **Example**: To create a concrete event class, subclass the Event class and
+    define the desired attributes using dataclass fields.
+
+    .. code-block:: python
+
+        @dataclass(frozen=True)
+        class OrderCreated(Event):
+            id: str
+
+        event = OrderCreated(id="65486c788bba30ff7e0152ae")
     """
 
     timestamp: datetime = field(init=False, default_factory=datetime.now)

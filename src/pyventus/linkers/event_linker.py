@@ -147,6 +147,15 @@ class EventLinker(ABC):
         return cls.__max_event_listeners
 
     @classmethod
+    @property
+    def _logger(cls) -> Logger:
+        """
+        Returns the class-level logger instance.
+        :return: The class-level logger instance used for logging events and debugging information.
+        """
+        return cls.__logger
+
+    @classmethod
     def _get_event_key(cls, event: SubscribableEventType) -> str:
         """
         Determines the event string key based on the given event.

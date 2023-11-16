@@ -75,7 +75,7 @@ class StdOutLogger(ABC):
 
             # Build the log message string
             log: str = f"{StdOutColors.DEFAULT}[{name if name else 'StdOutLogger'}]" + \
-                       f"{level_color} {action if action else 'Message: '}" + \
+                       f"{level_color} {(action if action[-1] == ' ' else action + ' ') if action else 'Message: '}" + \
                        f"{StdOutColors.DEFAULT}{msg}"
             return log
 

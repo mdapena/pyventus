@@ -15,6 +15,15 @@ class AsyncioEmitter(EventEmitter):
     for executing event listener callbacks asynchronously using the asyncio framework.
     """
 
+    @property
+    def background_futures(self) -> Set[Future]:
+        """
+        Retrieve the set of currently running background futures within the AsyncioEmitter instance.
+        :return: A set of asyncio.Future objects representing the background
+            futures that are currently running inside the AsyncioEmitter instance.
+        """
+        return set(self._background_futures)
+
     def __init__(self, asyncio_loop: AbstractEventLoop | None = None, event_linker: Type[EventLinker] = EventLinker):
         """
         Initializes an instance of the `AsyncioEmitter` class.

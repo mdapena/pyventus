@@ -31,6 +31,17 @@ class EventLinker(ABC):
     **Note**: The `EventLinker` class can be subclassed to create specific namespaces or contexts for managing
     events and event listeners. By subclassing `EventLinker`, users can separate and organize event subscriptions
     and listeners within different scopes, providing modularity and flexibility in event management.
+
+    **Example**: To create a subclass of the `EventLinker` and register an event listener.
+
+    .. code-block:: python
+
+        class CustomEventLinker(EventLinker, max_event_listeners=10):
+            pass
+
+        @CustomEventLinker.on(Event)
+        async def decorated_function(event: Event):
+            pass # Logic...
     """
 
     __event_registry: Dict[str, List[EventListener]] = {}

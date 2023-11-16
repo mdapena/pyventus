@@ -77,3 +77,10 @@ class EventListener:
             await self._callback(*args, **kwargs)
         else:
             await asyncio.to_thread(self._callback, *args, **kwargs)
+
+    def __str__(self) -> str:
+        return (
+            f"Callback: {self._callback.__name__} | "
+            f"Type: {'Async' if self._is_async else 'Sync'} | "
+            f"Once: {self.once}"
+        )

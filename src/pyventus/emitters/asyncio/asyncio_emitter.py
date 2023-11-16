@@ -2,6 +2,7 @@ import asyncio
 from asyncio import AbstractEventLoop, Future
 from typing import Set, Type, Any, cast
 
+from src.pyventus.core.constants import StdOutColors
 from src.pyventus.emitters import EventEmitter
 from src.pyventus.linkers import EventLinker
 from src.pyventus.listeners import EventListener
@@ -24,16 +25,23 @@ class AsyncioEmitter(EventEmitter):
         """
         return set(self._background_futures)
 
-    def __init__(self, asyncio_loop: AbstractEventLoop | None = None, event_linker: Type[EventLinker] = EventLinker):
+    def __init__(
+            self,
+            event_linker: Type[EventLinker] = EventLinker,
+            debug_mode: bool | None = None,
+            asyncio_loop: AbstractEventLoop | None = None,
+    ):
         """
         Initializes an instance of the `AsyncioEmitter` class.
-        :param asyncio_loop: The asyncio event loop to use for executing event listener
-            callbacks. If None, the default event loop is used. Defaults to None.
         :param event_linker: Specifies the type of event linker to use for associating
             events with their respective event listeners. Defaults to `EventLinker`.
+        :param debug_mode: Specifies the debug mode for the subclass logger.
+            If `None`, it is determined based on the execution environment.
+        :param asyncio_loop: The asyncio event loop to use for executing event listener
+            callbacks. If None, the default event loop is used. Defaults to None.
         """
         # Call the parent class' __init__ method to set up the event linker
-        super().__init__(event_linker=event_linker)
+        super().__init__(event_linker=event_linker, debug_mode=debug_mode)
 
         # Initialize the asyncio event loop
         self._asyncio_loop: AbstractEventLoop | None = asyncio_loop
@@ -81,3 +89,12 @@ class AsyncioEmitter(EventEmitter):
 
         # Add the Future to the set of background futures
         self._background_futures.add(future)
+
+        # Log the execution of the listener, if debug mode is enabled
+        if self._logger.debug_enabled:
+            self._logger.debug(
+                action="Executing Listener:",
+                msg=f"[{event_listener}] "
+                    f"{StdOutColors.PURPLE}*args:{StdOutColors.DEFAULT} {args} "
+                    f"{StdOutColors.PURPLE}**kwargs:{StdOutColors.DEFAULT} {kwargs}"
+            )

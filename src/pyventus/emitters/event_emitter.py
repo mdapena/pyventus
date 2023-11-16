@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from sys import gettrace
 from typing import List, Type, TypeAlias, Any, Tuple
 
+from src.pyventus.core.constants import StdOutColors
 from src.pyventus.core.exceptions import PyventusException
 from src.pyventus.core.loggers import Logger
 from src.pyventus.events import Event
@@ -94,6 +95,16 @@ class EventEmitter(ABC):
             Event if not issubclass(event.__class__, Exception) else Exception,
             event if is_string else event.__class__,
         )
+
+        # Log the event emission if debug mode is enabled
+        if self._logger.debug_enabled:
+            self._logger.debug(
+                action="Event Emission:",
+                msg=(
+                    f"{event if is_string else event.__class__.__name__} "
+                    f"{StdOutColors.PURPLE}Event Listeners:{StdOutColors.DEFAULT} {len(event_listeners)}"
+                )
+            )
 
         # Iterates through each event listener and triggers the associated callback function
         for event_listener in event_listeners:

@@ -33,20 +33,48 @@ class EventLinker(ABC):
     and listeners within different scopes, providing modularity and flexibility in event management.
     """
 
-    _event_registry: Dict[str, List[EventListener]] = {}
+    __event_registry: Dict[str, List[EventListener]] = {}
     """ 
     A dictionary that serves as a container for storing events and their respective event listeners.
     The keys represent event names, and the values are lists of `EventListener` objects. 
     """
 
-    _max_event_listeners: int | None = None
+    __max_event_listeners: int | None = None
     """ The maximum number of `EventListener` allowed per event, or None if no limit. """
 
-    _thread_lock: Lock = Lock()
+    __thread_lock: Lock = Lock()
     """
     A threading.Lock object used for thread synchronization when accessing and modifying the event registry
     to ensure thread safety. It prevents multiple threads from accessing or modifying the registry simultaneously.
     """
+
+    def __init_subclass__(cls, max_event_listeners: int | None = None, **kwargs):
+        """
+        Custom __init_subclass__ method called when a subclass is created.
+
+        This method initializes the subclass by setting up the event registry and thread lock.
+        It also allows specifying the maximum number of event listeners per event.
+
+        :param max_event_listeners: The maximum number of `EventListener` allowed per event, or None if no limit.
+        :param kwargs: The keyword arguments to pass to the superclass __init_subclass__ method.
+        :raises PyventusException: If `max_event_listeners` is less than 1.
+        :return: Any
+        """
+        # Call the parent class' __init_subclass__ method
+        super().__init_subclass__(**kwargs)
+
+        # Initialize the event registry dictionary
+        cls.__event_registry = {}
+
+        # Create a lock object for thread synchronization
+        cls.__thread_lock = Lock()
+
+        # Validate the max_event_listeners argument
+        if max_event_listeners is not None and max_event_listeners < 1:
+            raise PyventusException("The 'max_event_listeners' argument must be greater than or equal to 0.")
+
+        # Set the maximum number of event listeners per event
+        cls.__max_event_listeners = max_event_listeners
 
     @classmethod
     @property
@@ -55,8 +83,8 @@ class EventLinker(ABC):
         Returns a list of all the registered event names.
         :return: A list of event names.
         """
-        with cls._thread_lock:
-            return list(cls._event_registry.keys())
+        with cls.__thread_lock:
+            return list(cls.__event_registry.keys())
 
     @classmethod
     @property
@@ -66,8 +94,8 @@ class EventLinker(ABC):
         who have been registered across all events.
         :return: A list of event listeners.
         """
-        with cls._thread_lock:
-            return list(set(chain(*cls._event_registry.values())))
+        with cls.__thread_lock:
+            return list(set(chain(*cls.__event_registry.values())))
 
     @classmethod
     @property
@@ -76,8 +104,8 @@ class EventLinker(ABC):
         Retrieves the event registry mapping.
         :return: A mapping of event names to event listeners.
         """
-        with cls._thread_lock:
-            return {event: list(event_listeners) for event, event_listeners in cls._event_registry.items()}
+        with cls.__thread_lock:
+            return {event: list(event_listeners) for event, event_listeners in cls.__event_registry.items()}
 
     @classmethod
     @property
@@ -86,7 +114,7 @@ class EventLinker(ABC):
         Retrieves the maximum number of listeners allowed per event.
         :return: The maximum number of listeners or None if there is no limit.
         """
-        return cls._max_event_listeners
+        return cls.__max_event_listeners
 
     @classmethod
     def _get_event_key(cls, event: SubscribableEventType) -> str:
@@ -123,10 +151,10 @@ class EventLinker(ABC):
         if event_listener is None:
             raise PyventusException("The 'event_listener' argument cannot be None.")
 
-        with cls._thread_lock:
+        with cls.__thread_lock:
             return [
                 event
-                for event, event_listeners in cls._event_registry.items()
+                for event, event_listeners in cls.__event_registry.items()
                 if event_listener in event_listeners
             ]
 
@@ -145,11 +173,11 @@ class EventLinker(ABC):
         # Retrieve all unique event keys
         event_keys: Set[str] = set([cls._get_event_key(event=event) for event in events])
 
-        with cls._thread_lock:
+        with cls.__thread_lock:
             return list({
                 event_listener
                 for event_key in event_keys
-                for event_listener in cls._event_registry.get(event_key, [])
+                for event_listener in cls.__event_registry.get(event_key, [])
             })
 
     @classmethod
@@ -203,14 +231,14 @@ class EventLinker(ABC):
         event_keys: Set[str] = set([cls._get_event_key(event=event) for event in events])
 
         # Acquire the lock to ensure exclusive access to the event registry
-        with cls._thread_lock:
+        with cls.__thread_lock:
 
             # Check if the maximum number of listeners property is set
-            if cls._max_event_listeners is not None:
+            if cls.__max_event_listeners is not None:
 
                 # For each event key, check if the maximum number of listeners for the event has been exceeded
                 for event_key in event_keys:
-                    if len(cls._event_registry.get(event_key, [])) >= cls._max_event_listeners:
+                    if len(cls.__event_registry.get(event_key, [])) >= cls.__max_event_listeners:
                         raise PyventusException(
                             f"The event '{event_key}' has exceeded the maximum number of listeners allowed. "
                             f"The '{callback.__name__}' listener cannot be added."
@@ -223,11 +251,11 @@ class EventLinker(ABC):
             for event_key in event_keys:
 
                 # If the event key is not present in the event registry, create a new empty list for it
-                if event_key not in cls._event_registry:
-                    cls._event_registry[event_key] = []
+                if event_key not in cls.__event_registry:
+                    cls.__event_registry[event_key] = []
 
                 # Append the event listener to the list of listeners for the event
-                cls._event_registry[event_key].append(event_listener)
+                cls.__event_registry[event_key].append(event_listener)
 
         # Return the new event listener
         return event_listener
@@ -258,12 +286,12 @@ class EventLinker(ABC):
         deleted: bool = False
 
         # Obtain the lock to ensure exclusive access to the event registry
-        with cls._thread_lock:
+        with cls.__thread_lock:
 
             # For each event key, check and remove the event listener if found
             for event_key in event_keys:
                 # Get the list of event listeners for the event key, or an empty list if it doesn't exist
-                event_listeners = cls._event_registry.get(event_key, [])
+                event_listeners = cls.__event_registry.get(event_key, [])
 
                 # Check if the event listener is present in the list of listeners for the event
                 if event_listener in event_listeners:
@@ -273,7 +301,7 @@ class EventLinker(ABC):
 
                     # If there are no more listeners for the event, remove the event key from the registry
                     if not event_listeners:
-                        cls._event_registry.pop(event_key)
+                        cls.__event_registry.pop(event_key)
 
         # Return the flag indicating whether the event listener was deleted
         return deleted
@@ -295,12 +323,12 @@ class EventLinker(ABC):
         deleted: bool = False
 
         # Acquire the lock to ensure exclusive access to the event registry
-        with cls._thread_lock:
+        with cls.__thread_lock:
 
             # Iterate through each event and its associated listeners in the event registry
-            for event in list(cls._event_registry.keys()):
+            for event in list(cls.__event_registry.keys()):
                 # Get the list of event listeners for the event key, or an empty list if it doesn't exist
-                event_listeners = cls._event_registry.get(event, [])
+                event_listeners = cls.__event_registry.get(event, [])
 
                 # Check if the event listener is present in the list of listeners for the event
                 if event_listener in event_listeners:
@@ -310,7 +338,7 @@ class EventLinker(ABC):
 
                     # If there are no more listeners for the event, remove the event from the registry
                     if not event_listeners:
-                        cls._event_registry.pop(event)
+                        cls.__event_registry.pop(event)
 
         # Return the flag indicating if the event listener was found and deleted
         return deleted
@@ -326,11 +354,11 @@ class EventLinker(ABC):
         event_key: str = cls._get_event_key(event=event)
 
         # Acquire the lock to ensure exclusive access to the event registry
-        with cls._thread_lock:
+        with cls.__thread_lock:
             # Check if the event key is present in the event registry
-            if event_key in cls._event_registry:
+            if event_key in cls.__event_registry:
                 # Remove the event from the registry
-                cls._event_registry.pop(event_key)
+                cls.__event_registry.pop(event_key)
                 return True
 
         return False
@@ -342,8 +370,8 @@ class EventLinker(ABC):
         :return: `True` if the events were found and removed, `False` otherwise.
         """
         # Acquire the lock to ensure exclusive access to the event registry
-        with cls._thread_lock:
+        with cls.__thread_lock:
             # Clear the event registry by assigning an empty dictionary
-            cls._event_registry = {}
+            cls.__event_registry = {}
 
         return True

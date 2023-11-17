@@ -6,7 +6,7 @@ import pytest
 from _pytest.python_api import raises
 
 from src.pyventus.core.exceptions import PyventusException
-from src.pyventus.emitters.asyncio import AsyncioEmitter
+from src.pyventus.emitters.asyncio import AsyncioEventEmitter
 from src.pyventus.events import Event
 from src.pyventus.linkers import EventLinker
 
@@ -48,17 +48,17 @@ class TestAsyncioEmitter:
     # endregion
 
     def test_creation(self, clean_event_linker: bool):
-        event_emitter = AsyncioEmitter()
+        event_emitter = AsyncioEventEmitter()
         assert event_emitter is not None
 
     def test_creation_with_invalid_params(self, clean_event_linker: bool):
         with raises(PyventusException):
-            AsyncioEmitter(event_linker=None)
+            AsyncioEventEmitter(event_linker=None)
 
     @pytest.mark.asyncio
     async def test_emit_exception_raised(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEmitter()
+        event_emitter = AsyncioEventEmitter()
 
         # Act and Assert
         with raises(PyventusException):
@@ -87,7 +87,7 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_with_event_subscribers(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEmitter()
+        event_emitter = AsyncioEventEmitter()
         with patch.object(self, 'callback_without_params') as callback_without_params:
             event_listener_1 = EventLinker.subscribe(Event, callback=self.callback_without_params, once=True)
             event_listener_2 = EventLinker.subscribe('Empty', Event, callback=self.callback_without_params)
@@ -117,7 +117,7 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_without_params(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEmitter()
+        event_emitter = AsyncioEventEmitter()
         with patch.object(self, 'callback_without_params') as callback_without_params:
             EventLinker.subscribe('Event1', callback=self.callback_without_params)
 
@@ -132,7 +132,7 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_with_event_params(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEmitter()
+        event_emitter = AsyncioEventEmitter()
         with patch.object(self, 'callback_with_event_params') as callback_with_event_params:
             EventLinker.subscribe(EmailEvent, callback=self.callback_with_event_params)
             event_1 = EmailEvent(email="email@email.com", message="Email message!")
@@ -158,7 +158,7 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_with_exception_params(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEmitter()
+        event_emitter = AsyncioEventEmitter()
         with patch.object(self, 'callback_with_exception_params') as callback_with_exception_params:
             EventLinker.subscribe(ValueError, callback=self.callback_with_exception_params)
             exception = ValueError("Something went wrong!")
@@ -184,7 +184,7 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_with_args_params(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEmitter()
+        event_emitter = AsyncioEventEmitter()
         with patch.object(self, 'callback_with_args_params') as sync_callback_with_args_params:
             EventLinker.subscribe('Event4', callback=self.callback_with_args_params)
             event = EmailEvent(email="email@email.com", message="Email message!")
@@ -202,7 +202,7 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_with_kwargs_params(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEmitter()
+        event_emitter = AsyncioEventEmitter()
         with patch.object(self, 'callback_with_kwargs_params') as callback_with_kwargs_params:
             EventLinker.subscribe('Event5', callback=self.callback_with_kwargs_params)
             event = EmailEvent(email="email@email.com", message="Email message!")
@@ -224,7 +224,7 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_with_multi_params(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEmitter()
+        event_emitter = AsyncioEventEmitter()
         with patch.object(self, 'callback_with_multi_params') as callback_with_multi_params:
             EventLinker.subscribe('Event6', callback=self.callback_with_multi_params)
             event = EmailEvent(email="email@email.com", message="Email message!")
@@ -242,7 +242,7 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_with_sync_and_async_callbacks(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEmitter()
+        event_emitter = AsyncioEventEmitter()
         with patch.object(self, 'callback_with_args_params') as callback_with_args_params:
             with patch.object(self, 'callback_with_kwargs_params') as callback_with_kwargs_params:
                 EventLinker.subscribe(Event, callback=self.callback_with_args_params)
@@ -295,7 +295,7 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_execution_exceptions(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEmitter()
+        event_emitter = AsyncioEventEmitter()
 
         def _execute_with_exception():
             raise ValueError("Something went wrong here!")
@@ -311,8 +311,8 @@ class TestAsyncioEmitter:
         class CustomEventLinker(EventLinker):
             pass
 
-        event_emitter_1 = AsyncioEmitter(event_linker=EventLinker)
-        event_emitter_2 = AsyncioEmitter(event_linker=CustomEventLinker)
+        event_emitter_1 = AsyncioEventEmitter(event_linker=EventLinker)
+        event_emitter_2 = AsyncioEventEmitter(event_linker=CustomEventLinker)
         with patch.object(self, 'callback_with_multi_params') as callback_with_multi_params:
             CustomEventLinker.subscribe(Event, callback=self.callback_with_multi_params)
             EventLinker.subscribe(Event, callback=self.callback_with_multi_params)

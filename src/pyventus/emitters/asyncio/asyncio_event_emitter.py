@@ -8,7 +8,7 @@ from src.pyventus.linkers import EventLinker
 from src.pyventus.listeners import EventListener
 
 
-class AsyncioEmitter(EventEmitter):
+class AsyncioEventEmitter(EventEmitter):
     """
     An event emitter class that integrates with the AsyncIO framework for event handling.
 
@@ -93,7 +93,7 @@ class AsyncioEmitter(EventEmitter):
             self._logger.debug(action=f"Starting:", msg=f"In {'an [Async]' if loop_is_running else 'a [Sync]'} context")
 
         # Calls the emit method of the superclass
-        super().emit(event=event, *args, **kwargs)
+        super().emit(event, *args, **kwargs)
 
         # If the event loop is not running (synchronous context)
         if not loop_is_running:

@@ -99,10 +99,10 @@ class EventEmitter(ABC):
         # Log the event emission if debug mode is enabled
         if self._logger.debug_enabled:
             self._logger.debug(
-                action="Event Emission:",
+                action="Emitting:",
                 msg=(
                     f"{event if is_string else event.__class__.__name__} "
-                    f"{StdOutColors.PURPLE}Event Listeners:{StdOutColors.DEFAULT} {len(event_listeners)}"
+                    f"{StdOutColors.PURPLE}\tListeners:{StdOutColors.DEFAULT} {len(event_listeners)}"
                 )
             )
 

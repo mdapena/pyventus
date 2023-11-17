@@ -3,17 +3,29 @@ from asyncio import AbstractEventLoop, Future
 from typing import Set, Type, Any, cast
 
 from src.pyventus.core.constants import StdOutColors
-from src.pyventus.emitters import EventEmitter
+from src.pyventus.emitters import EventEmitter, EmittableEventType
 from src.pyventus.linkers import EventLinker
 from src.pyventus.listeners import EventListener
 
 
 class AsyncioEmitter(EventEmitter):
     """
-    An event emitter class that integrates with asyncio for asynchronous event handling.
+    An event emitter class that integrates with the AsyncIO framework for event handling.
 
     This class extends the base EventEmitter class and provides additional functionality
-    for executing event listener callbacks asynchronously using the asyncio framework.
+    for executing event listener callbacks using the AsyncIO framework.
+
+    In an asynchronous context, when the asyncio event loop is active, the event callbacks are
+    scheduled and processed concurrently by the event loop. If no event loop is explicitly provided
+    as the `asyncio_loop` parameter, the currently running event loop will be used. If the event loop
+    is closed before all callbacks complete, all scheduled tasks will be canceled.
+
+    In a synchronous context, the event callbacks are executed concurrently using the `asyncio.gather`
+    function, which is then waited on by the asyncio loop until all callbacks complete. If no `asyncio_loop`
+    is provided, a new event loop is created and closed within the `emit` function. While the callbacks
+    run concurrently using `asyncio.gather`, the overall execution of tasks remains synchronous to
+    maintain compatibility with both asynchronous event listener callbacks and synchronous
+    program flow.
     """
 
     @property
@@ -48,6 +60,51 @@ class AsyncioEmitter(EventEmitter):
 
         # Initialize the set of background futures
         self._background_futures: Set[Future] = set()
+
+    def emit(self, event: EmittableEventType, *args: Any, **kwargs: Any) -> None:
+        """
+        Emits an event and triggers the associated event listeners.
+
+        In an asynchronous context, when the asyncio event loop is active, the event callbacks are
+        scheduled and processed concurrently by the event loop. If no event loop is explicitly provided
+        as the `asyncio_loop` parameter, the currently running event loop will be used. If the event loop
+        is closed before all callbacks complete, all scheduled tasks will be canceled.
+
+        In a synchronous context, the event callbacks are executed concurrently using the `asyncio.gather`
+        function, which is then waited on by the asyncio loop until all callbacks complete. If no `asyncio_loop`
+        is provided, a new event loop is created and closed within the `emit` function. While the callbacks
+        run concurrently using `asyncio.gather`, the overall execution of tasks remains synchronous to
+        maintain compatibility with both asynchronous event listener callbacks and synchronous
+        program flow.
+
+        :param event: The event to be emitted.
+        :param args: Variable-length arguments to be passed to the event callbacks.
+        :param kwargs: Arbitrary keyword arguments to be passed to the event callbacks.
+        :return: None
+        """
+        # Retrieves the current event loop
+        loop: AbstractEventLoop = self._asyncio_loop if self._asyncio_loop is not None else asyncio.get_event_loop()
+
+        # Determines whether the current event loop is already running
+        loop_is_running: bool = loop.is_running()
+
+        # Log the execution context, if debug mode is enabled
+        if self._logger.debug_enabled:
+            self._logger.debug(action=f"Starting:", msg=f"In {'an [Async]' if loop_is_running else 'a [Sync]'} context")
+
+        # Calls the emit method of the superclass
+        super().emit(event=event, *args, **kwargs)
+
+        # If the event loop is not running (synchronous context)
+        if not loop_is_running:
+            # While there are background futures remaining
+            while self._background_futures:
+                # Run the event callbacks concurrently until all futures complete
+                loop.run_until_complete(asyncio.gather(*self._background_futures, return_exceptions=True))
+
+            # If the asyncio loop was created internally, close it
+            if self._asyncio_loop is None:
+                loop.close()
 
     def _execute(self, *args: Any, event_listener: EventListener, **kwargs: Any) -> None:
         """
@@ -93,7 +150,7 @@ class AsyncioEmitter(EventEmitter):
         # Log the execution of the listener, if debug mode is enabled
         if self._logger.debug_enabled:
             self._logger.debug(
-                action="Executing Listener:",
+                action="Running:  ",
                 msg=f"[{event_listener}] "
                     f"{StdOutColors.PURPLE}*args:{StdOutColors.DEFAULT} {args} "
                     f"{StdOutColors.PURPLE}**kwargs:{StdOutColors.DEFAULT} {kwargs}"

@@ -332,3 +332,54 @@ class TestAsyncioEmitter:
 
             # Assert
             assert callback_with_multi_params.call_count == 2
+
+    def test_emit_with_sync_context(self):
+        # Arrange
+        event_emitter = AsyncioEventEmitter()
+        with patch.object(self, 'callback_with_args_params') as callback_with_args_params:
+            with patch.object(self, 'callback_with_kwargs_params') as callback_with_kwargs_params:
+                EventLinker.subscribe('RaiseExceptionInside', callback=self.callback_that_raise_exception)
+                EventLinker.subscribe(Event, Exception, callback=self.callback_with_args_params, once=True)
+                EventLinker.subscribe('Event', ValueError, callback=self.callback_with_kwargs_params)
+                EventLinker.subscribe(Exception, callback=self.callback_with_kwargs_params)
+
+                # Act
+                event_emitter.emit(ValueError("Value error!"))
+
+                # Assert
+                assert callback_with_args_params.call_count == 1
+                assert callback_with_kwargs_params.call_count == 2
+
+                # Act
+                event_emitter.emit(TypeError("Type error!"))
+
+                # Assert
+                assert callback_with_args_params.call_count == 1
+                assert callback_with_kwargs_params.call_count == 3
+
+                # Act
+                event_emitter.emit('RaiseExceptionInside')
+
+                # Assert
+                assert callback_with_args_params.call_count == 1
+                assert callback_with_kwargs_params.call_count == 5
+
+                # Act and Assert
+                with raises(PyventusException):
+                    event_emitter.emit('')
+                assert callback_with_args_params.call_count == 1
+                assert callback_with_kwargs_params.call_count == 5
+
+                # Act
+                event_emitter.emit(Event())
+
+                # Assert
+                assert callback_with_args_params.call_count == 1
+                assert callback_with_kwargs_params.call_count == 6
+
+                # Act
+                event_emitter.emit(EmailEvent(email="email@email.com", message="Email message!"))
+
+                # Assert
+                assert callback_with_args_params.call_count == 1
+                assert callback_with_kwargs_params.call_count == 7

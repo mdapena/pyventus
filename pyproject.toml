@@ -2,6 +2,10 @@
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
+# ------------------------------------------------------------------
+# | Project                                                        |
+# ------------------------------------------------------------------
+
 [project]
 name = "pyventus"
 dynamic = ["version"]
@@ -12,25 +16,77 @@ license = { file = "LICENSE" }
 authors = [
     { name = "Manuel Da Pena", email = "dapensoft@gmail.com" },
 ]
-keywords = []
 classifiers = [
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3",
     "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Topic :: Software Development :: Libraries",
     "Topic :: Software Development",
     "Typing :: Typed",
 ]
+keywords = []
+
+# ------------------------------------------------------------------
+# | Project Dependencies                                           |
+# ------------------------------------------------------------------
+# Pure Python implementation, no dependencies needed
+
 dependencies = []
 
+# ------------------------------------------------------------------
+# | Project URLs                                                   |
+# ------------------------------------------------------------------
+
 [project.urls]
-Homepage = "https://github.com/NachoDPP/pyeelib"
-Documentation = "https://github.com/NachoDPP/pyeelib"
-Repository = "https://github.com/NachoDPP/pyeelib"
+Homepage = "https://github.com/NachoDPP/pyventus"
+Documentation = "https://github.com/NachoDPP/pyventus"
+Repository = "https://github.com/NachoDPP/pyventus"
+
+# ------------------------------------------------------------------
+# | Project Optional dependencies                                  |
+# ------------------------------------------------------------------
 
 [project.optional-dependencies]
-all = []
+rq = ["rq>=1.15.0"]
+
+all = [
+    "rq>=1.15.0"
+]
+
+# ------------------------------------------------------------------
+# | Hatch test environment                                         |
+# ------------------------------------------------------------------
+
+[tool.hatch.envs.test]
+dependencies = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "rq>=1.15.0",
+]
+[tool.hatch.envs.test.scripts]
+test = "pytest -v"
+
+# ------------------------------------------------------------------
+# | Hatch docs environment                                         |
+# ------------------------------------------------------------------
+
+[tool.hatch.envs.docs]
+dependencies = [
+    "mkdocs-material>=9.4.0",
+]
+[tool.hatch.envs.docs.scripts]
+build = "mkdocs build --clean --strict"
+serve = "mkdocs serve --dev-addr localhost:8000"
+
+# ------------------------------------------------------------------
+# | Dynamic Hatch Versioning                                       |
+# ------------------------------------------------------------------
 
 [tool.hatch.version]
 path = "src/pyventus/__init__.py"

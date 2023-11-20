@@ -36,8 +36,8 @@ theme:
     - content.tooltips
     - content.code.annotate
 
-repo_name: NachoDPP/pyventus
-repo_url: https://github.com/NachoDPP/pyventus
+repo_name: mdapena/pyventus
+repo_url: https://github.com/mdapena/pyventus
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -67,4 +67,4 @@ nav:
   - Examples: examples.md
 
 copyright: |
-  &copy; 2023 <a href="https://github.com/NachoDPP" target="_blank" rel="NachoDPP">Manuel Da Pena</a>
+  &copy; 2023 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>

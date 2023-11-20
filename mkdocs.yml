@@ -1,9 +1,11 @@
-site_name: Pyeelib
+site_name: Pyventus
 site_description: A versatile Python library for managing multiple, decoupled event emitters with ease.
 
 theme:
   name: material
   language: en
+  logo: images/logo/pyventus-logo-white.svg
+  favicon: images/favicon/pyventus-logo.ico
   palette:
     - media: '(prefers-color-scheme: light)'
       scheme: default
@@ -25,7 +27,7 @@ theme:
     - navigation.sections
     - navigation.indexes
     - navigation.top
-    - toc.integrate
+    - toc.follow
     - search.suggest
     - search.highlight
     - content.tabs.link
@@ -34,8 +36,8 @@ theme:
     - content.tooltips
     - content.code.annotate
 
-repo_name: NachoDPP/pyeelib
-repo_url: https://github.com/NachoDPP/pyeelib
+repo_name: NachoDPP/pyventus
+repo_url: https://github.com/NachoDPP/pyventus
 
 markdown_extensions:
   - pymdownx.highlight:
@@ -50,9 +52,19 @@ markdown_extensions:
   - pymdownx.superfences
   - pymdownx.mark
   - attr_list
+  - abbr
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+
+nav:
+  - Pyventus: index.md
+  - Getting Started: getting-started.md
+  - API Documentation: api.md
+  - Examples: examples.md
 
 copyright: |
   &copy; 2023 <a href="https://github.com/NachoDPP" target="_blank" rel="NachoDPP">Manuel Da Pena</a>

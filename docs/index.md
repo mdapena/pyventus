@@ -11,159 +11,123 @@ hide:
 <br>
 
 <p align="center">
-    <a href="#">
-        <img src="./images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="900px">
-    </a>
+   <img src="./images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="900px">
 </p>
 
 ---
 
-**Documentation**: <a href="#" target="_blank">https://github.com/NachoDPP/pyventus</a>
+**Documentation**: <a href="#" target="_blank">https://github.com/mdapena/pyventus</a>
 
-**Source Code**: <a href="#" target="_blank">https://github.com/NachoDPP/pyventus</a>
+**Source Code**: <a href="#" target="_blank">https://github.com/mdapena/pyventus</a>
 
 ---
 
-<p style='text-align: justify;'>
+<p style='text-align: justify;' markdown>
     &emsp;&emsp;Welcome to the official documentation of Pyventus, a modern and robust Python package specifically 
     designed for event-driven programming in Python. It offers a comprehensive suite of tools and utilities that 
-    streamline event emission, event listener management, and dynamic event emitters. With Pyventus, you can 
+    streamline **event emission, event listener management, and dynamic event emitters**. With Pyventus, you can 
     effortlessly implement event-driven architectures and construct modular, and decoupled systems.
 </p>
 
-## Why use Pyventus?
+## More than just Events
 
 <p style='text-align: justify;'>
-    Pyventus is a powerful event-driven programming package that brings several benefits to your 
-    Python projects:
+    Pyventus offers several key features that make it a powerful event-driven programming package for your 
+	Python projects:
 </p> 
 
-<ul style='text-align: justify;'>
+<ul style='text-align: justify;' markdown>
 
-    <li><strong>Simplified Event-Driven Architecture</strong> ─ 
-    Pyventus simplifies the implementation of event-driven architecture in your applications. It provides a clean and 
-    intuitive API for defining events and event listeners, allowing you to organize your code around discrete events 
-    and their associated actions.
-    </li>
+<li markdown>**Event-Driven Architecture** ─ 
+Pyventus simplifies the implementation of event-driven architecture in your applications. It *`provides an intuitive 
+API for defining events, event emitters and event listeners`*, enabling you to organize your code around discrete 
+events and their associated actions.
+</li>
 
-    <li><strong>Versatile Handling of Sync and Async Code</strong> ─ 
-    Whether your codebase is synchronous or asynchronous, Pyventus seamlessly handles both <code>sync</code> and 
-    <code>async</code> functions and contexts. You can define event listeners as either synchronous or asynchronous 
-    functions, and Pyventus automatically adapts to the execution context during event emissions.
-    </li>
+<li markdown>**Sync and Async Support** ─ 
+Whether your code is synchronous or asynchronous, Pyventus seamlessly *`handles both sync and 
+async functions and contexts`*. You can define event listeners as either synchronous or asynchronous 
+functions, and Pyventus automatically adapts to the execution context during event emissions.
+</li>
 
-    <li><strong>Clear Separation of Concerns</strong> ─ 
-    Pyventus promotes a clear separation of concerns by decoupling the event dispatcher, event listeners, and event 
-    linkers. This separation enhances code readability, reusability, and testability. Each component has a distinct role,
-    making it easier to understand and modify specific functionalities without impacting the entire system.
-    </li>
+<li markdown>**Decoupled Components** ─ 
+Pyventus promotes a clear separation of concerns by decoupling the *`event dispatcher, event listeners, and event 
+linkers`*. This separation enhances code readability, reusability, and testability, allowing you to modify specific 
+functionalities without impacting the entire system.
+</li>
 
-    <li><strong>Dynamic Event Emitter and Extensibility</strong> ─ 
-    Pyventus offers a dynamic event emitter that can be changed at runtime, providing unparalleled flexibility and 
-    extensibility for your applications. By adhering to the Open-Closed principle and employing well-designed 
-    abstractions, Pyventus allows you to implement custom event emitters or choose from a variety of pre-existing 
-    emitter implementations to suit your specific requirements.
-    </li>
+<li markdown>**Dynamic Event Emitter** ─ 
+Pyventus provides a dynamic *`event emitter that can be changed at runtime`*. This flexibility allows you to implement
+custom event emitters or choose from a variety of pre-existing emitter implementations to suit your specific 
+requirements.
+</li>
 
-    <li><strong>Robust Error Handling</strong> ─ 
-    Pyventus ensures robust error handling during event emissions. If an error occurs during the event emission process, 
-    Pyventus captures the error and emits an exception event. These exception events can be handled by appropriate 
-    exception event listeners, helping you identify and manage errors effectively.
-    </li>
+<li markdown>**Robust Error Handling** ─ 
+Pyventus ensures robust *`error handling during event emissions`*. If an error occurs during the event emission process, 
+Pyventus captures the error and emits an exception event. These exception events can be handled by appropriate 
+exception event listeners, helping you identify and manage errors effectively.
+</li>
 
-    <li><strong>Scalable and Maintainable Codebase</strong> ─ 
-    By adopting an event-driven approach with Pyventus, you can create scalable and maintainable codebases. Events 
-    provide loose coupling between components, allowing for easier extensibility and modularity in your applications. 
-    This makes it simpler to add new functionalities or modify existing ones without disrupting the entire system.
-    </li>
+<li markdown>**Scalability and Maintainability** ─ 
+By adopting an event-driven approach with Pyventus, you can create scalable and maintainable code. The *`loose
+coupling between components`* enables easier extensibility and modularity, allowing for the addition or modification
+of functionalities without disrupting the entire system.
+</li>
 
-    <li><strong>Extensive Documentation</strong> ─ 
-    Pyventus provides extensive documentation to guide developers in effectively utilizing the library's features and 
-    functionalities. The documentation covers detailed explanations of the API, usage examples, best practices, and 
-    implementation guidelines.
-    </li>
+<li markdown>**Comprehensive Documentation** ─ 
+Pyventus provides *`extensive documentation`*, including API explanations, usage examples, best practices, and 
+implementation guidelines, to help you effectively utilize the package's features and functionalities.
+</li>
 
 </ul>
 
-## Requirements
+## `Hello, World!` Example
 
-<p style='text-align: justify;'>
-    &emsp;&emsp;Pyventus was designed for intuitive and lightweight usage. It aims to have minimal dependencies 
-    and an easy installation process. Pyventus is implemented using pure Python, requiring:
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;Experience the power of Pyventus through a simple `Hello, World!` example that illustrates the core concepts and
+	basic usage of the package. This example will walk you through the essential steps of creating an event listener 
+	and triggering events within your application.
 </p>
 
-<ul style='text-align: justify;'>
-    <li><strong>Python 3.8</strong> or <strong>higher</strong> </li>
-    <li><strong>Asyncio</strong> module (bundled with Python 3.5+)</li>
-</ul>
-
-
-<p style='text-align: justify;'>
-    &emsp;&emsp;Additional optional dependencies may be needed depending on the specific event emitter implementation. 
-    Refer to each emitter's documentation for details. By default, Pyventus relies on features available in the Python 
-    standard library for its core functionality. This keeps the base requirements minimal without external packages.
-</p>
-
-## Installation
-
-<p style='text-align: justify;'>
-    &emsp;&emsp;Pyventus is published as a Python package and can be installed with <code>pip</code>, ideally by using 
-    a virtual environment. Open up a terminal and install Pyventus with:
-</p>
-
-``` sh
-$ pip install pyventus #(1)!
-```
-
-1. :material-format-list-group-plus: **Note** ─ Additionally, Pyventus provides optional event emitters that may have
-   extra requirements. Refer to the documentation for details on available emitters.
-
-## Hello World! Example
-
-<p style='text-align: justify;'>
-    &emsp;&emsp;Now that Pyventus is installed, let's explore a simple <code>"Hello World"</code> example to 
-    demonstrate its core event-driven functionality and basic usage.
-</p>
-
-```Python title="Hello World with Pyventus."
+```Python title="Hello, World! example with Pyventus"
 from pyventus import EventLinker, AsyncioEventEmitter
 
 
-@EventLinker.on('MyEvent')
+@EventLinker.on("MyEvent")
 def handle_my_event():  # (1)!
     """ Event listener for handling MyEvent. """
-    print(f"Hello world!")
+    print("Hello, World!")
 
 
 # Create an instance of the event emitter
 event_emitter = AsyncioEventEmitter()  # (2)!
 
 # Emit a MyEvent
-event_emitter.emit('MyEvent')  # (3)!
+event_emitter.emit("MyEvent")  # (3)!
 ```
 
 1. :material-format-list-group-plus: **Note** ─ With Pyventus, you can confidently handle both `sync` and `async`
    functions.
 2. :material-format-list-group-plus: **Note** ─ The event emitter can be dynamically changed based on the requirements.
+   <a href="/">Learn more…</a>
 3. :material-format-list-group-plus: **Note** ─ The emit method of the Pyventus event emitter works seamlessly in both
    `sync` and `async` contexts.
 
 ??? info "You can also work with <code>async</code> functions or within an asynchronous context..."
 
-    <p style='text-align: justify;'>
-        &emsp;&emsp;If your code utilizes asynchronous programming patterns like <code>async</code> and <code>await</code>, 
-        Pyventus supports defining event handlers asynchronously using <code>async def</code>. It also handles event 
-        emission natively in async contexts.
+    <p style='text-align: justify;' markdown>
+        If your code utilizes asynchronous programming patterns like `async` and `await`, Pyventus supports defining
+		event handlers asynchronously using `async def`. It also handles event emission natively in async contexts.
     </p>
     
-    ```Python title="Async Hello World with Pyventus." hl_lines="5"
+    ```Python title="Async Hello, World! example with Pyventus" hl_lines="5"
     from pyventus import EventLinker, AsyncioEventEmitter
     
     
     @EventLinker.on('MyEvent')
     async def handle_my_event():
         """ Async event listener for handling MyEvent. """
-        print(f"Hello world!")
+        print(f"Hello, World!")
     
     
     # Create an instance of the event emitter
@@ -173,41 +137,61 @@ event_emitter.emit('MyEvent')  # (3)!
     event_emitter.emit('MyEvent')  
     ```
 
-<p style='text-align: justify;'>
-    &emsp;&emsp;As we can see from the <code>Hello World</code> example, Pyventus follows a simple and intuitive 
-    workflow for event-driven programming. In this example, we start by defining an event listener using the 
-    <code>@EventLinker.on</code> decorator, which allows us to associate the handler function with the desired event. 
-    This step establishes the foundation for event-driven programming, as it specifies how our application should 
-    respond to the event.
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;As we can see from the `Hello, World!` example, Pyventus follows a simple and intuitive 
+    workflow for event-driven programming. Let's recap the essential steps involved:
 </p>
 
-<p style='text-align: justify;'>
-    &emsp;&emsp;To complete the workflow, we create an instance of the event emitter using Pyventus. This event emitter 
-    enables us to seamlessly emit events using the emit method provided by Pyventus. By invoking the emit method and 
-    specifying the appropriate event, we trigger the execution of the associated event listener function.
+<ol style='text-align: justify;' markdown>
+
+<li markdown>
+**Defining the event listener function:** We defined the function `handle_my_event()` and used the `@EventLinker.on()`
+decorator to associate it with the event `MyEvent`. This decorator indicates that the function should be triggered 
+when `MyEvent` occurs.
+</li>
+
+<li markdown>
+**Creating the event emitter instance:** We instantiated the `AsyncioEventEmitter` class, which acts as the event 
+emitter responsible for dispatching events and invoking the associated event listener.
+</li>
+
+<li markdown>
+**Emitting the event:** By utilizing the `emit()` method of the event emitter, we emitted the event `MyEvent`. This
+action subsequently executed the registered event listener, `handle_my_event()`.
+</li>
+
+</ol>
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;Having gained a clear understanding of the workflow showcased in the `Hello, World!` example, you are
+	now well-equipped to explore more intricate event-driven scenarios and fully harness the capabilities of Pyventus 
+	in your own projects.
 </p>
 
-<p style='text-align: justify;'>
-    &emsp;&emsp;The <code>Hello World</code> example showcases how Pyventus simplifies event handling and demonstrates 
-    its effectiveness in streamlining event-driven programming tasks. With Pyventus, developers can easily define 
-    event handlers, associate them with events, and emit events, making event-driven programming more 
-    straightforward and efficient.
-</p>
+!!! example "Next steps"
+
+	<p style='text-align: justify;' markdown>
+	    Feel free to experiment and build upon this example to explore the full potential of Pyventus in your own 
+		projects. You can register **additional event listeners**, handle **events with different event types**
+		or **metadata**, implement **custom event emitters** and **event linkers** based on your application's 
+		requirements. 
+	</p>
 
 ## Support for Synchronous and Asynchronous Code
 
-<p style='text-align: justify;'>
-    &emsp;&emsp;Pyventus is designed from the ground up to seamlessly support asynchronous and synchronous programming
-    models. It provides a unified asynchronous and synchronous API that functions transparently regardless of context.
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;Pyventus is designed from the ground up to seamlessly support asynchronous and synchronous programming models. 
+	Its base and core abstractions provide a unified `sync` and `async` API that functions transparently, regardless of
+	the execution context.
 </p>
 
-<p style='text-align: justify;'>
+<p style='text-align: justify;' markdown>
     &emsp;&emsp;At its core, Pyventus handles event emission and propagation automatically within asynchronous or 
-    synchronous contexts. When in an asynchronous context like an async function, event emissions will be handled 
+    synchronous contexts. When in an asynchronous context like an `async` function, event emissions will be handled 
     asynchronously. Similarly, in synchronous code event emissions occur synchronously.
 </p>
 
-<p style='text-align: justify;'>
+<p style='text-align: justify;' markdown>
     &emsp;&emsp;Pyventus also excels at robust error handling. If an error occurs during event emission, it will
     capture the error and emit an exception event. Exception events can then be handled by dedicated exception
     listeners, ensuring errors are properly managed.
@@ -244,20 +228,40 @@ def sync_function():
 ### Exception Handling
 
 ```Python
-@EventLinker.on(EventEmitterExceptionEvent)
+@EventLinker.on(Exception)
 def handle_emitter_exception(event: EventEmitterExceptionEvent):
     # Handle exception events here
     pass
 ```
 
+## Continuous Evolution
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;Pyventus continuously adapts to support developers across technological and programming domains. Its
+	aim is to remain at the forefront of event-driven design. Future development may introduce new official event 
+	emitters, expanding compatibility with different technologies through seamless integration.
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;Current default emitters provide reliable out-of-the-box capabilities for common use cases. They
+	efficiently handle core event operations and lay the foundation for building event-driven applications.
+</p>
+
+!!! info "Driving Innovation Through Collaboration"
+
+	<p style='text-align: justify;' markdown>
+	    Pyventus is an open source project that welcomes community involvement. If you wish to contribute
+		additional event emitters, improvements, or bug fixes, please check the [Help](/help) section for 
+		guidelines on collaborating. Together, we can further the possibilities of event-driven development.
+	</p>
+
 ## **Practical Example**
 
-<p style='text-align: justify;'>
+<p style='text-align: justify;' markdown>
     &emsp;&emsp;To demonstrate Pyventus in a realistic scenario, we will examine how to implement a portion of the 
     password reset workflow using an event-driven approach.
 </p>
 
-<p style='text-align: justify;'>
+<p style='text-align: justify;' markdown>
     &emsp;&emsp;A common part of the password reset process involves notifying the user that a reset was requested. 
     In traditional implementations, the code to validate the reset request may be tightly coupled with the logic to
     communicate this to the user. With Pyventus, we can model these steps as distinct events that are emitted after 
@@ -265,13 +269,13 @@ def handle_emitter_exception(event: EventEmitterExceptionEvent):
     flexible integration.
 </p>
 
-<p style='text-align: justify;'>
+<p style='text-align: justify;' markdown>
     &emsp;&emsp; In this example, we will focus on integrating the notification subsystem through events. Upon 
-    validating a reset request, we will emit a "PasswordResetRequested" event containing user details. This 
+    validating a reset request, we will emit a `PasswordResetRequested` event containing user details. This 
     event will then trigger the sending of a confirmation email through an asynchronous handler.
 </p>
 
-```Python title="Practival Example with Pyventus"
+```Python title="Practical Example with Pyventus"
 from dataclasses import dataclass
 from smtplib import SMTPConnectError
 
@@ -326,41 +330,35 @@ event_emitter.emit(
 )
 ```
 
-## Optional Dependencies
+## Start Building!
 
-<p style='text-align: justify;'>
-    &emsp;&emsp;Pyventus follows the principles of the <a href="https://www.cs.utexas.edu/users/downing/papers/OCP-1996.pdf" target="_blank">Open-Closed Principle</a>, 
-    allowing for seamless extension of its functionality through additional <code>EventEmitter</code> implementations,
-    without the need to replace existing ones. By default, Pyventus relies solely on the Python standard library. 
-    However, users have the flexibility to leverage additional features by selecting an alternate emitter or even
-    creating custom ones.
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;Are you ready to dive into event-driven programming with Pyventus? Follow these steps to integrate Pyventus into
+	your project and start building reactive applications. Click the button below to navigate to the Pyventus 
+	`Getting Started` page and explore detailed instructions, examples, and more:
 </p>
 
 
-<ul style='text-align: justify;'>
+---
 
-    <li><strong>RqEventEmitter</strong> ─ 
-    The RqEventEmitter integration connects Pyventus with <a href="https://python-rq.org/" target="_blank">RQ</a> 
-    queueing using Redis pub/sub. This integration enables the execution of event listeners as background jobs 
-    using RQ's asynchronous workers. This is useful for intensive or long-running tasks like video processing, 
-    model optimization, or any workloads better suited to async execution that leverage RQ's powerful features. 
-    The <code>RqEventEmitter</code> relies on the RQ package as a dependency, which can be installed separately
-    to take advantage of this integration.
-    </li>
-
-</ul>
-
-## Licence
-
-<p style='text-align: justify;'>
-    &emsp;&emsp;Pyventus is released under the <a href="https://choosealicense.com/licenses/mit/" target="_blank">MIT License</a>. 
-    You can find the full text of the license in the <code>LICENSE</code> file of the <a href="https://github.com/NachoDPP/pyventus" target="_blank">Pyventus repository</a>.
+<p style='text-align: center;' markdown>
+	[:material-star-outline:&emsp;Getting Started&emsp;:material-star-outline:](/getting-started){ .md-button }
 </p>
+
+---
 
 !!! info "Interesting Fact"
 
     <p style='text-align: justify;'>
-        &emsp;&emsp;Pyventus gets its name from the fusion of `Python` and `Eventus`, a Latin word meaning "event".
+        Pyventus gets its name from the fusion of `Python` and `Eventus`, a Latin word meaning "event".
         This name reflects the library's focus on enabling event-driven programming in Python.
     </p>
+
+## License
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;Pyventus is open source software released under the <a href="https://choosealicense.com/licenses/mit/" target="_blank">MIT License</a>. 
+    You can view the full text of the MIT license in the `LICENSE` file located in the <a href="https://github.com/mdapena/pyventus" target="_blank">Pyventus repository</a>
+	on GitHub.
+</p>
 

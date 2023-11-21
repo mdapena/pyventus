@@ -29,11 +29,7 @@ hide:
 	modular, decoupled systems with Pyventus. 
 </p>
 
-## More than just Events(1) { .annotate }
-
-1. :material-information-outline: **Did You Know?** ─ Pyventus derives its name from the fusion of 'Python' and '
-   Eventus,' a Latin word meaning 'event.' This distinctive name perfectly signifies the package's core objective of
-   facilitating event-driven programming in Python.
+## More than just Events
 
 <p style='text-align: justify;'>
     Pyventus offers several key features that make it a powerful event-driven programming package for your 

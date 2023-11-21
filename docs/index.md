@@ -23,10 +23,10 @@ hide:
 ---
 
 <p style='text-align: justify;' markdown>
-    &emsp;&emsp;Welcome to the official documentation of Pyventus, a modern and robust Python package specifically 
-    designed for event-driven programming in Python. It offers a comprehensive suite of tools and utilities that 
-    streamline **event emission, event listener management, and dynamic event emitters**. With Pyventus, you can 
-    effortlessly implement event-driven architectures and construct modular, and decoupled systems.
+    &emsp;&emsp;Welcome to the official documentation of Pyventus, a modern and robust Python package designed for event-driven
+	programming. Pyventus offers a comprehensive suite of tools and utilities that streamline event emission, event
+	listener management, and event emitters. Users can easily implement event-driven architectures and construct
+	modular, decoupled systems with Pyventus.
 </p>
 
 ## More than just Events
@@ -180,21 +180,28 @@ action subsequently executed the registered event listener, `handle_my_event()`.
 ## Support for Synchronous and Asynchronous Code
 
 <p style='text-align: justify;' markdown>
-    &emsp;&emsp;Pyventus is designed from the ground up to seamlessly support asynchronous and synchronous programming models. 
-	Its base and core abstractions provide a unified `sync` and `async` API that functions transparently, regardless of
-	the execution context.
+    &emsp;&emsp;Pyventus is designed from the ground up to seamlessly support both asynchronous and synchronous programming
+	models with a unified sync/async API. Its core abstractions handle event emission and propagation transparently
+	across execution contexts.
 </p>
 
 <p style='text-align: justify;' markdown>
-    &emsp;&emsp;At its core, Pyventus handles event emission and propagation automatically within asynchronous or 
-    synchronous contexts. When in an asynchronous context like an `async` function, event emissions will be handled 
-    asynchronously. Similarly, in synchronous code event emissions occur synchronously.
+    &emsp;&emsp;The event system architecture in Pyventus is designed to be context-agnostic, allowing event emitters and
+	listeners to be used interchangeably in both asynchronous and synchronous scopes. However, the behavior of
+	event propagation within asynchronous and synchronous contexts is determined by the specific implementation
+	of the event emitter.
 </p>
 
 <p style='text-align: justify;' markdown>
-    &emsp;&emsp;Pyventus also excels at robust error handling. If an error occurs during event emission, it will
-    capture the error and emit an exception event. Exception events can then be handled by dedicated exception
-    listeners, ensuring errors are properly managed.
+    &emsp;&emsp;By default, Pyventus' certified emitters ensure asynchronous event emission in asynchronous contexts and
+	synchronous event propagation in synchronous code. This approach preserves the intrinsic nature of asynchronous
+	code while maintaining synchronous propagation for synchronous functions.
+</p>
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;Developers also have the flexibility to implement custom emitters to define alternative propagation behaviors
+	as needed. However, in most cases, Pyventus' event system handles the asynchronous/synchronous distinction
+	seamlessly out of the box.
 </p>
 
 ### Event Listeners for `sync` and `async` Code
@@ -217,42 +224,41 @@ async def async_event_handler(event: MyEvent):
 ```Python 
 async def async_function():
     # Emitting an event within an async function
+    event_emitter: EventEmitter = AsyncioEventEmitter()
     event_emitter.emit(MyEvent())
 
 
 def sync_function():
     # Emitting an event within a sync function
+    event_emitter: EventEmitter = AsyncioEventEmitter()
     event_emitter.emit(MyEvent())
 ```
 
-### Exception Handling
+## Error Handling
 
-```Python
-@EventLinker.on(Exception)
-def handle_emitter_exception(event: EventEmitterExceptionEvent):
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;Pyventus event emitters, including the `AsyncioEventEmitter`, are designed with robust error handling
+	capabilities to effectively manage errors that may occur during event emission.
+</p>
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;For instance, the `AsyncioEventEmitter` captures any errors that may arise during event emission and emits an
+	exception event for the error listeners. This allows developers to define exception listeners to intercept
+	and handle specific types of errors that occur during event emission. Here is an example of exception 
+	handling for the `AsyncioEventEmitter`:
+</p>
+
+```Python 
+@EventLinker.on(ValueError)
+def handle_emitter_exception(exception: ValueError):
     # Handle exception events here
     pass
 ```
 
-## Continuous Evolution
-
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;Pyventus continuously adapts to support developers across technological and programming domains. Its
-	aim is to remain at the forefront of event-driven design. Future development may introduce new official event 
-	emitters, expanding compatibility with different technologies through seamless integration.
-
-<p style='text-align: justify;' markdown>
-	&emsp;&emsp;Current default emitters provide reliable out-of-the-box capabilities for common use cases. They
-	efficiently handle core event operations and lay the foundation for building event-driven applications.
+    &emsp;&emsp;As we can see from the example, the `handle_emitter_exception` function is an exception event listener that
+	specifically handles `ValueError` exceptions.
 </p>
-
-!!! info "Driving Innovation Through Collaboration"
-
-	<p style='text-align: justify;' markdown>
-	    Pyventus is an open source project that welcomes community involvement. If you wish to contribute
-		additional event emitters, improvements, or bug fixes, please check the [Help](/help) section for 
-		guidelines on collaborating. Together, we can further the possibilities of event-driven development.
-	</p>
 
 ## **Practical Example**
 
@@ -330,11 +336,31 @@ event_emitter.emit(
 )
 ```
 
-## Start Building!
+## Continuous Evolution
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;Pyventus continuously adapts to support developers across technological and programming domains. Its
+	aim is to remain at the forefront of event-driven design. Future development may introduce new official event 
+	emitters, expanding compatibility with different technologies through seamless integration.
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;Current default emitters provide reliable out-of-the-box capabilities for common use cases. They
+	efficiently handle core event operations and lay the foundation for building event-driven applications.
+</p>
+
+!!! info "Driving Innovation Through Collaboration"
+
+	<p style='text-align: justify;' markdown>
+	    Pyventus is an open source project that welcomes community involvement. If you wish to contribute
+		additional event emitters, improvements, or bug fixes, please check the [Help](/help) section for 
+		guidelines on collaborating. Together, we can further the possibilities of event-driven development.
+	</p>
+
+## Get Started Today!
 
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;Are you ready to dive into event-driven programming with Pyventus? Follow these steps to integrate Pyventus into
-	your project and start building reactive applications. Click the button below to navigate to the Pyventus 
+	your project and start building event-driven applications. Click the button below to navigate to the Pyventus 
 	`Getting Started` page and explore detailed instructions, examples, and more:
 </p>
 
@@ -347,11 +373,13 @@ event_emitter.emit(
 
 ---
 
-!!! info "Interesting Fact"
+??? info "Interesting Fact"
 
     <p style='text-align: justify;'>
-        Pyventus gets its name from the fusion of `Python` and `Eventus`, a Latin word meaning "event".
-        This name reflects the library's focus on enabling event-driven programming in Python.
+        The name "Pyventus" is derived from the combination of "Python" and "Eventus", a Latin term meaning "event".
+		This distinctive name perfectly signifies the package's core objective of facilitating event-driven programming
+		in Python. By blending these elements, Pyventus encapsulates its purpose and emphasizes its dedication to
+		empowering developers with event-driven capabilities in the Python ecosystem.
     </p>
 
 ## License

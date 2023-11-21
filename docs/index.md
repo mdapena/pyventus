@@ -26,10 +26,14 @@ hide:
     &emsp;&emsp;Welcome to the official documentation of Pyventus, a modern and robust Python package designed for event-driven
 	programming. Pyventus offers a comprehensive suite of tools and utilities that streamline event emission, event
 	listener management, and event emitters. Users can easily implement event-driven architectures and construct
-	modular, decoupled systems with Pyventus.
+	modular, decoupled systems with Pyventus. 
 </p>
 
-## More than just Events
+## More than just Events(1) { .annotate }
+
+1. :material-information-outline: **Did You Know?** ─ Pyventus derives its name from the fusion of 'Python' and '
+   Eventus,' a Latin word meaning 'event.' This distinctive name perfectly signifies the package's core objective of
+   facilitating event-driven programming in Python.
 
 <p style='text-align: justify;'>
     Pyventus offers several key features that make it a powerful event-driven programming package for your 
@@ -260,7 +264,7 @@ def handle_emitter_exception(exception: ValueError):
 	specifically handles `ValueError` exceptions.
 </p>
 
-## **Practical Example**
+## Practical Example
 
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;To demonstrate Pyventus in a realistic scenario, we will examine how to implement a portion of the 
@@ -352,7 +356,7 @@ event_emitter.emit(
 
 	<p style='text-align: justify;' markdown>
 	    Pyventus is an open source project that welcomes community involvement. If you wish to contribute
-		additional event emitters, improvements, or bug fixes, please check the [Help](/help) section for 
+		additional event emitters, improvements, or bug fixes, please check the [**Help**](/help) section for 
 		guidelines on collaborating. Together, we can further the possibilities of event-driven development.
 	</p>
 
@@ -373,20 +377,10 @@ event_emitter.emit(
 
 ---
 
-??? info "Interesting Fact"
-
-    <p style='text-align: justify;'>
-        The name "Pyventus" is derived from the combination of "Python" and "Eventus", a Latin term meaning "event".
-		This distinctive name perfectly signifies the package's core objective of facilitating event-driven programming
-		in Python. By blending these elements, Pyventus encapsulates its purpose and emphasizes its dedication to
-		empowering developers with event-driven capabilities in the Python ecosystem.
-    </p>
-
 ## License
 
 <p style='text-align: justify;' markdown>
-    &emsp;&emsp;Pyventus is open source software released under the <a href="https://choosealicense.com/licenses/mit/" target="_blank">MIT License</a>. 
-    You can view the full text of the MIT license in the `LICENSE` file located in the <a href="https://github.com/mdapena/pyventus" target="_blank">Pyventus repository</a>
-	on GitHub.
+    &emsp;&emsp;Pyventus is distributed as open source software and is released under the <a href="https://choosealicense.com/licenses/mit/" target="_blank">MIT License</a>. 
+    You can view the full text of the license in the `LICENSE` file located in the <a href="https://github.com/mdapena/pyventus" target="_blank">Pyventus repository</a>.
 </p>
 

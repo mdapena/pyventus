@@ -31,19 +31,26 @@ class EventLinker(ABC):
     events and their listeners are organized and easily accessible.
 
     **Note**: The `EventLinker` class can be subclassed to create specific namespaces or contexts for managing
-    events and event listeners. By subclassing `EventLinker`, users can separate and organize event subscriptions
-    and listeners within different scopes, providing modularity and flexibility in event management.
+    events and event listeners separately. By subclassing `EventLinker`, users can organize event subscriptions
+    and listeners within different scopes, providing modularity and flexibility in event management. Subclassing
+    also allows users to configure settings of the `EventLinker` to suit their specific use cases.
 
-    **Example**: To create a subclass of the `EventLinker` and register an event listener.
+    **Example**: To create a subclass of the `EventLinker` and register an event listener, you can follow these steps:
 
-    .. code-block:: python
+    ```Python
+    class CustomEventLinker(EventLinker, max_event_listeners=10):
+        pass
 
-        class CustomEventLinker(EventLinker, max_event_listeners=10):
-            pass
+    @CustomEventLinker.on(Event)
+    async def decorated_function(event: Event):
+        # Event handling logic
+        pass
+    ```
 
-        @CustomEventLinker.on(Event)
-        async def decorated_function(event: Event):
-            pass # Logic...
+    **Thread-Safe:** The `EventLinker` has been implemented with thread safety in mind. All of its methods synchronize
+    access to prevent race conditions when managing events and event listeners across multiple threads. This ensures
+    that concurrent operations on the `EventLinker` are properly synchronized, avoiding data inconsistencies and race
+    conditions.
     """
 
     __event_registry: Dict[str, List[EventListener]] = {}
@@ -57,7 +64,7 @@ class EventLinker(ABC):
 
     __thread_lock: Lock = Lock()
     """
-    A threading.Lock object used for thread synchronization when accessing and modifying the event registry
+    A `threading.Lock` object used for thread synchronization when accessing and modifying the event registry
     to ensure thread safety. It prevents multiple threads from accessing or modifying the registry simultaneously.
     """
 

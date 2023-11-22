@@ -22,10 +22,10 @@ class RqEventEmitter(EventEmitter):
     pub/sub and worker system.
 
     This class extends the base EventEmitter class and provides functionality to
-    enqueue event listener callbacks using the `rq` package.
+    enqueue event listener callbacks using the `Python-RQ` package.
 
      **Event Queueing**: The `emit` method enqueues event listener callbacks using
-     the RQ package. The callbacks are executed asynchronously by RQ workers.
+     the RQ package. The callbacks are executed by RQ workers.
     """
 
     def __init__(

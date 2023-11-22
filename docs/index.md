@@ -89,7 +89,7 @@ implementation guidelines, to help you effectively utilize the package's feature
 	and triggering events within your application.
 </p>
 
-```Python title="Hello, World! example with Pyventus"
+```Python title="Hello, World! example with Pyventus" linenums="1"
 from pyventus import EventLinker, AsyncioEventEmitter
 
 
@@ -120,7 +120,7 @@ event_emitter.emit("MyEvent")  # (3)!
 		event handlers asynchronously using `async def`. It also handles event emission natively in async contexts.
     </p>
     
-    ```Python title="Async Hello, World! example with Pyventus" hl_lines="5"
+    ```Python title="Async Hello, World! example with Pyventus" hl_lines="5" linenums="1"
     from pyventus import EventLinker, AsyncioEventEmitter
     
     
@@ -281,7 +281,7 @@ def handle_emitter_exception(exception: ValueError):
     event will then trigger the sending of a confirmation email through an asynchronous handler.
 </p>
 
-```Python title="Practical Example with Pyventus"
+```Python title="Practical Example with Pyventus" linenums="1"
 from dataclasses import dataclass
 from smtplib import SMTPConnectError
 

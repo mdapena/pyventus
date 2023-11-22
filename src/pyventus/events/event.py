@@ -9,23 +9,31 @@ class Event:
     """
     A base class for event objects.
 
-    This class serves as a blueprint for creating event objects. It is
-    intended to be subclassed and extended by concrete event classes.
+    This class serves as a blueprint for creating event objects. It
+    is intended to be subclassed and extended by concrete event classes.
 
-    **Note**: The Event class is marked as `frozen=True`, which makes
-    its instances immutable. This ensures that once an event object
-    is created, its attributes cannot be modified.
+    **Note:** The `Event` class is marked with `frozen=True`, to ensure that its
+    attributes cannot be modified once the event object is created. This is crucial
+    because Pyventus supports both asynchronous and synchronous event handling concurrently.
+    When payloads are accessible from multiple threads, having mutable payloads could lead
+    to data inconsistencies. By freezing event objects, their integrity is preserved as
+    they propagate through the system.
 
-    **Example**: To create a concrete event class, subclass the Event class and
-    define the desired attributes using dataclass fields.
+    To define a new event type:
 
-    .. code-block:: python
+    1. Subclass `Event` and add fields for the payload
+    2. Decorate the subclass with `@dataclass(frozen=True)`
 
-        @dataclass(frozen=True)
-        class OrderCreated(Event):
-            id: str
+    **Example:**
 
-        event = OrderCreated(id="65486c788bba30ff7e0152ae")
+    ```Python
+    @dataclass(frozen=True)
+    class OrderCreated(Event):
+        id: str
+        total: float
+
+    event = OrderCreated(id="65486c788bba30ff7e0152ae", total=29.99)
+    ```
     """
 
     timestamp: datetime = field(init=False, default_factory=datetime.now)

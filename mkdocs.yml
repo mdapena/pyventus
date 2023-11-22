@@ -23,10 +23,9 @@ theme:
         name: Switch to light mode
   features:
     - navigation.tabs
-    - navigation.path
-    - navigation.sections
     - navigation.indexes
     - navigation.top
+    - navigation.expand
     - toc.follow
     - search.suggest
     - search.highlight
@@ -60,11 +59,40 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
 
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: sphinx
+            show_if_no_docstring: true
+            inherited_members: true
+            members_order: source
+            separate_signature: true
+            unwrap_annotated: true
+            filters: [ "!^_" ]
+            docstring_section_style: spacy
+            signature_crossrefs: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            show_signature_annotations: true
+            show_category_heading: true
+
+
 nav:
   - Pyventus: index.md
   - Getting Started: getting-started.md
-  - Examples: examples.md
-  - API Reference: api-reference.md
+  - Tutorials: tutorials.md
+  - API Reference:
+      - api/index.md
+      - Event: api/event.md
+      - Event Linker: api/event-linker.md
+      - Event Listener: api/event-listener.md
+      - Event Emitters:
+          - Event Emitter: api/event-emitter.md
+          - Asyncio Event Emitter: api/emitters/asyncio-event-emitter.md
+          - Redis Queue Event Emitter: api/emitters/rq-event-emitter.md
   - Help: help.md
 
 copyright: |

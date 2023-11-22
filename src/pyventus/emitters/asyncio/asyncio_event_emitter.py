@@ -12,7 +12,7 @@ class AsyncioEventEmitter(EventEmitter):
     """
     A class that enables event handling with the AsyncIO framework.
 
-    This class extends the base EventEmitter class and adds functionality to execute event listener callbacks
+    This class extends the base `EventEmitter` class and adds functionality to execute event listener callbacks
     using the AsyncIO framework.
 
     **Asynchronous Execution**: In an asynchronous context where an event loop is already running, the event
@@ -20,14 +20,14 @@ class AsyncioEventEmitter(EventEmitter):
     before all callbacks complete, any remaining scheduled tasks will be canceled.
 
     **Synchronous Execution**: In a synchronous context where no event loop is active, a new event loop is
-    started and subsequently closed by using `asyncio.run()`. Within this event loop, an async method is
-    executed, which utilizes the `asyncio.gather` function to execute event callbacks concurrently. The
+    created and subsequently closed by using `asyncio.run()`. Within this event loop, an async method is
+    executed, which utilizes the `asyncio.gather()` function to execute event callbacks concurrently. The
     asyncio loop waits for the completion of all scheduled callbacks from the initial event emission,
     even if new exception events are subsequently emitted. This ensures that the overall execution
     remains synchronous.
 
     **Examples**:
-    .. code-block:: python
+    ```Python
 
     # Asynchronous Execution.
     async def async_context(event_emitter: EventEmitter = AsyncioEventEmitter()) -> None:
@@ -40,6 +40,7 @@ class AsyncioEventEmitter(EventEmitter):
         # The event listeners are handled in a new asyncio event 
         # loop, but it blocks execution until all tasks complete.
         event_emitter.emit(Event())
+    ```
     """
 
     @property
@@ -85,17 +86,6 @@ class AsyncioEventEmitter(EventEmitter):
     def emit(self, event: EmittableEventType, *args: Any, **kwargs: Any) -> None:
         """
         Emits an event while supporting both synchronous and asynchronous event listeners using AsyncIO framework.
-
-        **Asynchronous Execution**: In an asynchronous context where an event loop is already running, the event
-        callbacks are scheduled and processed concurrently on that existing loop. If the event loop is closed
-        before all callbacks complete, any remaining scheduled tasks will be canceled.
-
-        **Synchronous Execution**: In a synchronous context where no event loop is active, a new event loop is
-        started and subsequently closed by using `asyncio.run()`. Within this event loop, an async method is
-        executed, which utilizes the `asyncio.gather` function to execute event callbacks concurrently. The
-        asyncio loop waits for the completion of all scheduled callbacks from the initial event emission,
-        even if new exception events are subsequently emitted. This ensures that the overall execution
-        remains synchronous.
 
         :param event: The event to be emitted.
         :param args: Variable-length arguments to be passed to the event callbacks.

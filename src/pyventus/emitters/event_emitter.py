@@ -17,13 +17,35 @@ class EventEmitter(ABC):
     """
     An abstract base class for event emitters.
 
-    This class provides a common interface for emitting events and can be used as a foundation for creating specific
-    event emitter classes. It is designed to handle string events with arguments and keyword arguments, as well as
-    instances of the `Event` and `Exception` class.
+    This abstract base class defines a common interface for emitting events. It serves as a foundation
+    for implementing custom event emitters with specific dispatch strategies. It is designed to handle
+    `string-named` events with variable-length argument list and arbitrary keyword arguments, as well
+    as instances of `Event` objects and `Exceptions`.
 
-    The main goal of this class is to separate the invocation of event listener callbacks from the underlying
-    implementation. This decoupling allows for greater flexibility and adaptability. By relying on this base
-    class as a dependency, you can easily modify the behavior of the event emitter during runtime.
+    The main goal of this class is to decouple the dispatching of event listener callbacks from the
+    underlying implementation. This loose coupling promotes flexibility and adaptability through
+    separation of concerns, allowing custom event emitters to be implemented without affecting
+    existing consumers.
+
+    **Important:** Concrete subclasses must address these core aspects to integrate smoothly:
+
+    - **Sync/Async Support:** Subclasses must dispatch events appropriately across async/sync scopes in
+     order to align with Pyventus' unified async/sync design.
+
+    - **Error Handling:** Errors during emission should be captured and handled to ensure reliability.
+
+    **Note:** Custom propagation behaviors can also be implemented as needed. But subclasses should
+    preserve Pyventus' intrinsic handling of async/sync boundaries to integrate seamlessly.
+
+    **Example**: Here is an example of how to subclass `EventEmitter` and customize event handling:
+
+    ```Python
+    class CustomEventEmitter(EventEmitter):
+
+        def _execute(self, *args: Any, event_listener: EventListener, **kwargs: Any) -> None:
+            # Underlying implementation...
+            pass
+    ```
     """
 
     def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug_mode: bool | None = None):
@@ -63,7 +85,7 @@ class EventEmitter(ABC):
         there is no need to add them as an argument or keyword argument; they are automatically passed to the
         `EventListener` as the first positional argument.
 
-        **Notes**: If there are event listeners subscribed to the emission of any event (`Event`),
+        **Note:** If there are event listeners subscribed to the emission of any event (`Event`),
         they will also be executed. The specific behavior and handling of events may vary
         depending on the implementation of the event system.
 

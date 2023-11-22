@@ -1,0 +1,4 @@
+# `EventLinker` class
+
+::: pyventus.EventLinker
+

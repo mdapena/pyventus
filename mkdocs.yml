@@ -94,6 +94,7 @@ nav:
           - Asyncio Event Emitter: api/emitters/asyncio-event-emitter.md
           - Redis Queue Event Emitter: api/emitters/rq-event-emitter.md
   - Help: help.md
+  - About: about.md
 
 copyright: |
   &copy; 2023 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>

@@ -79,6 +79,7 @@ test = "pytest -v"
 [tool.hatch.envs.docs]
 dependencies = [
     "mkdocs-material>=9.4.0",
+    "mkdocstrings[python]>=0.24.0",
 ]
 [tool.hatch.envs.docs.scripts]
 build = "mkdocs build --clean --strict"

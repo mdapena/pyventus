@@ -1,1 +1,1 @@
-from .asyncio_event_emitter import AsyncioEventEmitter
+from .asyncio_event_emitter import AsyncIOEventEmitter

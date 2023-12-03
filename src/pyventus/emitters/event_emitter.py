@@ -17,32 +17,32 @@ class EventEmitter(ABC):
     """
     An abstract base class for event emitters.
 
-    This abstract base class defines a common interface for emitting events. It serves as a foundation
-    for implementing custom event emitters with specific dispatch strategies. It is designed to handle
-    `string-named` events with variable-length argument list and arbitrary keyword arguments, as well
-    as instances of `Event` objects and `Exceptions`.
+    This abstract base class defines a common interface for emitting events. It serves as
+    a foundation for  implementing custom event emitters with specific dispatch strategies.
+    It is designed to handle `string-named` events with variable-length argument list and
+    arbitrary keyword arguments, as well as instances of `Event` objects and `Exceptions`.
 
-    The main goal of this class is to decouple the dispatching of event listener callbacks from the
-    underlying implementation. This loose coupling promotes flexibility and adaptability through
-    separation of concerns, allowing custom event emitters to be implemented without affecting
-    existing consumers.
+    The main goal of this class is to decouple the dispatching of event listener callbacks
+    from the underlying implementation. This loose coupling promotes flexibility and
+    adaptability through separation of concerns, allowing custom event emitters to
+    be implemented without affecting existing consumers.
 
-    **Important:** Concrete subclasses must address these core aspects to integrate smoothly:
+    **Important:** Concrete subclasses should address these core aspects to integrate
+    smoothly:
 
-    - **Sync/Async Support:** Subclasses must dispatch events appropriately across async/sync scopes in
-     order to align with Pyventus' unified async/sync design.
+    - **Sync/Async Support:** Subclasses must dispatch events appropriately across
+      async/sync scopes in order to align with Pyventus' unified async/sync design.
 
-    - **Error Handling:** Errors during emission should be captured and handled to ensure reliability.
+    - **Error Handling:** Errors during emission should be captured and handled to
+      ensure reliability.
 
-    **Note:** Custom propagation behaviors can also be implemented as needed. But subclasses should
-    preserve Pyventus' intrinsic handling of async/sync boundaries to integrate seamlessly.
-
-    **Example**: Here is an example of how to subclass `EventEmitter` and customize event handling:
+    **Example**: Here is an example of how to subclass `EventEmitter` and customize
+    event handling:
 
     ```Python
     class CustomEventEmitter(EventEmitter):
 
-        def _execute(self, *args: Any, event_listener: EventListener, **kwargs: Any) -> None:
+        def _execute(self, event_listeners: List[EventListener], *args: Any, **kwargs: Any) -> None:
             # Underlying implementation...
             pass
     ```
@@ -53,8 +53,8 @@ class EventEmitter(ABC):
         Initializes an instance of the `EventEmitter`.
         :param event_linker: Specifies the type of event linker to use for associating
             events with their respective event listeners. Defaults to `EventLinker`.
-        :param debug_mode: Specifies the debug mode for the subclass logger.
-            If `None`, it is determined based on the execution environment.
+        :param debug_mode: Specifies the debug mode for the subclass logger. If `None`,
+            it is determined based on the execution environment.
         :raises PyventusException: If the `event_linker` argument is None.
         """
         # Validate the event linker argument
@@ -73,23 +73,25 @@ class EventEmitter(ABC):
             debug=debug_mode if debug_mode is not None else bool(gettrace() is not None),
         )
         """
-        An instance of the logger used for logging events and debugging information. The debug mode
-        of the logger can be explicitly set by providing a boolean value for the `debug_mode` argument in 
-        the constructor. If `debug_mode` is set to `None`, the debug mode will be automatically determined
-        based on the execution environment and the value returned by the `gettrace()` function.
+        An instance of the logger used for logging events and debugging information. The 
+        debug mode of the logger can be explicitly set by providing a boolean value for the 
+        `debug_mode` argument in the constructor. If `debug_mode` is set to `None`, the debug
+        mode will be automatically determined based on the execution environment and the
+        value returned by the `gettrace()` function.
         """
 
     def emit(self, event: EmittableEventType, *args: Any, **kwargs: Any) -> None:
         """
-        Emits an event and triggers the associated event listeners. When emitting `Event` or `Exception` objects,
-        there is no need to add them as an argument or keyword argument; they are automatically passed to the
-        `EventListener` as the first positional argument.
+        Emits an event and triggers any associated event listeners. When emitting `Event` or
+        `Exception` objects, they are automatically passed to the `Event Listener` as the
+        first positional argument, even if you pass `*args` or `**kwargs`.
 
-        **Note:** If there are event listeners subscribed to the emission of any event (`Event`),
-        they will also be executed. The specific behavior and handling of events may vary
-        depending on the implementation of the event system.
+        **Note:** If there are event listeners subscribed to the emission of any event
+        (`Event`), they will also be executed. The specific behavior and handling of events
+        may vary depending on the implementation of the event system.
 
-        :param event: The event to emit. It can be an instance of `Event`, `Exception`, or a `str`.
+        :param event: The event to emit. It can be an instance of `Event`, `Exception`,
+            or a `str`.
         :param args: Additional positional arguments to pass to the event listeners.
         :param kwargs: Additional keyword arguments to pass to the event listeners.
         :return: None
@@ -118,15 +120,8 @@ class EventEmitter(ABC):
             event if is_string else event.__class__,
         )
 
-        # Log the event emission if debug mode is enabled
-        if self._logger.debug_enabled:
-            self._logger.debug(
-                action="Emitting:",
-                msg=(
-                    f"{event if is_string else event.__class__.__name__} "
-                    f"{StdOutColors.PURPLE}\tListeners:{StdOutColors.DEFAULT} {len(event_listeners)}"
-                )
-            )
+        # Initializes the list of event listeners to be executed
+        pending_event_listeners: List[EventListener] = []
 
         # Iterates through each event listener and triggers the associated callback function
         for event_listener in event_listeners:
@@ -137,27 +132,44 @@ class EventEmitter(ABC):
                 # If the event listener is a one-time listener, we try to remove it. If it is
                 # successfully removed, it means it hasn't been executed before, so we execute the callback
                 if self._event_linker.remove_event_listener(event_listener=event_listener):
-                    # Executes the event listener callback function with the arguments and keyword arguments
-                    self._execute(*event_args, event_listener=event_listener, **kwargs)
+                    # Adds the current event listener to the execution list
+                    pending_event_listeners.append(event_listener)
             else:
-                # Executes the event listener callback function with the arguments and keyword arguments
-                self._execute(*event_args, event_listener=event_listener, **kwargs)
+                # Adds the current event listener to the execution list
+                pending_event_listeners.append(event_listener)
+
+        # Log the event emission if debug mode is enabled
+        if self._logger.debug_enabled:
+            self._logger.debug(
+                action="Emitting:",
+                msg=(
+                    f"{event if is_string else event.__class__.__name__} "
+                    f"{StdOutColors.PURPLE}\tListeners:{StdOutColors.DEFAULT} {len(pending_event_listeners)}"
+                )
+            )
+
+        # Checks if the pending_event_listeners is not empty
+        if len(pending_event_listeners) > 0:
+            # Executes the pending event listeners along with their arguments and keyword arguments
+            self._execute(pending_event_listeners, *event_args, **kwargs)
 
     @abstractmethod
-    def _execute(self, *args: Any, event_listener: EventListener, **kwargs: Any) -> None:
+    def _execute(self, event_listeners: List[EventListener], *args: Any, **kwargs: Any) -> None:
         """
-        Executes the callback function associated with an event listener.
+        Executes the callback functions associated with the specified event listeners.
 
-        This method is responsible for executing the callback function associated with the given event listener.
-        The callback function should be executed with the positional arguments provided as `*args`, along with any
-        keyword arguments provided as `**kwargs`.
+        This method is responsible for executing the callback function associated with
+        each event listener provided in the `event_listeners` parameter. The callback
+        function will be executed with the positional arguments provided in `*args`
+        and the keyword arguments provided in `**kwargs`.
 
-        Subclasses should provide their own implementation of this method to handle the execution of event listener
-        callbacks based on their specific requirements and context.
+        **Note:** Subclasses must implement this method to define how the event
+        listener callbacks should be executed based on their specific context
+        and requirements.
 
-        :param args: The positional arguments to pass to the callback function.
-        :param event_listener: The event listener whose callback function should be executed.
-        :param kwargs: The keyword arguments to pass to the callback function.
+        :param event_listeners: List of event listeners to be executed.
+        :param args: Positional arguments to pass to the callback functions.
+        :param kwargs: Keyword arguments to pass to the callback functions.
         :return: None
         """
         pass

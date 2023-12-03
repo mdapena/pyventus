@@ -6,7 +6,7 @@ import pytest
 from _pytest.python_api import raises
 
 from src.pyventus.core.exceptions import PyventusException
-from src.pyventus.emitters.asyncio import AsyncioEventEmitter
+from src.pyventus.emitters.asyncio import AsyncIOEventEmitter
 from src.pyventus.events import Event
 from src.pyventus.linkers import EventLinker
 
@@ -19,6 +19,11 @@ class EmailEvent(Event):
 
 
 class TestAsyncioEmitter:
+
+    @staticmethod
+    async def __await_all_tasks():
+        """ Waits for all AsyncIO pending task to complete """
+        await asyncio.gather(*asyncio.all_tasks().difference({asyncio.current_task()}), return_exceptions=True)
 
     # region: Callbacks
     def callback_without_params(self):
@@ -48,17 +53,17 @@ class TestAsyncioEmitter:
     # endregion
 
     def test_creation(self, clean_event_linker: bool):
-        event_emitter = AsyncioEventEmitter()
+        event_emitter = AsyncIOEventEmitter()
         assert event_emitter is not None
 
     def test_creation_with_invalid_params(self, clean_event_linker: bool):
         with raises(PyventusException):
-            AsyncioEventEmitter(event_linker=None)
+            AsyncIOEventEmitter(event_linker=None)
 
     @pytest.mark.asyncio
     async def test_emit_exception_raised(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEventEmitter()
+        event_emitter = AsyncIOEventEmitter()
 
         # Act and Assert
         with raises(PyventusException):
@@ -77,9 +82,7 @@ class TestAsyncioEmitter:
             event_emitter.emit('RaiseException')
             event_emitter.emit('RaiseException')
             event_emitter.emit('RaiseException')
-
-            while event_emitter.background_futures:  # Wait for all futures to complete
-                await asyncio.gather(*event_emitter.background_futures, return_exceptions=True)
+            await TestAsyncioEmitter.__await_all_tasks()
 
             # Assert
             callback_with_exception_params.assert_called_once()
@@ -87,7 +90,7 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_with_event_subscribers(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEventEmitter()
+        event_emitter = AsyncIOEventEmitter()
         with patch.object(self, 'callback_without_params') as callback_without_params:
             event_listener_1 = EventLinker.subscribe(Event, callback=self.callback_without_params, once=True)
             event_listener_2 = EventLinker.subscribe('Empty', Event, callback=self.callback_without_params)
@@ -95,8 +98,7 @@ class TestAsyncioEmitter:
 
             # Act
             event_emitter.emit(Event())
-            while event_emitter.background_futures:  # Wait for all futures to complete
-                await asyncio.gather(*event_emitter.background_futures, return_exceptions=True)
+            await TestAsyncioEmitter.__await_all_tasks()
 
             # Assert
             assert callback_without_params.call_count == 2
@@ -106,10 +108,7 @@ class TestAsyncioEmitter:
 
             # Act
             event_emitter.emit('Empty')
-
-            # Wait for all futures to complete
-            while event_emitter.background_futures:
-                await asyncio.gather(*event_emitter.background_futures, return_exceptions=True)
+            await TestAsyncioEmitter.__await_all_tasks()
 
             # Assert
             assert callback_without_params.call_count == 4
@@ -117,14 +116,13 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_without_params(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEventEmitter()
+        event_emitter = AsyncIOEventEmitter()
         with patch.object(self, 'callback_without_params') as callback_without_params:
             EventLinker.subscribe('Event1', callback=self.callback_without_params)
 
             # Act
             event_emitter.emit('Event1')
-            while event_emitter.background_futures:  # Wait for all futures to complete
-                await asyncio.gather(*event_emitter.background_futures, return_exceptions=True)
+            await TestAsyncioEmitter.__await_all_tasks()
 
             # Assert
             callback_without_params.assert_called_once_with()
@@ -132,15 +130,14 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_with_event_params(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEventEmitter()
+        event_emitter = AsyncIOEventEmitter()
         with patch.object(self, 'callback_with_event_params') as callback_with_event_params:
             EventLinker.subscribe(EmailEvent, callback=self.callback_with_event_params)
             event_1 = EmailEvent(email="email@email.com", message="Email message!")
 
             # Act
             event_emitter.emit(event_1)
-            while event_emitter.background_futures:  # Wait for all futures to complete
-                await asyncio.gather(*event_emitter.background_futures, return_exceptions=True)
+            await TestAsyncioEmitter.__await_all_tasks()
 
             # Assert
             callback_with_event_params.assert_called_with(event_1)
@@ -148,8 +145,7 @@ class TestAsyncioEmitter:
 
             # Act
             event_emitter.emit('EmailEvent', event_1)
-            while event_emitter.background_futures:  # Wait for all futures to complete
-                await asyncio.gather(*event_emitter.background_futures, return_exceptions=True)
+            await TestAsyncioEmitter.__await_all_tasks()
 
             # Assert
             callback_with_event_params.assert_called_with(event_1)
@@ -158,15 +154,14 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_with_exception_params(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEventEmitter()
+        event_emitter = AsyncIOEventEmitter()
         with patch.object(self, 'callback_with_exception_params') as callback_with_exception_params:
             EventLinker.subscribe(ValueError, callback=self.callback_with_exception_params)
             exception = ValueError("Something went wrong!")
 
             # Act
             event_emitter.emit(exception)
-            while event_emitter.background_futures:  # Wait for all futures to complete
-                await asyncio.gather(*event_emitter.background_futures, return_exceptions=True)
+            await TestAsyncioEmitter.__await_all_tasks()
 
             # Assert
             callback_with_exception_params.assert_called_with(exception)
@@ -174,8 +169,7 @@ class TestAsyncioEmitter:
 
             # Act
             event_emitter.emit('ValueError', exception)
-            while event_emitter.background_futures:  # Wait for all futures to complete
-                await asyncio.gather(*event_emitter.background_futures, return_exceptions=True)
+            await TestAsyncioEmitter.__await_all_tasks()
 
             # Assert
             callback_with_exception_params.assert_called_with(exception)
@@ -184,7 +178,7 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_with_args_params(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEventEmitter()
+        event_emitter = AsyncIOEventEmitter()
         with patch.object(self, 'callback_with_args_params') as sync_callback_with_args_params:
             EventLinker.subscribe('Event4', callback=self.callback_with_args_params)
             event = EmailEvent(email="email@email.com", message="Email message!")
@@ -192,8 +186,7 @@ class TestAsyncioEmitter:
 
             # Act
             event_emitter.emit('Event4', event, text)
-            while event_emitter.background_futures:  # Wait for all futures to complete
-                await asyncio.gather(*event_emitter.background_futures, return_exceptions=True)
+            await TestAsyncioEmitter.__await_all_tasks()
 
             # Assert
             sync_callback_with_args_params.assert_called_with(event, text)
@@ -202,7 +195,7 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_with_kwargs_params(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEventEmitter()
+        event_emitter = AsyncIOEventEmitter()
         with patch.object(self, 'callback_with_kwargs_params') as callback_with_kwargs_params:
             EventLinker.subscribe('Event5', callback=self.callback_with_kwargs_params)
             event = EmailEvent(email="email@email.com", message="Email message!")
@@ -214,8 +207,7 @@ class TestAsyncioEmitter:
 
             # Act
             event_emitter.emit('Event5', event_1=event, text=text)
-            while event_emitter.background_futures:  # Wait for all futures to complete
-                await asyncio.gather(*event_emitter.background_futures, return_exceptions=True)
+            await TestAsyncioEmitter.__await_all_tasks()
 
             # Assert
             callback_with_kwargs_params.assert_called_with(event_1=event, text=text)
@@ -224,7 +216,7 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_with_multi_params(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEventEmitter()
+        event_emitter = AsyncIOEventEmitter()
         with patch.object(self, 'callback_with_multi_params') as callback_with_multi_params:
             EventLinker.subscribe('Event6', callback=self.callback_with_multi_params)
             event = EmailEvent(email="email@email.com", message="Email message!")
@@ -232,8 +224,7 @@ class TestAsyncioEmitter:
 
             # Act
             event_emitter.emit('Event6', event, text=text)
-            while event_emitter.background_futures:  # Wait for all futures to complete
-                await asyncio.gather(*event_emitter.background_futures, return_exceptions=True)
+            await TestAsyncioEmitter.__await_all_tasks()
 
             # Assert
             callback_with_multi_params.assert_called_with(event, text=text)
@@ -242,7 +233,7 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_emit_with_sync_and_async_callbacks(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEventEmitter()
+        event_emitter = AsyncIOEventEmitter()
         with patch.object(self, 'callback_with_args_params') as callback_with_args_params:
             with patch.object(self, 'callback_with_kwargs_params') as callback_with_kwargs_params:
                 EventLinker.subscribe(Event, callback=self.callback_with_args_params)
@@ -252,8 +243,7 @@ class TestAsyncioEmitter:
 
                 # Act
                 event_emitter.emit(ValueError("Value error!"))
-                while event_emitter.background_futures:  # Wait for all futures to complete
-                    await asyncio.gather(*event_emitter.background_futures, return_exceptions=True)
+                await TestAsyncioEmitter.__await_all_tasks()
 
                 # Assert
                 assert callback_with_args_params.call_count == 1
@@ -261,8 +251,7 @@ class TestAsyncioEmitter:
 
                 # Act
                 event_emitter.emit(TypeError("Type error!"))
-                while event_emitter.background_futures:  # Wait for all futures to complete
-                    await asyncio.gather(*event_emitter.background_futures, return_exceptions=True)
+                await TestAsyncioEmitter.__await_all_tasks()
 
                 # Assert
                 assert callback_with_args_params.call_count == 1
@@ -270,8 +259,7 @@ class TestAsyncioEmitter:
 
                 # Act
                 event_emitter.emit(Event())
-                while event_emitter.background_futures:  # Wait for all futures to complete
-                    await asyncio.gather(*event_emitter.background_futures, return_exceptions=True)
+                await TestAsyncioEmitter.__await_all_tasks()
 
                 # Assert
                 assert callback_with_args_params.call_count == 2
@@ -285,8 +273,7 @@ class TestAsyncioEmitter:
 
                 # Act
                 event_emitter.emit(EmailEvent(email="email@email.com", message="Email message!"))
-                while event_emitter.background_futures:  # Wait for all futures to complete
-                    await asyncio.gather(*event_emitter.background_futures, return_exceptions=True)
+                await TestAsyncioEmitter.__await_all_tasks()
 
                 # Assert
                 assert callback_with_args_params.call_count == 3
@@ -295,7 +282,7 @@ class TestAsyncioEmitter:
     @pytest.mark.asyncio
     async def test_execution_exceptions(self, clean_event_linker):
         # Arrange
-        event_emitter = AsyncioEventEmitter()
+        event_emitter = AsyncIOEventEmitter()
 
         def _execute_with_exception():
             raise ValueError("Something went wrong here!")
@@ -311,31 +298,29 @@ class TestAsyncioEmitter:
         class CustomEventLinker(EventLinker):
             pass
 
-        event_emitter_1 = AsyncioEventEmitter(event_linker=EventLinker)
-        event_emitter_2 = AsyncioEventEmitter(event_linker=CustomEventLinker)
+        event_emitter_1 = AsyncIOEventEmitter(event_linker=EventLinker)
+        event_emitter_2 = AsyncIOEventEmitter(event_linker=CustomEventLinker)
         with patch.object(self, 'callback_with_multi_params') as callback_with_multi_params:
             CustomEventLinker.subscribe(Event, callback=self.callback_with_multi_params)
             EventLinker.subscribe(Event, callback=self.callback_with_multi_params)
 
             # Act
             event_emitter_1.emit('Any')
-            while event_emitter_1.background_futures:  # Wait for all futures to complete
-                await asyncio.gather(*event_emitter_1.background_futures, return_exceptions=True)
+            await TestAsyncioEmitter.__await_all_tasks()
 
             # Assert
             assert callback_with_multi_params.call_count == 1
 
             # Act
             event_emitter_2.emit('Another')
-            while event_emitter_2.background_futures:  # Wait for all futures to complete
-                await asyncio.gather(*event_emitter_2.background_futures, return_exceptions=True)
+            await TestAsyncioEmitter.__await_all_tasks()
 
             # Assert
             assert callback_with_multi_params.call_count == 2
 
     def test_emit_with_sync_context(self):
         # Arrange
-        event_emitter = AsyncioEventEmitter()
+        event_emitter = AsyncIOEventEmitter()
         with patch.object(self, 'callback_with_args_params') as callback_with_args_params:
             with patch.object(self, 'callback_with_kwargs_params') as callback_with_kwargs_params:
                 EventLinker.subscribe('RaiseExceptionInside', callback=self.callback_that_raise_exception)

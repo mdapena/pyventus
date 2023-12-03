@@ -3,8 +3,8 @@
 __version__ = "1.0.0"
 
 from .emitters import EventEmitter, EmittableEventType
-from .emitters.asyncio import AsyncioEventEmitter
-from .emitters.rq import RqEventEmitter
+from .emitters.asyncio import AsyncIOEventEmitter
+from .emitters.rq import RQEventEmitter
 from .events import Event
 from .linkers import EventLinker, SubscribableEventType
 from .listeners import EventListener
@@ -12,8 +12,8 @@ from .listeners import EventListener
 __all__ = [
     'EventEmitter',
     'EmittableEventType',
-    'AsyncioEventEmitter',
-    'RqEventEmitter',
+    'AsyncIOEventEmitter',
+    'RQEventEmitter',
     'Event',
     'EventLinker',
     'SubscribableEventType',

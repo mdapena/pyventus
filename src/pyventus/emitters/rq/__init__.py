@@ -1,1 +1,1 @@
-from .rq_event_emitter import RqEventEmitter
+from .rq_event_emitter import RQEventEmitter

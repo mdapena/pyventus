@@ -77,16 +77,6 @@ class AsyncIOEventEmitter(EventEmitter):
         self._background_futures: Set[Future] = set()
 
     def _execute(self, event_listeners: List[EventListener], *args: Any, **kwargs: Any) -> None:
-        """
-        Executes the callback function of each event listener asynchronously using the
-        `AsyncIO` framework. The positional arguments provided as `*args` are passed to
-        the callback function, along with any keyword arguments provided as `**kwargs`.
-
-        :param event_listeners: List of event listeners to be executed.
-        :param args: Positional arguments to pass to the callback functions.
-        :param kwargs: Keyword arguments to pass to the callback functions.
-        :return: None
-        """
         # Check if AsyncIO event loop is running
         is_loop_running: bool = self.__is_loop_running
 
@@ -99,8 +89,12 @@ class AsyncIOEventEmitter(EventEmitter):
             self.__ensure_futures(event_listeners, *args, **kwargs)
         else:
             async def _inner_callback():
+                """ Inner callback function to be submitted to `asyncio.run()`. """
+
+                # Schedule the event listener callbacks
                 self.__ensure_futures(event_listeners, *args, **kwargs)
 
+                # Gather completion of all tasks except this one
                 await asyncio.gather(
                     *asyncio.all_tasks().difference({asyncio.current_task()}),
                     return_exceptions=True
@@ -111,7 +105,7 @@ class AsyncIOEventEmitter(EventEmitter):
 
     def __ensure_futures(self, event_listeners: List[EventListener], *args: Any, **kwargs: Any) -> None:
         """
-        Schedules the event listener callbacks in the running loop as a future.
+        Schedules the event listener callbacks in the running loop as futures.
 
         :param event_listeners: List of event listeners to be executed.
         :param args: Positional arguments to pass to the callback functions.
@@ -130,26 +124,25 @@ class AsyncIOEventEmitter(EventEmitter):
             # Get the exception, if any, from the Future
             exception: Exception = cast(Exception, fut.exception())
 
-            # If an exception occurred during execution, emit it as an event
-            if exception:
-                # Log the exception with error level
-                self._logger.error(
-                    action="Exception:",
-                    msg=f"[{event_listener}] {StdOutColors.RED}Errors:{StdOutColors.DEFAULT} {exception}"
-                )
+            # No exception, return
+            if not exception:
+                return
 
-                if len(args) == 0 or not issubclass(args[0].__class__, Exception):
-                    # Emit the exception as an event if the previous arguments were not exceptions
-                    self.emit(exception)
-                else:
-                    # Log the recursive exception with error level
-                    self._logger.error(
-                        action="Recursive Exception:",
-                        msg=f"An error occurred while handling a previous exception. Propagating the exception...",
-                    )
+            # Log the exception with error level
+            self._logger.error(
+                action="Exception:",
+                msg=f"[{event_listener}] {StdOutColors.RED}Errors:{StdOutColors.DEFAULT} {exception}"
+            )
 
-                    # Propagate recursive exception
-                    raise exception
+            if len(args) == 0 or not issubclass(args[0].__class__, Exception):
+                # Emit the exception as an event if the previous arguments were not exceptions
+                self.emit(exception)
+            else:
+                # Log the recursive exception with error level
+                self._logger.error(action="Recursive Exception:", msg=f"Propagating...")
+
+                # Propagate recursive exception
+                raise exception
 
         for event_listener in event_listeners:
             # Schedule the event listener callback in the running loop as a future

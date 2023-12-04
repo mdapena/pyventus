@@ -70,7 +70,7 @@ class RQEventEmitter(EventEmitter):
         self._rq_options['result_ttl'] = rq_result_ttl
         self._rq_options['on_failure'] = rq_on_failure
 
-    def _execute(self, event_listeners: List[EventListener], *args: Any, **kwargs: Any) -> None:
+    def _execute(self, event_listeners: List[EventListener], /, *args: Any, **kwargs: Any) -> None:
         """
         Enqueues the event listener callbacks using Redis Queue.
 

@@ -76,7 +76,7 @@ class AsyncIOEventEmitter(EventEmitter):
         # Initialize the set of background futures
         self._background_futures: Set[Future] = set()
 
-    def _execute(self, event_listeners: List[EventListener], *args: Any, **kwargs: Any) -> None:
+    def _execute(self, event_listeners: List[EventListener], /, *args: Any, **kwargs: Any) -> None:
         # Check if AsyncIO event loop is running
         is_loop_running: bool = self.__is_loop_running
 
@@ -103,7 +103,7 @@ class AsyncIOEventEmitter(EventEmitter):
             # Run the event listener callbacks concurrently in a synchronous manner
             asyncio.run(_inner_callback())
 
-    def __ensure_futures(self, event_listeners: List[EventListener], *args: Any, **kwargs: Any) -> None:
+    def __ensure_futures(self, event_listeners: List[EventListener], /, *args: Any, **kwargs: Any) -> None:
         """
         Schedules the event listener callbacks in the running loop as futures.
 

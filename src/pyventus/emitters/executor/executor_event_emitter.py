@@ -129,7 +129,7 @@ class ExecutorEventEmitter(EventEmitter):
         """
         self._executor.shutdown(wait=wait, cancel_futures=cancel_futures)
 
-    def emit(self, event: EmittableEventType, *args: Any, **kwargs: Any) -> None:
+    def emit(self, /, event: EmittableEventType, *args: Any, **kwargs: Any) -> None:
         # Wraps the actual emit in an async task that is submitted to the
         # executor. This ensures listeners are executed concurrently.
         # Any exceptions are gathered before returning.
@@ -152,7 +152,7 @@ class ExecutorEventEmitter(EventEmitter):
         # Submit inner callback to executor
         self._executor.submit(asyncio.run, _inner_callback())
 
-    def _execute(self, event_listeners: List[EventListener], *args: Any, **kwargs: Any) -> None:
+    def _execute(self, event_listeners: List[EventListener], /, *args: Any, **kwargs: Any) -> None:
         # Store super's emit method for handling exceptions
         super_ref: EventEmitter = super()
 

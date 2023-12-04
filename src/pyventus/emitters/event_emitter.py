@@ -80,7 +80,7 @@ class EventEmitter(ABC):
         value returned by the `gettrace()` function.
         """
 
-    def emit(self, event: EmittableEventType, *args: Any, **kwargs: Any) -> None:
+    def emit(self, /, event: EmittableEventType, *args: Any, **kwargs: Any) -> None:
         """
         Emits an event and triggers any associated event listeners. When emitting `Event` or
         `Exception` objects, they are automatically passed to the `Event Listener` as the
@@ -154,7 +154,7 @@ class EventEmitter(ABC):
             self._execute(pending_event_listeners, *event_args, **kwargs)
 
     @abstractmethod
-    def _execute(self, event_listeners: List[EventListener], *args: Any, **kwargs: Any) -> None:
+    def _execute(self, event_listeners: List[EventListener], /, *args: Any, **kwargs: Any) -> None:
         """
         Executes the callback functions associated with the specified event listeners.
 

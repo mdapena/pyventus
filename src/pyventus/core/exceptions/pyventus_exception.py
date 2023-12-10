@@ -10,7 +10,7 @@ class PyventusException(Exception):
     and identify exceptions that occur within the package.
     """
 
-    def __init__(self, errors: str | List[str] = None):
+    def __init__(self, errors: str | List[str] | None = None):
         """
         Initializes a new `PyventusException` instance.
         :param errors: The error messages associated with the exception. Defaults to None.

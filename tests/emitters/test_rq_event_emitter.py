@@ -1,66 +1,54 @@
+import pytest
 from _pytest.python_api import raises
-from rq import Callback, Queue
 
+from src.pyventus import EventLinker
 from src.pyventus.core.exceptions import PyventusException
 from src.pyventus.emitters.rq import RQEventEmitter
-from src.pyventus.events import Event
-from src.pyventus.linkers import EventLinker
+from tests.conftest import rq_queue
+from tests.emitters.event_emitter_test import EventEmitterTest
 
 
-def report_exception():
-    TestRqEventEmitter.callback_count += 1
+class TestRQEventEmitter(EventEmitterTest):
 
+    # --------------------
+    # Creation
+    # ----------
 
-class TestRqEventEmitter:
-    # Emulates callback count
-    callback_count: int = 0
-
-    # region: Callbacks
-
-    async def callback_with_multi_params(self, *args, **kwargs):
-        TestRqEventEmitter.callback_count += 1
-
-    # endregion
-
-    def test_creation(self, clean_event_linker: bool, rq_queue: Queue):
+    def test_creation(self, clean_event_linker: bool):
         # Arrange, Act and Assert
-        event_emitter = RQEventEmitter(rq_queue=rq_queue)
+        event_emitter = RQEventEmitter(queue=rq_queue())
         assert event_emitter is not None
 
     def test_creation_with_invalid_params(self, clean_event_linker: bool):
         # Arrange, Act and Assert
         with raises(PyventusException):
-            RQEventEmitter(rq_queue=None)
+            RQEventEmitter(queue=None)  # type: ignore
 
-    def test_emit_with_multi_params_callback(self, clean_event_linker: bool, rq_queue: Queue):
-        # Arrange
-        TestRqEventEmitter.callback_count = 0
-        event_emitter = RQEventEmitter(rq_queue=rq_queue, rq_on_failure=Callback(report_exception))
-        EventLinker.subscribe('RaiseExceptionInside', callback=self.callback_with_multi_params)
-        EventLinker.subscribe(Event, Exception, callback=self.callback_with_multi_params, once=True)
-        EventLinker.subscribe('Event', ValueError, callback=self.callback_with_multi_params)
-        EventLinker.subscribe(Exception, callback=self.callback_with_multi_params)
+    # --------------------
+    # Sync Context
+    # ----------
 
-        # Act
-        event_emitter.emit(ValueError("Value error!"))
+    def test_emission_in_sync_context(self):
+        event_emitter = RQEventEmitter(queue=rq_queue())
+        with TestRQEventEmitter.run_emission_test(event_emitter=event_emitter):
+            pass
 
-        # Assert
-        assert TestRqEventEmitter.callback_count == 3
+    def test_emission_in_sync_context_with_custom_event_linker(self):
+        class CustomEventLinker(EventLinker):
+            pass
 
-        # Act
-        event_emitter.emit(TypeError("Type error!"))
+        event_emitter = RQEventEmitter(queue=rq_queue(), event_linker=CustomEventLinker)
+        with TestRQEventEmitter.run_emission_test(event_emitter=event_emitter, event_linker=CustomEventLinker):
+            pass
 
-        # Assert
-        assert TestRqEventEmitter.callback_count == 4
+    # --------------------
+    # Async Context
+    # ----------
 
-        # Act
-        event_emitter.emit('RaiseExceptionInside')
+    @pytest.mark.asyncio
+    async def test_emission_in_async_context(self):
+        pytest.skip("RQ package doesn't support async tests yet, but works fine in async contexts outside of testing.")
 
-        # Assert
-        assert TestRqEventEmitter.callback_count == 6
-
-        # Act
-        event_emitter.emit(Event())
-
-        # Assert
-        assert TestRqEventEmitter.callback_count == 7
+    @pytest.mark.asyncio
+    async def test_emission_in_async_context_with_custom_event_linker(self):
+        pytest.skip("RQ package doesn't support async tests yet, but works fine in async contexts outside of testing.")

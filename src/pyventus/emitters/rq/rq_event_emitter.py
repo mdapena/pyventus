@@ -1,6 +1,10 @@
 from typing import Any, Type, Dict, List
 
+from src.pyventus.core.constants import StdOutColors
 from src.pyventus.core.exceptions import PyventusException
+from src.pyventus.emitters import EventEmitter
+from src.pyventus.handlers import EventHandler
+from src.pyventus.linkers import EventLinker
 
 try:  # pragma: no cover
     from rq import Queue, Callback
@@ -10,90 +14,63 @@ except ImportError:  # pragma: no cover
         "\nPlease install it using 'pip install pyventus[rq]' to use this event emitter."
     )
 
-from src.pyventus.core.constants import StdOutColors
-from src.pyventus.emitters import EventEmitter
-from src.pyventus.linkers import EventLinker
-from src.pyventus.listeners import EventListener
-
 
 class RQEventEmitter(EventEmitter):
     """
     A class that enables event handling using the powerful Redis Queue (RQ) pub/sub and
     worker system.
 
-    This class extends the base EventEmitter class and provides functionality to enqueue
-    event listener callbacks using the `Python-RQ` package.
+    This class extends the base `EventEmitter` class and provides functionality to enqueue
+    event handlers using the `RQ` package.
 
-    **Event Queueing**: The `emit` method enqueues event listener callbacks using the
-    Python-RQ package. The callbacks are executed by RQ workers.
+    **Event Handler Queueing**: The `emit` method enqueues event handlers using the RQ
+    package. The callbacks are executed by RQ workers.
     """
 
     def __init__(
             self,
-            rq_queue: Queue,
-            rq_result_ttl: int | None = None,
-            rq_on_failure: Callback | None = None,
-            rq_options: Dict[str, Any] | None = None,
+            queue: Queue,
+            options: Dict[str, Any] | None = None,
             event_linker: Type[EventLinker] = EventLinker,
             debug_mode: bool | None = None,
     ):
         """
         Initializes an instance of the `RQEventEmitter` class.
-        :param rq_queue: The Redis queue for enqueuing event listeners.
-        :param rq_result_ttl: Specifies how long (in seconds) successful jobs and their
-            results are kept. Expired jobs will be automatically deleted. Defaults to
-            500 seconds.
-        :param rq_on_failure: The callback function to be executed on job failure.
-            Defaults to None.
-        :param rq_options: Additional options for the RQ package enqueueing method.
+        :param queue: The Redis queue for enqueuing event handlers.
+        :param options: Additional options for the RQ package enqueueing method.
             Defaults to an empty dictionary.
         :param event_linker: Specifies the type of event linker to use for associating
-            events with their respective event listeners. Defaults to `EventLinker`.
+            events with their respective event handlers. Defaults to `EventLinker`.
         :param debug_mode: Specifies the debug mode for the subclass logger. If `None`,
             it is determined based on the execution environment.
         """
         # Call the parent class' __init__ method to set up the event linker
         super().__init__(event_linker=event_linker, debug_mode=debug_mode)
 
-        # Validate the rq_queue argument
-        if rq_queue is None or not isinstance(rq_queue, Queue):
-            raise PyventusException("The 'rq_queue' argument must be a valid (RQ) queue.")
+        # Validate the queue argument
+        if queue is None or not isinstance(queue, Queue):
+            raise PyventusException("The 'queue' argument must be a valid (RQ) queue.")
 
         # Store the RQ queue and options
-        self._rq_queue: Queue = rq_queue
-        """ The Redis queue for enqueuing event listeners. """
+        self._queue: Queue = queue
+        """ The Redis queue for enqueuing event handlers. """
 
-        self._rq_options: Dict[str, Any] = rq_options if rq_options is not None else {}
+        self._options: Dict[str, Any] = options if options is not None else {}
         """ Additional options for the RQ package enqueueing method. """
 
-        # Set the result TTL and on_failure callback in the RQ options
-        self._rq_options['result_ttl'] = rq_result_ttl
-        self._rq_options['on_failure'] = rq_on_failure
-
-    def _execute(self, event_listeners: List[EventListener], /, *args: Any, **kwargs: Any) -> None:
-        """
-        Enqueues the event listener callbacks using Redis Queue.
-
-        The positional arguments provided as `*args` are passed to the callback function,
-        along with any keyword arguments provided as `**kwargs`.
-
-        :param event_listeners: The event listener callback function.
-        :param args: Positional arguments to pass to the callback function.
-        :param kwargs: Keyword arguments to pass to the callback function.
-        :return: None
-        """
-        # Log the execution of the listeners, if debug mode is enabled
+    def _execute(self, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
+        # Log the execution of the handlers, if debug mode is enabled
         if self._logger.debug_enabled:
             self._logger.debug(
                 action="Enqueueing:",
-                msg=f"[{event_listeners}] "
+                msg=f"[{event_handlers}] "
                     f"{StdOutColors.PURPLE}*args:{StdOutColors.DEFAULT} {args} "
                     f"{StdOutColors.PURPLE}**kwargs:{StdOutColors.DEFAULT} {kwargs}"
-                    f"{StdOutColors.PURPLE}RQ options:{StdOutColors.DEFAULT} {self._rq_options}"
+                    f"{StdOutColors.PURPLE}RQ options:{StdOutColors.DEFAULT} {self._options}"
             )
 
-        # Enqueue the event listener callbacks using the RQ queue
-        self._rq_queue.enqueue_many([
-            Queue.prepare_data(event_listener, args, kwargs, **self._rq_options)
-            for event_listener in event_listeners
+        # Enqueue the event handlers using the RQ batch method
+        self._queue.enqueue_many([
+            Queue.prepare_data(event_handler, args, kwargs, **self._options)
+            for event_handler in event_handlers
         ])

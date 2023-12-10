@@ -11,7 +11,7 @@ class Logger:
     """
 
     # Strict class attributes
-    __slots__ = ["_name", "_debug"]
+    __slots__ = ("_name", "_debug")
 
     @property
     def debug_enabled(self) -> bool:

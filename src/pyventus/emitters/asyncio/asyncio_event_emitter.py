@@ -1,36 +1,34 @@
 import asyncio
 from asyncio import Future
-from typing import Set, Type, Any, cast, List
+from typing import Set, Type, Any, List
 
-from src.pyventus.core.constants import StdOutColors
 from src.pyventus.emitters import EventEmitter
+from src.pyventus.handlers import EventHandler
 from src.pyventus.linkers import EventLinker
-from src.pyventus.listeners import EventListener
 
 
 class AsyncIOEventEmitter(EventEmitter):
     """
     A class that inherits from `EventEmitter` and uses the `AsyncIO` framework to handle
-    the execution of the event listener callbacks.
+    the execution of the event handlers.
 
     **Asynchronous Execution**: In an asynchronous context where an event loop is already
-    running, the event callbacks are scheduled and processed concurrently on that existing
-    loop. If the event loop is closed before all callbacks complete, any remaining scheduled
-    tasks will be canceled.
+    running, the event handlers are scheduled and processed concurrently on that existing
+    loop. If the event loop is closed before all callbacks complete, any remaining
+    scheduled tasks will be canceled.
 
-    **Synchronous Execution**: In a synchronous context where no event loop is active, a new
-    event loop is started and subsequently closed by the `asyncio.run()` method. Within this
-    loop, it concurrently executes the event listener callbacks using the `asyncio.gather()`
-    method. The loop then waits for all scheduled callbacks to finish before closing. This
-    preserves synchronous execution while still gaining the benefits of the concurrent
-    execution.
+    **Synchronous Execution**: In a synchronous context where no event loop is active, a new event
+    loop is started and subsequently closed by the `asyncio.run()` method. Within this loop, it
+    concurrently executes the event handlers using the `asyncio.gather()` method. The loop then
+    waits for all scheduled callbacks to finish before closing. This preserves synchronous
+    execution while still gaining the benefits of the concurrent execution.
 
     **Examples**:
 
     ```Python
     # Asynchronous Execution.
     async def async_context(event_emitter: EventEmitter = AsyncIOEventEmitter()) -> None:
-        # The event listeners are handled by the already running 
+        # The event handlers are submitted to the already running
         # asyncio event loop, and the execution does not block.
         event_emitter.emit(Event())
     ```
@@ -38,8 +36,8 @@ class AsyncIOEventEmitter(EventEmitter):
     ```Python
     # Synchronous Execution.
     def sync_context(event_emitter: EventEmitter = AsyncIOEventEmitter()) -> None:
-        # The event listeners are handled in a new asyncio event
-        # loop, but it blocks execution until all tasks complete.
+        # The event handlers are submitted to a new asyncio event
+        # loop, but it blocks until all tasks complete.
         event_emitter.emit(Event())
     ```
     """
@@ -66,7 +64,7 @@ class AsyncIOEventEmitter(EventEmitter):
         """
         Initializes an instance of the `AsyncIOEventEmitter` class.
         :param event_linker: Specifies the type of event linker to use for associating
-            events with their respective event listeners. Defaults to `EventLinker`.
+            events with their respective event handlers. Defaults to `EventLinker`.
         :param debug_mode: Specifies the debug mode for the subclass logger. If `None`,
             it is determined based on the execution environment.
         """
@@ -76,7 +74,7 @@ class AsyncIOEventEmitter(EventEmitter):
         # Initialize the set of background futures
         self._background_futures: Set[Future] = set()
 
-    def _execute(self, event_listeners: List[EventListener], /, *args: Any, **kwargs: Any) -> None:
+    def _execute(self, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
         # Check if AsyncIO event loop is running
         is_loop_running: bool = self.__is_loop_running
 
@@ -85,78 +83,19 @@ class AsyncIOEventEmitter(EventEmitter):
             self._logger.debug(action=f"Running:", msg=f"{'Async' if is_loop_running else 'Sync'} context")
 
         if is_loop_running:
-            # Schedule the event listener callbacks
-            self.__ensure_futures(event_listeners, *args, **kwargs)
+            for event_handler in event_handlers:
+                # Schedule the event handler in the running loop as a future
+                future: Future = asyncio.ensure_future(event_handler(*args, **kwargs))
+
+                # Remove the Future from the set of background futures after completion
+                future.add_done_callback(self._background_futures.remove)
+
+                # Add the Future to the set of background futures
+                self._background_futures.add(future)
         else:
             async def _inner_callback():
                 """ Inner callback function to be submitted to `asyncio.run()`. """
+                await asyncio.gather(*[event_handler(*args, **kwargs) for event_handler in event_handlers])
 
-                # Schedule the event listener callbacks
-                self.__ensure_futures(event_listeners, *args, **kwargs)
-
-                # Gather completion of all tasks except this one
-                await asyncio.gather(
-                    *asyncio.all_tasks().difference({asyncio.current_task()}),
-                    return_exceptions=True
-                )
-
-            # Run the event listener callbacks concurrently in a synchronous manner
+            # Run the event handlers concurrently in a synchronous manner
             asyncio.run(_inner_callback())
-
-    def __ensure_futures(self, event_listeners: List[EventListener], /, *args: Any, **kwargs: Any) -> None:
-        """
-        Schedules the event listener callbacks in the running loop as futures.
-
-        :param event_listeners: List of event listeners to be executed.
-        :param args: Positional arguments to pass to the callback functions.
-        :param kwargs: Keyword arguments to pass to the callback functions.
-        :return: None
-        """
-
-        def _done_callback(fut: Future):
-            # Remove the Future from the set of background futures
-            self._background_futures.remove(fut)
-
-            # If the Future was cancelled, return without further execution
-            if fut.cancelled():
-                return
-
-            # Get the exception, if any, from the Future
-            exception: Exception = cast(Exception, fut.exception())
-
-            # No exception, return
-            if not exception:
-                return
-
-            # Log the exception with error level
-            self._logger.error(
-                action="Exception:",
-                msg=f"[{event_listener}] {StdOutColors.RED}Errors:{StdOutColors.DEFAULT} {exception}"
-            )
-
-            if len(args) == 0 or not issubclass(args[0].__class__, Exception):
-                # Emit the exception as an event if the previous arguments were not exceptions
-                self.emit(exception)
-            else:
-                # Log the recursive exception with error level
-                self._logger.error(action="Recursive Exception:", msg=f"Propagating...")
-
-                # Propagate recursive exception
-                raise exception
-
-        for event_listener in event_listeners:
-            # Schedule the event listener callback in the running loop as a future
-            future: Future = asyncio.ensure_future(event_listener(*args, **kwargs))
-            future.add_done_callback(_done_callback)
-
-            # Add the Future to the set of background futures
-            self._background_futures.add(future)
-
-            # Log the execution of the listener, if debug mode is enabled
-            if self._logger.debug_enabled:
-                self._logger.debug(
-                    action="Executing:",
-                    msg=f"[{event_listener}] "
-                        f"{StdOutColors.PURPLE}*args:{StdOutColors.DEFAULT} {args} "
-                        f"{StdOutColors.PURPLE}**kwargs:{StdOutColors.DEFAULT} {kwargs}"
-                )

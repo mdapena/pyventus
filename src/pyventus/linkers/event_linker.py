@@ -1,44 +1,40 @@
 from abc import ABC
 from itertools import chain
-from sys import version_info, gettrace
+from sys import gettrace
 from threading import Lock
-from typing import Dict, List, Mapping, Callable, Type, TypeAlias, Any, Set
+from types import TracebackType
+from typing import TypeAlias, Callable, Mapping, Tuple, Dict, List, Type, Set, Any, final
 
 from src.pyventus.core.constants import StdOutColors
 from src.pyventus.core.exceptions import PyventusException
 from src.pyventus.core.loggers import Logger
 from src.pyventus.events import Event
-from src.pyventus.listeners import EventListener
-
-if version_info >= (3, 10):  # pragma: no cover
-    from typing import ParamSpec
-else:  # pragma: no cover
-    from typing_extensions import ParamSpec
+from src.pyventus.handlers import EventHandler, EventCallbackType, SuccessCallbackType, FailureCallbackType
 
 SubscribableEventType: TypeAlias = Type[Event] | Type[Exception] | str
 """ A type alias representing the supported event types for subscription. """
 
-P = ParamSpec("P")
-""" A generic type to represent the parameter names and types of the callback function. """
-
 
 class EventLinker(ABC):
     """
-    A base class that acts as a global registry for linking events with their associated event listeners.
+    A base class that acts as a global registry for linking events with their associated event
+    handlers.
 
-    The `EventLinker` class provides a centralized mechanism for managing event subscriptions, unsubscriptions,
-    and retrieval of events and their associated event listeners. It acts as a global registry, ensuring that
-    events and their listeners are organized and easily accessible.
+    The `EventLinker` class provides a centralized mechanism for managing event subscriptions,
+    unsubscriptions, and retrieval of events and their associated event handlers. It acts as a
+    global registry, ensuring that events and their handlers are organized and easily accessible.
 
-    **Note**: The `EventLinker` class can be subclassed to create specific namespaces or contexts for managing
-    events and event listeners separately. By subclassing `EventLinker`, users can organize event subscriptions
-    and listeners within different scopes, providing modularity and flexibility in event management. Subclassing
-    also allows users to configure settings of the `EventLinker` to suit their specific use cases.
+    **Note**: The `EventLinker` class can be subclassed to create specific namespaces or contexts
+    for managing events and event handlers separately. By subclassing the `EventLinker`, users can
+    organize event subscriptions and handlers within different scopes, providing modularity and
+    flexibility in event management. Subclassing also allows users to configure settings of the
+    `EventLinker` to suit their specific use cases.
 
-    **Example**: To create a subclass of the `EventLinker` and register an event listener, you can follow these steps:
+    **Example**: To create a subclass of the `EventLinker` and register an event handler, you
+    can follow these steps:
 
     ```Python
-    class CustomEventLinker(EventLinker, max_event_listeners=10):
+    class CustomEventLinker(EventLinker, max_event_handlers=10):
         pass
 
     @CustomEventLinker.on(Event)
@@ -47,25 +43,161 @@ class EventLinker(ABC):
         pass
     ```
 
-    **Thread-Safe:** The `EventLinker` has been implemented with thread safety in mind. All of its methods synchronize
-    access to prevent race conditions when managing events and event listeners across multiple threads. This ensures
-    that concurrent operations on the `EventLinker` are properly synchronized, avoiding data inconsistencies and race
-    conditions.
+    **Thread-Safe:** The `EventLinker` has been implemented with thread safety in mind. All
+    of its methods synchronize access to prevent race conditions when managing events and event
+    handlers across multiple threads. This ensures that concurrent operations on the `EventLinker`
+    are properly synchronized, avoiding data inconsistencies and race conditions.
     """
 
-    __event_registry: Dict[str, List[EventListener]] = {}
+    @final
+    class EventLinkageWrapper:
+        """
+        A class that serves as a wrapper for event linking operations, providing a simplified
+        interface for subscribing events and associating callbacks.
+
+        This class can be used as either a decorator or context manager. As a decorator, it
+        automatically subscribes the decorated callback to the specified events.
+
+        When used as a context manager via the `with` statement, it allows multiple callbacks
+        to be associated with events within the context block.
+
+        Also, this class is not intended to be subclassed or created manually. It is used
+        internally to serves as a wrapper for event linking operation.
+        """
+
+        @property
+        def on_event(self) -> Callable[[EventCallbackType], EventCallbackType]:
+            """
+            Decorator that sets the main callback for the event. This callback will be invoked
+            when the associated event occurs.
+            :return: The decorated callback.
+            """
+
+            def _wrapper(callback: EventCallbackType) -> EventCallbackType:
+                self._event_callback = callback
+                return callback
+
+            return _wrapper
+
+        @property
+        def on_success(self) -> Callable[[SuccessCallbackType], SuccessCallbackType]:
+            """
+            Decorator that sets the success callback. This callback will be invoked when the
+            event execution completes successfully.
+            :return: The decorated callback.
+            """
+
+            def _wrapper(callback: SuccessCallbackType) -> SuccessCallbackType:
+                self._success_callback = callback
+                return callback
+
+            return _wrapper
+
+        @property
+        def on_failure(self) -> Callable[[FailureCallbackType], FailureCallbackType]:
+            """
+            Decorator that sets the failure callback. This callback will be invoked when the
+            event execution fails.
+            :return: The decorated callback.
+            """
+
+            def _wrapper(callback: FailureCallbackType) -> FailureCallbackType:
+                self._failure_callback = callback
+                return callback
+
+            return _wrapper
+
+        def __init__(self, *events: SubscribableEventType, event_linker: Type['EventLinker'], once: bool):
+            """
+            Initializes the wrapper instance.
+            :param events: The events to link/subscribe to.
+            :param event_linker: The event linker type for associating events with callbacks.
+            :param once: Whether the callback is a one-time subscription.
+            """
+            self._events: Tuple[SubscribableEventType, ...] = events
+            self._event_linker: Type[EventLinker] = event_linker
+            self._once: bool = once
+
+            self._event_callback: EventCallbackType | None = None  # type: ignore
+            self._success_callback: SuccessCallbackType | None = None  # type: ignore
+            self._failure_callback: FailureCallbackType | None = None  # type: ignore
+
+        def __call__(self, callback: EventCallbackType) -> EventCallbackType:
+            """
+            Decorates a callback to subscribe it to the specified events.
+            :param callback: The callback to associate.
+            :return: The decorated callback.
+            """
+            self._event_callback = callback
+            self._event_linker.subscribe(
+                *self._events,
+                event_callback=self._event_callback,
+                success_callback=None,
+                failure_callback=None,
+                once=self._once
+            )
+            del self
+            return callback
+
+        def __enter__(self) -> 'EventLinker.EventLinkageWrapper':
+            """
+            Enters the linkage context block, allowing multiple callbacks to be associated
+            with events within the block.
+            :return: The context manager object
+            """
+            return self
+
+        def __exit__(
+                self,
+                exc_type: Type[BaseException] | None,
+                exc_val: BaseException | None,
+                exc_tb: TracebackType | None
+        ) -> None:
+            """
+            Exits the linkage context manager, subscribing any callbacks associated within the
+            block to the specified events. Also performs any cleanup.
+            :param exc_type: The type of the exception raised, if any.
+            :param exc_val: The exception object raised, if any.
+            :param exc_tb: The traceback information, if any.
+            :return: None
+            """
+            self._event_linker.subscribe(
+                *self._events,
+                event_callback=self._event_callback,
+                success_callback=self._success_callback,
+                failure_callback=self._failure_callback,
+                once=self._once
+            )
+            del self
+
+    __event_registry: Dict[str, List[EventHandler]] = {}
     """ 
-    A dictionary that serves as a container for storing events and their respective event listeners.
-    The keys represent event names, and the values are lists of `EventListener` objects. 
+    A dictionary that serves as a container for storing events and their respective event handlers.
+    The keys represent event names, and the values are lists of `EventHandler` objects. 
     """
 
-    __max_event_listeners: int | None = None
-    """ The maximum number of `EventListener` allowed per event, or None if no limit. """
+    __max_event_handlers: int | None = None
+    """ The maximum number of `EventHandlers` allowed per event, or None if no limit. """
+
+    __default_success_callback: SuccessCallbackType | None = None
+    """ 
+    Represents the default success callback function that will be assigned to event handlers in the
+    absence of a specific success callback. This callback will be executed upon successful completion
+    of the event execution in each event handler.
+    """
+
+    __default_failure_callback: FailureCallbackType | None = None
+    """
+    Represents the default failure callback function that will be assigned to event handlers in the 
+    absence of a specific failure callback. This callback will be executed when the event execution
+    fails in each event handler.
+    """
 
     __thread_lock: Lock = Lock()
     """
-    A `threading.Lock` object used for thread synchronization when accessing and modifying the event registry
-    to ensure thread safety. It prevents multiple threads from accessing or modifying the registry simultaneously.
+    A `threading.Lock` object used for thread synchronization when accessing and modifying the event
+    registry to ensure thread safety. It prevents multiple threads from accessing or modifying the 
+    registry simultaneously.
     """
 
     __logger: Logger = Logger(name="EventLinker", debug=bool(gettrace() is not None))
@@ -75,20 +207,31 @@ class EventLinker(ABC):
     function. The debug mode can also be influenced by subclassing and overridden in subclasses.
     """
 
-    def __init_subclass__(cls, max_event_listeners: int | None = None, debug_mode: bool | None = None, **kwargs):
+    def __init_subclass__(
+            cls,
+            max_event_handlers: int | None = None,
+            default_success_callback: SuccessCallbackType | None = None,
+            default_failure_callback: FailureCallbackType | None = None,
+            debug_mode: bool | None = None,
+            **kwargs: Any
+    ) -> None:
         """
         Custom `__init_subclass__` method called when a subclass is created.
 
-        This method initializes the subclass by setting up the event registry and thread lock.
-        It also allows specifying the maximum number of event listeners per event.
+        This method initializes the subclass by setting up the event registry and thread
+        lock. It also allows specifying the maximum number of event handlers per event.
 
-        :param max_event_listeners: The maximum number of `EventListener`
-            allowed per event, or `None` if no limit.
-        :param debug_mode: Specifies the debug mode for the subclass logger.
-            If `None`, it is determined based on the execution environment.
+        :param max_event_handlers: The maximum number of event handlers allowed per event,
+            or `None` if no limit.
+        :param default_success_callback: The default callback to be assigned as the success
+            callback in the event handlers when no specific success callback is provided.
+        :param default_failure_callback: The default callback to be assigned as the failure
+            callback in the event handlers when no specific failure callback is provided.
+        :param debug_mode: Specifies the debug mode for the subclass logger. If `None`,
+            it is determined based on the execution environment.
         :param kwargs: The keyword arguments to pass to the superclass
             `__init_subclass__` method.
-        :raises PyventusException: If `max_event_listeners` is less than 1.
+        :raises PyventusException: If `max_event_handlers` is less than 1.
         :return: Any
         """
         # Call the parent class' __init_subclass__ method
@@ -100,12 +243,26 @@ class EventLinker(ABC):
         # Create a lock object for thread synchronization
         cls.__thread_lock = Lock()
 
-        # Validate the max_event_listeners argument
-        if max_event_listeners is not None and max_event_listeners < 1:
-            raise PyventusException("The 'max_event_listeners' argument must be greater than or equal to 0.")
+        # Validate the max_event_handlers argument
+        if max_event_handlers is not None and max_event_handlers < 1:
+            raise PyventusException("The 'max_event_handlers' argument must be greater than or equal to 1.")
 
-        # Set the maximum number of event listeners per event
-        cls.__max_event_listeners = max_event_listeners
+        # Set the maximum number of event handlers per event
+        cls.__max_event_handlers = max_event_handlers
+
+        # Validate the default success callback, if any
+        if default_success_callback:
+            EventHandler.validate_callback(callback=default_success_callback)
+
+        # Set the default success callback
+        cls.__default_success_callback = default_success_callback
+
+        # Validate the default failure callback, if any
+        if default_failure_callback:
+            EventHandler.validate_callback(callback=default_failure_callback)
+
+        # Set the default failure callback
+        cls.__default_failure_callback = default_failure_callback
 
         # Set up the logger for the subclass
         cls.__logger = Logger(
@@ -114,8 +271,16 @@ class EventLinker(ABC):
         )
 
     @classmethod
-    @property
-    def events(cls) -> List[str]:
+    def get_event_registry(cls) -> Mapping[str, List[EventHandler]]:
+        """
+        Retrieves the event registry mapping.
+        :return: A mapping of event names to event handlers.
+        """
+        with cls.__thread_lock:
+            return {event: list(event_handlers) for event, event_handlers in cls.__event_registry.items()}
+
+    @classmethod
+    def get_events(cls) -> List[str]:
         """
         Returns a list of all the registered event names.
         :return: A list of event names.
@@ -124,41 +289,49 @@ class EventLinker(ABC):
             return list(cls.__event_registry.keys())
 
     @classmethod
-    @property
-    def event_listeners(cls) -> List[EventListener]:
+    def get_event_handlers(cls) -> List[EventHandler]:
         """
-        Retrieves a list of non-duplicated event listeners
+        Retrieves a list of non-duplicated event handlers
         who have been registered across all events.
-        :return: A list of event listeners.
+        :return: A list of event handlers.
         """
         with cls.__thread_lock:
             return list(set(chain(*cls.__event_registry.values())))
 
     @classmethod
-    @property
-    def event_registry(cls) -> Mapping[str, List[EventListener]]:
+    def get_max_event_handlers(cls) -> None | int:
         """
-        Retrieves the event registry mapping.
-        :return: A mapping of event names to event listeners.
+        Retrieves the maximum number of handlers allowed per event.
+        :return: The maximum number of handlers or None if there is no limit.
         """
-        with cls.__thread_lock:
-            return {event: list(event_listeners) for event, event_listeners in cls.__event_registry.items()}
+        return cls.__max_event_handlers
 
     @classmethod
-    @property
-    def max_event_listeners(cls) -> None | int:
+    def get_default_success_callback(cls) -> SuccessCallbackType | None:
         """
-        Retrieves the maximum number of listeners allowed per event.
-        :return: The maximum number of listeners or None if there is no limit.
+        Retrieves the default callback to be assigned as the success callback in
+            the event handlers when no specific success callback is provided.
+        :return: The default callback to be assigned as the success callback in
+            the event handlers when no specific success callback is provided.
         """
-        return cls.__max_event_listeners
+        return cls.__default_success_callback
 
     @classmethod
-    @property
-    def _logger(cls) -> Logger:
+    def get_default_failure_callback(cls) -> FailureCallbackType | None:
+        """
+        Retrieves the default callback to be assigned as the failure callback
+            in the event handlers when no specific failure callback is provided.
+        :return: The default callback to be assigned as the failure callback
+            in the event handlers when no specific failure callback is provided.
+        """
+        return cls.__default_failure_callback
+
+    @classmethod
+    def _get_logger(cls) -> Logger:
         """
         Returns the class-level logger instance.
-        :return: The class-level logger instance used for logging events and debugging information.
+        :return: The class-level logger instance used for logging events and
+            debugging information.
         """
         return cls.__logger
 
@@ -168,8 +341,8 @@ class EventLinker(ABC):
         Determines the event string key based on the given event.
         :param event: The event to obtain the key for.
         :return: The event string key.
-        :raise PyventusException: If the `event` argument is None
-            or if the event type is not supported.
+        :raises PyventusException: If the `event` argument is None or if
+            the event type is not supported.
         """
         # Validate the event argument
         if event is None:
@@ -186,31 +359,31 @@ class EventLinker(ABC):
             raise PyventusException('Unsupported event type')
 
     @classmethod
-    def get_events_by_listener(cls, event_listener: EventListener) -> List[str]:
+    def get_events_by_handler(cls, event_handler: EventHandler) -> List[str]:
         """
-        Retrieves a list of event names associated with the specified event listener.
-        :param event_listener: The listener to retrieve the associated events for.
+        Retrieves a list of event names associated with the specified event handler.
+        :param event_handler: The handler to retrieve the associated events for.
         :return: A list of event names.
-        :raise PyventusException: If the `event_listener` argument is None.
+        :raise PyventusException: If the `event_handler` argument is None.
         """
-        # Validate the event_listener argument
-        if event_listener is None:
-            raise PyventusException("The 'event_listener' argument cannot be None.")
+        # Validate the event_handler argument
+        if event_handler is None:
+            raise PyventusException("The 'event_handler' argument cannot be None.")
 
         with cls.__thread_lock:
             return [
-                event
-                for event, event_listeners in cls.__event_registry.items()
-                if event_listener in event_listeners
+                event_key
+                for event_key, event_handlers in cls.__event_registry.items()
+                if event_handler in event_handlers
             ]
 
     @classmethod
-    def get_listeners_by_events(cls, *events: SubscribableEventType) -> List[EventListener]:
+    def get_handlers_by_events(cls, *events: SubscribableEventType) -> List[EventHandler]:
         """
-        Retrieves a list of non-duplicated event listeners associated with the specified events.
-        :param events: Events to retrieve the listeners for.
-        :return: A list of event listeners.
-        :raise PyventusException: If the `events` argument is None or empty.
+        Retrieves a list of non-duplicated event handlers associated with the specified events.
+        :param events: Events to retrieve the handlers for.
+        :return: A list of event handlers.
+        :raise PyventusException: If the `events` argument is None, empty or unsupported.
         """
         # Validate the events argument
         if events is None or len(events) <= 0:
@@ -221,53 +394,53 @@ class EventLinker(ABC):
 
         with cls.__thread_lock:
             return list({
-                event_listener
+                event_handler
                 for event_key in event_keys
-                for event_listener in cls.__event_registry.get(event_key, [])
+                for event_handler in cls.__event_registry.get(event_key, [])
             })
 
     @classmethod
-    def once(cls, *events: SubscribableEventType) -> Callable[[Callable[P, Any]], Callable[P, Any]]:
+    def once(cls, *events: SubscribableEventType) -> EventLinkageWrapper:
         """
-        Decorator that subscribes a callback function to the specified events to be invoked only once.
-        This decorator is used to conveniently subscribe a callback function as a one-time listener.
+        Decorator that subscribes a callback to the specified events to be invoked only once.
+        This decorator is used to conveniently subscribe a callback as a one-time handler.
         :param events: The events to subscribe to.
-        :return: The decorator function that wraps the callback.
+        :return: The decorator that wraps the callback.
         """
-
-        def _decorator(callback: Callable[P, Any]) -> Callable[P, Any]:
-            cls.subscribe(*events, callback=callback, once=True)
-            return callback
-
-        return _decorator
+        return EventLinker.EventLinkageWrapper(*events, event_linker=cls, once=True)
 
     @classmethod
-    def on(cls, *events: SubscribableEventType) -> Callable[[Callable[P, Any]], Callable[P, Any]]:
+    def on(cls, *events: SubscribableEventType) -> EventLinkageWrapper:
         """
-        Decorator that subscribes a callback function to the specified events.
+        Decorator that subscribes a callback to the specified events.
         :param events: The events to subscribe to.
-        :return: The decorator function that wraps the callback.
+        :return: The decorator that wraps the callback.
         """
-
-        def _decorator(callback: Callable[P, Any]) -> Callable[P, Any]:
-            cls.subscribe(*events, callback=callback, once=False)
-            return callback
-
-        return _decorator
+        return EventLinker.EventLinkageWrapper(*events, event_linker=cls, once=False)
 
     @classmethod
-    def subscribe(cls, *events: SubscribableEventType, callback: Callable[P, Any], once: bool = False) -> EventListener:
+    def subscribe(
+            cls,
+            *events: SubscribableEventType,
+            event_callback: EventCallbackType,
+            success_callback: SuccessCallbackType | None = None,
+            failure_callback: FailureCallbackType | None = None,
+            once: bool = False
+    ) -> EventHandler:
         """
-        Subscribes a callback function to the specified events.
+        Subscribes callbacks to the specified events.
         :param events: The events to subscribe to.
-        :param callback: The callback function to associate with the events.
-        :param once: Specifies if the callback function is a one-time listener. If set to `True`,
-            the listener will be invoked once when the event occurs and then automatically unsubscribed.
-            If set to `False` (default), the listener can be invoked multiple times until explicitly
+        :param event_callback: The callback to be executed when the event occurs.
+        :param success_callback: The callback to be executed when the event execution completes
+            successfully.
+        :param failure_callback: The callback to be executed when the event execution fails.
+        :param once: Specifies if the callback is a one-time subscription. If set to `True`,
+            the handler will be invoked once when the event occurs and then automatically unsubscribed.
+            If set to `False` (default), the handler can be invoked multiple times until explicitly
             unsubscribed.
-        :return: The event listener object associated with the subscribed callback function.
-        :raise PyventusException: If the maximum number of listeners for an event has been exceeded
-            or if the `events` argument is None or empty.
+        :return: The event handler object associated with the events.
+        :raises PyventusException: If the maximum number of handlers for an event has been exceeded
+            or if the `events` argument is None, empty or unsupported.
         """
         # Validate the events argument
         if events is None or len(events) <= 0:
@@ -279,141 +452,149 @@ class EventLinker(ABC):
         # Acquire the lock to ensure exclusive access to the event registry
         with cls.__thread_lock:
 
-            # Check if the maximum number of listeners property is set
-            if cls.__max_event_listeners is not None:
+            # Check if the maximum number of handlers property is set
+            if cls.__max_event_handlers is not None:
 
-                # For each event key, check if the maximum number of listeners for the event has been exceeded
+                # For each event key, check if the maximum number of handlers for the event has been exceeded
                 for event_key in event_keys:
-                    if len(cls.__event_registry.get(event_key, [])) >= cls.__max_event_listeners:
+                    if len(cls.__event_registry.get(event_key, [])) >= cls.__max_event_handlers:
                         raise PyventusException(
-                            f"The event '{event_key}' has exceeded the maximum number of listeners allowed. "
-                            f"The '{callback.__name__}' listener cannot be added."
+                            f"The event '{event_key}' has exceeded the maximum number of handlers allowed. The "
+                            f"'{event_callback.__name__ if hasattr(event_callback, '__name__') else event_callback}'"
+                            f" callback cannot be added."
                         )
 
-            # Create a new event listener
-            event_listener: EventListener = EventListener(callback=callback, once=once)
+            # Create a new event handler
+            event_handler: EventHandler = EventHandler(
+                event_callback=event_callback,
+                success_callback=success_callback if success_callback else cls.__default_success_callback,
+                failure_callback=failure_callback if failure_callback else cls.__default_failure_callback,
+                once=once,
+            )
 
-            # For each event key, register the event listener
+            # For each event key, register the event handler
             for event_key in event_keys:
 
                 # If the event key is not present in the event registry, create a new empty list for it
                 if event_key not in cls.__event_registry:
                     cls.__event_registry[event_key] = []
 
-                # Append the event listener to the list of listeners for the event
-                cls.__event_registry[event_key].append(event_listener)
+                # Append the event handler to the list of handlers for the event
+                cls.__event_registry[event_key].append(event_handler)
 
                 # Log the subscription if debug mode is enabled
                 if cls.__logger.debug_enabled:
                     cls.__logger.debug(
                         action="Subscribed:",
-                        msg=f"[{event_listener}] {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} [{event_key}]"
+                        msg=f"[{event_handler}] {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} [{event_key}]"
                     )
 
-        # Return the new event listener
-        return event_listener
+        # Return the new event handler
+        return event_handler
 
     @classmethod
-    def unsubscribe(cls, *events: SubscribableEventType, event_listener: EventListener) -> bool:
+    def unsubscribe(cls, *events: SubscribableEventType, event_handler: EventHandler) -> bool:
         """
-        Unsubscribes an event listener from the specified events. The method removes the event
-        listener from the event registry and, if there are no more listeners for a particular
+        Unsubscribes an event handler from the specified events. The method removes the event
+        handler from the event registry and, if there are no more handlers for a particular
         event, removes that event from the registry as well.
         :param events: The events to unsubscribe from.
-        :param event_listener: The event listener to unsubscribe.
-        :return: `True` if the event listener associated with the events was found and removed, `False` otherwise.
-        :raise PyventusException: If the `events` argument is None, empty or if the `event_listener` argument is None.
+        :param event_handler: The event handler to unsubscribe.
+        :return: `True` if the event handler associated with the events was found and removed,
+            `False` otherwise.
+        :raises PyventusException: If the `events` argument is None, empty, unsupported or if
+            the `event_handler` argument is None.
         """
         # Validate the events argument
         if events is None or len(events) <= 0:
             raise PyventusException("The 'events' argument cannot be None or empty.")
 
-        # Validate the event_listener argument
-        if event_listener is None:
-            raise PyventusException("The 'event_listener' argument cannot be None.")
+        # Validate the event_handler argument
+        if event_handler is None:
+            raise PyventusException("The 'event_handler' argument cannot be None.")
 
         # Retrieve all unique event keys
         event_keys: Set[str] = set([cls._get_event_key(event=event) for event in events])
 
-        # Flag indicating whether the event listener was successfully removed
+        # Flag indicating whether the event handler was successfully removed
         deleted: bool = False
 
         # Obtain the lock to ensure exclusive access to the event registry
         with cls.__thread_lock:
 
-            # For each event key, check and remove the event listener if found
+            # For each event key, check and remove the event handler if found
             for event_key in event_keys:
-                # Get the list of event listeners for the event key, or an empty list if it doesn't exist
-                event_listeners = cls.__event_registry.get(event_key, [])
+                # Get the list of event handlers for the event key, or an empty list if it doesn't exist
+                event_handlers = cls.__event_registry.get(event_key, [])
 
-                # Check if the event listener is present in the list of listeners for the event
-                if event_listener in event_listeners:
-                    # Remove the event listener from the list of listeners
-                    event_listeners.remove(event_listener)
+                # Check if the event handler is present in the list of handlers for the event
+                if event_handler in event_handlers:
+                    # Remove the event handler from the list of handlers
+                    event_handlers.remove(event_handler)
                     deleted = True
 
-                    # If there are no more listeners for the event, remove the event key from the registry
-                    if not event_listeners:
+                    # If there are no more handlers for the event, remove the event key from the registry
+                    if not event_handlers:
                         cls.__event_registry.pop(event_key)
 
                     # Log the unsubscription if debug mode is enabled
                     if cls.__logger.debug_enabled:
                         cls.__logger.debug(
                             action="Unsubscribed",
-                            msg=f"[{event_listener}] {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} [{event_key}]"
+                            msg=f"[{event_handler}] {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} [{event_key}]"
                         )
 
-        # Return the flag indicating whether the event listener was deleted
+        # Return the flag indicating whether the event handler was deleted
         return deleted
 
     @classmethod
-    def remove_event_listener(cls, event_listener: EventListener) -> bool:
+    def remove_event_handler(cls, event_handler: EventHandler) -> bool:
         """
-        Removes an event listener from all subscribed events. If there are no more
-        listeners for a particular event, that event is removed from the registry.
-        :param event_listener: The event listener to remove.
-        :return: `True` if the event listener was found and removed, `False` otherwise.
-        :raise PyventusException: If the `event_listener` argument is None.
+        Removes an event handler from all subscribed events. If there are no more
+        handlers for a particular event, that event is removed from the registry.
+        :param event_handler: The event handler to remove.
+        :return: `True` if the event handler was found and removed, `False` otherwise.
+        :raises PyventusException: If the `event_handler` argument is None.
         """
-        # Validate the event_listener argument
-        if event_listener is None:
-            raise PyventusException("The 'event_listener' argument cannot be None.")
+        # Validate the event_handler argument
+        if event_handler is None:
+            raise PyventusException("The 'event_handler' argument cannot be None.")
 
-        # A flag indicating if the event listener gets removed
+        # A flag indicating if the event handler gets removed
         deleted: bool = False
 
         # Acquire the lock to ensure exclusive access to the event registry
         with cls.__thread_lock:
 
-            # Iterate through each event and its associated listeners in the event registry
+            # Iterate through each event and its associated handlers in the event registry
             for event_key in list(cls.__event_registry.keys()):
-                # Get the list of event listeners for the event key, or an empty list if it doesn't exist
-                event_listeners = cls.__event_registry.get(event_key, [])
+                # Get the list of event handlers for the event key, or an empty list if it doesn't exist
+                event_handlers = cls.__event_registry.get(event_key, [])
 
-                # Check if the event listener is present in the list of listeners for the event
-                if event_listener in event_listeners:
-                    # Remove the event listener from the list of listeners
-                    event_listeners.remove(event_listener)
+                # Check if the event handler is present in the list of handlers for the event
+                if event_handler in event_handlers:
+                    # Remove the event handler from the list of handlers
+                    event_handlers.remove(event_handler)
                     deleted = True
 
-                    # If there are no more listeners for the event, remove the event from the registry
-                    if not event_listeners:
+                    # If there are no more handlers for the event, remove the event from the registry
+                    if not event_handlers:
                         cls.__event_registry.pop(event_key)
 
-                    # Log the removal of the event listener if debug mode is enabled
+                    # Log the removal of the event handler if debug mode is enabled
                     if cls.__logger.debug_enabled:
                         cls.__logger.debug(
-                            action="Listener Removed:",
-                            msg=f"[{event_listener}] {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} [{event_key}]"
+                            action="Handler Removed:",
+                            msg=f"[{event_handler}] {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} [{event_key}]"
                         )
 
-        # Return the flag indicating if the event listener was found and deleted
+        # Return the flag indicating if the event handler was found and deleted
         return deleted
 
     @classmethod
     def remove_event(cls, event: SubscribableEventType) -> bool:
         """
-        Removes an event and all associated event listeners.
+        Removes an event and all associated event handlers.
         :param event: The event to remove.
         :return: `True` if the event was found and removed, `False` otherwise.
         """
@@ -439,7 +620,7 @@ class EventLinker(ABC):
     @classmethod
     def remove_all(cls) -> bool:
         """
-        Removes all events and event listeners.
+        Removes all events and event handlers.
         :return: `True` if the events were found and removed, `False` otherwise.
         """
         # Acquire the lock to ensure exclusive access to the event registry
@@ -449,6 +630,6 @@ class EventLinker(ABC):
 
         # Log a debug message if debug mode is enabled
         if cls.__logger.debug_enabled:
-            cls.__logger.debug(msg=f"All events and listeners were successfully removed")
+            cls.__logger.debug(msg="All events and handlers were successfully removed")
 
         return True

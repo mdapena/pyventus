@@ -1,51 +1,44 @@
 import asyncio
-from asyncio import Future
 from concurrent.futures import Executor, ThreadPoolExecutor
 from types import TracebackType
-from typing import Any, Type, cast, List
+from typing import Any, Type, List
 
-from src.pyventus.core.constants import StdOutColors
-from src.pyventus.emitters import EventEmitter, EmittableEventType
+from src.pyventus.core.exceptions import PyventusException
+from src.pyventus.emitters import EventEmitter
+from src.pyventus.handlers import EventHandler
 from src.pyventus.linkers import EventLinker
-from src.pyventus.listeners import EventListener
 
 
 class ExecutorEventEmitter(EventEmitter):
     """
-    An event emitter that executes event listener callbacks concurrently using an `Executor`.
+    An event emitter that executes event handlers concurrently using an `Executor`.
 
     This class utilizes the `concurrent.futures` Executor base class to handle asynchronous
-    execution of event listener callbacks. It can work with either `ThreadPoolExecutor` for
-    thread-based execution or `ProcessPoolExecutor` for process-based execution.
+    execution of event handlers. It can work with either `ThreadPoolExecutor` for thread-based
+    execution or `ProcessPoolExecutor` for process-based execution.
 
     By inheriting from `EventEmitter` and utilizing the `Executor` interface, this class
-    provides a consistent way to emit events and execute listeners concurrently in either
+    provides a consistent way to emit events and execute handlers concurrently in either
     threads or processes. This allows choosing the optimal execution approach based on
-    application requirements.
+    application needs.
 
-    **Note:** When used, all listener callbacks, including those that arise during emission,
-    will be executed concurrently via the underlying `Executor`.
-
-    **Important:** It is important to properly manage the underlying `Executor` when using
+    **Note:** It is important to properly manage the underlying `Executor` when using
     this event emitter. Once finished emitting events, call the `shutdown()` method to
     signal the executor to free any resources for pending futures.
 
-    You can avoid having to call this method explicitly if you use the `with` statement,
-    which will shut down the `Executor` (waiting as if `Executor.shutdown()` were called
-    with `wait` set to `True`).
+    - You can avoid having to call this method explicitly if you use the `with` statement,
+      which will shut down the `Executor` (waiting as if `Executor.shutdown()` were called
+      with `wait` set to `True`).
 
     **Example:** You can use this event emitter in both synchronous and asynchronous
     contexts.
 
     ```Python
-    import asyncio
-
     from pyventus import ExecutorEventEmitter, EventLinker
 
 
     @EventLinker.on('StringEvent')
     async def event_callback():
-        await asyncio.sleep(1)
         print("Event received!")
 
 
@@ -59,14 +52,11 @@ class ExecutorEventEmitter(EventEmitter):
     ```
 
     ```Python
-    import asyncio
-
     from pyventus import ExecutorEventEmitter, EventLinker
 
 
     @EventLinker.on('StringEvent')
     async def event_callback():
-        await asyncio.sleep(1)
         print("Event received!")
 
 
@@ -88,15 +78,19 @@ class ExecutorEventEmitter(EventEmitter):
     ):
         """
         Initializes an instance of the `ExecutorEventEmitter` class.
-        :param executor: The executor object used for executing event listener callbacks.
-            Defaults to `ThreadPoolExecutor()`.
+        :param executor: The executor object used for executing event handlers. Defaults
+            to `ThreadPoolExecutor()`.
         :param event_linker: Specifies the type of event linker to use for associating
-            events with their respective event listeners. Defaults to `EventLinker`.
+            events with their respective event handlers. Defaults to `EventLinker`.
         :param debug_mode: Specifies the debug mode for the subclass logger. If `None`,
             it is determined based on the execution environment.
         """
         # Call the parent class' __init__ method to set up the event linker
         super().__init__(event_linker=event_linker, debug_mode=debug_mode)
+
+        # Validate the executor argument
+        if executor is None or not issubclass(executor.__class__, Executor):
+            raise PyventusException("The 'executor' argument must be a valid executor.")
 
         # Set the executor object reference
         self._executor: Executor = executor
@@ -108,16 +102,20 @@ class ExecutorEventEmitter(EventEmitter):
         """
         return self
 
-    def __exit__(self, exc_type: Type[BaseException], exc_value: BaseException, traceback: TracebackType) -> bool:
+    def __exit__(
+            self,
+            exc_type: Type[BaseException] | None,
+            exc_val: BaseException | None,
+            exc_tb: TracebackType | None
+    ) -> None:
         """
         Cleans up the executor resources when exiting the context.
         :param exc_type: The exception type, if any.
-        :param exc_value: The exception value, if any.
-        :param traceback: The traceback information, if any.
+        :param exc_val: The exception value, if any.
+        :param exc_tb: The traceback information, if any.
         :return: A boolean indicating whether to propagate any exception or not.
         """
         self.shutdown(wait=True)
-        return False
 
     def shutdown(self, wait: bool = True, cancel_futures: bool = False) -> None:
         """
@@ -129,74 +127,29 @@ class ExecutorEventEmitter(EventEmitter):
         """
         self._executor.shutdown(wait=wait, cancel_futures=cancel_futures)
 
-    def emit(self, /, event: EmittableEventType, *args: Any, **kwargs: Any) -> None:
-        # Wraps the actual emit in an async task that is submitted to the
-        # executor. This ensures listeners are executed concurrently.
-        # Any exceptions are gathered before returning.
+    def _execute(self, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
+        # Run the event handlers
+        # concurrently in the executor
+        self._executor.submit(
+            ExecutorEventEmitter.__execution_callback,
+            event_handlers,
+            *args, **kwargs
+        )
 
-        # Store reference to superclass' emit method
-        super_ref: EventEmitter = super()
+    @staticmethod
+    def __execution_callback(event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
+        """
+        Executes a list of event handlers concurrently using `asyncio.gather()`.
+        This method serves as a callback to be passed to the executor.
+        :param event_handlers: A list of event handlers.
+        :param args: Positional arguments.
+        :param kwargs: Keyword arguments.
+        :return: None
+        """
 
         async def _inner_callback():
-            """ Inner callback function submitted to executor. """
+            """ Inner callback to be submitted to `asyncio.run()`. """
 
-            # Emit event using superclass method
-            super_ref.emit(event, *args, **kwargs)
+            await asyncio.gather(*[event_handler(*args, **kwargs) for event_handler in event_handlers])
 
-            # Gather completion of all tasks except this one
-            await asyncio.gather(
-                *asyncio.all_tasks().difference({asyncio.current_task()}),
-                return_exceptions=True
-            )
-
-        # Submit inner callback to executor
-        self._executor.submit(asyncio.run, _inner_callback())
-
-    def _execute(self, event_listeners: List[EventListener], /, *args: Any, **kwargs: Any) -> None:
-        # Store super's emit method for handling exceptions
-        super_ref: EventEmitter = super()
-
-        def _done_callback(fut: Future):
-            # Check if future was cancelled
-            if fut.cancelled():
-                return
-
-            # Get exception if any
-            exception: Exception = cast(Exception, fut.exception())
-
-            # No exception, return
-            if not exception:
-                return
-
-            # Check args to see if event was already an Exception
-            self._logger.error(
-                action="Exception:",
-                msg=f"[{event_listener}] {StdOutColors.RED}Errors:{StdOutColors.DEFAULT} {exception}"
-            )
-
-            if len(args) == 0 or not issubclass(args[0].__class__, Exception):
-                # If the event was not already an exception, emit a new exception event.
-                # We use the super method to emit the exception event because we are
-                # already in the context of the executor, and there is no need to
-                # submit the emit method to the executor again.
-                super_ref.emit(exception)
-            else:
-                # Log the recursive exception with error level
-                self._logger.error(action="Recursive Exception:", msg=f"Propagating...")
-
-                # Propagate recursive exception
-                raise exception
-
-        for event_listener in event_listeners:
-            # Schedule the event listener callback in the running loop as a future
-            future: Future = asyncio.ensure_future(event_listener(*args, **kwargs))
-            future.add_done_callback(_done_callback)
-
-            # Log the execution of the listener, if debug mode is enabled
-            if self._logger.debug_enabled:
-                self._logger.debug(
-                    action="Executing:",
-                    msg=f"[{event_listener}] "
-                        f"{StdOutColors.PURPLE}*args:{StdOutColors.DEFAULT} {args} "
-                        f"{StdOutColors.PURPLE}**kwargs:{StdOutColors.DEFAULT} {kwargs}"
-                )
+        asyncio.run(_inner_callback())

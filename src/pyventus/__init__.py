@@ -7,8 +7,8 @@ from .emitters.asyncio import AsyncIOEventEmitter
 from .emitters.executor import ExecutorEventEmitter
 from .emitters.rq import RQEventEmitter
 from .events import Event
+from .handlers import EventHandler
 from .linkers import EventLinker, SubscribableEventType
-from .listeners import EventListener
 
 __all__ = [
     'EventEmitter',
@@ -17,7 +17,7 @@ __all__ = [
     'ExecutorEventEmitter',
     'RQEventEmitter',
     'Event',
+    'EventHandler',
     'EventLinker',
     'SubscribableEventType',
-    'EventListener',
 ]

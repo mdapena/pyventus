@@ -71,9 +71,9 @@ class EventHandler:
     def get_callback_name(
         callback: EventCallbackType | SuccessCallbackType | FailureCallbackType | None,  # type: ignore
     ) -> str:
-        if hasattr(callback, "__name__"):
+        if callback is not None and hasattr(callback, "__name__"):
             return callback.__name__
-        elif hasattr(callback, "__class__"):
+        elif callback is not None and hasattr(callback, "__class__"):
             return callback.__class__.__name__
         else:
             return "None"  # pragma: no cover

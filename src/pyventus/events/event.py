@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from datetime import datetime
 
-from src.pyventus.core.constants import StdOutColors
+from ..core.constants import StdOutColors
 
 
 @dataclass(frozen=True)
@@ -53,5 +53,7 @@ class Event:
         :return: The formatted string representation of the event.
         """
         default, highlight = StdOutColors.DEFAULT, StdOutColors.GREEN
-        return (f"{highlight}{self.name}{default}  {self.timestamp.strftime('%Y-%m-%d %H:%M:%S %p')}"
-                f"\t{highlight}[Payload]{default} {super().__str__()}")
+        return (
+            f"{highlight}{self.name}{default} {self.timestamp.strftime('%Y-%m-%d %H:%M:%S %p')}"
+            f"\t{highlight}[Payload]{default} {super().__str__()}"
+        )

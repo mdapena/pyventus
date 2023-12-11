@@ -1,14 +1,12 @@
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
 import pytest
+from pyventus import ExecutorEventEmitter, EventLinker, PyventusException
 
-from src.pyventus import ExecutorEventEmitter, EventLinker
-from src.pyventus.core.exceptions import PyventusException
-from tests.emitters.event_emitter_test import EventEmitterTest
+from .event_emitter_test import EventEmitterTest
 
 
 class TestExecutorEventEmitter(EventEmitterTest):
-
     # --------------------
     # Creation
     # ----------

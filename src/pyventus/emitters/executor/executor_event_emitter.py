@@ -3,10 +3,10 @@ from concurrent.futures import Executor, ThreadPoolExecutor
 from types import TracebackType
 from typing import Any, Type, List
 
-from src.pyventus.core.exceptions import PyventusException
-from src.pyventus.emitters import EventEmitter
-from src.pyventus.handlers import EventHandler
-from src.pyventus.linkers import EventLinker
+from ...core.exceptions import PyventusException
+from ...emitters import EventEmitter
+from ...handlers import EventHandler
+from ...linkers import EventLinker
 
 
 class ExecutorEventEmitter(EventEmitter):
@@ -71,10 +71,10 @@ class ExecutorEventEmitter(EventEmitter):
     """
 
     def __init__(
-            self,
-            executor: Executor = ThreadPoolExecutor(),
-            event_linker: Type[EventLinker] = EventLinker,
-            debug_mode: bool | None = None,
+        self,
+        executor: Executor = ThreadPoolExecutor(),
+        event_linker: Type[EventLinker] = EventLinker,
+        debug_mode: bool | None = None,
     ):
         """
         Initializes an instance of the `ExecutorEventEmitter` class.
@@ -95,7 +95,7 @@ class ExecutorEventEmitter(EventEmitter):
         # Set the executor object reference
         self._executor: Executor = executor
 
-    def __enter__(self) -> 'ExecutorEventEmitter':
+    def __enter__(self) -> "ExecutorEventEmitter":
         """
         Returns the instance of `ExecutorEventEmitter` for context management.
         :return: The instance of `ExecutorEventEmitter`.
@@ -103,10 +103,7 @@ class ExecutorEventEmitter(EventEmitter):
         return self
 
     def __exit__(
-            self,
-            exc_type: Type[BaseException] | None,
-            exc_val: BaseException | None,
-            exc_tb: TracebackType | None
+        self, exc_type: Type[BaseException] | None, exc_val: BaseException | None, exc_tb: TracebackType | None
     ) -> None:
         """
         Cleans up the executor resources when exiting the context.
@@ -130,11 +127,7 @@ class ExecutorEventEmitter(EventEmitter):
     def _execute(self, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
         # Run the event handlers
         # concurrently in the executor
-        self._executor.submit(
-            ExecutorEventEmitter.__execution_callback,
-            event_handlers,
-            *args, **kwargs
-        )
+        self._executor.submit(ExecutorEventEmitter.__execution_callback, event_handlers, *args, **kwargs)
 
     @staticmethod
     def __execution_callback(event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
@@ -147,8 +140,8 @@ class ExecutorEventEmitter(EventEmitter):
         :return: None
         """
 
-        async def _inner_callback():
-            """ Inner callback to be submitted to `asyncio.run()`. """
+        async def _inner_callback() -> None:
+            """Inner callback to be submitted to `asyncio.run()`."""
 
             await asyncio.gather(*[event_handler(*args, **kwargs) for event_handler in event_handlers])
 

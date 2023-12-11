@@ -1,10 +1,10 @@
 from typing import Any, Type, Dict, List
 
-from src.pyventus.core.constants import StdOutColors
-from src.pyventus.core.exceptions import PyventusException
-from src.pyventus.emitters import EventEmitter
-from src.pyventus.handlers import EventHandler
-from src.pyventus.linkers import EventLinker
+from ...core.constants import StdOutColors
+from ...core.exceptions import PyventusException
+from ...emitters import EventEmitter
+from ...handlers import EventHandler
+from ...linkers import EventLinker
 
 try:  # pragma: no cover
     from rq import Queue, Callback
@@ -28,11 +28,11 @@ class RQEventEmitter(EventEmitter):
     """
 
     def __init__(
-            self,
-            queue: Queue,
-            options: Dict[str, Any] | None = None,
-            event_linker: Type[EventLinker] = EventLinker,
-            debug_mode: bool | None = None,
+        self,
+        queue: Queue,
+        options: Dict[str, Any] | None = None,
+        event_linker: Type[EventLinker] = EventLinker,
+        debug_mode: bool | None = None,
     ):
         """
         Initializes an instance of the `RQEventEmitter` class.
@@ -64,13 +64,12 @@ class RQEventEmitter(EventEmitter):
             self._logger.debug(
                 action="Enqueueing:",
                 msg=f"[{event_handlers}] "
-                    f"{StdOutColors.PURPLE}*args:{StdOutColors.DEFAULT} {args} "
-                    f"{StdOutColors.PURPLE}**kwargs:{StdOutColors.DEFAULT} {kwargs}"
-                    f"{StdOutColors.PURPLE}RQ options:{StdOutColors.DEFAULT} {self._options}"
+                f"{StdOutColors.PURPLE}*args:{StdOutColors.DEFAULT} {args} "
+                f"{StdOutColors.PURPLE}**kwargs:{StdOutColors.DEFAULT} {kwargs}"
+                f"{StdOutColors.PURPLE}RQ options:{StdOutColors.DEFAULT} {self._options}",
             )
 
         # Enqueue the event handlers using the RQ batch method
-        self._queue.enqueue_many([
-            Queue.prepare_data(event_handler, args, kwargs, **self._options)
-            for event_handler in event_handlers
-        ])
+        self._queue.enqueue_many(
+            [Queue.prepare_data(event_handler, args, kwargs, **self._options) for event_handler in event_handlers]
+        )

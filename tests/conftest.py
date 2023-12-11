@@ -4,10 +4,8 @@ from typing import Dict, final, Tuple, Any
 
 import pytest
 from fakeredis import FakeStrictRedis
+from pyventus import Event, EventLinker
 from rq import Queue
-
-from src.pyventus import Event
-from src.pyventus.linkers import EventLinker
 
 
 @pytest.fixture
@@ -29,12 +27,13 @@ def rq_queue() -> Queue:
     :return: The RQ queue object.
     """
     # Create a new RQ queue object
-    return Queue(name='default', connection=FakeStrictRedis(), is_async=False)
+    return Queue(name="default", connection=FakeStrictRedis(), is_async=False)
 
 
 # --------------------
 # Event Fixtures
 # ----------
+
 
 @final
 class EventFixtures:
@@ -74,9 +73,9 @@ class EventFixtures:
 # Callback Fixtures
 # ----------
 
+
 class CallbackFixtures:
     class Base(ABC):
-
         @property
         def call_count(self) -> int:
             return self._call_count

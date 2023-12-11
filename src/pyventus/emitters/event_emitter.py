@@ -2,12 +2,12 @@ from abc import ABC, abstractmethod
 from sys import gettrace
 from typing import List, Type, TypeAlias, Any, Tuple
 
-from src.pyventus.core.constants import StdOutColors
-from src.pyventus.core.exceptions import PyventusException
-from src.pyventus.core.loggers import Logger
-from src.pyventus.events import Event
-from src.pyventus.handlers import EventHandler
-from src.pyventus.linkers import EventLinker
+from ..core.constants import StdOutColors
+from ..core.exceptions import PyventusException
+from ..core.loggers import Logger
+from ..events import Event
+from ..handlers import EventHandler
+from ..linkers import EventLinker
 
 EmittableEventType: TypeAlias = Event | Exception | str
 """ A type alias representing the supported types of events that can be emitted. """
@@ -91,7 +91,7 @@ class EventEmitter(ABC):
             raise PyventusException("The 'event' argument cannot be None.")
 
         # Raises an exception if the event is a type object
-        if event.__class__ is type:
+        if event.__class__ is type:  # type: ignore
             raise PyventusException("The 'event' argument cannot be a type object.")
 
         # Determines if the event is a string instance
@@ -110,7 +110,7 @@ class EventEmitter(ABC):
                 event if is_string else event.__class__,  # type: ignore
                 Event if not issubclass(event.__class__, Exception) else Exception,
             ),
-            key=lambda handler: handler.timestamp
+            key=lambda handler: handler.timestamp,
         )
 
         # Initializes the list of event handlers to be executed
@@ -118,10 +118,8 @@ class EventEmitter(ABC):
 
         # Iterates through each event handler and triggers the associated callbacks
         for event_handler in event_handlers:
-
             # Checks if the event handler is a one-time handler before executing the event handler
             if event_handler.once:
-
                 # If the event handler is a one-time handler, we try to remove it. If it is successfully
                 # removed, it means it hasn't been executed before, so we execute the callback
                 if self._event_linker.remove_event_handler(event_handler=event_handler):
@@ -138,7 +136,7 @@ class EventEmitter(ABC):
                 msg=(
                     f"{event if is_string else event.__class__.__name__} "
                     f"{StdOutColors.PURPLE}\tHandlers:{StdOutColors.DEFAULT} {len(pending_event_handlers)}"
-                )
+                ),
             )
 
         # Checks if the pending_event_handlers is not empty

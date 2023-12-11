@@ -2,18 +2,15 @@ import asyncio
 
 import pytest
 from _pytest.python_api import raises
+from pyventus import EventLinker, AsyncIOEventEmitter, PyventusException
 
-from src.pyventus import EventLinker
-from src.pyventus.core.exceptions import PyventusException
-from src.pyventus.emitters.asyncio import AsyncIOEventEmitter
-from tests.emitters.event_emitter_test import EventEmitterTest
+from .event_emitter_test import EventEmitterTest
 
 
 class TestAsyncIOEventEmitter(EventEmitterTest):
-
     @staticmethod
     async def __run_until_complete():
-        """ Waits for all AsyncIO pending task to complete """
+        """Waits for all AsyncIO pending task to complete"""
         await asyncio.gather(*asyncio.all_tasks().difference({asyncio.current_task()}), return_exceptions=True)
 
     # --------------------

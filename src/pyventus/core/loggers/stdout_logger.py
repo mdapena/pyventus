@@ -1,8 +1,8 @@
-import logging
-import sys
 from abc import ABC
+from logging import StreamHandler, INFO, DEBUG, WARNING, ERROR, Formatter, getLogger
+from sys import stdout
 
-from src.pyventus.core.constants import StdOutColors
+from ...core.constants import StdOutColors
 
 
 class StdOutLogger(ABC):
@@ -13,27 +13,27 @@ class StdOutLogger(ABC):
     """
 
     class Handler:
-        """ Inner class representing a logger handler. """
+        """Inner class representing a logger handler."""
 
         @classmethod
-        def get_color_by_level(cls, level: int):
+        def get_color_by_level(cls, level: int) -> str:
             """
             Returns the color code associated with the specified log level.
             :param level: The log level for which to retrieve the color code.
             :return: The color code associated with the log level.
             """
-            if level == logging.INFO:
+            if level == INFO:
                 return StdOutColors.GREEN
-            elif level == logging.DEBUG:
+            elif level == DEBUG:
                 return StdOutColors.PURPLE
-            elif level == logging.WARNING:
+            elif level == WARNING:
                 return StdOutColors.YELLOW
-            elif level == logging.ERROR:
+            elif level == ERROR:
                 return StdOutColors.RED
             return StdOutColors.DEFAULT
 
         @classmethod
-        def get_stream_handler_by_level(cls, level: int) -> logging.StreamHandler:
+        def get_stream_handler_by_level(cls, level: int) -> StreamHandler:  # type: ignore
             """
             Returns a stream handler configured with the specified log level.
             :param level: The log level to set for the stream handler.
@@ -43,16 +43,18 @@ class StdOutLogger(ABC):
             level_color: str = cls.get_color_by_level(level=level)
 
             # Define the logger format
-            logger_format: str = f"{level_color}[Logger]  " + \
-                                 f"{StdOutColors.DEFAULT}%(asctime)s " + \
-                                 f"{level_color}%(levelname)8s" + \
-                                 f"{level_color} %(message)s"
+            logger_format: str = (
+                f"{level_color}[Logger] "
+                f"{StdOutColors.DEFAULT}%(asctime)s "
+                f"{level_color}%(levelname)8s "
+                f"{level_color}%(message)s"
+            )
 
             # Create a formatter with the logger format
-            formatter = logging.Formatter(logger_format, datefmt="%Y-%m-%d %H:%M:%S %p")
+            formatter = Formatter(logger_format, datefmt="%Y-%m-%d %H:%M:%S %p")
 
             # Create a stream handler using sys.stdout as the stream
-            stream_handler = logging.StreamHandler(stream=sys.stdout)
+            stream_handler = StreamHandler(stream=stdout)
 
             # Set the formatter for the stream handler
             stream_handler.setFormatter(fmt=formatter)
@@ -74,23 +76,25 @@ class StdOutLogger(ABC):
             level_color: str = cls.get_color_by_level(level=level)
 
             # Build the log message string
-            log: str = f"{StdOutColors.DEFAULT}[{name if name else 'StdOutLogger'}]" + \
-                       f"{level_color} {(action if action[-1] == ' ' else action + ' ') if action else 'Message: '}" + \
-                       f"{StdOutColors.DEFAULT}{msg}"
+            log: str = (
+                f"{StdOutColors.DEFAULT}[{name if name else 'StdOutLogger'}]"
+                + f"{level_color} {(action if action[-1] == ' ' else action + ' ') if action else 'Message: '}"
+                + f"{StdOutColors.DEFAULT}{msg}"
+            )
             return log
 
     # Configure loggers for each logging level
-    __error_logger = logging.getLogger(name='error_logger')
-    __error_logger.setLevel(level=logging.ERROR)
+    __error_logger = getLogger(name="error_logger")
+    __error_logger.setLevel(level=ERROR)
 
-    __warning_logger = logging.getLogger(name='warning_logger')
-    __warning_logger.setLevel(level=logging.WARNING)
+    __warning_logger = getLogger(name="warning_logger")
+    __warning_logger.setLevel(level=WARNING)
 
-    __info_logger = logging.getLogger(name='info_logger')
-    __info_logger.setLevel(level=logging.INFO)
+    __info_logger = getLogger(name="info_logger")
+    __info_logger.setLevel(level=INFO)
 
-    __debug_logger = logging.getLogger(name='debug_logger')
-    __debug_logger.setLevel(level=logging.DEBUG)
+    __debug_logger = getLogger(name="debug_logger")
+    __debug_logger.setLevel(level=DEBUG)
 
     # Add stream handlers to each logger
     __error_logger.addHandler(hdlr=Handler.get_stream_handler_by_level(level=__error_logger.level))
@@ -107,7 +111,7 @@ class StdOutLogger(ABC):
         :param action: The action or method associated with the log. Defaults to None.
         :return: None
         """
-        cls.__error_logger.error(cls.Handler.build_log(level=logging.ERROR, msg=msg, name=name, action=action))
+        cls.__error_logger.error(cls.Handler.build_log(level=ERROR, msg=msg, name=name, action=action))
 
     @classmethod
     def warning(cls, msg: str, name: str | None = None, action: str | None = None) -> None:
@@ -118,7 +122,7 @@ class StdOutLogger(ABC):
         :param action: The action or method associated with the log. Defaults to None.
         :return: None
         """
-        cls.__warning_logger.warning(cls.Handler.build_log(level=logging.WARNING, msg=msg, name=name, action=action))
+        cls.__warning_logger.warning(cls.Handler.build_log(level=WARNING, msg=msg, name=name, action=action))
 
     @classmethod
     def info(cls, msg: str, name: str | None = None, action: str | None = None) -> None:
@@ -129,7 +133,7 @@ class StdOutLogger(ABC):
         :param action: The action or method associated with the log. Defaults to None.
         :return: None
         """
-        cls.__info_logger.info(cls.Handler.build_log(level=logging.INFO, msg=msg, name=name, action=action))
+        cls.__info_logger.info(cls.Handler.build_log(level=INFO, msg=msg, name=name, action=action))
 
     @classmethod
     def debug(cls, msg: str, name: str | None = None, action: str | None = None) -> None:
@@ -140,4 +144,4 @@ class StdOutLogger(ABC):
         :param action: The action or method associated with the log. Defaults to None.
         :return: None
         """
-        cls.__debug_logger.debug(cls.Handler.build_log(level=logging.DEBUG, msg=msg, name=name, action=action))
+        cls.__debug_logger.debug(cls.Handler.build_log(level=DEBUG, msg=msg, name=name, action=action))

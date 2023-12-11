@@ -1,17 +1,13 @@
 import asyncio
-from typing import Callable, Any, List, Dict
-from unittest.mock import patch
+from typing import Callable
 
 from _pytest.python_api import raises
+from pyventus import Event, EventHandler, PyventusException
 
-from src.pyventus.core.exceptions import PyventusException
-from src.pyventus.events import Event
-from src.pyventus.handlers import EventHandler
-from tests import CallbackFixtures
+from .. import CallbackFixtures
 
 
 class TestEventHandler:
-
     def test_creation_with_invalid_callbacks(self):
         # Arrange
         def invalid_callback() -> Callable:
@@ -61,10 +57,10 @@ class TestEventHandler:
     def test_event_callback_execution(self):
         # Arrange
         int_param = 2
-        str_param = 'param1'
+        str_param = "param1"
         event_param = Event()
         list_param = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        dict_param = {'key1': 'value1'}
+        dict_param = {"key1": "value1"}
 
         event_callback = CallbackFixtures.Sync()
         event_handler = EventHandler(event_callback=event_callback)
@@ -83,11 +79,11 @@ class TestEventHandler:
         # Assert
         assert event_callback.call_count == 2
         assert event_callback.args == (int_param, event_param, dict_param)
-        assert event_callback.kwargs == {'param4': str_param, 'param5': list_param}
+        assert event_callback.kwargs == {"param4": str_param, "param5": list_param}
 
     def test_success_callback_execution(self):
         # Arrange
-        return_value = ['string', 2, 2.3, object(), ('str', {'key': 'value'})]
+        return_value = ["string", 2, 2.3, object(), ("str", {"key": "value"})]
         event_callback = CallbackFixtures.Async(return_value=return_value)
         event_callback_without_return_value = CallbackFixtures.Sync()
         success_callback = CallbackFixtures.Sync()
@@ -137,7 +133,7 @@ class TestEventHandler:
 
     def test_failure_callback_execution(self):
         # Arrange
-        value_error = ValueError('Something went wrong!')
+        value_error = ValueError("Something went wrong!")
         event_callback = CallbackFixtures.Async(raise_exception=value_error)
         success_callback = CallbackFixtures.Sync()
         failure_callback = CallbackFixtures.Async()
@@ -192,7 +188,7 @@ class TestEventHandler:
         )
 
         # Act
-        asyncio.run(event_handler('String!'))
+        asyncio.run(event_handler("String!"))
 
         # Assert
         assert failure_callback.call_count == 1

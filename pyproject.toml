@@ -43,7 +43,7 @@ dependencies = []
 
 [project.urls]
 Homepage = "https://github.com/mdapena/pyventus"
-Documentation = "https://github.com/mdapena/pyventus"
+Documentation = "https://github.com/mdapena/pyventus#readme"
 Repository = "https://github.com/mdapena/pyventus"
 
 # ------------------------------------------------------------------
@@ -54,22 +54,67 @@ Repository = "https://github.com/mdapena/pyventus"
 rq = ["rq>=1.15.0"]
 
 all = [
-    "rq>=1.15.0"
+    "rq>=1.15.0",
 ]
+
+# --------------------
+# | Test dependencies
+# ----------
+
+testing = [
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "fakeredis>=2.20.0",
+    "pyventus[all]",
+]
+
+# --------------------
+# | Dev dependencies
+# ----------
+
+dev = [
+    "mypy",
+    "black",
+    "pyventus[testing]"
+]
+
+# ------------------------------------------------------------------
+# | Project Version                                                |
+# ------------------------------------------------------------------
+
+[tool.hatch.version]
+path = "src/pyventus/__init__.py"
+
+# ------------------------------------------------------------------
+# | Building Target                                                |
+# ------------------------------------------------------------------
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyventus"]
+
+# ------------------------------------------------------------------
+# | mypy configuration                                             |
+# ------------------------------------------------------------------
+
+[tool.mypy]
+files = ["src/pyventus"]
+namespace_packages = false
+show_error_codes = true
+warn_no_return = true
+warn_unreachable = true
+warn_unused_ignores = true
+implicit_reexport = true
+strict = true
 
 # ------------------------------------------------------------------
 # | Hatch test environment                                         |
 # ------------------------------------------------------------------
 
 [tool.hatch.envs.test]
-dependencies = [
-    "pytest>=7.4.0",
-    "pytest-asyncio>=0.21.0",
-    "fakeredis>=2.20.0",
-    "rq>=1.15.0",
-]
+dependencies = ["pyventus[testing]"]
+
 [tool.hatch.envs.test.scripts]
-run = "pytest -v"
+run = "pytest -v {args:tests}"
 
 # ------------------------------------------------------------------
 # | Hatch docs environment                                         |
@@ -85,8 +130,9 @@ build = "mkdocs build --clean --strict"
 serve = "mkdocs serve --dev-addr localhost:8000"
 
 # ------------------------------------------------------------------
-# | Dynamic Hatch Versioning                                       |
+# | Formatting                                                     |
 # ------------------------------------------------------------------
 
-[tool.hatch.version]
-path = "src/pyventus/__init__.py"
+[tool.black]
+line-length = 120
+target-version = ["py310"]

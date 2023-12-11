@@ -2,6 +2,7 @@
 
 __version__ = "1.0.0"
 
+from .core.exceptions import PyventusException
 from .emitters import EventEmitter, EmittableEventType
 from .emitters.asyncio import AsyncIOEventEmitter
 from .emitters.executor import ExecutorEventEmitter
@@ -11,13 +12,14 @@ from .handlers import EventHandler
 from .linkers import EventLinker, SubscribableEventType
 
 __all__ = [
-    'EventEmitter',
-    'EmittableEventType',
-    'AsyncIOEventEmitter',
-    'ExecutorEventEmitter',
-    'RQEventEmitter',
-    'Event',
-    'EventHandler',
-    'EventLinker',
-    'SubscribableEventType',
+    "PyventusException",
+    "EventEmitter",
+    "EmittableEventType",
+    "AsyncIOEventEmitter",
+    "ExecutorEventEmitter",
+    "RQEventEmitter",
+    "Event",
+    "EventHandler",
+    "EventLinker",
+    "SubscribableEventType",
 ]

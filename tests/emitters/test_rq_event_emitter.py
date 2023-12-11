@@ -1,15 +1,12 @@
 import pytest
 from _pytest.python_api import raises
+from pyventus import EventLinker, PyventusException, RQEventEmitter
 
-from src.pyventus import EventLinker
-from src.pyventus.core.exceptions import PyventusException
-from src.pyventus.emitters.rq import RQEventEmitter
-from tests.conftest import rq_queue
-from tests.emitters.event_emitter_test import EventEmitterTest
+from .event_emitter_test import EventEmitterTest
+from ..conftest import rq_queue
 
 
 class TestRQEventEmitter(EventEmitterTest):
-
     # --------------------
     # Creation
     # ----------

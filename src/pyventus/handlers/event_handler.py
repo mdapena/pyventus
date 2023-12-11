@@ -2,8 +2,8 @@ from asyncio import iscoroutinefunction, to_thread
 from datetime import datetime
 from typing import Callable, Any, final, ParamSpec, TypeAlias
 
-from src.pyventus.core.exceptions import PyventusException
-from src.pyventus.core.loggers import StdOutLogger
+from ..core.exceptions import PyventusException
+from ..core.loggers import StdOutLogger
 
 P = ParamSpec("P")
 """ A generic type to represent the parameter names and types of the callbacks. """
@@ -40,14 +40,14 @@ class EventHandler:
 
     # Event handler attributes
     __slots__ = (
-        '_once',
-        '_timestamp',
-        '_event_callback',
-        '_success_callback',
-        '_failure_callback',
-        '_is_event_callback_async',
-        '_is_success_callback_async',
-        '_is_failure_callback_async',
+        "_once",
+        "_timestamp",
+        "_event_callback",
+        "_success_callback",
+        "_failure_callback",
+        "_is_event_callback_async",
+        "_is_success_callback_async",
+        "_is_failure_callback_async",
     )
 
     @property
@@ -67,7 +67,7 @@ class EventHandler:
         return self._timestamp
 
     @staticmethod
-    def validate_callback(callback: EventCallbackType | SuccessCallbackType | FailureCallbackType) -> None:
+    def validate_callback(callback: EventCallbackType | SuccessCallbackType | FailureCallbackType) -> None:  # type: ignore
         """
         Validates that the provided callback is a compatible callable.
         :param callback: The callback to validate.
@@ -80,24 +80,24 @@ class EventHandler:
             )
 
     @staticmethod
-    def is_async(callback: EventCallbackType | SuccessCallbackType | FailureCallbackType) -> bool:
+    def is_async(callback: EventCallbackType | SuccessCallbackType | FailureCallbackType) -> bool:  # type: ignore
         """
         Checks if a callback is an asynchronous function or method.
         :param callback: The callback to check.
         :return: `True` if the callback is an asynchronous function or method,
             `False` otherwise.
         """
-        if hasattr(callback, '__call__'):
+        if hasattr(callback, "__call__"):
             return iscoroutinefunction(callback.__call__)
         else:
             return iscoroutinefunction(callback)
 
     def __init__(
-            self,
-            event_callback: EventCallbackType,
-            success_callback: SuccessCallbackType | None = None,
-            failure_callback: FailureCallbackType | None = None,
-            once: bool = False,
+        self,
+        event_callback: EventCallbackType,  # type: ignore
+        success_callback: SuccessCallbackType | None = None,
+        failure_callback: FailureCallbackType | None = None,
+        once: bool = False,
     ) -> None:
         """
         Initializes an instance of the `EventHandler` class.
@@ -125,17 +125,18 @@ class EventHandler:
         self._timestamp: datetime = datetime.now()
 
         # Store callbacks
-        self._event_callback: EventCallbackType = event_callback
+        self._event_callback: EventCallbackType = event_callback  # type: ignore
         self._success_callback: SuccessCallbackType | None = success_callback
         self._failure_callback: FailureCallbackType | None = failure_callback
 
         # Flags
-        self._is_event_callback_async: bool = EventHandler.is_async(
-            event_callback)
-        self._is_success_callback_async: bool | None = EventHandler.is_async(
-            success_callback) if success_callback else None
-        self._is_failure_callback_async: bool | None = EventHandler.is_async(
-            failure_callback) if failure_callback else None
+        self._is_event_callback_async: bool = EventHandler.is_async(event_callback)
+        self._is_success_callback_async: bool | None = (
+            EventHandler.is_async(success_callback) if success_callback else None
+        )
+        self._is_failure_callback_async: bool | None = (
+            EventHandler.is_async(failure_callback) if failure_callback else None
+        )
 
     async def __call__(self, *args: P.args, **kwargs: P.kwargs) -> None:
         """

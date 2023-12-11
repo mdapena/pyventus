@@ -1,5 +1,6 @@
 from asyncio import iscoroutinefunction, to_thread
 from datetime import datetime
+from inspect import isfunction, isclass, isbuiltin, ismethod
 from typing import Callable, Any, final, ParamSpec, TypeAlias
 
 from ..core.exceptions import PyventusException
@@ -67,7 +68,20 @@ class EventHandler:
         return self._timestamp
 
     @staticmethod
-    def validate_callback(callback: EventCallbackType | SuccessCallbackType | FailureCallbackType) -> None:  # type: ignore
+    def get_callback_name(
+        callback: EventCallbackType | SuccessCallbackType | FailureCallbackType | None,  # type: ignore
+    ) -> str:
+        if hasattr(callback, "__name__"):
+            return callback.__name__
+        elif hasattr(callback, "__class__"):
+            return callback.__class__.__name__
+        else:
+            return "None"  # pragma: no cover
+
+    @staticmethod
+    def validate_callback(
+        callback: EventCallbackType | SuccessCallbackType | FailureCallbackType,  # type: ignore
+    ) -> None:
         """
         Validates that the provided callback is a compatible callable.
         :param callback: The callback to validate.
@@ -87,10 +101,12 @@ class EventHandler:
         :return: `True` if the callback is an asynchronous function or method,
             `False` otherwise.
         """
-        if hasattr(callback, "__call__"):
+        if ismethod(callback) or isfunction(callback) or isbuiltin(callback):
+            return iscoroutinefunction(callback)
+        elif not isclass(callback) and hasattr(callback, "__call__"):  # a callable class instance
             return iscoroutinefunction(callback.__call__)
         else:
-            return iscoroutinefunction(callback)
+            raise PyventusException("Expected a callable or a string, but got: {0}".format(callback))
 
     def __init__(
         self,
@@ -180,11 +196,11 @@ class EventHandler:
 
     def __str__(self) -> str:
         return (
-            f"Event Callback: '{self._event_callback.__name__}'"
+            f"Event Callback: '{EventHandler.get_callback_name(callback=self._event_callback)}'"
             f"{' (Async)' if self._is_event_callback_async else ' (Sync)'} | "
-            f"Success Callback: '{self._success_callback.__name__ if self._success_callback else None}'"
+            f"Success Callback: '{EventHandler.get_callback_name(callback=self._success_callback)}'"
             f"{' (Async)' if self._is_success_callback_async else ' (Sync)' if self._success_callback else ''} | "
-            f"Failure Callback: '{self._failure_callback.__name__ if self._failure_callback else None}'"
+            f"Failure Callback: '{EventHandler.get_callback_name(callback=self._failure_callback)}'"
             f"{' (Async)' if self._is_failure_callback_async else ' (Sync)' if self._failure_callback else ''} | "
             f"Timestamp: {self.timestamp.strftime('%Y-%m-%d %H:%M:%S %p')} | "
             f"Once: {self.once}"

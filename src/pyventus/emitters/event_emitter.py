@@ -122,7 +122,7 @@ class EventEmitter(ABC):
             if event_handler.once:
                 # If the event handler is a one-time handler, we try to remove it. If it is successfully
                 # removed, it means it hasn't been executed before, so we execute the callback
-                if self._event_linker.remove_event_handler(event_handler=event_handler):
+                if self._event_linker.remove_event_handler(event_handler=event_handler):  # pragma: no cover (Race-Cond)
                     # Adds the current event handler to the execution list
                     pending_event_handlers.append(event_handler)
             else:
@@ -130,7 +130,7 @@ class EventEmitter(ABC):
                 pending_event_handlers.append(event_handler)
 
         # Log the event emission if debug mode is enabled
-        if self._logger.debug_enabled:
+        if self._logger.debug_enabled:  # pragma: no cover
             self._logger.debug(
                 action="Emitting:",
                 msg=(

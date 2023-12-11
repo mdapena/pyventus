@@ -475,7 +475,7 @@ class EventLinker(ABC):
                 cls.__event_registry[event_key].append(event_handler)
 
                 # Log the subscription if debug mode is enabled
-                if cls.__logger.debug_enabled:
+                if cls.__logger.debug_enabled:  # pragma: no cover
                     cls.__logger.debug(
                         action="Subscribed:",
                         msg=f"[{event_handler}] {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} [{event_key}]",
@@ -529,7 +529,7 @@ class EventLinker(ABC):
                         cls.__event_registry.pop(event_key)
 
                     # Log the unsubscription if debug mode is enabled
-                    if cls.__logger.debug_enabled:
+                    if cls.__logger.debug_enabled:  # pragma: no cover
                         cls.__logger.debug(
                             action="Unsubscribed",
                             msg=f"[{event_handler}] {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} [{event_key}]",
@@ -572,7 +572,7 @@ class EventLinker(ABC):
                         cls.__event_registry.pop(event_key)
 
                     # Log the removal of the event handler if debug mode is enabled
-                    if cls.__logger.debug_enabled:
+                    if cls.__logger.debug_enabled:  # pragma: no cover
                         cls.__logger.debug(
                             action="Handler Removed:",
                             msg=f"[{event_handler}] {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} [{event_key}]",
@@ -599,7 +599,7 @@ class EventLinker(ABC):
                 cls.__event_registry.pop(event_key)
 
                 # Log the removal of the event if debug mode is enabled
-                if cls.__logger.debug_enabled:
+                if cls.__logger.debug_enabled:  # pragma: no cover
                     cls.__logger.debug(action="Event Removed:", msg=f"[{event_key}]")
 
                 # Return True to indicate successful removal
@@ -619,7 +619,7 @@ class EventLinker(ABC):
             cls.__event_registry = {}
 
         # Log a debug message if debug mode is enabled
-        if cls.__logger.debug_enabled:
+        if cls.__logger.debug_enabled:  # pragma: no cover
             cls.__logger.debug(msg="All events and handlers were successfully removed")
 
         return True

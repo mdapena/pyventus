@@ -1,8 +1,8 @@
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 
 import pytest
-from pyventus import ExecutorEventEmitter, EventLinker, PyventusException
 
+from pyventus import ExecutorEventEmitter, EventLinker, PyventusException
 from .event_emitter_test import EventEmitterTest
 
 
@@ -35,8 +35,8 @@ class TestExecutorEventEmitter(EventEmitterTest):
     def test_emission_in_sync_context(self):
         # Thread emission
         thread_emitter = ExecutorEventEmitter(executor=ThreadPoolExecutor())
-        with TestExecutorEventEmitter.run_emission_test(event_emitter=thread_emitter):
-            thread_emitter.shutdown(wait=True)
+        with TestExecutorEventEmitter.run_emission_test(event_emitter=thread_emitter), thread_emitter:
+            pass  # pragma: no cover
 
     def test_emission_in_sync_context_with_custom_event_linker(self):
         class CustomEventLinker(EventLinker):

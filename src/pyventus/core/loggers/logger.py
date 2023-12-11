@@ -67,5 +67,4 @@ class Logger:
         :param action: The action or method associated with the log. Defaults to None.
         :return: None
         """
-        if self.debug_enabled:
-            StdOutLogger.debug(msg=msg, name=self._name, action=action)
+        StdOutLogger.debug(msg=msg, name=self._name, action=action)

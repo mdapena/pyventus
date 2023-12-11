@@ -65,6 +65,7 @@ testing = [
     "pytest>=7.4.0",
     "pytest-asyncio>=0.21.0",
     "fakeredis>=2.20.0",
+    "coverage[toml]",
     "pyventus[all]",
 ]
 
@@ -75,7 +76,7 @@ testing = [
 dev = [
     "mypy",
     "black",
-    "pyventus[testing]"
+    "pyventus[testing]",
 ]
 
 # ------------------------------------------------------------------
@@ -115,6 +116,11 @@ dependencies = ["pyventus[testing]"]
 
 [tool.hatch.envs.test.scripts]
 run = "pytest -v {args:tests}"
+cov = [
+    "coverage run -m pytest -v {args:tests}",
+    "- coverage combine",
+    "coverage report",
+]
 
 # ------------------------------------------------------------------
 # | Hatch docs environment                                         |
@@ -128,6 +134,30 @@ dependencies = [
 [tool.hatch.envs.docs.scripts]
 build = "mkdocs build --clean --strict"
 serve = "mkdocs serve --dev-addr localhost:8000"
+
+# ------------------------------------------------------------------
+# | Coverage                                                       |
+# ------------------------------------------------------------------
+
+[tool.coverage.run]
+source_pkgs = ["pyventus", "tests"]
+branch = true
+parallel = true
+omit = [
+    "tests/conftest.py",
+]
+
+[tool.coverage.paths]
+pyventus = ["pyventus"]
+tests = ["tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "no cov",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    '@(abc\.)?abstractmethod',
+]
 
 # ------------------------------------------------------------------
 # | Formatting                                                     |

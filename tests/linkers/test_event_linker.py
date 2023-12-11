@@ -1,6 +1,7 @@
 from _pytest.python_api import raises
-from pyventus import Event, EventLinker, PyventusException, EventHandler
 
+from pyventus import Event, EventLinker, PyventusException, EventHandler
+from pyventus.core.loggers import Logger
 from .. import EventFixtures, CallbackFixtures
 
 
@@ -63,7 +64,7 @@ class TestEventLinker:
     def test_get_max_event_handlers(self, clean_event_linker: bool):
         # Arrange | Act
         class CustomEventLinker(EventLinker, max_event_handlers=2):
-            pass
+            pass  # pragma: no cover
 
         # Assert
         assert EventLinker.get_max_event_handlers() is None
@@ -74,7 +75,7 @@ class TestEventLinker:
         success_callback = CallbackFixtures.Async()
 
         class CustomEventLinker(EventLinker, default_success_callback=success_callback):
-            pass
+            pass  # pragma: no cover
 
         # Assert
         assert EventLinker.get_default_success_callback() is None
@@ -87,7 +88,7 @@ class TestEventLinker:
         failure_callback = CallbackFixtures.Async()
 
         class CustomEventLinker(EventLinker, default_failure_callback=failure_callback):
-            pass
+            pass  # pragma: no cover
 
         # Assert
         assert EventLinker.get_default_success_callback() is None
@@ -207,16 +208,16 @@ class TestEventLinker:
 
             @EventLinker.once()
             def invalid_once_callback(event: Event):
-                pass
+                pass  # pragma: no cover
 
         # Arrange | Act
         @EventLinker.once(Event, Exception)
         def first_once_callback(*args, **kwargs):
-            pass
+            pass  # pragma: no cover
 
         @EventLinker.once(Exception)
         async def second_once_callback(exception: Exception):
-            pass
+            pass  # pragma: no cover
 
         # Assert
         assert len(EventLinker.get_handlers_by_events(Event)) == 1
@@ -233,41 +234,41 @@ class TestEventLinker:
 
                 @linker.on_event
                 def event_callback(*args, **kwargs):
-                    pass
+                    pass  # pragma: no cover
 
         # Arrange | Act | Assert
         with raises(PyventusException):
             with EventLinker.once(Event) as linker:
-                pass
+                pass  # pragma: no cover
 
         # Arrange | Act
         with EventLinker.once(Event, Exception) as linker:
 
             @linker.on_event
             def first_event_callback(*args, **kwargs):
-                pass
+                pass  # pragma: no cover
 
             @linker.on_success
             async def first_success_callback(*args, **kwargs):
-                pass
+                pass  # pragma: no cover
 
             @linker.on_failure
             def first_failure_callback(*args, **kwargs):
-                pass
+                pass  # pragma: no cover
 
         with EventLinker.once(Exception) as linker:
 
             @linker.on_event
             async def second_event_callback(exception: Exception):
-                pass
+                pass  # pragma: no cover
 
             @linker.on_success
             def second_success_callback():
-                pass
+                pass  # pragma: no cover
 
             @linker.on_failure
             async def second_failure_callback(exception: Exception):
-                pass
+                pass  # pragma: no cover
 
         # Assert
         assert len(EventLinker.get_handlers_by_events(Event)) == 1
@@ -283,16 +284,16 @@ class TestEventLinker:
 
             @EventLinker.on()
             def invalid_once_callback(event: Event):
-                pass
+                pass  # pragma: no cover
 
         # Arrange | Act
         @EventLinker.on(Event, EventFixtures.CustomEvent1)
         def first_once_callback(*args, **kwargs):
-            pass
+            pass  # pragma: no cover
 
         @EventLinker.on(Exception)
         async def second_once_callback(exception: Exception):
-            pass
+            pass  # pragma: no cover
 
         # Assert
         assert len(EventLinker.get_handlers_by_events(Event)) == 1
@@ -312,28 +313,28 @@ class TestEventLinker:
 
                 @linker.on_event
                 def invalid_once_callback(event: Event):
-                    pass
+                    pass  # pragma: no cover
 
         with raises(PyventusException):
             with EventLinker.on(Event) as linker:
-                pass
+                pass  # pragma: no cover
 
         # Arrange | Act
         with EventLinker.on(Event, EventFixtures.CustomEvent1) as linker:
 
             @linker.on_event
             def first_event_callback(*args, **kwargs):
-                pass
+                pass  # pragma: no cover
 
             @linker.on_failure
             def first_failure_callback(*args, **kwargs):
-                pass
+                pass  # pragma: no cover
 
         with EventLinker.on(Exception) as linker:
 
             @linker.on_event
             async def second_event_callback(exception: Exception):
-                pass
+                pass  # pragma: no cover
 
         # Assert
         assert len(EventLinker.get_handlers_by_events(Event)) == 1
@@ -376,7 +377,7 @@ class TestEventLinker:
     def test_subscribe_with_max_event_handler(self, clean_event_linker: bool):
         # Arrange
         class CustomEventLinker(EventLinker, max_event_handlers=3):
-            pass
+            pass  # pragma: no cover
 
         event_callback = CallbackFixtures.Sync()
 
@@ -419,7 +420,7 @@ class TestEventLinker:
         event_callback = CallbackFixtures.Sync()
 
         class CustomEventLinker(EventLinker, default_success_callback=default_success_callback):
-            pass
+            pass  # pragma: no cover
 
         # Act
         event_handler1 = EventLinker.subscribe(Event, event_callback=event_callback)
@@ -448,7 +449,7 @@ class TestEventLinker:
         event_callback = CallbackFixtures.Sync()
 
         class CustomEventLinker(EventLinker, default_failure_callback=default_failure_callback):
-            pass
+            pass  # pragma: no cover
 
         # Act
         event_handler1 = EventLinker.subscribe(Event, event_callback=event_callback)
@@ -597,27 +598,33 @@ class TestEventLinker:
         with raises(PyventusException):
 
             class CustomEventLinker0(EventLinker, max_event_handlers=0):
-                pass
+                pass  # pragma: no cover
 
         with raises(PyventusException):
 
             class CustomEventLinker1(EventLinker, default_success_callback="Callable"):  # type: ignore
-                pass
+                pass  # pragma: no cover
 
         # Arrange | Act
         class CustomEventLinker2(EventLinker, max_event_handlers=10):
-            pass
+            pass  # pragma: no cover
 
-        class CustomEventLinker3(EventLinker, max_event_handlers=None):
-            pass
+        class CustomEventLinker3(EventLinker, max_event_handlers=None, debug_mode=False):
+            @classmethod
+            def get_logger(cls) -> Logger:
+                return cls._get_logger()
 
-        class CustomEventLinker4(EventLinker):
-            pass
+        class CustomEventLinker4(EventLinker, debug_mode=True):
+            @classmethod
+            def get_logger(cls) -> Logger:
+                return cls._get_logger()
 
         # Assert
         assert CustomEventLinker2.get_max_event_handlers() == 10
         assert CustomEventLinker3.get_max_event_handlers() is None
+        assert not CustomEventLinker3.get_logger().debug_enabled
         assert CustomEventLinker4.get_max_event_handlers() is None
+        assert CustomEventLinker4.get_logger().debug_enabled
         assert EventLinker.get_max_event_handlers() is None
 
         # Act

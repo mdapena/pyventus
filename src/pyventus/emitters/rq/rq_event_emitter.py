@@ -60,7 +60,7 @@ class RQEventEmitter(EventEmitter):
 
     def _execute(self, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
         # Log the execution of the handlers, if debug mode is enabled
-        if self._logger.debug_enabled:
+        if self._logger.debug_enabled:  # pragma: no cover
             self._logger.debug(
                 action="Enqueueing:",
                 msg=f"[{event_handlers}] "

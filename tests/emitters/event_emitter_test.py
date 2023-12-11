@@ -3,8 +3,8 @@ from contextlib import contextmanager
 from typing import Type, Generator, List, Dict
 
 from _pytest.python_api import raises
-from pyventus import EventEmitter, EventLinker, Event, PyventusException
 
+from pyventus import EventEmitter, EventLinker, Event, PyventusException
 from .. import CallbackFixtures, EventFixtures
 
 
@@ -46,13 +46,16 @@ class EventEmitterTest(ABC):
         # Clear event linker
         event_linker.remove_all()
 
+        # Test emission when empty
+        event_emitter.emit(Event())
+
         # Set Sync and Async callback class
         sync_callback_cls: Type[CallbackFixtures.Base] = CallbackFixtures.Sync
         async_callback_cls: Type[CallbackFixtures.Base] = CallbackFixtures.Async
 
         # Create a dummy event linker for testing purposes
         class __DummyEventLinker(EventLinker, max_event_handlers=1):
-            pass
+            pass  # pragma: no cover
 
         # --------------------
         # Arrange
@@ -68,7 +71,6 @@ class EventEmitterTest(ABC):
         custom_event_with_validation = EventFixtures.CustomEventWithValidation(attr1="att", attr2=7.65)
         custom_exception1 = EventFixtures.CustomException1("Custom Exception 1 raised!")
         custom_exception2 = EventFixtures.CustomException2("Custom Exception 2 raised!")
-        value_error: ValueError | None = None
         return_value: Event = Event()
 
         # Callbacks
@@ -99,7 +101,7 @@ class EventEmitterTest(ABC):
         )
 
         # String Events
-        event_linker.subscribe("StringEventWithoutParams", event_callback=cb_without_params)
+        event_linker.subscribe("StringEventWithoutParams", event_callback=cb_without_params.__call__)
         event_linker.subscribe("StringEventWithoutParams", "AnotherStringEvent", event_callback=cb_without_params)
         event_linker.subscribe("StringEventWithTwoParams", event_callback=cb_with_two_params)
         event_linker.subscribe("StringEventWithArgs", event_callback=cb_with_args)
@@ -144,6 +146,8 @@ class EventEmitterTest(ABC):
         # String events
         with raises(PyventusException):
             event_emitter.emit("")
+        with raises(PyventusException):
+            event_emitter.emit(None)  # type: ignore
 
         event_emitter.emit("AnotherStringEvent")
         event_emitter.emit("StringEventWithoutParams")
@@ -178,7 +182,6 @@ class EventEmitterTest(ABC):
             EventFixtures.CustomEventWithValidation(attr1="at", attr2=7)
         except ValueError as e:
             event_emitter.emit(e)
-            value_error = e
 
         # Events with success and failure callbacks
         event_emitter.emit("StringEventWithSuccessCallback")

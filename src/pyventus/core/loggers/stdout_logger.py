@@ -30,7 +30,7 @@ class StdOutLogger(ABC):
                 return StdOutColors.YELLOW
             elif level == ERROR:
                 return StdOutColors.RED
-            return StdOutColors.DEFAULT
+            return StdOutColors.DEFAULT  # pragma: no cover
 
         @classmethod
         def get_stream_handler_by_level(cls, level: int) -> StreamHandler:  # type: ignore

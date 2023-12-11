@@ -79,7 +79,7 @@ class AsyncIOEventEmitter(EventEmitter):
         is_loop_running: bool = self.__is_loop_running
 
         # Log the execution context, if debug mode is enabled
-        if self._logger.debug_enabled:
+        if self._logger.debug_enabled:  # pragma: no cover
             self._logger.debug(action=f"Running:", msg=f"{'Async' if is_loop_running else 'Sync'} context")
 
         if is_loop_running:

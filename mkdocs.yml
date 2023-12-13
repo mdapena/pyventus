@@ -64,6 +64,13 @@ markdown_extensions:
 
 plugins:
   - search
+  - git-revision-date-localized:
+      exclude:
+        - api/index.md
+        - tutorials/index.md
+        - about.md
+        - contributing.md
+        - index.md
   - mkdocstrings:
       handlers:
         python:

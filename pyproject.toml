@@ -130,6 +130,7 @@ cov = [
 dependencies = [
     "mkdocs-material>=9.4.0",
     "mkdocstrings[python]>=0.24.0",
+    "mkdocs-git-revision-date-localized-plugin>=1.2.1",
 ]
 [tool.hatch.envs.docs.scripts]
 build = "mkdocs build --clean --strict"

@@ -20,11 +20,14 @@ class RQEventEmitter(EventEmitter):
     A class that enables event handling using the powerful Redis Queue (RQ) pub/sub and
     worker system.
 
-    This class extends the base `EventEmitter` class and provides functionality to enqueue
-    event handlers using the `RQ` package.
+    This class extends the base `EventEmitter` class and provides the functionality to enqueue
+    event handlers using the [RQ package](https://python-rq.org/). Once enqueued, these event
+    handlers are processed by RQ workers. This event emitter is particularly useful when
+    dealing with events that require resource-intensive tasks like model optimization
+    or video processing.
 
-    **Event Handler Queueing**: The `emit` method enqueues event handlers using the RQ
-    package. The callbacks are executed by RQ workers.
+    For more information and code examples, please refer to the `RQEventEmitter` tutorials
+    at: [https://github.com/mdapena/pyventus](https://github.com/mdapena/pyventus).
     """
 
     def __init__(

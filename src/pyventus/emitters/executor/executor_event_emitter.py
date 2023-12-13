@@ -18,7 +18,7 @@ class ExecutorEventEmitter(EventEmitter):
     execution or `ProcessPoolExecutor` for process-based execution.
 
     By inheriting from `EventEmitter` and utilizing the `Executor` interface, this class
-    provides a consistent way to emit events and execute handlers concurrently in either
+    provides a consistent way to emit events and execute handlers asynchronously in either
     threads or processes. This allows choosing the optimal execution approach based on
     application needs.
 
@@ -30,44 +30,8 @@ class ExecutorEventEmitter(EventEmitter):
       which will shut down the `Executor` (waiting as if `Executor.shutdown()` were called
       with `wait` set to `True`).
 
-    **Example:** You can use this event emitter in both synchronous and asynchronous
-    contexts.
-
-    ```Python
-    from pyventus import ExecutorEventEmitter, EventLinker
-
-
-    @EventLinker.on('StringEvent')
-    async def event_callback():
-        print("Event received!")
-
-
-    def main():
-        with ExecutorEventEmitter() as event_emitter:
-            event_emitter.emit('StringEvent')
-            event_emitter.emit('StringEvent')
-
-
-    main()
-    ```
-
-    ```Python
-    from pyventus import ExecutorEventEmitter, EventLinker
-
-
-    @EventLinker.on('StringEvent')
-    async def event_callback():
-        print("Event received!")
-
-
-    async def main():
-        with ExecutorEventEmitter() as event_emitter:
-            event_emitter.emit('StringEvent')
-            event_emitter.emit('StringEvent')
-
-
-    asyncio.run(main())
-    ```
+    For more information and code examples, please refer to the `ExecutorEventEmitter`
+    tutorials at: [https://github.com/mdapena/pyventus](https://github.com/mdapena/pyventus).
     """
 
     def __init__(
@@ -127,10 +91,10 @@ class ExecutorEventEmitter(EventEmitter):
     def _execute(self, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
         # Run the event handlers
         # concurrently in the executor
-        self._executor.submit(ExecutorEventEmitter.__execution_callback, event_handlers, *args, **kwargs)
+        self._executor.submit(ExecutorEventEmitter._execution_callback, event_handlers, *args, **kwargs)
 
     @staticmethod
-    def __execution_callback(event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
+    def _execution_callback(event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
         """
         Executes a list of event handlers concurrently using `asyncio.gather()`.
         This method serves as a callback to be passed to the executor.
@@ -143,6 +107,8 @@ class ExecutorEventEmitter(EventEmitter):
         async def _inner_callback() -> None:
             """Inner callback to be submitted to `asyncio.run()`."""
 
-            await asyncio.gather(*[event_handler(*args, **kwargs) for event_handler in event_handlers])
+            await asyncio.gather(
+                *[event_handler(*args, **kwargs) for event_handler in event_handlers], return_exceptions=True
+            )
 
         asyncio.run(_inner_callback())

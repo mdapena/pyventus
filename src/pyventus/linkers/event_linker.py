@@ -24,29 +24,19 @@ class EventLinker(ABC):
     unsubscriptions, and retrieval of events and their associated event handlers. It acts as a
     global registry, ensuring that events and their handlers are organized and easily accessible.
 
-    **Note**: The `EventLinker` class can be subclassed to create specific namespaces or contexts
-    for managing events and event handlers separately. By subclassing the `EventLinker`, users can
+    The `EventLinker` class can be subclassed to create specific namespaces or contexts for
+    managing events and event handlers separately. By subclassing the `EventLinker`, users can
     organize event subscriptions and handlers within different scopes, providing modularity and
     flexibility in event management. Subclassing also allows users to configure settings of the
     `EventLinker` to suit their specific use cases.
 
-    **Example**: To create a subclass of the `EventLinker` and register an event handler, you
-    can follow these steps:
+    **Thread-Safe:** The `EventLinker` has been implemented with thread safety in mind. All of its
+    methods synchronize access to prevent race conditions when managing events and event handlers
+    across multiple threads. This ensures that concurrent operations on the `EventLinker` are
+    properly synchronized, avoiding data inconsistencies and race conditions.
 
-    ```Python
-    class CustomEventLinker(EventLinker, max_event_handlers=10):
-        pass
-
-    @CustomEventLinker.on(Event)
-    async def decorated_function(event: Event):
-        # Event handling logic
-        pass
-    ```
-
-    **Thread-Safe:** The `EventLinker` has been implemented with thread safety in mind. All
-    of its methods synchronize access to prevent race conditions when managing events and event
-    handlers across multiple threads. This ensures that concurrent operations on the `EventLinker`
-    are properly synchronized, avoiding data inconsistencies and race conditions.
+    For more information and code examples, please refer to the `EventLinker` tutorials at:
+    [https://github.com/mdapena/pyventus](https://github.com/mdapena/pyventus).
     """
 
     @final

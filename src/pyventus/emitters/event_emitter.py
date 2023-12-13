@@ -27,16 +27,8 @@ class EventEmitter(ABC):
     adaptability through separation of concerns, allowing custom event emitters to
     be implemented without affecting existing consumers.
 
-    **Example**: Here is an example of how to subclass `EventEmitter` and customize
-    event handling:
-
-    ```Python
-    class CustomEventEmitter(EventEmitter):
-
-        def _execute(self, event_handlers: List[EventHandler], *args: Any, **kwargs: Any) -> None:
-            # Underlying implementation...
-            pass
-    ```
+    For more information and code examples, please refer to the `EventEmitter` tutorials
+    at: [https://github.com/mdapena/pyventus](https://github.com/mdapena/pyventus).
     """
 
     def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug_mode: bool | None = None):
@@ -135,7 +127,7 @@ class EventEmitter(ABC):
                 action="Emitting:",
                 msg=(
                     f"{event if is_string else event.__class__.__name__} "
-                    f"{StdOutColors.PURPLE}\tHandlers:{StdOutColors.DEFAULT} {len(pending_event_handlers)}"
+                    f"{StdOutColors.PURPLE} Handlers:{StdOutColors.DEFAULT} {len(pending_event_handlers)}"
                 ),
             )
 

@@ -23,23 +23,8 @@ class AsyncIOEventEmitter(EventEmitter):
     waits for all scheduled callbacks to finish before closing. This preserves synchronous
     execution while still gaining the benefits of the concurrent execution.
 
-    **Examples**:
-
-    ```Python
-    # Asynchronous Execution.
-    async def async_context(event_emitter: EventEmitter = AsyncIOEventEmitter()) -> None:
-        # The event handlers are submitted to the already running
-        # asyncio event loop, and the execution does not block.
-        event_emitter.emit(Event())
-    ```
-
-    ```Python
-    # Synchronous Execution.
-    def sync_context(event_emitter: EventEmitter = AsyncIOEventEmitter()) -> None:
-        # The event handlers are submitted to a new asyncio event
-        # loop, but it blocks until all tasks complete.
-        event_emitter.emit(Event())
-    ```
+    For more information and code examples, please refer to the `AsyncIOEventEmitter`
+    tutorials at: [https://github.com/mdapena/pyventus](https://github.com/mdapena/pyventus).
     """
 
     @property
@@ -96,7 +81,9 @@ class AsyncIOEventEmitter(EventEmitter):
 
             async def _inner_callback() -> None:
                 """Inner callback function to be submitted to `asyncio.run()`."""
-                await asyncio.gather(*[event_handler(*args, **kwargs) for event_handler in event_handlers])
+                await asyncio.gather(
+                    *[event_handler(*args, **kwargs) for event_handler in event_handlers], return_exceptions=True
+                )
 
             # Run the event handlers concurrently in a synchronous manner
             asyncio.run(_inner_callback())

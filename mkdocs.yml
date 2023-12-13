@@ -26,6 +26,7 @@ theme:
     - navigation.indexes
     - navigation.top
     - navigation.expand
+    - navigation.footer
     - toc.follow
     - search.suggest
     - search.highlight
@@ -46,7 +47,9 @@ markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
   - pymdownx.inlinehilite
-  - pymdownx.snippets
+  - pymdownx.snippets:
+      base_path:
+        - !relative $docs_dir
   - admonition
   - footnotes
   - pymdownx.details
@@ -54,8 +57,8 @@ markdown_extensions:
   - pymdownx.mark
   - abbr
   - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.tabbed:
       alternate_style: true
 
@@ -71,7 +74,7 @@ plugins:
             members_order: source
             separate_signature: true
             unwrap_annotated: true
-            filters: [ "!^_" ]
+            filters: [ "!^(_.*$)", "^(__init__|__init_subclass__|__call__|__enter__|__exit__)$" ]
             docstring_section_style: spacy
             signature_crossrefs: true
             show_symbol_type_heading: true
@@ -83,18 +86,27 @@ plugins:
 nav:
   - Pyventus: index.md
   - Getting Started: getting-started.md
-  - Tutorials: tutorials.md
+  - Tutorials:
+      - Tutorials: tutorials/index.md
+      - Events: tutorials/event.md
+      - Event Linkers: tutorials/event-linker.md
+      - Event Emitters:
+          - tutorials/emitters/index.md
+          - AsyncIO Event Emitter: tutorials/emitters/asyncio-event-emitter.md
+          - Executor Event Emitter: tutorials/emitters/executor-event-emitter.md
+          - RQ Event Emitter: tutorials/emitters/rq-event-emitter.md
   - API Reference:
       - api/index.md
       - Event: api/event.md
       - Event Linker: api/event-linker.md
-      - Event Listener: api/event-listener.md
-      - Event Emitters:
-          - Event Emitter: api/event-emitter.md
-          - Asyncio Event Emitter: api/emitters/asyncio-event-emitter.md
-          - Redis Queue Event Emitter: api/emitters/rq-event-emitter.md
-  - Help: help.md
+      - Event Handler: api/event-handler.md
+      - Event Emitter:
+          - api/emitters/index.md
+          - AsyncIO Event Emitter: api/emitters/asyncio-event-emitter.md
+          - Executor Event Emitter: api/emitters/executor-event-emitter.md
+          - RQ Event Emitter: api/emitters/rq-event-emitter.md
+  - Contributing: contributing.md
   - About: about.md
 
 copyright: |
-  &copy; 2023 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+  Copyright &copy; 2023 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>

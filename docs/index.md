@@ -16,67 +16,61 @@ hide:
 
 ---
 
-**Documentation**: <a href="#" target="_blank">https://github.com/mdapena/pyventus</a>
+**Documentation**: <a href="https://github.com/mdapena/pyventus" target="_blank">https://github.com/mdapena/pyventus</a>
 
-**Source Code**: <a href="#" target="_blank">https://github.com/mdapena/pyventus</a>
+**Source Code**: <a href="https://github.com/mdapena/pyventus" target="_blank">https://github.com/mdapena/pyventus</a>
 
 ---
 
 <p style='text-align: justify;' markdown>
-    &emsp;&emsp;Welcome to the official documentation of Pyventus, a modern and robust Python package designed for event-driven
-	programming. Pyventus offers a comprehensive suite of tools and utilities that streamline event emission, event
-	listener management, and event emitters. Users can easily implement event-driven architectures and construct
-	modular, decoupled systems with Pyventus. 
+    &emsp;&emsp;Pyventus is a modern and robust Python package for event-driven programming that goes beyond
+	traditional event emitter libraries. It offers a comprehensive suite of tools and utilities for defining,
+	emitting, managing, and orchestrating events. With Pyventus, developers can easily build scalable,
+	extensible, and loosely-coupled event-driven applications.
 </p>
 
 ## More than just Events
 
 <p style='text-align: justify;'>
-    Pyventus offers several key features that make it a powerful event-driven programming package for your 
+	Pyventus offers several key features that make it a powerful event-driven programming package for your 
 	Python projects:
 </p> 
 
 <ul style='text-align: justify;' markdown>
 
-<li markdown>**Event-Driven Architecture** ─ 
-Pyventus simplifies the implementation of event-driven architecture in your applications. It *`provides an intuitive 
-API for defining events, event emitters and event listeners`*, enabling you to organize your code around discrete 
-events and their associated actions.
+<li markdown>**An Intuitive API** ─ 
+Pyventus provides a user-friendly API for defining events, emitters, and handlers. Its design simplifies the process
+of working with events, enabling you to organize your code around discrete events and their associated actions.
 </li>
 
 <li markdown>**Sync and Async Support** ─ 
-Whether your code is synchronous or asynchronous, Pyventus seamlessly *`handles both sync and 
-async functions and contexts`*. You can define event listeners as either synchronous or asynchronous 
-functions, and Pyventus automatically adapts to the execution context during event emissions.
+Whether your code is synchronous or asynchronous, Pyventus allows you to define event handlers as either sync or async
+callbacks and emit events from both scopes. 
 </li>
 
-<li markdown>**Decoupled Components** ─ 
-Pyventus promotes a clear separation of concerns by decoupling the *`event dispatcher, event listeners, and event 
-linkers`*. This separation enhances code readability, reusability, and testability, allowing you to modify specific 
-functionalities without impacting the entire system.
+<li markdown>**Runtime Flexibility** ─ 
+Pyventus' runtime flexibility allows you to switch seamlessly between different official or custom event emitter
+implementations on the fly.
 </li>
 
-<li markdown>**Dynamic Event Emitter** ─ 
-Pyventus provides a dynamic *`event emitter that can be changed at runtime`*. This flexibility allows you to implement
-custom event emitters or choose from a variety of pre-existing emitter implementations to suit your specific 
-requirements.
+<li markdown>**Customization** ─ 
+Whether you choose official emitters or custom ones, Pyventus allows you to customize the behavior and capabilities of
+the event emitters to perfectly align with your unique requirements.
 </li>
 
-<li markdown>**Robust Error Handling** ─ 
-Pyventus ensures robust *`error handling during event emissions`*. If an error occurs during the event emission process, 
-Pyventus captures the error and emits an exception event. These exception events can be handled by appropriate 
-exception event listeners, helping you identify and manage errors effectively.
+<li markdown>**Reliable Event Handling** ─ 
+Pyventus allows you to define handlers to customize how events are processed upon completion. Attach success and
+failure logic to take targeted actions based on the outcome of each event execution. 
 </li>
 
 <li markdown>**Scalability and Maintainability** ─ 
-By adopting an event-driven approach with Pyventus, you can create scalable and maintainable code. The *`loose
-coupling between components`* enables easier extensibility and modularity, allowing for the addition or modification
-of functionalities without disrupting the entire system.
+By adopting an event-driven approach with Pyventus, you can create scalable and maintainable code thanks to the loose
+coupling between its components that enables extensibility and modularity.
 </li>
 
 <li markdown>**Comprehensive Documentation** ─ 
-Pyventus provides *`extensive documentation`*, including API explanations, usage examples, best practices, and 
-implementation guidelines, to help you effectively utilize the package's features and functionalities.
+Pyventus provides a comprehensive documentation suite that includes API references, usage examples, best practices
+guides, and tutorials to effectively leverage all the features and capabilities of the package.
 </li>
 
 </ul>
@@ -84,80 +78,66 @@ implementation guidelines, to help you effectively utilize the package's feature
 ## `Hello, World!` Example
 
 <p style='text-align: justify;' markdown>
-    &emsp;&emsp;Experience the power of Pyventus through a simple `Hello, World!` example that illustrates the core concepts and
-	basic usage of the package. This example will walk you through the essential steps of creating an event listener 
-	and triggering events within your application.
+    &emsp;&emsp;Experience the power of Pyventus through a simple `Hello, World!` example that illustrates the core
+	concepts and basic usage of the package. This example will walk you through the essential steps of creating an
+	event handler and triggering events within your application.
 </p>
 
 ```Python title="Hello, World! example with Pyventus" linenums="1"
-from pyventus import EventLinker, AsyncioEventEmitter
+from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 
 
 @EventLinker.on("MyEvent")
-def handle_my_event():  # (1)!
-    """ Event listener for handling MyEvent. """
+def event_callback():  # (1)!
     print("Hello, World!")
 
 
-# Create an instance of the event emitter
-event_emitter = AsyncioEventEmitter()  # (2)!
+event_emitter: EventEmitter = AsyncIOEventEmitter()  # (2)!
 
-# Emit a MyEvent
 event_emitter.emit("MyEvent")  # (3)!
 ```
 
-1. :material-format-list-group-plus: **Note** ─ With Pyventus, you can confidently handle both `sync` and `async`
-   functions.
-2. :material-format-list-group-plus: **Note** ─ The event emitter can be dynamically changed based on the requirements.
-   <a href="/">Learn more…</a>
-3. :material-format-list-group-plus: **Note** ─ The emit method of the Pyventus event emitter works seamlessly in both
-   `sync` and `async` contexts.
+1. The event handler callback can be either `sync` or `async` depending on your needs.
+2. By using the base `EventEmitter` as a dependency the concrete implementation can be seamlessly switched at runtime.
+3. The `emit()` method of the event emitter is designed to be called from both synchronous and asynchronous contexts.
 
-??? info "You can also work with <code>async</code> functions or within an asynchronous context..."
+??? info "You can also work with <code>async</code> functions and contexts..."
 
-    <p style='text-align: justify;' markdown>
-        If your code utilizes asynchronous programming patterns like `async` and `await`, Pyventus supports defining
-		event handlers asynchronously using `async def`. It also handles event emission natively in async contexts.
-    </p>
-    
-    ```Python title="Async Hello, World! example with Pyventus" hl_lines="5" linenums="1"
-    from pyventus import EventLinker, AsyncioEventEmitter
-    
-    
-    @EventLinker.on('MyEvent')
-    async def handle_my_event():
-        """ Async event listener for handling MyEvent. """
-        print(f"Hello, World!")
-    
-    
-    # Create an instance of the event emitter
-    event_emitter = AsyncioEventEmitter()
-    
-    # Emit a MyEvent
-    event_emitter.emit('MyEvent')  
+    ```Python title="Hello, World! example with Pyventus (Async version)" linenums="1" hl_lines="5 14"
+    from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
+
+
+	@EventLinker.on("MyEvent")
+	async def event_callback():
+	    print("Hello, World!")
+	
+	
+	event_emitter: EventEmitter = AsyncIOEventEmitter()
+	
+	event_emitter.emit("MyEvent")
     ```
 
 <p style='text-align: justify;' markdown>
-    &emsp;&emsp;As we can see from the `Hello, World!` example, Pyventus follows a simple and intuitive 
-    workflow for event-driven programming. Let's recap the essential steps involved:
+    &emsp;&emsp;As we can see from the `Hello, World!` example, Pyventus follows a simple and intuitive workflow for
+	event-driven programming. Let's recap the essential steps involved:
 </p>
 
 <ol style='text-align: justify;' markdown>
 
 <li markdown>
-**Defining the event listener function:** We defined the function `handle_my_event()` and used the `@EventLinker.on()`
-decorator to associate it with the event `MyEvent`. This decorator indicates that the function should be triggered 
-when `MyEvent` occurs.
+**Defining the event handler callback:** We defined the function `event_callback()` and used the `@EventLinker.on()`
+decorator to associate it with the string event `MyEvent`. This decorator indicates that the function should be
+triggered when `MyEvent` occurs.
 </li>
 
 <li markdown>
-**Creating the event emitter instance:** We instantiated the `AsyncioEventEmitter` class, which acts as the event 
-emitter responsible for dispatching events and invoking the associated event listener.
+**Creating the event emitter instance:** We instantiated the `AsyncIOEventEmitter` class, which acts as the event 
+emitter responsible for dispatching events and invoking the associated event handler callbacks.
 </li>
 
 <li markdown>
-**Emitting the event:** By utilizing the `emit()` method of the event emitter, we emitted the event `MyEvent`. This
-action subsequently executed the registered event listener, `handle_my_event()`.
+**Emitting the event:** By utilizing the `emit()` method of the event emitter, we emitted the string event `MyEvent`.
+This action subsequently execute the registered event handler callbacks, which in this case is the  `event_callback()`.
 </li>
 
 </ol>
@@ -172,95 +152,12 @@ action subsequently executed the registered event listener, `handle_my_event()`.
 
 	<p style='text-align: justify;' markdown>
 	    Feel free to experiment and build upon this example to explore the full potential of Pyventus in your own 
-		projects. You can register **additional event listeners**, handle **events with different event types**
+		projects. You can register **additional event handlers**, handle **events with different event types**
 		or **metadata**, implement **custom event emitters** and **event linkers** based on your application's 
 		requirements. 
 	</p>
 
-## Support for Synchronous and Asynchronous Code
-
-<p style='text-align: justify;' markdown>
-    &emsp;&emsp;Pyventus is designed from the ground up to seamlessly support both asynchronous and synchronous programming
-	models with a unified sync/async API. Its core abstractions handle event emission and propagation transparently
-	across execution contexts.
-</p>
-
-<p style='text-align: justify;' markdown>
-    &emsp;&emsp;The event system architecture in Pyventus is designed to be context-agnostic, allowing event emitters and
-	listeners to be used interchangeably in both asynchronous and synchronous scopes. However, the behavior of
-	event propagation within asynchronous and synchronous contexts is determined by the specific implementation
-	of the event emitter.
-</p>
-
-<p style='text-align: justify;' markdown>
-    &emsp;&emsp;By default, Pyventus' certified emitters ensure asynchronous event emission in asynchronous contexts and
-	synchronous event propagation in synchronous code. This approach preserves the intrinsic nature of asynchronous
-	code while maintaining synchronous propagation for synchronous functions.
-</p>
-
-<p style='text-align: justify;' markdown>
-    &emsp;&emsp;Developers also have the flexibility to implement custom emitters to define alternative propagation behaviors
-	as needed. However, in most cases, Pyventus' event system handles the asynchronous/synchronous distinction
-	seamlessly out of the box.
-</p>
-
-### Event Listeners for `sync` and `async` Code
-
-```Python 
-@EventLinker.on(MyEvent)
-def sync_event_handler(event: MyEvent):
-    # Synchronous event handling code
-    pass
-
-
-@EventLinker.on(MyEvent)
-async def async_event_handler(event: MyEvent):
-    # Asynchronous event handling code
-    pass
-```
-
-### Event Emissions in `sync` or `async` Contexts
-
-```Python 
-async def async_function():
-    # Emitting an event within an async function
-    event_emitter: EventEmitter = AsyncioEventEmitter()
-    event_emitter.emit(MyEvent())
-
-
-def sync_function():
-    # Emitting an event within a sync function
-    event_emitter: EventEmitter = AsyncioEventEmitter()
-    event_emitter.emit(MyEvent())
-```
-
-## Error Handling
-
-<p style='text-align: justify;' markdown>
-    &emsp;&emsp;Pyventus event emitters, including the `AsyncioEventEmitter`, are designed with robust error handling
-	capabilities to effectively manage errors that may occur during event emission.
-</p>
-
-<p style='text-align: justify;' markdown>
-    &emsp;&emsp;For instance, the `AsyncioEventEmitter` captures any errors that may arise during event emission and emits an
-	exception event for the error listeners. This allows developers to define exception listeners to intercept
-	and handle specific types of errors that occur during event emission. Here is an example of exception 
-	handling for the `AsyncioEventEmitter`:
-</p>
-
-```Python 
-@EventLinker.on(ValueError)
-def handle_emitter_exception(exception: ValueError):
-    # Handle exception events here
-    pass
-```
-
-<p style='text-align: justify;' markdown>
-    &emsp;&emsp;As we can see from the example, the `handle_emitter_exception` function is an exception event listener that
-	specifically handles `ValueError` exceptions.
-</p>
-
-## Practical Example
+## A Practical Example
 
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;To demonstrate Pyventus in a realistic scenario, we will examine how to implement a portion of the 
@@ -285,56 +182,334 @@ def handle_emitter_exception(exception: ValueError):
 from dataclasses import dataclass
 from smtplib import SMTPConnectError
 
-from pyventus import Event, EventLinker, AsyncioEventEmitter
+from pyventus import Event, EventLinker, EventEmitter, AsyncIOEventEmitter
 
 
 @dataclass(frozen=True)
 class PasswordResetRequestedEvent(Event):
-    """ Event triggered when a password reset is requested. """
+    """Event triggered when a password reset is requested."""
+
     user_id: str
     token: str
     ip_address: str
     email: str
 
 
-@EventLinker.on(PasswordResetRequestedEvent)
-async def send_password_reset_email(event: PasswordResetRequestedEvent):
-    """ Event listener for sending a password reset email. """
-    # For example purpose, uncomment the following lines to test it!
-    # print(event)
-    # raise SMTPConnectError(421, "service not available")
-    pass
-
-
-@EventLinker.on('PasswordResetRequestedEvent')
+@EventLinker.on("PasswordResetRequestedEvent")
 async def notify_recovery_email_of_password_reset(event: PasswordResetRequestedEvent):
-    """ Event listener for notifying the recovery email of a password reset. """
-    # For example purpose, uncomment the following lines to test it!
-    # print(event)
-    pass
+    """Event handler for notifying the recovery email of a password reset."""
+    print("Recovery email notified!")
 
 
-@EventLinker.on(SMTPConnectError)
-def password_reset_email_exception(exception: SMTPConnectError):
-    """ Event listener for handling exceptions related to sending password reset emails. """
-    # For example purpose, uncomment the following line to test it!
-    # Example: print(exception)
-    pass
+with EventLinker.on(PasswordResetRequestedEvent) as linker:
+    @linker.on_event
+    async def send_password_reset_email(event: PasswordResetRequestedEvent):
+        """Event handler for sending a password reset email."""
+        print(event)
+        raise SMTPConnectError(421, "service not available")
+
+
+    @linker.on_failure
+    def password_reset_email_exception(exc: Exception):
+        """Event handler for handling exceptions related to sending password reset emails."""
+        if isinstance(exc, SMTPConnectError):
+            print(f"SMTPConnectError received!")
+
+
+@EventLinker.on(Event)
+def logging(*args, **kwargs):
+    """Event handler for general logging of events and exceptions."""
+    print(f"\nLogging: args: {args}, kwargs: {kwargs}\n")
 
 
 # Create an instance of the event emitter
-event_emitter: EventEmitter = AsyncioEventEmitter()
+event_emitter: EventEmitter = AsyncIOEventEmitter()
 
 # Emit a PasswordResetRequestedEvent
 event_emitter.emit(
     PasswordResetRequestedEvent(
-        user_id='33171591-5a4e-42ae-b719-8e7b525337e5',
-        token='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNldF91dWlkIjoiM',
-        ip_address='192.168.0.1',
-        email='user@example.com'
+        user_id="33171591-5a4e-42ae-b719-8e7b525337e5",
+        token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNldF91dWlkIjoiM",
+        ip_address="192.168.0.1",
+        email="user@example.com",
     )
 )
 ```
+
+## Support for Synchronous and Asynchronous code
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;Pyventus is designed from the ground up to seamlessly support both synchronous and asynchronous
+	programming models. Its unified sync/async API allows you to define event handler callbacks and emit events
+	across `sync` and `async` contexts. Let's take a look at some use cases that illustrate how the API handles
+	event registration and dispatch transparently.
+</p>
+
+### Registering Event Handlers as `Sync` and `Async` Callbacks
+
+```Python 
+@EventLinker.on("MyEvent")
+def sync_event_callback():
+    # Synchronous event handling
+    print("Event received!")
+
+
+@EventLinker.on("MyEvent")
+async def async_event_callback():
+    # Asynchronous event handling
+    print("Event received!")  
+```
+
+### Emitting Events from `Sync` and `Async` Contexts
+
+```Python 
+# Emitting an event within a sync function
+def sync_function(event_emitter: EventEmitter):
+    event_emitter.emit("MyEvent")
+
+
+# Emitting an event within an async function
+async def async_function(event_emitter: EventEmitter):
+    event_emitter.emit("MyEvent")
+```
+
+!!! info "Event Propagation Within Different Contexts"
+
+	<p style='text-align: justify;' markdown>
+	    &emsp;&emsp;While Pyventus provides a base `EventEmitter` class with a unified sync/async API, the specific	
+		propagation behavior when emitting events may vary depending on the concrete `EventEmitter` used.  For example,
+		the `AsyncioEventEmitter` implementation leverages the `Asyncio` event loop to schedule callbacks added from
+		asynchronous contexts without blocking. But alternative emitters could structure propagation differently
+		to suit their needs.
+	</p>
+
+## Runtime Flexibility and Customization
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;At its core, Pyventus utilizes a modular event emitter design that allows you to switch seamlessly
+	between different built-in or custom event emitter implementations on the fly. Whether you opt for official
+	emitters or decide to create your custom ones, Pyventus allows you to tailor the behavior and capabilities
+	of the event emitters to perfectly align with your unique requirements.
+</p>
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;By leveraging the principles of dependency inversion and open-close, Pyventus decouples the event
+	emission process from the underlying implementation that handles the event handler callbacks and enables you,
+	in conjunction with the `EventLinker`, to change the event emitter at runtime without the need to reconfigure
+	all connections or employ complex logic.
+</p>
+
+### Seeing it in Action
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;Now let's put Pyventus' flexibility to the test with a practical example. First, we'll build a
+	custom [FastAPI](https://fastapi.tiangolo.com/)-specific EventEmitter to properly handle the event handler 
+	callbacks using the framework's [BackgroundTasks](https://fastapi.tiangolo.com/reference/background/) workflow.
+	Then, we'll illustrate Pyventus' dynamic capabilities by swapping this custom emitter out for a built-in
+	alternative on the fly.
+</p>
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;To follow along, please ensure that you have the FastAPI framework [installed](https://fastapi.tiangolo.com/?h=#installation). 
+	Once that is complete, let's dive into the step-by-step implementation:
+</p>
+
+<ol style='text-align: justify;' markdown>
+
+<li markdown>
+Create a `main.py` file with:
+
+```Python title="main.py" linenums="1"  hl_lines="10 17-19 39 42"
+from asyncio import sleep
+from random import randint
+from typing import Any, List
+
+from fastapi import BackgroundTasks, FastAPI
+
+from pyventus import EventEmitter, EventHandler, EventLinker, AsyncIOEventEmitter
+
+
+class FastAPIEventEmitter(EventEmitter):
+    """Custom event emitter class that leverages the FastAPI's asynchronous workflow."""
+
+    def __init__(self, background_tasks: BackgroundTasks):
+        super().__init__()
+        self._background_tasks = background_tasks  # Store the FastAPI background tasks object
+
+    def _execute(self, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
+        for event_handler in event_handlers:  # Execute event handlers as background tasks
+            self._background_tasks.add_task(event_handler, *args, **kwargs)
+
+
+@EventLinker.on("console_print")
+async def console_print(message: str):
+    await sleep(randint(0, 3))  # Simulate a random delay
+    print(message)
+
+
+app = FastAPI()
+
+
+@app.get("/print")
+async def console_print_endpoint(background_tasks: BackgroundTasks):
+    """FastAPI endpoint that triggers the console_print event."""
+
+    def console_print_app_service(event_emitter: EventEmitter) -> None:
+        event_emitter.emit("console_print", message=f"\nHello, {event_emitter.__class__.__name__}!")
+
+    # Emit the console_print event using FastAPIEventEmitter
+    console_print_app_service(event_emitter=FastAPIEventEmitter(background_tasks))
+
+    # Emit the console_print event using AsyncIOEventEmitter
+    console_print_app_service(event_emitter=AsyncIOEventEmitter())
+
+    return {"message": "Console print triggered!"}
+```
+
+</li> 
+
+
+
+<li markdown>
+[Run the server](https://fastapi.tiangolo.com/#run-it) with:
+```console
+uvicorn main:app --reload
+```
+</li>
+
+<li markdown>
+Open your browser at [http://127.0.0.1:8000/print](http://127.0.0.1:8000/print). You will see the JSON response as:
+
+```JSON
+{ "message": "Console print triggered!" }
+```
+
+You'll also be able to see the outputs of the event emitters in the console logs as:
+
+```console
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [28720]
+INFO:     Started server process [28722]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:52391 - "GET /print HTTP/1.1" 200 OK
+
+Hello, FastAPIEventEmitter!
+
+Hello, AsyncIOEventEmitter!
+```
+
+</li>
+
+</ol> 
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;As we can see from this practical example, we were able to easily adapt the event emitter to the
+	context of the FastAPI framework. We defined and implemented a custom emitter tailored for FastAPI's workflow,
+	using background tasks to handle the event handler callbacks accordingly.
+</p>
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;We also saw Pyventus' dynamic flexibility firsthand - swapping emitters in real-time required no
+	intricate reconfiguration or re-establishing of handlers. Simply changing the concrete emitter allowed for
+	a seamless transition between implementations.
+</p>
+
+## Defining Event Response Logic
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;As we mentioned earlier, Pyventus allows you to customize how events are processed upon completion in
+	success or error scenarios by attaching custom handlers. To utilize this functionality, Pyventus provides a simple
+	yet powerful Pythonic syntax through its `event linkage context`.
+</p>
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;The `event linkage context` enables defining the event workflow and completion handlers in an organized
+	manner. This is done by using the `EventLinker.on` method within a `with` statement block. Let's examine examples 
+	demonstrating how success and failure handlers can be attached using the event linkage context:
+</p>
+
+### Success and Error Handling Example
+
+=== "Success execution"
+
+	```Python linenums="1"  hl_lines="7 10-12"
+	from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
+	
+	with EventLinker.on("StringEvent") as linker: # (1)!
+	    @linker.on_event
+	    def event_callback() -> str:
+	        print("Event received!")
+	        return "Event succeeded!"
+	
+	
+	    @linker.on_success
+	    def success_callback(msg: str) -> None:
+	        print(msg)
+	
+	
+	    @linker.on_failure
+	    def failure_callback(exc: Exception) -> None:
+	        print(exc)
+	
+	event_emitter: EventEmitter = AsyncIOEventEmitter()
+	event_emitter.emit("StringEvent")
+	```
+
+	1. When the `Eventlinker.on` method is used as a context manager via the `with` statement, it allows multiple
+       callbacks to be associated with events within the `linkage context block`, defining the event workflow.
+
+	<p style='text-align: justify;' markdown>
+		When we emit this event, the success handler we attached is invoked, printing `Event succeeded!` to the console.
+	</p>
+
+	```console
+	Event received!
+	Event succeeded!
+	```
+
+=== "Error execution"
+
+	```Python linenums="1"  hl_lines="6 15-17"
+	from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
+	
+	with EventLinker.on("StringEvent") as linker: # (1)!
+	    @linker.on_event
+	    def event_callback() -> str:
+	        raise ValueError("Something went wrong!")
+	        return "Event succeeded!"
+	
+	
+	    @linker.on_success
+	    def success_callback(msg: str) -> None:
+	        print(msg)
+	
+	
+	    @linker.on_failure
+	    def failure_callback(exc: Exception) -> None:
+	        print(exc)
+	
+	event_emitter: EventEmitter = AsyncIOEventEmitter()
+	event_emitter.emit("StringEvent")
+	```
+
+	1. When the `Eventlinker.on` method is used as a context manager via the `with` statement, it allows multiple
+       callbacks to be associated with events within the `linkage context block`, defining the event workflow.
+
+	<p style='text-align: justify;' markdown>
+		When we emit this event, the failure handler we attached is invoked, printing `Something went wrong!` to the
+		console.
+	</p>
+
+	```console
+	[Logger] 2023-12-12 11:50:00 AM    ERROR [EventHandler] Exception: Something went wrong!
+	Something went wrong!
+	```
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;As we have seen from the examples, Pyventus' event linkage context provides a reliable and Pythonic way
+	to manage the event workflow and response to different completion outcomes through the use of custom handlers.
+</p>
 
 ## Continuous Evolution
 
@@ -351,9 +526,9 @@ event_emitter.emit(
 !!! info "Driving Innovation Through Collaboration"
 
 	<p style='text-align: justify;' markdown>
-	    Pyventus is an open source project that welcomes community involvement. If you wish to contribute
-		additional event emitters, improvements, or bug fixes, please check the [**Help**](/help) section for 
-		guidelines on collaborating. Together, we can further the possibilities of event-driven development.
+	    &emsp;&emsp;Pyventus is an open source project that welcomes community involvement. If you wish to contribute
+		additional event emitters, improvements, or bug fixes, please check the [Help](/help) section for guidelines
+		on collaborating. Together, we can further the possibilities of event-driven development.
 	</p>
 
 ## Get Started Today!
@@ -361,9 +536,8 @@ event_emitter.emit(
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;Are you ready to dive into event-driven programming with Pyventus? Follow these steps to integrate Pyventus into
 	your project and start building event-driven applications. Click the button below to navigate to the Pyventus 
-	`Getting Started` page and explore detailed instructions, examples, and more:
+	Getting Started page and explore detailed instructions, examples, and more:
 </p>
-
 
 ---
 

@@ -1,0 +1,3 @@
+# `ExecutorEventEmitter` class
+
+::: pyventus.ExecutorEventEmitter

@@ -112,7 +112,7 @@ nav:
           - Executor Event Emitter: api/emitters/executor-event-emitter.md
           - RQ Event Emitter: api/emitters/rq-event-emitter.md
   - Contributing: contributing.md
-  - About: about.md
+  - Release Notes: release-notes.md
 
 extra:
   social:

@@ -44,8 +44,8 @@
 
 	<p style='text-align: justify;' markdown>
 	    &emsp;&emsp;Pyventus is an open source project that welcomes community involvement. If you wish to
-		contribute additional event emitters, improvements, or bug fixes, please check the [Help](/help) section
-		for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
+		contribute additional event emitters, improvements, or bug fixes, please check the [Contributing](/Contributing)
+		section for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
 	</p>
 
 ## Custom Event Emitters

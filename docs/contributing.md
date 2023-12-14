@@ -65,41 +65,41 @@ hide:
 
 1. Create a virtual environment:
 
-   ```console
-   python -m venv venv
-   ```
+	```console
+	python -m venv venv
+	```
 
 2. Activate the virtual environment:
 
-=== "Linux, macOS"
-
-	```console
-	source ./venv/bin/activate
-	```
-
-=== "Windows PowerShell"
-
-	```console
-	.\venv\Scripts\Activate.ps1
-	```
-
-=== "Windows Bash"
-
-	```console
-	source ./venv/Scripts/activate
-	```
+	=== "Linux, macOS"
+	
+		```console
+		source ./venv/bin/activate
+		```
+	
+	=== "Windows PowerShell"
+	
+		```console
+		.\venv\Scripts\Activate.ps1
+		```
+	
+	=== "Windows Bash"
+	
+		```console
+		source ./venv/Scripts/activate
+		```
 
 3. Install the project manager:
 
-```console
-pip install hatch
-```
+	```console
+	pip install hatch
+	```
 
 4. Install development dependencies:
 
-```console
-pip install -e .[dev]
-```
+	```console
+	pip install -e .[dev]
+	```
 
 ### Running the Tests
 
@@ -262,7 +262,7 @@ hatch run tests:all
 
 	<p style='text-align: justify;' markdown>
 		If you want to test for specific Python versions, you can do so by specifying the desired versions in the 
-		command, as follows
+		command, as follows:
 	</p>
 
 	=== "Python 3.10"

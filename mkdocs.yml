@@ -114,5 +114,12 @@ nav:
   - Contributing: contributing.md
   - About: about.md
 
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin
+      link: https://ve.linkedin.com/in/manuel-da-pena/en
+    - icon: fontawesome/brands/github
+      link: https://github.com/mdapena
+
 copyright: |
   Copyright &copy; 2023 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>

@@ -88,14 +88,7 @@ hide:
 		```console
 		source ./venv/Scripts/activate
 		```
-
-3. Install the project manager:
-
-	```console
-	pip install hatch
-	```
-
-4. Install development dependencies:
+3. Install development dependencies:
 
 	```console
 	pip install -e .[dev]

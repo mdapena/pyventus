@@ -62,10 +62,12 @@ all = [
 # ----------
 
 tests = [
+    "mypy>=1.7.1",
+    "black>=23.12.0",
     "pytest>=7.4.0",
-    "pytest-asyncio>=0.21.0",
     "fakeredis>=2.20.0",
-    "coverage[toml]",
+    "pytest-asyncio>=0.21.0",
+    "coverage[toml]>=7.3.3",
     "pyventus[all]",
 ]
 
@@ -74,9 +76,8 @@ tests = [
 # ----------
 
 dev = [
-    "mypy",
-    "black",
     "pyventus[tests]",
+    "hatch>=1.8.1",
 ]
 
 # ------------------------------------------------------------------

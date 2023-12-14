@@ -61,7 +61,7 @@ all = [
 # | Test dependencies
 # ----------
 
-testing = [
+tests = [
     "pytest>=7.4.0",
     "pytest-asyncio>=0.21.0",
     "fakeredis>=2.20.0",
@@ -76,7 +76,7 @@ testing = [
 dev = [
     "mypy",
     "black",
-    "pyventus[testing]",
+    "pyventus[tests]",
 ]
 
 # ------------------------------------------------------------------
@@ -108,13 +108,13 @@ implicit_reexport = true
 strict = true
 
 # ------------------------------------------------------------------
-# | Hatch test environment                                         |
+# | Hatch tests environment                                         |
 # ------------------------------------------------------------------
 
-[tool.hatch.envs.test]
-dependencies = ["pyventus[testing]"]
+[tool.hatch.envs.tests]
+dependencies = ["pyventus[tests]"]
 
-[tool.hatch.envs.test.scripts]
+[tool.hatch.envs.tests.scripts]
 run = "pytest -v {args:tests}"
 cov = [
     "coverage run -m pytest -v {args:tests}",

@@ -45,7 +45,7 @@ hide:
 
 <li markdown>Fork the repository and create a new branch.</li>
 <li markdown>Implement your changes in the branch.</li>
-<li markdown>Ensure that formatting, linting, and tests pass.</li>
+<li markdown>Ensure that [formatting, linting, and tests pass](http://localhost:8000/contributing/#pre-submission-testing-and-validation).</li>
 <li markdown>Whenever possible, include tests to cover the lines of code you added or modified.</li>
 <li markdown>Commit your changes and submit a pull request with a clear, detailed message.</li>
 
@@ -110,35 +110,61 @@ pip install -e .[dev]
 === "Using Hatch"
 
 	```console
-	hatch run tests:run
+	hatch run tests:test
 	```
 
-=== "Manual with pytest"
+=== "Manual"
 
 	```console
 	pytest -v
 	```
 
-!!! warning "Validating New Event Emitters"
+!!! tip "Validating New Event Emitters"
 
 	<p style='text-align: justify;' markdown>
-		&emsp;&emsp;When implementing new event emitters, it is crucial to ensure their seamless integration with other
+		When implementing new event emitters, it is crucial to ensure their seamless integration with other
 		event emitters and the entire package. To achieve this, we kindly request that you utilize the provided test 
 		suite specifically designed for testing new event emitters.
 	</p>
 
-### Type Checking With Mypy
+### Checking Types
 
 <p style='text-align: justify;' markdown>
 	You can use the [mypy](https://github.com/python/mypy) tool to check the static typing of your code. Simply run the
 	following command:
 </p>
 
-```console
-mypy
-```
+=== "Using Hatch"
 
-## Working on the Documentation
+	```console
+	hatch run tests:typing
+	```
+
+=== "Manual"
+
+	```console
+	mypy
+	```
+
+### Code Coverage
+
+<p style='text-align: justify;' markdown>
+	To check the code [coverage](https://coverage.readthedocs.io/en/7.3.3/) of your changes, run the following command:
+</p>
+
+=== "Using Hatch"
+
+	```console
+	hatch run tests:cov
+	```
+
+=== "Manual"
+
+	```console
+	coverage run -m pytest -v
+	```
+
+## Pyventus Documentation
 
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;The documentation for our project is written in Markdown and built using [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
@@ -209,13 +235,53 @@ both correct and performant ensures responsive and scalable applications.
 * Function definitions.
 * Module-level variables.
 
-!!! info "Docstring Style"
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;Pyventus uses [Sphinx](https://www.sphinx-doc.org/en/master/) docstrings formatted according to
+	PEP 257 guidelines. For more examples and detailed guidance on using Sphinx-style docstrings, we encourage
+	you to consult the official [Sphinx documentation](https://www.sphinx-doc.org/en/master/#user-guides).
+</p>
+
+### Pre-Submission Testing and Validation
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;Before submitting your pull request, it is crucial to ensure that your changes pass all the necessary
+	checks. To do so, simply run the following command:
+</p>
+
+```console
+hatch run tests:all
+```
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;The above command will trigger the Hatch project manager to initiate the comprehensive testing process
+	across all supported Python versions. It will run tests, perform typing checks, ensure code formatting, and measure
+	code coverage. This ensures that your changes meet the required quality standards.
+</p>
+
+!!! info "Testing for Individual Python Versions"
 
 	<p style='text-align: justify;' markdown>
-		Pyventus uses [Sphinx](https://www.sphinx-doc.org/en/master/) docstrings formatted according to
-		PEP 257 guidelines. For more examples and detailed guidance on using Sphinx-style docstrings, we encourage
-		you to consult the official [Sphinx documentation](https://www.sphinx-doc.org/en/master/#user-guides).
+		If you want to test for specific Python versions, you can do so by specifying the desired versions in the 
+		command, as follows
 	</p>
+
+	=== "Python 3.10"
+
+		```console
+		hatch run +py=3.10 tests:all
+		```
+
+	=== "Python 3.11"
+
+		```console
+		hatch run +py=3.11 tests:all
+		```
+
+	=== "Python 3.12"
+
+		```console
+		hatch run +py=3.12 tests:all
+		```
 
 ## Code of Conduct
 
@@ -224,7 +290,7 @@ both correct and performant ensures responsive and scalable applications.
 	By participating, you are expected to uphold this code. Please report unacceptable behavior.
 </p>
 
-## Thanks in Advance
+## Thanks in Advance!
 
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;Thank you for considering contributing to this project. Your contributions are valuable 

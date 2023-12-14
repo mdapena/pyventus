@@ -69,7 +69,6 @@ plugins:
         - api/index.md
         - tutorials/index.md
         - about.md
-        - contributing.md
         - index.md
   - mkdocstrings:
       handlers:

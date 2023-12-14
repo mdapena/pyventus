@@ -1,0 +1,233 @@
+---
+hide:
+  - navigation
+---
+
+<style>
+ .go:before {
+  content: "$";
+  padding-right: 1.17647em;
+ }
+</style>
+
+# Contribution Guidelines
+
+<p style='text-align: justify;' markdown>
+    Thanks for considering to contribute to this project! Your involvement is greatly appreciated ❤️
+</p>
+
+## Getting Started
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;Before creating an issue or pull request, please make sure to check if a similar discussion already
+	exists. We encourage you to actively participate by engaging in existing issues.
+</p>
+
+## Reporting Issues
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;If you have any questions, bug reports, or feature requests, please open a new [issue or discussion](https://github.com/mdapena/pyventus/issues/new/choose). 
+	When reporting issues, be sure to provide clear steps to reproduce the problem. For security vulnerabilities, 
+	please refer to our [security policy](https://github.com/mdapena/pyventus/security/policy).
+</p>
+
+## Submitting Changes
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;We greatly appreciate your contributions and want to ensure they align with the project's goals and 
+	quality standards. Unless your proposed change is trivial, such as fixing a typo or tweaking documentation, we
+	recommend creating an issue or discussion to talk about the proposed change before submitting a pull request. 
+	This allows us to provide feedback, clarify requirements, and ensure your efforts are focused in the right 
+	direction. To make a contribution, please follow these steps:
+</p>
+
+<ol style='text-align: justify;' markdown>
+
+<li markdown>Fork the repository and create a new branch.</li>
+<li markdown>Implement your changes in the branch.</li>
+<li markdown>Ensure that formatting, linting, and tests pass.</li>
+<li markdown>Whenever possible, include tests to cover the lines of code you added or modified.</li>
+<li markdown>Commit your changes and submit a pull request with a clear, detailed message.</li>
+
+</ol>
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;We'll review your pull request to ensure it meets our quality standards before merging it into the main
+	codebase. Please feel free to ask any questions along the way!
+</p>
+
+### Development Setup
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;We recommend developing in a [virtual environment](https://docs.python.org/3/library/venv.html) to 
+	isolate project dependencies. To set up your development environment, follow these steps:
+</p>
+
+1. Create a virtual environment:
+
+   ```console
+   python -m venv venv
+   ```
+
+2. Activate the virtual environment:
+
+=== "Linux, macOS"
+
+	```console
+	source ./venv/bin/activate
+	```
+
+=== "Windows PowerShell"
+
+	```console
+	.\venv\Scripts\Activate.ps1
+	```
+
+=== "Windows Bash"
+
+	```console
+	source ./venv/Scripts/activate
+	```
+
+3. Install the project manager:
+
+```console
+pip install hatch
+```
+
+4. Install development dependencies:
+
+```console
+pip install -e .[dev]
+```
+
+### Running the Tests
+
+<p style='text-align: justify;' markdown>
+	During development, you have two options to run the test suite:
+</p>
+
+=== "Using Hatch"
+
+	```console
+	hatch run tests:run
+	```
+
+=== "Manual with pytest"
+
+	```console
+	pytest -v
+	```
+
+!!! warning "Validating New Event Emitters"
+
+	<p style='text-align: justify;' markdown>
+		&emsp;&emsp;When implementing new event emitters, it is crucial to ensure their seamless integration with other
+		event emitters and the entire package. To achieve this, we kindly request that you utilize the provided test 
+		suite specifically designed for testing new event emitters.
+	</p>
+
+### Type Checking With Mypy
+
+<p style='text-align: justify;' markdown>
+	You can use the [mypy](https://github.com/python/mypy) tool to check the static typing of your code. Simply run the
+	following command:
+</p>
+
+```console
+mypy
+```
+
+## Working on the Documentation
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;The documentation for our project is written in Markdown and built using [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
+	Additionally, the API documentation is generated from the docstrings using [mkdocstrings](https://mkdocstrings.github.io/).
+	To begin working on the documentation in a development environment, simply execute the following command:
+</p>
+
+```console
+hatch run docs:serve
+```
+
+## Project Structure and Conventions
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;This project follows the [src-layout](https://blog.ionelmc.ro/2014/05/25/python-packaging/) convention
+	for Python packages. This convention improves code organization, facilitates easy testing and usage, and allows 
+	developers to install the package in [editable mode](https://packaging.python.org/en/latest/guides/distributing-packages-using-setuptools/#working-in-development-mode).
+	By adhering to this convention, we can validate the package thoroughly in a realistic environment, leading to a 
+	higher quality and user-friendly product.
+</p>
+
+### Code Standards
+
+<p style='text-align: justify;' markdown>
+	We strive for a high-quality and maintainable codebase. To achieve this, we have established the following code 
+	standards:
+</p>
+
+<ul style='text-align: justify;' markdown>
+
+<li markdown>**PEP-8 Compliance** ─ 
+Please follow the guidelines outlined in [PEP-8](https://peps.python.org/pep-0008/) for consistent code formatting. 
+Adhering to these standards ensures readability and maintainability across our codebase.
+</li>
+
+<li markdown>**Black Formatter** ─ 
+We recommend using the [Black](https://black.readthedocs.io/en/stable/the_black_code_style/index.html) code formatter
+to ensure consistent style and formatting. By automatically enforcing a standard style, the Black formatter saves you
+time and effort in manual formatting.
+</li>
+
+<li markdown>**Meaningful Naming** ─ 
+Use descriptive and meaningful names for variables, functions, and classes. Clear and intuitive naming enhances code 
+comprehension, making it easier for everyone to understand and work with the code.
+</li>
+
+<li markdown>**Modularity and Reusability** ─ 
+Encourage the development of modular and reusable code. Breaking down complex tasks into smaller, self-contained 
+components promotes maintainability, reduces complexity, and allows for scalability and extensibility.
+</li>
+
+<li markdown>**Optimization and Efficiency** ─ 
+Strive for efficient code by considering algorithmic complexity and optimizing where necessary. Writing code that is
+both correct and performant ensures responsive and scalable applications.
+</li>
+
+</ul>
+
+### Documentation Style
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;Clear and comprehensive documentation facilitates collaboration and understanding. When contributing
+	to this project, please ensure that you document the following items using properly formatted docstrings:
+</p>
+
+* Modules.
+* Class definitions.
+* Function definitions.
+* Module-level variables.
+
+!!! info "Docstring Style"
+
+	<p style='text-align: justify;' markdown>
+		Pyventus uses [Sphinx](https://www.sphinx-doc.org/en/master/) docstrings formatted according to
+		PEP 257 guidelines. For more examples and detailed guidance on using Sphinx-style docstrings, we encourage
+		you to consult the official [Sphinx documentation](https://www.sphinx-doc.org/en/master/#user-guides).
+	</p>
+
+## Code of Conduct
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;This project and everyone participating in it is governed by the [Pyventus Code of Conduct](https://github.com/mdapena/pyventus/CODE_OF_CONDUCT.md). 
+	By participating, you are expected to uphold this code. Please report unacceptable behavior.
+</p>
+
+## Thanks in Advance
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;Thank you for considering contributing to this project. Your contributions are valuable 
+	and greatly appreciated. If you have any questions or need further clarification, please don't 
+	hesitate to reach out. We look forward to collaborating with you to enhance this project!
+</p>

@@ -115,12 +115,22 @@ strict = true
 dependencies = ["pyventus[tests]"]
 
 [tool.hatch.envs.tests.scripts]
-run = "pytest -v {args:tests}"
+test = "pytest -v {args:tests}"
+style = "black --check --diff {args:.}"
+typing = "mypy"
 cov = [
     "coverage run -m pytest -v {args:tests}",
     "- coverage combine",
     "coverage report",
 ]
+all = [
+    "style",
+    "typing",
+    "cov",
+]
+
+[[tool.hatch.envs.tests.matrix]]
+python = ["3.10", "3.11", "3.12"]
 
 # ------------------------------------------------------------------
 # | Hatch docs environment                                         |

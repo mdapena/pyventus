@@ -88,6 +88,7 @@ hide:
 		```console
 		source ./venv/Scripts/activate
 		```
+
 3. Install development dependencies:
 
 	```console
@@ -100,16 +101,16 @@ hide:
 	During development, you have two options to run the test suite:
 </p>
 
-=== "Using Hatch"
-
-	```console
-	hatch run tests:test
-	```
-
 === "Manual"
 
 	```console
 	pytest -v
+	```
+
+=== "Using Hatch"
+
+	```console
+	hatch run tests:test
 	```
 
 !!! tip "Validating New Event Emitters"
@@ -127,16 +128,16 @@ hide:
 	following command:
 </p>
 
-=== "Using Hatch"
-
-	```console
-	hatch run tests:typing
-	```
-
 === "Manual"
 
 	```console
 	mypy
+	```
+
+=== "Using Hatch"
+
+	```console
+	hatch run tests:typing
 	```
 
 ### Code Coverage
@@ -145,16 +146,16 @@ hide:
 	To check the code [coverage](https://coverage.readthedocs.io/en/7.3.3/) of your changes, run the following command:
 </p>
 
-=== "Using Hatch"
-
-	```console
-	hatch run tests:cov
-	```
-
 === "Manual"
 
 	```console
 	coverage run -m pytest -v
+	```
+
+=== "Using Hatch"
+
+	```console
+	hatch run tests:cov
 	```
 
 ## Pyventus Documentation

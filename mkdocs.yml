@@ -1,5 +1,5 @@
 site_name: Pyventus
-site_description: A versatile Python library for managing multiple, decoupled event emitters with ease.
+site_description: A modern and robust Python package for event-driven programming.
 
 theme:
   name: material

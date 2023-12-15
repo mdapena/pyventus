@@ -1,3 +1,3 @@
 # Pyventus
 
-A versatile Python library for managing multiple, decoupled event emitters with ease.
+A modern and robust Python package for event-driven programming.

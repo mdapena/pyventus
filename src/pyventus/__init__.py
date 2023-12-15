@@ -1,6 +1,6 @@
-""" A versatile Python library for managing multiple, decoupled event emitters with ease. """
+""" A modern and robust Python package for event-driven programming. """
 
-__version__ = "1.0.0"
+__version__ = "0.1.0"
 
 from .core.exceptions import PyventusException
 from .emitters import EventEmitter, EmittableEventType

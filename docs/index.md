@@ -557,7 +557,7 @@ Hello, AsyncIOEventEmitter!
 ---
 
 <p style='text-align: center;' markdown>
-	[:material-star-outline:&emsp;Getting Started&emsp;:material-star-outline:](/getting-started){ .md-button }
+	[:material-star-outline:&emsp;Getting Started&emsp;:material-star-outline:](https://mdapena.github.io/pyventus/getting-started/){ .md-button }
 </p>
 
 ---

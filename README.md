@@ -1,8 +1,10 @@
 <br>
 
 <p align="center">
-   <img src="docs/images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="725px">
+   <img src="docs/images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="750px">
 </p>
+
+<br>
 
 ---
 

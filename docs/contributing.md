@@ -291,3 +291,5 @@ hatch run tests:all
 	and greatly appreciated. If you have any questions or need further clarification, please don't 
 	hesitate to reach out. We look forward to collaborating with you to enhance this project!
 </p>
+
+<br>

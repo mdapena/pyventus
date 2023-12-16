@@ -21,3 +21,5 @@ hide:
   documentation.
 * **Documentation:** Additionally, this release includes comprehensive documentation for the package. The documentation
   covers the main page, a detailed getting started guide, tutorials, API reference, and release notes.
+
+<br>

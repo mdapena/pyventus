@@ -128,3 +128,5 @@ It leverages `AsyncIO` to concurrently run callbacks in sync and async contexts
 	in both synchronous and asynchronous contexts, benefiting from the concurrency features provided by the `AsyncIO`
 	framework.
 </p>
+
+<br>

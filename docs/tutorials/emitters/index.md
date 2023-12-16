@@ -306,3 +306,5 @@ event_emitter.emit('Hello', "Pyventus")
 	the process of creating custom event emitters. We also covered the usage of custom event linkers, best
 	practices for using the `EventEmitter`, and the debug mode options provided by Pyventus.
 </p>
+
+<br>

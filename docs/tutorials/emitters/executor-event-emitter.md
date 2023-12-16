@@ -178,3 +178,5 @@
 	optimize your applications to take full advantage of multicore systems through balanced workload distribution.
 	Proper use of this approach can significantly improve performance.
 </p>
+
+<br>

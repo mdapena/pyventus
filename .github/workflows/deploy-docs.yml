@@ -1,4 +1,5 @@
 name: Deploy Docs
+
 on:
   push:
     branches:
@@ -20,7 +21,7 @@ jobs:
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
       - uses: actions/setup-python@v4
         with:
-          python-version: 3.x
+          python-version: 3.10
       - run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
       - uses: actions/cache@v3
         with:
@@ -28,5 +29,5 @@ jobs:
           path: .cache
           restore-keys: |
             mkdocs-material-
-      - run: pip install mkdocs-material mkdocstrings[python] mkdocs-git-revision-date-localized-plugin
+      - run: pip install mkdocs-material mkdocstrings[python] mkdocs-git-revision-date-localized-plugin .
       - run: mkdocs gh-deploy --force

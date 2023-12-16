@@ -21,7 +21,7 @@ hide:
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;Pyevents **only requires Python 3.10+** by default, which includes the [`AsyncIOEventEmitter`](/tutorials/emitters/asyncio-event-emitter)
 	and the [`ExecutorEventEmitter`](/tutorials/emitters/executor-event-emitter) with no additional dependencies.
-	However, your requirements may expand if you opt to use alternative event emitter implementations.
+	However, your requirements may expand if you opt to use alternative built-in event emitter implementations.
 </p>
 
 ## Installation

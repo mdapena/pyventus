@@ -1,4 +1,7 @@
-""" A modern and robust Python package for event-driven programming. """
+"""
+A modern and robust Python package for event-driven programming. Define, emit, and orchestrate events with ease using
+customizable event emitters and flexible responses.
+"""
 
 __version__ = "0.1.0"
 

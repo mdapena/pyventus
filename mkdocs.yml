@@ -1,5 +1,5 @@
 site_name: Pyventus
-site_description: A modern and robust Python package for event-driven programming.
+site_description: A modern and robust Python package for event-driven programming. Define, emit, and orchestrate events with ease using customizable event emitters and flexible responses.
 
 theme:
   name: material

@@ -1,0 +1,1 @@
+Please read the [Contributing](https://mdapena.github.io/pyventus/contributing/) guidelines in the documentation site.

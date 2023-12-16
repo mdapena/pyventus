@@ -1,13 +1,9 @@
-name: Publish to Test PyPI
+name: Publish to PyPI
 
 on:
-  push:
-    branches:
-      - master
-  pull_request:
+  release:
     types:
-      - opened
-      - synchronize
+      - created
 
 jobs:
   build:
@@ -35,15 +31,15 @@ jobs:
           name: python-package-distributions
           path: dist/
 
-  publish-to-testpypi:
-    name: Publish Python 🐍 distribution 📦 to TestPyPI
+  publish-to-pypi:
+    name: Publish Python 🐍 distribution 📦 to PyPI
     needs:
       - build
     runs-on: ubuntu-latest
 
     environment:
-      name: testpypi
-      url: https://test.pypi.org/project/pyventus
+      name: pypi
+      url: https://pypi.org/p/pyventus
 
     permissions:
       id-token: write  # IMPORTANT: mandatory for trusted publishing
@@ -55,7 +51,5 @@ jobs:
           name: python-package-distributions
           path: dist/
 
-      - name: Publish distribution 📦 to TestPyPI
+      - name: Publish distribution 📦 to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          repository-url: https://test.pypi.org/legacy/

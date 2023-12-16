@@ -61,7 +61,14 @@ extra:
 # Plugins
 plugins:
   - search
+  - git-authors:
+      exclude:
+        - api/index.md
+        - tutorials/index.md
+        - about.md
+        - index.md
   - git-revision-date-localized:
+      type: timeago
       exclude:
         - api/index.md
         - tutorials/index.md

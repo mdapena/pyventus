@@ -1,0 +1,26 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: Pyventus
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - given-names: Manuel
+    family-names: Da Pena
+    email: dapensoft@gmail.com
+repository-code: 'https://github.com/mdapena/pyventus'
+url: 'https://mdapena.github.io/pyventus/'
+abstract: >-
+  A modern and robust Python package for event-driven
+  programming. Define, emit, and orchestrate events with
+  ease using customizable event emitters and flexible
+  responses.
+keywords:
+  - events
+  - event-emitter
+  - event-handler
+  - event-linker
+license: MIT

@@ -8,11 +8,39 @@ hide:
     .md-content .md-content__inner.md-typeset::before { height: 0; } 
 </style>
 
+
 <br>
+
 
 <p align="center">
    <img src="./images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="900px">
 </p>
+
+
+<p align="center">
+
+<a href="https://github.com/mdapena/pyventus/actions?query=workflow%3ATests+event%3Apush+branch%3Amaster" target="_blank">
+    <img src="https://github.com/mdapena/pyventus/workflows/Tests/badge.svg?branch=master" alt="Tests">
+</a>
+
+<a href="https://github.com/mdapena/pyventus/actions?query=workflow%3ADocs+event%3Apush+branch%3Amaster" target="_blank">
+    <img src="https://github.com/mdapena/pyventus/workflows/Docs/badge.svg?branch=master" alt="Docs">
+</a>
+
+<a href="https://pypi.org/project/pyventus" target="_blank">
+    <img src="https://img.shields.io/pypi/v/pyventus?color=blue" alt="Package version">
+</a>
+
+<a href="https://pypi.org/project/pyventus" target="_blank">
+    <img src="https://img.shields.io/pypi/pyversions/pyventus?color=blue" alt="Supported Python versions">
+</a>
+
+<a href="https://github.com/psf/black">
+	<img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black">
+</a>
+
+</p>
+
 
 ---
 

@@ -1,13 +1,10 @@
-<style>
-    .md-content .md-content__inner.md-typeset h1 { height: 0; margin: 0; color: transparent; }
-    .md-content .md-content__inner.md-typeset::before { height: 0; } 
-</style>
-
 <br>
 
 <p align="center">
-   <img src="docs/images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="900px">
+   <img src="docs/images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="700px">
 </p>
+
+<br>
 
 ---
 
@@ -371,6 +368,7 @@ from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 # with statement, it allows multiple callbacks to be associated with 
 # events within the linkage context block, defining the event workflow.
 with EventLinker.on("StringEvent") as linker:
+	
     @linker.on_event
     def event_callback() -> str:
         print("Event received!")

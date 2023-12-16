@@ -1,0 +1,3 @@
+# `AsyncIOEventEmitter` class
+
+::: pyventus.AsyncIOEventEmitter

@@ -1,0 +1,3 @@
+# `RQEventEmitter` class
+
+::: pyventus.RQEventEmitter

@@ -1,0 +1,4 @@
+# `Event` dataclass
+
+::: pyventus.Event
+ 

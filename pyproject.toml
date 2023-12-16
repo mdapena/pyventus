@@ -1,0 +1,180 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# ------------------------------------------------------------------
+# | Project                                                        |
+# ------------------------------------------------------------------
+
+[project]
+name = "pyventus"
+dynamic = ["version"]
+description = "A modern and robust Python package for event-driven programming. Define, emit, and orchestrate events with ease using customizable event emitters and flexible responses."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Manuel Da Pena", email = "dapensoft@gmail.com" },
+]
+classifiers = [
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development",
+    "Typing :: Typed",
+]
+keywords = []
+
+# ------------------------------------------------------------------
+# | Project Dependencies                                           |
+# ------------------------------------------------------------------
+# Pure Python implementation, no dependencies needed
+
+dependencies = []
+
+# ------------------------------------------------------------------
+# | Project URLs                                                   |
+# ------------------------------------------------------------------
+
+[project.urls]
+Homepage = "https://github.com/mdapena/pyventus"
+Documentation = "https://github.com/mdapena/pyventus#readme"
+Repository = "https://github.com/mdapena/pyventus"
+
+# ------------------------------------------------------------------
+# | Project Optional dependencies                                  |
+# ------------------------------------------------------------------
+
+[project.optional-dependencies]
+rq = ["rq>=1.15.0"]
+
+all = [
+    "rq>=1.15.0",
+]
+
+# --------------------
+# | Test dependencies
+# ----------
+
+tests = [
+    "mypy>=1.7.1",
+    "black>=23.12.0",
+    "pytest>=7.4.0",
+    "fakeredis>=2.20.0",
+    "pytest-asyncio>=0.21.0",
+    "coverage[toml]>=7.3.3",
+    "pyventus[all]",
+]
+
+# --------------------
+# | Dev dependencies
+# ----------
+
+dev = [
+    "pyventus[tests]",
+    "hatch>=1.8.1",
+]
+
+# ------------------------------------------------------------------
+# | Project Version                                                |
+# ------------------------------------------------------------------
+
+[tool.hatch.version]
+path = "src/pyventus/__init__.py"
+
+# ------------------------------------------------------------------
+# | Building Target                                                |
+# ------------------------------------------------------------------
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pyventus"]
+
+# ------------------------------------------------------------------
+# | mypy configuration                                             |
+# ------------------------------------------------------------------
+
+[tool.mypy]
+files = ["src/pyventus"]
+namespace_packages = false
+show_error_codes = true
+warn_no_return = true
+warn_unreachable = true
+warn_unused_ignores = true
+implicit_reexport = true
+strict = true
+
+# ------------------------------------------------------------------
+# | Hatch tests environment                                         |
+# ------------------------------------------------------------------
+
+[tool.hatch.envs.tests]
+dependencies = ["pyventus[tests]"]
+
+[tool.hatch.envs.tests.scripts]
+test = "pytest -v {args:tests}"
+style = "black --check --diff {args:.}"
+typing = "mypy"
+cov = [
+    "coverage run -m pytest -v {args:tests}",
+    "- coverage combine",
+    "coverage report",
+]
+all = [
+    "style",
+    "typing",
+    "cov",
+]
+
+[[tool.hatch.envs.tests.matrix]]
+python = ["3.10", "3.11", "3.12"]
+
+# ------------------------------------------------------------------
+# | Hatch docs environment                                         |
+# ------------------------------------------------------------------
+
+[tool.hatch.envs.docs]
+dependencies = [
+    "mkdocs-material>=9.4.0",
+    "mkdocstrings[python]>=0.24.0",
+    "mkdocs-git-revision-date-localized-plugin>=1.2.1",
+]
+[tool.hatch.envs.docs.scripts]
+build = "mkdocs build --clean --strict"
+serve = "mkdocs serve --dev-addr localhost:8000"
+
+# ------------------------------------------------------------------
+# | Coverage                                                       |
+# ------------------------------------------------------------------
+
+[tool.coverage.run]
+source_pkgs = ["pyventus", "tests"]
+branch = true
+parallel = true
+omit = [
+    "tests/conftest.py",
+]
+
+[tool.coverage.paths]
+pyventus = ["pyventus"]
+tests = ["tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "no cov",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    '@(abc\.)?abstractmethod',
+]
+
+# ------------------------------------------------------------------
+# | Formatting                                                     |
+# ------------------------------------------------------------------
+
+[tool.black]
+line-length = 120
+target-version = ["py310"]

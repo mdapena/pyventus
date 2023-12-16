@@ -1,0 +1,3 @@
+# `EventHandler` class
+
+::: pyventus.EventHandler

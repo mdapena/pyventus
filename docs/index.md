@@ -1,24 +1,31 @@
+---
+hide:
+  - navigation
+---
+
+<style>
+    .md-content .md-content__inner.md-typeset h1 { height: 0; margin: 0; color: transparent; }
+    .md-content .md-content__inner.md-typeset::before { height: 0; } 
+</style>
+
 <br>
 
 <p align="center">
-   <img src="docs/images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="750px">
+   <img src="./images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="900px">
 </p>
-
-<br>
 
 ---
 
-**Documentation**: <a href="#" target="_blank">https://github.com/mdapena/pyventus</a>
+**Documentation**: <a href="https://github.com/mdapena/pyventus" target="_blank">https://github.com/mdapena/pyventus</a>
 
 **Source Code**: <a href="https://github.com/mdapena/pyventus" target="_blank">https://github.com/mdapena/pyventus</a>
 
 ---
 
-<p style='text-align: justify;'>
+<p style='text-align: justify;' markdown>
     &emsp;&emsp;Pyventus is a modern and robust Python package for event-driven programming. It offers a comprehensive
-	suite of tools to define, emit, manage, and orchestrate events with ease, using customizable event emitters and
-	flexible responses. With Pyventus, you can easily build scalable, extensible, and loosely-coupled event-driven
-	applications.
+	suite of tools to easily define, emit, and orchestrate events using customizable event emitters and flexible
+	responses. With Pyventus, you can easily build scalable, extensible, and loosely-coupled event-driven applications.
 </p>
 
 ## More than just Events
@@ -27,6 +34,7 @@
 	Pyventus offers several key features that make it a powerful event-driven programming package for your 
 	Python projects:
 </p> 
+
 
 <ul style='text-align: justify;'>
 
@@ -67,25 +75,6 @@ guides, and tutorials to effectively leverage all the features and capabilities 
 
 </ul>
 
-## Requirements
-
-<p style='text-align: justify;'>
-	&emsp;&emsp;Pyevents <b>only requires Python 3.10+</b> by default, which includes the <code>AsyncIOEventEmitter</code>
-	and the <code>ExecutorEventEmitter</code> with no additional dependencies. However, your requirements may expand 
-	if you opt to use alternative built-in event emitter implementations.
-</p>
-
-## Installation
-
-<p style='text-align: justify;'>
-	&emsp;&emsp;Pyventus is available as a Python package and can be easily installed using <code>pip</code>. Open your terminal
-	and execute the following command to install it:
-</p>
-
-```console
-pip install pyventus
-```
-
 ## <code>Hello, World!</code> Example
 
 <p style='text-align: justify;'>
@@ -99,14 +88,18 @@ from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 
 
 @EventLinker.on("MyEvent")
-def event_callback():
+def event_callback():  # (1)!
     print("Hello, World!")
 
 
-event_emitter: EventEmitter = AsyncIOEventEmitter()
+event_emitter: EventEmitter = AsyncIOEventEmitter()  # (2)!
 
-event_emitter.emit("MyEvent")
+event_emitter.emit("MyEvent")  # (3)!
 ```
+
+1. The event handler callback can be either `sync` or `async` depending on your needs.
+2. By using the base `EventEmitter` as a dependency the concrete implementation can be seamlessly switched at runtime.
+3. The `emit()` method of the event emitter is designed to be called from both synchronous and asynchronous contexts.
 
 <details markdown="1" class="info">
 <summary>You can also work with <code>async</code> functions and contexts...</summary>
@@ -158,6 +151,94 @@ is the <code>event_callback()</code>.
 	you are now well-equipped to explore more intricate event-driven scenarios and fully harness the capabilities of 
 	Pyventus in your own projects.
 </p>
+
+!!! example "Next steps"
+
+	<p style='text-align: justify;' markdown>
+	    Feel free to experiment and build upon this example to explore the full potential of Pyventus in your own 
+		projects. You can register **additional event handlers**, handle **events with different event types**
+		or **metadata**, implement **custom event emitters** and **event linkers** based on your application's 
+		requirements. 
+	</p>
+
+## A Practical Example
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;To demonstrate Pyventus in a realistic scenario, we will examine how to implement a portion of the 
+    password reset workflow using an event-driven approach.
+</p>
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;A common part of the password reset process involves notifying the user that a reset was requested. 
+    In traditional implementations, the code to validate the reset request may be tightly coupled with the logic to
+    communicate this to the user. With Pyventus, we can model these steps as distinct events that are emitted after 
+    validation and handled asynchronously. This decouples the notification process from validation and allows 
+    flexible integration.
+</p>
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp; In this example, we will focus on integrating the notification subsystem through events. Upon 
+    validating a reset request, we will emit a `PasswordResetRequested` event containing user details. This 
+    event will then trigger the sending of a confirmation email through an asynchronous handler.
+</p>
+
+```Python title="Practical Example with Pyventus" linenums="1"
+from dataclasses import dataclass
+from smtplib import SMTPConnectError
+
+from pyventus import Event, EventLinker, EventEmitter, AsyncIOEventEmitter
+
+
+@dataclass(frozen=True)
+class PasswordResetRequestedEvent(Event):
+    """Event triggered when a password reset is requested."""
+
+    user_id: str
+    token: str
+    ip_address: str
+    email: str
+
+
+@EventLinker.on("PasswordResetRequestedEvent")
+async def notify_recovery_email_of_password_reset(event: PasswordResetRequestedEvent):
+    """Event handler for notifying the recovery email of a password reset."""
+    print("Recovery email notified!")
+
+
+with EventLinker.on(PasswordResetRequestedEvent) as linker:
+    @linker.on_event
+    async def send_password_reset_email(event: PasswordResetRequestedEvent):
+        """Event handler for sending a password reset email."""
+        print(event)
+        raise SMTPConnectError(421, "service not available")
+
+
+    @linker.on_failure
+    def password_reset_email_exception(exc: Exception):
+        """Event handler for handling exceptions related to sending password reset emails."""
+        if isinstance(exc, SMTPConnectError):
+            print(f"SMTPConnectError received!")
+
+
+@EventLinker.on(Event)
+def logging(*args, **kwargs):
+    """Event handler for general logging of events and exceptions."""
+    print(f"\nLogging: args: {args}, kwargs: {kwargs}\n")
+
+
+# Create an instance of the event emitter
+event_emitter: EventEmitter = AsyncIOEventEmitter()
+
+# Emit a PasswordResetRequestedEvent
+event_emitter.emit(
+    PasswordResetRequestedEvent(
+        user_id="33171591-5a4e-42ae-b719-8e7b525337e5",
+        token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyZXNldF91dWlkIjoiM",
+        ip_address="192.168.0.1",
+        email="user@example.com",
+    )
+)
+```
 
 ## Support for Synchronous and Asynchronous code
 
@@ -310,7 +391,9 @@ Open your browser at <a href="http://127.0.0.1:8000/print" target="_blank">http:
 see the JSON response as:
 
 ```JSON
-{ "message": "Console print triggered!" }
+{
+  "message": "Console print triggered!"
+}
 ```
 
 You'll also be able to see the outputs of the event emitters in the console logs as:
@@ -361,32 +444,80 @@ Hello, AsyncIOEventEmitter!
 
 ### Success and Error Handling Example
 
-```Python linenums="1"  hl_lines="7 10-12"
-from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
+=== "Success execution"
 
-# When the Eventlinker.on method is used as a context manager via the 
-# with statement, it allows multiple callbacks to be associated with 
-# events within the linkage context block, defining the event workflow.
-with EventLinker.on("StringEvent") as linker:
+	```Python linenums="1"  hl_lines="7 10-12"
+	from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 	
-    @linker.on_event
-    def event_callback() -> str:
-        print("Event received!")
-        return "Event succeeded!"
+	with EventLinker.on("StringEvent") as linker: # (1)!
+	    @linker.on_event
+	    def event_callback() -> str:
+	        print("Event received!")
+	        return "Event succeeded!"
+	
+	
+	    @linker.on_success
+	    def success_callback(msg: str) -> None:
+	        print(msg)
+	
+	
+	    @linker.on_failure
+	    def failure_callback(exc: Exception) -> None:
+	        print(exc)
+	
+	event_emitter: EventEmitter = AsyncIOEventEmitter()
+	event_emitter.emit("StringEvent")
+	```
 
+	1. When the `Eventlinker.on` method is used as a context manager via the `with` statement, it allows multiple
+       callbacks to be associated with events within the `linkage context block`, defining the event workflow.
 
-    @linker.on_success
-    def success_callback(msg: str) -> None:
-        print(msg)
+	<p style='text-align: justify;' markdown>
+		When we emit this event, the success handler we attached is invoked, printing `Event succeeded!` to the console.
+	</p>
 
+	```console
+	Event received!
+	Event succeeded!
+	```
 
-    @linker.on_failure
-    def failure_callback(exc: Exception) -> None:
-        print(exc)
+=== "Error execution"
 
-event_emitter: EventEmitter = AsyncIOEventEmitter()
-event_emitter.emit("StringEvent")
-```
+	```Python linenums="1"  hl_lines="6 15-17"
+	from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
+	
+	with EventLinker.on("StringEvent") as linker: # (1)!
+	    @linker.on_event
+	    def event_callback() -> str:
+	        raise ValueError("Something went wrong!")
+	        return "Event succeeded!"
+	
+	
+	    @linker.on_success
+	    def success_callback(msg: str) -> None:
+	        print(msg)
+	
+	
+	    @linker.on_failure
+	    def failure_callback(exc: Exception) -> None:
+	        print(exc)
+	
+	event_emitter: EventEmitter = AsyncIOEventEmitter()
+	event_emitter.emit("StringEvent")
+	```
+
+	1. When the `Eventlinker.on` method is used as a context manager via the `with` statement, it allows multiple
+       callbacks to be associated with events within the `linkage context block`, defining the event workflow.
+
+	<p style='text-align: justify;' markdown>
+		When we emit this event, the failure handler we attached is invoked, printing `Something went wrong!` to the
+		console.
+	</p>
+
+	```console
+	[Logger] 2023-12-12 11:50:00 AM    ERROR [EventHandler] Exception: Something went wrong!
+	Something went wrong!
+	```
 
 <p style='text-align: justify;'>
     &emsp;&emsp;As we have seen from the examples, Pyventus' event linkage context provides a reliable and Pythonic way
@@ -405,7 +536,7 @@ event_emitter.emit("StringEvent")
 	efficiently handle core event operations and lay the foundation for building event-driven applications.
 </p>
 
-<details markdown="1" class="info">
+<details markdown="1" class="info" open>
 <summary>Driving Innovation Through Collaboration</summary>
 
 <p style='text-align: justify;'>
@@ -416,9 +547,25 @@ event_emitter.emit("StringEvent")
 
 </details>
 
+## Get Started Today!
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;Are you ready to dive into event-driven programming with Pyventus? Follow these steps to integrate Pyventus into
+	your project and start building event-driven applications. Click the button below to navigate to the Pyventus 
+	Getting Started page and explore detailed instructions, examples, and more:
+</p>
+
+---
+
+<p style='text-align: center;' markdown>
+	[:material-star-outline:&emsp;Getting Started&emsp;:material-star-outline:](/getting-started){ .md-button }
+</p>
+
+---
+
 ## License
 
-<p style='text-align: justify;'>
+<p style='text-align: justify;' markdown>
     &emsp;&emsp;Pyventus is distributed as open source software and is released under the <a href="https://choosealicense.com/licenses/mit/" target="_blank">MIT License</a>. 
     You can view the full text of the license in the <code>LICENSE</code> file located in the <a href="https://github.com/mdapena/pyventus" target="_blank">Pyventus repository</a>.
 </p>

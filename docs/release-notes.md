@@ -12,7 +12,7 @@ hide:
 - **Documentation Improvements:** Fixed issues with invalid links in the documentation.
 - **RQEventEmitter Optional Dependency:** Resolved the issue where the RQEventEmitter optional dependency had to be
   installed by default to use the package. It is now fully optional.
-- **Code Documentation Links:** Updated code documentation links to the official pyventus documentation.
+- **Code Documentation Links:** Updated docstring links to the official Pyventus documentation.
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 

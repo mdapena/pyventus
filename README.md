@@ -391,6 +391,7 @@ Hello, AsyncIOEventEmitter!
 ```Python linenums="1"  hl_lines="7 10-12"
 from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 
+
 with EventLinker.on("StringEvent") as linker:
 	
     @linker.on_event
@@ -398,16 +399,15 @@ with EventLinker.on("StringEvent") as linker:
         print("Event received!")
         return "Event succeeded!"
 
-
     @linker.on_success
     def success_callback(msg: str) -> None:
         print(msg)
-
 
     @linker.on_failure
     def failure_callback(exc: Exception) -> None:
         print(exc)
 
+	    
 event_emitter: EventEmitter = AsyncIOEventEmitter()
 event_emitter.emit("StringEvent")
 ```

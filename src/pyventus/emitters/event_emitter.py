@@ -28,7 +28,7 @@ class EventEmitter(ABC):
     be implemented without affecting existing consumers.
 
     For more information and code examples, please refer to the `EventEmitter` tutorials
-    at: [https://github.com/mdapena/pyventus](https://github.com/mdapena/pyventus).
+    at: [https://mdapena.github.io/pyventus/tutorials/emitters/](https://mdapena.github.io/pyventus/tutorials/emitters/).
     """
 
     def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug_mode: bool | None = None):

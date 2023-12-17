@@ -18,7 +18,7 @@ class Event:
     they propagate through the system.
 
     For more information and code examples, please refer to the `Event` tutorials at:
-    [https://github.com/mdapena/pyventus](https://github.com/mdapena/pyventus).
+    [https://mdapena.github.io/pyventus/tutorials/event/](https://mdapena.github.io/pyventus/tutorials/event/).
     """
 
     timestamp: datetime = field(init=False, default_factory=datetime.now)

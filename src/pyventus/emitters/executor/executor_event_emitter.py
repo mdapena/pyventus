@@ -31,7 +31,7 @@ class ExecutorEventEmitter(EventEmitter):
       with `wait` set to `True`).
 
     For more information and code examples, please refer to the `ExecutorEventEmitter`
-    tutorials at: [https://github.com/mdapena/pyventus](https://github.com/mdapena/pyventus).
+    tutorials at: [https://mdapena.github.io/pyventus/tutorials/emitters/executor-event-emitter/](https://mdapena.github.io/pyventus/tutorials/emitters/executor-event-emitter/).
     """
 
     def __init__(

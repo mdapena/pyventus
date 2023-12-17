@@ -36,7 +36,7 @@ class EventLinker(ABC):
     properly synchronized, avoiding data inconsistencies and race conditions.
 
     For more information and code examples, please refer to the `EventLinker` tutorials at:
-    [https://github.com/mdapena/pyventus](https://github.com/mdapena/pyventus).
+    [https://mdapena.github.io/pyventus/tutorials/event-linker/](https://mdapena.github.io/pyventus/tutorials/event-linker/).
     """
 
     @final

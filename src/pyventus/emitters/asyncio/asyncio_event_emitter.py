@@ -24,7 +24,7 @@ class AsyncIOEventEmitter(EventEmitter):
     execution while still gaining the benefits of the concurrent execution.
 
     For more information and code examples, please refer to the `AsyncIOEventEmitter`
-    tutorials at: [https://github.com/mdapena/pyventus](https://github.com/mdapena/pyventus).
+    tutorials at: [https://mdapena.github.io/pyventus/tutorials/emitters/asyncio-event-emitter/](https://mdapena.github.io/pyventus/tutorials/emitters/asyncio-event-emitter/).
     """
 
     @property

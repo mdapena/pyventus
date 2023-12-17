@@ -27,7 +27,7 @@ class RQEventEmitter(EventEmitter):
     or video processing.
 
     For more information and code examples, please refer to the `RQEventEmitter` tutorials
-    at: [https://github.com/mdapena/pyventus](https://github.com/mdapena/pyventus).
+    at: [https://mdapena.github.io/pyventus/tutorials/emitters/rq-event-emitter/](https://mdapena.github.io/pyventus/tutorials/emitters/rq-event-emitter/).
     """
 
     def __init__(

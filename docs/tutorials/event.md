@@ -370,3 +370,5 @@ event_emitter.emit(ValueError('Value Error!'))
 		custom or built-in Pyventus implementation of your choice. For more information on available options, consult
 		the official documentation.
 	</p>
+
+<br>

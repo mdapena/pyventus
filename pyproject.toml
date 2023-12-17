@@ -17,6 +17,8 @@ authors = [
     { name = "Manuel Da Pena", email = "dapensoft@gmail.com" },
 ]
 classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3 :: Only",
@@ -28,7 +30,7 @@ classifiers = [
     "Topic :: Software Development",
     "Typing :: Typed",
 ]
-keywords = []
+keywords = ["events", "event emitters", "event handlers", "event linkers"]
 
 # ------------------------------------------------------------------
 # | Project Dependencies                                           |
@@ -142,6 +144,7 @@ dependencies = [
     "mkdocs-material>=9.4.0",
     "mkdocstrings[python]>=0.24.0",
     "mkdocs-git-revision-date-localized-plugin>=1.2.1",
+    "mkdocs-git-authors-plugin>=0.7.2",
 ]
 [tool.hatch.envs.docs.scripts]
 build = "mkdocs build --clean --strict"

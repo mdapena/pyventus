@@ -13,14 +13,14 @@ hide:
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;Welcome to the Getting Started section! This guide will help you install and configure Pyventus in
 	your project. For more detailed instructions on how to use this package, you can refer to the Pyventus 
-	[tutorials](/tutorials) or [API reference](/api).
+    [tutorials](/pyventus/tutorials) or [API reference](/pyventus/api).
 </p>
 
 ## Requirements
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;Pyevents **only requires Python 3.10+** by default, which includes the [`AsyncIOEventEmitter`](/tutorials/emitters/asyncio-event-emitter)
-	and the [`ExecutorEventEmitter`](/tutorials/emitters/executor-event-emitter) with no additional dependencies.
+	&emsp;&emsp;Pyevents **only requires Python 3.10+** by default, which includes the [`AsyncIOEventEmitter`](/pyventus/tutorials/emitters/asyncio-event-emitter)
+	and the [`ExecutorEventEmitter`](/pyventus/tutorials/emitters/executor-event-emitter) with no additional dependencies.
 	However, your requirements may expand if you opt to use alternative built-in event emitter implementations.
 </p>
 
@@ -45,8 +45,9 @@ pip install pyventus
 
 <ul style='text-align: justify;' markdown>
 
-<li markdown> [**Redis Queue (RQ)**](https://redis.com/glossary/redis-queue/) ─ Pyventus provides support for Redis 
-Queue (RQ) integration through the [`RQEventEmitter`](/tutorials/emitters/rq-event-emitter). The RQEventEmitter 
+<li markdown> 
+[**Redis Queue (RQ)**](https://redis.com/glossary/redis-queue/) ─ Pyventus provides support for Redis 
+Queue (RQ) integration through the [`RQEventEmitter`](/pyventus/tutorials/emitters/rq-event-emitter). The RQEventEmitter
 seamlessly integrates with <a href="https://python-rq.org/" target="_blank">Python-RQ</a>, a widely-used library for
 managing task queues using Redis Queue pub/sub system. By incorporating the RQEventEmitter into Pyventus, you gain the
 ability to execute event handler callbacks as background jobs using RQ’s asynchronous workers. You can install it using
@@ -59,3 +60,5 @@ pip install pyventus[rq]
 </li>
 
 </ul>
+
+<br>

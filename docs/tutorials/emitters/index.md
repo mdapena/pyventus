@@ -37,7 +37,7 @@
 	&emsp;&emsp;Pyventus includes several build-in event emitters by default. For instance, the `AsyncIOEventEmitter`
 	leverages the `AsyncIO` framework to handle the execution of event handler callbacks, while the `RQEventEmitter`
 	utilizes Redis Queue pub/sub system with workers to manage event handlers. To explore the available event emitters,
-	refer to the [Pyventus documentation](/getting-started).
+	refer to the [Pyventus documentation](/pyventus/getting-started).
 </p>
 
 !!! info "Driving Innovation Through Collaboration"
@@ -306,3 +306,5 @@ event_emitter.emit('Hello', "Pyventus")
 	the process of creating custom event emitters. We also covered the usage of custom event linkers, best
 	practices for using the `EventEmitter`, and the debug mode options provided by Pyventus.
 </p>
+
+<br>

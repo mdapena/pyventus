@@ -8,15 +8,44 @@ hide:
     .md-content .md-content__inner.md-typeset::before { height: 0; } 
 </style>
 
+
 <br>
+
 
 <p align="center">
    <img src="./images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="900px">
 </p>
 
+<br>
+
+<p align="center">
+
+<a href="https://github.com/mdapena/pyventus/actions?query=workflow%3ATests+event%3Apush+branch%3Amaster" target="_blank">
+    <img src="https://github.com/mdapena/pyventus/actions/workflows/run-tests.yml/badge.svg?branch=master" alt="Tests">
+</a>
+
+<a href="https://github.com/mdapena/pyventus/actions?query=workflow%3ADocs+event%3Apush+branch%3Amaster" target="_blank">
+    <img src="https://github.com/mdapena/pyventus/actions/workflows/deploy-docs.yml/badge.svg?branch=master" alt="Docs">
+</a>
+
+<a href="https://pypi.org/project/pyventus" target="_blank">
+    <img src="https://img.shields.io/pypi/v/pyventus?color=blue" alt="Package version">
+</a>
+
+<a href="https://pypi.org/project/pyventus" target="_blank">
+    <img src="https://img.shields.io/pypi/pyversions/pyventus?color=blue" alt="Supported Python versions">
+</a>
+
+<a href="https://github.com/psf/black">
+	<img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black">
+</a>
+
+</p>
+
+
 ---
 
-**Documentation**: <a href="https://github.com/mdapena/pyventus" target="_blank">https://github.com/mdapena/pyventus</a>
+**Documentation**: <a href="https://mdapena.github.io/pyventus" target="_blank">https://mdapena.github.io/pyventus</a>
 
 **Source Code**: <a href="https://github.com/mdapena/pyventus" target="_blank">https://github.com/mdapena/pyventus</a>
 
@@ -391,9 +420,7 @@ Open your browser at <a href="http://127.0.0.1:8000/print" target="_blank">http:
 see the JSON response as:
 
 ```JSON
-{
-  "message": "Console print triggered!"
-}
+{ "message": "Console print triggered!" }
 ```
 
 You'll also be able to see the outputs of the event emitters in the console logs as:
@@ -530,6 +557,7 @@ Hello, AsyncIOEventEmitter!
 	&emsp;&emsp;Pyventus continuously adapts to support developers across technological and programming domains. Its
 	aim is to remain at the forefront of event-driven design. Future development may introduce new official event 
 	emitters, expanding compatibility with different technologies through seamless integration.
+</p>
 
 <p style='text-align: justify;'>
 	&emsp;&emsp;Current default emitters provide reliable out-of-the-box capabilities for common use cases. They
@@ -541,7 +569,7 @@ Hello, AsyncIOEventEmitter!
 
 <p style='text-align: justify;'>
     &emsp;&emsp;Pyventus is an open source project that welcomes community involvement. If you wish to contribute
-	additional event emitters, improvements, or bug fixes, please check the <a href="#">Contributing</a> section
+	additional event emitters, improvements, or bug fixes, please check the <a href="/contributing">Contributing</a> section
 	for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
 </p>
 
@@ -558,7 +586,7 @@ Hello, AsyncIOEventEmitter!
 ---
 
 <p style='text-align: center;' markdown>
-	[:material-star-outline:&emsp;Getting Started&emsp;:material-star-outline:](/getting-started){ .md-button }
+	[:material-star-outline:&emsp;Getting Started&emsp;:material-star-outline:](/pyventus/getting-started/){ .md-button }
 </p>
 
 ---
@@ -567,6 +595,6 @@ Hello, AsyncIOEventEmitter!
 
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;Pyventus is distributed as open source software and is released under the <a href="https://choosealicense.com/licenses/mit/" target="_blank">MIT License</a>. 
-    You can view the full text of the license in the <code>LICENSE</code> file located in the <a href="https://github.com/mdapena/pyventus" target="_blank">Pyventus repository</a>.
+    You can view the full text of the license in the <code>LICENSE</code> file located in the <a href="https://github.com/mdapena/pyventus/blob/master/LICENSE" target="_blank">Pyventus repository</a>.
 </p>
 

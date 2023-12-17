@@ -46,7 +46,7 @@ parallel execution.
 <ol style='text-align: justify;' markdown>
 
 <li style='text-align: justify;' markdown>**Install Python RQ:**
-Before proceeding, make sure you have installed the [optional Python RQ dependency](/getting-started/#optional-dependencies). 
+Before proceeding, make sure you have installed the [optional Python RQ dependency](/pyventus/getting-started/#optional-dependencies).
 </li>
 
 <li style='text-align: justify;' markdown>**Python RQ worker configuration:**
@@ -190,3 +190,4 @@ This distributed model scales efficiently regardless of workload volume.
 
 </ul>
 
+<br>

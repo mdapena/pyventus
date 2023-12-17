@@ -1,6 +1,20 @@
+# Project information
 site_name: Pyventus
-site_description: A modern and robust Python package for event-driven programming. Define, emit, and orchestrate events with ease using customizable event emitters and flexible responses.
+site_url: https://mdapena.github.io/pyventus/
+site_author: Manuel Da Pena
+site_description: >-
+  A modern and robust Python package for event-driven programming. Define, emit, and 
+  orchestrate events with ease using customizable event emitters and flexible responses.
 
+# Repository
+repo_name: mdapena/pyventus
+repo_url: https://github.com/mdapena/pyventus
+
+# Copyright
+copyright: |
+  Copyright &copy; 2023 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+
+# Configuration
 theme:
   name: material
   language: en
@@ -36,35 +50,25 @@ theme:
     - content.tooltips
     - content.code.annotate
 
-repo_name: mdapena/pyventus
-repo_url: https://github.com/mdapena/pyventus
+# Customization
+extra:
+  social:
+    - icon: fontawesome/brands/linkedin
+      link: https://ve.linkedin.com/in/manuel-da-pena/en
+    - icon: fontawesome/brands/github
+      link: https://github.com/mdapena
 
-markdown_extensions:
-  - attr_list
-  - md_in_html
-  - pymdownx.arithmatex:
-      generic: true
-  - pymdownx.highlight:
-      anchor_linenums: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets:
-      base_path:
-        - !relative $docs_dir
-  - admonition
-  - footnotes
-  - pymdownx.details
-  - pymdownx.superfences
-  - pymdownx.mark
-  - abbr
-  - pymdownx.emoji:
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-  - pymdownx.tabbed:
-      alternate_style: true
-
+# Plugins
 plugins:
   - search
+  - git-authors:
+      exclude:
+        - api/index.md
+        - tutorials/index.md
+        - about.md
+        - index.md
   - git-revision-date-localized:
+      type: timeago
       exclude:
         - api/index.md
         - tutorials/index.md
@@ -88,7 +92,31 @@ plugins:
             show_signature_annotations: true
             show_category_heading: true
 
+# Extensions
+markdown_extensions:
+  - attr_list
+  - md_in_html
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets:
+      base_path:
+        - !relative $docs_dir
+  - admonition
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.mark
+  - abbr
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.tabbed:
+      alternate_style: true
 
+# Page tree
 nav:
   - Pyventus: index.md
   - Getting Started: getting-started.md
@@ -113,13 +141,3 @@ nav:
           - RQ Event Emitter: api/emitters/rq-event-emitter.md
   - Contributing: contributing.md
   - Release Notes: release-notes.md
-
-extra:
-  social:
-    - icon: fontawesome/brands/linkedin
-      link: https://ve.linkedin.com/in/manuel-da-pena/en
-    - icon: fontawesome/brands/github
-      link: https://github.com/mdapena
-
-copyright: |
-  Copyright &copy; 2023 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>

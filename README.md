@@ -1,14 +1,41 @@
 <br>
 
 <p align="center">
-   <img src="docs/images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="750px">
+   <img src="https://mdapena.github.io/pyventus/images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="750px">
 </p>
 
 <br>
 
+<p align="center">
+
+<a href="https://github.com/mdapena/pyventus/actions?query=workflow%3ATests+event%3Apush+branch%3Amaster" target="_blank">
+    <img src="https://github.com/mdapena/pyventus/actions/workflows/run-tests.yml/badge.svg?branch=master" alt="Tests">
+</a>
+
+<a href="https://github.com/mdapena/pyventus/actions?query=workflow%3ADocs+event%3Apush+branch%3Amaster" target="_blank">
+    <img src="https://github.com/mdapena/pyventus/actions/workflows/deploy-docs.yml/badge.svg?branch=master" alt="Docs">
+</a>
+
+<a href="https://pypi.org/project/pyventus" target="_blank">
+    <img src="https://img.shields.io/pypi/v/pyventus?color=blue" alt="Package version">
+</a>
+
+<a href="https://pypi.org/project/pyventus" target="_blank">
+    <img src="https://img.shields.io/pypi/pyversions/pyventus?color=blue" alt="Supported Python versions">
+</a>
+
+<a href="https://github.com/psf/black">
+	<img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black">
+</a>
+
+</p>
+
+<br>
+
+
 ---
 
-**Documentation**: <a href="#" target="_blank">https://github.com/mdapena/pyventus</a>
+**Documentation**: <a href="https://mdapena.github.io/pyventus" target="_blank">https://mdapena.github.io/pyventus</a>
 
 **Source Code**: <a href="https://github.com/mdapena/pyventus" target="_blank">https://github.com/mdapena/pyventus</a>
 
@@ -410,7 +437,7 @@ event_emitter.emit("StringEvent")
 
 <p style='text-align: justify;'>
     &emsp;&emsp;Pyventus is an open source project that welcomes community involvement. If you wish to contribute
-	additional event emitters, improvements, or bug fixes, please check the <a href="#">Contributing</a> section
+	additional event emitters, improvements, or bug fixes, please check the <a href="https://mdapena.github.io/pyventus/contributing/">Contributing</a> section
 	for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
 </p>
 
@@ -420,6 +447,6 @@ event_emitter.emit("StringEvent")
 
 <p style='text-align: justify;'>
     &emsp;&emsp;Pyventus is distributed as open source software and is released under the <a href="https://choosealicense.com/licenses/mit/" target="_blank">MIT License</a>. 
-    You can view the full text of the license in the <code>LICENSE</code> file located in the <a href="https://github.com/mdapena/pyventus" target="_blank">Pyventus repository</a>.
+    You can view the full text of the license in the <code>LICENSE</code> file located in the <a href="https://github.com/mdapena/pyventus/blob/master/LICENSE" target="_blank">Pyventus repository</a>.
 </p>
 

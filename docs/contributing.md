@@ -280,7 +280,7 @@ hatch run tests:all
 ## Code of Conduct
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;This project and everyone participating in it is governed by the [Pyventus Code of Conduct](https://github.com/mdapena/pyventus/CODE_OF_CONDUCT.md). 
+	&emsp;&emsp;This project and everyone participating in it is governed by the [Pyventus Code of Conduct](https://github.com/mdapena/pyventus/.github/CODE_OF_CONDUCT.md). 
 	By participating, you are expected to uphold this code. Please report unacceptable behavior.
 </p>
 
@@ -291,3 +291,5 @@ hatch run tests:all
 	and greatly appreciated. If you have any questions or need further clarification, please don't 
 	hesitate to reach out. We look forward to collaborating with you to enhance this project!
 </p>
+
+<br>

@@ -473,25 +473,26 @@ Hello, AsyncIOEventEmitter!
 
 === "Success execution"
 
-	```Python linenums="1"  hl_lines="7 10-12"
+	```Python linenums="1"  hl_lines="9 11-13"
 	from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 	
+
 	with EventLinker.on("StringEvent") as linker: # (1)!
+
 	    @linker.on_event
 	    def event_callback() -> str:
 	        print("Event received!")
 	        return "Event succeeded!"
 	
-	
 	    @linker.on_success
 	    def success_callback(msg: str) -> None:
 	        print(msg)
-	
 	
 	    @linker.on_failure
 	    def failure_callback(exc: Exception) -> None:
 	        print(exc)
 	
+
 	event_emitter: EventEmitter = AsyncIOEventEmitter()
 	event_emitter.emit("StringEvent")
 	```
@@ -510,25 +511,26 @@ Hello, AsyncIOEventEmitter!
 
 === "Error execution"
 
-	```Python linenums="1"  hl_lines="6 15-17"
+	```Python linenums="1"  hl_lines="8 15-17"
 	from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 	
+
 	with EventLinker.on("StringEvent") as linker: # (1)!
+
 	    @linker.on_event
 	    def event_callback() -> str:
 	        raise ValueError("Something went wrong!")
 	        return "Event succeeded!"
 	
-	
 	    @linker.on_success
 	    def success_callback(msg: str) -> None:
 	        print(msg)
-	
 	
 	    @linker.on_failure
 	    def failure_callback(exc: Exception) -> None:
 	        print(exc)
 	
+
 	event_emitter: EventEmitter = AsyncIOEventEmitter()
 	event_emitter.emit("StringEvent")
 	```

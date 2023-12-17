@@ -1883,26 +1883,28 @@ You'll also be able to see the outputs of the event emitters in the console logs
 <span class="normal"><a href="#__codelineno-9-17">17</a></span>
 <span class="normal"><a href="#__codelineno-9-18">18</a></span>
 <span class="normal"><a href="#__codelineno-9-19">19</a></span>
-<span class="normal"><a href="#__codelineno-9-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span>
+<span class="normal"><a href="#__codelineno-9-20">20</a></span>
+<span class="normal"><a href="#__codelineno-9-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2"></a>
-<a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="k">with</span> <span class="n">EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">linker</span><span class="p">:</span> <span class="c1"># (1)!</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4"></a>    <span class="nd">@linker</span><span class="o">.</span><span class="n">on_event</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5"></a>    <span class="k">def</span> <span class="nf">event_callback</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Event received!&quot;</span><span class="p">)</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="hll">        <span class="k">return</span> <span class="s2">&quot;Event succeeded!&quot;</span>
-</span><a id="__codelineno-9-8" name="__codelineno-9-8"></a>
-<a id="__codelineno-9-9" name="__codelineno-9-9"></a>
-<a id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="hll">    <span class="nd">@linker</span><span class="o">.</span><span class="n">on_success</span>
-</span><a id="__codelineno-9-11" name="__codelineno-9-11"></a><span class="hll">    <span class="k">def</span> <span class="nf">success_callback</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><a id="__codelineno-9-12" name="__codelineno-9-12"></a><span class="hll">        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-</span><a id="__codelineno-9-13" name="__codelineno-9-13"></a>
-<a id="__codelineno-9-14" name="__codelineno-9-14"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3"></a>
+<a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="k">with</span> <span class="n">EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">linker</span><span class="p">:</span> <span class="c1"># (1)!</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5"></a>
+<a id="__codelineno-9-6" name="__codelineno-9-6"></a>    <span class="nd">@linker</span><span class="o">.</span><span class="n">on_event</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7"></a>    <span class="k">def</span> <span class="nf">event_callback</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Event received!&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9"></a><span class="hll">        <span class="k">return</span> <span class="s2">&quot;Event succeeded!&quot;</span>
+</span><a id="__codelineno-9-10" name="__codelineno-9-10"></a>
+<a id="__codelineno-9-11" name="__codelineno-9-11"></a><span class="hll">    <span class="nd">@linker</span><span class="o">.</span><span class="n">on_success</span>
+</span><a id="__codelineno-9-12" name="__codelineno-9-12"></a><span class="hll">    <span class="k">def</span> <span class="nf">success_callback</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><a id="__codelineno-9-13" name="__codelineno-9-13"></a><span class="hll">        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+</span><a id="__codelineno-9-14" name="__codelineno-9-14"></a>
 <a id="__codelineno-9-15" name="__codelineno-9-15"></a>    <span class="nd">@linker</span><span class="o">.</span><span class="n">on_failure</span>
 <a id="__codelineno-9-16" name="__codelineno-9-16"></a>    <span class="k">def</span> <span class="nf">failure_callback</span><span class="p">(</span><span class="n">exc</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-9-17" name="__codelineno-9-17"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
 <a id="__codelineno-9-18" name="__codelineno-9-18"></a>
-<a id="__codelineno-9-19" name="__codelineno-9-19"></a><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">()</span>
-<a id="__codelineno-9-20" name="__codelineno-9-20"></a><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19"></a>
+<a id="__codelineno-9-20" name="__codelineno-9-20"></a><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">()</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21"></a><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <ol>
 <li>When the <code>Eventlinker.on</code> method is used as a context manager via the <code>with</code> statement, it allows multiple
@@ -1935,26 +1937,28 @@ You'll also be able to see the outputs of the event emitters in the console logs
 <span class="normal"><a href="#__codelineno-11-17">17</a></span>
 <span class="normal"><a href="#__codelineno-11-18">18</a></span>
 <span class="normal"><a href="#__codelineno-11-19">19</a></span>
-<span class="normal"><a href="#__codelineno-11-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span>
+<span class="normal"><a href="#__codelineno-11-20">20</a></span>
+<span class="normal"><a href="#__codelineno-11-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2"></a>
-<a id="__codelineno-11-3" name="__codelineno-11-3"></a><span class="k">with</span> <span class="n">EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">linker</span><span class="p">:</span> <span class="c1"># (1)!</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4"></a>    <span class="nd">@linker</span><span class="o">.</span><span class="n">on_event</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5"></a>    <span class="k">def</span> <span class="nf">event_callback</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="hll">        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Something went wrong!&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-11-7" name="__codelineno-11-7"></a>        <span class="k">return</span> <span class="s2">&quot;Event succeeded!&quot;</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8"></a>
-<a id="__codelineno-11-9" name="__codelineno-11-9"></a>
-<a id="__codelineno-11-10" name="__codelineno-11-10"></a>    <span class="nd">@linker</span><span class="o">.</span><span class="n">on_success</span>
-<a id="__codelineno-11-11" name="__codelineno-11-11"></a>    <span class="k">def</span> <span class="nf">success_callback</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
-<a id="__codelineno-11-13" name="__codelineno-11-13"></a>
+<a id="__codelineno-11-3" name="__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="k">with</span> <span class="n">EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">linker</span><span class="p">:</span> <span class="c1"># (1)!</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5"></a>
+<a id="__codelineno-11-6" name="__codelineno-11-6"></a>    <span class="nd">@linker</span><span class="o">.</span><span class="n">on_event</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7"></a>    <span class="k">def</span> <span class="nf">event_callback</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8"></a><span class="hll">        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Something went wrong!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-11-9" name="__codelineno-11-9"></a>        <span class="k">return</span> <span class="s2">&quot;Event succeeded!&quot;</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10"></a>
+<a id="__codelineno-11-11" name="__codelineno-11-11"></a>    <span class="nd">@linker</span><span class="o">.</span><span class="n">on_success</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12"></a>    <span class="k">def</span> <span class="nf">success_callback</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13"></a>        <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a id="__codelineno-11-14" name="__codelineno-11-14"></a>
 <a id="__codelineno-11-15" name="__codelineno-11-15"></a><span class="hll">    <span class="nd">@linker</span><span class="o">.</span><span class="n">on_failure</span>
 </span><a id="__codelineno-11-16" name="__codelineno-11-16"></a><span class="hll">    <span class="k">def</span> <span class="nf">failure_callback</span><span class="p">(</span><span class="n">exc</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><a id="__codelineno-11-17" name="__codelineno-11-17"></a><span class="hll">        <span class="nb">print</span><span class="p">(</span><span class="n">exc</span><span class="p">)</span>
 </span><a id="__codelineno-11-18" name="__codelineno-11-18"></a>
-<a id="__codelineno-11-19" name="__codelineno-11-19"></a><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">()</span>
-<a id="__codelineno-11-20" name="__codelineno-11-20"></a><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-19" name="__codelineno-11-19"></a>
+<a id="__codelineno-11-20" name="__codelineno-11-20"></a><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">()</span>
+<a id="__codelineno-11-21" name="__codelineno-11-21"></a><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <ol>
 <li>When the <code>Eventlinker.on</code> method is used as a context manager via the <code>with</code> statement, it allows multiple

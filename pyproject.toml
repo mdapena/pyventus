@@ -17,6 +17,8 @@ authors = [
     { name = "Manuel Da Pena", email = "dapensoft@gmail.com" },
 ]
 classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3 :: Only",
@@ -28,7 +30,7 @@ classifiers = [
     "Topic :: Software Development",
     "Typing :: Typed",
 ]
-keywords = []
+keywords = ["events", "event emitters", "event handlers", "event linkers"]
 
 # ------------------------------------------------------------------
 # | Project Dependencies                                           |

@@ -45,7 +45,7 @@ hide:
 
 <li markdown>Fork the repository and create a new branch.</li>
 <li markdown>Implement your changes in the branch.</li>
-<li markdown>Ensure that [formatting, linting, and tests pass](http://localhost:8000/contributing/#pre-submission-testing-and-validation).</li>
+<li markdown>Ensure that [formatting, linting, and tests pass](/pyventus/contributing/#pre-submission-testing-and-validation).</li>
 <li markdown>Whenever possible, include tests to cover the lines of code you added or modified.</li>
 <li markdown>Commit your changes and submit a pull request with a clear, detailed message.</li>
 
@@ -280,7 +280,7 @@ hatch run tests:all
 ## Code of Conduct
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;This project and everyone participating in it is governed by the [Pyventus Code of Conduct](https://github.com/mdapena/pyventus/.github/CODE_OF_CONDUCT.md). 
+	&emsp;&emsp;This project and everyone participating in it is governed by the [Pyventus Code of Conduct](https://github.com/mdapena/pyventus/blob/master/.github/CODE_OF_CONDUCT.md). 
 	By participating, you are expected to uphold this code. Please report unacceptable behavior.
 </p>
 

@@ -391,9 +391,6 @@ Hello, AsyncIOEventEmitter!
 ```Python linenums="1"  hl_lines="7 10-12"
 from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 
-# When the Eventlinker.on method is used as a context manager via the 
-# with statement, it allows multiple callbacks to be associated with 
-# events within the linkage context block, defining the event workflow.
 with EventLinker.on("StringEvent") as linker:
 	
     @linker.on_event

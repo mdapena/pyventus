@@ -148,7 +148,8 @@ documentation on the enqueue method settings. At this point, we are ready to emi
 from redis import Redis
 from rq import Queue
 
-from pyventus import EventEmitter, RQEventEmitter
+from pyventus import EventEmitter
+from pyventus.emitters.rq import RQEventEmitter
 
 # To ensure Python recognizes the existence of the event handlers, we need to import them.
 from event_handlers import slow_sync_event_callback, slow_async_event_callback

@@ -1,9 +1,7 @@
-from typing import Any, Type, Dict, List
+from typing import Any, Type, Dict
 
-from ...core.constants import StdOutColors
 from ...core.exceptions import PyventusException
 from ...emitters import EventEmitter
-from ...handlers import EventHandler
 from ...linkers import EventLinker
 
 try:  # pragma: no cover
@@ -21,8 +19,8 @@ class RQEventEmitter(EventEmitter):
     worker system.
 
     This class extends the base `EventEmitter` class and provides the functionality to enqueue
-    event handlers using the [RQ package](https://python-rq.org/). Once enqueued, these event
-    handlers are processed by RQ workers. This event emitter is particularly useful when
+    event delegates using the [RQ package](https://python-rq.org/). Once enqueued, these event
+    delegates are processed by RQ workers. This event emitter is particularly useful when
     dealing with events that require resource-intensive tasks like model optimization
     or video processing.
 
@@ -61,18 +59,6 @@ class RQEventEmitter(EventEmitter):
         self._options: Dict[str, Any] = options if options is not None else {}
         """ Additional options for the RQ package enqueueing method. """
 
-    def _execute(self, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
-        # Log the execution of the handlers, if debug mode is enabled
-        if self._logger.debug_enabled:  # pragma: no cover
-            self._logger.debug(
-                action="Enqueueing:",
-                msg=f"[{event_handlers}] "
-                f"{StdOutColors.PURPLE}*args:{StdOutColors.DEFAULT} {args} "
-                f"{StdOutColors.PURPLE}**kwargs:{StdOutColors.DEFAULT} {kwargs}"
-                f"{StdOutColors.PURPLE}RQ options:{StdOutColors.DEFAULT} {self._options}",
-            )
-
-        # Enqueue the event handlers using the RQ batch method
-        self._queue.enqueue_many(
-            [Queue.prepare_data(event_handler, args, kwargs, **self._options) for event_handler in event_handlers]
-        )
+    def _process(self, delegate: EventEmitter.EventDelegate) -> None:
+        # Enqueue the event delegate using the RQ method
+        self._queue.enqueue(delegate)

@@ -1,20 +1,19 @@
 import asyncio
 from concurrent.futures import Executor, ThreadPoolExecutor
 from types import TracebackType
-from typing import Any, Type, List
+from typing import Type
 
 from ...core.exceptions import PyventusException
 from ...emitters import EventEmitter
-from ...handlers import EventHandler
 from ...linkers import EventLinker
 
 
 class ExecutorEventEmitter(EventEmitter):
     """
-    An event emitter that executes event handlers concurrently using an `Executor`.
+    An event emitter that executes event handlers using an `Executor`.
 
     This class utilizes the `concurrent.futures` Executor base class to handle asynchronous
-    execution of event handlers. It can work with either `ThreadPoolExecutor` for thread-based
+    execution of event delegates. It can work with either `ThreadPoolExecutor` for thread-based
     execution or `ProcessPoolExecutor` for process-based execution.
 
     By inheriting from `EventEmitter` and utilizing the `Executor` interface, this class
@@ -88,27 +87,15 @@ class ExecutorEventEmitter(EventEmitter):
         """
         self._executor.shutdown(wait=wait, cancel_futures=cancel_futures)
 
-    def _execute(self, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
-        # Run the event handlers
-        # concurrently in the executor
-        self._executor.submit(ExecutorEventEmitter._execution_callback, event_handlers, *args, **kwargs)
+    def _process(self, delegate: EventEmitter.EventDelegate) -> None:
+        # Submit the event delegate to the executor
+        self._executor.submit(ExecutorEventEmitter._execution_callback, delegate)
 
     @staticmethod
-    def _execution_callback(event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
+    def _execution_callback(delegate: EventEmitter.EventDelegate) -> None:
         """
-        Executes a list of event handlers concurrently using `asyncio.gather()`.
         This method serves as a callback to be passed to the executor.
-        :param event_handlers: A list of event handlers.
-        :param args: Positional arguments.
-        :param kwargs: Keyword arguments.
+        :param delegate: The event delegate to be executed.
         :return: None
         """
-
-        async def _inner_callback() -> None:
-            """Inner callback to be submitted to `asyncio.run()`."""
-
-            await asyncio.gather(
-                *[event_handler(*args, **kwargs) for event_handler in event_handlers], return_exceptions=True
-            )
-
-        asyncio.run(_inner_callback())
+        asyncio.run(delegate())

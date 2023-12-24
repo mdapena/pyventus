@@ -1,10 +1,13 @@
 from abc import ABC, abstractmethod
+from asyncio import gather
+from datetime import datetime
 from sys import gettrace
-from typing import List, Type, TypeAlias, Any, Tuple
+from typing import List, Type, TypeAlias, Any, Tuple, Dict
+from uuid import uuid4
 
 from ..core.constants import StdOutColors
 from ..core.exceptions import PyventusException
-from ..core.loggers import Logger
+from ..core.loggers import Logger, StdOutLogger
 from ..events import Event
 from ..handlers import EventHandler
 from ..linkers import EventLinker
@@ -30,6 +33,87 @@ class EventEmitter(ABC):
     For more information and code examples, please refer to the `EventEmitter` tutorials
     at: [https://mdapena.github.io/pyventus/tutorials/emitters/](https://mdapena.github.io/pyventus/tutorials/emitters/).
     """
+
+    class EventDelegate:
+        """
+        A class that acts as a delegate for event execution. It encapsulates related
+        event handler callbacks, shared execution context, and arguments for loose
+        coupling and concurrent execution.
+
+        By bundling the handlers and data, it allows event emitters to delegate
+        downstream processing of the event handler callbacks in a decoupled manner.
+        The event handlers are executed concurrently for optimized performance.
+        """
+
+        # Event delegate attributes
+        __slots__ = ("_id", "_timestamp", "_debug", "_event_handlers", "_args", "_kwargs")
+
+        @property
+        def id(self) -> str:
+            """
+            Get the unique identifier for the event delegate.
+            :return: The unique identifier.
+            """
+            return self._id
+
+        @property
+        def timestamp(self) -> datetime:
+            """
+            Get the timestamp representing the creation time of the event delegate.
+            :return: The timestamp.
+            """
+            return self._timestamp
+
+        def __init__(self, debug: bool, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any):
+            """
+            Initialize a new `EventDelegate` instance.
+            :param debug: Specifies the debug flag for the event delegate.
+            :param event_handlers: List of event handlers to execute.
+            :param args: Positional arguments to pass to the event handlers.
+            :param kwargs: Keyword arguments to pass to the event handlers.
+            """
+            if not event_handlers:
+                raise PyventusException("The 'event_handlers' argument cannot be empty.")
+
+            self._id: str = str(uuid4())
+            """The unique identifier for the event delegate."""
+
+            self._timestamp: datetime = datetime.now()
+            """The timestamp representing the creation time of the event delegate."""
+
+            self._debug: bool = debug
+            """A flag indicating whether or not debug mode is enabled."""
+
+            self._event_handlers: Tuple[EventHandler] = tuple(event_handlers)
+            """A tuple of event handlers to be executed."""
+
+            self._args: Tuple[Any, ...] = args
+            """Positional arguments to be passed to the event handlers."""
+
+            self._kwargs: Dict[str, Any] = kwargs
+            """Keyword arguments to be passed to the event handlers."""
+
+        async def __call__(self) -> None:
+            """
+            Execute the event handlers concurrently.
+            :return: None
+            """
+            # Log the event execution if debug mode is enabled
+            if self._debug:
+                StdOutLogger.debug(name=self.__class__.__name__, action="Executing:", msg=str(self))
+
+            # Execute the event handlers concurrently
+            await gather(
+                *[event_handler(*self._args, **self._kwargs) for event_handler in self._event_handlers],
+                return_exceptions=True,
+            )
+
+        def __str__(self) -> str:
+            """
+            Return a string representation of the event delegate.
+            :return: The string representation.
+            """
+            return f"Id: {self.id} | Timestamp: {self.timestamp} | Event Handlers: {len(self._event_handlers)}"
 
     def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug_mode: bool | None = None):
         """
@@ -133,25 +217,26 @@ class EventEmitter(ABC):
 
         # Checks if the pending_event_handlers is not empty
         if len(pending_event_handlers) > 0:
-            # Executes the pending event handlers along with their arguments and keyword arguments
-            self._execute(pending_event_handlers, *event_args, **kwargs)
+            # Delegates the event execution to the event
+            # delegate and submits it for processing.
+            self._process(
+                delegate=EventEmitter.EventDelegate(
+                    self._logger.debug_enabled,
+                    pending_event_handlers,
+                    *event_args,
+                    **kwargs,
+                )
+            )
 
     @abstractmethod
-    def _execute(self, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
+    def _process(self, delegate: EventDelegate) -> None:
         """
-        Executes the callbacks associated with the specified event handlers.
+        Processes the execution of the event delegate.
 
-        This method is responsible for executing the callbacks associated with each event
-        handler provided in the `event_handlers` parameter. The callbacks will be executed
-        with the positional arguments provided in `*args` and the keyword arguments provided
-        in `**kwargs`.
+        **Note:** Subclasses must implement this method to define the specific
+        processing logic for the event delegate.
 
-        **Note:** Subclasses must implement this method to define how the event handler
-        callbacks should be executed based on their specific context and requirements.
-
-        :param event_handlers: List of event handlers to be executed.
-        :param args: Positional arguments to pass to the callbacks.
-        :param kwargs: Keyword arguments to pass to the callbacks.
+        :param delegate: The event delegate to be processed.
         :return: None
         """
         pass

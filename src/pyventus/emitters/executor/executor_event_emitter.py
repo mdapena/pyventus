@@ -13,7 +13,7 @@ class ExecutorEventEmitter(EventEmitter):
     An event emitter that executes event handlers using an `Executor`.
 
     This class utilizes the `concurrent.futures` Executor base class to handle asynchronous
-    execution of event delegates. It can work with either `ThreadPoolExecutor` for thread-based
+    execution of event tasks. It can work with either `ThreadPoolExecutor` for thread-based
     execution or `ProcessPoolExecutor` for process-based execution.
 
     By inheriting from `EventEmitter` and utilizing the `Executor` interface, this class
@@ -87,15 +87,15 @@ class ExecutorEventEmitter(EventEmitter):
         """
         self._executor.shutdown(wait=wait, cancel_futures=cancel_futures)
 
-    def _process(self, delegate: EventEmitter.EventDelegate) -> None:
-        # Submit the event delegate to the executor
-        self._executor.submit(ExecutorEventEmitter._execution_callback, delegate)
+    def _process(self, task: EventEmitter.EventTask) -> None:
+        # Submit the event task to the executor
+        self._executor.submit(ExecutorEventEmitter._execution_callback, task)
 
     @staticmethod
-    def _execution_callback(delegate: EventEmitter.EventDelegate) -> None:
+    def _execution_callback(task: EventEmitter.EventTask) -> None:
         """
         This method serves as a callback to be passed to the executor.
-        :param delegate: The event delegate to be executed.
+        :param task: The event task to be executed.
         :return: None
         """
-        asyncio.run(delegate())
+        asyncio.run(task())

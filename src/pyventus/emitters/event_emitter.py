@@ -34,55 +34,66 @@ class EventEmitter(ABC):
     at: [https://mdapena.github.io/pyventus/tutorials/emitters/](https://mdapena.github.io/pyventus/tutorials/emitters/).
     """
 
-    class EventDelegate:
+    class EventTask:
         """
-        A class that acts as a delegate for event execution. It encapsulates related
-        event handler callbacks, shared execution context, and arguments for loose
-        coupling and concurrent execution.
-
-        By bundling the handlers and data, it allows event emitters to delegate
-        downstream processing of the event handler callbacks in a decoupled manner.
-        The event handlers are executed concurrently for optimized performance.
+        Represents an atomic, immutable, and distributable unit of work that encapsulates
+        the processing of an emitted event.
         """
 
-        # Event delegate attributes
-        __slots__ = ("_id", "_timestamp", "_debug", "_event_handlers", "_args", "_kwargs")
+        # Event task attributes
+        __slots__ = ("_id", "_timestamp", "_debug", "_event", "_event_handlers", "_args", "_kwargs")
 
         @property
         def id(self) -> str:
             """
-            Get the unique identifier for the event delegate.
-            :return: The unique identifier.
+            Get the unique identifier of the event task.
+            :return: The unique identifier of the event task.
             """
             return self._id
 
         @property
         def timestamp(self) -> datetime:
             """
-            Get the timestamp representing the creation time of the event delegate.
-            :return: The timestamp.
+            Get the timestamp when the event task was created.
+            :return: The timestamp when the event task was created.
             """
             return self._timestamp
 
-        def __init__(self, debug: bool, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any):
+        @property
+        def event(self) -> str:
             """
-            Initialize a new `EventDelegate` instance.
-            :param debug: Specifies the debug flag for the event delegate.
+            Get the name of the event associated with the task.
+            :return: The name of the event associated with the task.
+            """
+            return self._event
+
+        def __init__(self, debug: bool, event: str, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any):
+            """
+            Initialize the `EventTask` object.
+            :param debug: Specifies whether debug mode is enabled.
+            :param event: The name of the event associated with the task.
             :param event_handlers: List of event handlers to execute.
             :param args: Positional arguments to pass to the event handlers.
             :param kwargs: Keyword arguments to pass to the event handlers.
+            :raises PyventusException: If the 'event' or 'event_handlers' arguments are empty.
             """
             if not event_handlers:
                 raise PyventusException("The 'event_handlers' argument cannot be empty.")
 
+            if not event:
+                raise PyventusException("The 'event' argument cannot be empty.")
+
             self._id: str = str(uuid4())
-            """The unique identifier for the event delegate."""
+            """A unique identifier for the event task."""
 
             self._timestamp: datetime = datetime.now()
-            """The timestamp representing the creation time of the event delegate."""
+            """The timestamp when the event task was created."""
 
             self._debug: bool = debug
             """A flag indicating whether or not debug mode is enabled."""
+
+            self._event: str = event
+            """The name of the event associated with the task."""
 
             self._event_handlers: Tuple[EventHandler] = tuple(event_handlers)
             """A tuple of event handlers to be executed."""
@@ -100,7 +111,7 @@ class EventEmitter(ABC):
             """
             # Log the event execution if debug mode is enabled
             if self._debug:
-                StdOutLogger.debug(name=self.__class__.__name__, action="Executing:", msg=str(self))
+                StdOutLogger.debug(name=self.__class__.__name__, action="Executing Task:", msg=str(self))
 
             # Execute the event handlers concurrently
             await gather(
@@ -110,10 +121,13 @@ class EventEmitter(ABC):
 
         def __str__(self) -> str:
             """
-            Return a string representation of the event delegate.
-            :return: The string representation.
+            Return a string representation of the event task.
+            :return: A string representation of the event task.
             """
-            return f"Id: {self.id} | Timestamp: {self.timestamp} | Event Handlers: {len(self._event_handlers)}"
+            return (
+                f"Id: {self.id} | Timestamp: {self.timestamp} | "
+                f"Event: {self.event} | Handlers: {len(self._event_handlers)}"
+            )
 
     def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug_mode: bool | None = None):
         """
@@ -218,10 +232,11 @@ class EventEmitter(ABC):
         # Checks if the pending_event_handlers is not empty
         if len(pending_event_handlers) > 0:
             # Delegates the event execution to the event
-            # delegate and submits it for processing.
+            # task and its process method.
             self._process(
-                delegate=EventEmitter.EventDelegate(
+                task=EventEmitter.EventTask(
                     self._logger.debug_enabled,
+                    event if is_string else event.__class__.__name__,
                     pending_event_handlers,
                     *event_args,
                     **kwargs,
@@ -229,14 +244,14 @@ class EventEmitter(ABC):
             )
 
     @abstractmethod
-    def _process(self, delegate: EventDelegate) -> None:
+    def _process(self, task: EventTask) -> None:
         """
-        Processes the execution of the event delegate.
+        Processes the execution of the event task.
 
         **Note:** Subclasses must implement this method to define the specific
-        processing logic for the event delegate.
+        processing logic for the event task.
 
-        :param delegate: The event delegate to be processed.
+        :param task: The event task to be processed.
         :return: None
         """
         pass

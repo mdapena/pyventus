@@ -12,15 +12,15 @@ class AsyncIOEventEmitter(EventEmitter):
     the execution of the event handlers.
 
     **Asynchronous Execution**: In an asynchronous context where an event loop is already
-    running, the event delegate is scheduled and processed on that existing loop. If the
-    event loop is closed before all callbacks complete, any remaining scheduled tasks
-    will be canceled.
+    running, the event task is scheduled and processed on that existing loop. If the
+    event loop is closed before all callbacks complete, any remaining scheduled
+    callback will be canceled.
 
     **Synchronous Execution**: In a synchronous context where no event loop is active, a new event
     loop is started and subsequently closed by the `asyncio.run()` method. Within this loop, it
-    executes the event delegate. The loop then waits for all scheduled callbacks to finish
-    before closing. This preserves synchronous execution while still gaining the benefits
-    of the concurrent execution.
+    executes the event task. The loop then waits for all scheduled callbacks to finish before
+    closing. This preserves synchronous execution while still gaining the benefits of the
+    concurrent execution.
 
     For more information and code examples, please refer to the `AsyncIOEventEmitter`
     tutorials at: [https://mdapena.github.io/pyventus/tutorials/emitters/asyncio-event-emitter/](https://mdapena.github.io/pyventus/tutorials/emitters/asyncio-event-emitter/).
@@ -58,7 +58,7 @@ class AsyncIOEventEmitter(EventEmitter):
         # Initialize the set of background futures
         self._background_futures: Set[Future] = set()  # type: ignore
 
-    def _process(self, delegate: EventEmitter.EventDelegate) -> None:
+    def _process(self, task: EventEmitter.EventTask) -> None:
         # Check if AsyncIO event loop is running
         is_loop_running: bool = self.__is_loop_running
 
@@ -67,8 +67,8 @@ class AsyncIOEventEmitter(EventEmitter):
             self._logger.debug(action=f"Running:", msg=f"{'Async' if is_loop_running else 'Sync'} context")
 
         if is_loop_running:
-            # Schedule the event delegate in the running loop as a future
-            future = asyncio.ensure_future(delegate())
+            # Schedule the event task in the running loop as a future
+            future = asyncio.ensure_future(task())
 
             # Remove the Future from the set of background futures after completion
             future.add_done_callback(self._background_futures.remove)
@@ -76,5 +76,5 @@ class AsyncIOEventEmitter(EventEmitter):
             # Add the Future to the set of background futures
             self._background_futures.add(future)
         else:
-            # Run the delegate in a synchronous manner
-            asyncio.run(delegate())
+            # Run the event task in a synchronous manner
+            asyncio.run(task())

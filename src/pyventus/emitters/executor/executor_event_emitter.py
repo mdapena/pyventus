@@ -37,7 +37,7 @@ class ExecutorEventEmitter(EventEmitter):
         self,
         executor: Executor = ThreadPoolExecutor(),
         event_linker: Type[EventLinker] = EventLinker,
-        debug_mode: bool | None = None,
+        debug: bool | None = None,
     ):
         """
         Initializes an instance of the `ExecutorEventEmitter` class.
@@ -45,11 +45,11 @@ class ExecutorEventEmitter(EventEmitter):
             to `ThreadPoolExecutor()`.
         :param event_linker: Specifies the type of event linker to use for associating
             events with their respective event handlers. Defaults to `EventLinker`.
-        :param debug_mode: Specifies the debug mode for the subclass logger. If `None`,
+        :param debug: Specifies the debug mode for the subclass logger. If `None`,
             it is determined based on the execution environment.
         """
         # Call the parent class' __init__ method to set up the event linker
-        super().__init__(event_linker=event_linker, debug_mode=debug_mode)
+        super().__init__(event_linker=event_linker, debug=debug)
 
         # Validate the executor argument
         if executor is None or not issubclass(executor.__class__, Executor):

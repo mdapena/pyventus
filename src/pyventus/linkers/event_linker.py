@@ -199,7 +199,7 @@ class EventLinker(ABC):
         max_event_handlers: int | None = None,
         default_success_callback: SuccessCallbackType | None = None,
         default_failure_callback: FailureCallbackType | None = None,
-        debug_mode: bool | None = None,
+        debug: bool | None = None,
         **kwargs: Any,
     ) -> None:
         """
@@ -214,7 +214,7 @@ class EventLinker(ABC):
             callback in the event handlers when no specific success callback is provided.
         :param default_failure_callback: The default callback to be assigned as the failure
             callback in the event handlers when no specific failure callback is provided.
-        :param debug_mode: Specifies the debug mode for the subclass logger. If `None`,
+        :param debug: Specifies the debug mode for the subclass logger. If `None`,
             it is determined based on the execution environment.
         :param kwargs: The keyword arguments to pass to the superclass
             `__init_subclass__` method.
@@ -254,7 +254,7 @@ class EventLinker(ABC):
         # Set up the logger for the subclass
         cls.__logger = Logger(
             name=cls.__name__,
-            debug=debug_mode if debug_mode is not None else bool(gettrace() is not None),
+            debug=debug if debug is not None else bool(gettrace() is not None),
         )
 
     @classmethod
@@ -464,7 +464,7 @@ class EventLinker(ABC):
                 # Append the event handler to the list of handlers for the event
                 cls.__event_registry[event_key].append(event_handler)
 
-                # Log the subscription if debug mode is enabled
+                # Log the subscription if debug is enabled
                 if cls.__logger.debug_enabled:  # pragma: no cover
                     cls.__logger.debug(
                         action="Subscribed:",
@@ -518,7 +518,7 @@ class EventLinker(ABC):
                     if not event_handlers:
                         cls.__event_registry.pop(event_key)
 
-                    # Log the unsubscription if debug mode is enabled
+                    # Log the unsubscription if debug is enabled
                     if cls.__logger.debug_enabled:  # pragma: no cover
                         cls.__logger.debug(
                             action="Unsubscribed",
@@ -561,7 +561,7 @@ class EventLinker(ABC):
                     if not event_handlers:
                         cls.__event_registry.pop(event_key)
 
-                    # Log the removal of the event handler if debug mode is enabled
+                    # Log the removal of the event handler if debug is enabled
                     if cls.__logger.debug_enabled:  # pragma: no cover
                         cls.__logger.debug(
                             action="Handler Removed:",
@@ -588,7 +588,7 @@ class EventLinker(ABC):
                 # Remove the event from the registry
                 cls.__event_registry.pop(event_key)
 
-                # Log the removal of the event if debug mode is enabled
+                # Log the removal of the event if debug is enabled
                 if cls.__logger.debug_enabled:  # pragma: no cover
                     cls.__logger.debug(action="Event Removed:", msg=f"[{event_key}]")
 
@@ -608,7 +608,7 @@ class EventLinker(ABC):
             # Clear the event registry by assigning an empty dictionary
             cls.__event_registry = {}
 
-        # Log a debug message if debug mode is enabled
+        # Log a debug message if debug is enabled
         if cls.__logger.debug_enabled:  # pragma: no cover
             cls.__logger.debug(msg="All events and handlers were successfully removed")
 

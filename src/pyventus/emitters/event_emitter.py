@@ -109,7 +109,7 @@ class EventEmitter(ABC):
             Execute the event handlers concurrently.
             :return: None
             """
-            # Log the event execution if debug mode is enabled
+            # Log the event execution if debug is enabled
             if self._debug:  # pragma: no cover
                 StdOutLogger.debug(name=self.__class__.__name__, action="Executing Task:", msg=str(self))
 
@@ -129,12 +129,12 @@ class EventEmitter(ABC):
                 f"Event: {self.event} | Handlers: {len(self._event_handlers)}"
             )
 
-    def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug_mode: bool | None = None):
+    def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None):
         """
         Initializes an instance of the `EventEmitter`.
         :param event_linker: Specifies the type of event linker to use for associating
             events with their respective event handlers. Defaults to `EventLinker`.
-        :param debug_mode: Specifies the debug mode for the subclass logger. If `None`,
+        :param debug: Specifies the debug mode for the subclass logger. If `None`,
             it is determined based on the execution environment.
         :raises PyventusException: If the `event_linker` argument is None.
         """
@@ -151,14 +151,14 @@ class EventEmitter(ABC):
 
         self._logger: Logger = Logger(
             name=self.__class__.__name__,
-            debug=debug_mode if debug_mode is not None else bool(gettrace() is not None),
+            debug=debug if debug is not None else bool(gettrace() is not None),
         )
         """
         An instance of the logger used for logging events and debugging information. The 
         debug mode of the logger can be explicitly set by providing a boolean value for the 
-        `debug_mode` argument in the constructor. If `debug_mode` is set to `None`, the debug
-        mode will be automatically determined based on the execution environment and the
-        value returned by the `gettrace()` function.
+        `debug` argument in the constructor. If `debug` is set to `None`, the debug will be
+        automatically determined based on the execution environment and the value returned
+        by the `gettrace()` function.
         """
 
     def emit(self, /, event: EmittableEventType, *args: Any, **kwargs: Any) -> None:
@@ -230,7 +230,7 @@ class EventEmitter(ABC):
                 **kwargs,
             )
 
-            # Logs the event emission when debug mode is enabled
+            # Logs the event emission when debug is enabled
             if self._logger.debug_enabled:  # pragma: no cover
                 self._logger.debug(
                     action="Emitting:",

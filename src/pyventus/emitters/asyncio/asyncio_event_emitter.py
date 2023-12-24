@@ -44,16 +44,16 @@ class AsyncIOEventEmitter(EventEmitter):
         except RuntimeError:
             return False
 
-    def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug_mode: bool | None = None):
+    def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None):
         """
         Initializes an instance of the `AsyncIOEventEmitter` class.
         :param event_linker: Specifies the type of event linker to use for associating
             events with their respective event handlers. Defaults to `EventLinker`.
-        :param debug_mode: Specifies the debug mode for the subclass logger. If `None`,
+        :param debug: Specifies the debug mode for the subclass logger. If `None`,
             it is determined based on the execution environment.
         """
         # Call the parent class' __init__ method to set up the event linker
-        super().__init__(event_linker=event_linker, debug_mode=debug_mode)
+        super().__init__(event_linker=event_linker, debug=debug)
 
         # Initialize the set of background futures
         self._background_futures: Set[Future] = set()  # type: ignore

@@ -110,7 +110,7 @@ class EventEmitter(ABC):
             :return: None
             """
             # Log the event execution if debug mode is enabled
-            if self._debug:
+            if self._debug:  # pragma: no cover
                 StdOutLogger.debug(name=self.__class__.__name__, action="Executing Task:", msg=str(self))
 
             # Execute the event handlers concurrently
@@ -125,7 +125,7 @@ class EventEmitter(ABC):
             :return: A string representation of the event task.
             """
             return (
-                f"Id: {self.id} | Timestamp: {self.timestamp} | "
+                f"Id: {self.id} | Timestamp: {self.timestamp.strftime('%Y-%m-%d %H:%M:%S %p')} | "
                 f"Event: {self.event} | Handlers: {len(self._event_handlers)}"
             )
 
@@ -219,29 +219,26 @@ class EventEmitter(ABC):
                 # Adds the current event handler to the execution list
                 pending_event_handlers.append(event_handler)
 
-        # Log the event emission if debug mode is enabled
-        if self._logger.debug_enabled:  # pragma: no cover
-            self._logger.debug(
-                action="Emitting:",
-                msg=(
-                    f"{event if is_string else event.__class__.__name__} "
-                    f"{StdOutColors.PURPLE} Handlers:{StdOutColors.DEFAULT} {len(pending_event_handlers)}"
-                ),
-            )
-
         # Checks if the pending_event_handlers is not empty
         if len(pending_event_handlers) > 0:
-            # Delegates the event execution to the event
-            # task and its process method.
-            self._process(
-                task=EventEmitter.EventTask(
-                    self._logger.debug_enabled,
-                    event if is_string else event.__class__.__name__,
-                    pending_event_handlers,
-                    *event_args,
-                    **kwargs,
-                )
+            # Creates a new EventTask instance
+            task: EventEmitter.EventTask = EventEmitter.EventTask(
+                self._logger.debug_enabled,
+                event if is_string else event.__class__.__name__,
+                pending_event_handlers,
+                *event_args,
+                **kwargs,
             )
+
+            # Logs the event emission when debug mode is enabled
+            if self._logger.debug_enabled:  # pragma: no cover
+                self._logger.debug(
+                    action="Emitting:",
+                    msg=f"{task.event}{StdOutColors.PURPLE} Task:{StdOutColors.DEFAULT} {task.id}",
+                )
+
+            # Delegates the processing of the task to subclasses
+            self._process(task=task)
 
     @abstractmethod
     def _process(self, task: EventTask) -> None:

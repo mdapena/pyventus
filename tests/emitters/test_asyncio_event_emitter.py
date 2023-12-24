@@ -2,8 +2,8 @@ import asyncio
 
 import pytest
 from _pytest.python_api import raises
-from pyventus import EventLinker, AsyncIOEventEmitter, PyventusException
 
+from pyventus import EventLinker, AsyncIOEventEmitter, PyventusException
 from .event_emitter_test import EventEmitterTest
 
 
@@ -17,11 +17,11 @@ class TestAsyncIOEventEmitter(EventEmitterTest):
     # Creation
     # ----------
 
-    def test_creation(self, clean_event_linker: bool):
+    def test_creation(self, clean_event_linker: bool) -> None:
         event_emitter = AsyncIOEventEmitter()
         assert event_emitter is not None
 
-    def test_creation_with_invalid_params(self, clean_event_linker: bool):
+    def test_creation_with_invalid_params(self, clean_event_linker: bool) -> None:
         with raises(PyventusException):
             AsyncIOEventEmitter(event_linker=None)  # type: ignore
 
@@ -29,12 +29,12 @@ class TestAsyncIOEventEmitter(EventEmitterTest):
     # Sync Context
     # ----------
 
-    def test_emission_in_sync_context(self):
+    def test_emission_in_sync_context(self) -> None:
         event_emitter = AsyncIOEventEmitter()
         with TestAsyncIOEventEmitter.run_emission_test(event_emitter=event_emitter):
             pass
 
-    def test_emission_in_sync_context_with_custom_event_linker(self):
+    def test_emission_in_sync_context_with_custom_event_linker(self) -> None:
         class CustomEventLinker(EventLinker):
             pass
 
@@ -47,13 +47,13 @@ class TestAsyncIOEventEmitter(EventEmitterTest):
     # ----------
 
     @pytest.mark.asyncio
-    async def test_emission_in_async_context(self):
+    async def test_emission_in_async_context(self) -> None:
         event_emitter = AsyncIOEventEmitter()
         with TestAsyncIOEventEmitter.run_emission_test(event_emitter=event_emitter):
             await TestAsyncIOEventEmitter.__run_until_complete()
 
     @pytest.mark.asyncio
-    async def test_emission_in_async_context_with_custom_event_linker(self):
+    async def test_emission_in_async_context_with_custom_event_linker(self) -> None:
         class CustomEventLinker(EventLinker):
             pass
 

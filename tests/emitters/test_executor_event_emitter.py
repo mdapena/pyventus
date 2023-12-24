@@ -11,7 +11,7 @@ class TestExecutorEventEmitter(EventEmitterTest):
     # Creation
     # ----------
 
-    def test_creation(self, clean_event_linker: bool):
+    def test_creation(self, clean_event_linker: bool) -> None:
         # Thread event emitter
         thread_emitter = ExecutorEventEmitter()
         assert thread_emitter is not None
@@ -22,7 +22,7 @@ class TestExecutorEventEmitter(EventEmitterTest):
         assert process_emitter is not None
         process_emitter.shutdown()
 
-    def test_creation_with_invalid_params(self, clean_event_linker: bool):
+    def test_creation_with_invalid_params(self, clean_event_linker: bool) -> None:
         with pytest.raises(PyventusException):
             ExecutorEventEmitter(event_linker=None)  # type: ignore
         with pytest.raises(PyventusException):
@@ -32,13 +32,13 @@ class TestExecutorEventEmitter(EventEmitterTest):
     # SyncContext
     # ----------
 
-    def test_emission_in_sync_context(self):
+    def test_emission_in_sync_context(self) -> None:
         # Thread emission
         thread_emitter = ExecutorEventEmitter(executor=ThreadPoolExecutor())
         with TestExecutorEventEmitter.run_emission_test(event_emitter=thread_emitter), thread_emitter:
             pass  # pragma: no cover
 
-    def test_emission_in_sync_context_with_custom_event_linker(self):
+    def test_emission_in_sync_context_with_custom_event_linker(self) -> None:
         class CustomEventLinker(EventLinker):
             pass
 
@@ -51,14 +51,14 @@ class TestExecutorEventEmitter(EventEmitterTest):
     # ----------
 
     @pytest.mark.asyncio
-    async def test_emission_in_async_context(self):
+    async def test_emission_in_async_context(self) -> None:
         # Thread emission
         thread_emitter = ExecutorEventEmitter(executor=ThreadPoolExecutor())
         with TestExecutorEventEmitter.run_emission_test(event_emitter=thread_emitter):
             thread_emitter.shutdown(wait=True)
 
     @pytest.mark.asyncio
-    async def test_emission_in_async_context_with_custom_event_linker(self):
+    async def test_emission_in_async_context_with_custom_event_linker(self) -> None:
         class CustomEventLinker(EventLinker):
             pass
 

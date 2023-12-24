@@ -4,8 +4,9 @@ from typing import Dict, final, Tuple, Any
 
 import pytest
 from fakeredis import FakeStrictRedis
-from pyventus import Event, EventLinker
 from rq import Queue
+
+from pyventus import Event, EventLinker
 
 
 @pytest.fixture
@@ -21,6 +22,7 @@ def clean_event_linker() -> bool:
     return EventLinker.get_event_registry == {}
 
 
+@pytest.fixture
 def rq_queue() -> Queue:
     """
     Creates and returns a RQ (Redis Queue) object for testing purposes.

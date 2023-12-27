@@ -38,6 +38,27 @@ class CeleryEventEmitter(EventEmitter):
     class Queue:
         """A class representing the Celery task queue used for enqueuing event emissions."""
 
+        class Serializer:
+            """`EventEmission` Serializer for Celery Tasks"""
+
+            @staticmethod
+            def dumps(obj: EventEmitter.EventEmission) -> Any:
+                """
+                Serializes the event emission object
+                :param obj: The event emission object to be serialized.
+                :return: The serialized representation of the event emission object.
+                """
+                return dumps(obj)
+
+            @staticmethod
+            def loads(serialized_obj: Any) -> EventEmitter.EventEmission:
+                """
+                Deserializes the task payload back to the event emission object.
+                :param serialized_obj: The serialized object to be loaded.
+                :return: The deserialized event emission object.
+                """
+                return loads(serialized_obj)
+
         class _Payload(NamedTuple):
             """Represents the payload data sent to Celery."""
 
@@ -77,7 +98,13 @@ class CeleryEventEmitter(EventEmitter):
                 # Create the named tuple using the JSON data
                 return cls(**kwargs)
 
-        def __init__(self, celery: Celery, name: str | None = None, secret: str | None = None):
+        def __init__(
+            self,
+            celery: Celery,
+            name: str | None = None,
+            secret: str | None = None,
+            serializer: Type[Serializer] = Serializer,
+        ):
             """
             Initialize the Celery event emitter `Queue`.
             :param celery: The Celery instance used to enqueue and process event emissions.
@@ -85,6 +112,8 @@ class CeleryEventEmitter(EventEmitter):
                 Default is None (task_default_queue).
             :param secret: The secret key used for message authentication and integrity validation.
                 This key is used for hashing the event emission object and verifying its integrity.
+            :param serializer: The serializer class used for serializing and deserializing event
+                emission objects.
             :raises PyventusException: If the Celery instance is None, or the secret key is not None
                 and empty, or if the content type 'application/x-python-serialize' is not accepted.
             """
@@ -100,20 +129,23 @@ class CeleryEventEmitter(EventEmitter):
                     "'application/x-python-serialize' is not in the list of accepted content types."
                 )
 
-            self.__celery: Celery = celery
+            self._celery: Celery = celery
             """The Celery instance."""
 
-            self.__name: str = self.__celery.conf.task_default_queue if name is None else name
+            self._name: str = self._celery.conf.task_default_queue if name is None else name
             """The name of the queue where the event emission will be enqueued."""
 
-            self.__secret: bytes | None = secret.encode("utf-8") if secret else None
+            self._secret: bytes | None = secret.encode("utf-8") if secret else None
             """The secret key used for message authentication and integrity validation, encoded as bytes."""
 
-            self.__digestmod: str | Callable[[], Any] | ModuleType = sha256
+            self._digestmod: str | Callable[[], Any] | ModuleType = sha256
             """The digest algorithm used for hashing."""
 
+            self._serializer: Type[CeleryEventEmitter.Queue.Serializer] = serializer
+            """The serializer class used for serializing and deserializing event emission objects."""
+
             # Registers the event processor method as a Celery task.
-            self.__celery.task(self._executor, name=self._executor.__name__, queue=self.__name)
+            self._celery.task(self._executor, name=self._executor.__name__, queue=self._name)
 
         def enqueue(self, event_emission: EventEmitter.EventEmission) -> None:
             """
@@ -129,12 +161,12 @@ class CeleryEventEmitter(EventEmitter):
             :return: None
             """
             # Serialize the event emission object
-            serialized_obj: bytes = dumps(event_emission)
+            serialized_obj: Any = self._serializer.dumps(event_emission)
 
             # Calculate the hash of the serialized object if a secret key was provided
-            obj_hash: bytes | None = None
-            if self.__secret:
-                obj_hash = hmac.new(key=self.__secret, msg=serialized_obj, digestmod=self.__digestmod).digest()
+            obj_hash: Any | None = None
+            if self._secret:
+                obj_hash = hmac.new(key=self._secret, msg=serialized_obj, digestmod=self._digestmod).digest()
 
             # Create a payload with the serialized event emission instance and its hash
             payload = CeleryEventEmitter.Queue._Payload(
@@ -143,10 +175,10 @@ class CeleryEventEmitter(EventEmitter):
             )
 
             # Send the event emission to Celery for execution
-            self.__celery.send_task(
+            self._celery.send_task(
                 self._executor.__name__,
                 kwargs=payload.to_json(),
-                queue=self.__name,
+                queue=self._name,
             )
 
         def _executor(self, **kwargs) -> None:
@@ -163,13 +195,13 @@ class CeleryEventEmitter(EventEmitter):
             payload = CeleryEventEmitter.Queue._Payload.from_json(**kwargs)
 
             # Check payload
-            if self.__secret:
+            if self._secret:
                 if not payload.obj_hash:
                     raise PyventusException("Invalid payload structure.")
 
                 # Verify the integrity of the payload
                 obj_hash: bytes = hmac.new(
-                    key=self.__secret, msg=payload.serialized_obj, digestmod=self.__digestmod
+                    key=self._secret, msg=payload.serialized_obj, digestmod=self._digestmod
                 ).digest()
 
                 # Compare the calculated hash with the provided payload hash
@@ -179,7 +211,7 @@ class CeleryEventEmitter(EventEmitter):
                 raise PyventusException("Unexpected payload structure.")
 
             # Deserialize the event emission object
-            event_emission: EventEmitter.EventEmission = loads(payload.serialized_obj)
+            event_emission = self._serializer.loads(payload.serialized_obj)
 
             # Check if the deserialized event emission object is valid
             if event_emission is None:

@@ -1,2 +1,1 @@
 from .celery_event_emitter import CeleryEventEmitter
-from .celery_event_task_executor import CeleryEventTaskExecutor

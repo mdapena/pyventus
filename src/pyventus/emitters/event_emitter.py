@@ -34,48 +34,56 @@ class EventEmitter(ABC):
     at: [https://mdapena.github.io/pyventus/tutorials/emitters/](https://mdapena.github.io/pyventus/tutorials/emitters/).
     """
 
-    class EventTask:
+    class EventEmission:
         """
-        Represents an atomic, immutable, and distributable unit of work that encapsulates
-        the processing of an emitted event.
+        Represents an event emission that has been triggered but whose propagation is not
+        yet complete. It provides a self-contained context for executing the event emission,
+        encapsulating both the event data and the associated event handlers.
+
+        This class acts as an immutable and isolated unit of work to asynchronously propagate
+        the emission of an event.
+
+        This class is managed by the `EventEmitter` class, which creates an instance when an
+        event is emitted. This instance is then processed by the EventEmitter's `_process()`
+        method.
         """
 
-        # Event task attributes
+        # Event emission attributes
         __slots__ = ("_id", "_timestamp", "_debug", "_event", "_event_handlers", "_args", "_kwargs")
 
         @property
         def id(self) -> str:
             """
-            Get the unique identifier of the event task.
-            :return: The unique identifier of the event task.
+            Gets the unique identifier of the event emission.
+            :return: The unique identifier of the event emission.
             """
             return self._id
 
         @property
         def timestamp(self) -> datetime:
             """
-            Get the timestamp when the event task was created.
-            :return: The timestamp when the event task was created.
+            Gets the timestamp when the event emission was created.
+            :return: The timestamp when the event emission was created.
             """
             return self._timestamp
 
         @property
         def event(self) -> str:
             """
-            Get the name of the event associated with the task.
-            :return: The name of the event associated with the task.
+            Gets the name of the event being emitted.
+            :return: The name of the event.
             """
             return self._event
 
         def __init__(self, debug: bool, event: str, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any):
             """
-            Initialize the `EventTask` object.
-            :param debug: Specifies whether debug mode is enabled.
-            :param event: The name of the event associated with the task.
-            :param event_handlers: List of event handlers to execute.
-            :param args: Positional arguments to pass to the event handlers.
-            :param kwargs: Keyword arguments to pass to the event handlers.
-            :raises PyventusException: If the 'event' or 'event_handlers' arguments are empty.
+            Initialize the `EventEmission` object.
+            :param debug: Indicates if debug mode is enabled.
+            :param event: The name of the event being emitted.
+            :param event_handlers: List of event handlers associated with the event.
+            :param args: Positional arguments to be passed to the event handlers.
+            :param kwargs: Keyword arguments to be passed to the event handlers.
+            :raises PyventusException: If `event_handlers` or `event` is empty.
             """
             if not event_handlers:
                 raise PyventusException("The 'event_handlers' argument cannot be empty.")
@@ -84,19 +92,19 @@ class EventEmitter(ABC):
                 raise PyventusException("The 'event' argument cannot be empty.")
 
             self._id: str = str(uuid4())
-            """A unique identifier for the event task."""
+            """The unique identifier for the event emission."""
 
             self._timestamp: datetime = datetime.now()
-            """The timestamp when the event task was created."""
+            """The timestamp when the event emission was created."""
 
             self._debug: bool = debug
             """A flag indicating whether or not debug mode is enabled."""
 
             self._event: str = event
-            """The name of the event associated with the task."""
+            """The name of the event being emitted."""
 
             self._event_handlers: Tuple[EventHandler] = tuple(event_handlers)
-            """A tuple of event handlers to be executed."""
+            """Tuple of event handlers associated with the event."""
 
             self._args: Tuple[Any, ...] = args
             """Positional arguments to be passed to the event handlers."""
@@ -111,7 +119,7 @@ class EventEmitter(ABC):
             """
             # Log the event execution if debug is enabled
             if self._debug:  # pragma: no cover
-                StdOutLogger.debug(name=self.__class__.__name__, action="Executing Task:", msg=str(self))
+                StdOutLogger.debug(name=self.__class__.__name__, action="Running:", msg=str(self))
 
             # Execute the event handlers concurrently
             await gather(
@@ -121,11 +129,11 @@ class EventEmitter(ABC):
 
         def __str__(self) -> str:
             """
-            Return a string representation of the event task.
-            :return: A string representation of the event task.
+            Gets a string representation of the EventEmission object.
+            :return: String representation of the object.
             """
             return (
-                f"Id: {self.id} | Timestamp: {self.timestamp.strftime('%Y-%m-%d %H:%M:%S %p')} | "
+                f"ID: {self.id} | Timestamp: {self.timestamp.strftime('%Y-%m-%d %H:%M:%S %p')} | "
                 f"Event: {self.event} | Handlers: {len(self._event_handlers)}"
             )
 
@@ -221,8 +229,8 @@ class EventEmitter(ABC):
 
         # Checks if the pending_event_handlers is not empty
         if len(pending_event_handlers) > 0:
-            # Creates a new EventTask instance
-            task: EventEmitter.EventTask = EventEmitter.EventTask(
+            # Creates a new EventEmission instance
+            event_emission: EventEmitter.EventEmission = EventEmitter.EventEmission(
                 self._logger.debug_enabled,
                 event if is_string else event.__class__.__name__,
                 pending_event_handlers,
@@ -234,21 +242,21 @@ class EventEmitter(ABC):
             if self._logger.debug_enabled:  # pragma: no cover
                 self._logger.debug(
                     action="Emitting:",
-                    msg=f"{task.event}{StdOutColors.PURPLE} Task:{StdOutColors.DEFAULT} {task.id}",
+                    msg=f"{event_emission.event}{StdOutColors.PURPLE} ID:{StdOutColors.DEFAULT} {event_emission.id}",
                 )
 
-            # Delegates the processing of the task to subclasses
-            self._process(task=task)
+            # Delegates the processing of the event emission to subclasses
+            self._process(event_emission)
 
     @abstractmethod
-    def _process(self, task: EventTask) -> None:
+    def _process(self, event_emission: EventEmission) -> None:
         """
-        Processes the execution of the event task.
+        Processes the execution of the event emission.
 
         **Note:** Subclasses must implement this method to define the specific
-        processing logic for the event task.
+        processing logic for the event emission.
 
-        :param task: The event task to be processed.
+        :param event_emission: The event emission to be processed.
         :return: None
         """
         pass

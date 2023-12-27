@@ -609,12 +609,12 @@ class TestEventLinker:
         class CustomEventLinker2(EventLinker, max_event_handlers=10):
             pass  # pragma: no cover
 
-        class CustomEventLinker3(EventLinker, max_event_handlers=None, debug_mode=False):
+        class CustomEventLinker3(EventLinker, max_event_handlers=None, debug=False):
             @classmethod
             def get_logger(cls) -> Logger:
                 return cls._get_logger()
 
-        class CustomEventLinker4(EventLinker, debug_mode=True):
+        class CustomEventLinker4(EventLinker, debug=True):
             @classmethod
             def get_logger(cls) -> Logger:
                 return cls._get_logger()

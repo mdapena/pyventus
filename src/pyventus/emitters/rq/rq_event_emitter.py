@@ -19,8 +19,8 @@ class RQEventEmitter(EventEmitter):
     worker system.
 
     This class extends the base `EventEmitter` class and provides the functionality to enqueue
-    event tasks using the [RQ package](https://python-rq.org/). Once enqueued, these event
-    tasks are processed by RQ workers. This event emitter is particularly useful when
+    event emissions using the [RQ package](https://python-rq.org/). Once enqueued, these event
+    emissions are processed by RQ workers. This event emitter is particularly useful when
     dealing with events that require resource-intensive tasks like model optimization
     or video processing.
 
@@ -59,6 +59,6 @@ class RQEventEmitter(EventEmitter):
         self._options: Dict[str, Any] = options if options is not None else {}
         """ Additional options for the RQ package enqueueing method. """
 
-    def _process(self, task: EventEmitter.EventTask) -> None:
-        # Enqueue the event task
-        self._queue.enqueue(task)
+    def _process(self, event_emission: EventEmitter.EventEmission) -> None:
+        # Add the event emission to the Redis Queue
+        self._queue.enqueue(event_emission, **self._options)

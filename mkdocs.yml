@@ -84,7 +84,7 @@ plugins:
             members_order: source
             separate_signature: true
             unwrap_annotated: true
-            filters: [ "!^(_.*$)", "^(__init__|__init_subclass__|__call__|__enter__|__exit__)$" ]
+            filters: [ "!^(_.*$)", "!^EventEmission$", "^(__init__|__init_subclass__|__call__|__enter__|__exit__)$" ]
             docstring_section_style: spacy
             signature_crossrefs: true
             show_symbol_type_heading: true
@@ -126,9 +126,10 @@ nav:
       - Event Linkers: tutorials/event-linker.md
       - Event Emitters:
           - tutorials/emitters/index.md
-          - AsyncIO Event Emitter: tutorials/emitters/asyncio-event-emitter.md
-          - Executor Event Emitter: tutorials/emitters/executor-event-emitter.md
-          - RQ Event Emitter: tutorials/emitters/rq-event-emitter.md
+          - AsyncIO Event Emitter: tutorials/emitters/asyncio/index.md
+          - Celery Event Emitter: tutorials/emitters/celery/index.md
+          - Executor Event Emitter: tutorials/emitters/executor/index.md
+          - RQ Event Emitter: tutorials/emitters/rq/index.md
   - API Reference:
       - api/index.md
       - Event: api/event.md
@@ -136,8 +137,10 @@ nav:
       - Event Handler: api/event-handler.md
       - Event Emitter:
           - api/emitters/index.md
-          - AsyncIO Event Emitter: api/emitters/asyncio-event-emitter.md
-          - Executor Event Emitter: api/emitters/executor-event-emitter.md
-          - RQ Event Emitter: api/emitters/rq-event-emitter.md
+          - AsyncIO Event Emitter: api/emitters/asyncio/index.md
+          - Celery Event Emitter: api/emitters/celery/index.md
+          - Executor Event Emitter: api/emitters/executor/index.md
+          - RQ Event Emitter: api/emitters/rq/index.md
+
   - Contributing: contributing.md
   - Release Notes: release-notes.md

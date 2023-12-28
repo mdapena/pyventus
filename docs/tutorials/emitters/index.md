@@ -25,10 +25,10 @@
 </p>
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;The `EventEmitter` presents a unified API with two key methods: `emit()` and `_execute()`. These methods
-	can be used in both synchronous and asynchronous contexts to emit events and handle the associated event handler
-	callbacks. The `emit()` method is used to invoke an event and trigger the registered callbacks, while the
-	`_execute()` is the abstract method responsible for processing the event handlers execution.
+	&emsp;&emsp;The `EventEmitter` presents a unified API with two key methods: `emit()` and `_process()`. These methods
+	can be used in both synchronous and asynchronous contexts to emit events and handle their emission. The `emit()`
+	method is used to invoke an event, while the `_process()` method is an abstract method responsible for 
+	processing the execution of the emitted event.
 </p>
 
 ## Pyventus Event Emitters
@@ -68,15 +68,13 @@
 
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;To create the custom event emitter for FastAPI, we'll define a class called `FastAPIEventEmitter`. This
-	class will extend the base `EventEmitter` class and implement the abstract `_execute()` method using the
-	FastAPI's background task to handle the event handler callbacks execution properly.
+	class will extend the base `EventEmitter` class and implement the abstract `_process()` method using the
+	FastAPI's background tasks to handle the event emission properly.
 </p>
 
-```Python linenums="1" hl_lines="7 12 15"
-from typing import Any
-
+```Python linenums="1" hl_lines="5 10 13"
 from fastapi import BackgroundTasks
-from pyventus import EventEmitter, EventHandler
+from pyventus import EventEmitter
 
 
 class FastAPIEventEmitter(EventEmitter):
@@ -86,8 +84,8 @@ class FastAPIEventEmitter(EventEmitter):
         super().__init__()
         self._background_tasks = background_tasks  # (1)!
 
-    def _execute(self, *args: Any, event_handler: EventHandler, **kwargs: Any) -> None:
-        self._background_tasks.add_task(event_handler, *args, **kwargs)  # (2)!
+    def _process(self, event_emission: EventEmitter.EventEmission) -> None:
+        self._background_tasks.add_task(event_emission)  # (2)!
 ```
 
 1. Stores the FastAPI background tasks object.
@@ -165,7 +163,7 @@ async def console_print_endpoint(background_tasks: BackgroundTasks):
 	demonstrate this using the `AsyncIOEventEmitter` and `ExecutorEventEmitter`:
 </p>
 
-```Python title="Example of Event Emitters that are Changed at Runtime" linenums="1" hl_lines="4 9 13 15-16"
+```Python title="Example of Event Emitters that are Changed at Runtime" linenums="1" hl_lines="4 9 13-16"
 from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter, ExecutorEventEmitter
 
 
@@ -252,8 +250,8 @@ event_emitter.emit('Hello', "Pyventus")
 
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;Alternatively, if you want to enable or disable debug mode for a specific `EventEmitter` instance, you
-	can use the debug_mode flag provided by the concrete implementation. Setting the debug_mode flag to True enables
-	debug mode for that instance, while setting it to False disables debug mode. Here's an example:
+	can use the `debug` flag provided by the concrete implementation. Setting the `debug` flag to `True` enables
+	debug mode for that instance, while setting it to `False` disables debug mode. Here's an example:
 </p>
 
 === "Debug flag `On`"
@@ -268,7 +266,7 @@ event_emitter.emit('Hello', "Pyventus")
 	
 	
 	# Enable debug mode for a specific EventEmitter instance
-	event_emitter: EventEmitter = AsyncIOEventEmitter(debug_mode=True)
+	event_emitter: EventEmitter = AsyncIOEventEmitter(debug=True)
 	
 	event_emitter.emit('Hello', 'Pyventus')
 	```
@@ -285,7 +283,7 @@ event_emitter.emit('Hello', "Pyventus")
 	
 	
 	# Disable debug mode for a specific EventEmitter instance
-	event_emitter: EventEmitter = AsyncIOEventEmitter(debug_mode=False)
+	event_emitter: EventEmitter = AsyncIOEventEmitter(debug=False)
 	
 	event_emitter.emit('Hello', 'Pyventus')
 	```

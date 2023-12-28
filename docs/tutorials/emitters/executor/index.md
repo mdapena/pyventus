@@ -1,6 +1,8 @@
+# Executor Event Emitter
+
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;The `ExecutorEventEmitter` leverages Python's `concurrent.futures` module to asynchronously execute
-	event handlers across threads or processes. This approach helps optimize performance for applications with
+	event emissions across threads or processes. This approach helps optimize performance for applications with
 	I/O-intensive or CPU-bound tasks by utilizing all available CPU resources.
 </p>
 
@@ -8,7 +10,7 @@
 
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;The `ExecutorEventEmitter` inherits from the base `EventEmitter` class and uses an `Executor` interface
-	to asynchronously run event handlers in either threads or processes. This flexibility in execution models allows
+	to asynchronously run event emissions in either threads or processes. This flexibility in execution models allows
 	you to choose the optimal approach based on your specific application requirements.
 </p>
 
@@ -17,16 +19,16 @@
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;This class utilizes the concurrent.futures `Executor` interface to handle asynchronous execution of
 	event handlers. It can work with either `ThreadPoolExecutor` for thread-based execution or `ProcessPoolExecutor`
-	for process-based execution. When an event is emitted, the event handlers are submitted to the executor to run
-	asynchronously in threads (ThreadPoolExecutor) or processes (ProcessPoolExecutor).
+	for process-based execution. When an event is emitted, its execution is submitted to the executor to run 
+	asynchronously in either threads (ThreadPoolExecutor) or processes (ProcessPoolExecutor).
 </p>
 
 !!! warning "ProcessPoolExecutor"
 
 	<p style='text-align: justify;' markdown>
-	    &emsp;&emsp;The ProcessPoolExecutor utilizes Python's multiprocessing module to run event handlers in separate
-		processes instead of threads. This sidesteps the Global Interpreter Lock to enable true parallel execution.
-		However, **only pickleable objects can be executed and returned**.
+	    &emsp;&emsp;The `ProcessPoolExecutor` utilizes Python's multiprocessing module to run event emissions in
+		separate processes instead of threads. This sidesteps the Global Interpreter Lock to enable true parallel
+		execution. However, **only pickleable objects can be executed and returned**.
 	</p>
 
 ## Usage

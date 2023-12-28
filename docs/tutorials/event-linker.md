@@ -262,23 +262,23 @@ You can change the event emitter instance at runtime without the need to reconfi
 	```Python linenums="1"  hl_lines="3 5-6 10-11 14-15"
 	from pyventus import EventLinker
 	
-	with EventLinker.on("StringEvent") as linker: # (1)!
+	with EventLinker.on("StringEvent") as link: # (1)!
 		
-	    @linker.on_event
+	    @link.on_event
 	    def event_callback() -> str:
 	        print("Event received!")
 	        return "Event succeeded!"
 	
-	    @linker.on_success
+	    @link.on_success
 	    async def success_callback(msg: str) -> None:
 	        print(msg)
 	
-	    @linker.on_failure
+	    @link.on_failure
 	    def failure_callback(exc: Exception) -> None:
 	        print(exc) 
 	```
 	
-	1. When the `Eventlinker.on` method is used as a context manager via the `with` statement, it allows multiple
+	1. When the `EventLinker.on` method is used as a context manager via the `with` statement, it allows multiple
 	   callbacks to be associated with events within the `linkage context block`, defining the event workflow.
 
 === "Using the `subscribe()` method"
@@ -310,23 +310,23 @@ You can change the event emitter instance at runtime without the need to reconfi
 	```Python linenums="1"  hl_lines="3 5-6 10-11 14-15"
 	from pyventus import EventLinker
 
-	with EventLinker.once("StringEvent") as linker: # (1)!
+	with EventLinker.once("StringEvent") as link: # (1)!
 
-	    @linker.on_event
+	    @link.on_event
 	    async def event_callback() -> str:
 	        print("Event received!")
 	        return "Event succeeded!"
 
-	    @linker.on_success
+	    @link.on_success
 	    def success_callback(msg: str) -> None:
 	        print(msg)
 
-	    @linker.on_failure
+	    @link.on_failure
 	    async def failure_callback(exc: Exception) -> None:
 	        print(exc)
 	```
 	
-	1. When the `Eventlinker.once` method is used as a context manager via the `with` statement, it allows multiple
+	1. When the `EventLinker.once` method is used as a context manager via the `with` statement, it allows multiple
 	   callbacks to be associated with events within the `linkage context block`, defining the event workflow.
 
 === "Using the `subscribe()` method"
@@ -516,8 +516,8 @@ async def on_email_verified_callback(email: str):
 
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;Alternatively, if you want to enable or disable the debug mode specifically for a certain `EventLinker` 
-	namespace, you can use the `debug_mode` flag that is available in the subclass configurations. Setting the
-	`debug_mode` flag to `True` enables debug mode for that namespace, while setting it to `False` disables
+	namespace, you can use the `debug` flag that is available in the subclass configurations. Setting the
+	`debug` flag to `True` enables debug mode for that namespace, while setting it to `False` disables
 	debug mode. Here's an example:
 </p>
 
@@ -527,7 +527,7 @@ async def on_email_verified_callback(email: str):
 	from pyventus import EventLinker
 	
 	
-	class CustomEventLinker(EventLinker, debug_mode=True):
+	class CustomEventLinker(EventLinker, debug=True):
 	    pass  # Additional logic can be added here if needed...
 	
 	
@@ -542,7 +542,7 @@ async def on_email_verified_callback(email: str):
 	from pyventus import EventLinker
 	
 	
-	class CustomEventLinker(EventLinker, debug_mode=False):
+	class CustomEventLinker(EventLinker, debug=False):
 	    pass  # Additional logic can be added here if needed...
 	
 	

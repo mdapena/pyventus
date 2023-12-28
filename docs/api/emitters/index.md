@@ -3,8 +3,9 @@
 ::: pyventus.EventEmitter
 	options:
 		members:
+			- EventEmission
 			- __init__
 			- emit
-			- _execute
+			- _process
 
 <br>

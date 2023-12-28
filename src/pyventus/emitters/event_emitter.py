@@ -133,7 +133,7 @@ class EventEmitter(ABC):
             :return: String representation of the object.
             """
             return (
-                f"ID: {self.id} | Timestamp: {self.timestamp.strftime('%Y-%m-%d %H:%M:%S %p')} | "
+                f"ID: {self.id} | Timestamp: {self.timestamp.strftime('%Y-%m-%d %I:%M:%S %p')} | "
                 f"Event: {self.event} | Handlers: {len(self._event_handlers)}"
             )
 

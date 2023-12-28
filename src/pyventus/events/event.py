@@ -37,4 +37,4 @@ class Event:
         Returns a formatted string representation of the event.
         :return: The formatted string representation of the event.
         """
-        return f"{self.name} | {self.timestamp.strftime('%Y-%m-%d %H:%M:%S %p')} | Payload: {super().__str__()}"
+        return f"{self.name} | {self.timestamp.strftime('%Y-%m-%d %I:%M:%S %p')} | Payload: {super().__str__()}"

@@ -202,6 +202,6 @@ class EventHandler:
             f"{' (Async)' if self._is_success_callback_async else ' (Sync)' if self._success_callback else ''} | "
             f"Failure Callback: '{EventHandler.get_callback_name(callback=self._failure_callback)}'"
             f"{' (Async)' if self._is_failure_callback_async else ' (Sync)' if self._failure_callback else ''} | "
-            f"Timestamp: {self.timestamp.strftime('%Y-%m-%d %H:%M:%S %p')} | "
+            f"Timestamp: {self.timestamp.strftime('%Y-%m-%d %I:%M:%S %p')} | "
             f"Once: {self.once}"
         )

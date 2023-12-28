@@ -51,7 +51,7 @@ class StdOutLogger(ABC):
             )
 
             # Create a formatter with the logger format
-            formatter = Formatter(logger_format, datefmt="%Y-%m-%d %H:%M:%S %p")
+            formatter = Formatter(logger_format, datefmt="%Y-%m-%d %I:%M:%S %p")
 
             # Create a stream handler using sys.stdout as the stream
             stream_handler = StreamHandler(stream=stdout)

@@ -20,7 +20,7 @@
       
       
       <link rel="icon" href="images/favicon/pyventus-logo.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
@@ -704,9 +704,19 @@
         
       
         
-      
+          
         
       
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
         
       
     
@@ -758,7 +768,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tutorials/emitters/asyncio-event-emitter/" class="md-nav__link">
+      <a href="tutorials/emitters/asyncio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -779,7 +789,28 @@
   
   
     <li class="md-nav__item">
-      <a href="tutorials/emitters/executor-event-emitter/" class="md-nav__link">
+      <a href="tutorials/emitters/celery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Celery Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tutorials/emitters/executor/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -800,7 +831,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tutorials/emitters/rq-event-emitter/" class="md-nav__link">
+      <a href="tutorials/emitters/rq/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -972,9 +1003,19 @@
         
       
         
-      
+          
         
       
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
         
       
     
@@ -1026,7 +1067,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/emitters/asyncio-event-emitter/" class="md-nav__link">
+      <a href="api/emitters/asyncio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1047,7 +1088,28 @@
   
   
     <li class="md-nav__item">
-      <a href="api/emitters/executor-event-emitter/" class="md-nav__link">
+      <a href="api/emitters/celery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Celery Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/emitters/executor/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1068,7 +1130,7 @@
   
   
     <li class="md-nav__item">
-      <a href="api/emitters/rq-event-emitter/" class="md-nav__link">
+      <a href="api/emitters/rq/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1423,8 +1485,7 @@ guides, and tutorials to effectively leverage all the features and capabilities 
 <span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
 <span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
 <span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-0-10">10</a></span>
-<span class="normal"><a href="#__codelineno-0-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span>
+<span class="normal"><a href="#__codelineno-0-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
@@ -1433,8 +1494,7 @@ guides, and tutorials to effectively leverage all the features and capabilities 
 <a id="__codelineno-0-7" name="__codelineno-0-7"></a>
 <a id="__codelineno-0-8" name="__codelineno-0-8"></a>
 <a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">()</span>  <span class="c1"># (2)!</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>  <span class="c1"># (3)!</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>  <span class="c1"># (3)!</span>
 </code></pre></div></td></tr></table></div>
 <ol>
 <li>The event handler callback can be either <code>sync</code> or <code>async</code> depending on your needs.</li>
@@ -1452,8 +1512,7 @@ guides, and tutorials to effectively leverage all the features and capabilities 
 <span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
 <span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
 <span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-1-10">10</a></span>
-<span class="normal"><a href="#__codelineno-1-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
@@ -1462,8 +1521,7 @@ guides, and tutorials to effectively leverage all the features and capabilities 
 <a id="__codelineno-1-7" name="__codelineno-1-7"></a>
 <a id="__codelineno-1-8" name="__codelineno-1-8"></a>
 <a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">()</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10"></a>
-<a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </details>
 <p style='text-align: justify;'>
@@ -1669,7 +1727,7 @@ is the <code>event_callback()</code>.
 <p style="text-align: justify;">
     &emsp;&emsp;While Pyventus provides a base <code>EventEmitter</code> class with a unified sync/async API, the 
     specific propagation behavior when emitting events may vary depending on the concrete <code>EventEmitter</code>
-    used. For example, the <code>AsyncioEventEmitter</code> implementation leverages the <code>Asyncio</code> event
+    used. For example, the <code>AsyncIOEventEmitter</code> implementation leverages the <code>AsyncIO</code> event
     loop to schedule callbacks added from asynchronous contexts without blocking. But alternative emitters could 
     structure propagation differently to suit their needs.
 </p>
@@ -1684,16 +1742,16 @@ is the <code>event_callback()</code>.
 
 <p style='text-align: justify;'>
     &emsp;&emsp;By leveraging the principles of dependency inversion and open-close, Pyventus decouples the event
-    emission process from the underlying implementation that handles the event handler callbacks and enables you,
-    in conjunction with the <code>EventLinker</code>, to change the event emitter at runtime without the need to 
-    reconfigure all connections or employ complex logic.
+    emission process from the underlying implementation that handles the event emission and enables you, in conjunction
+    with the <code>EventLinker</code>, to change the event emitter at runtime without the need to reconfigure all 
+    connections or employ complex logic.
 </p>
 
 <h3 id="seeing-it-in-action">Seeing it in Action</h3>
 <p style='text-align: justify;'>
     &emsp;&emsp;Now let's put Pyventus' flexibility to the test with a practical example. First, we'll build a
-    custom <a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI</a>-specific EventEmitter to properly handle
-    the event handler callbacks using the framework's <a href="https://fastapi.tiangolo.com/reference/background/" target="_blank">BackgroundTasks</a>
+    custom <a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI</a> EventEmitter to properly handle
+    the event emission using the framework's <a href="https://fastapi.tiangolo.com/reference/background/" target="_blank">BackgroundTasks</a>
     workflow. Then, we'll illustrate Pyventus' dynamic capabilities by swapping this custom emitter out for a built-in
     alternative on the fly.
 </p>
@@ -1749,52 +1807,48 @@ Create a <code>main.py</code> file with:
 <span class="normal"><a href="#__codelineno-5-39">39</a></span>
 <span class="normal"><a href="#__codelineno-5-40">40</a></span>
 <span class="normal"><a href="#__codelineno-5-41">41</a></span>
-<span class="normal"><a href="#__codelineno-5-42">42</a></span>
-<span class="normal"><a href="#__codelineno-5-43">43</a></span>
-<span class="normal"><a href="#__codelineno-5-44">44</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">asyncio</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="normal"><a href="#__codelineno-5-42">42</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">asyncio</span> <span class="kn">import</span> <span class="n">sleep</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4"></a>
-<a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">BackgroundTasks</span><span class="p">,</span> <span class="n">FastAPI</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6"></a>
-<a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventHandler</span><span class="p">,</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">BackgroundTasks</span><span class="p">,</span> <span class="n">FastAPI</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5"></a>
+<a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7"></a>
 <a id="__codelineno-5-8" name="__codelineno-5-8"></a>
-<a id="__codelineno-5-9" name="__codelineno-5-9"></a>
-<a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="hll"><span class="k">class</span> <span class="nc">FastAPIEventEmitter</span><span class="p">(</span><span class="n">EventEmitter</span><span class="p">):</span>
-</span><a id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom event emitter class that leverages the FastAPI&#39;s asynchronous workflow.&quot;&quot;&quot;</span>
-<a id="__codelineno-5-12" name="__codelineno-5-12"></a>
-<a id="__codelineno-5-13" name="__codelineno-5-13"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">):</span>
-<a id="__codelineno-5-14" name="__codelineno-5-14"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-<a id="__codelineno-5-15" name="__codelineno-5-15"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_background_tasks</span> <span class="o">=</span> <span class="n">background_tasks</span>  <span class="c1"># Store the FastAPI background tasks object</span>
-<a id="__codelineno-5-16" name="__codelineno-5-16"></a>
-<a id="__codelineno-5-17" name="__codelineno-5-17"></a><span class="hll">    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_handlers</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">EventHandler</span><span class="p">],</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><a id="__codelineno-5-18" name="__codelineno-5-18"></a><span class="hll">        <span class="k">for</span> <span class="n">event_handler</span> <span class="ow">in</span> <span class="n">event_handlers</span><span class="p">:</span>  <span class="c1"># Execute event handlers as background tasks</span>
-</span><a id="__codelineno-5-19" name="__codelineno-5-19"></a><span class="hll">            <span class="bp">self</span><span class="o">.</span><span class="n">_background_tasks</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="n">event_handler</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</span><a id="__codelineno-5-20" name="__codelineno-5-20"></a>
-<a id="__codelineno-5-21" name="__codelineno-5-21"></a>
-<a id="__codelineno-5-22" name="__codelineno-5-22"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;console_print&quot;</span><span class="p">)</span>
-<a id="__codelineno-5-23" name="__codelineno-5-23"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">console_print</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<a id="__codelineno-5-24" name="__codelineno-5-24"></a>    <span class="k">await</span> <span class="n">sleep</span><span class="p">(</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>  <span class="c1"># Simulate a random delay</span>
-<a id="__codelineno-5-25" name="__codelineno-5-25"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-<a id="__codelineno-5-26" name="__codelineno-5-26"></a>
+<a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="hll"><span class="k">class</span> <span class="nc">FastAPIEventEmitter</span><span class="p">(</span><span class="n">EventEmitter</span><span class="p">):</span>
+</span><a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom event emitter class that leverages the FastAPI&#39;s asynchronous workflow.&quot;&quot;&quot;</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11"></a>
+<a id="__codelineno-5-12" name="__codelineno-5-12"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">):</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_background_tasks</span> <span class="o">=</span> <span class="n">background_tasks</span>  <span class="c1"># Store the FastAPI background tasks object          </span>
+<a id="__codelineno-5-15" name="__codelineno-5-15"></a>
+<a id="__codelineno-5-16" name="__codelineno-5-16"></a><span class="hll">    <span class="k">def</span> <span class="nf">_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_emission</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="o">.</span><span class="n">EventEmission</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><a id="__codelineno-5-17" name="__codelineno-5-17"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_background_tasks</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="n">event_emission</span><span class="p">)</span>  <span class="c1"># Execute the event emission as background tasks</span>
+</span><a id="__codelineno-5-18" name="__codelineno-5-18"></a>
+<a id="__codelineno-5-19" name="__codelineno-5-19"></a>
+<a id="__codelineno-5-20" name="__codelineno-5-20"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;console_print&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">console_print</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22"></a>    <span class="k">await</span> <span class="n">sleep</span><span class="p">(</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>  <span class="c1"># Simulate a random delay</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24"></a>
+<a id="__codelineno-5-25" name="__codelineno-5-25"></a>
+<a id="__codelineno-5-26" name="__codelineno-5-26"></a><span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
 <a id="__codelineno-5-27" name="__codelineno-5-27"></a>
-<a id="__codelineno-5-28" name="__codelineno-5-28"></a><span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
-<a id="__codelineno-5-29" name="__codelineno-5-29"></a>
-<a id="__codelineno-5-30" name="__codelineno-5-30"></a>
-<a id="__codelineno-5-31" name="__codelineno-5-31"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/print&quot;</span><span class="p">)</span>
-<a id="__codelineno-5-32" name="__codelineno-5-32"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">console_print_endpoint</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">):</span>
-<a id="__codelineno-5-33" name="__codelineno-5-33"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;FastAPI endpoint that triggers the console_print event.&quot;&quot;&quot;</span>
-<a id="__codelineno-5-34" name="__codelineno-5-34"></a>
-<a id="__codelineno-5-35" name="__codelineno-5-35"></a>    <span class="k">def</span> <span class="nf">console_print_app_service</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-5-36" name="__codelineno-5-36"></a>        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;console_print&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Hello, </span><span class="si">{</span><span class="n">event_emitter</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
-<a id="__codelineno-5-37" name="__codelineno-5-37"></a>
-<a id="__codelineno-5-38" name="__codelineno-5-38"></a>    <span class="c1"># Emit the console_print event using FastAPIEventEmitter</span>
-<a id="__codelineno-5-39" name="__codelineno-5-39"></a><span class="hll">    <span class="n">console_print_app_service</span><span class="p">(</span><span class="n">event_emitter</span><span class="o">=</span><span class="n">FastAPIEventEmitter</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">))</span>
-</span><a id="__codelineno-5-40" name="__codelineno-5-40"></a>
-<a id="__codelineno-5-41" name="__codelineno-5-41"></a>    <span class="c1"># Emit the console_print event using AsyncIOEventEmitter</span>
-<a id="__codelineno-5-42" name="__codelineno-5-42"></a><span class="hll">    <span class="n">console_print_app_service</span><span class="p">(</span><span class="n">event_emitter</span><span class="o">=</span><span class="n">AsyncIOEventEmitter</span><span class="p">())</span>
-</span><a id="__codelineno-5-43" name="__codelineno-5-43"></a>
-<a id="__codelineno-5-44" name="__codelineno-5-44"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Console print triggered!&quot;</span><span class="p">}</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28"></a>
+<a id="__codelineno-5-29" name="__codelineno-5-29"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/print&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-30" name="__codelineno-5-30"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">console_print_endpoint</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">):</span>
+<a id="__codelineno-5-31" name="__codelineno-5-31"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;FastAPI endpoint that triggers the console_print event.&quot;&quot;&quot;</span>
+<a id="__codelineno-5-32" name="__codelineno-5-32"></a>
+<a id="__codelineno-5-33" name="__codelineno-5-33"></a>    <span class="k">def</span> <span class="nf">console_print_app_service</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-5-34" name="__codelineno-5-34"></a>        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;console_print&quot;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Hello, </span><span class="si">{</span><span class="n">event_emitter</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-35" name="__codelineno-5-35"></a>
+<a id="__codelineno-5-36" name="__codelineno-5-36"></a>    <span class="c1"># Emit the console_print event using FastAPIEventEmitter</span>
+<a id="__codelineno-5-37" name="__codelineno-5-37"></a><span class="hll">    <span class="n">console_print_app_service</span><span class="p">(</span><span class="n">event_emitter</span><span class="o">=</span><span class="n">FastAPIEventEmitter</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">))</span>
+</span><a id="__codelineno-5-38" name="__codelineno-5-38"></a>
+<a id="__codelineno-5-39" name="__codelineno-5-39"></a>    <span class="c1"># Emit the console_print event using AsyncIOEventEmitter</span>
+<a id="__codelineno-5-40" name="__codelineno-5-40"></a><span class="hll">    <span class="n">console_print_app_service</span><span class="p">(</span><span class="n">event_emitter</span><span class="o">=</span><span class="n">AsyncIOEventEmitter</span><span class="p">())</span>
+</span><a id="__codelineno-5-41" name="__codelineno-5-41"></a>
+<a id="__codelineno-5-42" name="__codelineno-5-42"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Console print triggered!&quot;</span><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 
 </li> 
@@ -1837,7 +1891,7 @@ You'll also be able to see the outputs of the event emitters in the console logs
 <p style='text-align: justify;'>
     &emsp;&emsp;As we can see from this practical example, we were able to easily adapt the event emitter to the
     context of the FastAPI framework. We defined and implemented a custom emitter tailored for FastAPI's workflow,
-    using background tasks to handle the event handler callbacks accordingly.
+    using background tasks to handle the event emission accordingly.
 </p>
 
 <p style='text-align: justify;'>
@@ -1995,8 +2049,8 @@ You'll also be able to see the outputs of the event emitters in the console logs
 <summary>Driving Innovation Through Collaboration</summary>
 <p style="text-align: justify;">
     &emsp;&emsp;Pyventus is an open source project that welcomes community involvement. If you wish to contribute
-    additional event emitters, improvements, or bug fixes, please check the <a href="/contributing">Contributing</a> section
-    for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
+    additional event emitters, improvements, or bug fixes, please check the <a href="/pyventus/contributing/">Contributing</a> 
+    section for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
 </p>
 </details>
 <h2 id="get-started-today">Get Started Today!</h2>
@@ -2013,7 +2067,8 @@ You'll also be able to see the outputs of the event emitters in the console logs
 <h2 id="license">License</h2>
 <p style="text-align: justify;">
     &emsp;&emsp;Pyventus is distributed as open source software and is released under the <a href="https://choosealicense.com/licenses/mit/" target="_blank">MIT License</a>. 
-    You can view the full text of the license in the <code>LICENSE</code> file located in the <a href="https://github.com/mdapena/pyventus/blob/master/LICENSE" target="_blank">Pyventus repository</a>.
+    You can view the full text of the license in the <a href="https://github.com/mdapena/pyventus/blob/master/LICENSE" target="_blank"><code>LICENSE</code></a> 
+    file located in the Pyventus repository.
 </p>
 
 

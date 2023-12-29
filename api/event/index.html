@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../images/favicon/pyventus-logo.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
@@ -533,9 +533,19 @@
         
       
         
-      
+          
         
       
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
         
       
     
@@ -587,7 +597,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/emitters/asyncio-event-emitter/" class="md-nav__link">
+      <a href="../../tutorials/emitters/asyncio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -608,7 +618,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/emitters/executor-event-emitter/" class="md-nav__link">
+      <a href="../../tutorials/emitters/celery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Celery Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/emitters/executor/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -629,7 +660,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/emitters/rq-event-emitter/" class="md-nav__link">
+      <a href="../../tutorials/emitters/rq/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -883,9 +914,19 @@
         
       
         
-      
+          
         
       
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
         
       
     
@@ -937,7 +978,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../emitters/asyncio-event-emitter/" class="md-nav__link">
+      <a href="../emitters/asyncio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -958,7 +999,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../emitters/executor-event-emitter/" class="md-nav__link">
+      <a href="../emitters/celery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Celery Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../emitters/executor/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -979,7 +1041,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../emitters/rq-event-emitter/" class="md-nav__link">
+      <a href="../emitters/rq/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1229,7 +1291,7 @@ they propagate through the system.</p>
 <a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        Returns a formatted string representation of the event.</span>
 <a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">        :return: The formatted string representation of the event.</span>
 <a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %H:%M:%S %p&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> | Payload: </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> | </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> %I:%M:%S %p&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2"> | Payload: </span><span class="si">{</span><span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__str__</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span>
 </code></pre></div></td></tr></table></div>
             </details>
 
@@ -1350,6 +1412,7 @@ they propagate through the system.</p>
     
     
       
+  
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       

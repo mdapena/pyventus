@@ -12,21 +12,21 @@
         <meta name="author" content="Manuel Da Pena">
       
       
-        <link rel="canonical" href="https://mdapena.github.io/pyventus/tutorials/emitters/asyncio-event-emitter/">
+        <link rel="canonical" href="https://mdapena.github.io/pyventus/tutorials/emitters/executor/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../celery/">
       
       
-        <link rel="next" href="../executor-event-emitter/">
+        <link rel="next" href="../rq/">
       
       
       <link rel="icon" href="../../../images/favicon/pyventus-logo.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
-        <title>AsyncIO Event Emitter - Pyventus</title>
+        <title>Executor Event Emitter - Pyventus</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#what-is-it" class="md-skip">
+        <a href="#executor-event-emitter" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              AsyncIO Event Emitter
+              Executor Event Emitter
             
           </span>
         </div>
@@ -535,9 +535,19 @@
         
       
         
-      
+          
         
       
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
         
       
     
@@ -584,6 +594,48 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../asyncio/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AsyncIO Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../celery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Celery Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -593,12 +645,14 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
+      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
   
   <span class="md-ellipsis">
-    AsyncIO Event Emitter
+    Executor Event Emitter
   </span>
   
 
@@ -609,7 +663,7 @@
         
   
   <span class="md-ellipsis">
-    AsyncIO Event Emitter
+    Executor Event Emitter
   </span>
   
 
@@ -620,6 +674,8 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
+  
+    
   
   
     <label class="md-nav__title" for="__toc">
@@ -640,33 +696,9 @@
         <li class="md-nav__item">
   <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
-      How it works
+      How it Works
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="How it works">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#sync-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sync context
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#async-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      Async context
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -676,6 +708,30 @@
       Usage
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#threadpoolexecutor-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      ThreadPoolExecutor Example
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#processpoolexecutor-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      ProcessPoolExecutor Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -704,28 +760,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../executor-event-emitter/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Executor Event Emitter
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../rq-event-emitter/" class="md-nav__link">
+      <a href="../rq/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -897,9 +932,19 @@
         
       
         
-      
+          
         
       
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
         
       
     
@@ -951,7 +996,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../api/emitters/asyncio-event-emitter/" class="md-nav__link">
+      <a href="../../../api/emitters/asyncio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -972,7 +1017,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../api/emitters/executor-event-emitter/" class="md-nav__link">
+      <a href="../../../api/emitters/celery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Celery Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/emitters/executor/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -993,7 +1059,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../api/emitters/rq-event-emitter/" class="md-nav__link">
+      <a href="../../../api/emitters/rq/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1079,6 +1145,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1098,33 +1166,9 @@
         <li class="md-nav__item">
   <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
-      How it works
+      How it Works
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="How it works">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#sync-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      Sync context
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#async-context" class="md-nav__link">
-    <span class="md-ellipsis">
-      Async context
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1134,6 +1178,30 @@
       Usage
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#threadpoolexecutor-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      ThreadPoolExecutor Example
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#processpoolexecutor-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      ProcessPoolExecutor Example
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1164,52 +1232,51 @@
   
 
 
-  <h1>AsyncIO Event Emitter</h1>
-
+<h1 id="executor-event-emitter">Executor Event Emitter</h1>
 <p style="text-align: justify;">
-    &emsp;&emsp;Now that we've covered the base <code>EventEmitter</code> interface, let's examine one of its official
-    implementations: the <code>AsyncIOEventEmitter</code>.
+    &emsp;&emsp;The <code>ExecutorEventEmitter</code> leverages Python's <code>concurrent.futures</code> module to asynchronously execute
+    event emissions across threads or processes. This approach helps optimize performance for applications with
+    I/O-intensive or CPU-bound tasks by utilizing all available CPU resources.
 </p>
 <h2 id="what-is-it">What is it?</h2>
 <p style="text-align: justify;">
-    &emsp;&emsp;The <code>AsyncIOEventEmitter</code> is a class that inherits from <code>EventEmitter</code> and uses the <code>AsyncIO</code>
-    framework to handle the execution of event handlers.
+    &emsp;&emsp;The <code>ExecutorEventEmitter</code> inherits from the base <code>EventEmitter</code> class and uses an <code>Executor</code> interface
+    to asynchronously run event emissions in either threads or processes. This flexibility in execution models allows
+    you to choose the optimal approach based on your specific application requirements.
 </p>
-<h2 id="how-it-works">How it works</h2>
+<h2 id="how-it-works">How it Works</h2>
 <p style="text-align: justify;">
-    &emsp;&emsp;The <code>AsyncIOEventEmitter</code> handles event dispatching differently depending on whether it is operating in
-    a synchronous or asynchronous execution context. In synchronous contexts, it will automatically start an event loop
-    to run handlers concurrently. In asynchronous contexts, it leverages any existing event loop. Let's explore the
-    AsyncIOEventEmitter's behavior in more detail:
-</p>
-<h3 id="sync-context">Sync context</h3>
-<p style="text-align: justify;">
-    &emsp;&emsp;When running without an existing <code>AsyncIO</code> event loop, the <code>AsyncIOEventEmitter</code> automatically
-    starts a new loop using <code>asyncio.run()</code>. Within this loop, it concurrently executes the event handlers 
-    using the <code>asyncio.gather()</code> method. The loop then waits for all scheduled callbacks to finish before
-    closing. This preserves synchronous execution while still gaining the benefits of the concurrent
-    execution.
-</p>
-<h3 id="async-context">Async context</h3>
-<p style="text-align: justify;">
-    &emsp;&emsp;In an asynchronous context where an event loop is already running, the event handlers are scheduled
-    and processed concurrently on that existing loop. 
+    &emsp;&emsp;This class utilizes the concurrent.futures <code>Executor</code> interface to handle asynchronous execution of
+    event handlers. It can work with either <code>ThreadPoolExecutor</code> for thread-based execution or <code>ProcessPoolExecutor</code>
+    for process-based execution. When an event is emitted, its execution is submitted to the executor to run 
+    asynchronously in either threads (ThreadPoolExecutor) or processes (ProcessPoolExecutor).
 </p>
 <div class="admonition warning">
-<p class="admonition-title">AsyncIO Event Loop Behavior</p>
+<p class="admonition-title">ProcessPoolExecutor</p>
 <p><p style='text-align: justify;' markdown>
-    If the event loop is closed before all callbacks complete, any remaining scheduled tasks will be canceled.
+    &emsp;&emsp;The <code>ProcessPoolExecutor</code> utilizes Python's multiprocessing module to run event emissions in
+    separate processes instead of threads. This sidesteps the Global Interpreter Lock to enable true parallel
+    execution. However, <strong>only pickleable objects can be executed and returned</strong>.
 </p></p>
 </div>
 <h2 id="usage">Usage</h2>
 <p style="text-align: justify;">
-    &emsp;&emsp;Using the <code>AsyncIOEventEmitter</code> is straightforward. To get started, simply create a new instance of
-    the class and call its <code>emit()</code> methods, as shown below:
+    &emsp;&emsp;Using the <code>ExecutorEventEmitter</code> is straightforward. To get started, simply create a new instance of
+    the class, pass the desired executor concrete instance and call its <code>emit()</code> methods.
 </p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1"><code>Sync</code> context</label><label for="__tabbed_1_2"><code>Async</code> context</label></div>
+<div class="admonition info">
+<p class="admonition-title">Executor Management</p>
+<p><p style='text-align: justify;' markdown>
+    &emsp;&emsp;It is important to properly manage the underlying <code>Executor</code> when using this event emitter. Once
+    finished emitting events, call the <code>shutdown()</code> method to signal the executor to free any resources for 
+    pending futures or use the <code>with</code> statement, which will shut down the Executor automatically.
+</p></p>
+</div>
+<h3 id="threadpoolexecutor-example">ThreadPoolExecutor Example</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Using the <code>with</code> statement</label><label for="__tabbed_1_2">Using the <code>shutdown()</code> method</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Usage of the AsyncIOEventEmitter</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
 <span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
@@ -1227,29 +1294,45 @@
 <span class="normal"><a href="#__codelineno-0-16">16</a></span>
 <span class="normal"><a href="#__codelineno-0-17">17</a></span>
 <span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="k">def</span> <span class="nf">sync_event_callback</span><span class="p">():</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sync event callback!&quot;</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#__codelineno-0-25">25</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">asyncio</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="kn">import</span> <span class="nn">time</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">ExecutorEventEmitter</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a>
 <a id="__codelineno-0-7" name="__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8"></a>
-<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_event_callback</span><span class="p">():</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Async event callback!&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="k">def</span> <span class="nf">sync_event_callback</span><span class="p">():</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Sync] Started!&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Sync] Finished!&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-13" name="__codelineno-0-13"></a>
-<a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="hll"><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-</span><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="hll">    <span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">()</span>
-</span><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-0-17" name="__codelineno-0-17"></a>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="hll"><span class="n">main</span><span class="p">()</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_event_callback</span><span class="p">():</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Async] Started!&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Async] Finished!&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a>
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="hll">    <span class="k">with</span> <span class="n">ExecutorEventEmitter</span><span class="p">()</span> <span class="k">as</span> <span class="n">event_emitter</span><span class="p">:</span> <span class="c1">#(1)!</span>
+</span><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="hll">        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="hll">        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
+<ol>
+<li>The <code>ExecutorEventEmitter</code> uses the <code>ThreadPoolExecutor</code> by default, but you can customize it by providing your
+    own instance.</li>
+</ol>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Usage of the AsyncIOEventEmitter</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
 <span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
@@ -1267,53 +1350,155 @@
 <span class="normal"><a href="#__codelineno-1-16">16</a></span>
 <span class="normal"><a href="#__codelineno-1-17">17</a></span>
 <span class="normal"><a href="#__codelineno-1-18">18</a></span>
-<span class="normal"><a href="#__codelineno-1-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">asyncio</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="k">def</span> <span class="nf">sync_event_callback</span><span class="p">():</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sync event callback!&quot;</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-1-19">19</a></span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span>
+<span class="normal"><a href="#__codelineno-1-21">21</a></span>
+<span class="normal"><a href="#__codelineno-1-22">22</a></span>
+<span class="normal"><a href="#__codelineno-1-23">23</a></span>
+<span class="normal"><a href="#__codelineno-1-24">24</a></span>
+<span class="normal"><a href="#__codelineno-1-25">25</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kn">import</span> <span class="nn">asyncio</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="kn">import</span> <span class="nn">time</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">ExecutorEventEmitter</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6"></a>
 <a id="__codelineno-1-7" name="__codelineno-1-7"></a>
-<a id="__codelineno-1-8" name="__codelineno-1-8"></a>
-<a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_event_callback</span><span class="p">():</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Async event callback!&quot;</span><span class="p">)</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="k">def</span> <span class="nf">sync_event_callback</span><span class="p">():</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Sync] Started!&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Sync] Finished!&quot;</span><span class="p">)</span>
 <a id="__codelineno-1-13" name="__codelineno-1-13"></a>
-<a id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="hll"><span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
-</span><a id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="hll">    <span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">()</span>
-</span><a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-1-17" name="__codelineno-1-17"></a><span class="hll">    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span> <span class="c1"># (1)!</span>
-</span><a id="__codelineno-1-18" name="__codelineno-1-18"></a>
-<a id="__codelineno-1-19" name="__codelineno-1-19"></a><span class="hll"><span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_event_callback</span><span class="p">():</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Async] Started!&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Async] Finished!&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20"></a>
+<a id="__codelineno-1-21" name="__codelineno-1-21"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22"></a><span class="hll">    <span class="n">event_emitter</span> <span class="o">=</span> <span class="n">ExecutorEventEmitter</span><span class="p">()</span>
+</span><a id="__codelineno-1-23" name="__codelineno-1-23"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-1-24" name="__codelineno-1-24"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-1-25" name="__codelineno-1-25"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">shutdown</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
-<ol>
-<li>By awaiting the <code>asyncio.sleep(0.5)</code>, we ensure the existing event loop continues running long enough for all
-    scheduled tasks to finish processing before concluding. Without waiting, closing the loop prematurely could
-    cause unfinished tasks to be canceled.</li>
-</ol>
+</div>
+</div>
+</div>
+<h3 id="processpoolexecutor-example">ProcessPoolExecutor Example</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Using the <code>with</code> statement</label><label for="__tabbed_2_2">Using the <code>shutdown()</code> method</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span>
+<span class="normal"><a href="#__codelineno-2-12">12</a></span>
+<span class="normal"><a href="#__codelineno-2-13">13</a></span>
+<span class="normal"><a href="#__codelineno-2-14">14</a></span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span>
+<span class="normal"><a href="#__codelineno-2-16">16</a></span>
+<span class="normal"><a href="#__codelineno-2-17">17</a></span>
+<span class="normal"><a href="#__codelineno-2-18">18</a></span>
+<span class="normal"><a href="#__codelineno-2-19">19</a></span>
+<span class="normal"><a href="#__codelineno-2-20">20</a></span>
+<span class="normal"><a href="#__codelineno-2-21">21</a></span>
+<span class="normal"><a href="#__codelineno-2-22">22</a></span>
+<span class="normal"><a href="#__codelineno-2-23">23</a></span>
+<span class="normal"><a href="#__codelineno-2-24">24</a></span>
+<span class="normal"><a href="#__codelineno-2-25">25</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="kn">import</span> <span class="nn">asyncio</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="kn">import</span> <span class="nn">time</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">ExecutorEventEmitter</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9"></a><span class="k">def</span> <span class="nf">sync_event_callback</span><span class="p">():</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Sync] Started!&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Sync] Finished!&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13"></a>
+<a id="__codelineno-2-14" name="__codelineno-2-14"></a>
+<a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_event_callback</span><span class="p">():</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Async] Started!&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Async] Finished!&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20"></a>
+<a id="__codelineno-2-21" name="__codelineno-2-21"></a>
+<a id="__codelineno-2-22" name="__codelineno-2-22"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23"></a><span class="hll">    <span class="k">with</span> <span class="n">ExecutorEventEmitter</span><span class="p">(</span><span class="n">executor</span><span class="o">=</span><span class="n">ProcessPoolExecutor</span><span class="p">())</span> <span class="k">as</span> <span class="n">event_emitter</span><span class="p">:</span>
+</span><a id="__codelineno-2-24" name="__codelineno-2-24"></a><span class="hll">        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-2-25" name="__codelineno-2-25"></a><span class="hll">        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span>
+<span class="normal"><a href="#__codelineno-3-15">15</a></span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span>
+<span class="normal"><a href="#__codelineno-3-17">17</a></span>
+<span class="normal"><a href="#__codelineno-3-18">18</a></span>
+<span class="normal"><a href="#__codelineno-3-19">19</a></span>
+<span class="normal"><a href="#__codelineno-3-20">20</a></span>
+<span class="normal"><a href="#__codelineno-3-21">21</a></span>
+<span class="normal"><a href="#__codelineno-3-22">22</a></span>
+<span class="normal"><a href="#__codelineno-3-23">23</a></span>
+<span class="normal"><a href="#__codelineno-3-24">24</a></span>
+<span class="normal"><a href="#__codelineno-3-25">25</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="kn">import</span> <span class="nn">asyncio</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="kn">import</span> <span class="nn">time</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3"></a><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ProcessPoolExecutor</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">ExecutorEventEmitter</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7"></a>
+<a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9"></a><span class="k">def</span> <span class="nf">sync_event_callback</span><span class="p">():</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Sync] Started!&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Sync] Finished!&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13"></a>
+<a id="__codelineno-3-14" name="__codelineno-3-14"></a>
+<a id="__codelineno-3-15" name="__codelineno-3-15"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_event_callback</span><span class="p">():</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Async] Started!&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;[Async] Finished!&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20"></a>
+<a id="__codelineno-3-21" name="__codelineno-3-21"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-3-22" name="__codelineno-3-22"></a><span class="hll">    <span class="n">event_emitter</span> <span class="o">=</span> <span class="n">ExecutorEventEmitter</span><span class="p">(</span><span class="n">executor</span><span class="o">=</span><span class="n">ProcessPoolExecutor</span><span class="p">())</span>
+</span><a id="__codelineno-3-23" name="__codelineno-3-23"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-3-24" name="__codelineno-3-24"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-3-25" name="__codelineno-3-25"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">shutdown</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
 </div>
 </div>
 </div>
 <h2 id="recap">Recap</h2>
 <p style="text-align: justify;">
-    We've explored the <code>AsyncIOEventEmitter</code> class in depth:
-</p>
-<ul style="text-align: justify;">
-<li>
-The <code>AsyncIOEventEmitter</code> inherits from the EventEmitter class
-</li>
-<li>
-To use it, instantiate the class and call methods like <code>emit()</code>
-</li>
-<li>
-It leverages <code>AsyncIO</code> to concurrently run callbacks in sync and async contexts
-</li>
-</ul>
-<p style="text-align: justify;">
-    &emsp;&emsp;By understanding these concepts, you can effectively utilize the <code>AsyncIOEventEmitter</code> to emit events
-    in both synchronous and asynchronous contexts, benefiting from the concurrency features provided by the <code>AsyncIO</code>
-    framework.
+    &emsp;&emsp;By learning how this event emitter leverages executors for concurrent/parallel execution, you can
+    optimize your applications to take full advantage of multicore systems through balanced workload distribution.
+    Proper use of this approach can significantly improve performance.
 </p>
 <p><br></p>
 
@@ -1336,13 +1521,14 @@ It leverages <code>AsyncIO</code> to concurrently run callbacks in sync and asyn
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-16T21:34:45+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-16</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-28T06:24:46+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-28</span>
   </span>
 
     
     
     
       
+  
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       
@@ -1388,7 +1574,7 @@ It leverages <code>AsyncIO</code> to concurrently run callbacks in sync and asyn
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Event Emitter">
+          <a href="../celery/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Celery Event Emitter">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1398,20 +1584,20 @@ It leverages <code>AsyncIO</code> to concurrently run callbacks in sync and asyn
                 Previous
               </span>
               <div class="md-ellipsis">
-                Event Emitter
+                Celery Event Emitter
               </div>
             </div>
           </a>
         
         
           
-          <a href="../executor-event-emitter/" class="md-footer__link md-footer__link--next" aria-label="Next: Executor Event Emitter">
+          <a href="../rq/" class="md-footer__link md-footer__link--next" aria-label="Next: RQ Event Emitter">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Executor Event Emitter
+                RQ Event Emitter
               </div>
             </div>
             <div class="md-footer__button md-icon">

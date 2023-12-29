@@ -12,17 +12,17 @@
         <meta name="author" content="Manuel Da Pena">
       
       
-        <link rel="canonical" href="https://mdapena.github.io/pyventus/tutorials/emitters/rq-event-emitter/">
+        <link rel="canonical" href="https://mdapena.github.io/pyventus/tutorials/emitters/rq/">
       
       
-        <link rel="prev" href="../executor-event-emitter/">
+        <link rel="prev" href="../executor/">
       
       
         <link rel="next" href="../../../api/">
       
       
       <link rel="icon" href="../../../images/favicon/pyventus-logo.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#what-is-it" class="md-skip">
+        <a href="#rq-event-emitter" class="md-skip">
           Skip to content
         </a>
       
@@ -535,9 +535,19 @@
         
       
         
-      
+          
         
       
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
         
       
     
@@ -587,7 +597,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../asyncio-event-emitter/" class="md-nav__link">
+      <a href="../asyncio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -608,7 +618,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../executor-event-emitter/" class="md-nav__link">
+      <a href="../celery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Celery Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../executor/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -634,6 +665,8 @@
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
+      
+        
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
@@ -662,6 +695,8 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
+  
+    
   
   
     <label class="md-nav__title" for="__toc">
@@ -873,9 +908,19 @@
         
       
         
-      
+          
         
       
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
         
       
     
@@ -927,7 +972,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../api/emitters/asyncio-event-emitter/" class="md-nav__link">
+      <a href="../../../api/emitters/asyncio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -948,7 +993,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../api/emitters/executor-event-emitter/" class="md-nav__link">
+      <a href="../../../api/emitters/celery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Celery Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/emitters/executor/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -969,7 +1035,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../api/emitters/rq-event-emitter/" class="md-nav__link">
+      <a href="../../../api/emitters/rq/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1055,6 +1121,8 @@
   
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -1116,8 +1184,7 @@
   
 
 
-  <h1>RQ Event Emitter</h1>
-
+<h1 id="rq-event-emitter">RQ Event Emitter</h1>
 <p style="text-align: justify;">
     &emsp;&emsp;In the previous sections, we explored different event emitters, such as <code>AsyncIOEventEmitter</code> and 
     <code>ExecutorEventEmitter</code>. Now, let's dive into the <code>RQEventEmitter</code>, a powerful tool for handling events that 
@@ -1126,7 +1193,7 @@
 <h2 id="what-is-it">What is it?</h2>
 <p style="text-align: justify;">
     &emsp;&emsp;The <code>RQEventEmitter</code> is a concrete implementation of the <code>EventEmitter</code> that takes advantage of the
-    <code>Redis Queue</code> pub/sub and <code>worker</code> system to execute event handlers.
+    <code>Redis Queue</code> pub/sub and <code>worker</code> system to execute event emissions.
 </p>
 <p style="text-align: justify;">
     &emsp;&emsp;This event emitter is particularly useful when dealing with events that require resource-intensive
@@ -1135,15 +1202,16 @@
 </p>
 <h2 id="how-it-works">How it Works</h2>
 <p style="text-align: justify;">
-    &emsp;&emsp;The <code>RQEventEmitter</code> seamlessly handles the emission and processing of event handlers by utilizing the
-    <a href="https://python-rq.org/">Python RQ</a> package. Here's how it works:
+    &emsp;&emsp;The <code>RQEventEmitter</code> seamlessly handles the emission and processing of events by utilizing the
+    <a href="https://python-rq.org/">RQ</a> package. Here's how it works:
 </p>
 <ol style="text-align: justify;">
 <li style="text-align: justify;"><strong>Event emission:</strong>
-When an event is emitted, all associated event handlers are enqueued into the Redis Queue system.
+When an event is emitted, all associated event handlers are bundled into an <a href="/pyventus/api/emitters/#pyventus.EventEmitter.EventEmission">EventEmission</a> 
+object, which is then enqueued into the Redis Queue system.
 </li>
 <li style="text-align: justify;"><strong>Workers processing:</strong>
-The enqueued handlers are individually processed by available Python RQ workers asynchronously, enabling efficient
+The enqueued event emission object is asynchronously processed by available Python RQ workers, enabling efficient 
 parallel execution.
 </li>
 </ol>
@@ -1153,13 +1221,13 @@ parallel execution.
 </p>
 <ol style="text-align: justify;">
 <li style="text-align: justify;"><strong>Install Python RQ:</strong>
-Before proceeding, make sure you have installed the <a href="/pyventus/getting-started/#optional-dependencies">optional Python RQ dependency</a>.
+Before proceeding, make sure you have installed the <a href="/pyventus/getting-started/#optional-dependencies">Redis Queue (RQ) optional dependency</a>.
 </li>
 <li style="text-align: justify;"><strong>Python RQ worker configuration:</strong>
-The Python RQ workers act as processors for event handler callbacks. They listen to the <code>Redis Queue</code> pub/sub channel
+The Python RQ workers act as processors for event emission objects. They listen to the <code>Redis Queue</code> pub/sub channel
 and process tasks when enqueued. To configure the workers, create a file named <code>worker.py</code> and include the worker
-configuration code. You can refer to the official <a href="https://python-rq.org/docs/workers/">Python RQ documentation</a> 
-for more advanced configurations.
+configuration code. You can refer to the official <a href="https://python-rq.org/docs/workers/">RQ documentation</a> for 
+more advanced configurations.
 
 <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">worker.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
@@ -1208,7 +1276,9 @@ for more advanced configurations.
 <span class="normal"><a href="#__codelineno-0-45">45</a></span>
 <span class="normal"><a href="#__codelineno-0-46">46</a></span>
 <span class="normal"><a href="#__codelineno-0-47">47</a></span>
-<span class="normal"><a href="#__codelineno-0-48">48</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Process</span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Process</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3"></a>
 <a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="kn">from</span> <span class="nn">redis</span> <span class="kn">import</span> <span class="n">Redis</span>
@@ -1219,51 +1289,53 @@ for more advanced configurations.
 <a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="hll"><span class="n">redis_conn</span> <span class="o">=</span> <span class="n">Redis</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s2">&quot;redis://default:redispw@localhost:6379&quot;</span><span class="p">)</span>
 </span><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="hll"><span class="n">default_queue</span><span class="p">:</span> <span class="n">Queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="n">redis_conn</span><span class="p">)</span>
 </span><a id="__codelineno-0-11" name="__codelineno-0-11"></a>
-<a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="k">def</span> <span class="nf">worker_process</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new Worker instance and starts the work loop.&quot;&quot;&quot;</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14"></a>
-<a id="__codelineno-0-15" name="__codelineno-0-15"></a>    <span class="k">class</span> <span class="nc">WindowsSimpleWorker</span><span class="p">(</span><span class="n">SimpleWorker</span><span class="p">):</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">        A class that inherits from SimpleWorker and is used to</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">        create a new worker instance in a Windows based system.</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a>        <span class="n">death_penalty_class</span> <span class="o">=</span> <span class="n">TimerDeathPenalty</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="n">worker</span> <span class="o">=</span> <span class="n">WindowsSimpleWorker</span><span class="p">(</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="hll">        <span class="n">connection</span><span class="o">=</span><span class="n">redis_conn</span><span class="p">,</span> 
-</span><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="hll">        <span class="n">queues</span><span class="o">=</span><span class="p">[</span><span class="n">default_queue</span><span class="p">]</span>
-</span><a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="p">)</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26"></a>    <span class="n">worker</span><span class="o">.</span><span class="n">work</span><span class="p">()</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27"></a>
-<a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="c1"># Test connection</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="n">redis_conn</span><span class="o">.</span><span class="n">ping</span><span class="p">()</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="c1"># Set the number of workers. For auto-assignment</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a>    <span class="c1"># use: multiprocessing.cpu_count()</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="n">num_workers</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Default 1</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="c1"># Workers list</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="n">worker_processes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Process</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="c1"># Creates and starts new</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="c1"># Processes for each worker</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="hll">    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_workers</span><span class="p">):</span>
-</span><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="hll">        <span class="n">p</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">worker_process</span><span class="p">)</span>
-</span><a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="hll">        <span class="n">worker_processes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-</span><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="hll">        <span class="n">p</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
-</span><a id="__codelineno-0-45" name="__codelineno-0-45"></a>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a>    <span class="c1"># Join every worker process</span>
-<a id="__codelineno-0-47" name="__codelineno-0-47"></a>    <span class="k">for</span> <span class="n">process</span> <span class="ow">in</span> <span class="n">worker_processes</span><span class="p">:</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="n">process</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a>
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="k">def</span> <span class="nf">worker_process</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Creates a new Worker instance and starts the work loop.&quot;&quot;&quot;</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15"></a>
+<a id="__codelineno-0-16" name="__codelineno-0-16"></a>    <span class="k">class</span> <span class="nc">WindowsSimpleWorker</span><span class="p">(</span><span class="n">SimpleWorker</span><span class="p">):</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">        A class that inherits from SimpleWorker and is used to</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">        create a new worker instance in a Windows based system.</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a>        <span class="n">death_penalty_class</span> <span class="o">=</span> <span class="n">TimerDeathPenalty</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="n">worker</span> <span class="o">=</span> <span class="n">WindowsSimpleWorker</span><span class="p">(</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="hll">        <span class="n">connection</span><span class="o">=</span><span class="n">redis_conn</span><span class="p">,</span>
+</span><a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="hll">        <span class="n">queues</span><span class="o">=</span><span class="p">[</span><span class="n">default_queue</span><span class="p">]</span>
+</span><a id="__codelineno-0-26" name="__codelineno-0-26"></a>    <span class="p">)</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="n">worker</span><span class="o">.</span><span class="n">work</span><span class="p">()</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28"></a>
+<a id="__codelineno-0-29" name="__codelineno-0-29"></a>
+<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="c1"># Test connection</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="n">redis_conn</span><span class="o">.</span><span class="n">ping</span><span class="p">()</span>
+<a id="__codelineno-0-33" name="__codelineno-0-33"></a>
+<a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="c1"># Set the number of workers. For auto-assignment</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="c1"># use: multiprocessing.cpu_count()</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="n">num_workers</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># Default 1</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a>
+<a id="__codelineno-0-38" name="__codelineno-0-38"></a>    <span class="c1"># Workers list</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="n">worker_processes</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Process</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="c1"># Creates and starts new</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="c1"># Processes for each worker</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="hll">    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_workers</span><span class="p">):</span>
+</span><a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="hll">        <span class="n">p</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">worker_process</span><span class="p">)</span>
+</span><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="hll">        <span class="n">worker_processes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</span><a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="hll">        <span class="n">p</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</span><a id="__codelineno-0-47" name="__codelineno-0-47"></a>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="c1"># Join every worker process</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="k">for</span> <span class="n">process</span> <span class="ow">in</span> <span class="n">worker_processes</span><span class="p">:</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a>        <span class="n">process</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
 
 </li>
 <li style="text-align: justify;"><strong>Define event handlers:</strong>
-After defining the worker file, let's focus on the event handlers. According to the Python RQ documentation, these
+After defining the worker file, let's focus on the event handlers. According to the RQ documentation, these
 functions should not reside in the main module. Therefore, we need to create another module where all our event
-handlers can be placed. For this example, let's create a file called <code>event_handlers.py</code> and add the handler
-that needs to be processed.
+handlers can be placed. For this example, let's create a file called <code>event_handlers.py</code> and add the handlers
+to be processed.
 
 <div class="highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">event_handlers.py</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
@@ -1290,23 +1362,23 @@ that needs to be processed.
 <a id="__codelineno-1-6" name="__codelineno-1-6"></a>
 <a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
 </span><a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="hll"><span class="k">async</span> <span class="k">def</span> <span class="nf">slow_async_event_callback</span><span class="p">():</span>
-</span><a id="__codelineno-1-9" name="__codelineno-1-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Starting the async slow process...&quot;</span><span class="p">)</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finishing the async slow process!&quot;</span><span class="p">)</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12"></a>
+</span><a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="hll">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Starting the async slow process...&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="hll">    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="hll">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finishing the async slow process!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-1-12" name="__codelineno-1-12"></a>
 <a id="__codelineno-1-13" name="__codelineno-1-13"></a>
 <a id="__codelineno-1-14" name="__codelineno-1-14"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
 </span><a id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="hll"><span class="k">def</span> <span class="nf">slow_sync_event_callback</span><span class="p">():</span>
-</span><a id="__codelineno-1-16" name="__codelineno-1-16"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Starting the sync slow process...&quot;</span><span class="p">)</span>
-<a id="__codelineno-1-17" name="__codelineno-1-17"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
-<a id="__codelineno-1-18" name="__codelineno-1-18"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finishing the sync slow process!&quot;</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+</span><a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="hll">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Starting the sync slow process...&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-1-17" name="__codelineno-1-17"></a><span class="hll">    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</span><a id="__codelineno-1-18" name="__codelineno-1-18"></a><span class="hll">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finishing the sync slow process!&quot;</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
 
 </li>
 <li style="text-align: justify;"><strong>Emitting events:</strong>
 Once the previous steps have been completed, the RQ workers can be started by running the <code>worker.py</code> script. Following
 that, a <code>main.py</code> file should be created to instantiate an <code>RQEventEmitter</code> and configure the <code>Queue</code> where the event
-handlers will be enqueued. For full details on the configuration options, please refer to the <code>Python RQ</code> website and
+emission objects will be enqueued. For full details on the configuration options, please refer to the RQ website and
 documentation on the enqueue method settings. At this point, we are ready to emit our first event using the 
 <code>RQEventEmitter</code>.
 
@@ -1324,26 +1396,22 @@ documentation on the enqueue method settings. At this point, we are ready to emi
 <span class="normal"><a href="#__codelineno-2-12">12</a></span>
 <span class="normal"><a href="#__codelineno-2-13">13</a></span>
 <span class="normal"><a href="#__codelineno-2-14">14</a></span>
-<span class="normal"><a href="#__codelineno-2-15">15</a></span>
-<span class="normal"><a href="#__codelineno-2-16">16</a></span>
-<span class="normal"><a href="#__codelineno-2-17">17</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">redis</span> <span class="kn">import</span> <span class="n">Redis</span>
+<span class="normal"><a href="#__codelineno-2-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">redis</span> <span class="kn">import</span> <span class="n">Redis</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="kn">from</span> <span class="nn">rq</span> <span class="kn">import</span> <span class="n">Queue</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3"></a>
 <a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventEmitter</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="kn">from</span> <span class="nn">pyventus.emitters.rq</span> <span class="kn">import</span> <span class="n">RQEventEmitter</span>
 <a id="__codelineno-2-6" name="__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="hll"><span class="c1"># To ensure Python recognizes the existence of the event handlers, we need to import them.</span>
-</span><a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="kn">from</span> <span class="nn">event_handlers</span> <span class="kn">import</span> <span class="n">slow_sync_event_callback</span><span class="p">,</span> <span class="n">slow_async_event_callback</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9"></a>
-<a id="__codelineno-2-10" name="__codelineno-2-10"></a>
-<a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="n">redis_conn</span> <span class="o">=</span> <span class="n">Redis</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s2">&quot;redis://default:redispw@localhost:6379&quot;</span><span class="p">)</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12"></a><span class="n">default_queue</span><span class="p">:</span> <span class="n">Queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="n">redis_conn</span><span class="p">)</span>
-<a id="__codelineno-2-13" name="__codelineno-2-13"></a>
-<a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="hll">
-</span><a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="hll"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-</span><a id="__codelineno-2-16" name="__codelineno-2-16"></a><span class="hll">    <span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">RQEventEmitter</span><span class="p">(</span><span class="n">queue</span><span class="o">=</span><span class="n">default_queue</span><span class="p">)</span>
-</span><a id="__codelineno-2-17" name="__codelineno-2-17"></a>    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="c1"># To ensure Python recognizes the existence of the event handlers, we need to import them.</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="hll"><span class="kn">from</span> <span class="nn">event_handlers</span> <span class="kn">import</span> <span class="n">slow_sync_event_callback</span><span class="p">,</span> <span class="n">slow_async_event_callback</span>
+</span><a id="__codelineno-2-9" name="__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10"></a><span class="n">redis_conn</span> <span class="o">=</span> <span class="n">Redis</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span><span class="s2">&quot;redis://default:redispw@localhost:6379&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11"></a><span class="n">default_queue</span><span class="p">:</span> <span class="n">Queue</span> <span class="o">=</span> <span class="n">Queue</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">connection</span><span class="o">=</span><span class="n">redis_conn</span><span class="p">)</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12"></a>
+<a id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="hll">    <span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">RQEventEmitter</span><span class="p">(</span><span class="n">queue</span><span class="o">=</span><span class="n">default_queue</span><span class="p">)</span>
+</span><a id="__codelineno-2-15" name="__codelineno-2-15"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
 
 </li>
 </ol>
@@ -1357,7 +1425,7 @@ documentation on the enqueue method settings. At this point, we are ready to emi
 It leverages existing <code>Redis Queue</code> infrastructure for asynchronous task processing.
 </li>
 <li style="text-align: justify;">
-Callbacks are queued on <code>Redis</code> when events occur. Workers process them independently.
+Event emissions are enqueued in Redis, and workers independently process them.
 </li>
 <li style="text-align: justify;">
 This distributed model scales efficiently regardless of workload volume.
@@ -1384,13 +1452,14 @@ This distributed model scales efficiently regardless of workload volume.
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-17T03:39:27+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-17</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-29T18:36:01+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-29</span>
   </span>
 
     
     
     
       
+  
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       
@@ -1436,7 +1505,7 @@ This distributed model scales efficiently regardless of workload volume.
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../executor-event-emitter/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Executor Event Emitter">
+          <a href="../executor/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Executor Event Emitter">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>

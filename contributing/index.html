@@ -15,14 +15,14 @@
         <link rel="canonical" href="https://mdapena.github.io/pyventus/contributing/">
       
       
-        <link rel="prev" href="../api/emitters/rq-event-emitter/">
+        <link rel="prev" href="../api/emitters/rq/">
       
       
         <link rel="next" href="../release-notes/">
       
       
       <link rel="icon" href="../images/favicon/pyventus-logo.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
@@ -535,9 +535,19 @@
         
       
         
-      
+          
         
       
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
         
       
     
@@ -589,7 +599,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/emitters/asyncio-event-emitter/" class="md-nav__link">
+      <a href="../tutorials/emitters/asyncio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -610,7 +620,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/emitters/executor-event-emitter/" class="md-nav__link">
+      <a href="../tutorials/emitters/celery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Celery Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/emitters/executor/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -631,7 +662,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tutorials/emitters/rq-event-emitter/" class="md-nav__link">
+      <a href="../tutorials/emitters/rq/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -803,9 +834,19 @@
         
       
         
-      
+          
         
       
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
         
       
     
@@ -857,7 +898,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/emitters/asyncio-event-emitter/" class="md-nav__link">
+      <a href="../api/emitters/asyncio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -878,7 +919,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/emitters/executor-event-emitter/" class="md-nav__link">
+      <a href="../api/emitters/celery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Celery Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/emitters/executor/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -899,7 +961,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../api/emitters/rq-event-emitter/" class="md-nav__link">
+      <a href="../api/emitters/rq/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1379,7 +1441,7 @@
 <ol>
 <li>
 <p>Create a virtual environment:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">python -m venv venv</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">python -m venv env</span>
 </code></pre></div>
 </li>
 <li>
@@ -1387,15 +1449,15 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Linux, macOS</label><label for="__tabbed_1_2">Windows PowerShell</label><label for="__tabbed_1_3">Windows Bash</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">source ./venv/bin/activate</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">source ./env/bin/activate</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">.\venv\Scripts\Activate.ps1</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">.\env\Scripts\Activate.ps1</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">source ./venv/Scripts/activate</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">source ./env/Scripts/activate</span>
 </code></pre></div>
 </div>
 </div>
@@ -1559,6 +1621,22 @@ both correct and performant ensures responsive and scalable applications.
 </div>
 </div>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">Troubleshooting Hatch Environment Errors</p>
+<p><p style='text-align: justify;' markdown>
+    If commands run successfully when executed manually but produce unexpected errors or misbehavior when run 
+    within a Hatch environment, even though the dependencies are declared correctly, this could indicate an 
+    issue with the Hatch environment cache. To resolve potential cache-related issues, you can remove the 
+    environment and clear its cache by running:
+</p></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="go">hatch env remove [ENV_NAME]</span>
+</code></pre></div>
+<p><p style='text-align: justify;' markdown>
+    Alternatively, you can remove all environments and their cache by running the following command:
+</p></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="go">hatch env prune</span>
+</code></pre></div>
+</div>
 <h2 id="code-of-conduct">Code of Conduct</h2>
 <p style="text-align: justify;">
     &emsp;&emsp;This project and everyone participating in it is governed by the <a href="https://github.com/mdapena/pyventus/blob/master/.github/CODE_OF_CONDUCT.md">Pyventus Code of Conduct</a>. 
@@ -1591,13 +1669,14 @@ both correct and performant ensures responsive and scalable applications.
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-17T03:39:27+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-17</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-29T14:28:49+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-29</span>
   </span>
 
     
     
     
       
+  
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       
@@ -1647,7 +1726,7 @@ both correct and performant ensures responsive and scalable applications.
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../api/emitters/rq-event-emitter/" class="md-footer__link md-footer__link--prev" aria-label="Previous: RQ Event Emitter">
+          <a href="../api/emitters/rq/" class="md-footer__link md-footer__link--prev" aria-label="Previous: RQ Event Emitter">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>

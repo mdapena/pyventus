@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../images/favicon/pyventus-logo.ico">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.2">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.3">
     
     
       
@@ -533,9 +533,19 @@
         
       
         
-      
+          
         
       
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
         
       
     
@@ -587,7 +597,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/emitters/asyncio-event-emitter/" class="md-nav__link">
+      <a href="../../tutorials/emitters/asyncio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -608,7 +618,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/emitters/executor-event-emitter/" class="md-nav__link">
+      <a href="../../tutorials/emitters/celery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Celery Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tutorials/emitters/executor/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -629,7 +660,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tutorials/emitters/rq-event-emitter/" class="md-nav__link">
+      <a href="../../tutorials/emitters/rq/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1132,9 +1163,19 @@
         
       
         
-      
+          
         
       
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
         
       
     
@@ -1186,7 +1227,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../emitters/asyncio-event-emitter/" class="md-nav__link">
+      <a href="../emitters/asyncio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1207,7 +1248,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../emitters/executor-event-emitter/" class="md-nav__link">
+      <a href="../emitters/celery/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Celery Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../emitters/executor/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1228,7 +1290,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../emitters/rq-event-emitter/" class="md-nav__link">
+      <a href="../emitters/rq/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2302,14 +2364,14 @@ properly synchronized, avoiding data inconsistencies and race conditions.</p>
 <a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">        &quot;&quot;&quot;</span>
 <a id="__codelineno-0-57" name="__codelineno-0-57"></a>
 <a id="__codelineno-0-58" name="__codelineno-0-58"></a>        <span class="nd">@property</span>
-<a id="__codelineno-0-59" name="__codelineno-0-59"></a>        <span class="k">def</span> <span class="nf">on_event</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">EventCallbackType</span><span class="p">],</span> <span class="n">EventCallbackType</span><span class="p">]:</span>  <span class="c1"># type: ignore</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a>        <span class="k">def</span> <span class="nf">on_event</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">EventCallbackType</span><span class="p">],</span> <span class="n">EventCallbackType</span><span class="p">]:</span>  <span class="c1"># type: ignore[type-arg]</span>
 <a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="sd">            Decorator that sets the main callback for the event. This callback will be invoked</span>
 <a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="sd">            when the associated event occurs.</span>
 <a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="sd">            :return: The decorated callback.</span>
 <a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="sd">            &quot;&quot;&quot;</span>
 <a id="__codelineno-0-65" name="__codelineno-0-65"></a>
-<a id="__codelineno-0-66" name="__codelineno-0-66"></a>            <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+<a id="__codelineno-0-66" name="__codelineno-0-66"></a>            <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>  <span class="c1"># type: ignore[type-arg]</span>
 <a id="__codelineno-0-67" name="__codelineno-0-67"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">_event_callback</span> <span class="o">=</span> <span class="n">callback</span>
 <a id="__codelineno-0-68" name="__codelineno-0-68"></a>                <span class="k">return</span> <span class="n">callback</span>
 <a id="__codelineno-0-69" name="__codelineno-0-69"></a>
@@ -2354,11 +2416,11 @@ properly synchronized, avoiding data inconsistencies and race conditions.</p>
 <a id="__codelineno-0-108" name="__codelineno-0-108"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_event_linker</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EventLinker</span><span class="p">]</span> <span class="o">=</span> <span class="n">event_linker</span>
 <a id="__codelineno-0-109" name="__codelineno-0-109"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_once</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">once</span>
 <a id="__codelineno-0-110" name="__codelineno-0-110"></a>
-<a id="__codelineno-0-111" name="__codelineno-0-111"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_event_callback</span><span class="p">:</span> <span class="n">EventCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
-<a id="__codelineno-0-112" name="__codelineno-0-112"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_success_callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
-<a id="__codelineno-0-113" name="__codelineno-0-113"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_failure_callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
+<a id="__codelineno-0-111" name="__codelineno-0-111"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_event_callback</span><span class="p">:</span> <span class="n">EventCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[type-arg, no-redef, assignment]</span>
+<a id="__codelineno-0-112" name="__codelineno-0-112"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_success_callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[no-redef, assignment]</span>
+<a id="__codelineno-0-113" name="__codelineno-0-113"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_failure_callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[no-redef, assignment]</span>
 <a id="__codelineno-0-114" name="__codelineno-0-114"></a>
-<a id="__codelineno-0-115" name="__codelineno-0-115"></a>        <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+<a id="__codelineno-0-115" name="__codelineno-0-115"></a>        <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>  <span class="c1"># type: ignore[type-arg]</span>
 <a id="__codelineno-0-116" name="__codelineno-0-116"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-117" name="__codelineno-0-117"></a><span class="sd">            Decorates a callback to subscribe it to the specified events.</span>
 <a id="__codelineno-0-118" name="__codelineno-0-118"></a><span class="sd">            :param callback: The callback to associate.</span>
@@ -2445,7 +2507,7 @@ properly synchronized, avoiding data inconsistencies and race conditions.</p>
 <a id="__codelineno-0-199" name="__codelineno-0-199"></a>        <span class="n">max_event_handlers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-200" name="__codelineno-0-200"></a>        <span class="n">default_success_callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-201" name="__codelineno-0-201"></a>        <span class="n">default_failure_callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-202" name="__codelineno-0-202"></a>        <span class="n">debug_mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-202" name="__codelineno-0-202"></a>        <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-203" name="__codelineno-0-203"></a>        <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <a id="__codelineno-0-204" name="__codelineno-0-204"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-205" name="__codelineno-0-205"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -2460,7 +2522,7 @@ properly synchronized, avoiding data inconsistencies and race conditions.</p>
 <a id="__codelineno-0-214" name="__codelineno-0-214"></a><span class="sd">            callback in the event handlers when no specific success callback is provided.</span>
 <a id="__codelineno-0-215" name="__codelineno-0-215"></a><span class="sd">        :param default_failure_callback: The default callback to be assigned as the failure</span>
 <a id="__codelineno-0-216" name="__codelineno-0-216"></a><span class="sd">            callback in the event handlers when no specific failure callback is provided.</span>
-<a id="__codelineno-0-217" name="__codelineno-0-217"></a><span class="sd">        :param debug_mode: Specifies the debug mode for the subclass logger. If `None`,</span>
+<a id="__codelineno-0-217" name="__codelineno-0-217"></a><span class="sd">        :param debug: Specifies the debug mode for the subclass logger. If `None`,</span>
 <a id="__codelineno-0-218" name="__codelineno-0-218"></a><span class="sd">            it is determined based on the execution environment.</span>
 <a id="__codelineno-0-219" name="__codelineno-0-219"></a><span class="sd">        :param kwargs: The keyword arguments to pass to the superclass</span>
 <a id="__codelineno-0-220" name="__codelineno-0-220"></a><span class="sd">            `__init_subclass__` method.</span>
@@ -2500,7 +2562,7 @@ properly synchronized, avoiding data inconsistencies and race conditions.</p>
 <a id="__codelineno-0-254" name="__codelineno-0-254"></a>        <span class="c1"># Set up the logger for the subclass</span>
 <a id="__codelineno-0-255" name="__codelineno-0-255"></a>        <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span>
 <a id="__codelineno-0-256" name="__codelineno-0-256"></a>            <span class="n">name</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-<a id="__codelineno-0-257" name="__codelineno-0-257"></a>            <span class="n">debug</span><span class="o">=</span><span class="n">debug_mode</span> <span class="k">if</span> <span class="n">debug_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">bool</span><span class="p">(</span><span class="n">gettrace</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">),</span>
+<a id="__codelineno-0-257" name="__codelineno-0-257"></a>            <span class="n">debug</span><span class="o">=</span><span class="n">debug</span> <span class="k">if</span> <span class="n">debug</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">bool</span><span class="p">(</span><span class="n">gettrace</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">),</span>
 <a id="__codelineno-0-258" name="__codelineno-0-258"></a>        <span class="p">)</span>
 <a id="__codelineno-0-259" name="__codelineno-0-259"></a>
 <a id="__codelineno-0-260" name="__codelineno-0-260"></a>    <span class="nd">@classmethod</span>
@@ -2653,7 +2715,7 @@ properly synchronized, avoiding data inconsistencies and race conditions.</p>
 <a id="__codelineno-0-407" name="__codelineno-0-407"></a>    <span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span>
 <a id="__codelineno-0-408" name="__codelineno-0-408"></a>        <span class="bp">cls</span><span class="p">,</span>
 <a id="__codelineno-0-409" name="__codelineno-0-409"></a>        <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span>
-<a id="__codelineno-0-410" name="__codelineno-0-410"></a>        <span class="n">event_callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+<a id="__codelineno-0-410" name="__codelineno-0-410"></a>        <span class="n">event_callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">,</span>  <span class="c1"># type: ignore[type-arg]</span>
 <a id="__codelineno-0-411" name="__codelineno-0-411"></a>        <span class="n">success_callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-412" name="__codelineno-0-412"></a>        <span class="n">failure_callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-413" name="__codelineno-0-413"></a>        <span class="n">once</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -2710,7 +2772,7 @@ properly synchronized, avoiding data inconsistencies and race conditions.</p>
 <a id="__codelineno-0-464" name="__codelineno-0-464"></a>                <span class="c1"># Append the event handler to the list of handlers for the event</span>
 <a id="__codelineno-0-465" name="__codelineno-0-465"></a>                <span class="bp">cls</span><span class="o">.</span><span class="n">__event_registry</span><span class="p">[</span><span class="n">event_key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event_handler</span><span class="p">)</span>
 <a id="__codelineno-0-466" name="__codelineno-0-466"></a>
-<a id="__codelineno-0-467" name="__codelineno-0-467"></a>                <span class="c1"># Log the subscription if debug mode is enabled</span>
+<a id="__codelineno-0-467" name="__codelineno-0-467"></a>                <span class="c1"># Log the subscription if debug is enabled</span>
 <a id="__codelineno-0-468" name="__codelineno-0-468"></a>                <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-469" name="__codelineno-0-469"></a>                    <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
 <a id="__codelineno-0-470" name="__codelineno-0-470"></a>                        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;Subscribed:&quot;</span><span class="p">,</span>
@@ -2764,7 +2826,7 @@ properly synchronized, avoiding data inconsistencies and race conditions.</p>
 <a id="__codelineno-0-518" name="__codelineno-0-518"></a>                    <span class="k">if</span> <span class="ow">not</span> <span class="n">event_handlers</span><span class="p">:</span>
 <a id="__codelineno-0-519" name="__codelineno-0-519"></a>                        <span class="bp">cls</span><span class="o">.</span><span class="n">__event_registry</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">event_key</span><span class="p">)</span>
 <a id="__codelineno-0-520" name="__codelineno-0-520"></a>
-<a id="__codelineno-0-521" name="__codelineno-0-521"></a>                    <span class="c1"># Log the unsubscription if debug mode is enabled</span>
+<a id="__codelineno-0-521" name="__codelineno-0-521"></a>                    <span class="c1"># Log the unsubscription if debug is enabled</span>
 <a id="__codelineno-0-522" name="__codelineno-0-522"></a>                    <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-523" name="__codelineno-0-523"></a>                        <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
 <a id="__codelineno-0-524" name="__codelineno-0-524"></a>                            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;Unsubscribed&quot;</span><span class="p">,</span>
@@ -2807,7 +2869,7 @@ properly synchronized, avoiding data inconsistencies and race conditions.</p>
 <a id="__codelineno-0-561" name="__codelineno-0-561"></a>                    <span class="k">if</span> <span class="ow">not</span> <span class="n">event_handlers</span><span class="p">:</span>
 <a id="__codelineno-0-562" name="__codelineno-0-562"></a>                        <span class="bp">cls</span><span class="o">.</span><span class="n">__event_registry</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">event_key</span><span class="p">)</span>
 <a id="__codelineno-0-563" name="__codelineno-0-563"></a>
-<a id="__codelineno-0-564" name="__codelineno-0-564"></a>                    <span class="c1"># Log the removal of the event handler if debug mode is enabled</span>
+<a id="__codelineno-0-564" name="__codelineno-0-564"></a>                    <span class="c1"># Log the removal of the event handler if debug is enabled</span>
 <a id="__codelineno-0-565" name="__codelineno-0-565"></a>                    <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-566" name="__codelineno-0-566"></a>                        <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
 <a id="__codelineno-0-567" name="__codelineno-0-567"></a>                            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;Handler Removed:&quot;</span><span class="p">,</span>
@@ -2834,7 +2896,7 @@ properly synchronized, avoiding data inconsistencies and race conditions.</p>
 <a id="__codelineno-0-588" name="__codelineno-0-588"></a>                <span class="c1"># Remove the event from the registry</span>
 <a id="__codelineno-0-589" name="__codelineno-0-589"></a>                <span class="bp">cls</span><span class="o">.</span><span class="n">__event_registry</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">event_key</span><span class="p">)</span>
 <a id="__codelineno-0-590" name="__codelineno-0-590"></a>
-<a id="__codelineno-0-591" name="__codelineno-0-591"></a>                <span class="c1"># Log the removal of the event if debug mode is enabled</span>
+<a id="__codelineno-0-591" name="__codelineno-0-591"></a>                <span class="c1"># Log the removal of the event if debug is enabled</span>
 <a id="__codelineno-0-592" name="__codelineno-0-592"></a>                <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-593" name="__codelineno-0-593"></a>                    <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;Event Removed:&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">event_key</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-594" name="__codelineno-0-594"></a>
@@ -2854,7 +2916,7 @@ properly synchronized, avoiding data inconsistencies and race conditions.</p>
 <a id="__codelineno-0-608" name="__codelineno-0-608"></a>            <span class="c1"># Clear the event registry by assigning an empty dictionary</span>
 <a id="__codelineno-0-609" name="__codelineno-0-609"></a>            <span class="bp">cls</span><span class="o">.</span><span class="n">__event_registry</span> <span class="o">=</span> <span class="p">{}</span>
 <a id="__codelineno-0-610" name="__codelineno-0-610"></a>
-<a id="__codelineno-0-611" name="__codelineno-0-611"></a>        <span class="c1"># Log a debug message if debug mode is enabled</span>
+<a id="__codelineno-0-611" name="__codelineno-0-611"></a>        <span class="c1"># Log a debug message if debug is enabled</span>
 <a id="__codelineno-0-612" name="__codelineno-0-612"></a>        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-613" name="__codelineno-0-613"></a>            <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s2">&quot;All events and handlers were successfully removed&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-614" name="__codelineno-0-614"></a>
@@ -3032,14 +3094,14 @@ internally to serves as a wrapper for event linking operation.</p>
 <a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="sd">    &quot;&quot;&quot;</span>
 <a id="__codelineno-0-57" name="__codelineno-0-57"></a>
 <a id="__codelineno-0-58" name="__codelineno-0-58"></a>    <span class="nd">@property</span>
-<a id="__codelineno-0-59" name="__codelineno-0-59"></a>    <span class="k">def</span> <span class="nf">on_event</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">EventCallbackType</span><span class="p">],</span> <span class="n">EventCallbackType</span><span class="p">]:</span>  <span class="c1"># type: ignore</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a>    <span class="k">def</span> <span class="nf">on_event</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">EventCallbackType</span><span class="p">],</span> <span class="n">EventCallbackType</span><span class="p">]:</span>  <span class="c1"># type: ignore[type-arg]</span>
 <a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="sd">        Decorator that sets the main callback for the event. This callback will be invoked</span>
 <a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="sd">        when the associated event occurs.</span>
 <a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="sd">        :return: The decorated callback.</span>
 <a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="sd">        &quot;&quot;&quot;</span>
 <a id="__codelineno-0-65" name="__codelineno-0-65"></a>
-<a id="__codelineno-0-66" name="__codelineno-0-66"></a>        <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+<a id="__codelineno-0-66" name="__codelineno-0-66"></a>        <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>  <span class="c1"># type: ignore[type-arg]</span>
 <a id="__codelineno-0-67" name="__codelineno-0-67"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_event_callback</span> <span class="o">=</span> <span class="n">callback</span>
 <a id="__codelineno-0-68" name="__codelineno-0-68"></a>            <span class="k">return</span> <span class="n">callback</span>
 <a id="__codelineno-0-69" name="__codelineno-0-69"></a>
@@ -3084,11 +3146,11 @@ internally to serves as a wrapper for event linking operation.</p>
 <a id="__codelineno-0-108" name="__codelineno-0-108"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_event_linker</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EventLinker</span><span class="p">]</span> <span class="o">=</span> <span class="n">event_linker</span>
 <a id="__codelineno-0-109" name="__codelineno-0-109"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_once</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">once</span>
 <a id="__codelineno-0-110" name="__codelineno-0-110"></a>
-<a id="__codelineno-0-111" name="__codelineno-0-111"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_event_callback</span><span class="p">:</span> <span class="n">EventCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
-<a id="__codelineno-0-112" name="__codelineno-0-112"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_success_callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
-<a id="__codelineno-0-113" name="__codelineno-0-113"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_failure_callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
+<a id="__codelineno-0-111" name="__codelineno-0-111"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_event_callback</span><span class="p">:</span> <span class="n">EventCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[type-arg, no-redef, assignment]</span>
+<a id="__codelineno-0-112" name="__codelineno-0-112"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_success_callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[no-redef, assignment]</span>
+<a id="__codelineno-0-113" name="__codelineno-0-113"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_failure_callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[no-redef, assignment]</span>
 <a id="__codelineno-0-114" name="__codelineno-0-114"></a>
-<a id="__codelineno-0-115" name="__codelineno-0-115"></a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+<a id="__codelineno-0-115" name="__codelineno-0-115"></a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>  <span class="c1"># type: ignore[type-arg]</span>
 <a id="__codelineno-0-116" name="__codelineno-0-116"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-117" name="__codelineno-0-117"></a><span class="sd">        Decorates a callback to subscribe it to the specified events.</span>
 <a id="__codelineno-0-118" name="__codelineno-0-118"></a><span class="sd">        :param callback: The callback to associate.</span>
@@ -3391,9 +3453,9 @@ event execution fails.</p>
 <a id="__codelineno-0-108" name="__codelineno-0-108"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_event_linker</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EventLinker</span><span class="p">]</span> <span class="o">=</span> <span class="n">event_linker</span>
 <a id="__codelineno-0-109" name="__codelineno-0-109"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_once</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">once</span>
 <a id="__codelineno-0-110" name="__codelineno-0-110"></a>
-<a id="__codelineno-0-111" name="__codelineno-0-111"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_event_callback</span><span class="p">:</span> <span class="n">EventCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
-<a id="__codelineno-0-112" name="__codelineno-0-112"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_success_callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
-<a id="__codelineno-0-113" name="__codelineno-0-113"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_failure_callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore</span>
+<a id="__codelineno-0-111" name="__codelineno-0-111"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_event_callback</span><span class="p">:</span> <span class="n">EventCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[type-arg, no-redef, assignment]</span>
+<a id="__codelineno-0-112" name="__codelineno-0-112"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_success_callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[no-redef, assignment]</span>
+<a id="__codelineno-0-113" name="__codelineno-0-113"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_failure_callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[no-redef, assignment]</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -3487,7 +3549,7 @@ event execution fails.</p>
 <span class="normal"><a href="#__codelineno-0-127">127</a></span>
 <span class="normal"><a href="#__codelineno-0-128">128</a></span>
 <span class="normal"><a href="#__codelineno-0-129">129</a></span>
-<span class="normal"><a href="#__codelineno-0-130">130</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-115" name="__codelineno-0-115"></a><span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>  <span class="c1"># type: ignore</span>
+<span class="normal"><a href="#__codelineno-0-130">130</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-115" name="__codelineno-0-115"></a><span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>  <span class="c1"># type: ignore[type-arg]</span>
 <a id="__codelineno-0-116" name="__codelineno-0-116"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-117" name="__codelineno-0-117"></a><span class="sd">    Decorates a callback to subscribe it to the specified events.</span>
 <a id="__codelineno-0-118" name="__codelineno-0-118"></a><span class="sd">    :param callback: The callback to associate.</span>
@@ -3738,7 +3800,7 @@ block to the specified events. Also performs any cleanup.</p>
 
 
 </h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">__init_subclass__</span><span class="p">(</span><span class="n">max_event_handlers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">default_success_callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">default_failure_callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">debug_mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">__init_subclass__</span><span class="p">(</span><span class="n">max_event_handlers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">default_success_callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">default_failure_callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
   <div class="doc doc-contents ">
@@ -3812,7 +3874,7 @@ lock. It also allows specifying the maximum number of event handlers per event.<
           </td>
         </tr>
         <tr>
-          <td><code>debug_mode</code></td>
+          <td><code>debug</code></td>
           <td class="doc-param-details">
             <div class="doc-md-description">
               <p>Specifies the debug mode for the subclass logger. If <code>None</code>, it is determined based on the execution environment.</p>
@@ -3968,7 +4030,7 @@ lock. It also allows specifying the maximum number of event handlers per event.<
 <a id="__codelineno-0-199" name="__codelineno-0-199"></a>    <span class="n">max_event_handlers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-200" name="__codelineno-0-200"></a>    <span class="n">default_success_callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-201" name="__codelineno-0-201"></a>    <span class="n">default_failure_callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-202" name="__codelineno-0-202"></a>    <span class="n">debug_mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-202" name="__codelineno-0-202"></a>    <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-203" name="__codelineno-0-203"></a>    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span>
 <a id="__codelineno-0-204" name="__codelineno-0-204"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-205" name="__codelineno-0-205"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -3983,7 +4045,7 @@ lock. It also allows specifying the maximum number of event handlers per event.<
 <a id="__codelineno-0-214" name="__codelineno-0-214"></a><span class="sd">        callback in the event handlers when no specific success callback is provided.</span>
 <a id="__codelineno-0-215" name="__codelineno-0-215"></a><span class="sd">    :param default_failure_callback: The default callback to be assigned as the failure</span>
 <a id="__codelineno-0-216" name="__codelineno-0-216"></a><span class="sd">        callback in the event handlers when no specific failure callback is provided.</span>
-<a id="__codelineno-0-217" name="__codelineno-0-217"></a><span class="sd">    :param debug_mode: Specifies the debug mode for the subclass logger. If `None`,</span>
+<a id="__codelineno-0-217" name="__codelineno-0-217"></a><span class="sd">    :param debug: Specifies the debug mode for the subclass logger. If `None`,</span>
 <a id="__codelineno-0-218" name="__codelineno-0-218"></a><span class="sd">        it is determined based on the execution environment.</span>
 <a id="__codelineno-0-219" name="__codelineno-0-219"></a><span class="sd">    :param kwargs: The keyword arguments to pass to the superclass</span>
 <a id="__codelineno-0-220" name="__codelineno-0-220"></a><span class="sd">        `__init_subclass__` method.</span>
@@ -4023,7 +4085,7 @@ lock. It also allows specifying the maximum number of event handlers per event.<
 <a id="__codelineno-0-254" name="__codelineno-0-254"></a>    <span class="c1"># Set up the logger for the subclass</span>
 <a id="__codelineno-0-255" name="__codelineno-0-255"></a>    <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span>
 <a id="__codelineno-0-256" name="__codelineno-0-256"></a>        <span class="n">name</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
-<a id="__codelineno-0-257" name="__codelineno-0-257"></a>        <span class="n">debug</span><span class="o">=</span><span class="n">debug_mode</span> <span class="k">if</span> <span class="n">debug_mode</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">bool</span><span class="p">(</span><span class="n">gettrace</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">),</span>
+<a id="__codelineno-0-257" name="__codelineno-0-257"></a>        <span class="n">debug</span><span class="o">=</span><span class="n">debug</span> <span class="k">if</span> <span class="n">debug</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">bool</span><span class="p">(</span><span class="n">gettrace</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">),</span>
 <a id="__codelineno-0-258" name="__codelineno-0-258"></a>    <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
@@ -5199,7 +5261,7 @@ This decorator is used to conveniently subscribe a callback as a one-time handle
 <a id="__codelineno-0-407" name="__codelineno-0-407"></a><span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span>
 <a id="__codelineno-0-408" name="__codelineno-0-408"></a>    <span class="bp">cls</span><span class="p">,</span>
 <a id="__codelineno-0-409" name="__codelineno-0-409"></a>    <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span>
-<a id="__codelineno-0-410" name="__codelineno-0-410"></a>    <span class="n">event_callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">,</span>  <span class="c1"># type: ignore</span>
+<a id="__codelineno-0-410" name="__codelineno-0-410"></a>    <span class="n">event_callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">,</span>  <span class="c1"># type: ignore[type-arg]</span>
 <a id="__codelineno-0-411" name="__codelineno-0-411"></a>    <span class="n">success_callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-412" name="__codelineno-0-412"></a>    <span class="n">failure_callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-413" name="__codelineno-0-413"></a>    <span class="n">once</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
@@ -5256,7 +5318,7 @@ This decorator is used to conveniently subscribe a callback as a one-time handle
 <a id="__codelineno-0-464" name="__codelineno-0-464"></a>            <span class="c1"># Append the event handler to the list of handlers for the event</span>
 <a id="__codelineno-0-465" name="__codelineno-0-465"></a>            <span class="bp">cls</span><span class="o">.</span><span class="n">__event_registry</span><span class="p">[</span><span class="n">event_key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event_handler</span><span class="p">)</span>
 <a id="__codelineno-0-466" name="__codelineno-0-466"></a>
-<a id="__codelineno-0-467" name="__codelineno-0-467"></a>            <span class="c1"># Log the subscription if debug mode is enabled</span>
+<a id="__codelineno-0-467" name="__codelineno-0-467"></a>            <span class="c1"># Log the subscription if debug is enabled</span>
 <a id="__codelineno-0-468" name="__codelineno-0-468"></a>            <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-469" name="__codelineno-0-469"></a>                <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
 <a id="__codelineno-0-470" name="__codelineno-0-470"></a>                    <span class="n">action</span><span class="o">=</span><span class="s2">&quot;Subscribed:&quot;</span><span class="p">,</span>
@@ -5488,7 +5550,7 @@ event, removes that event from the registry as well.</p>
 <a id="__codelineno-0-518" name="__codelineno-0-518"></a>                <span class="k">if</span> <span class="ow">not</span> <span class="n">event_handlers</span><span class="p">:</span>
 <a id="__codelineno-0-519" name="__codelineno-0-519"></a>                    <span class="bp">cls</span><span class="o">.</span><span class="n">__event_registry</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">event_key</span><span class="p">)</span>
 <a id="__codelineno-0-520" name="__codelineno-0-520"></a>
-<a id="__codelineno-0-521" name="__codelineno-0-521"></a>                <span class="c1"># Log the unsubscription if debug mode is enabled</span>
+<a id="__codelineno-0-521" name="__codelineno-0-521"></a>                <span class="c1"># Log the unsubscription if debug is enabled</span>
 <a id="__codelineno-0-522" name="__codelineno-0-522"></a>                <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-523" name="__codelineno-0-523"></a>                    <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
 <a id="__codelineno-0-524" name="__codelineno-0-524"></a>                        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;Unsubscribed&quot;</span><span class="p">,</span>
@@ -5679,7 +5741,7 @@ handlers for a particular event, that event is removed from the registry.</p>
 <a id="__codelineno-0-561" name="__codelineno-0-561"></a>                <span class="k">if</span> <span class="ow">not</span> <span class="n">event_handlers</span><span class="p">:</span>
 <a id="__codelineno-0-562" name="__codelineno-0-562"></a>                    <span class="bp">cls</span><span class="o">.</span><span class="n">__event_registry</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">event_key</span><span class="p">)</span>
 <a id="__codelineno-0-563" name="__codelineno-0-563"></a>
-<a id="__codelineno-0-564" name="__codelineno-0-564"></a>                <span class="c1"># Log the removal of the event handler if debug mode is enabled</span>
+<a id="__codelineno-0-564" name="__codelineno-0-564"></a>                <span class="c1"># Log the removal of the event handler if debug is enabled</span>
 <a id="__codelineno-0-565" name="__codelineno-0-565"></a>                <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-566" name="__codelineno-0-566"></a>                    <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
 <a id="__codelineno-0-567" name="__codelineno-0-567"></a>                        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;Handler Removed:&quot;</span><span class="p">,</span>
@@ -5811,7 +5873,7 @@ handlers for a particular event, that event is removed from the registry.</p>
 <a id="__codelineno-0-588" name="__codelineno-0-588"></a>            <span class="c1"># Remove the event from the registry</span>
 <a id="__codelineno-0-589" name="__codelineno-0-589"></a>            <span class="bp">cls</span><span class="o">.</span><span class="n">__event_registry</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">event_key</span><span class="p">)</span>
 <a id="__codelineno-0-590" name="__codelineno-0-590"></a>
-<a id="__codelineno-0-591" name="__codelineno-0-591"></a>            <span class="c1"># Log the removal of the event if debug mode is enabled</span>
+<a id="__codelineno-0-591" name="__codelineno-0-591"></a>            <span class="c1"># Log the removal of the event if debug is enabled</span>
 <a id="__codelineno-0-592" name="__codelineno-0-592"></a>            <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-593" name="__codelineno-0-593"></a>                <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;Event Removed:&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;[</span><span class="si">{</span><span class="n">event_key</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-594" name="__codelineno-0-594"></a>
@@ -5900,7 +5962,7 @@ handlers for a particular event, that event is removed from the registry.</p>
 <a id="__codelineno-0-608" name="__codelineno-0-608"></a>        <span class="c1"># Clear the event registry by assigning an empty dictionary</span>
 <a id="__codelineno-0-609" name="__codelineno-0-609"></a>        <span class="bp">cls</span><span class="o">.</span><span class="n">__event_registry</span> <span class="o">=</span> <span class="p">{}</span>
 <a id="__codelineno-0-610" name="__codelineno-0-610"></a>
-<a id="__codelineno-0-611" name="__codelineno-0-611"></a>    <span class="c1"># Log a debug message if debug mode is enabled</span>
+<a id="__codelineno-0-611" name="__codelineno-0-611"></a>    <span class="c1"># Log a debug message if debug is enabled</span>
 <a id="__codelineno-0-612" name="__codelineno-0-612"></a>    <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-613" name="__codelineno-0-613"></a>        <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">msg</span><span class="o">=</span><span class="s2">&quot;All events and handlers were successfully removed&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-614" name="__codelineno-0-614"></a>
@@ -5945,6 +6007,7 @@ handlers for a particular event, that event is removed from the registry.</p>
     
     
       
+  
   <span class="md-source-file__fact">
     <span class="md-icon" title="Contributors">
       

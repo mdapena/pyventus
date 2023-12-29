@@ -1,3 +1,5 @@
+# AsyncIO Event Emitter
+
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;Now that we've covered the base `EventEmitter` interface, let's examine one of its official
 	implementations: the `AsyncIOEventEmitter`.
@@ -7,13 +9,13 @@
 
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;The `AsyncIOEventEmitter` is a class that inherits from `EventEmitter` and uses the `AsyncIO`
-	framework to handle the execution of event handlers.
+	framework to handle the execution of event emissions.
 </p>
 
 ## How it works
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;The `AsyncIOEventEmitter` handles event dispatching differently depending on whether it is operating in
+	&emsp;&emsp;The `AsyncIOEventEmitter` handles the event emission differently depending on whether it is operating in
 	a synchronous or asynchronous execution context. In synchronous contexts, it will automatically start an event loop
 	to run handlers concurrently. In asynchronous contexts, it leverages any existing event loop. Let's explore the
 	AsyncIOEventEmitter's behavior in more detail:
@@ -23,17 +25,16 @@
 
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;When running without an existing `AsyncIO` event loop, the `AsyncIOEventEmitter` automatically
-	starts a new loop using `asyncio.run()`. Within this loop, it concurrently executes the event handlers 
-	using the `asyncio.gather()` method. The loop then waits for all scheduled callbacks to finish before
-	closing. This preserves synchronous execution while still gaining the benefits of the concurrent
-	execution.
+	starts a new loop using `asyncio.run()`. Within this loop, it executes the event emission. The 
+	loop then waits for all scheduled tasks to finish before closing. This preserves synchronous 
+	execution while still gaining the benefits of the concurrent execution.
 </p>
 
 ### Async context
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;In an asynchronous context where an event loop is already running, the event handlers are scheduled
-	and processed concurrently on that existing loop. 
+	&emsp;&emsp;In an asynchronous context where an event loop is already running, the event emission is scheduled and 
+	processed on that existing loop. 
 </p>
 
 !!! warning "AsyncIO Event Loop Behavior"
@@ -110,15 +111,11 @@
 <ul style='text-align: justify;' markdown>
 
 <li markdown>
-The `AsyncIOEventEmitter` inherits from the EventEmitter class
+The `AsyncIOEventEmitter` inherits from the `EventEmitter` class
 </li>
 
 <li markdown>
 To use it, instantiate the class and call methods like `emit()`
-</li>
-
-<li markdown>
-It leverages `AsyncIO` to concurrently run callbacks in sync and async contexts
 </li>
 
 </ul>

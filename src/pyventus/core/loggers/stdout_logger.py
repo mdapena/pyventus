@@ -22,18 +22,18 @@ class StdOutLogger(ABC):
             :param level: The log level for which to retrieve the color code.
             :return: The color code associated with the log level.
             """
-            if level == INFO:
+            if level == INFO:  # pragma: no cover
                 return StdOutColors.GREEN
-            elif level == DEBUG:
+            elif level == DEBUG:  # pragma: no cover
                 return StdOutColors.PURPLE
-            elif level == WARNING:
+            elif level == WARNING:  # pragma: no cover
                 return StdOutColors.YELLOW
-            elif level == ERROR:
+            elif level == ERROR:  # pragma: no cover
                 return StdOutColors.RED
             return StdOutColors.DEFAULT  # pragma: no cover
 
         @classmethod
-        def get_stream_handler_by_level(cls, level: int) -> StreamHandler:  # type: ignore
+        def get_stream_handler_by_level(cls, level: int) -> StreamHandler:  # type: ignore[type-arg]
             """
             Returns a stream handler configured with the specified log level.
             :param level: The log level to set for the stream handler.
@@ -51,7 +51,7 @@ class StdOutLogger(ABC):
             )
 
             # Create a formatter with the logger format
-            formatter = Formatter(logger_format, datefmt="%Y-%m-%d %H:%M:%S %p")
+            formatter = Formatter(logger_format, datefmt="%Y-%m-%d %I:%M:%S %p")
 
             # Create a stream handler using sys.stdout as the stream
             stream_handler = StreamHandler(stream=stdout)

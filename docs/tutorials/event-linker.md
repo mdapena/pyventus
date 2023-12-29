@@ -278,7 +278,7 @@ You can change the event emitter instance at runtime without the need to reconfi
 	        print(exc) 
 	```
 	
-	1. When the `Eventlinker.on` method is used as a context manager via the `with` statement, it allows multiple
+	1. When the `EventLinker.on` method is used as a context manager via the `with` statement, it allows multiple
 	   callbacks to be associated with events within the `linkage context block`, defining the event workflow.
 
 === "Using the `subscribe()` method"
@@ -326,7 +326,7 @@ You can change the event emitter instance at runtime without the need to reconfi
 	        print(exc)
 	```
 	
-	1. When the `Eventlinker.once` method is used as a context manager via the `with` statement, it allows multiple
+	1. When the `EventLinker.once` method is used as a context manager via the `with` statement, it allows multiple
 	   callbacks to be associated with events within the `linkage context block`, defining the event workflow.
 
 === "Using the `subscribe()` method"
@@ -516,8 +516,8 @@ async def on_email_verified_callback(email: str):
 
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;Alternatively, if you want to enable or disable the debug mode specifically for a certain `EventLinker` 
-	namespace, you can use the `debug_mode` flag that is available in the subclass configurations. Setting the
-	`debug_mode` flag to `True` enables debug mode for that namespace, while setting it to `False` disables
+	namespace, you can use the `debug` flag that is available in the subclass configurations. Setting the
+	`debug` flag to `True` enables debug mode for that namespace, while setting it to `False` disables
 	debug mode. Here's an example:
 </p>
 
@@ -527,7 +527,7 @@ async def on_email_verified_callback(email: str):
 	from pyventus import EventLinker
 	
 	
-	class CustomEventLinker(EventLinker, debug_mode=True):
+	class CustomEventLinker(EventLinker, debug=True):
 	    pass  # Additional logic can be added here if needed...
 	
 	
@@ -542,7 +542,7 @@ async def on_email_verified_callback(email: str):
 	from pyventus import EventLinker
 	
 	
-	class CustomEventLinker(EventLinker, debug_mode=False):
+	class CustomEventLinker(EventLinker, debug=False):
 	    pass  # Additional logic can be added here if needed...
 	
 	

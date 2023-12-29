@@ -256,14 +256,14 @@ class EventEmitterTest(ABC):
         assert cb_with_args_and_kwargs.call_count == 19
 
     @abstractmethod
-    def test_emission_in_sync_context(self):
+    def test_emission_in_sync_context(self, *args, **kwargs) -> None:
         """
         Performs tests to check if the event emission is working properly within a (SYNC) context.
         """
         pass
 
     @abstractmethod
-    def test_emission_in_sync_context_with_custom_event_linker(self):
+    def test_emission_in_sync_context_with_custom_event_linker(self, *args, **kwargs) -> None:
         """
         Performs tests to check if the event emission is working properly within a (SYNC) context
         and using a custom event linker.
@@ -271,14 +271,14 @@ class EventEmitterTest(ABC):
         pass
 
     @abstractmethod
-    async def test_emission_in_async_context(self):
+    async def test_emission_in_async_context(self, *args, **kwargs) -> None:
         """
         Performs tests to check if the event emission is working properly within an (ASYNC) context.
         """
         pass
 
     @abstractmethod
-    async def test_emission_in_async_context_with_custom_event_linker(self):
+    async def test_emission_in_async_context_with_custom_event_linker(self, *args, **kwargs) -> None:
         """
         Performs tests to check if the event emission is working properly within an (ASYNC) context
         and using a custom event linker.

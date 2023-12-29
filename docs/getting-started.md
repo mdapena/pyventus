@@ -19,9 +19,9 @@ hide:
 ## Requirements
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;Pyevents **only requires Python 3.10+** by default, which includes the [`AsyncIOEventEmitter`](/pyventus/tutorials/emitters/asyncio-event-emitter)
-	and the [`ExecutorEventEmitter`](/pyventus/tutorials/emitters/executor-event-emitter) with no additional dependencies.
-	However, your requirements may expand if you opt to use alternative built-in event emitter implementations.
+	&emsp;&emsp;Pyevents **only requires Python 3.10+** by default, which includes the [`AsyncIOEventEmitter`](/pyventus/tutorials/emitters/asyncio)
+	and the [`ExecutorEventEmitter`](/pyventus/tutorials/emitters/executor) with no additional dependencies. However, 
+	your requirements may expand if you opt to use alternative built-in event emitter implementations.
 </p>
 
 ## Installation
@@ -46,12 +46,10 @@ pip install pyventus
 <ul style='text-align: justify;' markdown>
 
 <li markdown> 
-[**Redis Queue (RQ)**](https://redis.com/glossary/redis-queue/) ─ Pyventus provides support for Redis 
-Queue (RQ) integration through the [`RQEventEmitter`](/pyventus/tutorials/emitters/rq-event-emitter). The RQEventEmitter
-seamlessly integrates with <a href="https://python-rq.org/" target="_blank">Python-RQ</a>, a widely-used library for
-managing task queues using Redis Queue pub/sub system. By incorporating the RQEventEmitter into Pyventus, you gain the
-ability to execute event handler callbacks as background jobs using RQ’s asynchronous workers. You can install it using
-the following command:
+<a href="https://python-rq.org/" target="_blank">**Redis Queue (RQ)**</a> ─ 
+Pyventus integrates with Redis Queue (RQ) using the [`RQEventEmitter`](/pyventus/tutorials/emitters/rq/), allowing 
+event emissions to run as background jobs through RQ's asynchronous workers. To install Pyventus with RQ support,
+use the following command:
 
 ```console
 pip install pyventus[rq]
@@ -59,6 +57,28 @@ pip install pyventus[rq]
 
 </li>
 
+---
+
+<li markdown>
+<a href="https://docs.celeryq.dev/en/stable/getting-started/introduction.html" target="_blank">**Celery**</a> ─ 
+Pyventus integrates with Celery using the [`CeleryEventEmitter`](/pyventus/tutorials/emitters/celery), enabling
+event emissions to be executed on Celery worker nodes to improve task processing. To install Pyventus with Celery 
+support, use the following command:
+
+```console
+pip install pyventus[celery]
+```
+
+</li>
+
+---
+
 </ul>
+
+You can install all of them with:
+
+```console
+pip install pyventus[all]
+```
 
 <br>

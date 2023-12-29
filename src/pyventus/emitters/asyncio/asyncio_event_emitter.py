@@ -1,9 +1,8 @@
 import asyncio
 from asyncio import Future
-from typing import Set, Type, Any, List
+from typing import Set, Type
 
 from ...emitters import EventEmitter
-from ...handlers import EventHandler
 from ...linkers import EventLinker
 
 
@@ -13,18 +12,18 @@ class AsyncIOEventEmitter(EventEmitter):
     the execution of the event handlers.
 
     **Asynchronous Execution**: In an asynchronous context where an event loop is already
-    running, the event handlers are scheduled and processed concurrently on that existing
-    loop. If the event loop is closed before all callbacks complete, any remaining
-    scheduled tasks will be canceled.
+    running, the event emission is scheduled and processed on that existing loop. If the
+    event loop is closed before all callbacks complete, any remaining scheduled callback
+    will be canceled.
 
     **Synchronous Execution**: In a synchronous context where no event loop is active, a new event
     loop is started and subsequently closed by the `asyncio.run()` method. Within this loop, it
-    concurrently executes the event handlers using the `asyncio.gather()` method. The loop then
-    waits for all scheduled callbacks to finish before closing. This preserves synchronous
-    execution while still gaining the benefits of the concurrent execution.
+    executes the event emission. The loop then waits for all scheduled tasks to finish before
+    closing. This preserves synchronous execution while still gaining the benefits of the
+    concurrent execution.
 
     For more information and code examples, please refer to the `AsyncIOEventEmitter`
-    tutorials at: [https://mdapena.github.io/pyventus/tutorials/emitters/asyncio-event-emitter/](https://mdapena.github.io/pyventus/tutorials/emitters/asyncio-event-emitter/).
+    tutorials at: [https://mdapena.github.io/pyventus/tutorials/emitters/asyncio/](https://mdapena.github.io/pyventus/tutorials/emitters/asyncio/).
     """
 
     @property
@@ -45,45 +44,37 @@ class AsyncIOEventEmitter(EventEmitter):
         except RuntimeError:
             return False
 
-    def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug_mode: bool | None = None):
+    def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None):
         """
         Initializes an instance of the `AsyncIOEventEmitter` class.
         :param event_linker: Specifies the type of event linker to use for associating
             events with their respective event handlers. Defaults to `EventLinker`.
-        :param debug_mode: Specifies the debug mode for the subclass logger. If `None`,
+        :param debug: Specifies the debug mode for the subclass logger. If `None`,
             it is determined based on the execution environment.
         """
         # Call the parent class' __init__ method to set up the event linker
-        super().__init__(event_linker=event_linker, debug_mode=debug_mode)
+        super().__init__(event_linker=event_linker, debug=debug)
 
         # Initialize the set of background futures
-        self._background_futures: Set[Future] = set()  # type: ignore
+        self._background_futures: Set[Future] = set()  # type: ignore[type-arg]
 
-    def _execute(self, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
+    def _process(self, event_emission: EventEmitter.EventEmission) -> None:
         # Check if AsyncIO event loop is running
         is_loop_running: bool = self.__is_loop_running
 
         # Log the execution context, if debug mode is enabled
         if self._logger.debug_enabled:  # pragma: no cover
-            self._logger.debug(action=f"Running:", msg=f"{'Async' if is_loop_running else 'Sync'} context")
+            self._logger.debug(action=f"Context:", msg=f"{'Async' if is_loop_running else 'Sync'}")
 
         if is_loop_running:
-            for event_handler in event_handlers:
-                # Schedule the event handler in the running loop as a future
-                future = asyncio.ensure_future(event_handler(*args, **kwargs))
+            # Schedule the event emission in the running loop as a future
+            future = asyncio.ensure_future(event_emission())
 
-                # Remove the Future from the set of background futures after completion
-                future.add_done_callback(self._background_futures.remove)
+            # Remove the Future from the set of background futures after completion
+            future.add_done_callback(self._background_futures.remove)
 
-                # Add the Future to the set of background futures
-                self._background_futures.add(future)
+            # Add the Future to the set of background futures
+            self._background_futures.add(future)
         else:
-
-            async def _inner_callback() -> None:
-                """Inner callback function to be submitted to `asyncio.run()`."""
-                await asyncio.gather(
-                    *[event_handler(*args, **kwargs) for event_handler in event_handlers], return_exceptions=True
-                )
-
-            # Run the event handlers concurrently in a synchronous manner
-            asyncio.run(_inner_callback())
+            # Run the event emission in a synchronous manner
+            asyncio.run(event_emission())

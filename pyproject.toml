@@ -54,9 +54,11 @@ Repository = "https://github.com/mdapena/pyventus"
 
 [project.optional-dependencies]
 rq = ["rq>=1.15.0"]
+celery = ["celery>=5.3.5"]
 
 all = [
-    "rq>=1.15.0",
+    "pyventus[rq]",
+    "pyventus[celery]",
 ]
 
 # --------------------
@@ -64,13 +66,13 @@ all = [
 # ----------
 
 tests = [
+    "pyventus[all]",
     "mypy>=1.7.1",
     "black>=23.12.0",
     "pytest>=7.4.0",
-    "fakeredis>=2.20.0",
-    "pytest-asyncio>=0.21.0",
     "coverage[toml]>=7.3.3",
-    "pyventus[all]",
+    "pytest-asyncio>=0.21.0",
+    "fakeredis>=2.20.0",
 ]
 
 # --------------------
@@ -108,6 +110,7 @@ warn_no_return = true
 warn_unreachable = true
 warn_unused_ignores = true
 implicit_reexport = true
+ignore_missing_imports = true
 strict = true
 
 # ------------------------------------------------------------------

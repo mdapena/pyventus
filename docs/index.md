@@ -122,7 +122,6 @@ def event_callback():  # (1)!
 
 
 event_emitter: EventEmitter = AsyncIOEventEmitter()  # (2)!
-
 event_emitter.emit("MyEvent")  # (3)!
 ```
 
@@ -143,7 +142,6 @@ async def event_callback():
 
 
 event_emitter: EventEmitter = AsyncIOEventEmitter()
-
 event_emitter.emit("MyEvent")
 ```
 
@@ -312,7 +310,7 @@ async def async_function(event_emitter: EventEmitter):
 <p style='text-align: justify;'>
     &emsp;&emsp;While Pyventus provides a base <code>EventEmitter</code> class with a unified sync/async API, the 
 	specific propagation behavior when emitting events may vary depending on the concrete <code>EventEmitter</code>
-	used. For example, the <code>AsyncioEventEmitter</code> implementation leverages the <code>Asyncio</code> event
+	used. For example, the <code>AsyncIOEventEmitter</code> implementation leverages the <code>AsyncIO</code> event
 	loop to schedule callbacks added from asynchronous contexts without blocking. But alternative emitters could 
 	structure propagation differently to suit their needs.
 </p>
@@ -330,17 +328,17 @@ async def async_function(event_emitter: EventEmitter):
 
 <p style='text-align: justify;'>
     &emsp;&emsp;By leveraging the principles of dependency inversion and open-close, Pyventus decouples the event
-	emission process from the underlying implementation that handles the event handler callbacks and enables you,
-	in conjunction with the <code>EventLinker</code>, to change the event emitter at runtime without the need to 
-	reconfigure all connections or employ complex logic.
+	emission process from the underlying implementation that handles the event emission and enables you, in conjunction
+	with the <code>EventLinker</code>, to change the event emitter at runtime without the need to reconfigure all 
+	connections or employ complex logic.
 </p>
 
 ### Seeing it in Action
 
 <p style='text-align: justify;'>
     &emsp;&emsp;Now let's put Pyventus' flexibility to the test with a practical example. First, we'll build a
-	custom <a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI</a>-specific EventEmitter to properly handle
-	the event handler callbacks using the framework's <a href="https://fastapi.tiangolo.com/reference/background/" target="_blank">BackgroundTasks</a>
+	custom <a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI</a> EventEmitter to properly handle
+	the event emission using the framework's <a href="https://fastapi.tiangolo.com/reference/background/" target="_blank">BackgroundTasks</a>
 	workflow. Then, we'll illustrate Pyventus' dynamic capabilities by swapping this custom emitter out for a built-in
 	alternative on the fly.
 </p>
@@ -355,14 +353,13 @@ async def async_function(event_emitter: EventEmitter):
 <li>
 Create a <code>main.py</code> file with:
 
-```Python title="main.py" linenums="1"  hl_lines="10 17-19 39 42"
+```Python title="main.py" linenums="1"  hl_lines="9 16-17 37 40"
 from asyncio import sleep
 from random import randint
-from typing import Any, List
 
 from fastapi import BackgroundTasks, FastAPI
 
-from pyventus import EventEmitter, EventHandler, EventLinker, AsyncIOEventEmitter
+from pyventus import EventEmitter, EventLinker, AsyncIOEventEmitter
 
 
 class FastAPIEventEmitter(EventEmitter):
@@ -370,11 +367,10 @@ class FastAPIEventEmitter(EventEmitter):
 
     def __init__(self, background_tasks: BackgroundTasks):
         super().__init__()
-        self._background_tasks = background_tasks  # Store the FastAPI background tasks object
+        self._background_tasks = background_tasks  # Store the FastAPI background tasks object          
 
-    def _execute(self, event_handlers: List[EventHandler], /, *args: Any, **kwargs: Any) -> None:
-        for event_handler in event_handlers:  # Execute event handlers as background tasks
-            self._background_tasks.add_task(event_handler, *args, **kwargs)
+    def _process(self, event_emission: EventEmitter.EventEmission) -> None:
+        self._background_tasks.add_task(event_emission)  # Execute the event emission as background tasks
 
 
 @EventLinker.on("console_print")
@@ -445,7 +441,7 @@ Hello, AsyncIOEventEmitter!
 <p style='text-align: justify;'>
     &emsp;&emsp;As we can see from this practical example, we were able to easily adapt the event emitter to the
 	context of the FastAPI framework. We defined and implemented a custom emitter tailored for FastAPI's workflow,
-	using background tasks to handle the event handler callbacks accordingly.
+	using background tasks to handle the event emission accordingly.
 </p>
 
 <p style='text-align: justify;'>
@@ -571,8 +567,8 @@ Hello, AsyncIOEventEmitter!
 
 <p style='text-align: justify;'>
     &emsp;&emsp;Pyventus is an open source project that welcomes community involvement. If you wish to contribute
-	additional event emitters, improvements, or bug fixes, please check the <a href="/contributing">Contributing</a> section
-	for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
+	additional event emitters, improvements, or bug fixes, please check the <a href="/pyventus/contributing/">Contributing</a> 
+	section for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
 </p>
 
 </details>
@@ -597,6 +593,7 @@ Hello, AsyncIOEventEmitter!
 
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;Pyventus is distributed as open source software and is released under the <a href="https://choosealicense.com/licenses/mit/" target="_blank">MIT License</a>. 
-    You can view the full text of the license in the <code>LICENSE</code> file located in the <a href="https://github.com/mdapena/pyventus/blob/master/LICENSE" target="_blank">Pyventus repository</a>.
+    You can view the full text of the license in the <a href="https://github.com/mdapena/pyventus/blob/master/LICENSE" target="_blank"><code>LICENSE</code></a> 
+	file located in the Pyventus repository.
 </p>
 

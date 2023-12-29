@@ -3,9 +3,12 @@ from dataclasses import dataclass
 from typing import Dict, final, Tuple, Any
 
 import pytest
+from celery import Celery
 from fakeredis import FakeStrictRedis
-from pyventus import Event, EventLinker
 from rq import Queue
+
+from pyventus import Event, EventLinker, EventEmitter
+from pyventus.emitters.celery import CeleryEventEmitter
 
 
 @pytest.fixture
@@ -21,6 +24,12 @@ def clean_event_linker() -> bool:
     return EventLinker.get_event_registry == {}
 
 
+# --------------------
+# RQ
+# ----------
+
+
+@pytest.fixture
 def rq_queue() -> Queue:
     """
     Creates and returns a RQ (Redis Queue) object for testing purposes.
@@ -28,6 +37,66 @@ def rq_queue() -> Queue:
     """
     # Create a new RQ queue object
     return Queue(name="default", connection=FakeStrictRedis(), is_async=False)
+
+
+# --------------------
+# Celery
+# ----------
+
+
+class CeleryMock(Celery):
+    def send_task(
+        self,
+        name,
+        args=None,
+        kwargs=None,
+        countdown=None,
+        eta=None,
+        task_id=None,
+        producer=None,
+        connection=None,
+        router=None,
+        result_cls=None,
+        expires=None,
+        publisher=None,
+        link=None,
+        link_error=None,
+        add_to_parent=True,
+        group_id=None,
+        group_index=None,
+        retries=0,
+        chord=None,
+        reply_to=None,
+        time_limit=None,
+        soft_time_limit=None,
+        root_id=None,
+        parent_id=None,
+        route_name=None,
+        shadow=None,
+        chain=None,
+        task_type=None,
+        replaced_task_nesting=0,
+        **options,
+    ):
+        self.tasks[name](*args if args else tuple(), **kwargs if kwargs else {})
+
+
+class CelerySerializerMock(CeleryEventEmitter.Queue.Serializer):
+    @staticmethod
+    def dumps(obj: EventEmitter.EventEmission) -> Any:
+        return obj
+
+    @staticmethod
+    def loads(serialized_obj: Any) -> EventEmitter.EventEmission:
+        return serialized_obj
+
+
+@pytest.fixture
+def celery_queue() -> CeleryEventEmitter.Queue:
+    celery_app = CeleryMock()
+    celery_app.conf.accept_content = ["application/json", "application/x-python-serialize"]
+
+    return CeleryEventEmitter.Queue(celery=celery_app, serializer=CelerySerializerMock)
 
 
 # --------------------

@@ -1,10 +1,10 @@
 import pytest
 from _pytest.python_api import raises
+from rq import Queue
+
+from ..event_emitter_test import EventEmitterTest
 from pyventus import EventLinker, PyventusException
 from pyventus.emitters.rq import RQEventEmitter
-
-from .event_emitter_test import EventEmitterTest
-from ..conftest import rq_queue
 
 
 class TestRQEventEmitter(EventEmitterTest):
@@ -12,9 +12,9 @@ class TestRQEventEmitter(EventEmitterTest):
     # Creation
     # ----------
 
-    def test_creation(self, clean_event_linker: bool):
+    def test_creation(self, clean_event_linker: bool, rq_queue: Queue):
         # Arrange, Act and Assert
-        event_emitter = RQEventEmitter(queue=rq_queue())
+        event_emitter = RQEventEmitter(queue=rq_queue)
         assert event_emitter is not None
 
     def test_creation_with_invalid_params(self, clean_event_linker: bool):
@@ -26,16 +26,16 @@ class TestRQEventEmitter(EventEmitterTest):
     # Sync Context
     # ----------
 
-    def test_emission_in_sync_context(self):
-        event_emitter = RQEventEmitter(queue=rq_queue())
+    def test_emission_in_sync_context(self, clean_event_linker: bool, rq_queue: Queue):
+        event_emitter = RQEventEmitter(queue=rq_queue)
         with TestRQEventEmitter.run_emission_test(event_emitter=event_emitter):
             pass
 
-    def test_emission_in_sync_context_with_custom_event_linker(self):
+    def test_emission_in_sync_context_with_custom_event_linker(self, clean_event_linker: bool, rq_queue: Queue):
         class CustomEventLinker(EventLinker):
             pass
 
-        event_emitter = RQEventEmitter(queue=rq_queue(), event_linker=CustomEventLinker)
+        event_emitter = RQEventEmitter(queue=rq_queue, event_linker=CustomEventLinker)
         with TestRQEventEmitter.run_emission_test(event_emitter=event_emitter, event_linker=CustomEventLinker):
             pass
 

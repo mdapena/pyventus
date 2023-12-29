@@ -1,6 +1,6 @@
 from _pytest.python_api import raises
 
-from pyventus import Event, EventLinker, PyventusException, EventHandler
+from pyventus import Event, EventLinker, PyventusException, EventHandler, EventEmitter
 from pyventus.core.loggers import Logger
 from .. import EventFixtures, CallbackFixtures
 
@@ -207,7 +207,7 @@ class TestEventLinker:
         with raises(PyventusException):
 
             @EventLinker.once()
-            def invalid_once_callback(event: Event):
+            def invalid_once_callback(event: Event):  # pragma: no cover
                 pass  # pragma: no cover
 
         # Arrange | Act
@@ -283,7 +283,7 @@ class TestEventLinker:
         with raises(PyventusException):
 
             @EventLinker.on()
-            def invalid_once_callback(event: Event):
+            def invalid_once_callback(event: Event):  # pragma: no cover
                 pass  # pragma: no cover
 
         # Arrange | Act
@@ -609,12 +609,12 @@ class TestEventLinker:
         class CustomEventLinker2(EventLinker, max_event_handlers=10):
             pass  # pragma: no cover
 
-        class CustomEventLinker3(EventLinker, max_event_handlers=None, debug_mode=False):
+        class CustomEventLinker3(EventLinker, max_event_handlers=None, debug=False):
             @classmethod
             def get_logger(cls) -> Logger:
                 return cls._get_logger()
 
-        class CustomEventLinker4(EventLinker, debug_mode=True):
+        class CustomEventLinker4(EventLinker, debug=True):
             @classmethod
             def get_logger(cls) -> Logger:
                 return cls._get_logger()

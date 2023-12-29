@@ -66,7 +66,7 @@ hide:
 1. Create a virtual environment:
 
 	```console
-	python -m venv venv
+	python -m venv env
 	```
 
 2. Activate the virtual environment:
@@ -74,19 +74,19 @@ hide:
 	=== "Linux, macOS"
 	
 		```console
-		source ./venv/bin/activate
+		source ./env/bin/activate
 		```
 	
 	=== "Windows PowerShell"
 	
 		```console
-		.\venv\Scripts\Activate.ps1
+		.\env\Scripts\Activate.ps1
 		```
 	
 	=== "Windows Bash"
 	
 		```console
-		source ./venv/Scripts/activate
+		source ./env/Scripts/activate
 		```
 
 3. Install development dependencies:
@@ -276,6 +276,27 @@ hatch run tests:all
 		```console
 		hatch run +py=3.12 tests:all
 		```
+
+!!! warning "Troubleshooting Hatch Environment Errors"
+
+	<p style='text-align: justify;' markdown>
+		If commands run successfully when executed manually but produce unexpected errors or misbehavior when run 
+		within a Hatch environment, even though the dependencies are declared correctly, this could indicate an 
+		issue with the Hatch environment cache. To resolve potential cache-related issues, you can remove the 
+		environment and clear its cache by running:
+	</p>
+
+	```console
+	hatch env remove [ENV_NAME]
+	```
+	
+	<p style='text-align: justify;' markdown>
+		Alternatively, you can remove all environments and their cache by running the following command:
+	</p>
+
+	```console
+	hatch env prune
+	```
 
 ## Code of Conduct
 

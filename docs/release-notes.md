@@ -5,14 +5,40 @@ hide:
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
+## v0.3.0
+
+### What's Changed
+
+##### Breaking Changes
+
+- Introduced `EventEmission` object to encapsulate the processing of event emissions. This changes the `_execute()`
+  method of EventEmitter but provides a cleaner, more scalable, and efficient approach.
+- Renamed EventEmitter's `_execute()` method to `_process()` to better reflect its purpose of processing event
+  emissions.
+- Renamed all debug flags from `debug_mode` to `debug` for enhanced clarity and consistency.
+
+##### New Features
+
+- Added `CeleryEventEmitter` implementation to leverage the Celery distributed task queue for event handling.
+- Included documentation for `CeleryEventEmitter` including tutorials and API references.
+
+##### Refactors
+
+- Restructured documentation for event emitters tutorials and API references.
+- Restructured tests for event emitters tutorials and API references.
+
+[//]: # (--------------------------------------------------------------------------------------------------------------)
+
 ## v0.2.1
 
 ### What's Changed
 
-- **Documentation Improvements:** Fixed issues with invalid links in the documentation.
-- **RQEventEmitter Optional Dependency:** Resolved the issue where the RQEventEmitter optional dependency had to be
-  installed by default to use the package. It is now fully optional.
-- **Code Documentation Links:** Updated docstring links to the official Pyventus documentation.
+##### Fixes
+
+- Fixed issues with invalid links in the documentation.
+- Updated docstring links to the official Pyventus documentation.
+- Resolved the issue where the `RQEventEmitter` optional dependency had to be installed by default to use the package.
+  It is now fully optional.
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
@@ -20,28 +46,32 @@ hide:
 
 ### What's Changed
 
-- **GitHub Actions:** This release introduces the "publish to PyPI" workflow, automating the uploading of package builds
-  when new releases are created. Additionally, it includes minor bug fixes and refactoring in the "deploy-docs" and "
-  run-tests" workflows.
-- **Academic Citations:** To facilitate academic citations, a CITATION.cff file has been added in this release.
-- **Code of conduct:** A code of conduct has been added to the project using
+##### Changes
+
+- This release introduces the `publish to PyPI` workflow, automating the uploading of package builds
+  when new releases are created. Additionally, it includes minor bug fixes and refactoring in the `deploy-docs`
+  and `run-tests` workflows.
+- Badges have been added to the main page of the documentation as well as the readme file.
+- To facilitate academic citations, a `CITATION.cff` file has been added in this release.
+- A code of conduct has been added to the project using
   the [Contributor Covenant v2.1](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
-- **Project Badges:** Badges have been added to the main page of the documentation as well as the readme file.
-- **git-authors mkdocs material:** The mkdocs.yml file has been updated to include the "git-authors" plugin, which lists
-  the names of documentation contributors on their respective pages.
-- **Documentation Improvements:** Fixed issues with relative links in the documentation.
+- The `mkdocs.yml` file has been updated to include the `git-authors` plugin, which lists the names of documentation
+  contributors on their respective pages.
+
+##### Fixes
+
+- Fixed issues with relative links in the documentation.
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
 ## v0.1.0
 
-### What's Changed
+### Initial Implementation
 
-- **Initial implementation of Pyventus by [@mdapena](https://github.com/mdapena)
-  in [#2](https://github.com/mdapena/pyventus/pull/2):** This release
-  introduces Pyventus 0.1.0, a modern and robust Python package for event-driven programming. Pyventus provides
-  developers with a comprehensive suite of tools and utilities to define, emit, and orchestrate events. It empowers
-  developers to build scalable, extensible, and loosely-coupled event-driven applications.
+&emsp;&emsp;This release introduces Pyventus 0.1.0, a modern and robust Python package for event-driven programming.
+Pyventus provides developers with a comprehensive suite of tools and utilities to define, emit, and orchestrate events.
+It empowers developers to build scalable, extensible, and loosely-coupled event-driven applications.
+
 - **Implementation Details:** The first implementation includes all the core functionalities of the package,
   encompassing events, event linkers, event emitters, event handlers, and more.
 - **Testing and Coverage:** This release includes a test suite that verifies the correctness of the package

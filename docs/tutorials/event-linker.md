@@ -262,18 +262,18 @@ You can change the event emitter instance at runtime without the need to reconfi
 	```Python linenums="1"  hl_lines="3 5-6 10-11 14-15"
 	from pyventus import EventLinker
 	
-	with EventLinker.on("StringEvent") as link: # (1)!
+	with EventLinker.on("StringEvent") as linker: # (1)!
 		
-	    @link.on_event
+	    @linker.on_event
 	    def event_callback() -> str:
 	        print("Event received!")
 	        return "Event succeeded!"
 	
-	    @link.on_success
+	    @linker.on_success
 	    async def success_callback(msg: str) -> None:
 	        print(msg)
 	
-	    @link.on_failure
+	    @linker.on_failure
 	    def failure_callback(exc: Exception) -> None:
 	        print(exc) 
 	```

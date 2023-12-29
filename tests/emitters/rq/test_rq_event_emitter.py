@@ -2,10 +2,9 @@ import pytest
 from _pytest.python_api import raises
 from rq import Queue
 
+from ..event_emitter_test import EventEmitterTest
 from pyventus import EventLinker, PyventusException
 from pyventus.emitters.rq import RQEventEmitter
-from .event_emitter_test import EventEmitterTest
-from ..conftest import rq_queue
 
 
 class TestRQEventEmitter(EventEmitterTest):

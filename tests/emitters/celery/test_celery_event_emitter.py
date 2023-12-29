@@ -4,7 +4,8 @@ from celery import Celery
 
 from pyventus import PyventusException, EventLinker
 from pyventus.emitters.celery import CeleryEventEmitter
-from tests import EventEmitterTest, CallbackFixtures, CeleryMock
+from tests import CeleryMock
+from ..event_emitter_test import EventEmitterTest
 
 
 class TestCeleryEventEmitter(EventEmitterTest):

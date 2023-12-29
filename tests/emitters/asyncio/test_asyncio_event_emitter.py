@@ -3,8 +3,8 @@ import asyncio
 import pytest
 from _pytest.python_api import raises
 
+from ..event_emitter_test import EventEmitterTest
 from pyventus import EventLinker, AsyncIOEventEmitter, PyventusException
-from .event_emitter_test import EventEmitterTest
 
 
 class TestAsyncIOEventEmitter(EventEmitterTest):

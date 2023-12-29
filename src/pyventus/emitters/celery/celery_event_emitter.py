@@ -57,7 +57,7 @@ class CeleryEventEmitter(EventEmitter):
                 :param serialized_obj: The serialized object to be loaded.
                 :return: The deserialized event emission object.
                 """
-                return loads(serialized_obj)
+                return loads(serialized_obj)  # type: ignore
 
         class _Payload(NamedTuple):
             """Represents the payload data sent to Celery."""
@@ -76,7 +76,7 @@ class CeleryEventEmitter(EventEmitter):
                 return self._asdict()
 
             @classmethod
-            def from_json(cls, **kwargs):
+            def from_json(cls, **kwargs: Any) -> "CeleryEventEmitter.Queue._Payload":
                 """
                 Creates a Payload instance from a JSON-compatible dictionary.
                 :param kwargs: JSON-compatible dictionary representing the payload.
@@ -181,7 +181,7 @@ class CeleryEventEmitter(EventEmitter):
                 queue=self._name,
             )
 
-        def _executor(self, **kwargs) -> None:
+        def _executor(self, **kwargs: Any) -> None:
             """
             Processes the enqueued event emission object.
 

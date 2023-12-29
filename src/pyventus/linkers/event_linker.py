@@ -56,14 +56,14 @@ class EventLinker(ABC):
         """
 
         @property
-        def on_event(self) -> Callable[[EventCallbackType], EventCallbackType]:
+        def on_event(self) -> Callable[[EventCallbackType], EventCallbackType]:  # type: ignore[type-arg]
             """
             Decorator that sets the main callback for the event. This callback will be invoked
             when the associated event occurs.
             :return: The decorated callback.
             """
 
-            def _wrapper(callback: EventCallbackType) -> EventCallbackType:
+            def _wrapper(callback: EventCallbackType) -> EventCallbackType:  # type: ignore[type-arg]
                 self._event_callback = callback
                 return callback
 
@@ -108,11 +108,11 @@ class EventLinker(ABC):
             self._event_linker: Type[EventLinker] = event_linker
             self._once: bool = once
 
-            self._event_callback: EventCallbackType | None = None
-            self._success_callback: SuccessCallbackType | None = None
-            self._failure_callback: FailureCallbackType | None = None
+            self._event_callback: EventCallbackType | None = None  # type: ignore[type-arg, no-redef, assignment]
+            self._success_callback: SuccessCallbackType | None = None  # type: ignore[no-redef, assignment]
+            self._failure_callback: FailureCallbackType | None = None  # type: ignore[no-redef, assignment]
 
-        def __call__(self, callback: EventCallbackType) -> EventCallbackType:
+        def __call__(self, callback: EventCallbackType) -> EventCallbackType:  # type: ignore[type-arg]
             """
             Decorates a callback to subscribe it to the specified events.
             :param callback: The callback to associate.
@@ -407,7 +407,7 @@ class EventLinker(ABC):
     def subscribe(
         cls,
         *events: SubscribableEventType,
-        event_callback: EventCallbackType,
+        event_callback: EventCallbackType,  # type: ignore[type-arg]
         success_callback: SuccessCallbackType | None = None,
         failure_callback: FailureCallbackType | None = None,
         once: bool = False,

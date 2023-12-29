@@ -189,14 +189,14 @@ class EventEmitter(ABC):
             raise PyventusException("The 'event' argument cannot be None.")
 
         # Raises an exception if the event is a type object
-        if event.__class__ is type:
+        if event.__class__ is type:  # type: ignore[comparison-overlap]
             raise PyventusException("The 'event' argument cannot be a type.")
 
         # Determines if the event is a string instance
         is_string: bool = isinstance(event, str)
 
         # Raises an exception if the event is a string and it is empty
-        if is_string and len(event) == 0:
+        if is_string and len(event) == 0:  # type: ignore[arg-type]
             raise PyventusException("The 'event' argument cannot be an empty string.")
 
         # Constructs the arguments tuple based on whether the event is a string or an object
@@ -205,7 +205,7 @@ class EventEmitter(ABC):
         # Retrieves the event handlers associated with the event sorted by their timestamp
         event_handlers: List[EventHandler] = sorted(
             self._event_linker.get_handlers_by_events(
-                event if is_string else event.__class__,
+                event if is_string else event.__class__,  # type: ignore[arg-type]
                 Event if not issubclass(event.__class__, Exception) else Exception,
             ),
             key=lambda handler: handler.timestamp,

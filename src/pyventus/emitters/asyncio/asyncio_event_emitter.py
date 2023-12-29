@@ -56,7 +56,7 @@ class AsyncIOEventEmitter(EventEmitter):
         super().__init__(event_linker=event_linker, debug=debug)
 
         # Initialize the set of background futures
-        self._background_futures: Set[Future] = set()
+        self._background_futures: Set[Future] = set()  # type: ignore[type-arg]
 
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:
         # Check if AsyncIO event loop is running

@@ -33,7 +33,7 @@ class StdOutLogger(ABC):
             return StdOutColors.DEFAULT  # pragma: no cover
 
         @classmethod
-        def get_stream_handler_by_level(cls, level: int) -> StreamHandler:
+        def get_stream_handler_by_level(cls, level: int) -> StreamHandler:  # type: ignore[type-arg]
             """
             Returns a stream handler configured with the specified log level.
             :param level: The log level to set for the stream handler.

@@ -110,7 +110,7 @@ warn_no_return = true
 warn_unreachable = true
 warn_unused_ignores = true
 implicit_reexport = true
-ignore_missing_imports=true
+ignore_missing_imports = true
 strict = true
 
 # ------------------------------------------------------------------

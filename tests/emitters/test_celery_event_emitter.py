@@ -1,9 +1,10 @@
 import pytest
 from _pytest.python_api import raises
+from celery import Celery
 
 from pyventus import PyventusException, EventLinker
 from pyventus.emitters.celery import CeleryEventEmitter
-from tests import EventEmitterTest
+from tests import EventEmitterTest, CallbackFixtures, CeleryMock
 
 
 class TestCeleryEventEmitter(EventEmitterTest):
@@ -18,6 +19,17 @@ class TestCeleryEventEmitter(EventEmitterTest):
     def test_creation_with_invalid_params(self, clean_event_linker: bool) -> None:
         with raises(PyventusException):
             CeleryEventEmitter(queue=None)  # type: ignore
+
+        with raises(PyventusException):
+            CeleryEventEmitter.Queue(celery=None)  # type: ignore
+
+        with raises(PyventusException):
+            CeleryEventEmitter.Queue(celery=Celery())
+
+        with raises(PyventusException):
+            celery_app = CeleryMock()
+            celery_app.conf.accept_content = ["application/json", "application/x-python-serialize"]
+            CeleryEventEmitter.Queue(celery=celery_app, secret="")
 
     # --------------------
     # Sync Context
@@ -53,3 +65,20 @@ class TestCeleryEventEmitter(EventEmitterTest):
         pytest.skip(
             "Celery package doesn't support async tests yet, but works fine in async contexts outside of testing."
         )
+
+    # --------------------
+    # Extras
+    # ----------
+
+    def test_queue_payload(self):
+        # Arrange | Act | Assert
+        payload = CeleryEventEmitter.Queue._Payload.from_json(serialized_obj=b"object", obj_hash=b"hash")
+        assert payload is not None
+
+        # Arrange | Act | Assert
+        with raises(PyventusException):
+            CeleryEventEmitter.Queue._Payload.from_json(serialized_obj=b"object")
+
+        # Arrange | Act | Assert
+        with raises(PyventusException):
+            CeleryEventEmitter.Queue._Payload.from_json(serialized_obj=b"object", obj_hash=b"hash", extra="extra")

@@ -69,18 +69,18 @@ class EventHandler:
 
     @staticmethod
     def get_callback_name(
-        callback: EventCallbackType | SuccessCallbackType | FailureCallbackType | None,  # type: ignore
+        callback: EventCallbackType | SuccessCallbackType | FailureCallbackType | None,
     ) -> str:
         if callback is not None and hasattr(callback, "__name__"):
             return callback.__name__
         elif callback is not None and hasattr(callback, "__class__"):
             return callback.__class__.__name__
         else:
-            return "None"  # pragma: no cover
+            return "None"
 
     @staticmethod
     def validate_callback(
-        callback: EventCallbackType | SuccessCallbackType | FailureCallbackType,  # type: ignore
+        callback: EventCallbackType | SuccessCallbackType | FailureCallbackType,
     ) -> None:
         """
         Validates that the provided callback is a compatible callable.
@@ -94,7 +94,7 @@ class EventHandler:
             )
 
     @staticmethod
-    def is_async(callback: EventCallbackType | SuccessCallbackType | FailureCallbackType) -> bool:  # type: ignore
+    def is_async(callback: EventCallbackType | SuccessCallbackType | FailureCallbackType) -> bool:
         """
         Checks if a callback is an asynchronous function or method.
         :param callback: The callback to check.
@@ -110,7 +110,7 @@ class EventHandler:
 
     def __init__(
         self,
-        event_callback: EventCallbackType,  # type: ignore
+        event_callback: EventCallbackType,
         success_callback: SuccessCallbackType | None = None,
         failure_callback: FailureCallbackType | None = None,
         once: bool = False,
@@ -141,7 +141,7 @@ class EventHandler:
         self._timestamp: datetime = datetime.now()
 
         # Store callbacks
-        self._event_callback: EventCallbackType = event_callback  # type: ignore
+        self._event_callback: EventCallbackType = event_callback
         self._success_callback: SuccessCallbackType | None = success_callback
         self._failure_callback: FailureCallbackType | None = failure_callback
 

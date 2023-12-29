@@ -56,7 +56,7 @@ class AsyncIOEventEmitter(EventEmitter):
         super().__init__(event_linker=event_linker, debug=debug)
 
         # Initialize the set of background futures
-        self._background_futures: Set[Future] = set()  # type: ignore
+        self._background_futures: Set[Future] = set()
 
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:
         # Check if AsyncIO event loop is running
@@ -64,7 +64,7 @@ class AsyncIOEventEmitter(EventEmitter):
 
         # Log the execution context, if debug mode is enabled
         if self._logger.debug_enabled:  # pragma: no cover
-            self._logger.debug(action=f"Running:", msg=f"{'Async' if is_loop_running else 'Sync'} context")
+            self._logger.debug(action=f"Context:", msg=f"{'Async' if is_loop_running else 'Sync'}")
 
         if is_loop_running:
             # Schedule the event emission in the running loop as a future

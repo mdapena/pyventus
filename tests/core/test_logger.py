@@ -9,7 +9,7 @@ class TestLogger:
         # Assert
         assert logger
         assert logger.debug_enabled
-        logger.info("")
-        logger.debug("")
-        logger.error("")
-        logger.warning("")
+        logger.info("info")
+        logger.debug("debug")
+        logger.error("error")
+        logger.warning("warning")

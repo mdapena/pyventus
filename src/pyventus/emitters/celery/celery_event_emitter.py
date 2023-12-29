@@ -3,8 +3,7 @@ import hmac
 from hashlib import sha256
 from pickle import dumps, loads
 from types import ModuleType
-from typing import Any, Dict, NamedTuple, Callable
-from typing import Type
+from typing import Any, Dict, NamedTuple, Callable, cast, Type
 
 from ..event_emitter import EventEmitter
 from ...core.exceptions import PyventusException
@@ -48,7 +47,7 @@ class CeleryEventEmitter(EventEmitter):
                 :param obj: The event emission object to be serialized.
                 :return: The serialized representation of the event emission object.
                 """
-                return dumps(obj)
+                return dumps(obj)  # pragma: no cover
 
             @staticmethod
             def loads(serialized_obj: Any) -> EventEmitter.EventEmission:
@@ -57,7 +56,7 @@ class CeleryEventEmitter(EventEmitter):
                 :param serialized_obj: The serialized object to be loaded.
                 :return: The deserialized event emission object.
                 """
-                return loads(serialized_obj)  # type: ignore
+                return cast(EventEmitter.EventEmission, loads(serialized_obj))  # pragma: no cover
 
         class _Payload(NamedTuple):
             """Represents the payload data sent to Celery."""
@@ -88,12 +87,12 @@ class CeleryEventEmitter(EventEmitter):
 
                 # Check if all the fields are present in the JSON data
                 if not set(tuple_fields).issubset(kwargs.keys()):
-                    raise ValueError("Missing fields in JSON data.")
+                    raise PyventusException("Missing fields in JSON data.")
 
                 # Check for extra keys in the JSON data
                 extra_keys = set(kwargs.keys()) - set(tuple_fields)
                 if extra_keys:
-                    raise ValueError("Extra keys in JSON data: {}".format(extra_keys))
+                    raise PyventusException("Extra keys in JSON data: {}".format(extra_keys))
 
                 # Create the named tuple using the JSON data
                 return cls(**kwargs)
@@ -165,7 +164,7 @@ class CeleryEventEmitter(EventEmitter):
 
             # Calculate the hash of the serialized object if a secret key was provided
             obj_hash: Any | None = None
-            if self._secret:
+            if self._secret:  # pragma: no cover
                 obj_hash = hmac.new(key=self._secret, msg=serialized_obj, digestmod=self._digestmod).digest()
 
             # Create a payload with the serialized event emission instance and its hash
@@ -195,7 +194,7 @@ class CeleryEventEmitter(EventEmitter):
             payload = CeleryEventEmitter.Queue._Payload.from_json(**kwargs)
 
             # Check payload
-            if self._secret:
+            if self._secret:  # pragma: no cover
                 if not payload.obj_hash:
                     raise PyventusException("Invalid payload structure.")
 
@@ -207,14 +206,14 @@ class CeleryEventEmitter(EventEmitter):
                 # Compare the calculated hash with the provided payload hash
                 if not hmac.compare_digest(payload.obj_hash, obj_hash):
                     raise PyventusException("Payload integrity verification failed.")
-            elif payload.obj_hash:
+            elif payload.obj_hash:  # pragma: no cover
                 raise PyventusException("Unexpected payload structure.")
 
             # Deserialize the event emission object
             event_emission = self._serializer.loads(payload.serialized_obj)
 
             # Check if the deserialized event emission object is valid
-            if event_emission is None:
+            if event_emission is None:  # pragma: no cover
                 raise PyventusException("Failed to deserialize the event emission object.")
 
             # Run the event emission

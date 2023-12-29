@@ -103,7 +103,7 @@ class EventEmitter(ABC):
             self._event: str = event
             """The name of the event being emitted."""
 
-            self._event_handlers: Tuple[EventHandler] = tuple(event_handlers)
+            self._event_handlers: Tuple[EventHandler, ...] = tuple(event_handlers)
             """Tuple of event handlers associated with the event."""
 
             self._args: Tuple[Any, ...] = args
@@ -232,7 +232,7 @@ class EventEmitter(ABC):
             # Creates a new EventEmission instance
             event_emission: EventEmitter.EventEmission = EventEmitter.EventEmission(
                 self._logger.debug_enabled,
-                event if is_string else event.__class__.__name__,
+                str(event if is_string else event.__class__.__name__),
                 pending_event_handlers,
                 *event_args,
                 **kwargs,

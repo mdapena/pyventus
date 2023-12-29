@@ -31,7 +31,7 @@ class CeleryEventEmitter(EventEmitter):
     emissions for asynchronous processing.
 
     For more information and code examples, please refer to the `CeleryEventEmitter` tutorials at:
-    [https://mdapena.github.io/pyventus/tutorials/emitters/celery-event-emitter/](https://mdapena.github.io/pyventus/tutorials/emitters/celery-event-emitter/).
+    [https://mdapena.github.io/pyventus/tutorials/emitters/celery/](https://mdapena.github.io/pyventus/tutorials/emitters/celery/).
     """
 
     class Queue:

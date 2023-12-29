@@ -3,7 +3,7 @@ A modern and robust Python package for event-driven programming. Define, emit, a
 customizable event emitters and flexible responses.
 """
 
-__version__ = "0.2.1"
+__version__ = "0.3.0"
 
 from .core.exceptions import PyventusException
 from .emitters import EventEmitter, EmittableEventType

@@ -473,18 +473,18 @@ Hello, AsyncIOEventEmitter!
 	from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 	
 
-	with EventLinker.on("StringEvent") as link: # (1)!
+	with EventLinker.on("StringEvent") as linker: # (1)!
 
-	    @link.on_event
+	    @linker.on_event
 	    def event_callback() -> str:
 	        print("Event received!")
 	        return "Event succeeded!"
 	
-	    @link.on_success
+	    @linker.on_success
 	    def success_callback(msg: str) -> None:
 	        print(msg)
 	
-	    @link.on_failure
+	    @linker.on_failure
 	    def failure_callback(exc: Exception) -> None:
 	        print(exc)
 	
@@ -511,18 +511,18 @@ Hello, AsyncIOEventEmitter!
 	from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 	
 
-	with EventLinker.on("StringEvent") as link: # (1)!
+	with EventLinker.on("StringEvent") as linker: # (1)!
 
-	    @link.on_event
+	    @linker.on_event
 	    def event_callback() -> str:
 	        raise ValueError("Something went wrong!")
 	        return "Event succeeded!"
 	
-	    @link.on_success
+	    @linker.on_success
 	    def success_callback(msg: str) -> None:
 	        print(msg)
 	
-	    @link.on_failure
+	    @linker.on_failure
 	    def failure_callback(exc: Exception) -> None:
 	        print(exc)
 	
@@ -567,8 +567,8 @@ Hello, AsyncIOEventEmitter!
 
 <p style='text-align: justify;'>
     &emsp;&emsp;Pyventus is an open source project that welcomes community involvement. If you wish to contribute
-	additional event emitters, improvements, or bug fixes, please check the <a href="/contributing">Contributing</a> section
-	for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
+	additional event emitters, improvements, or bug fixes, please check the <a href="/pyventus/contributing/">Contributing</a> 
+	section for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
 </p>
 
 </details>
@@ -593,6 +593,7 @@ Hello, AsyncIOEventEmitter!
 
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;Pyventus is distributed as open source software and is released under the <a href="https://choosealicense.com/licenses/mit/" target="_blank">MIT License</a>. 
-    You can view the full text of the license in the <code>LICENSE</code> file located in the <a href="https://github.com/mdapena/pyventus/blob/master/LICENSE" target="_blank">Pyventus repository</a>.
+    You can view the full text of the license in the <a href="https://github.com/mdapena/pyventus/blob/master/LICENSE" target="_blank"><code>LICENSE</code></a> 
+	file located in the Pyventus repository.
 </p>
 

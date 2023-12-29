@@ -58,7 +58,7 @@ and process tasks when enqueued. To configure the workers, create a file named `
 configuration code. You can refer to the official [RQ documentation](https://python-rq.org/docs/workers/) for 
 more advanced configurations.
 
-```Python title="worker.py" linenums="1" hl_lines="9-10 23-24 41-44"
+```Python title="worker.py" linenums="1" hl_lines="9-10 24-25 43-46"
 from multiprocessing import Process
 from typing import List
 
@@ -119,7 +119,7 @@ functions should not reside in the main module. Therefore, we need to create ano
 handlers can be placed. For this example, let's create a file called `event_handlers.py` and add the handlers
 to be processed.
 
-```Python title="event_handlers.py" linenums="1" hl_lines="7-8 14-15"
+```Python title="event_handlers.py" linenums="1" hl_lines="7-11 14-18"
 import asyncio
 import time
 
@@ -149,7 +149,7 @@ emission objects will be enqueued. For full details on the configuration options
 documentation on the enqueue method settings. At this point, we are ready to emit our first event using the 
 `RQEventEmitter`.
 
-```Python title="main.py" linenums="1" hl_lines="8 15-17"
+```Python title="main.py" linenums="1" hl_lines="8 14-15"
 from redis import Redis
 from rq import Queue
 

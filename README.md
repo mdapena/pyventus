@@ -388,18 +388,18 @@ Hello, AsyncIOEventEmitter!
 from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 
 
-with EventLinker.on("StringEvent") as link:
+with EventLinker.on("StringEvent") as linker:
 	
-    @link.on_event
+    @linker.on_event
     def event_callback() -> str:
         print("Event received!")
         return "Event succeeded!"
 
-    @link.on_success
+    @linker.on_success
     def success_callback(msg: str) -> None:
         print(msg)
 
-    @link.on_failure
+    @linker.on_failure
     def failure_callback(exc: Exception) -> None:
         print(exc)
 
@@ -438,8 +438,9 @@ event_emitter.emit("StringEvent")
 
 ## License
 
-<p style='text-align: justify;'>
+<p style='text-align: justify;' markdown>
     &emsp;&emsp;Pyventus is distributed as open source software and is released under the <a href="https://choosealicense.com/licenses/mit/" target="_blank">MIT License</a>. 
-    You can view the full text of the license in the <code>LICENSE</code> file located in the <a href="https://github.com/mdapena/pyventus/blob/master/LICENSE" target="_blank">Pyventus repository</a>.
+    You can view the full text of the license in the <a href="https://github.com/mdapena/pyventus/blob/master/LICENSE" target="_blank"><code>LICENSE</code></a> 
+	file located in the Pyventus repository.
 </p>
 

@@ -15,6 +15,7 @@ hide:
   method of EventEmitter but provides a cleaner, more scalable, and efficient approach.
 - Renamed EventEmitter's `_execute()` method to `_process()` to better reflect its purpose of processing event
   emissions.
+- Renamed all debug flags from `debug_mode` to `debug` for enhanced clarity and consistency.
 
 ##### New Features
 

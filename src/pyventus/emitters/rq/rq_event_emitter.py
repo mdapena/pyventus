@@ -1,7 +1,7 @@
 from typing import Any, Type, Dict
 
+from ..event_emitter import EventEmitter
 from ...core.exceptions import PyventusException
-from ...emitters import EventEmitter
 from ...linkers import EventLinker
 
 try:  # pragma: no cover
@@ -42,8 +42,8 @@ class RQEventEmitter(EventEmitter):
             Defaults to an empty dictionary.
         :param event_linker: Specifies the type of event linker to use for associating
             events with their respective event handlers. Defaults to `EventLinker`.
-        :param debug: Specifies the debug mode for the subclass logger. If `None`,
-            it is determined based on the execution environment.
+        :param debug: Specifies the debug mode for the logger. If `None`, it is
+            determined based on the execution environment.
         """
         # Call the parent class' __init__ method to set up the event linker
         super().__init__(event_linker=event_linker, debug=debug)

@@ -8,7 +8,7 @@ from starlette import status
 from pyventus import EventLinker, PyventusException
 from pyventus.emitters.fastapi import FastAPIEventEmitter
 from ..event_emitter_test import EventEmitterTest
-from ... import FastAPITestContext, CallbackFixtures
+from ... import FastAPITestContext
 
 
 class TestFastAPIEventEmitter(EventEmitterTest):
@@ -23,8 +23,15 @@ class TestFastAPIEventEmitter(EventEmitterTest):
     ) -> None:
         # Arrange
         @fastapi_test_context.client.app.get("/")
-        def callback(event_emitter: FastAPIEventEmitter = Depends(FastAPIEventEmitter(debug=True))) -> None:
-            assert event_emitter and isinstance(event_emitter, FastAPIEventEmitter)
+        def callback(
+            background_tasks: BackgroundTasks,
+            event_emitter1: FastAPIEventEmitter = Depends(FastAPIEventEmitter),
+            event_emitter2: FastAPIEventEmitter = Depends(FastAPIEventEmitter.options(debug=True)),
+        ) -> None:
+            event_emitter0 = FastAPIEventEmitter(background_tasks=background_tasks, debug=False)
+            assert event_emitter0 and isinstance(event_emitter0, FastAPIEventEmitter)
+            assert event_emitter1 and isinstance(event_emitter1, FastAPIEventEmitter)
+            assert event_emitter2 and isinstance(event_emitter2, FastAPIEventEmitter)
 
         # Act
         res = fastapi_test_context.client.get("/")
@@ -39,31 +46,7 @@ class TestFastAPIEventEmitter(EventEmitterTest):
     ) -> None:
         # Arrange | Act | Assert
         with raises(PyventusException):
-            FastAPIEventEmitter()(background_tasks=None)  # type: ignore
-
-        # Arrange | Act | Assert
-        with raises(PyventusException):
-            EventLinker.subscribe("StringEvent", event_callback=CallbackFixtures.Async())
-            event_emitter1 = FastAPIEventEmitter()
-            event_emitter1.emit("StringEvent")
-
-        # Arrange
-        @fastapi_test_context.client.app.get("/")
-        def callback(background_tasks: BackgroundTasks) -> None:
-            event_emitter2 = FastAPIEventEmitter(debug=True)(background_tasks=background_tasks)
-
-            assert event_emitter2 and isinstance(event_emitter2, FastAPIEventEmitter)
-
-            event_emitter2.emit("StringEvent")
-
-            with raises(PyventusException):
-                event_emitter2(background_tasks=background_tasks)
-
-        # Act
-        res = fastapi_test_context.client.get("/")
-
-        # Assert
-        assert res.status_code == status.HTTP_200_OK
+            FastAPIEventEmitter(background_tasks=None)  # type: ignore
 
     # --------------------
     # Sync Context
@@ -75,7 +58,7 @@ class TestFastAPIEventEmitter(EventEmitterTest):
     ) -> None:
         # Arrange
         @fastapi_test_context.client.app.get("/")
-        def callback(event_emitter: FastAPIEventEmitter = Depends(FastAPIEventEmitter())) -> None:
+        def callback(event_emitter: FastAPIEventEmitter = Depends(FastAPIEventEmitter)) -> None:
             with TestFastAPIEventEmitter.run_emission_test(event_emitter=event_emitter):
                 pass
 
@@ -95,7 +78,7 @@ class TestFastAPIEventEmitter(EventEmitterTest):
 
         @fastapi_test_context.client.app.get("/")
         def callback(
-            event_emitter: FastAPIEventEmitter = Depends(FastAPIEventEmitter(event_linker=CustomEventLinker)),
+            event_emitter: FastAPIEventEmitter = Depends(FastAPIEventEmitter.options(event_linker=CustomEventLinker)),
         ) -> None:
             with TestFastAPIEventEmitter.run_emission_test(event_emitter=event_emitter, event_linker=CustomEventLinker):
                 pass
@@ -117,7 +100,7 @@ class TestFastAPIEventEmitter(EventEmitterTest):
     ) -> None:
         # Arrange
         @fastapi_test_context.client.app.get("/")
-        async def callback(event_emitter: FastAPIEventEmitter = Depends(FastAPIEventEmitter())) -> None:
+        async def callback(event_emitter: FastAPIEventEmitter = Depends(FastAPIEventEmitter)) -> None:
             with TestFastAPIEventEmitter.run_emission_test(event_emitter=event_emitter):
                 await asyncio.gather(*fastapi_test_context.background_futures, return_exceptions=True)
 
@@ -138,7 +121,7 @@ class TestFastAPIEventEmitter(EventEmitterTest):
 
         @fastapi_test_context.client.app.get("/")
         async def callback(
-            event_emitter: FastAPIEventEmitter = Depends(FastAPIEventEmitter(event_linker=CustomEventLinker)),
+            event_emitter: FastAPIEventEmitter = Depends(FastAPIEventEmitter.options(event_linker=CustomEventLinker)),
         ) -> None:
             with TestFastAPIEventEmitter.run_emission_test(event_emitter=event_emitter, event_linker=CustomEventLinker):
                 await asyncio.gather(*fastapi_test_context.background_futures, return_exceptions=True)

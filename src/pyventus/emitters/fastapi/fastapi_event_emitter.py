@@ -1,4 +1,4 @@
-from typing import Type
+from typing import Type, Callable
 
 from ..event_emitter import EventEmitter
 from ...core.exceptions import PyventusException
@@ -30,9 +30,39 @@ class FastAPIEventEmitter(EventEmitter):
     [https://mdapena.github.io/pyventus/tutorials/emitters/fastapi/](https://mdapena.github.io/pyventus/tutorials/emitters/fastapi/).
     """
 
-    def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None):
+    @classmethod
+    def options(
+        cls, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None
+    ) -> Callable[[BackgroundTasks], "FastAPIEventEmitter"]:
+        """
+        Returns a decorator that allows configuring the `FastAPIEventEmitter` class when
+        using the `Depends` method of `FastAPI`.
+        :param event_linker: Specifies the type of event linker to use for associating
+            events with their respective event handlers. Defaults to `EventLinker`.
+        :param debug: Specifies the debug mode for the logger. If `None`, it is
+            determined based on the execution environment.
+        :return: A decorator that can be used with the `Depends` method.
+        """
+
+        def wrapper(background_tasks: BackgroundTasks) -> "FastAPIEventEmitter":
+            """
+            Decorator wrapper function that configures the `FastAPIEventEmitter` class with the provided options.
+            :param background_tasks: The FastAPI `BackgroundTasks` object used to process event emissions.
+            :return: An instance of `FastAPIEventEmitter` configured with the specified options.
+            """
+            return cls(background_tasks=background_tasks, event_linker=event_linker, debug=debug)
+
+        return wrapper
+
+    def __init__(
+        self,
+        background_tasks: BackgroundTasks,
+        event_linker: Type[EventLinker] = EventLinker,
+        debug: bool | None = None,
+    ):
         """
         Initializes the `FastAPIEventEmitter`.
+        :param background_tasks: The FastAPI `BackgroundTasks` object used to process event emissions.
         :param event_linker: Specifies the type of event linker to use for associating
             events with their respective event handlers. Defaults to `EventLinker`.
         :param debug: Specifies the debug mode for the logger. If `None`, it is
@@ -41,35 +71,13 @@ class FastAPIEventEmitter(EventEmitter):
         # Call the parent class' __init__ method to set up the event linker
         super().__init__(event_linker=event_linker, debug=debug)
 
-        # Set the FastAPI background tasks to None
-        self._background_tasks: BackgroundTasks | None = None
-
-    def __call__(self, background_tasks: BackgroundTasks) -> "FastAPIEventEmitter":
-        """
-        Sets the FastAPI `BackgroundTasks` object used to process event emissions.
-        :param background_tasks: The FastAPI `BackgroundTasks` object used to process event emissions.
-        :return: self
-        :raises PyventusException: If background tasks have already been set or if the provided
-            `background_tasks` object is not a valid FastAPI `BackgroundTasks` instance.
-        """
-        # Check if the background tasks have already been set
-        if self._background_tasks:
-            raise PyventusException("Background tasks have already been set.")
-
         # Check if the provided background_tasks object is valid
         if background_tasks is None or not isinstance(background_tasks, BackgroundTasks):
             raise PyventusException("The 'background_tasks' argument must be a valid FastAPI BackgroundTask instance.")
 
         # Set the background tasks
-        self._background_tasks = background_tasks
-
-        # Return self
-        return self
+        self._background_tasks: BackgroundTasks = background_tasks
 
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:
-        # Check if the background tasks have been set
-        if self._background_tasks is None:
-            raise PyventusException("Background tasks have not been set.")
-
         # Submit the event emission to the background tasks
         self._background_tasks.add_task(event_emission)

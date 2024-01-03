@@ -49,10 +49,12 @@ Repository = "https://github.com/mdapena/pyventus"
 [project.optional-dependencies]
 rq = ["rq>=1.15.0"]
 celery = ["celery>=5.3.5"]
+fastapi = ["fastapi>=0.95.2"]
 
 all = [
     "pyventus[rq]",
     "pyventus[celery]",
+    "pyventus[fastapi]",
 ]
 
 # --------------------

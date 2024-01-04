@@ -86,10 +86,12 @@ incoming tasks. For more advanced configurations, refer to the official
 
 <details markdown="1" class="info" open>
 <summary>Serialization Security</summary>
-It's important to set the content type in the Celery app to `application/x-python-serialize`. This allows the event 
+<p style='text-align: justify;' markdown>
+&emsp;&emsp;It's important to set the content type in the Celery app to `application/x-python-serialize`. This allows the event 
 emission object to be serialized and deserialized when tasks are processed. The CeleryEventEmitter queue can 
 authenticate and validate any serialized payloads through hashing methods and a secret key. Moreover, a 
 custom serializer can be implemented if the default does not meet the specific needs of your project. 
+</p>
 </details>
 
 ```Python title="worker.py" linenums="1" hl_lines="8-12 18 21"
@@ -97,14 +99,10 @@ from celery import Celery
 from pyventus.emitters.celery import CeleryEventEmitter
 
 # To ensure Python recognizes the existence of the event handlers, we need to import them.
-from [package - name].event_handlers import slow_sync_event_callback, slow_async_event_callback
+from event_handlers import slow_sync_event_callback, slow_async_event_callback
 
-# Using Redis as a broker and backend connector for example purpose.
-app: Celery = Celery(
-    "worker",
-    broker="redis://default:redispw@localhost:6379",
-    backend="redis://default:redispw@localhost:6379",
-)
+# Using Redis as a broker for example purpose. For the Redis support 'pip install celery[redis]'
+app: Celery = Celery("worker", broker="redis://default:redispw@localhost:6379")
 
 # Optional configuration, see the Celery app user guide.
 app.conf.update(result_expires=3600)
@@ -128,21 +126,21 @@ differences depending on your operating system:
 <li style='text-align: justify;' markdown><b>For Linux/macOS:</b>
 
 ```console
-celery -A [package-name].worker worker -l INFO
+celery -A worker worker -l INFO
 ```
 
 </li>
 <li style='text-align: justify;' markdown><b>For Windows:</b> 
 
 ```console
-celery -A [package-name].worker worker -l INFO --pool=solo
+celery -A worker worker -l INFO --pool=solo
 ```
 
 </li>
 <li style='text-align: justify;' markdown><b>Specifying a Queue:</b>
 
 ```console
-celery -A [package-name].worker worker -l INFO -Q [queue-name]
+celery -A worker worker -l INFO -Q [queue-name]
 ```
 
 </li>
@@ -157,7 +155,7 @@ To emit events, we will create a `main.py` file where we instantiate the `Celery
 from pyventus import EventEmitter
 from pyventus.emitters.celery import CeleryEventEmitter
 
-from [package - name].worker import celery_event_emitter_queue
+from worker import celery_event_emitter_queue
 
 if __name__ == "__main__":
     event_emitter: EventEmitter = CeleryEventEmitter(queue=celery_event_emitter_queue)

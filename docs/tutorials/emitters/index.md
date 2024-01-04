@@ -153,6 +153,10 @@ async def console_print_endpoint(background_tasks: BackgroundTasks):
 	Hello, FastAPIEventEmitter!
 	```
 
+!!! tip "Official `FastAPIEventEmitter` Integration"
+	No need for manual implementation! Pyventus now offers an official [**FastAPIEventEmitter**](/pyventus/tutorials/emitters/fastapi)
+	integration.
+
 ## Runtime Flexibility
 
 <p style='text-align: justify;' markdown>

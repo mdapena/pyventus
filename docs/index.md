@@ -419,7 +419,7 @@ see the JSON response as:
 { "message": "Console print triggered!" }
 ```
 
-You'll also be able to see the outputs of the event emitters in the console logs as:
+You'll also be able to see the outputs of the event emitters in the console logs as follows:
 
 ```console
 INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
@@ -449,6 +449,14 @@ Hello, AsyncIOEventEmitter!
 	intricate reconfiguration or re-establishing of handlers. Simply changing the concrete emitter allowed for
 	a seamless transition between implementations.
 </p>
+
+<details markdown="1" class="tip" open>
+<summary>Official <code>FastAPIEventEmitter</code> integration</summary>
+<p style='text-align: justify;'>
+No need for manual implementation! Pyventus now offers an official <b><a href="/pyventus/tutorials/emitters/fastapi">FastAPIEventEmitter</a></b>
+integration.
+</p>
+</details>
 
 ## Defining Event Response Logic
 

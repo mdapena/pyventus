@@ -367,6 +367,14 @@ Hello, AsyncIOEventEmitter!
 	a seamless transition between implementations.
 </p>
 
+<details markdown="1" class="tip" open>
+<summary>Official <code>FastAPIEventEmitter</code> integration</summary>
+<p style='text-align: justify;'>
+No need for manual implementation! Pyventus now offers an official <b><a href="/pyventus/tutorials/emitters/fastapi">FastAPIEventEmitter</a></b>
+integration.
+</p>
+</details>
+
 ## Defining Event Response Logic
 
 <p style='text-align: justify;'>

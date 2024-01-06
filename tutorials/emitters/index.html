@@ -550,6 +550,10 @@
           
         
       
+        
+          
+        
+      
     
     
     
@@ -644,6 +648,27 @@
   
   <span class="md-ellipsis">
     Executor Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="fastapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FastAPI Event Emitter
   </span>
   
 
@@ -847,6 +872,10 @@
           
         
       
+        
+          
+        
+      
     
     
     
@@ -943,6 +972,27 @@
   
   <span class="md-ellipsis">
     Executor Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/emitters/fastapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FastAPI Event Emitter
   </span>
   
 
@@ -1192,20 +1242,20 @@
   
 
 
-<h1 id="event-emitter">Event Emitter</h1>
+<h1 id="event-emitter">Event Emitter<a class="headerlink" href="#event-emitter" title="Permanent link">&para;</a></h1>
 <p style="text-align: justify;">
     &emsp;&emsp;In the previous tutorial, we learned how to link events with their event handlers using the 
     <code>EventLinker</code>. Now, let's dive into the process of dispatching events and triggering the associated callbacks.
     This tutorial will introduce you to the <code>EventEmitter</code> class, which plays a crucial role in this event-driven
     system.
 </p>
-<h2 id="what-is-the-eventemitter">What is the EventEmitter?</h2>
+<h2 id="what-is-the-eventemitter">What is the EventEmitter?<a class="headerlink" href="#what-is-the-eventemitter" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;The <code>EventEmitter</code> is an abstract base class that provides a common interface for emitting events and
     notifying registered callbacks when those events occur. It serves as the foundation for implementing custom event
     emitters with specific dispatch strategies.
 </p>
-<h2 id="the-purpose-of-eventemitter">The Purpose of EventEmitter</h2>
+<h2 id="the-purpose-of-eventemitter">The Purpose of EventEmitter<a class="headerlink" href="#the-purpose-of-eventemitter" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;The main goal of the <code>EventEmitter</code> base class is to decouple the event emission from the underlying
     implementation responsible for handling the event callbacks. This decoupling promotes flexibility, adaptability,
@@ -1218,7 +1268,7 @@
     method is used to invoke an event, while the <code>_process()</code> method is an abstract method responsible for 
     processing the execution of the emitted event.
 </p>
-<h2 id="pyventus-event-emitters">Pyventus Event Emitters</h2>
+<h2 id="pyventus-event-emitters">Pyventus Event Emitters<a class="headerlink" href="#pyventus-event-emitters" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;Pyventus includes several build-in event emitters by default. For instance, the <code>AsyncIOEventEmitter</code>
     leverages the <code>AsyncIO</code> framework to handle the execution of event handler callbacks, while the <code>RQEventEmitter</code>
@@ -1233,7 +1283,7 @@
     section for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
 </p></p>
 </div>
-<h2 id="custom-event-emitters">Custom Event Emitters</h2>
+<h2 id="custom-event-emitters">Custom Event Emitters<a class="headerlink" href="#custom-event-emitters" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;Pyventus provides a powerful abstraction layer for creating custom event emitters, allowing you to
     tailor their behavior and capabilities to suit your specific needs. In this section, we will guide you through
@@ -1246,7 +1296,7 @@
     implementation details, make sure you have FastAPI properly <a href="https://fastapi.tiangolo.com/?h=#installation">installed</a>
     and set up in your development environment.
 </p>
-<h3 id="defining-and-implementing-the-custom-event-emitter-class">Defining and Implementing the Custom Event Emitter Class</h3>
+<h3 id="defining-and-implementing-the-custom-event-emitter-class">Defining and Implementing the Custom Event Emitter Class<a class="headerlink" href="#defining-and-implementing-the-custom-event-emitter-class" title="Permanent link">&para;</a></h3>
 <p style="text-align: justify;">
     &emsp;&emsp;To create the custom event emitter for FastAPI, we'll define a class called <code>FastAPIEventEmitter</code>. This
     class will extend the base <code>EventEmitter</code> class and implement the abstract <code>_process()</code> method using the
@@ -1354,7 +1404,12 @@
 <a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="go">Hello, FastAPIEventEmitter!</span>
 </code></pre></div>
 </details>
-<h2 id="runtime-flexibility">Runtime Flexibility</h2>
+<div class="admonition tip">
+<p class="admonition-title">Official <code>FastAPIEventEmitter</code> Integration</p>
+<p>No need for manual implementation! Pyventus now offers an official <a href="/pyventus/tutorials/emitters/fastapi"><strong>FastAPIEventEmitter</strong></a>
+integration.</p>
+</div>
+<h2 id="runtime-flexibility">Runtime Flexibility<a class="headerlink" href="#runtime-flexibility" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;Another key feature of the Pyventus <code>EventEmitter</code> is the decoupling of event dispatching from the
     underlying implementation that processes the event handlers. This, combined with the <code>EventLinker</code>, allows
@@ -1400,7 +1455,7 @@
     <code>ExecutorEventEmitter</code> depending on our requirements. This flexibility enables us to adapt the event
     emitter implementation at runtime without modifying the core application logic.
 </p>
-<h2 id="using-custom-event-linkers">Using Custom Event Linkers</h2>
+<h2 id="using-custom-event-linkers">Using Custom Event Linkers<a class="headerlink" href="#using-custom-event-linkers" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;The base <code>EventEmitter</code> allows you to specify the <code>EventLinker</code> class that will be used by the <code>EventEmitter</code>.
     To configure this option, you can set manually the <code>EventLinker</code> class in the constructor.
@@ -1451,13 +1506,13 @@
     the <code>CustomEventLinker</code> namespace, gets triggered and removed. The <code>event_logger()</code> callback, registered
     in a different <code>EventLinker</code> context, does not get triggered.
 </p>
-<h2 id="debug-mode">Debug Mode</h2>
+<h2 id="debug-mode">Debug Mode<a class="headerlink" href="#debug-mode" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;Pyventus' <code>EventEmitter</code> offers a useful debug mode feature to help you understand the flow of events
     and troubleshoot your event-driven application. You can enable debug mode in the <code>EventEmitter</code> using the following
     options:
 </p>
-<h3 id="global-debug-mode">Global Debug Mode</h3>
+<h3 id="global-debug-mode">Global Debug Mode<a class="headerlink" href="#global-debug-mode" title="Permanent link">&para;</a></h3>
 <p style="text-align: justify;">
     &emsp;&emsp;By default, Pyventus makes use of Python's global debug tracing feature. To activate the global debug
     mode, simply run your code in an IDE's debugger mode. This allows you to observe the execution of events and trace
@@ -1467,7 +1522,7 @@
    <img src="../../images/examples/debug-mode-example.png" alt="Pyventus" width="900px">
 </p>
 
-<h3 id="instance-debug-flag">Instance Debug Flag</h3>
+<h3 id="instance-debug-flag">Instance Debug Flag<a class="headerlink" href="#instance-debug-flag" title="Permanent link">&para;</a></h3>
 <p style="text-align: justify;">
     &emsp;&emsp;Alternatively, if you want to enable or disable debug mode for a specific <code>EventEmitter</code> instance, you
     can use the <code>debug</code> flag provided by the concrete implementation. Setting the <code>debug</code> flag to <code>True</code> enables
@@ -1529,13 +1584,13 @@
 </div>
 </div>
 </div>
-<h2 id="best-practices">Best Practices</h2>
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;To fully leverage the power of the <code>EventEmitter</code>, it is recommended to <strong>use the base</strong> <code>EventEmitter</code> <strong>as a
     dependency</strong> instead of any concrete implementation. This allows you to easily switch between different event
     emitter implementations at runtime, providing flexibility and adaptability to your code.
 </p>
-<h2 id="recap">Recap</h2>
+<h2 id="recap">Recap<a class="headerlink" href="#recap" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;In this tutorial, we learned about the <code>EventEmitter</code> component and its role in dispatching events and
     triggering associated callbacks. We explored the base <code>EventEmitter</code> class, its unified async/sync API, and
@@ -1563,7 +1618,7 @@
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-28T06:24:46+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-28</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-04T03:23:56+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-04</span>
   </span>
 
     
@@ -1656,7 +1711,7 @@
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

@@ -550,6 +550,10 @@
           
         
       
+        
+          
+        
+      
     
     
     
@@ -760,6 +764,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../fastapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FastAPI Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../rq/" class="md-nav__link">
         
   
@@ -947,6 +972,10 @@
           
         
       
+        
+          
+        
+      
     
     
     
@@ -1043,6 +1072,27 @@
   
   <span class="md-ellipsis">
     Executor Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../api/emitters/fastapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FastAPI Event Emitter
   </span>
   
 
@@ -1232,31 +1282,31 @@
   
 
 
-<h1 id="asyncio-event-emitter">AsyncIO Event Emitter</h1>
+<h1 id="asyncio-event-emitter">AsyncIO Event Emitter<a class="headerlink" href="#asyncio-event-emitter" title="Permanent link">&para;</a></h1>
 <p style="text-align: justify;">
     &emsp;&emsp;Now that we've covered the base <code>EventEmitter</code> interface, let's examine one of its official
     implementations: the <code>AsyncIOEventEmitter</code>.
 </p>
-<h2 id="what-is-it">What is it?</h2>
+<h2 id="what-is-it">What is it?<a class="headerlink" href="#what-is-it" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;The <code>AsyncIOEventEmitter</code> is a class that inherits from <code>EventEmitter</code> and uses the <code>AsyncIO</code>
     framework to handle the execution of event emissions.
 </p>
-<h2 id="how-it-works">How it works</h2>
+<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;The <code>AsyncIOEventEmitter</code> handles the event emission differently depending on whether it is operating in
     a synchronous or asynchronous execution context. In synchronous contexts, it will automatically start an event loop
     to run handlers concurrently. In asynchronous contexts, it leverages any existing event loop. Let's explore the
     AsyncIOEventEmitter's behavior in more detail:
 </p>
-<h3 id="sync-context">Sync context</h3>
+<h3 id="sync-context">Sync context<a class="headerlink" href="#sync-context" title="Permanent link">&para;</a></h3>
 <p style="text-align: justify;">
     &emsp;&emsp;When running without an existing <code>AsyncIO</code> event loop, the <code>AsyncIOEventEmitter</code> automatically
     starts a new loop using <code>asyncio.run()</code>. Within this loop, it executes the event emission. The 
     loop then waits for all scheduled tasks to finish before closing. This preserves synchronous 
     execution while still gaining the benefits of the concurrent execution.
 </p>
-<h3 id="async-context">Async context</h3>
+<h3 id="async-context">Async context<a class="headerlink" href="#async-context" title="Permanent link">&para;</a></h3>
 <p style="text-align: justify;">
     &emsp;&emsp;In an asynchronous context where an event loop is already running, the event emission is scheduled and 
     processed on that existing loop. 
@@ -1267,7 +1317,7 @@
     If the event loop is closed before all callbacks complete, any remaining scheduled tasks will be canceled.
 </p></p>
 </div>
-<h2 id="usage">Usage</h2>
+<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;Using the <code>AsyncIOEventEmitter</code> is straightforward. To get started, simply create a new instance of
     the class and call its <code>emit()</code> methods, as shown below:
@@ -1361,7 +1411,7 @@
 </div>
 </div>
 </div>
-<h2 id="recap">Recap</h2>
+<h2 id="recap">Recap<a class="headerlink" href="#recap" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     We've explored the <code>AsyncIOEventEmitter</code> class in depth:
 </p>
@@ -1492,7 +1542,7 @@ To use it, instantiate the class and call methods like <code>emit()</code>
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

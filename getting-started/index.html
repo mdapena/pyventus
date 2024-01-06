@@ -468,6 +468,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Optional Dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-library-integrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported Library Integrations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-framework-integrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported Framework Integrations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -613,6 +637,10 @@
           
         
       
+        
+          
+        
+      
     
     
     
@@ -709,6 +737,27 @@
   
   <span class="md-ellipsis">
     Executor Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tutorials/emitters/fastapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FastAPI Event Emitter
   </span>
   
 
@@ -912,6 +961,10 @@
           
         
       
+        
+          
+        
+      
     
     
     
@@ -1008,6 +1061,27 @@
   
   <span class="md-ellipsis">
     Executor Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api/emitters/fastapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FastAPI Event Emitter
   </span>
   
 
@@ -1144,6 +1218,30 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Optional Dependencies">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#supported-library-integrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported Library Integrations
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-framework-integrations" class="md-nav__link">
+    <span class="md-ellipsis">
+      Supported Framework Integrations
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -1178,50 +1276,86 @@
     your project. For more detailed instructions on how to use this package, you can refer to the Pyventus 
     <a href="/pyventus/tutorials">tutorials</a> or <a href="/pyventus/api">API reference</a>.
 </p>
-<h2 id="requirements">Requirements</h2>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;Pyevents <strong>only requires Python 3.10+</strong> by default, which includes the <a href="/pyventus/tutorials/emitters/asyncio"><code>AsyncIOEventEmitter</code></a>
     and the <a href="/pyventus/tutorials/emitters/executor"><code>ExecutorEventEmitter</code></a> with no additional dependencies. However, 
     your requirements may expand if you opt to use alternative built-in event emitter implementations.
 </p>
-<h2 id="installation">Installation</h2>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;Pyventus is available as a Python package and can be easily installed using <code>pip</code>. Open your terminal
     and execute the following command to install it:
 </p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="go">pip install pyventus</span>
 </code></pre></div>
-<h2 id="optional-dependencies">Optional Dependencies</h2>
+<h2 id="optional-dependencies">Optional Dependencies<a class="headerlink" href="#optional-dependencies" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp; While Pyventus primarily relies on the Python standard library, it also supports optional dependencies
     to access additional features, as shown below:
 </p>
+<h3 id="supported-library-integrations">Supported Library Integrations<a class="headerlink" href="#supported-library-integrations" title="Permanent link">&para;</a></h3>
 <ul style="text-align: justify;">
+<li class="annotate">
+<a href="https://docs.celeryq.dev/en/stable/getting-started/introduction.html" target="_blank"><strong>Celery</strong></a> ─ 
+Pyventus integrates with Celery using the <a href="/pyventus/tutorials/emitters/celery"><code>CeleryEventEmitter</code></a>, enabling
+event emissions to be executed on Celery worker nodes to improve task processing. To install Pyventus with Celery 
+support, use the following command:
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">pip install pyventus[celery] (1)</span>
+</code></pre></div>
+</li>
+<ol>
+<li>
+<p><h2 style="margin-top: 0;">Optional Package Dependencies</h2>
+    &emsp;&emsp;This package includes some optional dependencies. For more information, please visit the
+    <a href="https://docs.celeryq.dev/en/stable/getting-started/introduction.html#bundles" target="_blank">Celery bundles documentation</a>.</p>
+<blockquote>
+<p>These optional dependencies can be installed as described in their individual documentation. For example:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">install celery[...]</span>
+</code></pre></div></p>
+</blockquote>
+</li>
+</ol>
+<hr />
 <li> 
 <a href="https://python-rq.org/" target="_blank"><strong>Redis Queue (RQ)</strong></a> ─ 
 Pyventus integrates with Redis Queue (RQ) using the <a href="/pyventus/tutorials/emitters/rq/"><code>RQEventEmitter</code></a>, allowing 
 event emissions to run as background jobs through RQ's asynchronous workers. To install Pyventus with RQ support,
 use the following command:
 
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="go">pip install pyventus[rq]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">pip install pyventus[rq]</span>
 </code></pre></div>
-
 </li>
-<hr />
-<li>
-<a href="https://docs.celeryq.dev/en/stable/getting-started/introduction.html" target="_blank"><strong>Celery</strong></a> ─ 
-Pyventus integrates with Celery using the <a href="/pyventus/tutorials/emitters/celery"><code>CeleryEventEmitter</code></a>, enabling
-event emissions to be executed on Celery worker nodes to improve task processing. To install Pyventus with Celery 
-support, use the following command:
-
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="go">pip install pyventus[celery]</span>
-</code></pre></div>
-
-</li>
-<hr />
+<h3 id="supported-framework-integrations">Supported Framework Integrations<a class="headerlink" href="#supported-framework-integrations" title="Permanent link">&para;</a></h3>
 </ul>
+<ul style="text-align: justify;">
+<li class="annotate">
+<a href="https://fastapi.tiangolo.com/" target="_blank"><strong>FastAPI</strong></a> ─ 
+Pyventus integrates with the FastAPI framework using the <a href="/pyventus/tutorials/emitters/fastapi"><code>FastAPIEventEmitter</code></a>, 
+enabling event-driven architectures to be built directly into FastAPI applications. The emitter leverages FastAPI's 
+background tasks to asynchronously process event emissions without blocking responses. To install Pyventus with 
+FastAPI integration, use the following command:
+
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="go">pip install pyventus[fastapi] (1)</span>
+</code></pre></div>
+</li>
+<ol>
+<li>
+<p><h2 style="margin-top: 0;">Optional Package Dependencies</h2>
+    &emsp;&emsp;This package includes some optional dependencies. For more information, please visit the
+    <a href="https://fastapi.tiangolo.com/#optional-dependencies" target="_blank">FastAPI optional dependencies</a>.</p>
+<blockquote>
+<p>These optional dependencies can be installed as described in their individual documentation. For example:
+   <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="go">install fastapi[...]</span>
+</code></pre></div></p>
+</blockquote>
+</li>
+</ol>
+</ul>
+<hr />
 <p>You can install all of them with:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="go">pip install pyventus[all]</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="go">pip install pyventus[all]</span>
 </code></pre></div>
 <p><br></p>
 
@@ -1244,7 +1378,7 @@ support, use the following command:
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-28T06:24:46+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-28</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-04T03:23:56+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-04</span>
   </span>
 
     
@@ -1341,7 +1475,7 @@ support, use the following command:
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

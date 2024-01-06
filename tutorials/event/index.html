@@ -737,6 +737,10 @@
           
         
       
+        
+          
+        
+      
     
     
     
@@ -833,6 +837,27 @@
   
   <span class="md-ellipsis">
     Executor Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../emitters/fastapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FastAPI Event Emitter
   </span>
   
 
@@ -1036,6 +1061,10 @@
           
         
       
+        
+          
+        
+      
     
     
     
@@ -1132,6 +1161,27 @@
   
   <span class="md-ellipsis">
     Executor Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/emitters/fastapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FastAPI Event Emitter
   </span>
   
 
@@ -1418,26 +1468,26 @@
     &emsp;&emsp;In this first tutorial, you'll learn about defining and handling events in Pyventus. Whether you're new
     to event-driven programming or just getting started with the package, this guide will explain the key concepts.
 </p>
-<h2 id="what-are-events">What are Events?</h2>
+<h2 id="what-are-events">What are Events?<a class="headerlink" href="#what-are-events" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;Events play an important role in Pyventus by allowing different parts of a program to communicate and
     react to changes. The package provides a powerful event system that supports various event types, enabling
     developers to define and handle events effectively.
 </p>
-<h2 id="string-events">String Events</h2>
+<h2 id="string-events">String Events<a class="headerlink" href="#string-events" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;We'll begin with Pyventus' basic string event type. These provide an easy way to define and handle
     events using event names as strings. This makes them straightforward to work with and are suited for simpler
     applications requiring a minimal approach.
 </p>
-<h3 id="passing-data">Passing Data</h3>
+<h3 id="passing-data">Passing Data<a class="headerlink" href="#passing-data" title="Permanent link">&para;</a></h3>
 <p style="text-align: justify;">
     &emsp;&emsp;When subscribing to a String Event, event callbacks can define parameters like regular functions.
     This allows flexibility in passing different data types like strings, integers, etc. The event emitters forward
     any arguments emitted with the string event to handlers using <code>*args</code> and <code>**kwargs</code>, ensuring they receive the
     same data payload.
 </p>
-<h3 id="usage">Usage</h3>
+<h3 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h3>
 <p style="text-align: justify;">
     Let's look at some code examples of defining and handling <code>String Events</code>:
 </p>
@@ -1484,13 +1534,13 @@
 <a id="__codelineno-1-19" name="__codelineno-1-19"></a>
 <a id="__codelineno-1-20" name="__codelineno-1-20"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s1">&#39;StringEvent&#39;</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">event_handler</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
-<h2 id="event-objects">Event Objects</h2>
+<h2 id="event-objects">Event Objects<a class="headerlink" href="#event-objects" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;Let's move on to <code>Event Objects</code> in Pyventus. They provide a structured way to define events and
     encapsulate relevant data payloads. Some benefits include better organization, validation support, and
     autocomplete when handling events.
 </p>
-<h3 id="defining-event-objects">Defining Event Objects</h3>
+<h3 id="defining-event-objects">Defining Event Objects<a class="headerlink" href="#defining-event-objects" title="Permanent link">&para;</a></h3>
 <p style="text-align: justify;">
     To create an <code>Event Object</code>:
 </p>
@@ -1529,7 +1579,7 @@
     the system.
 </p></p>
 </div>
-<h3 id="adding-validation">Adding Validation</h3>
+<h3 id="adding-validation">Adding Validation<a class="headerlink" href="#adding-validation" title="Permanent link">&para;</a></h3>
 <p style="text-align: justify;">
     &emsp;&emsp;You can also ensure valid data before propagation by adding validation logic to the <code>Event</code> class using
     the dataclass' <code>__post_init__()</code> method:
@@ -1566,7 +1616,7 @@
 <a id="__codelineno-3-15" name="__codelineno-3-15"></a>
 <a id="__codelineno-3-16" name="__codelineno-3-16"></a><span class="hll"><span class="n">CustomEvent</span><span class="p">(</span><span class="n">param1</span><span class="o">=</span><span class="s2">&quot;param1&quot;</span><span class="p">,</span> <span class="n">param2</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
-<h3 id="usage_1">Usage</h3>
+<h3 id="usage_1">Usage<a class="headerlink" href="#usage_1" title="Permanent link">&para;</a></h3>
 <p style="text-align: justify;">
     Here's an example demonstrating subscription and emission:
 </p>
@@ -1657,7 +1707,7 @@
     passed to the <code>Event Handler</code> as the first positional argument even if you pass extra <code>*args</code> or <code>**kwargs</code>.
 </p></p>
 </div>
-<h3 id="benefits">Benefits</h3>
+<h3 id="benefits">Benefits<a class="headerlink" href="#benefits" title="Permanent link">&para;</a></h3>
 <ul style="text-align: justify;">
 <li><strong>Natural emission of event payloads:</strong>
 Emitting an event object is a simple and intuitive process. Once an event object is created, it can be sent using the
@@ -1675,12 +1725,12 @@ Event objects can include custom validation logic to ensure the validity of the 
 Event objects benefit from autocompletion integration provided by code editors and IDEs. 
 </li>
 </ul>
-<h2 id="handling-exceptions-as-events">Handling Exceptions as Events</h2>
+<h2 id="handling-exceptions-as-events">Handling Exceptions as Events<a class="headerlink" href="#handling-exceptions-as-events" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;In addition to normal events, Pyventus allows exceptions to be treated as first-class events. This enables
     propagating and handling errors in an event-driven manner.
 </p>
-<h3 id="defining-custom-exceptions">Defining Custom Exceptions</h3>
+<h3 id="defining-custom-exceptions">Defining Custom Exceptions<a class="headerlink" href="#defining-custom-exceptions" title="Permanent link">&para;</a></h3>
 <p style="text-align: justify;">
     To define a custom exception event:
 </p>
@@ -1697,7 +1747,7 @@ Event objects benefit from autocompletion integration provided by code editors a
 <a id="__codelineno-7-3" name="__codelineno-7-3"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
 <a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">error</span>
 </span></code></pre></div></td></tr></table></div>
-<h3 id="usage_2">Usage</h3>
+<h3 id="usage_2">Usage<a class="headerlink" href="#usage_2" title="Permanent link">&para;</a></h3>
 <p style="text-align: justify;">
     Let's look at some code examples that demonstrates the usage of event exceptions:
 </p>
@@ -1768,13 +1818,13 @@ Event objects benefit from autocompletion integration provided by code editors a
 </span><a id="__codelineno-9-13" name="__codelineno-9-13"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
 </details>
-<h3 id="benefits_1">Benefits</h3>
+<h3 id="benefits_1">Benefits<a class="headerlink" href="#benefits_1" title="Permanent link">&para;</a></h3>
 <p style="text-align: justify;">
     &emsp;&emsp;By treating exceptions as first-class events, Pyventus provides a unified approach to error handling.
     This approach leverages the existing event-driven infrastructure, promotes code reuse, and enables flexible and
     powerful error handling strategies.
 </p>
-<h2 id="global-events">Global Events</h2>
+<h2 id="global-events">Global Events<a class="headerlink" href="#global-events" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;In addition to individual events, Pyventus provides support for Global Events within the context
     of an <code>EventLinker</code>. This feature allows you to register handlers that respond to event occurrences across
@@ -1832,7 +1882,7 @@ Event objects benefit from autocompletion integration provided by code editors a
 <li>This handler will be triggered by any Exception event that occurs.</li>
 <li>This handler will be triggered by any event type that occurs, including both regular events and exceptions.</li>
 </ol>
-<h2 id="recap">Recap</h2>
+<h2 id="recap">Recap<a class="headerlink" href="#recap" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;In summary, we've covered the different types of events supported by Pyventus - string named events, event
     objects, and exception events. String events provide a simple way to define and handle basic events using names
@@ -1966,7 +2016,7 @@ Event objects benefit from autocompletion integration provided by code editors a
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

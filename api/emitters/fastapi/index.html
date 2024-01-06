@@ -12,13 +12,13 @@
         <meta name="author" content="Manuel Da Pena">
       
       
-        <link rel="canonical" href="https://mdapena.github.io/pyventus/api/emitters/rq/">
+        <link rel="canonical" href="https://mdapena.github.io/pyventus/api/emitters/fastapi/">
       
       
-        <link rel="prev" href="../fastapi/">
+        <link rel="prev" href="../executor/">
       
       
-        <link rel="next" href="../../../contributing/">
+        <link rel="next" href="../rq/">
       
       
       <link rel="icon" href="../../../images/favicon/pyventus-logo.ico">
@@ -26,7 +26,7 @@
     
     
       
-        <title>RQ Event Emitter - Pyventus</title>
+        <title>FastAPI Event Emitter - Pyventus</title>
       
     
     
@@ -82,7 +82,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#rqeventemitter-class" class="md-skip">
+        <a href="#fastapieventemitter-class" class="md-skip">
           Skip to content
         </a>
       
@@ -115,7 +115,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              RQ Event Emitter
+              FastAPI Event Emitter
             
           </span>
         </div>
@@ -985,27 +985,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../fastapi/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    FastAPI Event Emitter
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -1022,7 +1001,7 @@
           
   
   <span class="md-ellipsis">
-    RQ Event Emitter
+    FastAPI Event Emitter
   </span>
   
 
@@ -1033,7 +1012,7 @@
         
   
   <span class="md-ellipsis">
-    RQ Event Emitter
+    FastAPI Event Emitter
   </span>
   
 
@@ -1055,16 +1034,16 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pyventus.emitters.rq.RQEventEmitter" class="md-nav__link">
+  <a href="#pyventus.emitters.fastapi.FastAPIEventEmitter" class="md-nav__link">
     <span class="md-ellipsis">
-      RQEventEmitter
+      FastAPIEventEmitter
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#pyventus.emitters.rq.RQEventEmitter-functions" class="md-nav__link">
+  <a href="#pyventus.emitters.fastapi.FastAPIEventEmitter-functions" class="md-nav__link">
     <span class="md-ellipsis">
       Functions
     </span>
@@ -1074,7 +1053,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#pyventus.emitters.rq.RQEventEmitter.emit" class="md-nav__link">
+  <a href="#pyventus.emitters.fastapi.FastAPIEventEmitter.emit" class="md-nav__link">
     <span class="md-ellipsis">
       emit()
     </span>
@@ -1083,7 +1062,16 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pyventus.emitters.rq.RQEventEmitter.__init__" class="md-nav__link">
+  <a href="#pyventus.emitters.fastapi.FastAPIEventEmitter.options" class="md-nav__link">
+    <span class="md-ellipsis">
+      options()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyventus.emitters.fastapi.FastAPIEventEmitter.__init__" class="md-nav__link">
     <span class="md-ellipsis">
       __init__()
     </span>
@@ -1100,6 +1088,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RQ Event Emitter
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1187,16 +1196,16 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pyventus.emitters.rq.RQEventEmitter" class="md-nav__link">
+  <a href="#pyventus.emitters.fastapi.FastAPIEventEmitter" class="md-nav__link">
     <span class="md-ellipsis">
-      RQEventEmitter
+      FastAPIEventEmitter
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#pyventus.emitters.rq.RQEventEmitter-functions" class="md-nav__link">
+  <a href="#pyventus.emitters.fastapi.FastAPIEventEmitter-functions" class="md-nav__link">
     <span class="md-ellipsis">
       Functions
     </span>
@@ -1206,7 +1215,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#pyventus.emitters.rq.RQEventEmitter.emit" class="md-nav__link">
+  <a href="#pyventus.emitters.fastapi.FastAPIEventEmitter.emit" class="md-nav__link">
     <span class="md-ellipsis">
       emit()
     </span>
@@ -1215,7 +1224,16 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#pyventus.emitters.rq.RQEventEmitter.__init__" class="md-nav__link">
+  <a href="#pyventus.emitters.fastapi.FastAPIEventEmitter.options" class="md-nav__link">
+    <span class="md-ellipsis">
+      options()
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pyventus.emitters.fastapi.FastAPIEventEmitter.__init__" class="md-nav__link">
     <span class="md-ellipsis">
       __init__()
     </span>
@@ -1246,31 +1264,32 @@
   
 
 
-<h1 id="rqeventemitter-class"><code>RQEventEmitter</code> class<a class="headerlink" href="#rqeventemitter-class" title="Permanent link">&para;</a></h1>
+<h1 id="fastapieventemitter-class"><code>FastAPIEventEmitter</code> class<a class="headerlink" href="#fastapieventemitter-class" title="Permanent link">&para;</a></h1>
 
 
 <div class="doc doc-object doc-class">
 
 
 
-<a id="pyventus.emitters.rq.RQEventEmitter"></a>
+<a id="pyventus.emitters.fastapi.FastAPIEventEmitter"></a>
   <div class="doc doc-contents first">
           <p class="doc doc-class-bases">
             Bases: <code><a class="autorefs autorefs-internal" title="pyventus.emitters.event_emitter.EventEmitter" href="../#pyventus.EventEmitter">EventEmitter</a></code></p>
 
   
-      <p>A class that enables event handling using the powerful Redis Queue (RQ) pub/sub and
-worker system.</p>
-<p>This class extends the base <code>EventEmitter</code> class and provides the functionality to enqueue
-event emissions using the <a href="https://python-rq.org/">RQ package</a>. Once enqueued, these event
-emissions are processed by RQ workers. This event emitter is particularly useful when
-dealing with events that require resource-intensive tasks like model optimization
-or video processing.</p>
-<p>For more information and code examples, please refer to the <code>RQEventEmitter</code> tutorials
-at: <a href="https://mdapena.github.io/pyventus/tutorials/emitters/rq/">https://mdapena.github.io/pyventus/tutorials/emitters/rq/</a>.</p>
+      <p>A class that enables event handling in <a href="https://fastapi.tiangolo.com/">FastAPI</a> using its powerful
+<a href="https://fastapi.tiangolo.com/reference/background/">BackgroundTasks</a> system.</p>
+<p>This class extends the base <code>EventEmitter</code> class and leverages the FastAPI's BackgroundTasks feature to
+process event emissions asynchronously. It provides a convenient way to incorporate event-driven
+functionality into FastAPI applications.</p>
+<p>This class provides a powerful mechanism for implementing asynchronous and decoupled operations,
+such as asynchronously sending emails in an event-driven manner. It opens up possibilities for
+building scalable and responsive FastAPI applications.</p>
+<p>For more information and code examples, please refer to the <code>FastAPIEventEmitter</code> tutorials at:
+<a href="https://mdapena.github.io/pyventus/tutorials/emitters/fastapi/">https://mdapena.github.io/pyventus/tutorials/emitters/fastapi/</a>.</p>
 
             <details class="quote">
-              <summary>Source code in <code>pyventus/emitters/rq/rq_event_emitter.py</code></summary>
+              <summary>Source code in <code>pyventus/emitters/fastapi/fastapi_event_emitter.py</code></summary>
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-16">16</a></span>
 <span class="normal"><a href="#__codelineno-0-17">17</a></span>
 <span class="normal"><a href="#__codelineno-0-18">18</a></span>
@@ -1319,55 +1338,93 @@ at: <a href="https://mdapena.github.io/pyventus/tutorials/emitters/rq/">https://
 <span class="normal"><a href="#__codelineno-0-61">61</a></span>
 <span class="normal"><a href="#__codelineno-0-62">62</a></span>
 <span class="normal"><a href="#__codelineno-0-63">63</a></span>
-<span class="normal"><a href="#__codelineno-0-64">64</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="k">class</span> <span class="nc">RQEventEmitter</span><span class="p">(</span><span class="n">EventEmitter</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#__codelineno-0-66">66</a></span>
+<span class="normal"><a href="#__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#__codelineno-0-68">68</a></span>
+<span class="normal"><a href="#__codelineno-0-69">69</a></span>
+<span class="normal"><a href="#__codelineno-0-70">70</a></span>
+<span class="normal"><a href="#__codelineno-0-71">71</a></span>
+<span class="normal"><a href="#__codelineno-0-72">72</a></span>
+<span class="normal"><a href="#__codelineno-0-73">73</a></span>
+<span class="normal"><a href="#__codelineno-0-74">74</a></span>
+<span class="normal"><a href="#__codelineno-0-75">75</a></span>
+<span class="normal"><a href="#__codelineno-0-76">76</a></span>
+<span class="normal"><a href="#__codelineno-0-77">77</a></span>
+<span class="normal"><a href="#__codelineno-0-78">78</a></span>
+<span class="normal"><a href="#__codelineno-0-79">79</a></span>
+<span class="normal"><a href="#__codelineno-0-80">80</a></span>
+<span class="normal"><a href="#__codelineno-0-81">81</a></span>
+<span class="normal"><a href="#__codelineno-0-82">82</a></span>
+<span class="normal"><a href="#__codelineno-0-83">83</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="k">class</span> <span class="nc">FastAPIEventEmitter</span><span class="p">(</span><span class="n">EventEmitter</span><span class="p">):</span>
 <a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">    A class that enables event handling using the powerful Redis Queue (RQ) pub/sub and</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">    worker system.</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">    A class that enables event handling in [FastAPI](https://fastapi.tiangolo.com/) using its powerful</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">    [BackgroundTasks](https://fastapi.tiangolo.com/reference/background/) system.</span>
 <a id="__codelineno-0-20" name="__codelineno-0-20"></a>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">    This class extends the base `EventEmitter` class and provides the functionality to enqueue</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">    event emissions using the [RQ package](https://python-rq.org/). Once enqueued, these event</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">    emissions are processed by RQ workers. This event emitter is particularly useful when</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">    dealing with events that require resource-intensive tasks like model optimization</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">    or video processing.</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26"></a>
-<a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">    For more information and code examples, please refer to the `RQEventEmitter` tutorials</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">    at: [https://mdapena.github.io/pyventus/tutorials/emitters/rq/](https://mdapena.github.io/pyventus/tutorials/emitters/rq/).</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a>        <span class="bp">self</span><span class="p">,</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a>        <span class="n">queue</span><span class="p">:</span> <span class="n">Queue</span><span class="p">,</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a>        <span class="n">options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a>        <span class="n">event_linker</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EventLinker</span><span class="p">]</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="p">,</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>        <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="p">):</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        Initializes an instance of the `RQEventEmitter` class.</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        :param queue: The Redis queue for enqueuing event handlers.</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">        :param options: Additional options for the RQ package enqueueing method.</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">            Defaults to an empty dictionary.</span>
-<a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">        :param event_linker: Specifies the type of event linker to use for associating</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">            events with their respective event handlers. Defaults to `EventLinker`.</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        :param debug: Specifies the debug mode for the logger. If `None`, it is</span>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">            determined based on the execution environment.</span>
-<a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="c1"># Call the parent class&#39; __init__ method to set up the event linker</span>
-<a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">event_linker</span><span class="o">=</span><span class="n">event_linker</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a>
-<a id="__codelineno-0-51" name="__codelineno-0-51"></a>        <span class="c1"># Validate the queue argument</span>
-<a id="__codelineno-0-52" name="__codelineno-0-52"></a>        <span class="k">if</span> <span class="n">queue</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">Queue</span><span class="p">):</span>
-<a id="__codelineno-0-53" name="__codelineno-0-53"></a>            <span class="k">raise</span> <span class="n">PyventusException</span><span class="p">(</span><span class="s2">&quot;The &#39;queue&#39; argument must be a valid (RQ) queue.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">    This class extends the base `EventEmitter` class and leverages the FastAPI&#39;s BackgroundTasks feature to</span>
+<a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">    process event emissions asynchronously. It provides a convenient way to incorporate event-driven</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">    functionality into FastAPI applications.</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24"></a>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="sd">    This class provides a powerful mechanism for implementing asynchronous and decoupled operations,</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">    such as asynchronously sending emails in an event-driven manner. It opens up possibilities for</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">    building scalable and responsive FastAPI applications.</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28"></a>
+<a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="sd">    For more information and code examples, please refer to the `FastAPIEventEmitter` tutorials at:</span>
+<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">    [https://mdapena.github.io/pyventus/tutorials/emitters/fastapi/](https://mdapena.github.io/pyventus/tutorials/emitters/fastapi/).</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32"></a>
+<a id="__codelineno-0-33" name="__codelineno-0-33"></a>    <span class="nd">@classmethod</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="k">def</span> <span class="nf">options</span><span class="p">(</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35"></a>        <span class="bp">cls</span><span class="p">,</span> <span class="n">event_linker</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EventLinker</span><span class="p">]</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">BackgroundTasks</span><span class="p">],</span> <span class="s2">&quot;FastAPIEventEmitter&quot;</span><span class="p">]:</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">        Returns a decorator that allows configuring the `FastAPIEventEmitter` class when</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">        using the `Depends` method of `FastAPI`.</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">        :param event_linker: Specifies the type of event linker to use for associating</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">            events with their respective event handlers. Defaults to `EventLinker`.</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">        :param debug: Specifies the debug mode for the logger. If `None`, it is</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">            determined based on the execution environment.</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">        :return: A decorator that can be used with the `Depends` method.</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a>
+<a id="__codelineno-0-47" name="__codelineno-0-47"></a>        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FastAPIEventEmitter&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">            Decorator wrapper function that configures the `FastAPIEventEmitter` class with the provided options.</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="sd">            :param background_tasks: The FastAPI `BackgroundTasks` object used to process event emissions.</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="sd">            :return: An instance of `FastAPIEventEmitter` configured with the specified options.</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">            &quot;&quot;&quot;</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53"></a>            <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">background_tasks</span><span class="o">=</span><span class="n">background_tasks</span><span class="p">,</span> <span class="n">event_linker</span><span class="o">=</span><span class="n">event_linker</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
 <a id="__codelineno-0-54" name="__codelineno-0-54"></a>
-<a id="__codelineno-0-55" name="__codelineno-0-55"></a>        <span class="c1"># Store the RQ queue and options</span>
-<a id="__codelineno-0-56" name="__codelineno-0-56"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="p">:</span> <span class="n">Queue</span> <span class="o">=</span> <span class="n">queue</span>
-<a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot; The Redis queue for enqueuing event handlers. &quot;&quot;&quot;</span>
-<a id="__codelineno-0-58" name="__codelineno-0-58"></a>
-<a id="__codelineno-0-59" name="__codelineno-0-59"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span> <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
-<a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot; Additional options for the RQ package enqueueing method. &quot;&quot;&quot;</span>
-<a id="__codelineno-0-61" name="__codelineno-0-61"></a>
-<a id="__codelineno-0-62" name="__codelineno-0-62"></a>    <span class="k">def</span> <span class="nf">_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_emission</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="o">.</span><span class="n">EventEmission</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-63" name="__codelineno-0-63"></a>        <span class="c1"># Add the event emission to the Redis Queue</span>
-<a id="__codelineno-0-64" name="__codelineno-0-64"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="o">.</span><span class="n">enqueue</span><span class="p">(</span><span class="n">event_emission</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">)</span>
+<a id="__codelineno-0-55" name="__codelineno-0-55"></a>        <span class="k">return</span> <span class="n">wrapper</span>
+<a id="__codelineno-0-56" name="__codelineno-0-56"></a>
+<a id="__codelineno-0-57" name="__codelineno-0-57"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<a id="__codelineno-0-58" name="__codelineno-0-58"></a>        <span class="bp">self</span><span class="p">,</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a>        <span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">,</span>
+<a id="__codelineno-0-60" name="__codelineno-0-60"></a>        <span class="n">event_linker</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EventLinker</span><span class="p">]</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="p">,</span>
+<a id="__codelineno-0-61" name="__codelineno-0-61"></a>        <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-62" name="__codelineno-0-62"></a>    <span class="p">):</span>
+<a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="sd">        Initializes the `FastAPIEventEmitter`.</span>
+<a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="sd">        :param background_tasks: The FastAPI `BackgroundTasks` object used to process event emissions.</span>
+<a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">        :param event_linker: Specifies the type of event linker to use for associating</span>
+<a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">            events with their respective event handlers. Defaults to `EventLinker`.</span>
+<a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">        :param debug: Specifies the debug mode for the logger. If `None`, it is</span>
+<a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">            determined based on the execution environment.</span>
+<a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-71" name="__codelineno-0-71"></a>        <span class="c1"># Call the parent class&#39; __init__ method to set up the event linker</span>
+<a id="__codelineno-0-72" name="__codelineno-0-72"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">event_linker</span><span class="o">=</span><span class="n">event_linker</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
+<a id="__codelineno-0-73" name="__codelineno-0-73"></a>
+<a id="__codelineno-0-74" name="__codelineno-0-74"></a>        <span class="c1"># Check if the provided background_tasks object is valid</span>
+<a id="__codelineno-0-75" name="__codelineno-0-75"></a>        <span class="k">if</span> <span class="n">background_tasks</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">,</span> <span class="n">BackgroundTasks</span><span class="p">):</span>
+<a id="__codelineno-0-76" name="__codelineno-0-76"></a>            <span class="k">raise</span> <span class="n">PyventusException</span><span class="p">(</span><span class="s2">&quot;The &#39;background_tasks&#39; argument must be a valid FastAPI BackgroundTask instance.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-77" name="__codelineno-0-77"></a>
+<a id="__codelineno-0-78" name="__codelineno-0-78"></a>        <span class="c1"># Set the background tasks</span>
+<a id="__codelineno-0-79" name="__codelineno-0-79"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span> <span class="o">=</span> <span class="n">background_tasks</span>
+<a id="__codelineno-0-80" name="__codelineno-0-80"></a>
+<a id="__codelineno-0-81" name="__codelineno-0-81"></a>    <span class="k">def</span> <span class="nf">_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_emission</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="o">.</span><span class="n">EventEmission</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-82" name="__codelineno-0-82"></a>        <span class="c1"># Submit the event emission to the background tasks</span>
+<a id="__codelineno-0-83" name="__codelineno-0-83"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_background_tasks</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="n">event_emission</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
 
@@ -1381,7 +1438,7 @@ at: <a href="https://mdapena.github.io/pyventus/tutorials/emitters/rq/">https://
 
 
 
-<h2 id="pyventus.emitters.rq.RQEventEmitter-functions">Functions<a href="#pyventus.emitters.rq.RQEventEmitter-functions" class="headerlink" title="Permanent link">&para;</a></h2>
+<h2 id="pyventus.emitters.fastapi.FastAPIEventEmitter-functions">Functions<a href="#pyventus.emitters.fastapi.FastAPIEventEmitter-functions" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
 <div class="doc doc-object doc-function">
@@ -1389,11 +1446,11 @@ at: <a href="https://mdapena.github.io/pyventus/tutorials/emitters/rq/">https://
 
 
 
-<h3 id="pyventus.emitters.rq.RQEventEmitter.emit" class="doc doc-heading">
+<h3 id="pyventus.emitters.fastapi.FastAPIEventEmitter.emit" class="doc doc-heading">
           <span class="doc doc-object-name doc-function-name">emit</span>
 
 
-<a href="#pyventus.emitters.rq.RQEventEmitter.emit" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#pyventus.emitters.fastapi.FastAPIEventEmitter.emit" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">emit</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">EmittableEventType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -1682,17 +1739,22 @@ first positional argument, even if you pass <code>*args</code> or <code>**kwargs
 
 
 
-<h3 id="pyventus.emitters.rq.RQEventEmitter.__init__" class="doc doc-heading">
-          <span class="doc doc-object-name doc-function-name">__init__</span>
+<h3 id="pyventus.emitters.fastapi.FastAPIEventEmitter.options" class="doc doc-heading">
+          <span class="doc doc-object-name doc-function-name">options</span>
 
+  
+  <span class="doc doc-labels">
+      <small class="doc doc-label doc-label-classmethod"><code>classmethod</code></small>
+  </span>
 
-<a href="#pyventus.emitters.rq.RQEventEmitter.__init__" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="fm">__init__</span><span class="p">(</span><span class="n">queue</span><span class="p">:</span> <span class="n">Queue</span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">event_linker</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EventLinker</span><span class="p">]</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+<a href="#pyventus.emitters.fastapi.FastAPIEventEmitter.options" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">options</span><span class="p">(</span><span class="n">event_linker</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EventLinker</span><span class="p">]</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">BackgroundTasks</span><span class="p">],</span> <span class="n">FastAPIEventEmitter</span><span class="p">]</span>
 </code></pre></div>
 
   <div class="doc doc-contents ">
   
-      <p>Initializes an instance of the <code>RQEventEmitter</code> class.</p>
+      <p>Returns a decorator that allows configuring the <code>FastAPIEventEmitter</code> class when
+using the <code>Depends</code> method of <code>FastAPI</code>.</p>
 
 
 
@@ -1705,33 +1767,160 @@ first positional argument, even if you pass <code>*args</code> or <code>**kwargs
     </thead>
     <tbody>
         <tr>
-          <td><code>queue</code></td>
+          <td><code>event_linker</code></td>
           <td class="doc-param-details">
             <div class="doc-md-description">
-              <p>The Redis queue for enqueuing event handlers.</p>
+              <p>Specifies the type of event linker to use for associating events with their respective event handlers. Defaults to <code>EventLinker</code>.</p>
             </div>
             <p>
                 <span class="doc-param-annotation">
                   <b>TYPE:</b>
-                    <code><span title="rq.Queue">Queue</span></code>
+                    <code><span title="typing.Type">Type</span>[<a class="autorefs autorefs-internal" title="pyventus.linkers.EventLinker" href="../../event-linker/#pyventus.EventLinker">EventLinker</a>]</code>
+                </span>
+                <span class="doc-param-default">
+                  <b>DEFAULT:</b> 
+                    <code><a class="autorefs autorefs-internal" title="pyventus.linkers.EventLinker" href="../../event-linker/#pyventus.EventLinker">EventLinker</a></code>
                 </span>
             </p>
           </td>
         </tr>
         <tr>
-          <td><code>options</code></td>
+          <td><code>debug</code></td>
           <td class="doc-param-details">
             <div class="doc-md-description">
-              <p>Additional options for the RQ package enqueueing method. Defaults to an empty dictionary.</p>
+              <p>Specifies the debug mode for the logger. If <code>None</code>, it is determined based on the execution environment.</p>
             </div>
             <p>
                 <span class="doc-param-annotation">
                   <b>TYPE:</b>
-                    <code><span title="typing.Dict">Dict</span>[str, <span title="typing.Any">Any</span>] | None</code>
+                    <code>bool | None</code>
                 </span>
                 <span class="doc-param-default">
                   <b>DEFAULT:</b> 
                     <code>None</code>
+                </span>
+            </p>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>RETURNS</b></th>
+        <th><b>DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td>
+              <span class="doc-returns-annotation">
+                  <code><span title="typing.Callable">Callable</span>[[<span title="fastapi.BackgroundTasks">BackgroundTasks</span>], <a class="autorefs autorefs-internal" title="pyventus.emitters.fastapi.fastapi_event_emitter.FastAPIEventEmitter" href="#pyventus.emitters.fastapi.FastAPIEventEmitter">FastAPIEventEmitter</a>]</code>
+              </span>
+          </td>
+          <td class="doc-returns-details">
+            <div class="doc-md-description">
+              <p>A decorator that can be used with the <code>Depends</code> method.</p>
+            </div>
+          </td>
+        </tr>
+    </tbody>
+  </table>
+
+          <details class="quote">
+            <summary>Source code in <code>pyventus/emitters/fastapi/fastapi_event_emitter.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#__codelineno-0-55">55</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="k">def</span> <span class="nf">options</span><span class="p">(</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="bp">cls</span><span class="p">,</span> <span class="n">event_linker</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EventLinker</span><span class="p">]</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">BackgroundTasks</span><span class="p">],</span> <span class="s2">&quot;FastAPIEventEmitter&quot;</span><span class="p">]:</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="sd">    Returns a decorator that allows configuring the `FastAPIEventEmitter` class when</span>
+<a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">    using the `Depends` method of `FastAPI`.</span>
+<a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">    :param event_linker: Specifies the type of event linker to use for associating</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">        events with their respective event handlers. Defaults to `EventLinker`.</span>
+<a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">    :param debug: Specifies the debug mode for the logger. If `None`, it is</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">        determined based on the execution environment.</span>
+<a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">    :return: A decorator that can be used with the `Depends` method.</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-46" name="__codelineno-0-46"></a>
+<a id="__codelineno-0-47" name="__codelineno-0-47"></a>    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FastAPIEventEmitter&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-49" name="__codelineno-0-49"></a><span class="sd">        Decorator wrapper function that configures the `FastAPIEventEmitter` class with the provided options.</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a><span class="sd">        :param background_tasks: The FastAPI `BackgroundTasks` object used to process event emissions.</span>
+<a id="__codelineno-0-51" name="__codelineno-0-51"></a><span class="sd">        :return: An instance of `FastAPIEventEmitter` configured with the specified options.</span>
+<a id="__codelineno-0-52" name="__codelineno-0-52"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-0-53" name="__codelineno-0-53"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">background_tasks</span><span class="o">=</span><span class="n">background_tasks</span><span class="p">,</span> <span class="n">event_linker</span><span class="o">=</span><span class="n">event_linker</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
+<a id="__codelineno-0-54" name="__codelineno-0-54"></a>
+<a id="__codelineno-0-55" name="__codelineno-0-55"></a>    <span class="k">return</span> <span class="n">wrapper</span>
+</code></pre></div></td></tr></table></div>
+          </details>
+  </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+
+
+<h3 id="pyventus.emitters.fastapi.FastAPIEventEmitter.__init__" class="doc doc-heading">
+          <span class="doc doc-object-name doc-function-name">__init__</span>
+
+
+<a href="#pyventus.emitters.fastapi.FastAPIEventEmitter.__init__" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="fm">__init__</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">,</span> <span class="n">event_linker</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EventLinker</span><span class="p">]</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+
+  <div class="doc doc-contents ">
+  
+      <p>Initializes the <code>FastAPIEventEmitter</code>.</p>
+
+
+
+  <table>
+    <thead>
+      <tr>
+        <th><b>PARAMETER</b></th>
+        <th><b> DESCRIPTION</b></th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td><code>background_tasks</code></td>
+          <td class="doc-param-details">
+            <div class="doc-md-description">
+              <p>The FastAPI <code>BackgroundTasks</code> object used to process event emissions.</p>
+            </div>
+            <p>
+                <span class="doc-param-annotation">
+                  <b>TYPE:</b>
+                    <code><span title="fastapi.BackgroundTasks">BackgroundTasks</span></code>
                 </span>
             </p>
           </td>
@@ -1776,66 +1965,52 @@ first positional argument, even if you pass <code>*args</code> or <code>**kwargs
   </table>
 
           <details class="quote">
-            <summary>Source code in <code>pyventus/emitters/rq/rq_event_emitter.py</code></summary>
-            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span>
-<span class="normal"><a href="#__codelineno-0-35">35</a></span>
-<span class="normal"><a href="#__codelineno-0-36">36</a></span>
-<span class="normal"><a href="#__codelineno-0-37">37</a></span>
-<span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span>
-<span class="normal"><a href="#__codelineno-0-41">41</a></span>
-<span class="normal"><a href="#__codelineno-0-42">42</a></span>
-<span class="normal"><a href="#__codelineno-0-43">43</a></span>
-<span class="normal"><a href="#__codelineno-0-44">44</a></span>
-<span class="normal"><a href="#__codelineno-0-45">45</a></span>
-<span class="normal"><a href="#__codelineno-0-46">46</a></span>
-<span class="normal"><a href="#__codelineno-0-47">47</a></span>
-<span class="normal"><a href="#__codelineno-0-48">48</a></span>
-<span class="normal"><a href="#__codelineno-0-49">49</a></span>
-<span class="normal"><a href="#__codelineno-0-50">50</a></span>
-<span class="normal"><a href="#__codelineno-0-51">51</a></span>
-<span class="normal"><a href="#__codelineno-0-52">52</a></span>
-<span class="normal"><a href="#__codelineno-0-53">53</a></span>
-<span class="normal"><a href="#__codelineno-0-54">54</a></span>
-<span class="normal"><a href="#__codelineno-0-55">55</a></span>
-<span class="normal"><a href="#__codelineno-0-56">56</a></span>
-<span class="normal"><a href="#__codelineno-0-57">57</a></span>
+            <summary>Source code in <code>pyventus/emitters/fastapi/fastapi_event_emitter.py</code></summary>
+            <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-57">57</a></span>
 <span class="normal"><a href="#__codelineno-0-58">58</a></span>
 <span class="normal"><a href="#__codelineno-0-59">59</a></span>
-<span class="normal"><a href="#__codelineno-0-60">60</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="bp">self</span><span class="p">,</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a>    <span class="n">queue</span><span class="p">:</span> <span class="n">Queue</span><span class="p">,</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="n">options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="n">event_linker</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EventLinker</span><span class="p">]</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="p">,</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="p">):</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a><span class="sd">    Initializes an instance of the `RQEventEmitter` class.</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">    :param queue: The Redis queue for enqueuing event handlers.</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="sd">    :param options: Additional options for the RQ package enqueueing method.</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="sd">        Defaults to an empty dictionary.</span>
-<a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="sd">    :param event_linker: Specifies the type of event linker to use for associating</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="sd">        events with their respective event handlers. Defaults to `EventLinker`.</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">    :param debug: Specifies the debug mode for the logger. If `None`, it is</span>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a><span class="sd">        determined based on the execution environment.</span>
-<a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="c1"># Call the parent class&#39; __init__ method to set up the event linker</span>
-<a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">event_linker</span><span class="o">=</span><span class="n">event_linker</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a>
-<a id="__codelineno-0-51" name="__codelineno-0-51"></a>    <span class="c1"># Validate the queue argument</span>
-<a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="k">if</span> <span class="n">queue</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">Queue</span><span class="p">):</span>
-<a id="__codelineno-0-53" name="__codelineno-0-53"></a>        <span class="k">raise</span> <span class="n">PyventusException</span><span class="p">(</span><span class="s2">&quot;The &#39;queue&#39; argument must be a valid (RQ) queue.&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-54" name="__codelineno-0-54"></a>
-<a id="__codelineno-0-55" name="__codelineno-0-55"></a>    <span class="c1"># Store the RQ queue and options</span>
-<a id="__codelineno-0-56" name="__codelineno-0-56"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_queue</span><span class="p">:</span> <span class="n">Queue</span> <span class="o">=</span> <span class="n">queue</span>
-<a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; The Redis queue for enqueuing event handlers. &quot;&quot;&quot;</span>
-<a id="__codelineno-0-58" name="__codelineno-0-58"></a>
-<a id="__codelineno-0-59" name="__codelineno-0-59"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">options</span> <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
-<a id="__codelineno-0-60" name="__codelineno-0-60"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; Additional options for the RQ package enqueueing method. &quot;&quot;&quot;</span>
+<span class="normal"><a href="#__codelineno-0-60">60</a></span>
+<span class="normal"><a href="#__codelineno-0-61">61</a></span>
+<span class="normal"><a href="#__codelineno-0-62">62</a></span>
+<span class="normal"><a href="#__codelineno-0-63">63</a></span>
+<span class="normal"><a href="#__codelineno-0-64">64</a></span>
+<span class="normal"><a href="#__codelineno-0-65">65</a></span>
+<span class="normal"><a href="#__codelineno-0-66">66</a></span>
+<span class="normal"><a href="#__codelineno-0-67">67</a></span>
+<span class="normal"><a href="#__codelineno-0-68">68</a></span>
+<span class="normal"><a href="#__codelineno-0-69">69</a></span>
+<span class="normal"><a href="#__codelineno-0-70">70</a></span>
+<span class="normal"><a href="#__codelineno-0-71">71</a></span>
+<span class="normal"><a href="#__codelineno-0-72">72</a></span>
+<span class="normal"><a href="#__codelineno-0-73">73</a></span>
+<span class="normal"><a href="#__codelineno-0-74">74</a></span>
+<span class="normal"><a href="#__codelineno-0-75">75</a></span>
+<span class="normal"><a href="#__codelineno-0-76">76</a></span>
+<span class="normal"><a href="#__codelineno-0-77">77</a></span>
+<span class="normal"><a href="#__codelineno-0-78">78</a></span>
+<span class="normal"><a href="#__codelineno-0-79">79</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<a id="__codelineno-0-58" name="__codelineno-0-58"></a>    <span class="bp">self</span><span class="p">,</span>
+<a id="__codelineno-0-59" name="__codelineno-0-59"></a>    <span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">,</span>
+<a id="__codelineno-0-60" name="__codelineno-0-60"></a>    <span class="n">event_linker</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EventLinker</span><span class="p">]</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="p">,</span>
+<a id="__codelineno-0-61" name="__codelineno-0-61"></a>    <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="p">):</span>
+<a id="__codelineno-0-63" name="__codelineno-0-63"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-64" name="__codelineno-0-64"></a><span class="sd">    Initializes the `FastAPIEventEmitter`.</span>
+<a id="__codelineno-0-65" name="__codelineno-0-65"></a><span class="sd">    :param background_tasks: The FastAPI `BackgroundTasks` object used to process event emissions.</span>
+<a id="__codelineno-0-66" name="__codelineno-0-66"></a><span class="sd">    :param event_linker: Specifies the type of event linker to use for associating</span>
+<a id="__codelineno-0-67" name="__codelineno-0-67"></a><span class="sd">        events with their respective event handlers. Defaults to `EventLinker`.</span>
+<a id="__codelineno-0-68" name="__codelineno-0-68"></a><span class="sd">    :param debug: Specifies the debug mode for the logger. If `None`, it is</span>
+<a id="__codelineno-0-69" name="__codelineno-0-69"></a><span class="sd">        determined based on the execution environment.</span>
+<a id="__codelineno-0-70" name="__codelineno-0-70"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-71" name="__codelineno-0-71"></a>    <span class="c1"># Call the parent class&#39; __init__ method to set up the event linker</span>
+<a id="__codelineno-0-72" name="__codelineno-0-72"></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">event_linker</span><span class="o">=</span><span class="n">event_linker</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
+<a id="__codelineno-0-73" name="__codelineno-0-73"></a>
+<a id="__codelineno-0-74" name="__codelineno-0-74"></a>    <span class="c1"># Check if the provided background_tasks object is valid</span>
+<a id="__codelineno-0-75" name="__codelineno-0-75"></a>    <span class="k">if</span> <span class="n">background_tasks</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">,</span> <span class="n">BackgroundTasks</span><span class="p">):</span>
+<a id="__codelineno-0-76" name="__codelineno-0-76"></a>        <span class="k">raise</span> <span class="n">PyventusException</span><span class="p">(</span><span class="s2">&quot;The &#39;background_tasks&#39; argument must be a valid FastAPI BackgroundTask instance.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-77" name="__codelineno-0-77"></a>
+<a id="__codelineno-0-78" name="__codelineno-0-78"></a>    <span class="c1"># Set the background tasks</span>
+<a id="__codelineno-0-79" name="__codelineno-0-79"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span> <span class="o">=</span> <span class="n">background_tasks</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -1869,7 +2044,7 @@ first positional argument, even if you pass <code>*args</code> or <code>**kwargs
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-28T06:24:46+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-28</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-04T03:23:56+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-04</span>
   </span>
 
     
@@ -1922,7 +2097,7 @@ first positional argument, even if you pass <code>*args</code> or <code>**kwargs
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../fastapi/" class="md-footer__link md-footer__link--prev" aria-label="Previous: FastAPI Event Emitter">
+          <a href="../executor/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Executor Event Emitter">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1932,20 +2107,20 @@ first positional argument, even if you pass <code>*args</code> or <code>**kwargs
                 Previous
               </span>
               <div class="md-ellipsis">
-                FastAPI Event Emitter
+                Executor Event Emitter
               </div>
             </div>
           </a>
         
         
           
-          <a href="../../../contributing/" class="md-footer__link md-footer__link--next" aria-label="Next: Contributing">
+          <a href="../rq/" class="md-footer__link md-footer__link--next" aria-label="Next: RQ Event Emitter">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Contributing
+                RQ Event Emitter
               </div>
             </div>
             <div class="md-footer__button md-icon">

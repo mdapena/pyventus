@@ -548,6 +548,10 @@
           
         
       
+        
+          
+        
+      
     
     
     
@@ -644,6 +648,27 @@
   
   <span class="md-ellipsis">
     Executor Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tutorials/emitters/fastapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FastAPI Event Emitter
   </span>
   
 
@@ -828,6 +853,10 @@
   
     
     
+      
+        
+          
+        
       
         
           
@@ -1143,6 +1172,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../fastapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FastAPI Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../rq/" class="md-nav__link">
         
   
@@ -1400,7 +1450,7 @@
   
 
 
-<h1 id="celeryeventemitter-class"><code>CeleryEventEmitter</code> class</h1>
+<h1 id="celeryeventemitter-class"><code>CeleryEventEmitter</code> class<a class="headerlink" href="#celeryeventemitter-class" title="Permanent link">&para;</a></h1>
 
 
 <div class="doc doc-object doc-class">
@@ -1855,8 +1905,8 @@ emissions for asynchronous processing.</p>
 <a id="__codelineno-0-225" name="__codelineno-0-225"></a><span class="sd">        :param queue: The celery event task executor used to process the event task.</span>
 <a id="__codelineno-0-226" name="__codelineno-0-226"></a><span class="sd">        :param event_linker: Specifies the type of event linker to use for associating</span>
 <a id="__codelineno-0-227" name="__codelineno-0-227"></a><span class="sd">            events with their respective event handlers. Defaults to `EventLinker`.</span>
-<a id="__codelineno-0-228" name="__codelineno-0-228"></a><span class="sd">        :param debug: Specifies the debug mode for the subclass logger. If `None`,</span>
-<a id="__codelineno-0-229" name="__codelineno-0-229"></a><span class="sd">            it is determined based on the execution environment.</span>
+<a id="__codelineno-0-228" name="__codelineno-0-228"></a><span class="sd">        :param debug: Specifies the debug mode for the logger. If `None`, it is</span>
+<a id="__codelineno-0-229" name="__codelineno-0-229"></a><span class="sd">            determined based on the execution environment.</span>
 <a id="__codelineno-0-230" name="__codelineno-0-230"></a><span class="sd">        &quot;&quot;&quot;</span>
 <a id="__codelineno-0-231" name="__codelineno-0-231"></a>        <span class="c1"># Call the parent class&#39; __init__ method to set up the event linker</span>
 <a id="__codelineno-0-232" name="__codelineno-0-232"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">event_linker</span><span class="o">=</span><span class="n">event_linker</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
@@ -1884,7 +1934,7 @@ emissions for asynchronous processing.</p>
 
 
 
-<h2 id="pyventus.emitters.celery.CeleryEventEmitter-classes">Classes</h2>
+<h2 id="pyventus.emitters.celery.CeleryEventEmitter-classes">Classes<a href="#pyventus.emitters.celery.CeleryEventEmitter-classes" class="headerlink" title="Permanent link">&para;</a></h2>
 
 <div class="doc doc-object doc-class">
 
@@ -1895,7 +1945,7 @@ emissions for asynchronous processing.</p>
           <span class="doc doc-object-name doc-class-name">Queue</span>
 
 
-</h3>
+<a href="#pyventus.emitters.celery.CeleryEventEmitter.Queue" class="headerlink" title="Permanent link">&para;</a></h3>
 
 
   <div class="doc doc-contents ">
@@ -2284,7 +2334,7 @@ emissions for asynchronous processing.</p>
 
 
 
-<h4 id="pyventus.emitters.celery.CeleryEventEmitter.Queue-classes">Classes</h4>
+<h4 id="pyventus.emitters.celery.CeleryEventEmitter.Queue-classes">Classes<a href="#pyventus.emitters.celery.CeleryEventEmitter.Queue-classes" class="headerlink" title="Permanent link">&para;</a></h4>
 
 <div class="doc doc-object doc-class">
 
@@ -2295,7 +2345,7 @@ emissions for asynchronous processing.</p>
           <span class="doc doc-object-name doc-class-name">Serializer</span>
 
 
-</h5>
+<a href="#pyventus.emitters.celery.CeleryEventEmitter.Queue.Serializer" class="headerlink" title="Permanent link">&para;</a></h5>
 
 
   <div class="doc doc-contents ">
@@ -2357,7 +2407,7 @@ emissions for asynchronous processing.</p>
 
 
 
-<h6 id="pyventus.emitters.celery.CeleryEventEmitter.Queue.Serializer-functions">Functions</h6>
+<h6 id="pyventus.emitters.celery.CeleryEventEmitter.Queue.Serializer-functions">Functions<a href="#pyventus.emitters.celery.CeleryEventEmitter.Queue.Serializer-functions" class="headerlink" title="Permanent link">&para;</a></h6>
 
 
 <div class="doc doc-object doc-function">
@@ -2373,7 +2423,7 @@ emissions for asynchronous processing.</p>
       <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
   </span>
 
-</h7>
+<a href="#pyventus.emitters.celery.CeleryEventEmitter.Queue.Serializer.dumps" class="headerlink" title="Permanent link">&para;</a></h7>
 <div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">dumps</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="o">.</span><span class="n">EventEmission</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span>
 </code></pre></div>
 
@@ -2470,7 +2520,7 @@ emissions for asynchronous processing.</p>
       <small class="doc doc-label doc-label-staticmethod"><code>staticmethod</code></small>
   </span>
 
-</h7>
+<a href="#pyventus.emitters.celery.CeleryEventEmitter.Queue.Serializer.loads" class="headerlink" title="Permanent link">&para;</a></h7>
 <div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">loads</span><span class="p">(</span><span class="n">serialized_obj</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventEmitter</span><span class="o">.</span><span class="n">EventEmission</span>
 </code></pre></div>
 
@@ -2560,7 +2610,7 @@ emissions for asynchronous processing.</p>
   </div>
 
 </div>
-<h4 id="pyventus.emitters.celery.CeleryEventEmitter.Queue-functions">Functions</h4>
+<h4 id="pyventus.emitters.celery.CeleryEventEmitter.Queue-functions">Functions<a href="#pyventus.emitters.celery.CeleryEventEmitter.Queue-functions" class="headerlink" title="Permanent link">&para;</a></h4>
 
 
 <div class="doc doc-object doc-function">
@@ -2572,7 +2622,7 @@ emissions for asynchronous processing.</p>
           <span class="doc doc-object-name doc-function-name">__init__</span>
 
 
-</h5>
+<a href="#pyventus.emitters.celery.CeleryEventEmitter.Queue.__init__" class="headerlink" title="Permanent link">&para;</a></h5>
 <div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="fm">__init__</span><span class="p">(</span><span class="n">celery</span><span class="p">:</span> <span class="n">Celery</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">secret</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">serializer</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">Serializer</span><span class="p">]</span> <span class="o">=</span> <span class="n">Serializer</span><span class="p">)</span>
 </code></pre></div>
 
@@ -2799,7 +2849,7 @@ emissions for asynchronous processing.</p>
           <span class="doc doc-object-name doc-function-name">enqueue</span>
 
 
-</h5>
+<a href="#pyventus.emitters.celery.CeleryEventEmitter.Queue.enqueue" class="headerlink" title="Permanent link">&para;</a></h5>
 <div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">enqueue</span><span class="p">(</span><span class="n">event_emission</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="o">.</span><span class="n">EventEmission</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -2944,7 +2994,7 @@ object during processing.</p>
   </div>
 
 </div>
-<h2 id="pyventus.emitters.celery.CeleryEventEmitter-functions">Functions</h2>
+<h2 id="pyventus.emitters.celery.CeleryEventEmitter-functions">Functions<a href="#pyventus.emitters.celery.CeleryEventEmitter-functions" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
 <div class="doc doc-object doc-function">
@@ -2956,7 +3006,7 @@ object during processing.</p>
           <span class="doc doc-object-name doc-function-name">emit</span>
 
 
-</h3>
+<a href="#pyventus.emitters.celery.CeleryEventEmitter.emit" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">emit</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">EmittableEventType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
@@ -3135,7 +3185,17 @@ first positional argument, even if you pass <code>*args</code> or <code>**kwargs
 <span class="normal"><a href="#__codelineno-0-246">246</a></span>
 <span class="normal"><a href="#__codelineno-0-247">247</a></span>
 <span class="normal"><a href="#__codelineno-0-248">248</a></span>
-<span class="normal"><a href="#__codelineno-0-249">249</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-172" name="__codelineno-0-172"></a><span class="k">def</span> <span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">EmittableEventType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-249">249</a></span>
+<span class="normal"><a href="#__codelineno-0-250">250</a></span>
+<span class="normal"><a href="#__codelineno-0-251">251</a></span>
+<span class="normal"><a href="#__codelineno-0-252">252</a></span>
+<span class="normal"><a href="#__codelineno-0-253">253</a></span>
+<span class="normal"><a href="#__codelineno-0-254">254</a></span>
+<span class="normal"><a href="#__codelineno-0-255">255</a></span>
+<span class="normal"><a href="#__codelineno-0-256">256</a></span>
+<span class="normal"><a href="#__codelineno-0-257">257</a></span>
+<span class="normal"><a href="#__codelineno-0-258">258</a></span>
+<span class="normal"><a href="#__codelineno-0-259">259</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-172" name="__codelineno-0-172"></a><span class="k">def</span> <span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">EmittableEventType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-173" name="__codelineno-0-173"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-174" name="__codelineno-0-174"></a><span class="sd">    Emits an event and triggers any associated event handlers. When emitting `Event` or</span>
 <a id="__codelineno-0-175" name="__codelineno-0-175"></a><span class="sd">    `Exception` objects, they are automatically passed to the event handler as the</span>
@@ -3193,26 +3253,36 @@ first positional argument, even if you pass <code>*args</code> or <code>**kwargs
 <a id="__codelineno-0-227" name="__codelineno-0-227"></a>            <span class="c1"># Adds the current event handler to the execution list</span>
 <a id="__codelineno-0-228" name="__codelineno-0-228"></a>            <span class="n">pending_event_handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event_handler</span><span class="p">)</span>
 <a id="__codelineno-0-229" name="__codelineno-0-229"></a>
-<a id="__codelineno-0-230" name="__codelineno-0-230"></a>    <span class="c1"># Checks if the pending_event_handlers is not empty</span>
-<a id="__codelineno-0-231" name="__codelineno-0-231"></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pending_event_handlers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-<a id="__codelineno-0-232" name="__codelineno-0-232"></a>        <span class="c1"># Creates a new EventEmission instance</span>
-<a id="__codelineno-0-233" name="__codelineno-0-233"></a>        <span class="n">event_emission</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="o">.</span><span class="n">EventEmission</span> <span class="o">=</span> <span class="n">EventEmitter</span><span class="o">.</span><span class="n">EventEmission</span><span class="p">(</span>
-<a id="__codelineno-0-234" name="__codelineno-0-234"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">,</span>
-<a id="__codelineno-0-235" name="__codelineno-0-235"></a>            <span class="nb">str</span><span class="p">(</span><span class="n">event</span> <span class="k">if</span> <span class="n">is_string</span> <span class="k">else</span> <span class="n">event</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">),</span>
-<a id="__codelineno-0-236" name="__codelineno-0-236"></a>            <span class="n">pending_event_handlers</span><span class="p">,</span>
-<a id="__codelineno-0-237" name="__codelineno-0-237"></a>            <span class="o">*</span><span class="n">event_args</span><span class="p">,</span>
-<a id="__codelineno-0-238" name="__codelineno-0-238"></a>            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
-<a id="__codelineno-0-239" name="__codelineno-0-239"></a>        <span class="p">)</span>
-<a id="__codelineno-0-240" name="__codelineno-0-240"></a>
-<a id="__codelineno-0-241" name="__codelineno-0-241"></a>        <span class="c1"># Logs the event emission when debug is enabled</span>
-<a id="__codelineno-0-242" name="__codelineno-0-242"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
-<a id="__codelineno-0-243" name="__codelineno-0-243"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-<a id="__codelineno-0-244" name="__codelineno-0-244"></a>                <span class="n">action</span><span class="o">=</span><span class="s2">&quot;Emitting:&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-245" name="__codelineno-0-245"></a>                <span class="n">msg</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event_emission</span><span class="o">.</span><span class="n">event</span><span class="si">}{</span><span class="n">StdOutColors</span><span class="o">.</span><span class="n">PURPLE</span><span class="si">}</span><span class="s2"> ID:</span><span class="si">{</span><span class="n">StdOutColors</span><span class="o">.</span><span class="n">DEFAULT</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">event_emission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-<a id="__codelineno-0-246" name="__codelineno-0-246"></a>            <span class="p">)</span>
-<a id="__codelineno-0-247" name="__codelineno-0-247"></a>
-<a id="__codelineno-0-248" name="__codelineno-0-248"></a>        <span class="c1"># Delegates the processing of the event emission to subclasses</span>
-<a id="__codelineno-0-249" name="__codelineno-0-249"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">event_emission</span><span class="p">)</span>
+<a id="__codelineno-0-230" name="__codelineno-0-230"></a>    <span class="c1"># Determine the event name</span>
+<a id="__codelineno-0-231" name="__codelineno-0-231"></a>    <span class="n">event_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">event</span> <span class="k">if</span> <span class="n">is_string</span> <span class="k">else</span> <span class="n">event</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+<a id="__codelineno-0-232" name="__codelineno-0-232"></a>
+<a id="__codelineno-0-233" name="__codelineno-0-233"></a>    <span class="c1"># Checks if the pending_event_handlers is not empty</span>
+<a id="__codelineno-0-234" name="__codelineno-0-234"></a>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pending_event_handlers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+<a id="__codelineno-0-235" name="__codelineno-0-235"></a>        <span class="c1"># Creates a new EventEmission instance</span>
+<a id="__codelineno-0-236" name="__codelineno-0-236"></a>        <span class="n">event_emission</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="o">.</span><span class="n">EventEmission</span> <span class="o">=</span> <span class="n">EventEmitter</span><span class="o">.</span><span class="n">EventEmission</span><span class="p">(</span>
+<a id="__codelineno-0-237" name="__codelineno-0-237"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">,</span>
+<a id="__codelineno-0-238" name="__codelineno-0-238"></a>            <span class="n">event_name</span><span class="p">,</span>
+<a id="__codelineno-0-239" name="__codelineno-0-239"></a>            <span class="n">pending_event_handlers</span><span class="p">,</span>
+<a id="__codelineno-0-240" name="__codelineno-0-240"></a>            <span class="o">*</span><span class="n">event_args</span><span class="p">,</span>
+<a id="__codelineno-0-241" name="__codelineno-0-241"></a>            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<a id="__codelineno-0-242" name="__codelineno-0-242"></a>        <span class="p">)</span>
+<a id="__codelineno-0-243" name="__codelineno-0-243"></a>
+<a id="__codelineno-0-244" name="__codelineno-0-244"></a>        <span class="c1"># Logs the event emission when debug is enabled</span>
+<a id="__codelineno-0-245" name="__codelineno-0-245"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<a id="__codelineno-0-246" name="__codelineno-0-246"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+<a id="__codelineno-0-247" name="__codelineno-0-247"></a>                <span class="n">action</span><span class="o">=</span><span class="s2">&quot;Emitting Event:&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-248" name="__codelineno-0-248"></a>                <span class="n">msg</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event_emission</span><span class="o">.</span><span class="n">event</span><span class="si">}{</span><span class="n">StdOutColors</span><span class="o">.</span><span class="n">PURPLE</span><span class="si">}</span><span class="s2"> ID:</span><span class="si">{</span><span class="n">StdOutColors</span><span class="o">.</span><span class="n">DEFAULT</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">event_emission</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-249" name="__codelineno-0-249"></a>            <span class="p">)</span>
+<a id="__codelineno-0-250" name="__codelineno-0-250"></a>
+<a id="__codelineno-0-251" name="__codelineno-0-251"></a>        <span class="c1"># Delegates the processing of the event emission to subclasses</span>
+<a id="__codelineno-0-252" name="__codelineno-0-252"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">event_emission</span><span class="p">)</span>
+<a id="__codelineno-0-253" name="__codelineno-0-253"></a>
+<a id="__codelineno-0-254" name="__codelineno-0-254"></a>    <span class="c1"># Logs a debug message if no event handlers are subscribed to the event</span>
+<a id="__codelineno-0-255" name="__codelineno-0-255"></a>    <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<a id="__codelineno-0-256" name="__codelineno-0-256"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+<a id="__codelineno-0-257" name="__codelineno-0-257"></a>            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;Emitting Event:&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-258" name="__codelineno-0-258"></a>            <span class="n">msg</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event_name</span><span class="si">}{</span><span class="n">StdOutColors</span><span class="o">.</span><span class="n">PURPLE</span><span class="si">}</span><span class="s2"> Message:</span><span class="si">{</span><span class="n">StdOutColors</span><span class="o">.</span><span class="n">DEFAULT</span><span class="si">}</span><span class="s2"> No event handlers subscribed&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-259" name="__codelineno-0-259"></a>        <span class="p">)</span>
 </code></pre></div></td></tr></table></div>
           </details>
   </div>
@@ -3229,7 +3299,7 @@ first positional argument, even if you pass <code>*args</code> or <code>**kwargs
           <span class="doc doc-object-name doc-function-name">__init__</span>
 
 
-</h3>
+<a href="#pyventus.emitters.celery.CeleryEventEmitter.__init__" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="fm">__init__</span><span class="p">(</span><span class="n">queue</span><span class="p">:</span> <span class="n">Queue</span><span class="p">,</span> <span class="n">event_linker</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">EventLinker</span><span class="p">]</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 
@@ -3283,7 +3353,7 @@ first positional argument, even if you pass <code>*args</code> or <code>**kwargs
           <td><code>debug</code></td>
           <td class="doc-param-details">
             <div class="doc-md-description">
-              <p>Specifies the debug mode for the subclass logger. If <code>None</code>, it is determined based on the execution environment.</p>
+              <p>Specifies the debug mode for the logger. If <code>None</code>, it is determined based on the execution environment.</p>
             </div>
             <p>
                 <span class="doc-param-annotation">
@@ -3326,8 +3396,8 @@ first positional argument, even if you pass <code>*args</code> or <code>**kwargs
 <a id="__codelineno-0-225" name="__codelineno-0-225"></a><span class="sd">    :param queue: The celery event task executor used to process the event task.</span>
 <a id="__codelineno-0-226" name="__codelineno-0-226"></a><span class="sd">    :param event_linker: Specifies the type of event linker to use for associating</span>
 <a id="__codelineno-0-227" name="__codelineno-0-227"></a><span class="sd">        events with their respective event handlers. Defaults to `EventLinker`.</span>
-<a id="__codelineno-0-228" name="__codelineno-0-228"></a><span class="sd">    :param debug: Specifies the debug mode for the subclass logger. If `None`,</span>
-<a id="__codelineno-0-229" name="__codelineno-0-229"></a><span class="sd">        it is determined based on the execution environment.</span>
+<a id="__codelineno-0-228" name="__codelineno-0-228"></a><span class="sd">    :param debug: Specifies the debug mode for the logger. If `None`, it is</span>
+<a id="__codelineno-0-229" name="__codelineno-0-229"></a><span class="sd">        determined based on the execution environment.</span>
 <a id="__codelineno-0-230" name="__codelineno-0-230"></a><span class="sd">    &quot;&quot;&quot;</span>
 <a id="__codelineno-0-231" name="__codelineno-0-231"></a>    <span class="c1"># Call the parent class&#39; __init__ method to set up the event linker</span>
 <a id="__codelineno-0-232" name="__codelineno-0-232"></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">event_linker</span><span class="o">=</span><span class="n">event_linker</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span><span class="p">)</span>
@@ -3465,7 +3535,7 @@ first positional argument, even if you pass <code>*args</code> or <code>**kwargs
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

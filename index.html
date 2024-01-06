@@ -719,6 +719,10 @@
           
         
       
+        
+          
+        
+      
     
     
     
@@ -815,6 +819,27 @@
   
   <span class="md-ellipsis">
     Executor Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tutorials/emitters/fastapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FastAPI Event Emitter
   </span>
   
 
@@ -1018,6 +1043,10 @@
           
         
       
+        
+          
+        
+      
     
     
     
@@ -1114,6 +1143,27 @@
   
   <span class="md-ellipsis">
     Executor Event Emitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/emitters/fastapi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FastAPI Event Emitter
   </span>
   
 
@@ -1397,6 +1447,10 @@
     <img src="https://github.com/mdapena/pyventus/actions/workflows/run-tests.yml/badge.svg?branch=master" alt="Tests">
 </a>
 
+<a href='https://coveralls.io/github/mdapena/pyventus?branch=master'>
+    <img src='https://coveralls.io/repos/github/mdapena/pyventus/badge.svg?branch=fastapi-event-emitter' alt='Coverage Status' />
+</a>
+
 <a href="https://github.com/mdapena/pyventus/actions?query=workflow%3ADocs+event%3Apush+branch%3Amaster" target="_blank">
     <img src="https://github.com/mdapena/pyventus/actions/workflows/deploy-docs.yml/badge.svg?branch=master" alt="Docs">
 </a>
@@ -1407,6 +1461,10 @@
 
 <a href="https://pypi.org/project/pyventus" target="_blank">
     <img src="https://img.shields.io/pypi/pyversions/pyventus?color=blue" alt="Supported Python versions">
+</a>
+
+<a href="https://www.pepy.tech/projects/pyventus" target="_blank">
+    <img src="https://static.pepy.tech/badge/pyventus/month" alt="Last 30 days downloads for the project">
 </a>
 
 <a href="https://github.com/psf/black">
@@ -1424,7 +1482,7 @@
     suite of tools to easily define, emit, and orchestrate events using customizable event emitters and flexible
     responses. With Pyventus, you can easily build scalable, extensible, and loosely-coupled event-driven applications.
 </p>
-<h2 id="more-than-just-events">More than just Events</h2>
+<h2 id="more-than-just-events">More than just Events<a class="headerlink" href="#more-than-just-events" title="Permanent link">&para;</a></h2>
 <p style='text-align: justify;'>
     Pyventus offers several key features that make it a powerful event-driven programming package for your 
     Python projects:
@@ -1469,7 +1527,7 @@ guides, and tutorials to effectively leverage all the features and capabilities 
 
 </ul>
 
-<h2 id="hello-world-example"><code>Hello, World!</code> Example</h2>
+<h2 id="hello-world-example"><code>Hello, World!</code> Example<a class="headerlink" href="#hello-world-example" title="Permanent link">&para;</a></h2>
 <p style='text-align: justify;'>
     &emsp;&emsp;Experience the power of Pyventus through a simple <code>Hello, World!</code> example that illustrates 
     the core concepts and basic usage of the package. This example will walk you through the essential steps of 
@@ -1565,7 +1623,7 @@ is the <code>event_callback()</code>.
     requirements. 
 </p></p>
 </div>
-<h2 id="a-practical-example">A Practical Example</h2>
+<h2 id="a-practical-example">A Practical Example<a class="headerlink" href="#a-practical-example" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;To demonstrate Pyventus in a realistic scenario, we will examine how to implement a portion of the 
     password reset workflow using an event-driven approach.
@@ -1692,7 +1750,7 @@ is the <code>event_callback()</code>.
 <a id="__codelineno-2-54" name="__codelineno-2-54"></a>    <span class="p">)</span>
 <a id="__codelineno-2-55" name="__codelineno-2-55"></a><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
-<h2 id="support-for-synchronous-and-asynchronous-code">Support for Synchronous and Asynchronous code</h2>
+<h2 id="support-for-synchronous-and-asynchronous-code">Support for Synchronous and Asynchronous code<a class="headerlink" href="#support-for-synchronous-and-asynchronous-code" title="Permanent link">&para;</a></h2>
 <p style='text-align: justify;'>
     &emsp;&emsp;Pyventus is designed from the ground up to seamlessly support both synchronous and asynchronous
     programming models. Its unified sync/async API allows you to define event handler callbacks and emit events
@@ -1700,7 +1758,7 @@ is the <code>event_callback()</code>.
     how the API handles event registration and dispatch transparently.
 </p>
 
-<h3 id="registering-event-handlers-as-sync-and-async-callbacks">Registering Event Handlers as <code>Sync</code> and <code>Async</code> Callbacks</h3>
+<h3 id="registering-event-handlers-as-sync-and-async-callbacks">Registering Event Handlers as <code>Sync</code> and <code>Async</code> Callbacks<a class="headerlink" href="#registering-event-handlers-as-sync-and-async-callbacks" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">def</span> <span class="nf">sync_event_callback</span><span class="p">():</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="c1"># Synchronous event handling</span>
@@ -1712,7 +1770,7 @@ is the <code>event_callback()</code>.
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>    <span class="c1"># Asynchronous event handling</span>
 <a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Event received!&quot;</span><span class="p">)</span>  
 </code></pre></div>
-<h3 id="emitting-events-from-sync-and-async-contexts">Emitting Events from <code>Sync</code> and <code>Async</code> Contexts</h3>
+<h3 id="emitting-events-from-sync-and-async-contexts">Emitting Events from <code>Sync</code> and <code>Async</code> Contexts<a class="headerlink" href="#emitting-events-from-sync-and-async-contexts" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># Emitting an event within a sync function</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">def</span> <span class="nf">sync_function</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="p">):</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
@@ -1732,7 +1790,7 @@ is the <code>event_callback()</code>.
     structure propagation differently to suit their needs.
 </p>
 </details>
-<h2 id="runtime-flexibility-and-customization">Runtime Flexibility and Customization</h2>
+<h2 id="runtime-flexibility-and-customization">Runtime Flexibility and Customization<a class="headerlink" href="#runtime-flexibility-and-customization" title="Permanent link">&para;</a></h2>
 <p style='text-align: justify;'>
     &emsp;&emsp;At its core, Pyventus utilizes a modular event emitter design that allows you to switch seamlessly
     between different built-in or custom event emitter implementations on the fly. Whether you opt for official
@@ -1747,7 +1805,7 @@ is the <code>event_callback()</code>.
     connections or employ complex logic.
 </p>
 
-<h3 id="seeing-it-in-action">Seeing it in Action</h3>
+<h3 id="seeing-it-in-action">Seeing it in Action<a class="headerlink" href="#seeing-it-in-action" title="Permanent link">&para;</a></h3>
 <p style='text-align: justify;'>
     &emsp;&emsp;Now let's put Pyventus' flexibility to the test with a practical example. First, we'll build a
     custom <a href="https://fastapi.tiangolo.com/" target="_blank">FastAPI</a> EventEmitter to properly handle
@@ -1870,7 +1928,7 @@ see the JSON response as:
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Console print triggered!&quot;</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 
-You'll also be able to see the outputs of the event emitters in the console logs as:
+You'll also be able to see the outputs of the event emitters in the console logs as follows:
 
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="go">INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="go">INFO:     Started reloader process [28720]</span>
@@ -1900,7 +1958,14 @@ You'll also be able to see the outputs of the event emitters in the console logs
     a seamless transition between implementations.
 </p>
 
-<h2 id="defining-event-response-logic">Defining Event Response Logic</h2>
+<details class="tip" open="open">
+<summary>Official <code>FastAPIEventEmitter</code> integration</summary>
+<p style="text-align: justify;">
+No need for manual implementation! Pyventus now offers an official <b><a href="/pyventus/tutorials/emitters/fastapi">FastAPIEventEmitter</a></b>
+integration.
+</p>
+</details>
+<h2 id="defining-event-response-logic">Defining Event Response Logic<a class="headerlink" href="#defining-event-response-logic" title="Permanent link">&para;</a></h2>
 <p style='text-align: justify;'>
     &emsp;&emsp;As we mentioned earlier, Pyventus allows you to customize how events are processed upon completion in
     success or error scenarios by attaching custom handlers. To utilize this functionality, Pyventus provides a simple
@@ -1914,7 +1979,7 @@ You'll also be able to see the outputs of the event emitters in the console logs
     context:
 </p>
 
-<h3 id="success-and-error-handling-example">Success and Error Handling Example</h3>
+<h3 id="success-and-error-handling-example">Success and Error Handling Example<a class="headerlink" href="#success-and-error-handling-example" title="Permanent link">&para;</a></h3>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Success execution</label><label for="__tabbed_1_2">Error execution</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -2033,7 +2098,7 @@ You'll also be able to see the outputs of the event emitters in the console logs
     to manage the event workflow and response to different completion outcomes through the use of custom handlers.
 </p>
 
-<h2 id="continuous-evolution">Continuous Evolution</h2>
+<h2 id="continuous-evolution">Continuous Evolution<a class="headerlink" href="#continuous-evolution" title="Permanent link">&para;</a></h2>
 <p style='text-align: justify;'>
     &emsp;&emsp;Pyventus continuously adapts to support developers across technological and programming domains. Its
     aim is to remain at the forefront of event-driven design. Future development may introduce new official event 
@@ -2053,7 +2118,7 @@ You'll also be able to see the outputs of the event emitters in the console logs
     section for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
 </p>
 </details>
-<h2 id="get-started-today">Get Started Today!</h2>
+<h2 id="get-started-today">Get Started Today!<a class="headerlink" href="#get-started-today" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;Are you ready to dive into event-driven programming with Pyventus? Follow these steps to integrate Pyventus into
     your project and start building event-driven applications. Click the button below to navigate to the Pyventus 
@@ -2064,7 +2129,7 @@ You'll also be able to see the outputs of the event emitters in the console logs
     <a class="md-button" href="/pyventus/getting-started/"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24Z"/></svg></span>&emsp;Getting Started&emsp;<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 15.39-3.76 2.27.99-4.28-3.32-2.88 4.38-.37L12 6.09l1.71 4.04 4.38.37-3.32 2.88.99 4.28M22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.45 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24Z"/></svg></span></a>
 </p>
 <hr />
-<h2 id="license">License</h2>
+<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
 <p style="text-align: justify;">
     &emsp;&emsp;Pyventus is distributed as open source software and is released under the <a href="https://choosealicense.com/licenses/mit/" target="_blank">MIT License</a>. 
     You can view the full text of the license in the <a href="https://github.com/mdapena/pyventus/blob/master/LICENSE" target="_blank"><code>LICENSE</code></a> 
@@ -2138,7 +2203,7 @@ You'll also be able to see the outputs of the event emitters in the console logs
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

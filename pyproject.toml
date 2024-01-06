@@ -121,11 +121,7 @@ dependencies = ["pyventus[tests]"]
 test = "pytest -v {args:tests}"
 style = "black --check --diff {args:.}"
 typing = "mypy"
-cov = [
-    "coverage run -m pytest -v {args:tests}",
-    "- coverage combine",
-    "coverage report",
-]
+cov = "coverage run -m pytest -v {args:tests}"
 all = [
     "style",
     "typing",

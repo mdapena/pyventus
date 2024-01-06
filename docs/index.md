@@ -36,6 +36,10 @@ hide:
     <img src="https://img.shields.io/pypi/pyversions/pyventus?color=blue" alt="Supported Python versions">
 </a>
 
+<a href="https://www.pepy.tech/projects/pyventus" target="_blank">
+    <img src="https://static.pepy.tech/badge/pyventus/month" alt="Last 30 days downloads for the project">
+</a>
+
 <a href="https://github.com/psf/black">
 	<img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black">
 </a>

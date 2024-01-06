@@ -33,69 +33,33 @@ jobs:
       - name: Install dependencies
         run: pip install hatch
 
-      - name: Create coverage dir
-        run: mkdir coverage
-
       - name: Run all tests
         run: hatch run +py=${{ matrix.python-version }} tests:all
-        env:
-          COVERAGE_FILE: coverage/.coverage.${{ runner.os }}-py${{ matrix.python-version }}
-          CONTEXT: ${{ runner.os }}-py${{ matrix.python-version }}
 
-      - name: Store coverage files
-        uses: actions/upload-artifact@v4
+      - name: Coveralls Parallel
+        uses: coverallsapp/github-action@v2
         with:
-          name: coverage-${{ matrix.os }}-${{ matrix.python-version }}
-          path: coverage
+          flag-name: py${{ matrix.python-version }}-${{ matrix.os }}
+          parallel: true
 
-  coverage-combine:
+  coveralls-finish:
     needs:
       - test
+
+    if: ${{ always() }}
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@v2
         with:
-          python-version: "3.10"
-
-      - name: Get coverage files
-        uses: actions/download-artifact@v4
-        with:
-          merge-multiple: true
-          pattern: coverage-*
-          path: coverage
-
-      - name: Install dependencies
-        run: pip install coverage[toml]
-
-      - run: pip install .[all]
-
-      - run: ls -la coverage
-
-      - name: Combine coverage files
-        run: coverage combine coverage
-
-      - name: Create coverage report
-        run: coverage report
-
-      - name: Create HTML coverage report
-        run: coverage html --show-contexts --title "Pyventus coverage for ${{ github.sha }}"
-
-      - name: Store coverage HTML
-        uses: actions/upload-artifact@v4
-        with:
-          name: coverage-html
-          path: htmlcov
+          parallel-finished: true
 
   # https://github.com/marketplace/actions/alls-green#why
   alls-green: # This job does nothing and is only used for the branch protection
     if: always()
     needs:
-      - coverage-combine
+      - coveralls-finish
     runs-on: ubuntu-latest
     steps:
       - name: Decide whether the needed jobs succeeded or failed

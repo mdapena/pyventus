@@ -24,6 +24,10 @@ hide:
     <img src="https://github.com/mdapena/pyventus/actions/workflows/run-tests.yml/badge.svg?branch=master" alt="Tests">
 </a>
 
+<a href='https://coveralls.io/github/mdapena/pyventus?branch=master'>
+	<img src='https://coveralls.io/repos/github/mdapena/pyventus/badge.svg?branch=fastapi-event-emitter' alt='Coverage Status' />
+</a>
+
 <a href="https://github.com/mdapena/pyventus/actions?query=workflow%3ADocs+event%3Apush+branch%3Amaster" target="_blank">
     <img src="https://github.com/mdapena/pyventus/actions/workflows/deploy-docs.yml/badge.svg?branch=master" alt="Docs">
 </a>

@@ -13,11 +13,16 @@ jobs:
   test:
     name: Python ${{ matrix.python-version }} on ${{ startsWith(matrix.os, 'macos-') && 'macOS' || startsWith(matrix.os, 'windows-') && 'Windows' || 'Linux' }}
     runs-on: ${{ matrix.os }}
+
+    environment:
+      name: tests
+
     strategy:
       fail-fast: false
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
         python-version: [ "3.10", "3.11", "3.12" ]
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -35,3 +40,10 @@ jobs:
 
       - name: Run all tests
         run: hatch run +py=${{ matrix.python-version }} tests:all
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+          file: ./coverage.xml
+          fail_ci_if_error: false

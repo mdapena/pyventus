@@ -43,9 +43,9 @@ jobs:
         run: hatch run +py=${{ matrix.python-version }} tests:all
 
       - name: Store coverage files
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
-          name: coverage-${{ matrix.os }}-${{ matrix.python-version }}
+          name: coverage
           path: coverage
 
   coverage-combine:
@@ -63,10 +63,9 @@ jobs:
           python-version: "3.8"
 
       - name: Get coverage files
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
-          merge-multiple: true
-          pattern: coverage-*
+          name: coverage
           path: coverage
 
       - name: Install dependencies

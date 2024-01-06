@@ -156,7 +156,6 @@ serve = "mkdocs serve --dev-addr localhost:8000"
 
 [tool.coverage.run]
 source_pkgs = ["pyventus", "tests"]
-branch = true
 parallel = true
 omit = [
     "tests/conftest.py",

@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -33,5 +33,69 @@ jobs:
       - name: Install dependencies
         run: pip install hatch
 
+      - name: Create coverage dir
+        run: mkdir coverage
+
       - name: Run all tests
+        env:
+          COVERAGE_FILE: coverage/.coverage.${{ runner.os }}-py${{ matrix.python-version }}
+          CONTEXT: ${{ runner.os }}-py${{ matrix.python-version }}
         run: hatch run +py=${{ matrix.python-version }} tests:all
+
+      - name: Store coverage files
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage
+
+  coverage-combine:
+    needs:
+      - test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.8"
+
+      - name: Get coverage files
+        uses: actions/download-artifact@v4
+        with:
+          name: coverage
+          path: coverage
+
+      - name: Install dependencies
+        run: pip install coverage[toml]
+
+      - run: ls -la coverage
+
+      - name: Combine coverage files
+        run: coverage combine coverage
+
+      - name: Create coverage report
+        run: coverage report
+
+      - name: Create HTML coverage report
+        run: coverage html --show-contexts --title "Pyventus coverage for ${{ github.sha }}"
+
+      - name: Store coverage HTML
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-html
+          path: htmlcov
+
+  # https://github.com/marketplace/actions/alls-green#why
+  alls-green: # This job does nothing and is only used for the branch protection
+    if: always()
+    needs:
+      - coverage-combine
+    runs-on: ubuntu-latest
+    steps:
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}

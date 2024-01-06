@@ -71,7 +71,6 @@ hide:
 
 ##### Changes
 
-- Minor bug fixes and refactoring have been made in the `deploy-docs` and `run-tests` workflows.
 - Badges have been added to the main page of the documentation as well as the readme file.
 - To facilitate academic citations, a `CITATION.cff` file has been added in this release.
 - A code of conduct has been added to the project using
@@ -81,6 +80,7 @@ hide:
 
 ##### Fixes
 
+- Minor bug fixes and refactoring have been made in the `deploy-docs` and `run-tests` workflows.
 - Fixed issues with relative links in the documentation.
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)

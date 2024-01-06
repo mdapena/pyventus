@@ -39,6 +39,7 @@ jobs:
       - name: Coveralls Parallel
         uses: coverallsapp/github-action@v2
         with:
+          files: coverage.xml
           flag-name: py${{ matrix.python-version }}-${{ matrix.os }}
           parallel: true
 

@@ -227,12 +227,15 @@ class EventEmitter(ABC):
                 # Adds the current event handler to the execution list
                 pending_event_handlers.append(event_handler)
 
+        # Determine the event name
+        event_name: str = str(event if is_string else event.__class__.__name__)
+
         # Checks if the pending_event_handlers is not empty
         if len(pending_event_handlers) > 0:
             # Creates a new EventEmission instance
             event_emission: EventEmitter.EventEmission = EventEmitter.EventEmission(
                 self._logger.debug_enabled,
-                str(event if is_string else event.__class__.__name__),
+                event_name,
                 pending_event_handlers,
                 *event_args,
                 **kwargs,
@@ -241,12 +244,19 @@ class EventEmitter(ABC):
             # Logs the event emission when debug is enabled
             if self._logger.debug_enabled:  # pragma: no cover
                 self._logger.debug(
-                    action="Emitting:",
+                    action="Emitting Event:",
                     msg=f"{event_emission.event}{StdOutColors.PURPLE} ID:{StdOutColors.DEFAULT} {event_emission.id}",
                 )
 
             # Delegates the processing of the event emission to subclasses
             self._process(event_emission)
+
+        # Logs a debug message if no event handlers are subscribed to the event
+        elif self._logger.debug_enabled:  # pragma: no cover
+            self._logger.debug(
+                action="Emitting Event:",
+                msg=f"{event_name}{StdOutColors.PURPLE} Message:{StdOutColors.DEFAULT} No event handlers subscribed",
+            )
 
     @abstractmethod
     def _process(self, event_emission: EventEmission) -> None:

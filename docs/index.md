@@ -24,6 +24,10 @@ hide:
     <img src="https://github.com/mdapena/pyventus/actions/workflows/run-tests.yml/badge.svg?branch=master" alt="Tests">
 </a>
 
+<a href='https://coveralls.io/github/mdapena/pyventus?branch=master'>
+	<img src='https://coveralls.io/repos/github/mdapena/pyventus/badge.svg?branch=fastapi-event-emitter' alt='Coverage Status' />
+</a>
+
 <a href="https://github.com/mdapena/pyventus/actions?query=workflow%3ADocs+event%3Apush+branch%3Amaster" target="_blank">
     <img src="https://github.com/mdapena/pyventus/actions/workflows/deploy-docs.yml/badge.svg?branch=master" alt="Docs">
 </a>
@@ -34,6 +38,10 @@ hide:
 
 <a href="https://pypi.org/project/pyventus" target="_blank">
     <img src="https://img.shields.io/pypi/pyversions/pyventus?color=blue" alt="Supported Python versions">
+</a>
+
+<a href="https://www.pepy.tech/projects/pyventus" target="_blank">
+    <img src="https://static.pepy.tech/badge/pyventus/month" alt="Last 30 days downloads for the project">
 </a>
 
 <a href="https://github.com/psf/black">
@@ -419,7 +427,7 @@ see the JSON response as:
 { "message": "Console print triggered!" }
 ```
 
-You'll also be able to see the outputs of the event emitters in the console logs as:
+You'll also be able to see the outputs of the event emitters in the console logs as follows:
 
 ```console
 INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
@@ -449,6 +457,14 @@ Hello, AsyncIOEventEmitter!
 	intricate reconfiguration or re-establishing of handlers. Simply changing the concrete emitter allowed for
 	a seamless transition between implementations.
 </p>
+
+<details markdown="1" class="tip" open>
+<summary>Official <code>FastAPIEventEmitter</code> integration</summary>
+<p style='text-align: justify;'>
+No need for manual implementation! Pyventus now offers an official <b><a href="/pyventus/tutorials/emitters/fastapi">FastAPIEventEmitter</a></b>
+integration.
+</p>
+</details>
 
 ## Defining Event Response Logic
 

@@ -13,7 +13,7 @@ hide:
 # Contribution Guidelines
 
 <p style='text-align: justify;' markdown>
-    Thanks for considering to contribute to this project! Your involvement is greatly appreciated ❤️
+    Thank you for being interested in contributing to Pyventus! Your involvement is greatly appreciated ❤️
 </p>
 
 ## Getting Started

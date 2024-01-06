@@ -5,6 +5,24 @@ hide:
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
+## v0.4.0
+
+### What's Changed
+
+##### New Features
+
+- The `FastAPIEventEmitter` has been added to facilitate seamless integration with `FastAPI` framework and leverage its
+  `BackgroundTasks` for event handling.
+- Added comprehensive documentation for `FastAPIEventEmitter`, including tutorials and API references.
+- A `Coveralls.io` workflow has been added to generate a coverage badge and reports.
+- Included permalinks for easy navigation within the documentation.
+
+##### Fixes
+
+- Addressed minor errors in the Pyventus documentation.
+
+[//]: # (--------------------------------------------------------------------------------------------------------------)
+
 ## v0.3.0
 
 ### What's Changed
@@ -46,11 +64,14 @@ hide:
 
 ### What's Changed
 
-##### Changes
+##### New Features
 
 - This release introduces the `publish to PyPI` workflow, automating the uploading of package builds
-  when new releases are created. Additionally, it includes minor bug fixes and refactoring in the `deploy-docs`
-  and `run-tests` workflows.
+  when new releases are created.
+
+##### Changes
+
+- Minor bug fixes and refactoring have been made in the `deploy-docs` and `run-tests` workflows.
 - Badges have been added to the main page of the documentation as well as the readme file.
 - To facilitate academic citations, a `CITATION.cff` file has been added in this release.
 - A code of conduct has been added to the project using

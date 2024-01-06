@@ -12,7 +12,7 @@ repo_url: https://github.com/mdapena/pyventus
 
 # Copyright
 copyright: |
-  Copyright &copy; 2023 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+  Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
 # Configuration
 theme:
@@ -115,6 +115,8 @@ markdown_extensions:
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
   - pymdownx.tabbed:
       alternate_style: true
+  - toc:
+      permalink: true
 
 # Page tree
 nav:
@@ -129,6 +131,7 @@ nav:
           - AsyncIO Event Emitter: tutorials/emitters/asyncio/index.md
           - Celery Event Emitter: tutorials/emitters/celery/index.md
           - Executor Event Emitter: tutorials/emitters/executor/index.md
+          - FastAPI Event Emitter: tutorials/emitters/fastapi/index.md
           - RQ Event Emitter: tutorials/emitters/rq/index.md
   - API Reference:
       - api/index.md
@@ -140,6 +143,7 @@ nav:
           - AsyncIO Event Emitter: api/emitters/asyncio/index.md
           - Celery Event Emitter: api/emitters/celery/index.md
           - Executor Event Emitter: api/emitters/executor/index.md
+          - FastAPI Event Emitter: api/emitters/fastapi/index.md
           - RQ Event Emitter: api/emitters/rq/index.md
 
   - Contributing: contributing.md

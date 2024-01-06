@@ -1,11 +1,16 @@
+import asyncio
 from abc import ABC, abstractmethod
+from asyncio import Future
 from dataclasses import dataclass
-from typing import Dict, final, Tuple, Any
+from typing import Dict, final, Tuple, Any, Set, NamedTuple
+from unittest.mock import patch
 
 import pytest
 from celery import Celery
 from fakeredis import FakeStrictRedis
+from fastapi import FastAPI, BackgroundTasks
 from rq import Queue
+from starlette.testclient import TestClient
 
 from pyventus import Event, EventLinker, EventEmitter
 from pyventus.emitters.celery import CeleryEventEmitter
@@ -97,6 +102,33 @@ def celery_queue() -> CeleryEventEmitter.Queue:
     celery_app.conf.accept_content = ["application/json", "application/x-python-serialize"]
 
     return CeleryEventEmitter.Queue(celery=celery_app, serializer=CelerySerializerMock)
+
+
+# --------------------
+# FastAPI
+# ----------
+
+
+class FastAPITestContext(NamedTuple):
+    background_futures: Set[Future]
+    client: TestClient
+
+
+@pytest.fixture
+def fastapi_test_context() -> FastAPITestContext:
+    background_futures: Set[Future] = set()
+
+    def add_task(self, func, *args, **kwargs) -> None:
+        try:
+            asyncio.get_running_loop()
+            future = asyncio.ensure_future(func(*args, **kwargs))
+            background_futures.add(future)
+            future.add_done_callback(background_futures.remove)
+        except RuntimeError:
+            asyncio.run(func(*args, **kwargs))
+
+    with patch.object(BackgroundTasks, "add_task", add_task):
+        yield FastAPITestContext(background_futures=background_futures, client=TestClient(FastAPI()))
 
 
 # --------------------

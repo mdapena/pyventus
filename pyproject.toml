@@ -10,17 +10,19 @@ build-backend = "hatchling.build"
 name = "pyventus"
 dynamic = ["version"]
 description = "A modern and robust Python package for event-driven programming. Define, emit, and orchestrate events with ease using customizable event emitters and flexible responses."
-readme = "README.md"
 requires-python = ">=3.10"
-license = { file = "LICENSE" }
+readme = "README.md"
+license = "MIT"
 authors = [
     { name = "Manuel Da Pena", email = "dapensoft@gmail.com" },
 ]
+keywords = ["events", "event-emitters", "event-dispatchers", "event-handlers", "event-linkers", "event-driven", "python"]
 classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -30,14 +32,6 @@ classifiers = [
     "Topic :: Software Development",
     "Typing :: Typed",
 ]
-keywords = ["events", "event emitters", "event handlers", "event linkers"]
-
-# ------------------------------------------------------------------
-# | Project Dependencies                                           |
-# ------------------------------------------------------------------
-# Pure Python implementation, no dependencies needed
-
-dependencies = []
 
 # ------------------------------------------------------------------
 # | Project URLs                                                   |
@@ -55,10 +49,12 @@ Repository = "https://github.com/mdapena/pyventus"
 [project.optional-dependencies]
 rq = ["rq>=1.15.0"]
 celery = ["celery>=5.3.5"]
+fastapi = ["fastapi>=0.95.2"]
 
 all = [
     "pyventus[rq]",
     "pyventus[celery]",
+    "pyventus[fastapi]",
 ]
 
 # --------------------
@@ -73,6 +69,7 @@ tests = [
     "coverage[toml]>=7.3.3",
     "pytest-asyncio>=0.21.0",
     "fakeredis>=2.20.0",
+    "httpx>=0.23.0",
 ]
 
 # --------------------
@@ -159,7 +156,6 @@ serve = "mkdocs serve --dev-addr localhost:8000"
 
 [tool.coverage.run]
 source_pkgs = ["pyventus", "tests"]
-branch = true
 parallel = true
 omit = [
     "tests/conftest.py",

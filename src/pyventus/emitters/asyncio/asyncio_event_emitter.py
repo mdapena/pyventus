@@ -2,7 +2,7 @@ import asyncio
 from asyncio import Future
 from typing import Set, Type
 
-from ...emitters import EventEmitter
+from ..event_emitter import EventEmitter
 from ...linkers import EventLinker
 
 
@@ -49,8 +49,8 @@ class AsyncIOEventEmitter(EventEmitter):
         Initializes an instance of the `AsyncIOEventEmitter` class.
         :param event_linker: Specifies the type of event linker to use for associating
             events with their respective event handlers. Defaults to `EventLinker`.
-        :param debug: Specifies the debug mode for the subclass logger. If `None`,
-            it is determined based on the execution environment.
+        :param debug: Specifies the debug mode for the logger. If `None`, it is
+            determined based on the execution environment.
         """
         # Call the parent class' __init__ method to set up the event linker
         super().__init__(event_linker=event_linker, debug=debug)

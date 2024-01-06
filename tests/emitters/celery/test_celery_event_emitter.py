@@ -4,8 +4,8 @@ from celery import Celery
 
 from pyventus import PyventusException, EventLinker
 from pyventus.emitters.celery import CeleryEventEmitter
-from tests import CeleryMock
 from ..event_emitter_test import EventEmitterTest
+from ... import CeleryMock
 
 
 class TestCeleryEventEmitter(EventEmitterTest):
@@ -13,11 +13,18 @@ class TestCeleryEventEmitter(EventEmitterTest):
     # Creation
     # ----------
 
-    def test_creation(self, clean_event_linker: bool, celery_queue: CeleryEventEmitter.Queue) -> None:
+    def test_creation(
+        self,
+        clean_event_linker: bool,
+        celery_queue: CeleryEventEmitter.Queue,
+    ) -> None:
         event_emitter = CeleryEventEmitter(queue=celery_queue)
         assert event_emitter is not None
 
-    def test_creation_with_invalid_params(self, clean_event_linker: bool) -> None:
+    def test_creation_with_invalid_params(
+        self,
+        clean_event_linker: bool,
+    ) -> None:
         with raises(PyventusException):
             CeleryEventEmitter(queue=None)  # type: ignore
 
@@ -36,14 +43,12 @@ class TestCeleryEventEmitter(EventEmitterTest):
     # Sync Context
     # ----------
 
-    def test_emission_in_sync_context(self, clean_event_linker: bool, celery_queue: CeleryEventEmitter.Queue) -> None:
+    def test_emission_in_sync_context(self, celery_queue: CeleryEventEmitter.Queue) -> None:
         event_emitter = CeleryEventEmitter(queue=celery_queue)
         with TestCeleryEventEmitter.run_emission_test(event_emitter=event_emitter):
             pass
 
-    def test_emission_in_sync_context_with_custom_event_linker(
-        self, clean_event_linker: bool, celery_queue: CeleryEventEmitter.Queue
-    ) -> None:
+    def test_emission_in_sync_context_with_custom_event_linker(self, celery_queue: CeleryEventEmitter.Queue) -> None:
         class CustomEventLinker(EventLinker):
             pass
 

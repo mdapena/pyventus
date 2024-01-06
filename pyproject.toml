@@ -125,6 +125,7 @@ cov = [
     "coverage run -m pytest -v {args:tests}",
     "- coverage combine",
     "coverage report",
+    "coverage xml",
 ]
 all = [
     "style",

@@ -72,6 +72,8 @@ jobs:
       - name: Install dependencies
         run: pip install coverage[toml]
 
+      - run: pip install .[all]
+
       - run: ls -la coverage
 
       - name: Combine coverage files

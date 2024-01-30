@@ -41,6 +41,7 @@ classifiers = [
 Homepage = "https://github.com/mdapena/pyventus"
 Documentation = "https://mdapena.github.io/pyventus"
 Repository = "https://github.com/mdapena/pyventus"
+Changelog = "https://mdapena.github.io/pyventus/release-notes"
 
 # ------------------------------------------------------------------
 # | Project Optional dependencies                                  |

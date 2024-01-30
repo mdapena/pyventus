@@ -58,7 +58,18 @@ all = [
 ]
 
 # --------------------
-# | Test dependencies
+# | Docs dependencies
+# ----------
+
+docs = [
+    "mkdocs-material>=9.4.0",
+    "mkdocstrings[python]>=0.24.0",
+    "mkdocs-git-revision-date-localized-plugin>=1.2.1",
+    "mkdocs-git-authors-plugin>=0.7.2",
+]
+
+# --------------------
+# | Tests dependencies
 # ----------
 
 tests = [
@@ -77,6 +88,7 @@ tests = [
 # ----------
 
 dev = [
+    "pyventus[docs]",
     "pyventus[tests]",
     "hatch>=1.8.1",
 ]
@@ -152,12 +164,8 @@ python = ["3.10", "3.11", "3.12"]
 # ------------------------------------------------------------------
 
 [tool.hatch.envs.docs]
-dependencies = [
-    "mkdocs-material>=9.4.0",
-    "mkdocstrings[python]>=0.24.0",
-    "mkdocs-git-revision-date-localized-plugin>=1.2.1",
-    "mkdocs-git-authors-plugin>=0.7.2",
-]
+dependencies = ["pyventus[docs]"]
+
 [tool.hatch.envs.docs.scripts]
 build = "mkdocs build --clean --strict"
 serve = "mkdocs serve --dev-addr localhost:8000"

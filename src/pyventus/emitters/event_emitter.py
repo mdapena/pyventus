@@ -40,8 +40,8 @@ class EventEmitter(ABC):
         yet complete. It provides a self-contained context for executing the event emission,
         encapsulating both the event data and the associated event handlers.
 
-        This class acts as an immutable and isolated unit of work to asynchronously propagate
-        the emission of an event.
+        This class acts as an isolated unit of work to asynchronously propagate the emission
+        of an event.
 
         This class is managed by the `EventEmitter` class, which creates an instance when an
         event is emitted. This instance is then processed by the EventEmitter's `_process()`

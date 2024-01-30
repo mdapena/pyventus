@@ -468,7 +468,7 @@ class EventLinker(ABC):
                 if cls.__logger.debug_enabled:  # pragma: no cover
                     cls.__logger.debug(
                         action="Subscribed:",
-                        msg=f"[{event_handler}] {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} [{event_key}]",
+                        msg=f"{event_handler} {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} {event_key}",
                     )
 
         # Return the new event handler
@@ -522,7 +522,7 @@ class EventLinker(ABC):
                     if cls.__logger.debug_enabled:  # pragma: no cover
                         cls.__logger.debug(
                             action="Unsubscribed",
-                            msg=f"[{event_handler}] {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} [{event_key}]",
+                            msg=f"{event_handler} {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} {event_key}",
                         )
 
         # Return the flag indicating whether the event handler was deleted
@@ -565,7 +565,7 @@ class EventLinker(ABC):
                     if cls.__logger.debug_enabled:  # pragma: no cover
                         cls.__logger.debug(
                             action="Handler Removed:",
-                            msg=f"[{event_handler}] {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} [{event_key}]",
+                            msg=f"{event_handler} {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} {event_key}",
                         )
 
         # Return the flag indicating if the event handler was found and deleted
@@ -590,7 +590,7 @@ class EventLinker(ABC):
 
                 # Log the removal of the event if debug is enabled
                 if cls.__logger.debug_enabled:  # pragma: no cover
-                    cls.__logger.debug(action="Event Removed:", msg=f"[{event_key}]")
+                    cls.__logger.debug(action="Event Removed:", msg=f"{event_key}")
 
                 # Return True to indicate successful removal
                 return True

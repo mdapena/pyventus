@@ -94,7 +94,7 @@ custom serializer can be implemented if the default does not meet the specific n
 </p>
 </details>
 
-```Python title="worker.py" linenums="1" hl_lines="8-12 18 21"
+```Python title="worker.py" linenums="1" hl_lines="7-8 13-14 17"
 from celery import Celery
 from pyventus.emitters.celery import CeleryEventEmitter
 

@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from asyncio import gather
 from datetime import datetime
 from sys import gettrace
-from typing import List, Type, TypeAlias, Any, Tuple, Dict
+from typing import List, Type, TypeAlias, Any, Tuple, Dict, final
 from uuid import uuid4
 
 from ..core.constants import StdOutColors
@@ -34,6 +34,7 @@ class EventEmitter(ABC):
     at: [https://mdapena.github.io/pyventus/tutorials/emitters/](https://mdapena.github.io/pyventus/tutorials/emitters/).
     """
 
+    @final
     class EventEmission:
         """
         Represents an event emission that has been triggered but whose propagation is not

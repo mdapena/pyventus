@@ -92,6 +92,17 @@ path = "src/pyventus/__init__.py"
 # | Building Target                                                |
 # ------------------------------------------------------------------
 
+[tool.hatch.build.targets.sdist]
+include = [
+    "/src",
+    "/tests",
+    "/.gitignore",
+    "/pyproject.toml",
+    "/CITATION.cff",
+    "/README.md",
+    "/LICENSE",
+]
+
 [tool.hatch.build.targets.wheel]
 packages = ["src/pyventus"]
 

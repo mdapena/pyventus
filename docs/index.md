@@ -187,8 +187,8 @@ is the <code>event_callback()</code>.
 !!! example "Next steps"
 
 	<p style='text-align: justify;' markdown>
-	    Feel free to experiment and build upon this example to explore the full potential of Pyventus in your own 
-		projects. You can register **additional event handlers**, handle **events with different event types**
+	    &emsp;&emsp;Feel free to experiment and build upon this example to explore the full potential of Pyventus in
+		your own projects. You can register **additional event handlers**, handle **events with different event types**
 		or **metadata**, implement **custom event emitters** and **event linkers** based on your application's 
 		requirements. 
 	</p>

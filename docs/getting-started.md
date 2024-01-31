@@ -64,7 +64,7 @@ pip install pyventus[celery] (1)
 
     > These optional dependencies can be installed as described in their individual documentation. For example:
        ```console
-       install celery[...]
+       pip install celery[...]
        ```
 
 ---
@@ -104,7 +104,7 @@ pip install pyventus[fastapi] (1)
 
     >  These optional dependencies can be installed as described in their individual documentation. For example:
        ```console
-       install fastapi[...]
+       pip install fastapi[...]
        ```
 
 </ul>

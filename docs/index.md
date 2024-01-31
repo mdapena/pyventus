@@ -40,10 +40,6 @@ hide:
     <img src="https://img.shields.io/pypi/pyversions/pyventus?color=blue" alt="Supported Python versions">
 </a>
 
-<a href="https://www.pepy.tech/projects/pyventus" target="_blank">
-    <img src="https://static.pepy.tech/badge/pyventus/month" alt="Last 30 days downloads for the project">
-</a>
-
 <a href="https://github.com/psf/black">
 	<img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black">
 </a>
@@ -170,7 +166,8 @@ indicates that the function should be triggered when <code>MyEvent</code> occurs
 
 <li>
 <b>Creating the event emitter instance:</b> We instantiated the <code>AsyncIOEventEmitter</code> class, which acts as 
-the event emitter responsible for dispatching events and invoking the associated event handler callbacks.
+the event emitter responsible for dispatching events and invoking the associated event handler callbacks. It's important 
+to note that the event emitter used can be changed by any of the built-in or custom event emitter implementations.
 </li>
 
 <li>
@@ -190,8 +187,8 @@ is the <code>event_callback()</code>.
 !!! example "Next steps"
 
 	<p style='text-align: justify;' markdown>
-	    Feel free to experiment and build upon this example to explore the full potential of Pyventus in your own 
-		projects. You can register **additional event handlers**, handle **events with different event types**
+	    &emsp;&emsp;Feel free to experiment and build upon this example to explore the full potential of Pyventus in
+		your own projects. You can register **additional event handlers**, handle **events with different event types**
 		or **metadata**, implement **custom event emitters** and **event linkers** based on your application's 
 		requirements. 
 	</p>

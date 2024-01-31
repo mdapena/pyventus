@@ -28,10 +28,6 @@
     <img src="https://img.shields.io/pypi/pyversions/pyventus?color=blue" alt="Supported Python versions">
 </a>
 
-<a href="https://www.pepy.tech/projects/pyventus" target="_blank">
-    <img src="https://static.pepy.tech/badge/pyventus/month" alt="Last 30 days downloads for the project">
-</a>
-
 <a href="https://github.com/psf/black">
 	<img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black">
 </a>
@@ -51,9 +47,8 @@
 
 <p style='text-align: justify;'>
     &emsp;&emsp;Pyventus is a modern and robust Python package for event-driven programming. It offers a comprehensive
-	suite of tools to define, emit, manage, and orchestrate events with ease, using customizable event emitters and
-	flexible responses. With Pyventus, you can easily build scalable, extensible, and loosely-coupled event-driven
-	applications.
+	suite of tools to easily define, emit, and orchestrate events using customizable event emitters and flexible
+	responses. With Pyventus, you can easily build scalable, extensible, and loosely-coupled event-driven applications.
 </p>
 
 ## More than just Events
@@ -105,9 +100,11 @@ guides, and tutorials to effectively leverage all the features and capabilities 
 ## Requirements
 
 <p style='text-align: justify;'>
-	&emsp;&emsp;Pyevents <b>only requires Python 3.10+</b> by default, which includes the <code>AsyncIOEventEmitter</code>
-	and the <code>ExecutorEventEmitter</code> with no additional dependencies. However, your requirements may expand 
-	if you opt to use alternative built-in event emitter implementations.
+	&emsp;&emsp;Pyevents <b>only requires Python 3.10+</b> by default, which includes the 
+	<a href="https://mdapena.github.io/pyventus/tutorials/emitters/asyncio" target="_blank"><code>AsyncIOEventEmitter</code></a>
+	and the <a href="https://mdapena.github.io/pyventus/tutorials/emitters/executor" target="_blank"><code>ExecutorEventEmitter</code></a> 
+	with no additional dependencies. However, your requirements may expand if you opt to use  
+	<a href="https://mdapena.github.io/pyventus/getting-started/#optional-dependencies" target="_blank">alternative built-in event emitter implementations</a>.
 </p>
 
 ## Installation
@@ -175,7 +172,8 @@ indicates that the function should be triggered when <code>MyEvent</code> occurs
 
 <li>
 <b>Creating the event emitter instance:</b> We instantiated the <code>AsyncIOEventEmitter</code> class, which acts as 
-the event emitter responsible for dispatching events and invoking the associated event handler callbacks.
+the event emitter responsible for dispatching events and invoking the associated event handler callbacks. It's important 
+to note that the event emitter used can be changed by any of the built-in or custom event emitter implementations.
 </li>
 
 <li>
@@ -378,7 +376,7 @@ Hello, AsyncIOEventEmitter!
 <details markdown="1" class="tip" open>
 <summary>Official <code>FastAPIEventEmitter</code> integration</summary>
 <p style='text-align: justify;'>
-No need for manual implementation! Pyventus now offers an official <b><a href="/pyventus/tutorials/emitters/fastapi">FastAPIEventEmitter</a></b>
+No need for manual implementation! Pyventus now offers an official <b><a href="https://mdapena.github.io/pyventus/tutorials/emitters/fastapi">FastAPIEventEmitter</a></b>
 integration.
 </p>
 </details>

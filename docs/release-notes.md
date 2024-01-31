@@ -3,13 +3,39 @@ hide:
   - navigation
 ---
 
+<style>
+	.divider {
+		margin-top: -0.5em !important;
+		margin-bottom: -0.2em !important;
+	}
+</style>
+
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
-## v0.4.0
+## [v0.4.1](https://github.com/mdapena/pyventus/releases/tag/0.4.1) <small>January 30, 2024</small> { id="0.4.1" }
 
-### What's Changed
+<hr class="divider">
 
-##### New Features
+##### Changed
+
+- Optimized the size of the `sdist` build by including only essential files and directories, such as `/src`, `/tests`,
+  `.gitignore`, `pyproject.toml`, `CITATION.cff`, `README.md` and `LICENSE`.
+- Refactored the dependencies of the docs environment by separating them into an optional dependency called `docs`.
+- Updated the `deploy-docs.yml` GitHub workflow to utilize the new `docs` optional dependency.
+- Updated the `EventEmission` class with the `@final` decorator from the typing module, indicating that it is meant for
+  internal use only and should not be subclassed.
+
+##### Fixed
+
+- Addressed minor errors and fixed broken links in the documentation.
+
+[//]: # (--------------------------------------------------------------------------------------------------------------)
+
+## [v0.4.0](https://github.com/mdapena/pyventus/releases/tag/0.4.0) <small>January 6, 2024</small> { id="0.4.0" }
+
+<hr class="divider">
+
+##### Added
 
 - The `FastAPIEventEmitter` has been added to facilitate seamless integration with `FastAPI` framework and leverage its
   `BackgroundTasks` for event handling.
@@ -17,15 +43,25 @@ hide:
 - A `Coveralls.io` workflow has been added to generate a coverage badge and reports.
 - Included permalinks for easy navigation within the documentation.
 
-##### Fixes
+##### Fixed
 
 - Addressed minor errors in the Pyventus documentation.
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
-## v0.3.0
+## [v0.3.0](https://github.com/mdapena/pyventus/releases/tag/0.3.0) <small>December 29, 2023</small> { id="0.3.0" }
 
-### What's Changed
+<hr class="divider">
+
+##### Added
+
+- Added `CeleryEventEmitter` implementation to leverage the Celery distributed task queue for event handling.
+- Included documentation for `CeleryEventEmitter` including tutorials and API references.
+
+##### Changed
+
+- Restructured documentation for event emitters tutorials and API references.
+- Restructured tests for event emitters tutorials and API references.
 
 ##### Breaking Changes
 
@@ -35,23 +71,13 @@ hide:
   emissions.
 - Renamed all debug flags from `debug_mode` to `debug` for enhanced clarity and consistency.
 
-##### New Features
-
-- Added `CeleryEventEmitter` implementation to leverage the Celery distributed task queue for event handling.
-- Included documentation for `CeleryEventEmitter` including tutorials and API references.
-
-##### Refactors
-
-- Restructured documentation for event emitters tutorials and API references.
-- Restructured tests for event emitters tutorials and API references.
-
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
-## v0.2.1
+## [v0.2.1](https://github.com/mdapena/pyventus/releases/tag/0.2.1) <small>December 17, 2023</small> { id="0.2.1" }
 
-### What's Changed
+<hr class="divider">
 
-##### Fixes
+##### Fixed
 
 - Fixed issues with invalid links in the documentation.
 - Updated docstring links to the official Pyventus documentation.
@@ -60,16 +86,16 @@ hide:
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
-## v0.2.0
+## [v0.2.0](https://github.com/mdapena/pyventus/releases/tag/0.2.0) <small>December 16, 2023</small> { id="0.2.0" }
 
-### What's Changed
+<hr class="divider">
 
-##### New Features
+##### Added
 
 - This release introduces the `publish to PyPI` workflow, automating the uploading of package builds
   when new releases are created.
 
-##### Changes
+##### Changed
 
 - Badges have been added to the main page of the documentation as well as the readme file.
 - To facilitate academic citations, a `CITATION.cff` file has been added in this release.
@@ -78,16 +104,18 @@ hide:
 - The `mkdocs.yml` file has been updated to include the `git-authors` plugin, which lists the names of documentation
   contributors on their respective pages.
 
-##### Fixes
+##### Fixed
 
 - Minor bug fixes and refactoring have been made in the `deploy-docs` and `run-tests` workflows.
 - Fixed issues with relative links in the documentation.
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
-## v0.1.0
+## [v0.1.0](https://github.com/mdapena/pyventus/releases/tag/0.1.0) <small>December 15, 2023</small> { id="0.1.0" }
 
-### Initial Implementation
+<hr class="divider">
+
+##### Initial Implementation
 
 &emsp;&emsp;This release introduces Pyventus 0.1.0, a modern and robust Python package for event-driven programming.
 Pyventus provides developers with a comprehensive suite of tools and utilities to define, emit, and orchestrate events.

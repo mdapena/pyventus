@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from asyncio import gather
 from datetime import datetime
 from sys import gettrace
-from typing import List, Type, TypeAlias, Any, Tuple, Dict
+from typing import List, Type, TypeAlias, Any, Tuple, Dict, final
 from uuid import uuid4
 
 from ..core.constants import StdOutColors
@@ -34,14 +34,15 @@ class EventEmitter(ABC):
     at: [https://mdapena.github.io/pyventus/tutorials/emitters/](https://mdapena.github.io/pyventus/tutorials/emitters/).
     """
 
+    @final
     class EventEmission:
         """
         Represents an event emission that has been triggered but whose propagation is not
         yet complete. It provides a self-contained context for executing the event emission,
         encapsulating both the event data and the associated event handlers.
 
-        This class acts as an immutable and isolated unit of work to asynchronously propagate
-        the emission of an event.
+        This class acts as an isolated unit of work to asynchronously propagate the emission
+        of an event.
 
         This class is managed by the `EventEmitter` class, which creates an instance when an
         event is emitted. This instance is then processed by the EventEmitter's `_process()`

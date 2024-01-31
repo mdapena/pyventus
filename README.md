@@ -47,9 +47,8 @@
 
 <p style='text-align: justify;'>
     &emsp;&emsp;Pyventus is a modern and robust Python package for event-driven programming. It offers a comprehensive
-	suite of tools to define, emit, manage, and orchestrate events with ease, using customizable event emitters and
-	flexible responses. With Pyventus, you can easily build scalable, extensible, and loosely-coupled event-driven
-	applications.
+	suite of tools to easily define, emit, and orchestrate events using customizable event emitters and flexible
+	responses. With Pyventus, you can easily build scalable, extensible, and loosely-coupled event-driven applications.
 </p>
 
 ## More than just Events

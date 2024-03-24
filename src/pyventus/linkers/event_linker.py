@@ -55,6 +55,17 @@ class EventLinker(ABC):
         internally to serves as a wrapper for event linking operation.
         """
 
+        # Event Linkage Wrapper attributes
+        __slots__ = (
+            "_event_linker",
+            "_events",
+            "_once",
+            "_force_async",
+            "_event_callback",
+            "_success_callback",
+            "_failure_callback",
+        )
+
         @property
         def on_event(self) -> Callable[[EventCallbackType], EventCallbackType]:  # type: ignore[type-arg]
             """
@@ -97,17 +108,25 @@ class EventLinker(ABC):
 
             return _wrapper
 
-        def __init__(self, *events: SubscribableEventType, event_linker: Type["EventLinker"], once: bool):
+        def __init__(
+            self,
+            *events: SubscribableEventType,
+            event_linker: Type["EventLinker"],
+            force_async: bool,
+            once: bool,
+        ) -> None:
             """
             Initializes the wrapper instance.
             :param events: The events to link/subscribe to.
             :param event_linker: The event linker type for associating events with callbacks.
+            :param force_async: Whether to force all callbacks to run asynchronously.
             :param once: Whether the callback is a one-time subscription.
             """
-            self._events: Tuple[SubscribableEventType, ...] = events
             self._event_linker: Type[EventLinker] = event_linker
-            self._once: bool = once
+            self._events: Tuple[SubscribableEventType, ...] = events
 
+            self._once: bool = once
+            self._force_async: bool = force_async
             self._event_callback: EventCallbackType | None = None  # type: ignore[type-arg, no-redef, assignment]
             self._success_callback: SuccessCallbackType | None = None  # type: ignore[no-redef, assignment]
             self._failure_callback: FailureCallbackType | None = None  # type: ignore[no-redef, assignment]
@@ -124,6 +143,7 @@ class EventLinker(ABC):
                 event_callback=self._event_callback,
                 success_callback=None,
                 failure_callback=None,
+                force_async=self._force_async,
                 once=self._once,
             )
             del self
@@ -153,6 +173,7 @@ class EventLinker(ABC):
                 event_callback=self._event_callback,
                 success_callback=self._success_callback,
                 failure_callback=self._failure_callback,
+                force_async=self._force_async,
                 once=self._once,
             )
             del self
@@ -385,23 +406,31 @@ class EventLinker(ABC):
             )
 
     @classmethod
-    def once(cls, *events: SubscribableEventType) -> EventLinkageWrapper:
+    def once(cls, *events: SubscribableEventType, force_async: bool = False) -> EventLinkageWrapper:
         """
         Decorator that subscribes a callback to the specified events to be invoked only once.
         This decorator is used to conveniently subscribe a callback as a one-time handler.
         :param events: The events to subscribe to.
+        :param force_async: Whether to force all callbacks to run asynchronously.
+            If `True`, synchronous callbacks will be converted to run asynchronously in a
+            thread pool, using the `asyncio.to_thread` function. If `False`, callbacks will
+            run synchronously or asynchronously as defined. Default to `False`.
         :return: The decorator that wraps the callback.
         """
-        return EventLinker.EventLinkageWrapper(*events, event_linker=cls, once=True)
+        return EventLinker.EventLinkageWrapper(*events, event_linker=cls, force_async=force_async, once=True)
 
     @classmethod
-    def on(cls, *events: SubscribableEventType) -> EventLinkageWrapper:
+    def on(cls, *events: SubscribableEventType, force_async: bool = False) -> EventLinkageWrapper:
         """
         Decorator that subscribes a callback to the specified events.
         :param events: The events to subscribe to.
+        :param force_async: Whether to force all callbacks to run asynchronously.
+            If `True`, synchronous callbacks will be converted to run asynchronously in a
+            thread pool, using the `asyncio.to_thread` function. If `False`, callbacks will
+            run synchronously or asynchronously as defined. Default to `False`.
         :return: The decorator that wraps the callback.
         """
-        return EventLinker.EventLinkageWrapper(*events, event_linker=cls, once=False)
+        return EventLinker.EventLinkageWrapper(*events, event_linker=cls, force_async=force_async, once=False)
 
     @classmethod
     def subscribe(
@@ -410,6 +439,7 @@ class EventLinker(ABC):
         event_callback: EventCallbackType,  # type: ignore[type-arg]
         success_callback: SuccessCallbackType | None = None,
         failure_callback: FailureCallbackType | None = None,
+        force_async: bool = False,
         once: bool = False,
     ) -> EventHandler:
         """
@@ -419,6 +449,10 @@ class EventLinker(ABC):
         :param success_callback: The callback to be executed when the event execution completes
             successfully.
         :param failure_callback: The callback to be executed when the event execution fails.
+        :param force_async: Whether to force all callbacks to run asynchronously.
+            If `True`, synchronous callbacks will be converted to run asynchronously in a
+            thread pool, using the `asyncio.to_thread` function. If `False`, callbacks will
+            run synchronously or asynchronously as defined. Default to `False`.
         :param once: Specifies if the callback is a one-time subscription. If set to `True`,
             the handler will be invoked once when the event occurs and then automatically unsubscribed.
             If set to `False` (default), the handler can be invoked multiple times until explicitly
@@ -452,6 +486,7 @@ class EventLinker(ABC):
                 event_callback=event_callback,
                 success_callback=success_callback if success_callback else cls.__default_success_callback,
                 failure_callback=failure_callback if failure_callback else cls.__default_failure_callback,
+                force_async=force_async,
                 once=once,
             )
 

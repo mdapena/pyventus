@@ -31,24 +31,22 @@ class EventHandler:
     method and returns a `Coroutine`. It should never be treated as a sync function.
 
     **Note:** The event handler can be invoked by calling the instance as a function
-    and passing the necessary arguments. If the event handler has the `once` property
-    set to `True`, it will only be invoked once when the event occurs. If `once` is set
-    to `False` (default), the event handler will be invoked every time the event occurs
-    until explicitly unsubscribed. Also, this class is not intended to be subclassed or
-    created manually. It is used internally to encapsulate the callbacks associated
-    with an event.
+    and passing the necessary arguments. This class is not intended to be subclassed
+    or created manually. It is used internally to encapsulate the callbacks
+    associated with an event.
     """
 
     # Event handler attributes
     __slots__ = (
         "_once",
-        "_timestamp",
+        "_force_async",
         "_event_callback",
         "_success_callback",
         "_failure_callback",
         "_is_event_callback_async",
         "_is_success_callback_async",
         "_is_failure_callback_async",
+        "_timestamp",
     )
 
     @property
@@ -58,6 +56,17 @@ class EventHandler:
         :return: `True` if the event handler is a one-time handler; otherwise, `False`.
         """
         return self._once
+
+    @property
+    def force_async(self) -> bool:
+        """
+        Determines whether all callbacks are forced to run asynchronously.
+        :return: A boolean value indicating whether synchronous callbacks will be converted to run
+            asynchronously in a thread pool, using the `asyncio.to_thread` function. Returns `True`
+            if callbacks will be converted to run asynchronously, and `False` if callbacks will
+            run synchronously or asynchronously as defined.
+        """
+        return self._force_async
 
     @property
     def timestamp(self) -> datetime:
@@ -112,21 +121,26 @@ class EventHandler:
 
     def __init__(
         self,
+        once: bool,
+        force_async: bool,
         event_callback: EventCallbackType,  # type: ignore[type-arg]
         success_callback: SuccessCallbackType | None = None,
         failure_callback: FailureCallbackType | None = None,
-        once: bool = False,
     ) -> None:
         """
         Initializes an instance of the `EventHandler` class.
+        :param once: Specifies if the event handler is a one-time handler. If set to `True`,
+            the handler will be invoked once when the event occurs and then automatically
+            unsubscribed. If set to `False`, the handler can be invoked multiple times
+            until explicitly unsubscribed.
+        :param force_async: Whether to force all callbacks to run asynchronously.
+            If `True`, synchronous callbacks will be converted to run asynchronously in a
+            thread pool, using the `asyncio.to_thread` function. If `False`, callbacks will
+            run synchronously or asynchronously as defined.
         :param event_callback: The callback to be executed when the event occurs.
         :param success_callback: The callback to be executed when the event execution
             completes successfully.
         :param failure_callback: The callback to be executed when the event execution fails.
-        :param once: Specifies if the event handler is a one-time handler. If set to `True`,
-            the handler will be invoked once when the event occurs and then automatically
-            unsubscribed. If set to `False` (default), the handler can be invoked multiple
-            times until explicitly unsubscribed.
         :raises PyventusException: If callbacks are invalid.
         """
         # Validate callbacks
@@ -138,16 +152,16 @@ class EventHandler:
         if failure_callback is not None:
             EventHandler.validate_callback(callback=failure_callback)
 
-        # Initialize attributes
+        # Store flags
         self._once: bool = once
-        self._timestamp: datetime = datetime.now()
+        self._force_async: bool = force_async
 
         # Store callbacks
         self._event_callback: EventCallbackType = event_callback  # type: ignore[type-arg]
         self._success_callback: SuccessCallbackType | None = success_callback
         self._failure_callback: FailureCallbackType | None = failure_callback
 
-        # Flags
+        # Callback flags
         self._is_event_callback_async: bool = EventHandler.is_async(event_callback)
         self._is_success_callback_async: bool | None = (
             EventHandler.is_async(success_callback) if success_callback else None
@@ -155,6 +169,9 @@ class EventHandler:
         self._is_failure_callback_async: bool | None = (
             EventHandler.is_async(failure_callback) if failure_callback else None
         )
+
+        # Set timestamp
+        self._timestamp: datetime = datetime.now()
 
     async def __call__(self, *args: P.args, **kwargs: P.kwargs) -> None:
         """
@@ -164,46 +181,56 @@ class EventHandler:
         :return: Coroutine
         """
         # Callback results
-        results: Any
+        results: Any | None = None
 
         try:
-            # Invokes the event callback, checking if async.
+            # Invokes the event callback.
             if self._is_event_callback_async:
                 results = await self._event_callback(*args, **kwargs)
-            else:
+            elif self._force_async:
                 results = await to_thread(self._event_callback, *args, **kwargs)
+            else:
+                results = self._event_callback(*args, **kwargs)
         except Exception as exception:
             # Log the exception with error level
             StdOutLogger.error(name=f"{self.__class__.__name__}", action="Exception:", msg=f"{exception}")
 
-            # Invokes failure callback, checking if async.
+            # Invokes failure callback.
             if self._failure_callback:
                 if self._is_failure_callback_async:
                     await self._failure_callback(exception)
-                else:
+                elif self._force_async:
                     await to_thread(self._failure_callback, exception)
+                else:
+                    self._failure_callback(exception)
         else:
-            # Invokes success callback, checking if async.
+            # Invokes success callback.
             if self._success_callback:
                 if self._is_success_callback_async:
-                    if results:
-                        await self._success_callback(results)
-                    else:
+                    if results is None:
                         await self._success_callback()
-                else:
-                    if results:
-                        await to_thread(self._success_callback, results)
                     else:
+                        await self._success_callback(results)
+                elif self._force_async:
+                    if results is None:
                         await to_thread(self._success_callback)
+                    else:
+                        await to_thread(self._success_callback, results)
+                else:
+                    if results is None:
+                        self._success_callback()
+                    else:
+                        self._success_callback(results)
 
     def __str__(self) -> str:
         return (
+            f"Once: {self.once} | "
+            f"Force Async: {self.force_async} | "
             f"Event Callback: '{EventHandler.get_callback_name(callback=self._event_callback)}'"
             f"{' (Async)' if self._is_event_callback_async else ' (Sync)'} | "
             f"Success Callback: '{EventHandler.get_callback_name(callback=self._success_callback)}'"
-            f"{' (Async)' if self._is_success_callback_async else ' (Sync)' if self._success_callback else ''} | "
+            f"{(' (Async)' if self._is_success_callback_async else ' (Sync)') if self._success_callback else ''} | "
             f"Failure Callback: '{EventHandler.get_callback_name(callback=self._failure_callback)}'"
-            f"{' (Async)' if self._is_failure_callback_async else ' (Sync)' if self._failure_callback else ''} | "
-            f"Timestamp: {self.timestamp.strftime('%Y-%m-%d %I:%M:%S %p')} | "
-            f"Once: {self.once}"
+            f"{(' (Async)' if self._is_failure_callback_async else ' (Sync)') if self._failure_callback else ''} | "
+            f"Timestamp: {self.timestamp.strftime('%Y-%m-%d %I:%M:%S %p')}"
         )

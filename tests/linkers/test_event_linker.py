@@ -1,6 +1,6 @@
 from _pytest.python_api import raises
 
-from pyventus import Event, EventLinker, PyventusException, EventHandler, EventEmitter
+from pyventus import Event, EventLinker, PyventusException, EventHandler
 from pyventus.core.loggers import Logger
 from .. import EventFixtures, CallbackFixtures
 
@@ -115,7 +115,7 @@ class TestEventLinker:
         assert EventFixtures.CustomEvent2.__name__ in EventLinker.get_events_by_handler(event_handler=event_handler_2)
 
         # Arrange | Act
-        event_handler_3 = EventHandler(event_callback=CallbackFixtures.Sync())
+        event_handler_3 = EventHandler(once=False, force_async=False, event_callback=CallbackFixtures.Sync())
 
         # Assert
         assert len(EventLinker.get_events_by_handler(event_handler=event_handler_3)) == 0
@@ -163,6 +163,7 @@ class TestEventLinker:
         wrapper1 = EventLinker.EventLinkageWrapper(
             EventFixtures.CustomEvent1,
             event_linker=EventLinker,
+            force_async=True,
             once=False,
         )
 
@@ -178,6 +179,7 @@ class TestEventLinker:
         assert wrapper1._event_callback == event_callback1
         assert len(EventLinker.get_handlers_by_events(EventFixtures.CustomEvent1)) == 1
         assert not EventLinker.get_handlers_by_events(EventFixtures.CustomEvent1)[0].once
+        assert EventLinker.get_handlers_by_events(EventFixtures.CustomEvent1)[0].force_async
         assert len(EventLinker.get_events()) == 1
 
         # Arrange
@@ -186,7 +188,9 @@ class TestEventLinker:
         failure_callback2 = CallbackFixtures.Sync()
 
         # Act
-        wrapper2 = EventLinker.EventLinkageWrapper("StringEvent", event_linker=EventLinker, once=True)
+        wrapper2 = EventLinker.EventLinkageWrapper(
+            "StringEvent", event_linker=EventLinker, force_async=False, once=True
+        )
 
         # Act
         with wrapper2 as linker:
@@ -200,6 +204,7 @@ class TestEventLinker:
         assert wrapper2._failure_callback == failure_callback2
         assert len(EventLinker.get_handlers_by_events("StringEvent")) == 1
         assert EventLinker.get_handlers_by_events("StringEvent")[0].once
+        assert not EventLinker.get_handlers_by_events("StringEvent")[0].force_async
         assert len(EventLinker.get_events()) == 2
 
     def test_once_as_decorator(self, clean_event_linker: bool):
@@ -211,7 +216,7 @@ class TestEventLinker:
                 pass  # pragma: no cover
 
         # Arrange | Act
-        @EventLinker.once(Event, Exception)
+        @EventLinker.once(Event, Exception, force_async=True)
         def first_once_callback(*args, **kwargs):
             pass  # pragma: no cover
 
@@ -222,6 +227,7 @@ class TestEventLinker:
         # Assert
         assert len(EventLinker.get_handlers_by_events(Event)) == 1
         assert EventLinker.get_handlers_by_events(Event)[0].once
+        assert EventLinker.get_handlers_by_events(Event)[0].force_async
         assert len(EventLinker.get_handlers_by_events(Exception)) == 2
         assert EventLinker.get_handlers_by_events(Exception)[0].once
         assert EventLinker.get_handlers_by_events(Exception)[1].once
@@ -273,6 +279,7 @@ class TestEventLinker:
         # Assert
         assert len(EventLinker.get_handlers_by_events(Event)) == 1
         assert EventLinker.get_handlers_by_events(Event)[0].once
+        assert not EventLinker.get_handlers_by_events(Event)[0].force_async
         assert len(EventLinker.get_handlers_by_events(Exception)) == 2
         assert EventLinker.get_handlers_by_events(Exception)[0].once
         assert EventLinker.get_handlers_by_events(Exception)[1].once
@@ -287,7 +294,7 @@ class TestEventLinker:
                 pass  # pragma: no cover
 
         # Arrange | Act
-        @EventLinker.on(Event, EventFixtures.CustomEvent1)
+        @EventLinker.on(Event, EventFixtures.CustomEvent1, force_async=True)
         def first_once_callback(*args, **kwargs):
             pass  # pragma: no cover
 
@@ -298,12 +305,14 @@ class TestEventLinker:
         # Assert
         assert len(EventLinker.get_handlers_by_events(Event)) == 1
         assert not EventLinker.get_handlers_by_events(Event)[0].once
+        assert EventLinker.get_handlers_by_events(Event)[0].force_async
         assert len(EventLinker.get_handlers_by_events(EventFixtures.CustomEvent1)) == 1
         assert EventLinker.get_handlers_by_events(EventFixtures.CustomEvent1) == EventLinker.get_handlers_by_events(
             Event
         )
         assert len(EventLinker.get_handlers_by_events(Exception)) == 1
         assert not EventLinker.get_handlers_by_events(Exception)[0].once
+        assert not EventLinker.get_handlers_by_events(Exception)[0].force_async
         assert len(EventLinker.get_event_handlers()) == 2
 
     def test_on_as_context_manager(self, clean_event_linker: bool):
@@ -330,7 +339,7 @@ class TestEventLinker:
             def first_failure_callback(*args, **kwargs):
                 pass  # pragma: no cover
 
-        with EventLinker.on(Exception) as linker:
+        with EventLinker.on(Exception, force_async=True) as linker:
 
             @linker.on_event
             async def second_event_callback(exception: Exception):
@@ -339,12 +348,14 @@ class TestEventLinker:
         # Assert
         assert len(EventLinker.get_handlers_by_events(Event)) == 1
         assert not EventLinker.get_handlers_by_events(Event)[0].once
+        assert not EventLinker.get_handlers_by_events(Event)[0].force_async
         assert len(EventLinker.get_handlers_by_events(EventFixtures.CustomEvent1)) == 1
         assert EventLinker.get_handlers_by_events(EventFixtures.CustomEvent1) == EventLinker.get_handlers_by_events(
             Event
         )
         assert len(EventLinker.get_handlers_by_events(Exception)) == 1
         assert not EventLinker.get_handlers_by_events(Exception)[0].once
+        assert EventLinker.get_handlers_by_events(Exception)[0].force_async
         assert len(EventLinker.get_event_handlers()) == 2
 
     def test_subscribe(self, clean_event_linker: bool):

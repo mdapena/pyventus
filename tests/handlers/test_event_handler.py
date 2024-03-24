@@ -1,5 +1,5 @@
 import asyncio
-from typing import Callable
+import threading
 
 from _pytest.python_api import raises
 
@@ -9,26 +9,102 @@ from .. import CallbackFixtures
 
 class TestEventHandler:
     def test_creation_with_invalid_callbacks(self):
-        # Arrange
-        def invalid_callback() -> Callable:
-            return 1  # type: ignore
-
-        # Act|Assert
+        # Arrange|Act|Assert
         with raises(PyventusException):
-            EventHandler(event_callback=invalid_callback())
+            EventHandler(
+                once=False,
+                force_async=False,
+                event_callback=False,  # type: ignore
+            )
 
-        # Act|Assert
+        # Arrange|Act|Assert
         with raises(PyventusException):
-            EventHandler(event_callback=CallbackFixtures.Sync(), success_callback=invalid_callback())
+            EventHandler(
+                once=False,
+                force_async=False,
+                event_callback=CallbackFixtures.Sync(),
+                success_callback=False,  # type: ignore
+            )
 
-        # Act|Assert
+        # Arrange|Act|Assert
         with raises(PyventusException):
-            EventHandler(event_callback=CallbackFixtures.Sync(), failure_callback=invalid_callback())
+            EventHandler(
+                once=False,
+                force_async=False,
+                event_callback=CallbackFixtures.Sync(),
+                failure_callback=False,  # type: ignore
+            )
 
     def test_once_time_listener_flag(self):
         # Arrange|Act|Assert
-        assert EventHandler(event_callback=CallbackFixtures.Sync(), once=True).once
-        assert not EventHandler(event_callback=CallbackFixtures.Sync(), once=False).once
+        assert EventHandler(once=True, force_async=False, event_callback=CallbackFixtures.Sync()).once
+        assert not EventHandler(once=False, force_async=False, event_callback=CallbackFixtures.Sync()).once
+
+    def test_force_async_flag(self):
+        # Arrange|Act|Assert
+        assert EventHandler(once=False, force_async=True, event_callback=CallbackFixtures.Sync()).force_async
+        assert not EventHandler(once=False, force_async=False, event_callback=CallbackFixtures.Sync()).force_async
+
+    def test_force_async(self):
+
+        # Arrange | Assert
+        class CustomException(Exception):
+            def __init__(self, same_thread: bool):
+                self.same_thread: bool = same_thread
+                super().__init__("Custom Exception!")
+
+        def sync_event_callback(raise_exception: bool):
+            same_thread: bool = threading.current_thread() == threading.main_thread()
+            if raise_exception:
+                raise CustomException(same_thread)
+            else:
+                return same_thread
+
+        async def async_event_callback():
+            assert threading.current_thread() == threading.main_thread()
+
+        def assert_success_callback_with_force_async_true():
+            assert not (threading.current_thread() == threading.main_thread())
+
+        def assert_force_async_true(results: bool | Exception):
+            same_thread: bool = results.same_thread if isinstance(results, CustomException) else results
+            assert not (threading.current_thread() == threading.main_thread())
+            assert not same_thread
+
+        def assert_force_async_false(results: bool | Exception):
+            same_thread: bool = results.same_thread if isinstance(results, CustomException) else results
+            assert threading.current_thread() == threading.main_thread()
+            assert same_thread
+
+        # Act
+        event_handler1 = EventHandler(
+            once=False,
+            force_async=True,
+            event_callback=sync_event_callback,
+            success_callback=assert_force_async_true,
+            failure_callback=assert_force_async_true,
+        )
+        asyncio.run(event_handler1(raise_exception=False))
+        asyncio.run(event_handler1(raise_exception=True))
+
+        event_handler2 = EventHandler(
+            once=False,
+            force_async=False,
+            event_callback=sync_event_callback,
+            success_callback=assert_force_async_false,
+            failure_callback=assert_force_async_false,
+        )
+
+        asyncio.run(event_handler2(raise_exception=False))
+        asyncio.run(event_handler2(raise_exception=True))
+
+        event_handler3 = EventHandler(
+            once=False,
+            force_async=True,
+            event_callback=async_event_callback,
+            success_callback=assert_success_callback_with_force_async_true,
+        )
+        asyncio.run(event_handler3())
 
     def test_creation_with_sync_callback(self):
         # Arrange
@@ -38,7 +114,9 @@ class TestEventHandler:
             print("Event received!")
 
         # Act
-        event_handler1 = EventHandler(event_callback=sync_callback, success_callback=sync_event_callback)
+        event_handler1 = EventHandler(
+            once=False, force_async=False, event_callback=sync_callback, success_callback=sync_event_callback
+        )
         asyncio.run(event_handler1())
 
         # Assert
@@ -56,7 +134,9 @@ class TestEventHandler:
             print("Event received!")
 
         # Act
-        event_handler1 = EventHandler(event_callback=async_callback, success_callback=async_event_callback)
+        event_handler1 = EventHandler(
+            once=False, force_async=False, event_callback=async_callback, success_callback=async_event_callback
+        )
         asyncio.run(event_handler1())
 
         # Assert
@@ -74,7 +154,7 @@ class TestEventHandler:
         dict_param = {"key1": "value1"}
 
         event_callback = CallbackFixtures.Sync()
-        event_handler = EventHandler(event_callback=event_callback)
+        event_handler = EventHandler(once=False, force_async=False, event_callback=event_callback)
 
         # Act
         asyncio.run(event_handler())
@@ -102,6 +182,8 @@ class TestEventHandler:
 
         # Act
         event_handler1 = EventHandler(
+            once=False,
+            force_async=False,
             event_callback=event_callback_without_return_value,
             success_callback=success_callback,
             failure_callback=failure_callback,
@@ -123,6 +205,8 @@ class TestEventHandler:
 
         # Act
         event_handler2 = EventHandler(
+            once=False,
+            force_async=False,
             event_callback=event_callback,
             success_callback=success_callback,
             failure_callback=failure_callback,
@@ -151,6 +235,8 @@ class TestEventHandler:
 
         # Act
         event_handler1 = EventHandler(
+            once=False,
+            force_async=False,
             event_callback=event_callback,
             success_callback=success_callback,
         )
@@ -168,6 +254,8 @@ class TestEventHandler:
 
         # Act
         event_handler2 = EventHandler(
+            once=False,
+            force_async=False,
             event_callback=event_callback,
             success_callback=success_callback,
             failure_callback=failure_callback,
@@ -194,6 +282,8 @@ class TestEventHandler:
         # Arrange
         failure_callback = CallbackFixtures.Async()
         event_handler = EventHandler(
+            once=False,
+            force_async=False,
             event_callback=callback_without_params,
             failure_callback=failure_callback,
         )
@@ -207,8 +297,8 @@ class TestEventHandler:
     def test_multiple_listener_with_one_callback(self):
         # Arrange
         event_callback = CallbackFixtures.Sync()
-        event_handler1 = EventHandler(event_callback=event_callback)
-        event_handler2 = EventHandler(event_callback=event_callback)
+        event_handler1 = EventHandler(once=False, force_async=False, event_callback=event_callback)
+        event_handler2 = EventHandler(once=False, force_async=False, event_callback=event_callback)
 
         # Act
         asyncio.run(event_handler1())

@@ -5,24 +5,23 @@ from datetime import datetime
 @dataclass(frozen=True)
 class Event:
     """
-    A base class for event objects.
+    A base class that serves as a blueprint for creating event objects.
 
-    This class serves as a blueprint for creating event objects. It
-    is intended to be subclassed and extended by concrete event classes.
+    **Notes:**
 
-    **Note:** The `Event` class is marked with `frozen=True`, to ensure that its
-    attributes cannot be modified once the event object is created. This is crucial
-    because Pyventus supports both asynchronous and synchronous event handling concurrently.
-    When payloads are accessible from multiple threads, having mutable payloads could lead
-    to data inconsistencies. By freezing event objects, their integrity is preserved as
-    they propagate through the system.
+    -   The `Event` class is marked with `frozen=True` to ensure that its attributes
+        cannot be modified once the event object is created. This is crucial because
+        Pyventus supports both asynchronous and synchronous event handling concurrently.
+        When payloads are accessible from multiple threads, having mutable payloads
+        could lead to data inconsistencies. By freezing event objects, their
+        integrity is preserved as they propagate through the system.
 
-    For more information and code examples, please refer to the `Event` tutorials at:
-    [https://mdapena.github.io/pyventus/tutorials/event/](https://mdapena.github.io/pyventus/tutorials/event/).
+    Read more in the
+    [Pyventus docs for Event](https://mdapena.github.io/pyventus/tutorials/event/).
     """
 
     timestamp: datetime = field(init=False, default_factory=datetime.now)
-    """ The date and time when the event occurred. """
+    """The timestamp when the event was created."""
 
     @property
     def name(self) -> str:

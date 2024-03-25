@@ -33,11 +33,11 @@ hide:
 </a>
 
 <a href="https://pypi.org/project/pyventus" target="_blank">
-    <img src="https://img.shields.io/pypi/v/pyventus?color=blue" alt="Package version">
+    <img src="https://img.shields.io/pypi/v/pyventus?color=0097a8" alt="Package version">
 </a>
 
 <a href="https://pypi.org/project/pyventus" target="_blank">
-    <img src="https://img.shields.io/pypi/pyversions/pyventus?color=blue" alt="Supported Python versions">
+    <img src="https://img.shields.io/pypi/pyversions/pyventus?color=0097a8" alt="Supported Python versions">
 </a>
 
 <a href="https://github.com/psf/black">

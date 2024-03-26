@@ -35,7 +35,7 @@ class RQEventEmitter(EventEmitter):
         options: Dict[str, Any] | None = None,
         event_linker: Type[EventLinker] = EventLinker,
         debug: bool | None = None,
-    ):
+    ) -> None:
         """
         Initialize an instance of `RQEventEmitter`.
         :param queue: The Redis queue for enqueuing event handlers.

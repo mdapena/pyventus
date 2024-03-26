@@ -43,47 +43,6 @@ class EventHandler:
     [Pyventus docs for Event Handler](https://mdapena.github.io/pyventus/tutorials/event-linker/).
     """
 
-    __slots__ = (
-        "_once",
-        "_force_async",
-        "_event_callback",
-        "_success_callback",
-        "_failure_callback",
-        "_is_event_callback_async",
-        "_is_success_callback_async",
-        "_is_failure_callback_async",
-        "_timestamp",
-    )
-
-    @property
-    def once(self) -> bool:
-        """
-        Determines if the event handler is a one-time subscription.
-        :return: A boolean value indicating if the event handler is
-            a one-time subscription.
-        """
-        return self._once
-
-    @property
-    def force_async(self) -> bool:
-        """
-        Determines whether all callbacks are forced to run asynchronously.
-        :return: A boolean value indicating if all callbacks are forced to run
-            asynchronously. If `True`, synchronous callbacks will be converted to
-            run asynchronously in a thread pool, using the `asyncio.to_thread`
-            function. If `False`, callbacks will run synchronously or
-            asynchronously as defined.
-        """
-        return self._force_async
-
-    @property
-    def timestamp(self) -> datetime:
-        """
-        Retrieves the timestamp when the event handler was created.
-        :return: The timestamp when the event handler was created.
-        """
-        return self._timestamp
-
     @staticmethod
     def get_callback_name(
         callback: EventCallbackType | SuccessCallbackType | FailureCallbackType | None,  # type: ignore[type-arg]
@@ -131,6 +90,48 @@ class EventHandler:
             return iscoroutinefunction(callback.__call__)
         else:
             raise PyventusException("Expected a callable or a string, but got: {0}".format(callback))
+
+    # Event handler attributes
+    __slots__ = (
+        "_once",
+        "_force_async",
+        "_event_callback",
+        "_success_callback",
+        "_failure_callback",
+        "_is_event_callback_async",
+        "_is_success_callback_async",
+        "_is_failure_callback_async",
+        "_timestamp",
+    )
+
+    @property
+    def once(self) -> bool:
+        """
+        Determines if the event handler is a one-time subscription.
+        :return: A boolean value indicating if the event handler is
+            a one-time subscription.
+        """
+        return self._once
+
+    @property
+    def force_async(self) -> bool:
+        """
+        Determines whether all callbacks are forced to run asynchronously.
+        :return: A boolean value indicating if all callbacks are forced to run
+            asynchronously. If `True`, synchronous callbacks will be converted to
+            run asynchronously in a thread pool, using the `asyncio.to_thread`
+            function. If `False`, callbacks will run synchronously or
+            asynchronously as defined.
+        """
+        return self._force_async
+
+    @property
+    def timestamp(self) -> datetime:
+        """
+        Retrieves the timestamp when the event handler was created.
+        :return: The timestamp when the event handler was created.
+        """
+        return self._timestamp
 
     def __init__(
         self,

@@ -40,7 +40,7 @@ class AsyncIOEventEmitter(EventEmitter):
         except RuntimeError:
             return False
 
-    def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None):
+    def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None) -> None:
         """
         Initialize an instance of `AsyncIOEventEmitter`.
         :param event_linker: Specifies the type of event linker to use for associating

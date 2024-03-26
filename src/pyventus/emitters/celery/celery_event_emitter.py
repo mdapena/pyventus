@@ -66,13 +66,6 @@ class CeleryEventEmitter(EventEmitter):
             obj_hash: bytes | None
             """Hash of the serialized event emission object."""
 
-            def to_json(self) -> Dict[str, Any]:
-                """
-                Converts the payload to a JSON-compatible dictionary.
-                :return: JSON-compatible dictionary representing the payload.
-                """
-                return self._asdict()
-
             @classmethod
             def from_json(cls, **kwargs: Any) -> "CeleryEventEmitter.Queue._Payload":
                 """
@@ -96,13 +89,20 @@ class CeleryEventEmitter(EventEmitter):
                 # Create the named tuple using the JSON data
                 return cls(**kwargs)
 
+            def to_json(self) -> Dict[str, Any]:
+                """
+                Converts the payload to a JSON-compatible dictionary.
+                :return: JSON-compatible dictionary representing the payload.
+                """
+                return self._asdict()
+
         def __init__(
             self,
             celery: Celery,
             name: str | None = None,
             secret: str | None = None,
             serializer: Type[Serializer] = Serializer,
-        ):
+        ) -> None:
             """
             Initialize an instance of `CeleryEventEmitter.Queue`.
             :param celery: The Celery object used to enqueue and process event emissions.
@@ -210,7 +210,7 @@ class CeleryEventEmitter(EventEmitter):
             # Run the event emission
             asyncio.run(event_emission())
 
-    def __init__(self, queue: Queue, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None):
+    def __init__(self, queue: Queue, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None) -> None:
         """
         Initialize an instance of `CeleryEventEmitter`.
         :param queue: The queue used for enqueuing event emissions in the Celery event emitter.

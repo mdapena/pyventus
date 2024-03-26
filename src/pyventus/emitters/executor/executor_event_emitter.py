@@ -27,12 +27,22 @@ class ExecutorEventEmitter(EventEmitter):
     [Pyventus docs for Executor Event Emitter](https://mdapena.github.io/pyventus/tutorials/emitters/executor/).
     """
 
+    @staticmethod
+    def _callback(event_emission: EventEmitter.EventEmission) -> None:
+        """
+        This method is used as the callback function for the executor
+        to process the event emission.
+        :param event_emission: The event emission to be executed.
+        :return: None
+        """
+        asyncio.run(event_emission())
+
     def __init__(
         self,
         executor: Executor = ThreadPoolExecutor(),
         event_linker: Type[EventLinker] = EventLinker,
         debug: bool | None = None,
-    ):
+    ) -> None:
         """
         Initialize an instance of `ExecutorEventEmitter`.
         :param executor: The executor object used to handle the execution of event
@@ -84,13 +94,3 @@ class ExecutorEventEmitter(EventEmitter):
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:
         # Submit the event emission to the executor
         self._executor.submit(ExecutorEventEmitter._callback, event_emission)
-
-    @staticmethod
-    def _callback(event_emission: EventEmitter.EventEmission) -> None:
-        """
-        This method is used as the callback function for the executor
-        to process the event emission.
-        :param event_emission: The event emission to be executed.
-        :return: None
-        """
-        asyncio.run(event_emission())

@@ -84,7 +84,7 @@ class EventEmitter(ABC):
             debug: bool,
         ) -> None:
             """
-            Initialize the `EventEmission` object.
+            Initialize an instance of `EventEmission`.
             :param event: The name of the event being emitted.
             :param event_handlers: List of event handlers associated with the event.
             :param event_args: Positional arguments to be passed to the event handlers.
@@ -134,9 +134,9 @@ class EventEmitter(ABC):
                 f"Event: {self.event} | Handlers: {len(self._event_handlers)}"
             )
 
-    def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None):
+    def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None) -> None:
         """
-        Initialize the `EventEmitter` object.
+        Initialize an instance of `EventEmitter`.
         :param event_linker: Specifies the type of event linker to use for associating
             events with their respective event handlers. Defaults to `EventLinker`.
         :param debug: Specifies the debug mode for the subclass logger. If `None`,

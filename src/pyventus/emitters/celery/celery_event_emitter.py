@@ -24,6 +24,7 @@ class CeleryEventEmitter(EventEmitter):
     to handle the execution of event emissions.
 
     **Notes:**
+
     -   This class uses a Celery Queue instance to enqueue event emissions, which are
         subsequently executed by Celery workers. This approach provides a scalable
         and distributed method for handling the execution of event emissions.

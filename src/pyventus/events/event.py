@@ -16,6 +16,7 @@ class Event:
         could lead to data inconsistencies. By freezing event objects, their
         integrity is preserved as they propagate through the system.
 
+    ---
     Read more in the
     [Pyventus docs for Event](https://mdapena.github.io/pyventus/tutorials/event/).
     """

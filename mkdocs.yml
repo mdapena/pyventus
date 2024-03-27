@@ -61,18 +61,19 @@ extra:
 # Plugins
 plugins:
   - search
-  - git-authors:
+  - git-committers:
+      repository: mdapena/pyventus
+      branch: master
       exclude:
-        - api/index.md
+        - api/*
         - tutorials/index.md
-        - about.md
         - index.md
   - git-revision-date-localized:
       type: timeago
+      enable_creation_date: true
       exclude:
         - api/index.md
         - tutorials/index.md
-        - about.md
         - index.md
   - mkdocstrings:
       handlers:

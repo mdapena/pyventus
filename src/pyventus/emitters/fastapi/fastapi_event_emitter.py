@@ -38,8 +38,8 @@ class FastAPIEventEmitter(EventEmitter):
         """
         Returns a decorator that allows you to configure the `FastAPIEventEmitter` class
         when using FastAPI's `Depends` method.
-        :param event_linker: Specifies the type of event linker to use for associating
-            events with their respective event handlers. Defaults to `EventLinker`.
+        :param event_linker: Specifies the type of event linker used to manage and access
+            events along with their corresponding event handlers. Defaults to `EventLinker`.
         :param debug: Specifies the debug mode for the logger. If `None`, it is
             determined based on the execution environment.
         :return: A decorator that can be used with the `Depends` method.

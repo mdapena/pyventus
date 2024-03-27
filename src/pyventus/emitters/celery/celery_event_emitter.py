@@ -214,8 +214,8 @@ class CeleryEventEmitter(EventEmitter):
         """
         Initialize an instance of `CeleryEventEmitter`.
         :param queue: The queue used for enqueuing event emissions in the Celery event emitter.
-        :param event_linker: Specifies the type of event linker to use for associating
-            events with their respective event handlers. Defaults to `EventLinker`.
+        :param event_linker: Specifies the type of event linker used to manage and access
+            events along with their corresponding event handlers. Defaults to `EventLinker`.
         :param debug: Specifies the debug mode for the logger. If `None`, it is
             determined based on the execution environment.
         """

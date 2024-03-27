@@ -43,8 +43,8 @@ class AsyncIOEventEmitter(EventEmitter):
     def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None) -> None:
         """
         Initialize an instance of `AsyncIOEventEmitter`.
-        :param event_linker: Specifies the type of event linker to use for associating
-            events with their respective event handlers. Defaults to `EventLinker`.
+        :param event_linker: Specifies the type of event linker used to manage and access
+            events along with their corresponding event handlers. Defaults to `EventLinker`.
         :param debug: Specifies the debug mode for the logger. If `None`, it is
             determined based on the execution environment.
         """

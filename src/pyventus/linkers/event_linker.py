@@ -19,7 +19,7 @@ class EventLinker(ABC):
     """
     A base class that acts as a global registry for events and callbacks linkage. It provides
     a centralized mechanism for managing event subscriptions, unsubscriptions, and retrieval
-    of events and their associated handlers.
+    of events and their associated event handlers.
 
     **Notes:**
 
@@ -289,22 +289,22 @@ class EventLinker(ABC):
         :return: A mapping of event names to event handlers.
         """
         with cls.__thread_lock:
-            return {event: list(handlers) for event, handlers in cls.__registry.items()}
+            return {event_key: list(event_handlers) for event_key, event_handlers in cls.__registry.items()}
 
     @classmethod
     def get_events(cls) -> List[str]:
         """
-        Retrieve a list of all the registered event names.
+        Retrieve a list of all the registered events.
         :return: A list of event names.
         """
         with cls.__thread_lock:
             return list(cls.__registry.keys())
 
     @classmethod
-    def get_handlers(cls) -> List[EventHandler]:
+    def get_event_handlers(cls) -> List[EventHandler]:
         """
-        Retrieve a list of non-duplicated handlers that
-        have been registered across all events.
+        Retrieve a list of non-duplicated event handlers
+        that have been registered across all events.
         :return: A list of event handlers.
         """
         with cls.__thread_lock:
@@ -313,8 +313,8 @@ class EventLinker(ABC):
     @classmethod
     def get_max_event_handlers(cls) -> None | int:
         """
-        Retrieve the maximum number of handlers allowed per event.
-        :return: The maximum number of handlers or `None` if there is no limit.
+        Retrieve the maximum number of event handlers allowed per event.
+        :return: The maximum number of event handlers or `None` if there is no limit.
         """
         return cls.__max_event_handlers
 
@@ -369,7 +369,7 @@ class EventLinker(ABC):
             raise PyventusException("Unsupported event type")
 
     @classmethod
-    def get_events_by_handler(cls, event_handler: EventHandler) -> List[str]:
+    def get_events_by_event_handler(cls, event_handler: EventHandler) -> List[str]:
         """
         Retrieve a list of event names associated with the provided event handler.
         :param event_handler: The handler to retrieve the associated events for.
@@ -386,10 +386,10 @@ class EventLinker(ABC):
             ]
 
     @classmethod
-    def get_handlers_by_events(cls, *events: SubscribableEventType) -> List[EventHandler]:
+    def get_event_handlers_by_events(cls, *events: SubscribableEventType) -> List[EventHandler]:
         """
         Retrieve a list of non-duplicated event handlers associated with the provided events.
-        :param events: Events to retrieve the handlers for.
+        :param events: Events to retrieve the event handlers for.
         :return: A list of event handlers.
         :raise PyventusException: If the `events` argument is `None`, empty or unsupported.
         """
@@ -570,7 +570,7 @@ class EventLinker(ABC):
         return deleted
 
     @classmethod
-    def remove_handler(cls, event_handler: EventHandler) -> bool:
+    def remove_event_handler(cls, event_handler: EventHandler) -> bool:
         """
         Removes an event handler from all subscribed events. If there are no more
         handlers for a particular event, that event is also removed from the registry.

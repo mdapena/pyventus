@@ -1,11 +1,8 @@
-class StdOutColors:
-    """
-    StdOutColors is a utility class for defining ANSI escape codes for colored text output in the console.
+from abc import ABC
 
-    This class provides ANSI escape codes for various colors and text formatting options that can be used to
-    add color and style to the console output. The defined class attributes represent different color and formatting
-    options such as purple, yellow, blue, red, cyan, green, bold, and underline.
-    """
+
+class StdOutColors(ABC):
+    """A utility class for ANSI escape codes that add color and style to console text output."""
 
     DEFAULT: str = "\033[0m"
     PURPLE: str = "\033[35m"

@@ -6,11 +6,7 @@ from ...core.constants import StdOutColors
 
 
 class StdOutLogger(ABC):
-    """
-    StdOutLogger is a simple logging interface for logging operations to the standard output.
-
-    This class provides a straightforward logging interface for writing log messages to the standard output.
-    """
+    """A simple logging interface for writing log messages to the standard output."""
 
     class Handler:
         """Inner class representing a logger handler."""

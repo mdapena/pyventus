@@ -27,9 +27,9 @@ class TestEventLinker:
         )
 
         # Assert
-        assert len(EventLinker.get_event_handlers()) == 2
-        assert event_handler_1 in EventLinker.get_event_handlers()
-        assert event_handler_2 in EventLinker.get_event_handlers()
+        assert len(EventLinker.get_handlers()) == 2
+        assert event_handler_1 in EventLinker.get_handlers()
+        assert event_handler_2 in EventLinker.get_handlers()
 
     def test_get_event_registry(self, clean_event_linker: bool):
         # Arrange | Act
@@ -41,25 +41,25 @@ class TestEventLinker:
         )
 
         # Assert
-        assert len(EventLinker.get_event_registry().keys()) == 3
+        assert len(EventLinker.get_registry().keys()) == 3
 
-        assert len(EventLinker.get_event_registry()[Event.__name__]) == 1
-        assert event_handler_1 in EventLinker.get_event_registry()[Event.__name__]
+        assert len(EventLinker.get_registry()[Event.__name__]) == 1
+        assert event_handler_1 in EventLinker.get_registry()[Event.__name__]
 
-        assert len(EventLinker.get_event_registry()[EventFixtures.CustomEvent1.__name__]) == 2
-        assert event_handler_1 in EventLinker.get_event_registry()[EventFixtures.CustomEvent1.__name__]
-        assert event_handler_2 in EventLinker.get_event_registry()[EventFixtures.CustomEvent1.__name__]
+        assert len(EventLinker.get_registry()[EventFixtures.CustomEvent1.__name__]) == 2
+        assert event_handler_1 in EventLinker.get_registry()[EventFixtures.CustomEvent1.__name__]
+        assert event_handler_2 in EventLinker.get_registry()[EventFixtures.CustomEvent1.__name__]
 
-        assert len(EventLinker.get_event_registry()[EventFixtures.CustomEvent2.__name__]) == 1
-        assert event_handler_2 in EventLinker.get_event_registry()[EventFixtures.CustomEvent1.__name__]
+        assert len(EventLinker.get_registry()[EventFixtures.CustomEvent2.__name__]) == 1
+        assert event_handler_2 in EventLinker.get_registry()[EventFixtures.CustomEvent1.__name__]
 
         # Act
-        EventLinker.get_event_registry().pop(Event.__name__)  # type: ignore
-        EventLinker.get_event_registry()[Event.__name__].append(event_handler_2)
+        EventLinker.get_registry().pop(Event.__name__)  # type: ignore
+        EventLinker.get_registry()[Event.__name__].append(event_handler_2)
 
         # Assert
-        assert len(EventLinker.get_event_registry().keys()) == 3
-        assert len(EventLinker.get_event_registry()[Event.__name__]) == 1
+        assert len(EventLinker.get_registry().keys()) == 3
+        assert len(EventLinker.get_registry()[Event.__name__]) == 1
 
     def test_get_max_event_handlers(self, clean_event_linker: bool):
         # Arrange | Act
@@ -168,7 +168,7 @@ class TestEventLinker:
         )
 
         # Assert
-        assert not EventLinker.get_event_registry()
+        assert not EventLinker.get_registry()
 
         # Act | Assert
         assert event_callback1 == wrapper1(event_callback1)
@@ -231,7 +231,7 @@ class TestEventLinker:
         assert len(EventLinker.get_handlers_by_events(Exception)) == 2
         assert EventLinker.get_handlers_by_events(Exception)[0].once
         assert EventLinker.get_handlers_by_events(Exception)[1].once
-        assert len(EventLinker.get_event_handlers()) == 2
+        assert len(EventLinker.get_handlers()) == 2
 
     def test_once_as_context_manager(self, clean_event_linker: bool):
         # Arrange | Act | Assert
@@ -283,7 +283,7 @@ class TestEventLinker:
         assert len(EventLinker.get_handlers_by_events(Exception)) == 2
         assert EventLinker.get_handlers_by_events(Exception)[0].once
         assert EventLinker.get_handlers_by_events(Exception)[1].once
-        assert len(EventLinker.get_event_handlers()) == 2
+        assert len(EventLinker.get_handlers()) == 2
 
     def test_on_as_decorator(self, clean_event_linker: bool):
         # Arrange | Act | Assert
@@ -313,7 +313,7 @@ class TestEventLinker:
         assert len(EventLinker.get_handlers_by_events(Exception)) == 1
         assert not EventLinker.get_handlers_by_events(Exception)[0].once
         assert not EventLinker.get_handlers_by_events(Exception)[0].force_async
-        assert len(EventLinker.get_event_handlers()) == 2
+        assert len(EventLinker.get_handlers()) == 2
 
     def test_on_as_context_manager(self, clean_event_linker: bool):
         # Arrange | Act | Assert
@@ -356,7 +356,7 @@ class TestEventLinker:
         assert len(EventLinker.get_handlers_by_events(Exception)) == 1
         assert not EventLinker.get_handlers_by_events(Exception)[0].once
         assert EventLinker.get_handlers_by_events(Exception)[0].force_async
-        assert len(EventLinker.get_event_handlers()) == 2
+        assert len(EventLinker.get_handlers()) == 2
 
     def test_subscribe(self, clean_event_linker: bool):
         # Arrange | Act | Assert
@@ -376,10 +376,10 @@ class TestEventLinker:
         # Assert
         assert event_handler1 != event_handler2 != event_handler3 != event_handler4 != event_handler5 != event_handler6
         assert len(EventLinker.get_events()) == 6
-        assert len(EventLinker.get_event_handlers()) == 6
-        assert len(EventLinker.get_event_registry()[EventFixtures.CustomEvent1.__name__]) == 2
-        assert len(EventLinker.get_event_registry()["Exception"]) == 2
-        assert len(EventLinker.get_event_registry()["StringEvent"]) == 1
+        assert len(EventLinker.get_handlers()) == 6
+        assert len(EventLinker.get_registry()[EventFixtures.CustomEvent1.__name__]) == 2
+        assert len(EventLinker.get_registry()["Exception"]) == 2
+        assert len(EventLinker.get_registry()["StringEvent"]) == 1
         assert EventLinker.get_handlers_by_events(PyventusException)[0] == event_handler4
         assert len(EventLinker.get_handlers_by_events(Event)) == 2
         assert len(EventLinker.get_events_by_handler(event_handler5)) == 1
@@ -414,7 +414,7 @@ class TestEventLinker:
 
         # Assert
         assert len(CustomEventLinker.get_handlers_by_events(EventFixtures.CustomEvent1)) == 2
-        assert event_handler1 not in EventLinker.get_event_handlers()
+        assert event_handler1 not in EventLinker.get_handlers()
 
         # Act
         event_handler4 = CustomEventLinker.subscribe(
@@ -492,23 +492,23 @@ class TestEventLinker:
 
         # Assert
         assert len(EventLinker.get_events()) == 3
-        assert len(EventLinker.get_event_handlers()) == 3
+        assert len(EventLinker.get_handlers()) == 3
         assert len(EventLinker.get_handlers_by_events(EventFixtures.CustomEvent1)) == 3
 
         # Act | Assert
         assert not EventLinker.unsubscribe(EventFixtures.CustomEvent2, event_handler=event_handler1)
-        assert len(EventLinker.get_event_handlers()) == 3
+        assert len(EventLinker.get_handlers()) == 3
 
         # Act | Assert
         assert EventLinker.unsubscribe("CustomEvent1", event_handler=event_handler1)
         assert not EventLinker.unsubscribe(EventFixtures.CustomEvent1, event_handler=event_handler1)
         assert len(EventLinker.get_handlers_by_events(EventFixtures.CustomEvent1)) == 2
-        assert len(EventLinker.get_event_handlers()) == 2
+        assert len(EventLinker.get_handlers()) == 2
 
         # Act | Assert
         assert EventLinker.unsubscribe(EventFixtures.CustomEvent1, event_handler=event_handler2)
         assert len(EventLinker.get_handlers_by_events(EventFixtures.CustomEvent1)) == 1
-        assert len(EventLinker.get_event_handlers()) == 2
+        assert len(EventLinker.get_handlers()) == 2
 
         # Act | Assert
         with raises(PyventusException):
@@ -517,19 +517,19 @@ class TestEventLinker:
             EventLinker.unsubscribe(Event, event_handler=None)  # type: ignore
 
         # Assert
-        assert len(EventLinker.get_event_handlers()) == 2
+        assert len(EventLinker.get_handlers()) == 2
         assert len(EventLinker.get_handlers_by_events(EventFixtures.CustomEvent1)) == 1
 
         # Act | Assert
         assert EventLinker.unsubscribe(EventFixtures.CustomEvent1, event_handler=event_handler3)
         assert len(EventLinker.get_handlers_by_events(EventFixtures.CustomEvent1)) == 0
-        assert len(EventLinker.get_event_registry().keys()) == 2
-        assert len(EventLinker.get_event_handlers()) == 2
+        assert len(EventLinker.get_registry().keys()) == 2
+        assert len(EventLinker.get_handlers()) == 2
 
     def test_remove_event_handler(self, clean_event_linker: bool):
         # Arrange | Act | Assert
         with raises(PyventusException):
-            EventLinker.remove_event_handler(None)  # type: ignore
+            EventLinker.remove_handler(None)  # type: ignore
 
         # Arrange
         event_callback = CallbackFixtures.Sync()
@@ -539,21 +539,21 @@ class TestEventLinker:
 
         # Assert
         assert len(EventLinker.get_handlers_by_events(EventFixtures.CustomEvent1)) == 3
-        assert len(EventLinker.get_event_handlers()) == 3
+        assert len(EventLinker.get_handlers()) == 3
         assert len(EventLinker.get_events()) == 3
 
         # Act and Assert
-        assert EventLinker.remove_event_handler(event_handler=event_handler1)
-        assert not EventLinker.remove_event_handler(event_handler=event_handler1)
+        assert EventLinker.remove_handler(event_handler=event_handler1)
+        assert not EventLinker.remove_handler(event_handler=event_handler1)
         assert len(EventLinker.get_handlers_by_events(EventFixtures.CustomEvent1)) == 2
-        assert len(EventLinker.get_event_handlers()) == 2
+        assert len(EventLinker.get_handlers()) == 2
         assert len(EventLinker.get_events()) == 3
 
         # Act and Assert
-        assert EventLinker.remove_event_handler(event_handler=event_handler3)
-        assert not EventLinker.remove_event_handler(event_handler=event_handler3)
+        assert EventLinker.remove_handler(event_handler=event_handler3)
+        assert not EventLinker.remove_handler(event_handler=event_handler3)
         assert len(EventLinker.get_handlers_by_events(EventFixtures.CustomEvent1)) == 1
-        assert len(EventLinker.get_event_handlers()) == 1
+        assert len(EventLinker.get_handlers()) == 1
         assert len(EventLinker.get_events()) == 2
 
     def test_remove_event(self, clean_event_linker: bool):
@@ -571,7 +571,7 @@ class TestEventLinker:
         # Act and Assert
         assert EventLinker.remove_event(Event)
         assert not EventLinker.remove_event(Event)
-        assert len(EventLinker.get_event_handlers()) == 3
+        assert len(EventLinker.get_handlers()) == 3
         assert len(EventLinker.get_events()) == 2
 
         # Act and Assert
@@ -579,14 +579,14 @@ class TestEventLinker:
         assert not EventLinker.remove_event("CustomEvent1")
         assert len(EventLinker.get_events()) == 1
         assert "StrEvent" in EventLinker.get_events()
-        assert len(EventLinker.get_event_handlers()) == 1
-        assert event_handler3 in EventLinker.get_event_handlers()
+        assert len(EventLinker.get_handlers()) == 1
+        assert event_handler3 in EventLinker.get_handlers()
 
         # Act and Assert
         assert not EventLinker.remove_event("StrEvents")
         assert len(EventLinker.get_events()) == 1
         assert EventLinker.remove_event("StrEvent")
-        assert EventLinker.get_event_registry() == {}
+        assert EventLinker.get_registry() == {}
 
     def test_remove_all(self, clean_event_linker: bool):
         # Arrange
@@ -597,12 +597,12 @@ class TestEventLinker:
 
         # Assert
         assert len(EventLinker.get_events()) == 3
-        assert len(EventLinker.get_event_handlers()) == 3
+        assert len(EventLinker.get_handlers()) == 3
 
         # Act | Assert
         assert EventLinker.remove_all()
         assert EventLinker.remove_all()
-        assert EventLinker.get_event_registry() == {}
+        assert EventLinker.get_registry() == {}
 
     def test_namespaces(self, clean_event_linker: bool):
         # Arrange | Act | Assert
@@ -644,14 +644,14 @@ class TestEventLinker:
         EventLinker.subscribe(Event, event_callback=CallbackFixtures.Sync())
 
         # Assert
-        assert len(EventLinker.get_event_handlers()) == len(CustomEventLinker2.get_event_handlers())
-        assert len(EventLinker.get_event_handlers()) == len(CustomEventLinker3.get_event_handlers())
-        assert CustomEventLinker4.get_event_registry() == {}
+        assert len(EventLinker.get_handlers()) == len(CustomEventLinker2.get_handlers())
+        assert len(EventLinker.get_handlers()) == len(CustomEventLinker3.get_handlers())
+        assert CustomEventLinker4.get_registry() == {}
 
         # Act
         EventLinker.remove_all()
 
         # Assert
-        assert len(EventLinker.get_event_handlers()) == 0
-        assert len(EventLinker.get_event_handlers()) != len(CustomEventLinker2.get_event_handlers())
-        assert len(EventLinker.get_event_handlers()) != len(CustomEventLinker3.get_event_handlers())
+        assert len(EventLinker.get_handlers()) == 0
+        assert len(EventLinker.get_handlers()) != len(CustomEventLinker2.get_handlers())
+        assert len(EventLinker.get_handlers()) != len(CustomEventLinker3.get_handlers())

@@ -214,7 +214,7 @@ class EventEmitter(ABC):
             # Check if the event handler is a one-time subscription
             if event_handler.once:
                 # If the event handler is a one-time subscription, we attempt to remove it.
-                if self._event_linker.remove_event_handler(event_handler=event_handler):  # pragma: no cover (Race-Cond)
+                if self._event_linker.remove_handler(event_handler=event_handler):  # pragma: no cover (Race-Cond)
                     # If the removal is successful, it indicates that the handler has not
                     # been processed before, so we add it to the pending list.
                     pending_event_handlers.append(event_handler)

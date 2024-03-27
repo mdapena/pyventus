@@ -180,7 +180,7 @@ class EventLinker(ABC):
             )
             del self
 
-    __event_registry: Dict[str, List[EventHandler]] = {}
+    __registry: Dict[str, List[EventHandler]] = {}
     """ 
     A dictionary that serves as a container for storing events and their associated event 
     handlers. The keys represent registered event names, and the values are lists of event
@@ -250,7 +250,7 @@ class EventLinker(ABC):
         super().__init_subclass__(**kwargs)
 
         # Initialize the main registry
-        cls.__event_registry = {}
+        cls.__registry = {}
 
         # Create a lock object for thread synchronization
         cls.__thread_lock = Lock()
@@ -283,13 +283,13 @@ class EventLinker(ABC):
         )
 
     @classmethod
-    def get_event_registry(cls) -> Mapping[str, List[EventHandler]]:
+    def get_registry(cls) -> Mapping[str, List[EventHandler]]:
         """
         Retrieve the main registry mapping.
         :return: A mapping of event names to event handlers.
         """
         with cls.__thread_lock:
-            return {event: list(event_handlers) for event, event_handlers in cls.__event_registry.items()}
+            return {event: list(handlers) for event, handlers in cls.__registry.items()}
 
     @classmethod
     def get_events(cls) -> List[str]:
@@ -298,17 +298,17 @@ class EventLinker(ABC):
         :return: A list of event names.
         """
         with cls.__thread_lock:
-            return list(cls.__event_registry.keys())
+            return list(cls.__registry.keys())
 
     @classmethod
-    def get_event_handlers(cls) -> List[EventHandler]:
+    def get_handlers(cls) -> List[EventHandler]:
         """
-        Retrieve a list of non-duplicated event handlers
-        that have been registered across all events.
+        Retrieve a list of non-duplicated handlers that
+        have been registered across all events.
         :return: A list of event handlers.
         """
         with cls.__thread_lock:
-            return list(set(chain(*cls.__event_registry.values())))
+            return list(set(chain(*cls.__registry.values())))
 
     @classmethod
     def get_max_event_handlers(cls) -> None | int:
@@ -382,9 +382,7 @@ class EventLinker(ABC):
 
         with cls.__thread_lock:
             return [
-                event_key
-                for event_key, event_handlers in cls.__event_registry.items()
-                if event_handler in event_handlers
+                event_key for event_key, event_handlers in cls.__registry.items() if event_handler in event_handlers
             ]
 
     @classmethod
@@ -404,7 +402,7 @@ class EventLinker(ABC):
 
         with cls.__thread_lock:
             return list(
-                {event_handler for event_key in event_keys for event_handler in cls.__event_registry.get(event_key, [])}
+                {event_handler for event_key in event_keys for event_handler in cls.__registry.get(event_key, [])}
             )
 
     @classmethod
@@ -483,7 +481,7 @@ class EventLinker(ABC):
             if cls.__max_event_handlers is not None:
                 # For each event key, check if the maximum number of handlers for the event has been exceeded
                 for event_key in event_keys:
-                    if len(cls.__event_registry.get(event_key, [])) >= cls.__max_event_handlers:
+                    if len(cls.__registry.get(event_key, [])) >= cls.__max_event_handlers:
                         raise PyventusException(
                             f"The event '{event_key}' has exceeded the maximum number of handlers allowed. The "
                             f"'{EventHandler.get_callback_name(callback=event_callback)}'"
@@ -502,11 +500,11 @@ class EventLinker(ABC):
             # For each event key, register the event handler
             for event_key in event_keys:
                 # If the event key is not present in the main registry, create a new empty list for it
-                if event_key not in cls.__event_registry:
-                    cls.__event_registry[event_key] = []
+                if event_key not in cls.__registry:
+                    cls.__registry[event_key] = []
 
                 # Append the event handler to the list of handlers for the event
-                cls.__event_registry[event_key].append(event_handler)
+                cls.__registry[event_key].append(event_handler)
 
                 # Log the subscription if debug is enabled
                 if cls.__logger.debug_enabled:  # pragma: no cover
@@ -549,7 +547,7 @@ class EventLinker(ABC):
             # For each event key, check and remove the event handler if found
             for event_key in event_keys:
                 # Get the list of event handlers for the event key, or an empty list if it doesn't exist
-                event_handlers = cls.__event_registry.get(event_key, [])
+                event_handlers = cls.__registry.get(event_key, [])
 
                 # Check if the event handler is present in the list of handlers for the event
                 if event_handler in event_handlers:
@@ -559,7 +557,7 @@ class EventLinker(ABC):
 
                     # If there are no more handlers for the event, remove the event key from the registry
                     if not event_handlers:
-                        cls.__event_registry.pop(event_key)
+                        cls.__registry.pop(event_key)
 
                     # Log the unsubscription if debug is enabled
                     if cls.__logger.debug_enabled:  # pragma: no cover
@@ -572,7 +570,7 @@ class EventLinker(ABC):
         return deleted
 
     @classmethod
-    def remove_event_handler(cls, event_handler: EventHandler) -> bool:
+    def remove_handler(cls, event_handler: EventHandler) -> bool:
         """
         Removes an event handler from all subscribed events. If there are no more
         handlers for a particular event, that event is also removed from the registry.
@@ -589,10 +587,10 @@ class EventLinker(ABC):
 
         # Acquire the lock to ensure exclusive access to the main registry
         with cls.__thread_lock:
-            # Iterate through each event and its associated handlers in the event registry
-            for event_key in list(cls.__event_registry.keys()):
+            # Iterate through each event and its associated handlers in the main registry
+            for event_key in list(cls.__registry.keys()):
                 # Get the list of event handlers for the event key, or an empty list if it doesn't exist
-                event_handlers = cls.__event_registry.get(event_key, [])
+                event_handlers = cls.__registry.get(event_key, [])
 
                 # Check if the event handler is present in the list of handlers for the event
                 if event_handler in event_handlers:
@@ -602,7 +600,7 @@ class EventLinker(ABC):
 
                     # If there are no more handlers for the event, remove the event from the registry
                     if not event_handlers:
-                        cls.__event_registry.pop(event_key)
+                        cls.__registry.pop(event_key)
 
                     # Log the removal of the event handler if debug is enabled
                     if cls.__logger.debug_enabled:  # pragma: no cover
@@ -626,10 +624,10 @@ class EventLinker(ABC):
 
         # Acquire the lock to ensure exclusive access to the main registry
         with cls.__thread_lock:
-            # Check if the event key is present in the event registry
-            if event_key in cls.__event_registry:
+            # Check if the event key is present in the main registry
+            if event_key in cls.__registry:
                 # Remove the event from the registry
-                cls.__event_registry.pop(event_key)
+                cls.__registry.pop(event_key)
 
                 # Log the removal of the event if debug is enabled
                 if cls.__logger.debug_enabled:  # pragma: no cover
@@ -648,8 +646,8 @@ class EventLinker(ABC):
         """
         # Acquire the lock to ensure exclusive access to the main registry
         with cls.__thread_lock:
-            # Clear the event registry by assigning an empty dictionary
-            cls.__event_registry = {}
+            # Clear the main registry by assigning an empty dictionary
+            cls.__registry = {}
 
         # Log a debug message if debug is enabled
         if cls.__logger.debug_enabled:  # pragma: no cover

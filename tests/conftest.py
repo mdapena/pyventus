@@ -26,7 +26,7 @@ def clean_event_linker() -> bool:
     :return: `True`, indicating that the cleanup was successful.
     """
     EventLinker.remove_all()
-    return EventLinker.get_event_registry == {}
+    return EventLinker.get_registry == {}
 
 
 # --------------------

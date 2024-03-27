@@ -17,7 +17,7 @@ class TestEventLinker:
         assert Event.__name__ in EventLinker.get_events()
         assert EventFixtures.CustomEvent1.__name__ in EventLinker.get_events()
 
-    def test_get_event_handlers(self, clean_event_linker: bool):
+    def test_get_handlers(self, clean_event_linker: bool):
         # Arrange | Act
         event_handler_1 = EventLinker.subscribe(
             Event, EventFixtures.CustomEvent1, event_callback=CallbackFixtures.Sync()
@@ -31,7 +31,7 @@ class TestEventLinker:
         assert event_handler_1 in EventLinker.get_handlers()
         assert event_handler_2 in EventLinker.get_handlers()
 
-    def test_get_event_registry(self, clean_event_linker: bool):
+    def test_get_registry(self, clean_event_linker: bool):
         # Arrange | Act
         event_handler_1 = EventLinker.subscribe(
             Event, EventFixtures.CustomEvent1, event_callback=CallbackFixtures.Sync()
@@ -61,14 +61,14 @@ class TestEventLinker:
         assert len(EventLinker.get_registry().keys()) == 3
         assert len(EventLinker.get_registry()[Event.__name__]) == 1
 
-    def test_get_max_event_handlers(self, clean_event_linker: bool):
+    def test_get_max_handlers(self, clean_event_linker: bool):
         # Arrange | Act
-        class CustomEventLinker(EventLinker, max_event_handlers=2):
+        class CustomEventLinker(EventLinker, max_handlers=2):
             pass  # pragma: no cover
 
         # Assert
-        assert EventLinker.get_max_event_handlers() is None
-        assert CustomEventLinker.get_max_event_handlers() == 2
+        assert EventLinker.get_max_handlers() is None
+        assert CustomEventLinker.get_max_handlers() == 2
 
     def test_get_default_success_callback(self, clean_event_linker):
         # Arrange | Act
@@ -385,9 +385,9 @@ class TestEventLinker:
         assert len(EventLinker.get_events_by_handler(event_handler5)) == 1
         assert len(EventLinker.get_handlers_by_events(Event, EventFixtures.CustomEvent2)) == 2
 
-    def test_subscribe_with_max_event_handler(self, clean_event_linker: bool):
+    def test_subscribe_with_max_handlers(self, clean_event_linker: bool):
         # Arrange
-        class CustomEventLinker(EventLinker, max_event_handlers=3):
+        class CustomEventLinker(EventLinker, max_handlers=3):
             pass  # pragma: no cover
 
         event_callback = CallbackFixtures.Sync()
@@ -526,7 +526,7 @@ class TestEventLinker:
         assert len(EventLinker.get_registry().keys()) == 2
         assert len(EventLinker.get_handlers()) == 2
 
-    def test_remove_event_handler(self, clean_event_linker: bool):
+    def test_remove_handler(self, clean_event_linker: bool):
         # Arrange | Act | Assert
         with raises(PyventusException):
             EventLinker.remove_handler(None)  # type: ignore
@@ -608,7 +608,7 @@ class TestEventLinker:
         # Arrange | Act | Assert
         with raises(PyventusException):
 
-            class CustomEventLinker0(EventLinker, max_event_handlers=0):
+            class CustomEventLinker0(EventLinker, max_handlers=0):
                 pass  # pragma: no cover
 
         with raises(PyventusException):
@@ -617,10 +617,10 @@ class TestEventLinker:
                 pass  # pragma: no cover
 
         # Arrange | Act
-        class CustomEventLinker2(EventLinker, max_event_handlers=10):
+        class CustomEventLinker2(EventLinker, max_handlers=10):
             pass  # pragma: no cover
 
-        class CustomEventLinker3(EventLinker, max_event_handlers=None, debug=False):
+        class CustomEventLinker3(EventLinker, max_handlers=None, debug=False):
             @classmethod
             def get_logger(cls) -> Logger:
                 return cls._get_logger()
@@ -631,12 +631,12 @@ class TestEventLinker:
                 return cls._get_logger()
 
         # Assert
-        assert CustomEventLinker2.get_max_event_handlers() == 10
-        assert CustomEventLinker3.get_max_event_handlers() is None
+        assert CustomEventLinker2.get_max_handlers() == 10
+        assert CustomEventLinker3.get_max_handlers() is None
         assert not CustomEventLinker3.get_logger().debug_enabled
-        assert CustomEventLinker4.get_max_event_handlers() is None
+        assert CustomEventLinker4.get_max_handlers() is None
         assert CustomEventLinker4.get_logger().debug_enabled
-        assert EventLinker.get_max_event_handlers() is None
+        assert EventLinker.get_max_handlers() is None
 
         # Act
         CustomEventLinker2.subscribe(Event, event_callback=CallbackFixtures.Sync())

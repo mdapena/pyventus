@@ -54,7 +54,7 @@ class EventEmitterTest(ABC):
         async_callback_cls: Type[CallbackFixtures.Base] = CallbackFixtures.Async
 
         # Create a dummy event linker for testing purposes
-        class __DummyEventLinker(EventLinker, max_event_handlers=1):
+        class __DummyEventLinker(EventLinker, max_handlers=1):
             pass  # pragma: no cover
 
         # --------------------

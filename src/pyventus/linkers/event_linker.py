@@ -187,8 +187,8 @@ class EventLinker(ABC):
     handler objects associated with each event.
     """
 
-    __max_event_handlers: int | None = None
-    """The maximum number of `EventHandlers` allowed per event, or `None` if there is no limit."""
+    __max_handlers: int | None = None
+    """The maximum number of handlers allowed per event, or `None` if there is no limit."""
 
     __default_success_callback: SuccessCallbackType | None = None
     """ 
@@ -220,7 +220,7 @@ class EventLinker(ABC):
 
     def __init_subclass__(
         cls,
-        max_event_handlers: int | None = None,
+        max_handlers: int | None = None,
         default_success_callback: SuccessCallbackType | None = None,
         default_failure_callback: FailureCallbackType | None = None,
         debug: bool | None = None,
@@ -232,8 +232,8 @@ class EventLinker(ABC):
         By default, this method sets up the main registry and thread lock object, but
         it can also be used to configure specific settings of the `EventLinker` subclass.
 
-        :param max_event_handlers: The maximum number of event handlers allowed per event,
-            or `None` if there is no limit.
+        :param max_handlers: The maximum number of handlers allowed per event, or `None`
+            if there is no limit.
         :param default_success_callback: The default callback to assign as the success
             callback in the event handlers when no specific success callback is provided.
         :param default_failure_callback: The default callback to assign as the failure
@@ -242,7 +242,7 @@ class EventLinker(ABC):
             it is determined based on the execution environment.
         :param kwargs: The keyword arguments to pass to the superclass
             `__init_subclass__` method.
-        :raises PyventusException: If `max_event_handlers` is less than 1 or
+        :raises PyventusException: If `max_handlers` is less than 1 or
             if the provided callbacks are invalid.
         :return: None
         """
@@ -255,12 +255,12 @@ class EventLinker(ABC):
         # Create a lock object for thread synchronization
         cls.__thread_lock = Lock()
 
-        # Validate the max_event_handlers argument
-        if max_event_handlers is not None and max_event_handlers < 1:
-            raise PyventusException("The 'max_event_handlers' argument must be greater than or equal to 1.")
+        # Validate the max_handlers argument
+        if max_handlers is not None and max_handlers < 1:
+            raise PyventusException("The 'max_handlers' argument must be greater than or equal to 1.")
 
         # Set the maximum number of event handlers per event
-        cls.__max_event_handlers = max_event_handlers
+        cls.__max_handlers = max_handlers
 
         # Validate the default success callback, if any
         if default_success_callback is not None:
@@ -311,12 +311,12 @@ class EventLinker(ABC):
             return list(set(chain(*cls.__registry.values())))
 
     @classmethod
-    def get_max_event_handlers(cls) -> None | int:
+    def get_max_handlers(cls) -> None | int:
         """
         Retrieve the maximum number of handlers allowed per event.
         :return: The maximum number of handlers or `None` if there is no limit.
         """
-        return cls.__max_event_handlers
+        return cls.__max_handlers
 
     @classmethod
     def get_default_success_callback(cls) -> SuccessCallbackType | None:
@@ -478,14 +478,14 @@ class EventLinker(ABC):
         # Acquire the lock to ensure exclusive access to the main registry
         with cls.__thread_lock:
             # Check if the maximum number of handlers property is set
-            if cls.__max_event_handlers is not None:
+            if cls.__max_handlers is not None:
                 # For each event key, check if the maximum number of handlers for the event has been exceeded
                 for event_key in event_keys:
-                    if len(cls.__registry.get(event_key, [])) >= cls.__max_event_handlers:
+                    if len(cls.__registry.get(event_key, [])) >= cls.__max_handlers:
                         raise PyventusException(
-                            f"The event '{event_key}' has exceeded the maximum number of handlers allowed. The "
-                            f"'{EventHandler.get_callback_name(callback=event_callback)}'"
-                            f" callback cannot be subscribed."
+                            f"The event '{event_key}' has exceeded the maximum number of handlers allowed. "
+                            f"The '{EventHandler.get_callback_name(callback=event_callback)}' callback cannot "
+                            f"be subscribed."
                         )
 
             # Create a new event handler

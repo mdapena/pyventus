@@ -478,7 +478,7 @@ event_emitter.emit("DivisionEvent", a=1, b=2)  # Example: Valid division
 
 <p style='text-align: justify;'>
     &emsp;&emsp;Pyventus is an open source project that welcomes community involvement. If you wish to contribute
-	additional event emitters, improvements, or bug fixes, please check the <a href="/pyventus/contributing/">Contributing</a> 
+	additional event emitters, improvements, or bug fixes, please check the <a href="https://mdapena.github.io/pyventus/contributing/" target="_blank">Contributing</a> 
 	section for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
 </p>
 

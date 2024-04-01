@@ -108,11 +108,9 @@ effectively leverage all the features and capabilities of the package.
 	To install Pyventus, open a terminal and run the following command:
 </p>
 
-<div class="terminal-command">
 ```console
 pip install pyventus
 ```
-</div>
 
 <p style='text-align: justify;'>
 	&emsp;&emsp;Pyventus by default relies on the Python standard library and <b>requires Python 3.10+</b> with no 
@@ -226,11 +224,11 @@ Finally, by using the <code>emit()</code> method of the event emitter instance, 
 </a>
 
 <p style='text-align: justify;'>
-	&emsp;&emsp;A common aspect found in many systems is the need to monitor and respond to changes in sensor data.
+	<i>&emsp;&emsp;A common aspect found in many systems is the need to monitor and respond to changes in sensor data.
 	Whether it's pressure sensors, temperature sensors, or other types, capturing and reacting to sensor data is crucial
 	for effective system operation. In our practical example, we will focus on a specific scenario: building a sensor 
 	system that monitors voltage levels across devices. The goal of our voltage sensor is to detect potential issues,
-	such as low or high voltage conditions, and respond appropriately in real-time.
+	such as low or high voltage conditions, and respond appropriately in real-time.</i>
 </p>
 
 </details>

@@ -19,16 +19,19 @@ hide:
 ## Requirements
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;Pyevents **only requires Python 3.10+** by default, which includes the [`AsyncIOEventEmitter`](/pyventus/tutorials/emitters/asyncio)
+	&emsp;&emsp;By default, Pyevents **only requires Python 3.10+**, which includes the [`AsyncIOEventEmitter`](/pyventus/tutorials/emitters/asyncio)
 	and the [`ExecutorEventEmitter`](/pyventus/tutorials/emitters/executor) with no additional dependencies. However, 
-	your requirements may expand if you opt to use alternative built-in event emitter implementations.
+	your requirements may expand if you opt to use alternative [*built-in*](#optional-dependencies) event emitter 
+	implementations.
 </p>
 
 ## Installation
 
-<p style='text-align: justify;' markdown>
-	&emsp;&emsp;Pyventus is available as a Python package and can be easily installed using `pip`. Open your terminal
-	and execute the following command to install it:
+<p style='text-align: justify;'>
+	&emsp;&emsp;Pyventus is available on <a href="https://pypi.org/project/pyventus/" target="_blank"><i>PyPI</i></a> and can
+	be easily installed using <code>pip</code>. Note that, for proper dependency isolation, it is recommended to use a
+	<a href="https://realpython.com/python-virtual-environments-a-primer/" target="_blank">virtual environment</a>.
+	To install Pyventus, open a terminal and run the following command:
 </p>
 
 ```console

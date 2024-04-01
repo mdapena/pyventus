@@ -35,6 +35,7 @@
 
 </p>
 
+<br>
 
 ---
 
@@ -116,8 +117,7 @@ pip install pyventus
 	&emsp;&emsp;Pyventus by default relies on the Python standard library and <b>requires Python 3.10+</b> with no 
 	additional dependencies. However, this package also includes alternative integrations to access additional features 
 	such as Redis Queue, Celery, and FastAPI support. For more information on this matter, please refer to the 
-	<a href="https://mdapena.github.io/pyventus/getting-started/#optional-dependencies" target="_blank">Optional Dependencies</a>
-	section.
+	<a href="https://mdapena.github.io/pyventus/getting-started/#optional-dependencies" target="_blank">Optional Dependencies</a>.
 </p>
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
@@ -134,13 +134,13 @@ pip install pyventus
 from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 
 
-@EventLinker.on("GreetEvent")  # Listening for events
+@EventLinker.on("GreetEvent")
 def handle_greet_event():
     print("Hello, World!")
 
 
 event_emitter: EventEmitter = AsyncIOEventEmitter()
-event_emitter.emit("GreetEvent")  # Emitting an event
+event_emitter.emit("GreetEvent")
 ```
 
 <details markdown="1" class="info">
@@ -150,13 +150,13 @@ event_emitter.emit("GreetEvent")  # Emitting an event
 from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 
 
-@EventLinker.on("GreetEvent")  # Listening for events
+@EventLinker.on("GreetEvent")
 async def handle_greet_event():
     print("Hello, World!")
 
 
 event_emitter: EventEmitter = AsyncIOEventEmitter()
-event_emitter.emit("GreetEvent")  # Emitting an event
+event_emitter.emit("GreetEvent")
 ```
 
 </details>

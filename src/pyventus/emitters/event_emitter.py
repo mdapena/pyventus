@@ -8,27 +8,28 @@ from uuid import uuid4
 from ..core.constants import StdOutColors
 from ..core.exceptions import PyventusException
 from ..core.loggers import Logger, StdOutLogger
-from ..events import Event
 from ..handlers import EventHandler
 from ..linkers import EventLinker
 
-EmittableEventType: TypeAlias = Event | Exception | str
-""" A type alias representing the supported types of events that can be emitted. """
+EmittableEventType: TypeAlias = str | Exception | object
+"""A type alias representing the supported types of events that can be emitted."""
 
 
 class EventEmitter(ABC):
     """
     An abstract base class for event emitters.
 
-    This class defines a common interface for emitting events. It serves as a foundation for
-    implementing custom event emitters with specific dispatch strategies. It is designed to
-    handle `string-named` events with variable-length argument list and arbitrary keyword
-    arguments, as well as instances of `Event` objects and `Exceptions`.
+    **Notes:**
 
-    The main goal of this class is to decouple the event emission process from the underlying
-    implementation. This loose coupling promotes flexibility, adaptability, and adheres to the
-    Open-Closed principle, allowing custom event emitters to be implemented without affecting
-    existing consumers.
+    -   This class defines a common interface for emitting events. It serves as a foundation for
+        implementing custom event emitters with specific dispatch strategies. It is designed to
+        handle `string-named` events with positional and keyword arguments, as well as instances
+        of `dataclass` objects and `Exceptions` objects.
+
+    -   The main goal of this class is to decouple the event emission process from the underlying
+        implementation. This loose coupling promotes flexibility, adaptability, and adheres to the
+        Open-Closed principle, allowing custom event emitters to be implemented without affecting
+        existing consumers.
 
     ---
     Read more in the
@@ -168,13 +169,14 @@ class EventEmitter(ABC):
 
         **Notes:**
 
-        -   When emitting `Event` or `Exception` objects, they are automatically passed to the
-            event handler as the first positional argument, even if you pass `*args` or `**kwargs`.
-        -   If there are event handlers subscribed to any of the global events such as `Event` or
-            `Exception`, they will also be triggered each time an event or exception is emitted.
+        -   When emitting `dataclass` objects or `Exception` objects, they are automatically passed
+            to the event handler as the first positional argument, even if you pass additional `*args`
+            or `**kwargs`.
+        -   If there are event handlers subscribed to the global event `...`, also known as `Ellipsis`,
+            they will also be triggered each time an event or exception is emitted.
 
-        :param event: The event to be emitted. It can be an instance of `Event`,
-            `Exception`, or a simple `str`.
+        :param event: The event to be emitted. It can be `str`, a `dataclass`
+            object, or an `Exception` object.
         :param args: Positional arguments to be passed to the event handlers.
         :param kwargs: Keyword arguments to be passed to the event handlers.
         :return: None
@@ -184,27 +186,17 @@ class EventEmitter(ABC):
             raise PyventusException("The 'event' argument cannot be None.")
 
         # Raise an exception if the event is a type
-        if event.__class__ is type:  # type: ignore[comparison-overlap]
+        if isinstance(event, type):  # type: ignore[comparison-overlap]
             raise PyventusException("The 'event' argument cannot be a type.")
 
-        # Determine if the event is a string
-        is_string: bool = isinstance(event, str)
+        # Determine the event name
+        event_name: str = self._event_linker.get_event_name(event=event if isinstance(event, str) else type(event))
 
-        # Raise an exception if the event is a string and it is empty
-        if is_string and len(event) == 0:  # type: ignore[arg-type]
-            raise PyventusException("The 'event' argument cannot be an empty string.")
+        # Retrieve the event handlers associated with the event
+        event_handlers: List[EventHandler] = self._event_linker.get_event_handlers_by_events(event_name, Ellipsis)
 
-        # Construct the arguments tuple based on whether the event is a string or an object
-        event_args: Tuple[Any, ...] = args if is_string else (event, *args)
-
-        # Retrieve the event handlers associated with the event sorted by their timestamp
-        event_handlers: List[EventHandler] = sorted(
-            self._event_linker.get_event_handlers_by_events(
-                event if is_string else event.__class__,  # type: ignore[arg-type]
-                Event if not issubclass(event.__class__, Exception) else Exception,
-            ),
-            key=lambda handler: handler.timestamp,
-        )
+        # Sort the event handlers by timestamp
+        event_handlers.sort(key=lambda handler: handler.timestamp)
 
         # Initialize the list of event handlers to be executed
         pending_event_handlers: List[EventHandler] = []
@@ -221,16 +213,13 @@ class EventEmitter(ABC):
             else:
                 pending_event_handlers.append(event_handler)
 
-        # Determine the event name
-        event_name: str = str(event if is_string else event.__class__.__name__)
-
         # Check if the pending list of event handlers is not empty
         if len(pending_event_handlers) > 0:
             # Create a new EventEmission instance
             event_emission: EventEmitter.EventEmission = EventEmitter.EventEmission(
                 event=event_name,
                 event_handlers=pending_event_handlers,
-                event_args=event_args,
+                event_args=args if isinstance(event, str) else (event, *args),
                 event_kwargs=kwargs,
                 debug=self._logger.debug_enabled,
             )

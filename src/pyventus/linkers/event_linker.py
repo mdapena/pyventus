@@ -1,17 +1,16 @@
 from abc import ABC
-from itertools import chain
+from dataclasses import is_dataclass
 from sys import gettrace
 from threading import Lock
-from types import TracebackType
+from types import TracebackType, EllipsisType
 from typing import TypeAlias, Callable, Mapping, Tuple, Dict, List, Type, Set, Any, final
 
 from ..core.constants import StdOutColors
 from ..core.exceptions import PyventusException
 from ..core.loggers import Logger
-from ..events import Event
 from ..handlers import EventHandler, EventCallbackType, SuccessCallbackType, FailureCallbackType
 
-SubscribableEventType: TypeAlias = Type[Event] | Type[Exception] | str
+SubscribableEventType: TypeAlias = str | Type[Exception] | Type[object] | EllipsisType
 """A type alias representing the supported event types for subscription."""
 
 
@@ -283,13 +282,22 @@ class EventLinker(ABC):
         )
 
     @classmethod
+    def _get_logger(cls) -> Logger:
+        """
+        Retrieve the class-level logger instance.
+        :return: The class-level logger instance used to debug and log
+            information within the `EventLinker` class.
+        """
+        return cls.__logger
+
+    @classmethod
     def get_registry(cls) -> Mapping[str, List[EventHandler]]:
         """
         Retrieve the main registry mapping.
         :return: A mapping of event names to event handlers.
         """
         with cls.__thread_lock:
-            return {event_key: list(event_handlers) for event_key, event_handlers in cls.__registry.items()}
+            return {event_name: list(event_handlers) for event_name, event_handlers in cls.__registry.items()}
 
     @classmethod
     def get_events(cls) -> List[str]:
@@ -308,7 +316,9 @@ class EventLinker(ABC):
         :return: A list of event handlers.
         """
         with cls.__thread_lock:
-            return list(set(chain(*cls.__registry.values())))
+            return list(
+                {event_handler for event_handlers in cls.__registry.values() for event_handler in event_handlers}
+            )
 
     @classmethod
     def get_max_event_handlers(cls) -> None | int:
@@ -337,36 +347,34 @@ class EventLinker(ABC):
         return cls.__default_failure_callback
 
     @classmethod
-    def _get_logger(cls) -> Logger:
+    def get_event_name(cls, event: SubscribableEventType) -> str:
         """
-        Retrieve the class-level logger instance.
-        :return: The class-level logger instance used to debug and log
-            information within the `EventLinker` class.
-        """
-        return cls.__logger
-
-    @classmethod
-    def _get_event_key(cls, event: SubscribableEventType) -> str:
-        """
-        Determines the event name based on the given event.
-        :param event: The event to obtain the key for.
-        :return: A string key that represents the event name.
-        :raises PyventusException: If the `event` argument is `None`
-            or if the event type is not supported.
+        Determines the name of the event.
+        :param event: The event to obtain the name for.
+        :return: A string that represents the event name.
+        :raises PyventusException: If the `event` argument is invalid
+            or if the event is not supported.
         """
         # Validate the event argument
         if event is None:
             raise PyventusException("The 'event' argument cannot be None.")
 
-        if isinstance(event, str):
-            # If the event is already a string, return it as the key
+        if event is Ellipsis:
+            # If the event is Ellipse, return its type name
+            return type(event).__name__
+        elif isinstance(event, str):
+            if not event:
+                raise PyventusException("String events cannot be empty.")
+            # If the event is a non-empty string, return it as the event name
             return event
-        elif issubclass(event, (Event, Exception)):
-            # If the event is a subclass of Event or Exception, return its name as the key
+        elif isinstance(event, type):
+            if not is_dataclass(event) and not issubclass(event, Exception):
+                raise PyventusException("Type events must be either a dataclass or an exception.")
+            # If the event is either a dataclass type or an exception type, return its type name
             return event.__name__
         else:
-            # If the event type is not supported, raise an exception
-            raise PyventusException("Unsupported event type")
+            # If the event is not supported, raise an exception
+            raise PyventusException("Unsupported event")
 
     @classmethod
     def get_events_by_event_handler(cls, event_handler: EventHandler) -> List[str]:
@@ -382,7 +390,7 @@ class EventLinker(ABC):
 
         with cls.__thread_lock:
             return [
-                event_key for event_key, event_handlers in cls.__registry.items() if event_handler in event_handlers
+                event_name for event_name, event_handlers in cls.__registry.items() if event_handler in event_handlers
             ]
 
     @classmethod
@@ -397,12 +405,12 @@ class EventLinker(ABC):
         if events is None or len(events) <= 0:
             raise PyventusException("The 'events' argument cannot be None or empty.")
 
-        # Retrieve all unique event keys
-        event_keys: Set[str] = set([cls._get_event_key(event=event) for event in events])
+        # Retrieve all unique event names
+        event_names: Set[str] = {cls.get_event_name(event=event) for event in events}
 
         with cls.__thread_lock:
             return list(
-                {event_handler for event_key in event_keys for event_handler in cls.__registry.get(event_key, [])}
+                {event_handler for event_name in event_names for event_handler in cls.__registry.get(event_name, [])}
             )
 
     @classmethod
@@ -472,18 +480,18 @@ class EventLinker(ABC):
         if events is None or len(events) <= 0:
             raise PyventusException("The 'events' argument cannot be None or empty.")
 
-        # Retrieve all unique event keys
-        event_keys: Set[str] = set([cls._get_event_key(event=event) for event in events])
+        # Retrieve all unique event names
+        event_names: Set[str] = {cls.get_event_name(event=event) for event in events}
 
         # Acquire the lock to ensure exclusive access to the main registry
         with cls.__thread_lock:
             # Check if the maximum number of handlers property is set
             if cls.__max_event_handlers is not None:
-                # For each event key, check if the maximum number of handlers for the event has been exceeded
-                for event_key in event_keys:
-                    if len(cls.__registry.get(event_key, [])) >= cls.__max_event_handlers:
+                # For each event name, check if the maximum number of handlers for the event has been exceeded
+                for event_name in event_names:
+                    if len(cls.__registry.get(event_name, [])) >= cls.__max_event_handlers:
                         raise PyventusException(
-                            f"The event '{event_key}' has exceeded the maximum number of handlers allowed. The "
+                            f"The event '{event_name}' has exceeded the maximum number of handlers allowed. The "
                             f"'{EventHandler.get_callback_name(callback=event_callback)}'"
                             f" callback cannot be subscribed."
                         )
@@ -497,20 +505,20 @@ class EventLinker(ABC):
                 once=once,
             )
 
-            # For each event key, register the event handler
-            for event_key in event_keys:
-                # If the event key is not present in the main registry, create a new empty list for it
-                if event_key not in cls.__registry:
-                    cls.__registry[event_key] = []
+            # For each event name, register the event handler
+            for event_name in event_names:
+                # If the event name is not present in the main registry, create a new empty list for it
+                if event_name not in cls.__registry:
+                    cls.__registry[event_name] = []
 
                 # Append the event handler to the list of handlers for the event
-                cls.__registry[event_key].append(event_handler)
+                cls.__registry[event_name].append(event_handler)
 
                 # Log the subscription if debug is enabled
                 if cls.__logger.debug_enabled:  # pragma: no cover
                     cls.__logger.debug(
                         action="Subscribed:",
-                        msg=f"{event_handler} {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} {event_key}",
+                        msg=f"{event_handler} {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} {event_name}",
                     )
 
         # Return the new event handler
@@ -536,18 +544,18 @@ class EventLinker(ABC):
         if event_handler is None:
             raise PyventusException("The 'event_handler' argument cannot be None.")
 
-        # Retrieve all unique event keys
-        event_keys: Set[str] = set([cls._get_event_key(event=event) for event in events])
+        # Retrieve all unique event names
+        event_names: Set[str] = {cls.get_event_name(event=event) for event in events}
 
         # A flag indicating whether the event handler was successfully removed
         deleted: bool = False
 
         # Obtain the lock to ensure exclusive access to the main registry
         with cls.__thread_lock:
-            # For each event key, check and remove the event handler if found
-            for event_key in event_keys:
-                # Get the list of event handlers for the event key, or an empty list if it doesn't exist
-                event_handlers = cls.__registry.get(event_key, [])
+            # For each event name, check and remove the event handler if found
+            for event_name in event_names:
+                # Get the list of event handlers for the event name, or an empty list if it doesn't exist
+                event_handlers = cls.__registry.get(event_name, [])
 
                 # Check if the event handler is present in the list of handlers for the event
                 if event_handler in event_handlers:
@@ -555,15 +563,15 @@ class EventLinker(ABC):
                     event_handlers.remove(event_handler)
                     deleted = True
 
-                    # If there are no more handlers for the event, remove the event key from the registry
+                    # If there are no more handlers for the event, remove the event name from the registry
                     if not event_handlers:
-                        cls.__registry.pop(event_key)
+                        cls.__registry.pop(event_name)
 
                     # Log the unsubscription if debug is enabled
                     if cls.__logger.debug_enabled:  # pragma: no cover
                         cls.__logger.debug(
-                            action="Unsubscribed",
-                            msg=f"{event_handler} {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} {event_key}",
+                            action="Unsubscribed:",
+                            msg=f"{event_handler} {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} {event_name}",
                         )
 
         # Return the flag indicating whether the event handler was deleted
@@ -588,9 +596,9 @@ class EventLinker(ABC):
         # Acquire the lock to ensure exclusive access to the main registry
         with cls.__thread_lock:
             # Iterate through each event and its associated handlers in the main registry
-            for event_key in list(cls.__registry.keys()):
-                # Get the list of event handlers for the event key, or an empty list if it doesn't exist
-                event_handlers = cls.__registry.get(event_key, [])
+            for event_name in list(cls.__registry.keys()):
+                # Get the list of event handlers for the event name, or an empty list if it doesn't exist
+                event_handlers = cls.__registry.get(event_name, [])
 
                 # Check if the event handler is present in the list of handlers for the event
                 if event_handler in event_handlers:
@@ -600,13 +608,13 @@ class EventLinker(ABC):
 
                     # If there are no more handlers for the event, remove the event from the registry
                     if not event_handlers:
-                        cls.__registry.pop(event_key)
+                        cls.__registry.pop(event_name)
 
                     # Log the removal of the event handler if debug is enabled
                     if cls.__logger.debug_enabled:  # pragma: no cover
                         cls.__logger.debug(
                             action="Handler Removed:",
-                            msg=f"{event_handler} {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} {event_key}",
+                            msg=f"{event_handler} {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} {event_name}",
                         )
 
         # Return the flag indicating if the event handler was found and deleted
@@ -619,19 +627,19 @@ class EventLinker(ABC):
         :param event: The event to remove.
         :return: `True` if the event was found and removed, `False` otherwise.
         """
-        # Get the event key
-        event_key: str = cls._get_event_key(event=event)
+        # Get the event name
+        event_name: str = cls.get_event_name(event=event)
 
         # Acquire the lock to ensure exclusive access to the main registry
         with cls.__thread_lock:
-            # Check if the event key is present in the main registry
-            if event_key in cls.__registry:
+            # Check if the event name is present in the main registry
+            if event_name in cls.__registry:
                 # Remove the event from the registry
-                cls.__registry.pop(event_key)
+                cls.__registry.pop(event_name)
 
                 # Log the removal of the event if debug is enabled
                 if cls.__logger.debug_enabled:  # pragma: no cover
-                    cls.__logger.debug(action="Event Removed:", msg=f"{event_key}")
+                    cls.__logger.debug(action="Event Removed:", msg=f"{event_name}")
 
                 # Return True to indicate successful removal
                 return True

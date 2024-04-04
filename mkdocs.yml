@@ -135,7 +135,6 @@ nav:
           - RQ Event Emitter: tutorials/emitters/rq/index.md
   - API Reference:
       - api/index.md
-      - Event: api/event.md
       - Event Linker: api/event-linker.md
       - Event Handler: api/event-handler.md
       - Event Emitter:

@@ -6,7 +6,6 @@ from .core.exceptions import PyventusException
 from .emitters import EventEmitter, EmittableEventType
 from .emitters.asyncio import AsyncIOEventEmitter
 from .emitters.executor import ExecutorEventEmitter
-from .events import Event
 from .handlers import EventHandler, EventCallbackType, SuccessCallbackType, FailureCallbackType
 from .linkers import EventLinker, SubscribableEventType
 
@@ -16,7 +15,6 @@ __all__ = [
     "EmittableEventType",
     "AsyncIOEventEmitter",
     "ExecutorEventEmitter",
-    "Event",
     "EventHandler",
     "EventCallbackType",
     "SuccessCallbackType",

@@ -291,6 +291,62 @@ class EventLinker(ABC):
         return cls.__logger
 
     @classmethod
+    def get_event_name(cls, event: SubscribableEventType) -> str:
+        """
+        Determines the name of the event.
+        :param event: The event to obtain the name for.
+        :return: A string that represents the event name.
+        :raises PyventusException: If the `event` argument is invalid
+            or if the event is not supported.
+        """
+        # Validate the event argument
+        if event is None:
+            raise PyventusException("The 'event' argument cannot be None.")
+
+        if event is Ellipsis:
+            # If the event is Ellipsis, return its type name
+            return type(event).__name__
+        elif isinstance(event, str):
+            if not event:
+                raise PyventusException("String events cannot be empty.")
+            # If the event is a non-empty string, return it as the event name
+            return event
+        elif isinstance(event, type):
+            if not is_dataclass(event) and not issubclass(event, Exception):
+                raise PyventusException("Type events must be either a dataclass or an exception.")
+            # If the event is either a dataclass type or an exception type, return its type name
+            return event.__name__
+        else:
+            # If the event is not supported, raise an exception
+            raise PyventusException("Unsupported event")
+
+    @classmethod
+    def get_max_event_handlers(cls) -> int | None:
+        """
+        Retrieve the maximum number of event handlers allowed per event.
+        :return: The maximum number of event handlers or `None` if there is no limit.
+        """
+        return cls.__max_event_handlers
+
+    @classmethod
+    def get_default_success_callback(cls) -> SuccessCallbackType | None:
+        """
+        Retrieve the default callback to be assigned as the success callback
+        in the event handlers when no specific success callback is provided.
+        :return: The default success callback or `None` if not set.
+        """
+        return cls.__default_success_callback
+
+    @classmethod
+    def get_default_failure_callback(cls) -> FailureCallbackType | None:
+        """
+        Retrieve the default callback to be assigned as the failure callback
+        in the event handlers when no specific failure callback is provided.
+        :return: The default failure callback or `None` if not set.
+        """
+        return cls.__default_failure_callback
+
+    @classmethod
     def get_registry(cls) -> Mapping[str, List[EventHandler]]:
         """
         Retrieve the main registry mapping.
@@ -319,62 +375,6 @@ class EventLinker(ABC):
             return list(
                 {event_handler for event_handlers in cls.__registry.values() for event_handler in event_handlers}
             )
-
-    @classmethod
-    def get_max_event_handlers(cls) -> None | int:
-        """
-        Retrieve the maximum number of event handlers allowed per event.
-        :return: The maximum number of event handlers or `None` if there is no limit.
-        """
-        return cls.__max_event_handlers
-
-    @classmethod
-    def get_default_success_callback(cls) -> SuccessCallbackType | None:
-        """
-        Retrieve the default callback to be assigned as the success callback
-        in the event handlers when no specific success callback is provided.
-        :return: The default success callback or `None` if not set.
-        """
-        return cls.__default_success_callback
-
-    @classmethod
-    def get_default_failure_callback(cls) -> FailureCallbackType | None:
-        """
-        Retrieve the default callback to be assigned as the failure callback
-        in the event handlers when no specific failure callback is provided.
-        :return: The default failure callback or `None` if not set.
-        """
-        return cls.__default_failure_callback
-
-    @classmethod
-    def get_event_name(cls, event: SubscribableEventType) -> str:
-        """
-        Determines the name of the event.
-        :param event: The event to obtain the name for.
-        :return: A string that represents the event name.
-        :raises PyventusException: If the `event` argument is invalid
-            or if the event is not supported.
-        """
-        # Validate the event argument
-        if event is None:
-            raise PyventusException("The 'event' argument cannot be None.")
-
-        if event is Ellipsis:
-            # If the event is Ellipse, return its type name
-            return type(event).__name__
-        elif isinstance(event, str):
-            if not event:
-                raise PyventusException("String events cannot be empty.")
-            # If the event is a non-empty string, return it as the event name
-            return event
-        elif isinstance(event, type):
-            if not is_dataclass(event) and not issubclass(event, Exception):
-                raise PyventusException("Type events must be either a dataclass or an exception.")
-            # If the event is either a dataclass type or an exception type, return its type name
-            return event.__name__
-        else:
-            # If the event is not supported, raise an exception
-            raise PyventusException("Unsupported event")
 
     @classmethod
     def get_events_by_event_handler(cls, event_handler: EventHandler) -> List[str]:

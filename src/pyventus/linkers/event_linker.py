@@ -1,4 +1,3 @@
-from abc import ABC
 from dataclasses import is_dataclass
 from sys import gettrace
 from threading import Lock
@@ -14,7 +13,7 @@ SubscribableEventType: TypeAlias = str | Type[Exception] | Type[object] | Ellips
 """A type alias representing the supported event types for subscription."""
 
 
-class EventLinker(ABC):
+class EventLinker:
     """
     A base class that acts as a global registry for events and callbacks linkage. It provides
     a centralized mechanism for managing event subscriptions, unsubscriptions, and retrieval
@@ -275,6 +274,10 @@ class EventLinker(ABC):
         # Set the default failure callback
         cls.__default_failure_callback = default_failure_callback
 
+        # Validate the debug argument
+        if debug is not None and not isinstance(debug, bool):
+            raise PyventusException("The 'debug' argument must be a boolean value.")
+
         # Set up the logger
         cls.__logger = Logger(
             name=cls.__name__,
@@ -382,11 +385,13 @@ class EventLinker(ABC):
         Retrieve a list of event names associated with the provided event handler.
         :param event_handler: The handler to retrieve the associated events for.
         :return: A list of event names.
-        :raise PyventusException: If the `event_handler` argument is `None`.
+        :raise PyventusException: If the `event_handler` argument is `None` or invalid.
         """
         # Validate the event_handler argument
         if event_handler is None:
             raise PyventusException("The 'event_handler' argument cannot be None.")
+        if not isinstance(event_handler, EventHandler):
+            raise PyventusException("The 'event_handler' argument must be an instance of the EventHandler class.")
 
         with cls.__thread_lock:
             return [
@@ -534,7 +539,7 @@ class EventLinker(ABC):
         :return: `True` if the event handler associated with the events was found and
             removed, `False` otherwise.
         :raises PyventusException: If the `events` argument is `None`, empty, unsupported,
-            or if the `event_handler` argument is `None`.
+            or if the `event_handler` argument is `None`, invalid.
         """
         # Validate the events argument
         if events is None or len(events) <= 0:
@@ -543,6 +548,8 @@ class EventLinker(ABC):
         # Validate the event_handler argument
         if event_handler is None:
             raise PyventusException("The 'event_handler' argument cannot be None.")
+        if not isinstance(event_handler, EventHandler):
+            raise PyventusException("The 'event_handler' argument must be an instance of the EventHandler class.")
 
         # Retrieve all unique event names
         event_names: Set[str] = {cls.get_event_name(event=event) for event in events}
@@ -584,11 +591,13 @@ class EventLinker(ABC):
         handlers for a particular event, that event is also removed from the registry.
         :param event_handler: The event handler to remove.
         :return: `True` if the event handler was found and removed, `False` otherwise.
-        :raises PyventusException: If the `event_handler` argument is None.
+        :raises PyventusException: If the `event_handler` argument is `None` or invalid.
         """
         # Validate the event_handler argument
         if event_handler is None:
             raise PyventusException("The 'event_handler' argument cannot be None.")
+        if not isinstance(event_handler, EventHandler):
+            raise PyventusException("The 'event_handler' argument must be an instance of the EventHandler class.")
 
         # A flag indicating if the event handler gets removed
         deleted: bool = False
@@ -654,13 +663,18 @@ class EventLinker(ABC):
         """
         # Acquire the lock to ensure exclusive access to the main registry
         with cls.__thread_lock:
-            # Clear the main registry by assigning an empty dictionary
-            cls.__registry = {}
+            if cls.__registry:
+                # Clear the main registry
+                cls.__registry.clear()
 
-        # Log a debug message if debug is enabled
-        if cls.__logger.debug_enabled:  # pragma: no cover
-            cls.__logger.debug(
-                msg="All events and their associated event handlers were successfully removed from the registry."
-            )
+                # Log a debug message if debug is enabled
+                if cls.__logger.debug_enabled:  # pragma: no cover
+                    cls.__logger.debug(msg="All events and handlers were successfully removed.")
 
-        return True
+                return True
+            else:
+                # Log a debug message if debug is enabled
+                if cls.__logger.debug_enabled:  # pragma: no cover
+                    cls.__logger.debug(msg="The event registry is already empty.")
+
+                return False

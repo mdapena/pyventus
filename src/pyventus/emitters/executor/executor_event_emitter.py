@@ -56,8 +56,10 @@ class ExecutorEventEmitter(EventEmitter):
         super().__init__(event_linker=event_linker, debug=debug)
 
         # Validate the executor argument
-        if executor is None or not issubclass(executor.__class__, Executor):
-            raise PyventusException("The 'executor' argument must be a valid executor.")
+        if executor is None:
+            raise PyventusException("The 'executor' argument cannot be None.")
+        if not isinstance(executor, Executor):
+            raise PyventusException("The 'executor' argument must be an instance of the Executor class.")
 
         # Set the executor object reference
         self._executor: Executor = executor

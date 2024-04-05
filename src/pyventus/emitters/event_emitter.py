@@ -147,6 +147,8 @@ class EventEmitter(ABC):
         # Validate the event linker argument
         if event_linker is None:
             raise PyventusException("The 'event_linker' argument cannot be None.")
+        if not issubclass(event_linker, EventLinker):
+            raise PyventusException("The 'event_linker' argument must be a subtype of the EventLinker class.")
 
         # Set the event_linker value
         self._event_linker: Type[EventLinker] = event_linker
@@ -186,7 +188,7 @@ class EventEmitter(ABC):
             raise PyventusException("The 'event' argument cannot be None.")
 
         # Raise an exception if the event is a type
-        if isinstance(event, type):  # type: ignore[comparison-overlap]
+        if isinstance(event, type):
             raise PyventusException("The 'event' argument cannot be a type.")
 
         # Determine the event name

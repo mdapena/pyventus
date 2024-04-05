@@ -55,7 +55,7 @@ class EventHandler:
         if callback is not None and hasattr(callback, "__name__"):
             return callback.__name__
         elif callback is not None and hasattr(callback, "__class__"):
-            return callback.__class__.__name__
+            return type(callback).__name__
         else:
             return "None"
 
@@ -163,6 +163,12 @@ class EventHandler:
 
         if failure_callback is not None:
             EventHandler.validate_callback(callback=failure_callback)
+
+        # Validate flags
+        if not isinstance(once, bool):
+            raise PyventusException("The 'once' argument must be a boolean value.")
+        if not isinstance(force_async, bool):
+            raise PyventusException("The 'force_async' argument must be a boolean value.")
 
         # Set the event handler flags
         self._once: bool = once

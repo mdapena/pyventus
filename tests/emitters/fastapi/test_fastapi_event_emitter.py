@@ -12,16 +12,8 @@ from ... import FastAPITestContext
 
 
 class TestFastAPIEventEmitter(EventEmitterTest):
-    # --------------------
-    # Creation
-    # ----------
 
-    def test_creation(
-        self,
-        clean_event_linker: bool,
-        fastapi_test_context: FastAPITestContext,
-    ) -> None:
-        # Arrange
+    def test_creation(self, fastapi_test_context: FastAPITestContext) -> None:
         @fastapi_test_context.client.app.get("/")
         def callback(
             background_tasks: BackgroundTasks,
@@ -33,46 +25,27 @@ class TestFastAPIEventEmitter(EventEmitterTest):
             assert event_emitter1 and isinstance(event_emitter1, FastAPIEventEmitter)
             assert event_emitter2 and isinstance(event_emitter2, FastAPIEventEmitter)
 
-        # Act
         res = fastapi_test_context.client.get("/")
 
-        # Assert
         assert res.status_code == status.HTTP_200_OK
 
-    def test_creation_with_invalid_params(
-        self,
-        clean_event_linker: bool,
-        fastapi_test_context: FastAPITestContext,
-    ) -> None:
-        # Arrange | Act | Assert
+    def test_creation_with_invalid_params(self, fastapi_test_context: FastAPITestContext) -> None:
         with raises(PyventusException):
-            FastAPIEventEmitter(background_tasks=None)  # type: ignore
+            FastAPIEventEmitter(background_tasks=None)
+        with raises(PyventusException):
+            FastAPIEventEmitter(background_tasks=True)
 
-    # --------------------
-    # Sync Context
-    # ----------
-
-    def test_emission_in_sync_context(
-        self,
-        fastapi_test_context: FastAPITestContext,
-    ) -> None:
-        # Arrange
+    def test_emission_in_sync_context(self, fastapi_test_context: FastAPITestContext) -> None:
         @fastapi_test_context.client.app.get("/")
         def callback(event_emitter: FastAPIEventEmitter = Depends(FastAPIEventEmitter)) -> None:
             with TestFastAPIEventEmitter.run_emission_test(event_emitter=event_emitter):
                 pass
 
-        # Act
         res = fastapi_test_context.client.get("/")
 
-        # Assert
         assert res.status_code == status.HTTP_200_OK
 
-    def test_emission_in_sync_context_with_custom_event_linker(
-        self,
-        fastapi_test_context: FastAPITestContext,
-    ) -> None:
-        # Arrange
+    def test_emission_in_sync_context_with_custom_event_linker(self, fastapi_test_context: FastAPITestContext) -> None:
         class CustomEventLinker(EventLinker):
             pass
 
@@ -83,39 +56,23 @@ class TestFastAPIEventEmitter(EventEmitterTest):
             with TestFastAPIEventEmitter.run_emission_test(event_emitter=event_emitter, event_linker=CustomEventLinker):
                 pass
 
-        # Act
         res = fastapi_test_context.client.get("/")
 
-        # Assert
         assert res.status_code == status.HTTP_200_OK
 
-    # --------------------
-    # Async Context
-    # ----------
-
     @pytest.mark.asyncio
-    async def test_emission_in_async_context(
-        self,
-        fastapi_test_context: FastAPITestContext,
-    ) -> None:
-        # Arrange
+    async def test_emission_in_async_context(self, fastapi_test_context: FastAPITestContext) -> None:
         @fastapi_test_context.client.app.get("/")
         async def callback(event_emitter: FastAPIEventEmitter = Depends(FastAPIEventEmitter)) -> None:
             with TestFastAPIEventEmitter.run_emission_test(event_emitter=event_emitter):
                 await asyncio.gather(*fastapi_test_context.background_futures, return_exceptions=True)
 
-        # Act
         res = fastapi_test_context.client.get("/")
 
-        # Assert
         assert res.status_code == status.HTTP_200_OK
 
     @pytest.mark.asyncio
-    async def test_emission_in_async_context_with_custom_event_linker(
-        self,
-        fastapi_test_context: FastAPITestContext,
-    ) -> None:
-        # Arrange
+    async def test_emission_in_async_context_with_custom_event_linker(self, fastapi_test_context: FastAPITestContext):
         class CustomEventLinker(EventLinker):
             pass
 
@@ -126,8 +83,6 @@ class TestFastAPIEventEmitter(EventEmitterTest):
             with TestFastAPIEventEmitter.run_emission_test(event_emitter=event_emitter, event_linker=CustomEventLinker):
                 await asyncio.gather(*fastapi_test_context.background_futures, return_exceptions=True)
 
-        # Act
         res = fastapi_test_context.client.get("/")
 
-        # Assert
         assert res.status_code == status.HTTP_200_OK

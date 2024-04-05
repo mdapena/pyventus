@@ -8,23 +8,16 @@ from ..event_emitter_test import EventEmitterTest
 
 
 class TestRQEventEmitter(EventEmitterTest):
-    # --------------------
-    # Creation
-    # ----------
 
-    def test_creation(self, clean_event_linker: bool, rq_queue: Queue):
-        # Arrange, Act and Assert
+    def test_creation(self, rq_queue: Queue):
         event_emitter = RQEventEmitter(queue=rq_queue)
         assert event_emitter is not None
 
-    def test_creation_with_invalid_params(self, clean_event_linker: bool):
-        # Arrange, Act and Assert
+    def test_creation_with_invalid_params(self):
         with raises(PyventusException):
-            RQEventEmitter(queue=None)  # type: ignore
-
-    # --------------------
-    # Sync Context
-    # ----------
+            RQEventEmitter(queue=None)
+        with raises(PyventusException):
+            RQEventEmitter(queue=True)
 
     def test_emission_in_sync_context(self, rq_queue: Queue):
         event_emitter = RQEventEmitter(queue=rq_queue)
@@ -38,10 +31,6 @@ class TestRQEventEmitter(EventEmitterTest):
         event_emitter = RQEventEmitter(queue=rq_queue, event_linker=CustomEventLinker)
         with TestRQEventEmitter.run_emission_test(event_emitter=event_emitter, event_linker=CustomEventLinker):
             pass
-
-    # --------------------
-    # Async Context
-    # ----------
 
     @pytest.mark.asyncio
     async def test_emission_in_async_context(self):

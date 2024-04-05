@@ -3,31 +3,25 @@ import asyncio
 import pytest
 from _pytest.python_api import raises
 
-from ..event_emitter_test import EventEmitterTest
 from pyventus import EventLinker, AsyncIOEventEmitter, PyventusException
+from ..event_emitter_test import EventEmitterTest
 
 
 class TestAsyncIOEventEmitter(EventEmitterTest):
     @staticmethod
-    async def __run_until_complete():
+    async def __run_until_complete() -> None:
         """Waits for all AsyncIO pending task to complete"""
         await asyncio.gather(*asyncio.all_tasks().difference({asyncio.current_task()}), return_exceptions=True)
 
-    # --------------------
-    # Creation
-    # ----------
-
-    def test_creation(self, clean_event_linker: bool) -> None:
+    def test_creation(self) -> None:
         event_emitter = AsyncIOEventEmitter()
         assert event_emitter is not None
 
-    def test_creation_with_invalid_params(self, clean_event_linker: bool) -> None:
+    def test_creation_with_invalid_params(self) -> None:
         with raises(PyventusException):
-            AsyncIOEventEmitter(event_linker=None)  # type: ignore
-
-    # --------------------
-    # Sync Context
-    # ----------
+            AsyncIOEventEmitter(event_linker=None)
+        with raises(PyventusException):
+            AsyncIOEventEmitter(event_linker=Exception)
 
     def test_emission_in_sync_context(self) -> None:
         event_emitter = AsyncIOEventEmitter()
@@ -41,10 +35,6 @@ class TestAsyncIOEventEmitter(EventEmitterTest):
         event_emitter = AsyncIOEventEmitter(event_linker=CustomEventLinker)
         with TestAsyncIOEventEmitter.run_emission_test(event_emitter=event_emitter, event_linker=CustomEventLinker):
             pass
-
-    # --------------------
-    # Async Context
-    # ----------
 
     @pytest.mark.asyncio
     async def test_emission_in_async_context(self) -> None:

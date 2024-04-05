@@ -76,8 +76,10 @@ class FastAPIEventEmitter(EventEmitter):
         super().__init__(event_linker=event_linker, debug=debug)
 
         # Check if the provided background_tasks object is valid
-        if background_tasks is None or not isinstance(background_tasks, BackgroundTasks):
-            raise PyventusException("The 'background_tasks' argument must be a valid FastAPI BackgroundTask instance.")
+        if background_tasks is None:
+            raise PyventusException("The 'background_tasks' argument cannot be None.")
+        if not isinstance(background_tasks, BackgroundTasks):
+            raise PyventusException("The 'background_tasks' argument must be an instance of the BackgroundTasks class.")
 
         # Set the background tasks
         self._background_tasks: BackgroundTasks = background_tasks

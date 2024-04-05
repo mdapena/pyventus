@@ -118,6 +118,8 @@ class CeleryEventEmitter(EventEmitter):
             """
             if celery is None:
                 raise PyventusException("The 'celery' argument cannot be None.")
+            if not isinstance(celery, Celery):
+                raise PyventusException("The 'celery' argument must be an instance of the Celery class.")
 
             if secret is not None and len(secret) == 0:
                 raise PyventusException("The 'secret' argument cannot be empty.")
@@ -226,6 +228,8 @@ class CeleryEventEmitter(EventEmitter):
         # Validate the queue argument
         if queue is None:
             raise PyventusException("The 'queue' argument cannot be None")
+        if not isinstance(queue, CeleryEventEmitter.Queue):
+            raise PyventusException("The 'queue' argument must be an instance of the CeleryEventEmitter.Queue class.")
 
         # Store the queue object
         self._queue: CeleryEventEmitter.Queue = queue

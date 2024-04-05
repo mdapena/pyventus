@@ -50,8 +50,10 @@ class RQEventEmitter(EventEmitter):
         super().__init__(event_linker=event_linker, debug=debug)
 
         # Validate the queue argument
-        if queue is None or not isinstance(queue, Queue):
-            raise PyventusException("The 'queue' argument must be a valid (RQ) queue.")
+        if queue is None:
+            raise PyventusException("The 'queue' argument cannot be None.")
+        if not isinstance(queue, Queue):
+            raise PyventusException("The 'queue' argument must be an instance of the Queue class.")
 
         # Store the Redis queue and RQ options
         self._queue: Queue = queue

@@ -245,14 +245,32 @@ class EventHandler:
         Returns a formatted string representation of the event handler.
         :return: A string representation of the event handler.
         """
-        return (
-            f"Once: {self.once} | "
-            f"Force Async: {self.force_async} | "
-            f"Event Callback: '{EventHandler.get_callback_name(callback=self._event_callback)}'"
-            f"{' (Async)' if self._is_event_callback_async else ' (Sync)'} | "
-            f"Success Callback: '{EventHandler.get_callback_name(callback=self._success_callback)}'"
-            f"{(' (Async)' if self._is_success_callback_async else ' (Sync)') if self._success_callback else ''} | "
-            f"Failure Callback: '{EventHandler.get_callback_name(callback=self._failure_callback)}'"
-            f"{(' (Async)' if self._is_failure_callback_async else ' (Sync)') if self._failure_callback else ''} | "
-            f"Timestamp: {self.timestamp.strftime('%Y-%m-%d %I:%M:%S %p')}"
+        return "".join(
+            [
+                f"Event Callback: `{EventHandler.get_callback_name(callback=self._event_callback)}",
+                "` (Async) | " if self._is_event_callback_async else "` (Sync) | ",
+                (
+                    "Success Callback: `".join(
+                        [
+                            EventHandler.get_callback_name(callback=self._success_callback),
+                            "` (Async) | " if self._is_success_callback_async else "` (Sync) | ",
+                        ]
+                    )
+                    if self._success_callback
+                    else ""
+                ),
+                (
+                    "Failure Callback: `".join(
+                        [
+                            EventHandler.get_callback_name(callback=self._failure_callback),
+                            "` (Async) | " if self._is_failure_callback_async else "` (Sync) | ",
+                        ]
+                    )
+                    if self._failure_callback
+                    else ""
+                ),
+                f"Once: {self.once} | ",
+                f"Force Async: {self.force_async} | ",
+                f"Timestamp: {self.timestamp.strftime('%Y-%m-%d %I:%M:%S %p')}",
+            ]
         )

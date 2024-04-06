@@ -12,8 +12,8 @@ hide:
 
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;Welcome to the Getting Started section! This guide will help you install and configure Pyventus in
-	your project. For more detailed instructions on how to use this package, you can refer to the Pyventus 
-    [tutorials](/pyventus/tutorials) or [API reference](/pyventus/api).
+	your project. For more detailed information on how to use this package, you can refer to the Pyventus 
+    [Tutorials](/pyventus/tutorials) or [API Reference](/pyventus/api).
 </p>
 
 ## Requirements
@@ -28,10 +28,9 @@ hide:
 ## Installation
 
 <p style='text-align: justify;'>
-	&emsp;&emsp;Pyventus is available on <a href="https://pypi.org/project/pyventus/" target="_blank"><i>PyPI</i></a> and can
-	be easily installed using <code>pip</code>. Note that, for proper dependency isolation, it is recommended to use a
-	<a href="https://realpython.com/python-virtual-environments-a-primer/" target="_blank">virtual environment</a>.
-	To install Pyventus, open a terminal and run the following command:
+	&emsp;&emsp;Pyventus is published as a <a href="https://pypi.org/project/pyventus/" target="_blank">Python package</a> 
+	and can be installed using <code>pip</code>, ideally in a <a href="https://realpython.com/python-virtual-environments-a-primer/" target="_blank">virtual environment</a>
+	for proper dependency isolation. To get started, open up a terminal and install Pyventus with the following command:
 </p>
 
 ```console

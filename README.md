@@ -103,10 +103,9 @@ effectively leverage all the features and capabilities of the package.
 ## Quick Start
 
 <p style='text-align: justify;'>
-	&emsp;&emsp;Pyventus is available on <a href="https://pypi.org/project/pyventus/" target="_blank"><i>PyPI</i></a> and can
-	be easily installed using <code>pip</code>. Note that, for proper dependency isolation, it is recommended to use a
-	<a href="https://realpython.com/python-virtual-environments-a-primer/" target="_blank">virtual environment</a>.
-	To install Pyventus, open a terminal and run the following command:
+	&emsp;&emsp;Pyventus is published as a <a href="https://pypi.org/project/pyventus/" target="_blank">Python package</a> 
+	and can be installed using <code>pip</code>, ideally in a <a href="https://realpython.com/python-virtual-environments-a-primer/" target="_blank">virtual environment</a>
+	for proper dependency isolation. To get started, open up a terminal and install Pyventus with the following command:
 </p>
 
 ```console
@@ -114,10 +113,11 @@ pip install pyventus
 ```
 
 <p style='text-align: justify;'>
-	&emsp;&emsp;Pyventus by default relies on the Python standard library and <b>requires Python 3.10+</b> with no 
+	&emsp;&emsp;Pyventus by default relies on the Python standard library and <b>only requires Python 3.10+</b> with no 
 	additional dependencies. However, this package also includes alternative integrations to access additional features 
-	such as Redis Queue, Celery, and FastAPI support. For more information on this matter, please refer to the 
-	<a href="https://mdapena.github.io/pyventus/getting-started/#optional-dependencies" target="_blank">Optional Dependencies</a>.
+	such as Redis Queue, Celery, and FastAPI. For more information on this matter, please refer to the 
+	<a href="https://mdapena.github.io/pyventus/getting-started/#optional-dependencies" target="_blank">Optional Dependencies</a>
+	section.
 </p>
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
@@ -130,7 +130,7 @@ pip install pyventus
 	and emit them within your application.
 </p>
 
-```Python title="Hello, World! example with Pyventus" linenums="1"
+```Python title="Hello, World! Example" linenums="1"
 from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 
 
@@ -146,7 +146,7 @@ event_emitter.emit("GreetEvent")
 <details markdown="1" class="info">
 <summary>You can also work with <code>async</code> functions and contexts...</summary>
 
-```Python title="Hello, World! example with Pyventus (Async version)" linenums="1" hl_lines="5"
+```Python title="Hello, World! Example (Async version)" linenums="1" hl_lines="5"
 from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 
 
@@ -235,7 +235,7 @@ Finally, by using the <code>emit()</code> method of the event emitter instance, 
 
 
 <p style='text-align: justify;'>
-    &emsp;&emsp;To accomplish our goal, we will define a <code>Sensor</code> class to read voltage levels and emit 
+    &emsp;&emsp;To accomplish our goal, we will define a <code>VoltageSensor</code> class to read voltage levels and emit 
 	events based on predefined thresholds. We will create event handlers to respond to these events, performing actions 
 	such as activating eco-mode for low voltage or implementing high-voltage protection. Additionally, a shared event 
 	handler will provide general notifications for out-of-range voltage situations. The code example below illustrates 
@@ -252,7 +252,7 @@ from pyventus import EventEmitter, EventLinker, AsyncIOEventEmitter
 class VoltageSensor:
 
     def __init__(self, name: str, low: float, high: float, event_emitter: EventEmitter) -> None:
-        # Initialize the Sensor object with the provided parameters
+        # Initialize the VoltageSensor object with the provided parameters
         self._name: str = name
         self._low: float = low
         self._high: float = high
@@ -307,7 +307,7 @@ asyncio.run(main())
 <p style='text-align: justify;'>
     &emsp;&emsp;As we can see from this practical example, Pyventus enables us to easily build an event-driven system 
 	for voltage sensors that is flexible, efficient, and highly responsive. With its intuitive API and support for both
-	asynchronous and synchronous operations, we were able to effectively monitor voltage levels, detect anomalies, and 
+	synchronous and asynchronous operations, we were able to effectively monitor voltage levels, detect anomalies, and 
 	trigger appropriate actions in real-time.
 </p>
 
@@ -318,34 +318,59 @@ asyncio.run(main())
 <p style='text-align: justify;'>
     &emsp;&emsp;Pyventus is designed from the ground up to seamlessly support both synchronous and asynchronous
 	programming models. Its unified sync/async API allows you to define event callbacks and emit events across 
-	<code>sync</code> and <code>async</code> contexts. Let's take a look at some use cases that illustrate how
-	the API handles event registration and dispatch transparently.
+	<code>sync</code> and <code>async</code> contexts.
 </p>
 
-### Registering Event Handlers as <code>Sync</code> and <code>Async</code> Callbacks
+### Subscribing Event Handlers with <code>Sync</code> and <code>Async</code> Callbacks
 
-```Python hl_lines="2 6"
+```Python linenums="1" hl_lines="2 8"
 @EventLinker.on("MyEvent")
-def sync_callback():
-    pass  # Synchronous event handling
+def sync_event_callback():
+    # Synchronous event handling
+    print("Event received!")
 
 
 @EventLinker.on("MyEvent")
-async def async_callback():
-    pass  # Asynchronous event handling
+async def async_event_callback():
+    # Asynchronous event handling
+    print("Event received!")  
 ```
+
+<details markdown="1" class="tip">
+<summary>You can configure your callbacks' execution for optimal performance...</summary>
+
+<p style='text-align: justify;'>
+    &emsp;&emsp;By default, event handlers in Pyventus are executed concurrently during an event emission, running their
+	<code>sync</code> and <code>async</code> callbacks as defined. However, if you have a <code>sync</code> callback
+	that involves I/O or non-CPU bound operations, you can enable the <code>force_async</code> parameter to offload it
+	to a thread pool, ensuring optimal performance and responsiveness. The <code>force_async</code> parameter utilizes 
+	the <a href="https://docs.python.org/3/library/asyncio-task.html#running-in-threads" target="_blank"><code>asyncio.to_thread()</code></a>
+	function to execute <code>sync</code> callbacks asynchronously.
+</p>
+
+```Python linenums="1" hl_lines="1"
+@EventLinker.on("BlockingIO", force_async=True)
+def blocking_io():
+    print(f"start blocking_io at {time.strftime('%X')}")
+    # Note that time.sleep() can be replaced with any blocking
+    # IO-bound operation, such as file operations.
+    time.sleep(1)
+    print(f"blocking_io complete at {time.strftime('%X')}")
+```
+
+</details>
 
 ### Emitting Events from <code>Sync</code> and <code>Async</code> Contexts
 
-```Python hl_lines="3 7"
+```Python linenums="1" hl_lines="3 8"
 # Emitting an event within a sync function
-def sync_context(event_emitter: EventEmitter):
+def sync_function(event_emitter: EventEmitter):
     event_emitter.emit("MyEvent")
 
 
 # Emitting an event within an async function
-async def async_context(event_emitter: EventEmitter):
-    event_emitter.emit("MyEvent")    
+async def async_function(event_emitter: EventEmitter):
+    event_emitter.emit("MyEvent")
 ```
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
@@ -360,17 +385,42 @@ async def async_context(event_emitter: EventEmitter):
 	with your unique requirements.
 </p>
 
+### Swapping Event Emitter Implementations at Runtime
+
+<p style='text-align: justify;'>
+    &emsp;&emsp;By leveraging the principle of dependency inversion and using the base <code>EventEmitter</code> as a
+	dependency, you can change the concrete implementation on the fly. Let's demonstrate this using the <code>AsyncIO 
+	Event Emitter</code> and <code>Executor Event Emitter</code>: 
+</p>
+
+```Python title="Event Emitter Runtime Flexibility Example" linenums="1" hl_lines="10-11 14 16"
+from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter, ExecutorEventEmitter
+
+
+@EventLinker.on("GreetEvent")
+def handle_greet_event(name: str = "World"):
+    print(f"Hello, {name}!")
+
+
+if __name__ == "__main__":
+    def main(event_emitter: EventEmitter) -> None:
+        event_emitter.emit("GreetEvent", name=type(event_emitter).__name__)
+
+
+    main(event_emitter=AsyncIOEventEmitter())
+    with ExecutorEventEmitter() as executor_event_emitter:
+        main(event_emitter=executor_event_emitter)
+```
+
 ### Defining Custom Event Emitters
 
 <p style='text-align: justify;'>
     &emsp;&emsp;To illustrate Pyventus' customization capabilities, we will define and implement a custom event emitter 
-	class for the FastAPI framework in order to handle event emissions through its <a href="https://fastapi.tiangolo.com/reference/background/" target="_blank">background tasks</a> 
-	workflow. In case you're interested in integrating Pyventus with FastAPI, you can refer to the Pyventus 
-	<a href="https://mdapena.github.io/pyventus/tutorials/emitters/fastapi/"><code>FastAPIEventEmitter</code></a> 
-	implementation.
+	class for the FastAPI framework to handle event emissions through its <a href="https://fastapi.tiangolo.com/reference/background/" target="_blank">background tasks</a> 
+	workflow.
 </p>
 
-```Python linenums="1" hl_lines="6 10-11 13-14"
+```Python title="Custom Event Emitter Example" linenums="1" hl_lines="6 10-11 13-14"
 from fastapi import BackgroundTasks
 
 from pyventus import EventEmitter, EventLinker
@@ -387,31 +437,65 @@ class FastAPIEventEmitter(EventEmitter):
         self._background_tasks.add_task(event_emission)  # Process the event emission as a background task
 ```
 
-### Switching Between Event Emitters at Runtime
+<details markdown="1" class="tip">
+<summary>Official <code>FastAPIEventEmitter</code> Integration.</summary>
 
 <p style='text-align: justify;'>
-    &emsp;&emsp;By leveraging the principles of dependency inversion and open-close, Pyventus decouples the event
-	emission process from the underlying implementation that handles the event emission and enables you, in conjunction
-	with the <code>EventLinker</code>, to change the event emitter at runtime without the need to reconfigure all 
-	connections or employ complex logic.
+    In case you're interested in integrating Pyventus with FastAPI, you can refer to the official Pyventus 
+	<a href="https://mdapena.github.io/pyventus/tutorials/emitters/fastapi/"><code>FastAPI Event Emitter</code></a> 
+	implementation.
 </p>
 
-```Python linenums="1" hl_lines="9-10 13 15"
-from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter, ExecutorEventEmitter
+</details>
+
+[//]: # (--------------------------------------------------------------------------------------------------------------)
+
+## Event Objects and Global Events
+
+<p style='text-align: justify;'>
+    &emsp;&emsp;In addition to string events, Pyventus also supports Event Objects, which provide a structured way to 
+	define events and encapsulate relevant data payloads. Using these event types offers several benefits, including 
+	improved organization and maintainability, as well as validation support.
+</p>
+
+```Python title="Event Object Example" linenums="1" hl_lines="1-2 7-8 16-19"
+@dataclass  # Define a Python dataclass representing the event and its payload.
+class OrderCreatedEvent:
+    order_id: int
+    payload: dict[str, any]
 
 
-@EventLinker.on("GreetEvent")
-def handle_greet_event(name: str):
-    print(f"Hello, {name}!")
+@EventLinker.on(OrderCreatedEvent)  # Subscribe event handlers to the event.
+def handle_order_created_event(event: OrderCreatedEvent):
+    # Pyventus will automatically pass the Event Object 
+    # as the first positional argument.
+    print(f"Event Object: {event}")
 
 
-def greet(event_emitter: EventEmitter):
-    event_emitter.emit("GreetEvent", name=event_emitter.__class__.__name__)
+event_emitter: EventEmitter = AsyncIOEventEmitter()
+event_emitter.emit(
+    event=OrderCreatedEvent(  # Emit an instance of the event!
+        order_id=6452879,
+        payload={},
+    ),
+)
+```
+
+<p style='text-align: justify;'>
+    &emsp;&emsp;However, Pyventus also allows you to subscribe to Global Events, which are particularly useful for 
+	implementing cross-cutting concerns such as logging, monitoring, or analytics. By subscribing event handlers to
+	<code>...</code> or <code>Ellipsis</code>, you can capture all events that may occur within that 
+	<code>EventLinker</code> context.
+</p>
+
+```Python title="Global Event Example" linenums="1" hl_lines="1"
+@EventLinker.on(...)
+def handle_any_event(*args, **kwargs):
+    print(f"Perform logging...\nArgs: {args}\tKwargs: {kwargs}")
 
 
-greet(event_emitter=AsyncIOEventEmitter())
-with ExecutorEventEmitter() as executor_event_emitter:
-    greet(event_emitter=executor_event_emitter)
+event_emitter: EventEmitter = AsyncIOEventEmitter()
+event_emitter.emit("GreetEvent", name="Pyventus")
 ```
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
@@ -426,12 +510,11 @@ with ExecutorEventEmitter() as executor_event_emitter:
 	this simple yet powerful Pythonic syntax of Pyventus through an example.
 </p>
 
-```Python linenums="1" hl_lines="4 6-7 10-11 14-15"
+```Python title="Success and Error Handling Example" linenums="1" hl_lines="4 6-7 10-11 14-15"
 from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
 
 # Create an event linker for the "DivisionEvent"
 with EventLinker.on("DivisionEvent") as linker:
-
     @linker.on_event
     def divide(a: float, b: float) -> float:
         return a / b
@@ -444,7 +527,6 @@ with EventLinker.on("DivisionEvent") as linker:
     def handle_failure(e: Exception) -> None:
         print(f"Oops, something went wrong: {e}")
 
-
 event_emitter: EventEmitter = AsyncIOEventEmitter()  # Create an event emitter
 event_emitter.emit("DivisionEvent", a=1, b=0)  # Example: Division by zero
 event_emitter.emit("DivisionEvent", a=1, b=2)  # Example: Valid division
@@ -454,8 +536,7 @@ event_emitter.emit("DivisionEvent", a=1, b=2)  # Example: Valid division
     &emsp;&emsp;As we have seen from the example, Pyventus offers a reliable and Pythonic solution for customizing 
 	event handling. By utilizing the EventLinker and its decorators within a <code>with</code> statement block, we
 	were able to define the <code>DivisionEvent</code> and specify the callbacks for division, success, and failure
-	cases. This powerful feature allows developers to effectively manage the event workflow and respond to different
-	completion outcomes.
+	cases.
 </p>
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
@@ -473,7 +554,7 @@ event_emitter.emit("DivisionEvent", a=1, b=2)  # Example: Valid division
 	efficiently handle core event operations and lay the foundation for building event-driven applications.
 </p>
 
-<details markdown="1" class="info" open>
+<details markdown="1" class="info">
 <summary>Driving Innovation Through Collaboration</summary>
 
 <p style='text-align: justify;'>
@@ -493,4 +574,3 @@ event_emitter.emit("DivisionEvent", a=1, b=2)  # Example: Valid division
     You can view the full text of the license in the <a href="https://github.com/mdapena/pyventus/blob/master/LICENSE" target="_blank"><code>LICENSE</code></a> 
 	file located in the Pyventus repository.
 </p>
-

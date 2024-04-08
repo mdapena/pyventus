@@ -1,4 +1,7 @@
-# Event Emitter
+# Master the Event Emitter
+
+!!! warning "🏗️ Work in Progress"
+    This page is a work in progress.
 
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;In the previous tutorial, we learned how to link events with their event handlers using the 
@@ -7,45 +10,62 @@
 	system.
 </p>
 
-## What is the EventEmitter?
+## What is an Event Emitter?
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;The `EventEmitter` is an abstract base class that provides a common interface for emitting events and
-	notifying registered callbacks when those events occur. It serves as the foundation for implementing custom event
-	emitters with specific dispatch strategies.
+	&emsp;&emsp;In event-driven programming, an Event Emitter is a variation of the [Observer pattern](https://refactoring.guru/design-patterns/observer)
+	that allows you to easily manage and handle events in a decoupled manner. The Observer pattern provides a way for 
+	objects to subscribe to and receive notifications from a subject when its state changes. Similarly, an Event Emitter
+	enables objects/functions to subscribe to and receive notifications when specific events occur.
 </p>
 
-## The Purpose of EventEmitter
+## Pyventus Event Emitter
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;The main goal of the `EventEmitter` base class is to decouple the event emission from the underlying
-	implementation responsible for handling the event callbacks. This decoupling promotes flexibility, adaptability,
-	and adheres to the [Open-Closed principle](https://www.cs.utexas.edu/users/downing/papers/OCP-1996.pdf),
-	allowing the implementation of custom event emitters without impacting existing consumers.
+	&emsp;&emsp;In Pyventus, the Event Emitter concept remains largely the same, but with a few unique features of its 
+	own. The Pyventus Event Emitter focuses only on emitting events, while the association logic is handled by the
+	Event Linker class. This separation of concerns makes both classes cleaner and easier to understand, as well as 
+	allowing them to be modified independently as needed. Furthermore, it offers the flexibility to change the event
+	emitter instance at runtime without the need to reconfigure all connections.
+</p>
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;So, what exactly is the Pyventus `EventEmitter`? It is an abstract base class that provides a common 
+	interface for emitting events and notifying registered callbacks when those events occur. It serves as the 
+	foundation for implementing custom event emitters with specific dispatch strategies.
+</p>
+
+### Purpose of Pyventus Event Emitter
+
+<p style='text-align: justify;' markdown>
+	&emsp;&emsp;The main goal of the `EventEmitter` base class is to decouple the event emission process from the 
+	underlying implementation. This decoupling promotes flexibility, adaptability, and adheres to the
+	[Open-Closed principle](https://www.cs.utexas.edu/users/downing/papers/OCP-1996.pdf), allowing 
+	the implementation of custom event emitters without impacting existing consumers.
 </p>
 
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;The `EventEmitter` presents a unified API with two key methods: `emit()` and `_process()`. These methods
 	can be used in both synchronous and asynchronous contexts to emit events and handle their emission. The `emit()`
-	method is used to invoke an event, while the `_process()` method is an abstract method responsible for 
-	processing the execution of the emitted event.
+	method is used to invoke an event, while the `_process()` method is an abstract method responsible for processing 
+	the execution of the emitted event.
 </p>
 
-## Pyventus Event Emitters
+### Built-in Event Emitters
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;Pyventus includes several build-in event emitters by default. For instance, the `AsyncIOEventEmitter`
-	leverages the `AsyncIO` framework to handle the execution of event handler callbacks, while the `RQEventEmitter`
-	utilizes Redis Queue pub/sub system with workers to manage event handlers. To explore the available event emitters,
-	refer to the [Pyventus documentation](/pyventus/getting-started/#optional-dependencies).
+	&emsp;&emsp;Pyventus includes several [*built-in*](/pyventus/getting-started/#optional-dependencies) event emitters 
+	by default. For instance, the `AsyncIOEventEmitter`	leverages the `AsyncIO` framework to handle the execution of
+	event emissions, while the `RQEventEmitter`	utilizes Redis Queue pub/sub system with workers to manage the 
+	execution of event emissions.
 </p>
 
 !!! info "Driving Innovation Through Collaboration"
 
 	<p style='text-align: justify;' markdown>
-	    &emsp;&emsp;Pyventus is an open source project that welcomes community involvement. If you wish to
-		contribute additional event emitters, improvements, or bug fixes, please check the [Contributing](/pyventus/contributing)
-		section for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
+	Pyventus is an open source project that welcomes community involvement. If you wish to contribute additional 
+	event emitters, improvements, or bug fixes, please check the [Contributing](/pyventus/contributing)	section for
+	guidelines on collaborating. Together, we can further the possibilities of event-driven development.
 	</p>
 
 ## Custom Event Emitters
@@ -59,8 +79,8 @@
 
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;The objective is to leverage FastAPI's [BackgroundTasks](https://fastapi.tiangolo.com/reference/background/)
-	feature to efficiently process event handler callbacks within your FastAPI application. Before we jump into the
-	implementation details, make sure you have FastAPI properly [installed](https://fastapi.tiangolo.com/?h=#installation)
+	feature to efficiently process the execution of event emissions within your FastAPI application. Before we jump into 
+	the	implementation details, make sure you have FastAPI properly [installed](https://fastapi.tiangolo.com/?h=#installation)
 	and set up in your development environment.
 </p>
 
@@ -72,16 +92,17 @@
 	FastAPI's background tasks to handle the event emission properly.
 </p>
 
-```Python linenums="1" hl_lines="5 10 13"
+```Python linenums="1" hl_lines="6 10-11 13-14"
 from fastapi import BackgroundTasks
-from pyventus import EventEmitter
+
+from pyventus import EventEmitter, EventLinker
 
 
 class FastAPIEventEmitter(EventEmitter):
-    """Custom event emitter class that leverages the FastAPI's asynchronous workflow."""
+    """A custom event emitter that uses the FastAPI background tasks."""
 
     def __init__(self, background_tasks: BackgroundTasks):
-        super().__init__()
+        super().__init__(event_linker=EventLinker, debug=False)
         self._background_tasks = background_tasks  # (1)!
 
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:
@@ -95,9 +116,9 @@ class FastAPIEventEmitter(EventEmitter):
 	Once the custom event emitter is defined, you can integrate it into your code as follows:
 </p>
 
-```Python linenums="16" hl_lines="1 10 11 17 18"
-@EventLinker.on('console_print')
-async def console_print(message: str):
+```Python linenums="15" hl_lines="1 10 11 15-18 20"
+@EventLinker.on("ConsolePrintEvent")
+async def handle_console_print_event(message: str):
     await sleep(randint(0, 3))  # (1)!
     print(message)
 
@@ -109,11 +130,14 @@ app = FastAPI()
 async def console_print_endpoint(background_tasks: BackgroundTasks):
     """ FastAPI endpoint that triggers the console_print event. """
 
-    def console_print_app_service(event_emitter: EventEmitter) -> None:
-        event_emitter.emit('console_print', message=f"\nHello, {event_emitter.__class__.__name__}!")
+    def app_service(event_emitter: EventEmitter) -> None:
+        event_emitter.emit(
+	        event="ConsolePrintEvent", 
+	        message=f"\n{type(event_emitter).__name__}",
+        )
 
     fastapi_event_emitter = FastAPIEventEmitter(background_tasks)
-    console_print_app_service(event_emitter=fastapi_event_emitter)
+    app_service(event_emitter=fastapi_event_emitter)
 
     return {"message": "Console print triggered!"}
 ```
@@ -150,12 +174,15 @@ async def console_print_endpoint(background_tasks: BackgroundTasks):
 	INFO:     Application startup complete.
 	INFO:     127.0.0.1:52391 - "GET /print HTTP/1.1" 200 OK
 	
-	Hello, FastAPIEventEmitter!
+	FastAPIEventEmitter
 	```
 
 !!! tip "Official `FastAPIEventEmitter` Integration"
-	No need for manual implementation! Pyventus now offers an official [**FastAPIEventEmitter**](/pyventus/tutorials/emitters/fastapi)
-	integration.
+
+	<p style='text-align: justify;'>
+    In case you're interested in integrating Pyventus with FastAPI, you can refer to the official Pyventus 
+	[*FastAPI Event Emitter*](/pyventus/tutorials/emitters/fastapi/) implementation.
+	</p>
 
 ## Runtime Flexibility
 
@@ -167,27 +194,27 @@ async def console_print_endpoint(background_tasks: BackgroundTasks):
 	demonstrate this using the `AsyncIOEventEmitter` and `ExecutorEventEmitter`:
 </p>
 
-```Python title="Example of Event Emitters that are Changed at Runtime" linenums="1" hl_lines="4 9 13-16"
+```Python linenums="1" hl_lines="10-11 14 16"
 from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter, ExecutorEventEmitter
 
 
-@EventLinker.on("StringEvent")
-def event_callback(msg: str):
-    print(msg)
+@EventLinker.on("GreetEvent")
+def handle_greet_event(name: str = "World"):
+    print(f"Hello, {name}!")
 
 
-def send_notification(event_emitter: EventEmitter) -> None:
-    event_emitter.emit("StringEvent", msg=f"Notifying with {event_emitter.__class__.__name__}!")
+if __name__ == "__main__":
+    def main(event_emitter: EventEmitter) -> None:
+        event_emitter.emit("GreetEvent", name=type(event_emitter).__name__)
 
 
-send_notification(AsyncIOEventEmitter())
-
-with ExecutorEventEmitter() as executor_emitter:
-    send_notification(executor_emitter)
+    main(event_emitter=AsyncIOEventEmitter())
+    with ExecutorEventEmitter() as executor_event_emitter:
+        main(event_emitter=executor_event_emitter)
 ```
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;In the example above, we defined a helper function `send_notification` that accepts an `EventEmitter`
+	&emsp;&emsp;In the example above, we defined a helper function `handle_greet_event` that accepts an `EventEmitter`
 	instance as a parameter. This allows us to dynamically switch between the `AsyncIOEventEmitter` and the
 	`ExecutorEventEmitter` depending on our requirements. This flexibility enables us to adapt the event
 	emitter implementation at runtime without modifying the core application logic.
@@ -196,38 +223,39 @@ with ExecutorEventEmitter() as executor_emitter:
 ## Using Custom Event Linkers
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;The base `EventEmitter` allows you to specify the `EventLinker` class that will be used by the `EventEmitter`.
-	To configure this option, you can set manually the `EventLinker` class in the constructor.
+	&emsp;&emsp;By default, event emitters come with the base `EventLinker` registry assigned to the `event_linker` 
+	property. However, you have the flexibility to specify the `EventLinker` class that will be used by the 
+	`EventEmitter`. To configure this option, simply manually set the EventLinker class in the constructor.
 </p>
 
-```Python title="Using a Custom EventLinker Class" linenums="1" hl_lines="4 13 18"
-from src.pyventus import EventEmitter, EventLinker, AsyncIOEventEmitter, Event
+```Python linenums="1" hl_lines="4 9 14 19"
+from pyventus import EventEmitter, EventLinker, AsyncIOEventEmitter
 
 
-class CustomEventLinker(EventLinker, max_event_handlers=10):
-    pass
+class UserEventLinker(EventLinker, max_event_handlers=10):
+    """ EventLinker for User's events only """
+    pass  # Additional logic can be added here if needed...
 
 
-@EventLinker.on(Event)
-def event_logger(*args, **kwargs):
-    print("Event received!", args, kwargs)
+@UserEventLinker.once("PasswordResetEvent")
+async def handle_users_password_reset_event(email: str):
+    print("User's PasswordResetEvent received!")
 
 
-@CustomEventLinker.once("Hello")
-def event_callback(name: str):
-    print(f"Hello, {name}!")
+@EventLinker.once("PasswordResetEvent")
+async def handle_any_password_reset_event(email: str):
+    print("Any PasswordResetEvent received!")
 
 
-event_emitter: EventEmitter = AsyncIOEventEmitter(event_linker=CustomEventLinker)
-
-event_emitter.emit('Hello', "Pyventus")
+event_emitter: EventEmitter = AsyncIOEventEmitter(event_linker=UserEventLinker)
+event_emitter.emit("PasswordResetEvent", "example@email.com")
 ```
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;In the example above, we have set the custom event linker to the concrete class of the `EventEmitter`.
-	When we emit the "Hello" event, we can see that only the `event_callback()`, which was registered within
-	the `CustomEventLinker` namespace, gets triggered and removed. The `event_logger()` callback, registered
-	in a different `EventLinker` context, does not get triggered.
+	&emsp;&emsp;In the example above, we have assigned a custom event linker to the specific class of the `EventEmitter`.
+	When we emit the `PasswordResetEvent`, we can see that only the `handle_users_password_reset_event()`, which was
+	registered within the `UserEventLinker` namespace, gets triggered and removed. The `handle_any_password_reset_event()`
+	callback, registered in a different `EventLinker` context, does not get triggered.
 </p>
 
 ## Debug Mode
@@ -260,36 +288,18 @@ event_emitter.emit('Hello', "Pyventus")
 
 === "Debug flag `On`"
 
-	```Python title="Using the Custom FastAPIEventEmitter" linenums="1" hl_lines="10"
-	from pyventus import EventEmitter, EventLinker, AsyncIOEventEmitter
-	
-	
-	@EventLinker.on('Hello')
-	def event_callback(name: str):
-	    print(f"Hello, {name}!")
-	
-	
+	```Python linenums="1" hl_lines="2"
 	# Enable debug mode for a specific EventEmitter instance
 	event_emitter: EventEmitter = AsyncIOEventEmitter(debug=True)
-	
-	event_emitter.emit('Hello', 'Pyventus')
+	event_emitter.emit("Hello", "Pyventus")
 	```
 
 === "Debug flag `Off`"
 
-	```Python title="Using the Custom FastAPIEventEmitter" linenums="1" hl_lines="10"
-	from pyventus import EventEmitter, EventLinker, AsyncIOEventEmitter
-	
-	
-	@EventLinker.on('Hello')
-	def event_callback(name: str):
-	    print(f"Hello, {name}!")
-	
-	
+	```Python linenums="1" hl_lines="2"
 	# Disable debug mode for a specific EventEmitter instance
 	event_emitter: EventEmitter = AsyncIOEventEmitter(debug=False)
-	
-	event_emitter.emit('Hello', 'Pyventus')
+	event_emitter.emit("Hello", "Pyventus")
 	```
 
 ## Best Practices

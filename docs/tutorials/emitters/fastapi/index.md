@@ -1,5 +1,8 @@
 # FastAPI Event Emitter
 
+!!! warning "🏗️ Work in Progress"
+    This page is a work in progress.
+
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;The `FastAPIEventEmitter` provides a powerful way to build reactive [FastAPI](https://fastapi.tiangolo.com/)
 	applications using an event-driven architecture. It leverages FastAPI's asynchronous [BackgroundTasks](https://fastapi.tiangolo.com/reference/background/)

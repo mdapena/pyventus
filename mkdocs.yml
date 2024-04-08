@@ -123,10 +123,10 @@ nav:
   - Pyventus: index.md
   - Getting Started: getting-started.md
   - Tutorials:
-      - Tutorials: tutorials/index.md
-      - Events: tutorials/event.md
-      - Event Linkers: tutorials/event-linker.md
-      - Event Emitters:
+      - tutorials/index.md
+      - Exploring Event Types: tutorials/event.md
+      - The EventLinker Registry: tutorials/event-linker.md
+      - Master the Event Emitter:
           - tutorials/emitters/index.md
           - AsyncIO Event Emitter: tutorials/emitters/asyncio/index.md
           - Celery Event Emitter: tutorials/emitters/celery/index.md

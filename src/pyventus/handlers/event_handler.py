@@ -40,7 +40,7 @@ class EventHandler:
 
     ---
     Read more in the
-    [Pyventus docs for Event Handler](https://mdapena.github.io/pyventus/tutorials/event-linker/).
+    [Pyventus docs for Event Handler](https://mdapena.github.io/pyventus/tutorials/event-linker/#event-handlers).
     """
 
     @staticmethod

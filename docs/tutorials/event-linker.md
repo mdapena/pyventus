@@ -1,3 +1,8 @@
+# The EventLinker Registry
+
+!!! warning "🏗️ Work in Progress"
+    This page is a work in progress.
+
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;Events are essential for building reactive applications with Pyventus. However, we need a way to connect
 	events to the code that should run in response. This is where the `EventLinker` comes in.
@@ -40,6 +45,20 @@ You can change the event emitter instance at runtime without the need to reconfi
 
 </ul>
 
+## Event Handlers
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;Before proceeding, we should first understand the concept behind event handlers and what they do. An 
+	event handler is a callable object designed to respond to a specific event. When an event occurs, such as a button
+	click, mouse movement, or a timer expiration, these objects are executed concurrently in response.
+</p>
+
+<p style='text-align: justify;' markdown>
+    &emsp;&emsp;The `EventHandler` class encapsulates the event callbacks and provides a standardized mechanism for 
+	executing them when the event occurs. It handles the asynchronous and synchronous execution of event callbacks, 
+	as well as the completion workflow for success and error handling.
+</p>
+
 ## Subscribing Event Handlers
 
 <p style='text-align: justify;' markdown>
@@ -72,36 +91,30 @@ You can change the event emitter instance at runtime without the need to reconfi
 
 === "`Sync` context"
 
-	```Python linenums="1" hl_lines="5 11"
-	from pyventus import EventLinker, Event
-	
-	
+	```Python linenums="1" hl_lines="2 8"
 	# Subscribe to one event
-	@EventLinker.on('StringEvent')
+	@EventLinker.on("StringEvent")
 	def event_callback1():
 	    print("Event received!")
 	
 	
 	# Subscribe to multiple events at once
-	@EventLinker.on('StringEvent', ValueError, Event)
+	@EventLinker.on("StringEvent", "AnotherEvent", "ThirdEvent")
 	def event_callback2():
 	    print("Event received!")
 	```
 
 === "`Async` context"
 
-	```Python linenums="1" hl_lines="5 6 11 12"
-	from pyventus import EventLinker, Event
-	
-	
+	```Python linenums="1" hl_lines="2-3 8-9"
 	# Subscribe to one event
-	@EventLinker.on('StringEvent')
+	@EventLinker.on("StringEvent")
 	async def event_callback1():
 	    print("Event received!")
 	
 	
 	# Subscribe to multiple events at once
-	@EventLinker.on('StringEvent', ValueError, Event)
+	@EventLinker.on("StringEvent", "AnotherEvent", "ThirdEvent")
 	async def event_callback2():
 	    print("Event received!")
 	```
@@ -114,36 +127,30 @@ You can change the event emitter instance at runtime without the need to reconfi
 
 === "`Sync` context"
 
-	```Python linenums="1" hl_lines="9 12"
-	from pyventus import EventLinker, Event
-	
-	
+	```Python linenums="1" hl_lines="6 9"
 	def event_callback():
 	    print("Event received!")
 	
 	
 	# Subscribe to one event
-	EventLinker.subscribe('StringEvent', event_callback=event_callback)
+	EventLinker.subscribe("StringEvent", event_callback=event_callback)
 	
 	# Subscribe to multiple events at once
-	EventLinker.subscribe('StringEvent', ValueError, Event, event_callback=event_callback)
+	EventLinker.subscribe("StringEvent", "AnotherEvent", "ThirdEvent", event_callback=event_callback)
 	```
 
 === "`Async` context"
 
-	```Python linenums="1" hl_lines="4 9 12"
-	from pyventus import EventLinker, Event
-	
-	
+	```Python linenums="1" hl_lines="1 6 9"
 	async def event_callback():
 	    print("Event received!")
 	
 	
 	# Subscribe to one event
-	EventLinker.subscribe('StringEvent', event_callback=event_callback)
+	EventLinker.subscribe("StringEvent", event_callback=event_callback)
 	
 	# Subscribe to multiple events at once
-	EventLinker.subscribe('StringEvent', ValueError, Event, event_callback=event_callback)
+	EventLinker.subscribe("StringEvent", "AnotherEvent", "ThirdEvent", event_callback=event_callback)
 	```
 
 ### One-time Subscriptions
@@ -168,37 +175,31 @@ You can change the event emitter instance at runtime without the need to reconfi
 
 === "`Sync` context"
 
-	```Python linenums="1" hl_lines="5 11"
-	from pyventus import EventLinker, Event
-	
-	
+	```Python linenums="1" hl_lines="2 8"
 	# Subscribe to one event
-	@EventLinker.once('StringEvent')
-	def one_time_event_callback1():
+	@EventLinker.once("StringEvent")
+	def event_callback1():
 	    print("Event received!")
 	
 	
 	# Subscribe to multiple events at once
-	@EventLinker.once('StringEvent', ValueError, Event)
-	def one_time_event_callback2():
+	@EventLinker.once("StringEvent", "AnotherEvent", "ThirdEvent")
+	def event_callback2():
 	    print("Event received!")
 	```
 
 === "`Async` context"
 
-	```Python linenums="1" hl_lines="5 6 11 12"
-	from pyventus import EventLinker, Event
-	
-	
+	```Python linenums="1" hl_lines="2-3 8-9"
 	# Subscribe to one event
-	@EventLinker.once('StringEvent')
-	async def one_time_event_callback1():
+	@EventLinker.once("StringEvent")
+	async def event_callback1():
 	    print("Event received!")
 	
 	
 	# Subscribe to multiple events at once
-	@EventLinker.once('StringEvent', ValueError, Event)
-	async def one_time_event_callback2():
+	@EventLinker.once("StringEvent", "AnotherEvent", "ThirdEvent")
+	async def event_callback2():
 	    print("Event received!")
 	```
 
@@ -210,39 +211,49 @@ You can change the event emitter instance at runtime without the need to reconfi
 
 === "`Sync` context"
 
-	```Python linenums="1" hl_lines="9 12"
-	from pyventus import EventLinker, Event
-	
-	
-	def one_time_event_handler():
+	```Python linenums="1" hl_lines="6 9 12 16 18"
+	def event_callback():
 	    print("Event received!")
 	
 	
 	# Subscribe to one event
-	EventLinker.subscribe('StringEvent', event_callback=one_time_event_handler, once=True)
+	EventLinker.subscribe(
+		"StringEvent", 
+		event_callback=event_callback, 
+		once=True,
+	)
 	
 	# Subscribe to multiple events at once
-	EventLinker.subscribe('StringEvent', ValueError, Event, event_callback=one_time_event_handler, once=True)
+	EventLinker.subscribe(
+		"StringEvent", "AnotherEvent", "ThirdEvent", 
+		event_callback=event_callback, 
+		once=True,
+	)
 	```
 
 === "`Async` context"
 
-	```Python linenums="1" hl_lines="4 9 12"
-	from pyventus import EventLinker, Event
-	
-	
-	async def one_time_event_handler():
+	```Python linenums="1" hl_lines="1 6 9 13 16 18"
+	async def event_callback():
 	    print("Event received!")
 	
 	
 	# Subscribe to one event
-	EventLinker.subscribe('StringEvent', event_callback=one_time_event_handler, once=True)
+	EventLinker.subscribe(
+		"StringEvent", 
+		event_callback=event_callback, 
+		once=True,
+	)
 	
 	# Subscribe to multiple events at once
-	EventLinker.subscribe('StringEvent', ValueError, Event, event_callback=one_time_event_handler, once=True)
+	EventLinker.subscribe(
+		"StringEvent", "AnotherEvent", "ThirdEvent", 
+		event_callback=event_callback, 
+		once=True,
+	)
 	```
 
-### Defining Event Response Logic
+### Success and Error Handling
 
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;In the previous sections, we discussed the process of subscribing callback functions to handle events 
@@ -259,23 +270,20 @@ You can change the event emitter instance at runtime without the need to reconfi
 
 === "Using Decorators"
 
-	```Python linenums="1"  hl_lines="3 5-6 10-11 14-15"
-	from pyventus import EventLinker
-	
-	with EventLinker.on("StringEvent") as linker: # (1)!
-		
+	```Python linenums="1"  hl_lines="1 3-4 7-8 11-12"
+	with EventLinker.on("DivisionEvent") as linker:  # (1)!
+
 	    @linker.on_event
-	    def event_callback() -> str:
-	        print("Event received!")
-	        return "Event succeeded!"
+	    def handle_division(a: float, b: float) -> float:
+	        return a / b
 	
 	    @linker.on_success
-	    async def success_callback(msg: str) -> None:
-	        print(msg)
+	    def handle_success(result: float) -> None:
+	        print(f"Division result: {result:.3g}")
 	
 	    @linker.on_failure
-	    def failure_callback(exc: Exception) -> None:
-	        print(exc) 
+	    def handle_failure(e: Exception) -> None:
+	        print(f"Oops, something went wrong: {e}")
 	```
 	
 	1. When the `EventLinker.on` method is used as a context manager via the `with` statement, it allows multiple
@@ -283,47 +291,43 @@ You can change the event emitter instance at runtime without the need to reconfi
 
 === "Using the `subscribe()` method"
 
-	```Python linenums="1"  hl_lines="3 7 10 15"
-	from pyventus import EventLinker
+	```Python linenums="1"  hl_lines="1 4 7 13-15"
+	def handle_division(a: float, b: float) -> float:
+		return a / b
 	
-	def event_callback() -> str:
-	    print("Event received!")
-	    return "Event succeeded!"
+	def handle_success(result: float) -> None:
+		print(f"Division result: {result:.3g}")
 	
-	async def success_callback(msg: str) -> None:
-	    print(msg)
-	
-	def failure_callback(exc: Exception) -> None:
-	    print(exc)
+	def handle_failure(e: Exception) -> None:
+		print(f"Oops, something went wrong: {e}")
 	
 
 	EventLinker.subscribe(
-	    "StringEvent", event_callback=event_callback, success_callback=success_callback, failure_callback=failure_callback,
+	    "DivisionEvent", 
+		event_callback=handle_division, 
+		success_callback=handle_success, 
+		failure_callback=handle_failure,
 	)
-	
 	```
 
 #### Response Logic For One-time Subscriptions
 
 === "Using Decorators"
 
-	```Python linenums="1"  hl_lines="3 5-6 10-11 14-15"
-	from pyventus import EventLinker
-
-	with EventLinker.once("StringEvent") as linker: # (1)!
+	```Python linenums="1"  hl_lines="1 3-4 7-8 11-12"
+	with EventLinker.once("DivisionEvent") as linker:  # (1)!
 
 	    @linker.on_event
-	    async def event_callback() -> str:
-	        print("Event received!")
-	        return "Event succeeded!"
-
+	    def handle_division(a: float, b: float) -> float:
+	        return a / b
+	
 	    @linker.on_success
-	    def success_callback(msg: str) -> None:
-	        print(msg)
-
+	    def handle_success(result: float) -> None:
+	        print(f"Division result: {result:.3g}")
+	
 	    @linker.on_failure
-	    async def failure_callback(exc: Exception) -> None:
-	        print(exc)
+	    def handle_failure(e: Exception) -> None:
+	        print(f"Oops, something went wrong: {e}")
 	```
 	
 	1. When the `EventLinker.once` method is used as a context manager via the `with` statement, it allows multiple
@@ -331,24 +335,66 @@ You can change the event emitter instance at runtime without the need to reconfi
 
 === "Using the `subscribe()` method"
 
-	```Python linenums="1"  hl_lines="3 7 10 14-15"
-	from pyventus import EventLinker
+	```Python linenums="1"  hl_lines="1 4 7 13-16"
+	def handle_division(a: float, b: float) -> float:
+		return a / b
 	
-	async def event_callback() -> str:
-	    print("Event received!")
-	    return "Event succeeded!"
+	def handle_success(result: float) -> None:
+		print(f"Division result: {result:.3g}")
 	
-	def success_callback(msg: str) -> None:
-	    print(msg)
+	def handle_failure(e: Exception) -> None:
+		print(f"Oops, something went wrong: {e}")
 	
-	async def failure_callback(exc: Exception) -> None:
-	    print(exc)
 
 	EventLinker.subscribe(
-	    "StringEvent", event_callback=event_callback, success_callback=success_callback, failure_callback=failure_callback,
+	    "DivisionEvent", 
+		event_callback=handle_division, 
+		success_callback=handle_success, 
+		failure_callback=handle_failure,
 		once=True,
 	)
+	```
+
+## Optimizing Callbacks Execution
+
+<p style='text-align: justify;'>
+    &emsp;&emsp;By default, event handlers in Pyventus are executed concurrently during an event emission, running their
+	<code>sync</code> and <code>async</code> callbacks as defined. However, if you have a <code>sync</code> callback
+	that involves I/O or non-CPU bound operations, you can enable the <code>force_async</code> parameter to offload it
+	to a thread pool, ensuring optimal performance and responsiveness. The <code>force_async</code> parameter utilizes 
+	the <a href="https://docs.python.org/3/library/asyncio-task.html#running-in-threads" target="_blank"><code>asyncio.to_thread()</code></a>
+	function to execute <code>sync</code> callbacks asynchronously.
+</p>
+
+=== "Using Decorators"
+
+	```Python linenums="1"  hl_lines="3"
+	# You can also set this when using the `with` 
+	# statement and the `once()` decorator
+	@EventLinker.on("BlockingIO", force_async=True)
+	def blocking_io():
+	    print(f"start blocking_io at {time.strftime('%X')}")
+	    # Note that time.sleep() can be replaced with any blocking
+	    # IO-bound operation, such as file operations.
+	    time.sleep(1)
+	    print(f"blocking_io complete at {time.strftime('%X')}")
+	```
+
+=== "Using the `subscribe()` method"
+
+	```Python linenums="1"  hl_lines="1 8 10-11"
+	def blocking_io():
+	    print(f"start blocking_io at {time.strftime('%X')}")
+	    # Note that time.sleep() can be replaced with any blocking
+	    # IO-bound operation, such as file operations.
+	    time.sleep(1)
+	    print(f"blocking_io complete at {time.strftime('%X')}")
 	
+	EventLinker.subscribe(
+	    "BlockingIO",
+	    event_callback=blocking_io,
+	    force_async=True,
+	)
 	```
 
 ## Unsubscribing Event Handlers
@@ -358,24 +404,23 @@ You can change the event emitter instance at runtime without the need to reconfi
 	to properly teardown event subscriptions:
 </p>
 
-### Removing a Event Handler from an Event
+### Removing an Event Handler from an Event
 
 <p style='text-align: justify;' markdown>
 	To remove a single event handler from a specific event:
 </p>
 
-```Python linenums="1" hl_lines="10"
-from pyventus import EventLinker, Event
-
-
+```Python linenums="1" hl_lines="5 7"
 def event_callback():
     print("Event received!")
 
 
-event_handler = EventLinker.subscribe('StringEvent', Event, event_callback=event_callback)
+event_handler = EventLinker.subscribe("StringEvent", "AnotherEvent", event_callback=event_callback)
 
-EventLinker.unsubscribe('StringEvent', event_handler=event_handler)
+EventLinker.unsubscribe("StringEvent", event_handler=event_handler)  # (1)!
 ```
+
+1. Removes the `event_handler` from just the `StringEvent`
 
 ### Removing Event Handlers from All Events
 
@@ -383,20 +428,17 @@ EventLinker.unsubscribe('StringEvent', event_handler=event_handler)
 	To remove an event handler from all subscribed events:
 </p>
 
-```Python linenums="1" hl_lines="10"
-from pyventus import EventLinker, Event
-
-
+```Python linenums="1" hl_lines="5 7"
 def event_callback():
     print("Event received!")
 
 
-event_handler = EventLinker.subscribe('StringEvent', Event, event_callback=event_callback)
+event_handler = EventLinker.subscribe("StringEvent", "AnotherEvent", event_callback=event_callback)
 
 EventLinker.remove_event_handler(event_handler=event_handler)  # (1)!
 ```
 
-1. Removes the `event_handler` from the `Event` and `StringEvent`
+1. Removes the `event_handler` from the `StringEvent` and `AnotherEvent`
 
 ### Removing an Event and its Event Handlers
 
@@ -404,24 +446,21 @@ EventLinker.remove_event_handler(event_handler=event_handler)  # (1)!
 	To delete an event and all associated handlers:
 </p>
 
-```Python linenums="1" hl_lines="14"
-from pyventus import EventLinker, Event
-
-
-@EventLinker.on('StringEvent')
+```Python linenums="1" hl_lines="1 6 11"
+@EventLinker.on("StringEvent")
 def event_callback1():
     print("Event received!")
 
 
-@EventLinker.on('StringEvent', Event)
+@EventLinker.on("StringEvent", "AnotherEvent")
 def event_callback2():
     print("Event received!")
 
 
-EventLinker.remove_event(event='StringEvent')  # (1)!
+EventLinker.remove_event(event="StringEvent")  # (1)!
 ```
 
-1. Removes all event handlers associated with the `StringEvent` event.
+1. Removes all event handlers associated with the `StringEvent`
 
 ### Clearing All Events
 
@@ -429,16 +468,13 @@ EventLinker.remove_event(event='StringEvent')  # (1)!
 	To remove all events and their handlers:
 </p>
 
-```Python linenums="1" hl_lines="14"
-from pyventus import EventLinker, Event
-
-
-@EventLinker.on('StringEvent', Event)
+```Python linenums="1" hl_lines="1 6 11"
+@EventLinker.on("StringEvent", ...)
 def event_callback1():
     pass
 
 
-@EventLinker.on(Event)
+@EventLinker.on(...)
 def event_callback2():
     pass
 
@@ -475,23 +511,20 @@ Configuring linker-specific options like max handlers per event.
 	To define a custom linker, subclass the `EventLinker`, as shown below:
 </p>
 
-```Python linenums="1" hl_lines="4 9 14"
-from pyventus import EventLinker
-
-
+```Python linenums="1" hl_lines="1 6 11"
 class UserEventLinker(EventLinker, max_event_handlers=10):
     """ EventLinker for User's events only """
     pass  # Additional logic can be added here if needed...
 
 
-@UserEventLinker.on('OnPasswordReset')
-async def on_password_reset_callback(email: str):
-    print("OnPasswordReset received!")
+@UserEventLinker.on("PasswordResetEvent")
+async def handle_password_reset_event(email: str):
+    print("PasswordResetEvent received!")
 
 
-@UserEventLinker.on('OnEmailVerified')
-async def on_email_verified_callback(email: str):
-    print("OnEmailVerified received!")
+@UserEventLinker.on("EmailVerifiedEvent")
+async def handle_email_verified_event(email: str):
+    print("EmailVerifiedEvent received!")
 ```
 
 ## Debug Mode
@@ -509,7 +542,7 @@ async def on_email_verified_callback(email: str):
 </p>
 
 <p align="center">
-   <img src="../../images/examples/debug-mode-example.png" alt="Pyventus" width="900px">
+   <img src="../../images/examples/debug-mode-example.png" alt="EventLinker Global Debug Mode" width="900px">
 </p>
 
 ### Namespace Debug Flag
@@ -523,32 +556,16 @@ async def on_email_verified_callback(email: str):
 
 === "Debug Flag `On`"
 
-	```Python linenums="1" hl_lines="4"
-	from pyventus import EventLinker
-	
-	
+	```Python linenums="1" hl_lines="1"
 	class CustomEventLinker(EventLinker, debug=True):
 	    pass  # Additional logic can be added here if needed...
-	
-	
-	@CustomEventLinker.on('StringEvent')
-	def event_callback():
-	    print("Event received!")
 	```
 
 === "Debug Flag `Off`"
 
-	```Python linenums="1" hl_lines="4"
-	from pyventus import EventLinker
-	
-	
+	```Python linenums="1" hl_lines="1"
 	class CustomEventLinker(EventLinker, debug=False):
 	    pass  # Additional logic can be added here if needed...
-	
-	
-	@CustomEventLinker.on('StringEvent')
-	def event_callback():
-	    print("Event received!")
 	```
 
 ## Recap
@@ -561,6 +578,10 @@ async def on_email_verified_callback(email: str):
 <ul style='text-align: justify;' markdown>
 
 <li markdown>
+The standardized mechanism for executing event callbacks (Event Handlers).
+</li>
+
+<li markdown>
 Subscribing regular and one-time handlers with decorators and the `subscribe()` method.
 </li>
 
@@ -569,7 +590,15 @@ Unsubscribing a single event handler, all handlers, an event, or clearing all.
 </li>
 
 <li markdown>
-Custom EventLinkers to separate event namespaces.
+Success and error handling by defining custom logic for event completion.
+</li>
+
+<li markdown>
+Techniques for optimizing synchronous callback execution.
+</li>
+
+<li markdown>
+Custom Event Linkers to separate event namespaces.
 </li>
 
 <li markdown>

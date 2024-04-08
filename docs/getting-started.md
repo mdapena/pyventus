@@ -19,10 +19,10 @@ hide:
 ## Requirements
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;By default, Pyevents **only requires Python 3.10+**, which includes the [`AsyncIOEventEmitter`](/pyventus/tutorials/emitters/asyncio)
-	and the [`ExecutorEventEmitter`](/pyventus/tutorials/emitters/executor) with no additional dependencies. However, 
-	your requirements may expand if you opt to use alternative [*built-in*](#optional-dependencies) event emitter 
-	implementations.
+	&emsp;&emsp;By default, Pyventus' core functionalities and default event emitter implementations, such as the
+	[AsyncIO Event Emitter](/pyventus/tutorials/emitters/asyncio), and the [Executor Event Emitter](/pyventus/tutorials/emitters/executor), 
+	**only require Python 3.10+** with no additional dependencies. However, these requirements may expand if you opt to 
+	use alternative [*built-in*](#optional-dependencies) event emitter implementations.
 </p>
 
 ## Installation

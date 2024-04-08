@@ -113,7 +113,7 @@ pip install pyventus
 ```
 
 <p style='text-align: justify;'>
-	&emsp;&emsp;Pyventus by default relies on the Python standard library and <b>only requires Python 3.10+</b> with no 
+	&emsp;&emsp;Pyventus by default relies on the Python standard library and <b>requires Python 3.10 or higher</b> with no 
 	additional dependencies. However, this package also includes alternative integrations to access additional features 
 	such as Redis Queue, Celery, and FastAPI. For more information on this matter, please refer to the 
 	<a href="https://mdapena.github.io/pyventus/getting-started/#optional-dependencies" target="_blank">Optional Dependencies</a>
@@ -201,7 +201,7 @@ Finally, by using the <code>emit()</code> method of the event emitter instance, 
 	you are now well-equipped to explore more intricate event-driven scenarios and fully harness the capabilities of 
 	Pyventus in your own projects. For a deep dive into the package's functionalities, you can refer to the 
 	Pyventus <a href="https://mdapena.github.io/pyventus/tutorials" target="_blank">Tutorials</a> or 
-	<a href="https://mdapena.github.io/pyventus/api" target="_blank">API Reference</a>.
+	<a href="https://mdapena.github.io/pyventus/api" target="_blank">API</a>.
 </p>
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
@@ -323,21 +323,19 @@ asyncio.run(main())
 
 ### Subscribing Event Handlers with <code>Sync</code> and <code>Async</code> Callbacks
 
-```Python linenums="1" hl_lines="2 8"
+```Python linenums="1" hl_lines="2 7"
 @EventLinker.on("MyEvent")
 def sync_event_callback():
-    # Synchronous event handling
-    print("Event received!")
+    pass  # Synchronous event handling
 
 
 @EventLinker.on("MyEvent")
 async def async_event_callback():
-    # Asynchronous event handling
-    print("Event received!")  
+	pass  # Asynchronous event handling
 ```
 
-<details markdown="1" class="tip">
-<summary>You can configure your callbacks' execution for optimal performance...</summary>
+<details markdown="1" class="info">
+<summary>You can optimize the execution of your callbacks based on their workload...</summary>
 
 <p style='text-align: justify;'>
     &emsp;&emsp;By default, event handlers in Pyventus are executed concurrently during an event emission, running their
@@ -373,6 +371,19 @@ async def async_function(event_emitter: EventEmitter):
     event_emitter.emit("MyEvent")
 ```
 
+<details markdown="1" class="info">
+<summary>Event propagation within different contexts...</summary>
+
+<p style='text-align: justify;'>
+    &emsp;&emsp;While Pyventus provides a base <code>EventEmitter</code> class with a unified sync/async API, the 
+	specific propagation behavior when emitting events may vary depending on the concrete <code>EventEmitter</code>
+	used. For example, the <code>AsyncIOEventEmitter</code> implementation leverages the <code>AsyncIO</code> event
+	loop to schedule callbacks added from asynchronous contexts without blocking. But alternative emitters could 
+	structure propagation differently to suit their needs.
+</p>
+
+</details>
+
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
 ## Runtime Flexibility and Customization
@@ -389,8 +400,8 @@ async def async_function(event_emitter: EventEmitter):
 
 <p style='text-align: justify;'>
     &emsp;&emsp;By leveraging the principle of dependency inversion and using the base <code>EventEmitter</code> as a
-	dependency, you can change the concrete implementation on the fly. Let's demonstrate this using the <code>AsyncIO 
-	Event Emitter</code> and <code>Executor Event Emitter</code>: 
+	dependency, you can change the concrete implementation on the fly. Let's demonstrate this using the AsyncIO 
+	Event Emitter and the Executor Event Emitter: 
 </p>
 
 ```Python title="Event Emitter Runtime Flexibility Example" linenums="1" hl_lines="10-11 14 16"
@@ -415,9 +426,9 @@ if __name__ == "__main__":
 ### Defining Custom Event Emitters
 
 <p style='text-align: justify;'>
-    &emsp;&emsp;To illustrate Pyventus' customization capabilities, we will define and implement a custom event emitter 
-	class for the FastAPI framework to handle event emissions through its <a href="https://fastapi.tiangolo.com/reference/background/" target="_blank">background tasks</a> 
-	workflow.
+    &emsp;&emsp;To illustrate Pyventus' customization capabilities, we will define and implement a custom event emitter
+	class for the FastAPI framework. This class will efficiently handle the execution of event emissions through its 
+	<a href="https://fastapi.tiangolo.com/reference/background/" target="_blank">background tasks</a> workflow.
 </p>
 
 ```Python title="Custom Event Emitter Example" linenums="1" hl_lines="6 10-11 13-14"
@@ -442,7 +453,7 @@ class FastAPIEventEmitter(EventEmitter):
 
 <p style='text-align: justify;'>
     In case you're interested in integrating Pyventus with FastAPI, you can refer to the official Pyventus 
-	<a href="https://mdapena.github.io/pyventus/tutorials/emitters/fastapi/"><code>FastAPI Event Emitter</code></a> 
+	<a href="https://mdapena.github.io/pyventus/tutorials/emitters/fastapi/"><i>FastAPI Event Emitter</i></a> 
 	implementation.
 </p>
 
@@ -454,8 +465,7 @@ class FastAPIEventEmitter(EventEmitter):
 
 <p style='text-align: justify;'>
     &emsp;&emsp;In addition to string events, Pyventus also supports Event Objects, which provide a structured way to 
-	define events and encapsulate relevant data payloads. Using these event types offers several benefits, including 
-	improved organization and maintainability, as well as validation support.
+	define events and encapsulate relevant data payloads.
 </p>
 
 ```Python title="Event Object Example" linenums="1" hl_lines="1-2 7-8 16-19"
@@ -482,7 +492,7 @@ event_emitter.emit(
 ```
 
 <p style='text-align: justify;'>
-    &emsp;&emsp;However, Pyventus also allows you to subscribe to Global Events, which are particularly useful for 
+    &emsp;&emsp;Furthermore, Pyventus provides support for Global Events, which are particularly useful for 
 	implementing cross-cutting concerns such as logging, monitoring, or analytics. By subscribing event handlers to
 	<code>...</code> or <code>Ellipsis</code>, you can capture all events that may occur within that 
 	<code>EventLinker</code> context.

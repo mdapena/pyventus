@@ -1,10 +1,11 @@
 ---
+title: Welcome to Pyventus
 hide:
   - navigation
 ---
 
 <style>
-    .md-content .md-content__inner.md-typeset h1 { height: 0; margin: 0; color: transparent; }
+    .md-content .md-content__inner.md-typeset h1 { height: 0; margin: 0; color: transparent; display: none; }
     .md-content .md-content__inner.md-typeset::before { height: 0; } 
 
 	.terminal-command {

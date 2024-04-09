@@ -12,6 +12,55 @@ hide:
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
+## [v0.5.0](https://github.com/mdapena/pyventus/releases/tag/0.5.0) <small>April 9, 2024</small> { id="0.5.0" }
+
+<hr class="divider">
+
+##### Breaking Changes
+
+- Removed the base `Event` class due to improved event semantics and unnecessary redundancy.
+- Renamed the `get_event_registry()` method of `EventLinker` to `get_registry()`.
+- Renamed the `__event_registry` inner property of `EventLinker` to `__registry`.
+- Renamed the `get_events_by_handler()` method of `EventLinker` to `get_event_handlers_by_events()`.
+- Renamed the `get_handlers_by_events()` method of `EventLinker` to `get_event_handlers_by_events()`.
+- Renamed the protected method `_executor_callback()` of the `ExecutorEventEmitter` to `_callback()`.
+- Renamed the task name of `CeleryEventEmitter` from `_executor` to `pyventus_executor` to avoid collisions with other
+  task names.
+
+##### Added
+
+- Added `__slots__` to `EventLinkageWrapper` class for more efficient memory usage.
+- Extended support for subscription and emission of any `dataclass` object, removing the limitation of only `Event`
+  subclasses.
+- Added the `force_async` parameter to the `EventHandler` class and `EventLinker` subscription methods to be able to
+  optimize the execution of `sync` callbacks based on their workload.
+- Introduced a new event semantic where the Python `...` (Ellipsis) is now used to refer to all events on a
+  subscription, like the `onAny()` method but with a Pythonic syntax.
+- Added the `mkdocs-material social cards` plugin, which provides a preview of the documentation content when shared on
+  social media platforms.
+
+##### Changed
+
+- Standardized the order of static methods, class methods, and instance methods for improved readability.
+- Applied Python best practices to optimize the methods within the `EventLinker` and `EventEmitter` classes.
+- Improved validation of variable instances in the event emitters, `EventLinker`, and `EventHandler`.
+- Updated and improved the test suite to ensure accurate validation and consistency.
+- Updated and improved the package description.
+- Updated the tutorial section to incorporate recent changes.
+- Enhanced the documentation index page and README file with new examples and better descriptions to showcase the unique
+  features of Pyventus.
+
+##### Removed
+
+- Removed the default value of the `once` flag in the `EventHandler` class.
+
+##### Fixed
+
+- Fixed and standardized all package docstrings and code comments for consistency and clarity.
+- Addressed minor errors and details in the documentation.
+
+[//]: # (--------------------------------------------------------------------------------------------------------------)
+
 ## [v0.4.1](https://github.com/mdapena/pyventus/releases/tag/0.4.1) <small>January 30, 2024</small> { id="0.4.1" }
 
 <hr class="divider">

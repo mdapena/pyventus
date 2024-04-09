@@ -17,7 +17,7 @@ copyright: |
 theme:
   name: material
   language: en
-  logo: images/logo/pyventus-logo-white.svg
+  logo: images/logo/pyventus-logo-white.png
   favicon: images/favicon/pyventus-logo.ico
   palette:
     - media: '(prefers-color-scheme: light)'

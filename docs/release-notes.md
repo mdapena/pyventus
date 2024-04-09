@@ -18,16 +18,17 @@ hide:
 
 ##### Changed
 
-- Optimized the size of the `sdist` build by including only essential files and directories, such as `/src`, `/tests`,
-  `.gitignore`, `pyproject.toml`, `CITATION.cff`, `README.md` and `LICENSE`.
-- Refactored the dependencies of the docs environment by separating them into an optional dependency called `docs`.
-- Updated the `deploy-docs.yml` GitHub workflow to utilize the new `docs` optional dependency.
+- Optimized the size of the source distribution (sdist) build by including only essential files and directories, such
+  as the `/src` and `/tests` directories, as well as the following files: `.gitignore`, `pyproject.toml`,
+  `CITATION.cff`, `README`, and `LICENSE`.
+- Refactored documentation dependencies into an optional dependency called `docs`.
+- Updated the `deploy-docs.yml` GitHub workflow to leverage the new optional dependency `docs`.
 - Updated the `EventEmission` class with the `@final` decorator from the typing module, indicating that it is meant for
   internal use only and should not be subclassed.
 
 ##### Fixed
 
-- Addressed minor errors and fixed broken links in the documentation.
+- Addressed minor errors and details in the documentation.
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
@@ -37,15 +38,20 @@ hide:
 
 ##### Added
 
-- The `FastAPIEventEmitter` has been added to facilitate seamless integration with `FastAPI` framework and leverage its
-  `BackgroundTasks` for event handling.
-- Added comprehensive documentation for `FastAPIEventEmitter`, including tutorials and API references.
-- A `Coveralls.io` workflow has been added to generate a coverage badge and reports.
-- Included permalinks for easy navigation within the documentation.
+- Added `FastAPIEventEmitter` implementation to facilitate seamless integration with the `FastAPI` framework.
+- Added tests for `FastAPIEventEmitter` to validate its behavior and ensure proper operation.
+- Added documentation for `FastAPIEventEmitter`, including tutorials and API references.
+- Integrated the `Coveralls.io` workflow to generate coverage badge and reports.
+- Included coverage badges on the main documentation page and the readme file.
+- Introduced permalinks within the documentation for easy navigation.
+
+##### Changed
+
+- Updated `pyproject.toml` with the new optional dependency for `FastAPI` integration.
 
 ##### Fixed
 
-- Addressed minor errors in the Pyventus documentation.
+- Addressed minor errors in the Pyventus documentation to improve accuracy and clarity.
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
@@ -53,23 +59,31 @@ hide:
 
 <hr class="divider">
 
-##### Added
-
-- Added `CeleryEventEmitter` implementation to leverage the Celery distributed task queue for event handling.
-- Included documentation for `CeleryEventEmitter` including tutorials and API references.
-
-##### Changed
-
-- Restructured documentation for event emitters tutorials and API references.
-- Restructured tests for event emitters tutorials and API references.
-
 ##### Breaking Changes
 
 - Introduced `EventEmission` object to encapsulate the processing of event emissions. This changes the `_execute()`
-  method of EventEmitter but provides a cleaner, more scalable, and efficient approach.
+  method of `EventEmitter` but provides a cleaner, more scalable, and efficient approach.
+- Renamed all debug flags from `debug_mode` to `debug` for enhanced clarity and consistency.
 - Renamed EventEmitter's `_execute()` method to `_process()` to better reflect its purpose of processing event
   emissions.
-- Renamed all debug flags from `debug_mode` to `debug` for enhanced clarity and consistency.
+
+##### Added
+
+- Added `CeleryEventEmitter` implementation to leverage the Celery distributed task queue for event handling.
+- Added tests for `CeleryEventEmitter` to validate its behavior and ensure proper operation.
+- Added documentation for `CeleryEventEmitter`, including tutorials and API references.
+
+##### Changed
+
+- Restructured the documentation for event emitters tutorials and API references to improve organization and clarity.
+- Updated the `contributing.md` page to include the *Troubleshooting Hatch Environment Errors* section.
+- Updated the `EventEmitter` API documentation to include the `EventEmission` class reference.
+- Updated `pyproject.toml` with the new optional dependency for `Celery` integration.
+- Updated `mypy` ignore flags to properly silence specific false positive error codes.
+
+##### Fixed
+
+- Addressed minor errors in the Pyventus documentation.
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
@@ -77,12 +91,16 @@ hide:
 
 <hr class="divider">
 
+##### Changed
+
+- Updated docstring links throughout the package to refer to the official documentation.
+- Updated the `RQEventEmitter` API Reference and Tutorials docs to reflect the new optional import.
+
 ##### Fixed
 
+- Resolved the issue where the `RQEventEmitter` class was automatically imported in the main package, requiring the
+  installation of its optional dependency to use any of the package's core functionalities. It is now fully optional.
 - Fixed issues with invalid links in the documentation.
-- Updated docstring links to the official Pyventus documentation.
-- Resolved the issue where the `RQEventEmitter` optional dependency had to be installed by default to use the package.
-  It is now fully optional.
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
@@ -92,22 +110,24 @@ hide:
 
 ##### Added
 
-- This release introduces the `publish to PyPI` workflow, automating the uploading of package builds
-  when new releases are created.
+- Introduced the `publish to PyPI` workflow, automating the uploading of package builds when new releases are created.
+- Added the `mkdocs-git-authors` plugin to display git authors of a markdown page in the documentation.
+- Added badges to the main page of the documentation as well as the readme file.
+- Added a code of conduct for the project, using
+  the [Contributor Covenant v2.1](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
+- Included a `CITATION.cff` file to facilitate academic citations.
 
 ##### Changed
 
-- Badges have been added to the main page of the documentation as well as the readme file.
-- To facilitate academic citations, a `CITATION.cff` file has been added in this release.
-- A code of conduct has been added to the project using
-  the [Contributor Covenant v2.1](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
-- The `mkdocs.yml` file has been updated to include the `git-authors` plugin, which lists the names of documentation
-  contributors on their respective pages.
+- Renamed the `tests.yml` workflow to `run-tests.yml`.
+- Updated the `deploy-docs.yml` workflow with the `mkdocs-git-authors` plugin dependency.
+- Modified the `mkdocs.yml` config file by adding the `site_url` and `site_author` properties.
+- Updated the `pyproject.toml` file with the `mkdocs-git-authors` plugin dependency and python package keywords.
 
 ##### Fixed
 
-- Minor bug fixes and refactoring have been made in the `deploy-docs` and `run-tests` workflows.
-- Fixed issues with relative links in the documentation.
+- Fixed the python version in the `deploy-docs.yml` workflow.
+- Resolved issues with relative links in the documentation.
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
@@ -117,7 +137,7 @@ hide:
 
 ##### Initial Implementation
 
-&emsp;&emsp;This release introduces Pyventus 0.1.0, a modern and robust Python package for event-driven programming.
+&emsp;&emsp;This release introduces Pyventus v0.1.0, a modern and robust Python package for event-driven programming.
 Pyventus provides developers with a comprehensive suite of tools and utilities to define, emit, and orchestrate events.
 It empowers developers to build scalable, extensible, and loosely-coupled event-driven applications.
 

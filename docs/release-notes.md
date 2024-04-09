@@ -45,6 +45,8 @@ hide:
 - Applied Python best practices to optimize the methods within the `EventLinker` and `EventEmitter` classes.
 - Improved validation of variable instances in the event emitters, `EventLinker`, and `EventHandler`.
 - Updated and improved the test suite to ensure accurate validation and consistency.
+- Enabled creation date for the mkdocs `git-revision-date-localized` plugin.
+- Replaced the mkdocs `git-authors` plugin with the `git-committers` plugin.
 - Updated and improved the package description.
 - Updated the tutorial section to incorporate recent changes.
 - Enhanced the documentation index page and README file with new examples and better descriptions to showcase the unique

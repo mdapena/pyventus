@@ -4,14 +4,12 @@ from typing import Type, Generator, List, Dict
 
 from _pytest.python_api import raises
 
-from pyventus import EventEmitter, EventLinker, Event, PyventusException
+from pyventus import EventEmitter, EventLinker, PyventusException
 from .. import CallbackFixtures, EventFixtures
 
 
 class EventEmitterTest(ABC):
-    """
-    A set of pre-configured tests for subclasses of EventEmitter.
-    """
+    """A set of pre-configured tests for subclasses of EventEmitter."""
 
     @staticmethod
     @contextmanager
@@ -47,108 +45,109 @@ class EventEmitterTest(ABC):
         event_linker.remove_all()
 
         # Test emission when empty
-        event_emitter.emit(Event())
-
-        # Set Sync and Async callback class
-        sync_callback_cls: Type[CallbackFixtures.Base] = CallbackFixtures.Sync
-        async_callback_cls: Type[CallbackFixtures.Base] = CallbackFixtures.Async
+        event_emitter.emit(EventFixtures.EmptyEvent())
 
         # Create a dummy event linker for testing purposes
         class __DummyEventLinker(EventLinker, max_event_handlers=1):
             pass  # pragma: no cover
 
-        # --------------------
+        # ----------------------------------------------
         # Arrange
         # ----------
 
         int_param: int = 2
         str_param: str = "param1"
-        event_param: Event = Event()
+        event_param: object = EventFixtures.EmptyEvent()
         list_param: List[int] = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         dict_param: Dict[str, str] = {"key1": "value1"}
-        custom_event1 = EventFixtures.CustomEvent1(attr1="attr1")
-        custom_event2 = EventFixtures.CustomEvent2(attr1={"attr1": "attr"}, attr2="attr2")
-        custom_event_with_validation = EventFixtures.CustomEventWithValidation(attr1="att", attr2=7.65)
+        custom_event1 = EventFixtures.DtcEvent1(attr1="attr1")
+        custom_event2 = EventFixtures.DtcEvent2(attr1="attr1", attr2={"attr2": "attr"})
+        custom_event_with_validation = EventFixtures.DtcWithValidation(attr1="att", attr2=7.65)
         custom_exception1 = EventFixtures.CustomException1("Custom Exception 1 raised!")
         custom_exception2 = EventFixtures.CustomException2("Custom Exception 2 raised!")
-        return_value: Event = Event()
+        return_value: object = EventFixtures.EmptyEvent()
 
         # Callbacks
-        cb_without_params: CallbackFixtures.Base = sync_callback_cls()
-        cb_with_two_params: CallbackFixtures.Base = async_callback_cls()
-        cb_with_args: CallbackFixtures.Base = sync_callback_cls()
-        cb_with_kwargs: CallbackFixtures.Base = async_callback_cls()
-        cb_with_custom_event1: CallbackFixtures.Base = sync_callback_cls()
-        cb_with_custom_event2_and_extras: CallbackFixtures.Base = async_callback_cls()
-        cb_with_custom_event_validated: CallbackFixtures.Base = sync_callback_cls()
-        cb_with_event: CallbackFixtures.Base = async_callback_cls()
-        cb_with_custom_exception1: CallbackFixtures.Base = sync_callback_cls()
-        cb_with_custom_exception2_and_extras: CallbackFixtures.Base = async_callback_cls()
-        cb_with_exception: CallbackFixtures.Base = sync_callback_cls()
-        cb_with_args_and_kwargs: CallbackFixtures.Base = async_callback_cls()
+        cb_without_params: CallbackFixtures.Base = CallbackFixtures.Sync()
+        cb_with_two_params: CallbackFixtures.Base = CallbackFixtures.Async()
+        cb_with_args: CallbackFixtures.Base = CallbackFixtures.Sync()
+        cb_with_kwargs: CallbackFixtures.Base = CallbackFixtures.Async()
+        cb_with_custom_event1: CallbackFixtures.Base = CallbackFixtures.Sync()
+        cb_with_custom_event2_and_extras: CallbackFixtures.Base = CallbackFixtures.Async()
+        cb_with_custom_event_validated: CallbackFixtures.Base = CallbackFixtures.Sync()
+        cb_with_event: CallbackFixtures.Base = CallbackFixtures.Async()
+        cb_with_custom_exception1: CallbackFixtures.Base = CallbackFixtures.Sync()
+        cb_with_custom_exception2_and_extras: CallbackFixtures.Base = CallbackFixtures.Async()
+        cb_with_exception: CallbackFixtures.Base = CallbackFixtures.Sync()
+        cb_with_args_and_kwargs: CallbackFixtures.Base = CallbackFixtures.Async()
 
-        cb_with_return_value: CallbackFixtures.Base = sync_callback_cls(return_value=return_value)
-        cb_with_raise_exception: CallbackFixtures.Base = async_callback_cls(raise_exception=custom_exception1)
+        cb_with_return_value: CallbackFixtures.Base = CallbackFixtures.Sync(return_value=return_value)
+        cb_with_raise_exception: CallbackFixtures.Base = CallbackFixtures.Async(raise_exception=custom_exception1)
 
         # Success and failure callbacks
         default_success_callback = event_linker.get_default_success_callback()
         success_callback: CallbackFixtures.Base = (
-            default_success_callback if default_success_callback else async_callback_cls()  # type: ignore
+            default_success_callback if default_success_callback else CallbackFixtures.Async()
         )
         default_failure_callback = event_linker.get_default_failure_callback()
         failure_callback: CallbackFixtures.Base = (
-            default_failure_callback if default_failure_callback else sync_callback_cls()  # type: ignore
+            default_failure_callback if default_failure_callback else CallbackFixtures.Sync()
         )
 
         # String Events
-        event_linker.subscribe("StringEventWithoutParams", event_callback=cb_without_params.__call__)
+        event_linker.subscribe("StringEventWithoutParams", event_callback=cb_without_params.__call__, force_async=True)
         event_linker.subscribe("StringEventWithoutParams", "AnotherStringEvent", event_callback=cb_without_params)
-        event_linker.subscribe("StringEventWithTwoParams", event_callback=cb_with_two_params)
+        event_linker.subscribe("StringEventWithTwoParams", event_callback=cb_with_two_params, force_async=True)
         event_linker.subscribe("StringEventWithArgs", event_callback=cb_with_args)
         event_linker.subscribe("StringEventWithKwargs", event_callback=cb_with_kwargs, once=True)
 
         # Events
-        event_linker.subscribe(EventFixtures.CustomEvent1, event_callback=cb_with_custom_event1)
-        event_linker.subscribe(EventFixtures.CustomEvent2, event_callback=cb_with_custom_event2_and_extras)
-        event_linker.subscribe(EventFixtures.CustomEventWithValidation, event_callback=cb_with_custom_event_validated)
+        event_linker.subscribe(EventFixtures.DtcEvent1, event_callback=cb_with_custom_event1)
+        event_linker.subscribe(EventFixtures.DtcEvent2, event_callback=cb_with_custom_event2_and_extras)
+        event_linker.subscribe(EventFixtures.DtcWithValidation, event_callback=cb_with_custom_event_validated)
         event_linker.subscribe(
-            EventFixtures.CustomEvent1, EventFixtures.CustomEvent2, event_callback=cb_with_event, once=True
+            EventFixtures.DtcEvent1, EventFixtures.DtcEvent2, event_callback=cb_with_event, once=True
         )
 
         # Exception Events
         event_linker.subscribe(EventFixtures.CustomException1, event_callback=cb_with_custom_exception1)
         event_linker.subscribe(EventFixtures.CustomException2, event_callback=cb_with_custom_exception2_and_extras)
-        event_linker.subscribe(TypeError, ValueError, event_callback=cb_with_exception)
-        event_linker.subscribe(Exception, event_callback=cb_with_exception, once=True)
+        event_linker.subscribe(TypeError, EventFixtures.CustomException1, event_callback=cb_with_exception, once=True)
 
-        # With success callback
+        # Test success callback execution
         with event_linker.once("StringEventWithSuccessCallback") as linker:
             linker.on_event(cb_with_return_value)
             linker.on_success(success_callback)
             linker.on_failure(failure_callback)
 
-        # With success callback
-        with event_linker.on("StringEventWithFailureCallback") as linker:
+        # Test failure callback execution
+        with event_linker.on("StringEventWithFailureCallback", force_async=True) as linker:
             linker.on_event(cb_with_raise_exception)
             linker.on_success(success_callback)
             linker.on_failure(failure_callback)
 
-        # Any Event and Exception
-        event_linker.subscribe(Event, Exception, event_callback=cb_with_args_and_kwargs)
+        # Test Error Handling
+        with event_linker.on("ErrorHandling") as linker:
+            linker.on_event(CallbackFixtures.Sync())
+            linker.on_success(CallbackFixtures.Async(raise_exception=ValueError("Something went wrong!")))
+            linker.on_failure(failure_callback)
+
+        with event_linker.on("ErrorHandling") as linker:
+            linker.on_event(CallbackFixtures.Sync(raise_exception=ValueError("Something went wrong!")))
+            linker.on_success(success_callback)
+            linker.on_failure(CallbackFixtures.Async(raise_exception=ValueError("Something went wrong!")))
+
+        # Any Event
+        event_linker.subscribe(..., event_callback=cb_with_args_and_kwargs)
 
         # Different namespace
-        __DummyEventLinker.subscribe(Event, Exception, event_callback=cb_with_args_and_kwargs)
+        __DummyEventLinker.subscribe(..., event_callback=cb_with_args_and_kwargs)
 
-        # --------------------
+        # ----------------------------------------------
         # Act
         # ----------
 
         # String events
-        with raises(PyventusException):
-            event_emitter.emit("")
-        with raises(PyventusException):
-            event_emitter.emit(None)  # type: ignore
-
         event_emitter.emit("AnotherStringEvent")
         event_emitter.emit("StringEventWithoutParams")
         event_emitter.emit("StringEventWithTwoParams", dict_param, param2=event_param)
@@ -158,41 +157,46 @@ class EventEmitterTest(ABC):
         event_emitter.emit("StringEventWithKwargs", str_param, param2=int_param, param3=dict_param)
         event_emitter.emit("UnsubscribedEvent", int_param, param2=dict_param)
 
-        # Events
         with raises(PyventusException):
-            event_emitter.emit(Event)  # type: ignore
-        with raises(ValueError):
-            event_emitter.emit(EventFixtures.CustomEventWithValidation(attr1="at", attr2=2.3))
+            event_emitter.emit("")
 
+        # Events
         event_emitter.emit(custom_event1)
         event_emitter.emit(custom_event2, int_param, str_param, param3=event_param, param4=list_param)
         event_emitter.emit(custom_event_with_validation)
-        event_emitter.emit(Event())
+        event_emitter.emit(EventFixtures.EmptyEvent())
+
+        with raises(PyventusException):
+            event_emitter.emit(None)
+        with raises(PyventusException):
+            event_emitter.emit(EventFixtures.EmptyEvent)
+        with raises(PyventusException):
+            event_emitter.emit(EventFixtures.DtcWithValidation(attr1="at", attr2=2.3))
 
         # Exception events
-        with raises(PyventusException):
-            event_emitter.emit(Exception)  # type: ignore
-
         event_emitter.emit(custom_exception1)
         event_emitter.emit(custom_exception2, int_param, str_param, param2=event_param, param3=list_param)
-
         event_emitter.emit(Exception())
 
         try:
-            EventFixtures.CustomEventWithValidation(attr1="at", attr2=7)
-        except ValueError as e:
+            EventFixtures.DtcWithValidation(attr1="at", attr2=7)
+        except PyventusException as e:
             event_emitter.emit(e)
+
+        with raises(PyventusException):
+            event_emitter.emit(Exception)
 
         # Events with success and failure callbacks
         event_emitter.emit("StringEventWithSuccessCallback")
         event_emitter.emit("StringEventWithSuccessCallback")
         event_emitter.emit("StringEventWithFailureCallback")
+        event_emitter.emit("ErrorHandling")
 
         # Wait for all events to propagate
         yield
 
-        # --------------------
-        # Asserts
+        # ----------------------------------------------
+        # Assert
         # ----------
 
         assert cb_without_params.call_count == 3
@@ -233,7 +237,8 @@ class EventEmitterTest(ABC):
         assert cb_with_custom_exception2_and_extras.args == (custom_exception2, int_param, str_param)
         assert cb_with_custom_exception2_and_extras.kwargs == {"param2": event_param, "param3": list_param}
 
-        assert cb_with_exception.call_count == 2
+        assert cb_with_exception.call_count == 1
+        assert cb_with_exception.args == (custom_exception1,)
         assert not cb_with_exception.kwargs
 
         assert cb_with_return_value.call_count == 1
@@ -253,7 +258,7 @@ class EventEmitterTest(ABC):
         assert failure_callback.args == (custom_exception1,)
         assert not failure_callback.kwargs
 
-        assert cb_with_args_and_kwargs.call_count == 19
+        assert cb_with_args_and_kwargs.call_count == 20
 
     @abstractmethod
     def test_emission_in_sync_context(self, *args, **kwargs) -> None:

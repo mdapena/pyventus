@@ -12,23 +12,25 @@ hide:
 
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;Welcome to the Getting Started section! This guide will help you install and configure Pyventus in
-	your project. For more detailed instructions on how to use this package, you can refer to the Pyventus 
-    [tutorials](/pyventus/tutorials) or [API reference](/pyventus/api).
+	your project. For more detailed information on how to use this package, you can refer to the Pyventus 
+    [Tutorials](/pyventus/tutorials) or [API Reference](/pyventus/api).
 </p>
 
 ## Requirements
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;Pyevents **only requires Python 3.10+** by default, which includes the [`AsyncIOEventEmitter`](/pyventus/tutorials/emitters/asyncio)
-	and the [`ExecutorEventEmitter`](/pyventus/tutorials/emitters/executor) with no additional dependencies. However, 
-	your requirements may expand if you opt to use alternative built-in event emitter implementations.
+	&emsp;&emsp;By default, Pyventus' core functionalities and default event emitter implementations, such as the
+	[AsyncIO Event Emitter](/pyventus/tutorials/emitters/asyncio), and the [Executor Event Emitter](/pyventus/tutorials/emitters/executor), 
+	**only require Python 3.10+** with no additional dependencies. However, these requirements may expand if you opt to 
+	use alternative [*built-in*](#optional-dependencies) event emitter implementations.
 </p>
 
 ## Installation
 
-<p style='text-align: justify;' markdown>
-	&emsp;&emsp;Pyventus is available as a Python package and can be easily installed using `pip`. Open your terminal
-	and execute the following command to install it:
+<p style='text-align: justify;'>
+	&emsp;&emsp;Pyventus is published as a <a href="https://pypi.org/project/pyventus/" target="_blank">Python package</a> 
+	and can be installed using <code>pip</code>, ideally in a <a href="https://realpython.com/python-virtual-environments-a-primer/" target="_blank">virtual environment</a>
+	for proper dependency isolation. To get started, open up a terminal and install Pyventus with the following command:
 </p>
 
 ```console

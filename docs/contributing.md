@@ -66,7 +66,7 @@ hide:
 1. Create a virtual environment:
 
 	```console
-	python -m venv env
+	python -m venv venv
 	```
 
 2. Activate the virtual environment:
@@ -74,19 +74,19 @@ hide:
 	=== "Linux, macOS"
 	
 		```console
-		source ./env/bin/activate
+		source ./venv/bin/activate
 		```
 	
 	=== "Windows PowerShell"
 	
 		```console
-		.\env\Scripts\Activate.ps1
+		.\venv\Scripts\Activate.ps1
 		```
 	
 	=== "Windows Bash"
 	
 		```console
-		source ./env/Scripts/activate
+		source ./venv/Scripts/activate
 		```
 
 3. Install development dependencies:
@@ -166,9 +166,17 @@ hide:
 	To begin working on the documentation in a development environment, simply execute the following command:
 </p>
 
-```console
-hatch run docs:serve
-```
+=== "Manual"
+
+	```console
+	mkdocs serve --dev-addr localhost:8000
+	```
+
+=== "Using Hatch"
+
+	```console
+	hatch run docs:serve
+	```
 
 ## Project Structure and Conventions
 

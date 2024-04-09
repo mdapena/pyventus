@@ -1,15 +1,11 @@
-"""
-A modern and robust Python package for event-driven programming. Define, emit, and orchestrate events with ease using
-customizable event emitters and flexible responses.
-"""
+"""A powerful Python package for event-driven programming; define, emit, and orchestrate events with ease."""
 
-__version__ = "0.4.1"
+__version__ = "0.5.0"
 
 from .core.exceptions import PyventusException
 from .emitters import EventEmitter, EmittableEventType
 from .emitters.asyncio import AsyncIOEventEmitter
 from .emitters.executor import ExecutorEventEmitter
-from .events import Event
 from .handlers import EventHandler, EventCallbackType, SuccessCallbackType, FailureCallbackType
 from .linkers import EventLinker, SubscribableEventType
 
@@ -19,7 +15,6 @@ __all__ = [
     "EmittableEventType",
     "AsyncIOEventEmitter",
     "ExecutorEventEmitter",
-    "Event",
     "EventHandler",
     "EventCallbackType",
     "SuccessCallbackType",

@@ -3,8 +3,7 @@ site_name: Pyventus
 site_url: https://mdapena.github.io/pyventus/
 site_author: Manuel Da Pena
 site_description: >-
-  A modern and robust Python package for event-driven programming. Define, emit, and 
-  orchestrate events with ease using customizable event emitters and flexible responses.
+  A powerful Python package for event-driven programming; define, emit, and orchestrate events with ease.
 
 # Repository
 repo_name: mdapena/pyventus
@@ -61,18 +60,19 @@ extra:
 # Plugins
 plugins:
   - search
-  - git-authors:
+  - git-committers:
+      repository: mdapena/pyventus
+      branch: master
       exclude:
-        - api/index.md
+        - api/*
         - tutorials/index.md
-        - about.md
         - index.md
   - git-revision-date-localized:
       type: timeago
+      enable_creation_date: true
       exclude:
         - api/index.md
         - tutorials/index.md
-        - about.md
         - index.md
   - mkdocstrings:
       handlers:
@@ -91,6 +91,8 @@ plugins:
             show_symbol_type_toc: true
             show_signature_annotations: true
             show_category_heading: true
+  - social:
+      enabled: !ENV [ CI, false ]
 
 # Extensions
 markdown_extensions:
@@ -123,10 +125,10 @@ nav:
   - Pyventus: index.md
   - Getting Started: getting-started.md
   - Tutorials:
-      - Tutorials: tutorials/index.md
-      - Events: tutorials/event.md
-      - Event Linkers: tutorials/event-linker.md
-      - Event Emitters:
+      - tutorials/index.md
+      - Exploring Event Types: tutorials/event.md
+      - The EventLinker Registry: tutorials/event-linker.md
+      - Master the Event Emitter:
           - tutorials/emitters/index.md
           - AsyncIO Event Emitter: tutorials/emitters/asyncio/index.md
           - Celery Event Emitter: tutorials/emitters/celery/index.md
@@ -135,7 +137,6 @@ nav:
           - RQ Event Emitter: tutorials/emitters/rq/index.md
   - API Reference:
       - api/index.md
-      - Event: api/event.md
       - Event Linker: api/event-linker.md
       - Event Handler: api/event-handler.md
       - Event Emitter:

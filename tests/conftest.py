@@ -2,7 +2,7 @@ import asyncio
 from abc import ABC, abstractmethod
 from asyncio import Future
 from dataclasses import dataclass
-from typing import Dict, final, Tuple, Any, Set, NamedTuple
+from typing import Dict, final, Tuple, Any, Set, NamedTuple, Type, Final, Callable, Coroutine
 from unittest.mock import patch
 
 import pytest
@@ -12,25 +12,207 @@ from fastapi import FastAPI, BackgroundTasks
 from rq import Queue
 from starlette.testclient import TestClient
 
-from pyventus import Event, EventLinker, EventEmitter
+from pyventus import EventLinker, EventEmitter, PyventusException
 from pyventus.emitters.celery import CeleryEventEmitter
 
 
-@pytest.fixture
-def clean_event_linker() -> bool:
-    """
-    Pytest fixture for cleaning up the EventLinker registry.
+# region ----------------------------------------------------------------------------------------------- Global Fixtures
 
-    This fixture removes all registered event links from the EventLinker registry
-    and returns a boolean value indicating whether the cleanup was successful.
-    :return: `True`, indicating that the cleanup was successful.
+# ----------------------------------------------
+# Event Linker Fixture
+# ----------
+
+
+@pytest.fixture(autouse=True)
+def clear_event_linker_registry() -> None:
+    """
+    Pytest fixture for cleaning up the `EventLinker` registry once per test function.
+    :return: None.
     """
     EventLinker.remove_all()
-    return EventLinker.get_event_registry == {}
+    assert EventLinker.get_registry() == {}
+
+
+# ----------------------------------------------
+# Event Fixtures
+# ----------
+
+
+@final
+class EventFixtures:
+    """Event Fixtures"""
+
+    StringEvent: Final[str] = "StringEvent"
+
+    ExceptionEvent: Final[Type[ValueError]] = ValueError
+
+    @dataclass
+    class EmptyEvent:
+        pass
+
+    @dataclass
+    class DtcEvent1:
+        attr1: str
+
+    @dataclass
+    class DtcEvent2:
+        attr1: str
+        attr2: Dict[str, str]
+
+    @dataclass
+    class DtcWithValidation:
+        attr1: str
+        """It must be at least 3 characters."""
+
+        attr2: float
+        """It must be a float number."""
+
+        def __post_init__(self):
+            if len(self.attr1) < 3:
+                raise PyventusException(f"[{type(self).__name__}] Error: 'attr1' must be at least 3 characters.")
+
+            if self.attr2.is_integer():
+                raise PyventusException(f"[{type(self).__name__}] Error: 'attr2' must be a float number.")
+
+    class NonDtcEvent:
+        attr1: Dict[str, str]
+        attr2: str
+
+    class CustomException1(Exception):
+        def __init__(self, error: str | None = None):
+            self.error: str = error if error else self.__class__.__name__
+            super().__init__(error)
+
+    class CustomException2(Exception):
+        def __init__(self, error: str | None = None):
+            self.error: str = error if error else self.__class__.__name__
+            super().__init__(error)
 
 
 # --------------------
-# RQ
+# Callback Fixtures
+# ----------
+
+
+class CallbackFixtures:
+    """Callback Fixtures"""
+
+    class Base(ABC):
+        @property
+        def call_count(self) -> int:
+            return self._call_count
+
+        @property
+        def args(self) -> Tuple[Any, ...]:
+            return self._args
+
+        @property
+        def kwargs(self) -> Dict[str, Any]:
+            return self._kwargs
+
+        @property
+        def return_value(self) -> Any | None:
+            return self._return_value
+
+        @property
+        def raise_exception(self) -> Exception | None:
+            return self._raise_exception
+
+        def __init__(self, return_value: Any | None = None, raise_exception: Exception | None = None):
+            self._call_count: int = 0
+            self._args: Tuple[Any, ...] = tuple()
+            self._kwargs: Dict[str, Any] = {}
+            self._return_value: Any = return_value
+            self._raise_exception = raise_exception
+
+        @abstractmethod
+        def __call__(self, *args, **kwargs) -> Any:
+            pass
+
+    class Sync(Base):
+        def __call__(self, *args, **kwargs) -> Any:
+            self._call_count += 1
+            self._args = args
+            self._kwargs = kwargs
+
+            if self._raise_exception and issubclass(self._raise_exception.__class__, Exception):
+                raise self._raise_exception
+
+            return self._return_value
+
+    class Async(Base):
+        async def __call__(self, *args, **kwargs) -> Any:
+            self._call_count += 1
+            self._kwargs = kwargs
+            self._args = args
+
+            if self._raise_exception and issubclass(self._raise_exception.__class__, Exception):
+                raise self._raise_exception
+
+            return self._return_value
+
+
+# --------------------
+# Callback Definitions
+# ----------
+
+
+def sync_function():
+    pass  # pragma: no cover
+
+
+async def async_function():
+    pass  # pragma: no cover
+
+
+class CallbackDefinitions:
+
+    class Sync:
+
+        function: Callable[[None], None] = sync_function
+
+        def __call__(self):
+            pass  # pragma: no cover
+
+        @staticmethod
+        def static_method():
+            pass  # pragma: no cover
+
+        @classmethod
+        def class_method(cls):
+            pass  # pragma: no cover
+
+        def instance_method(self):
+            pass  # pragma: no cover
+
+    class Async:
+
+        function: Callable[[None], Coroutine] = async_function
+
+        async def __call__(self):
+            pass  # pragma: no cover
+
+        @staticmethod
+        async def static_method():
+            pass  # pragma: no cover
+
+        @classmethod
+        async def class_method(cls):
+            pass  # pragma: no cover
+
+        async def instance_method(self):
+            pass  # pragma: no cover
+
+    class NoCallable:
+        pass  # pragma: no cover
+
+
+# endregion
+
+# region ------------------------------------------------------------------------------------------ Redis Queue Fixtures
+
+# ----------------------------------------------
+# RQ Fixtures
 # ----------
 
 
@@ -44,8 +226,13 @@ def rq_queue() -> Queue:
     return Queue(name="default", connection=FakeStrictRedis(), is_async=False)
 
 
-# --------------------
-# Celery
+# endregion
+
+# region ----------------------------------------------------------------------------------------------- Celery Fixtures
+
+
+# ----------------------------------------------
+# Celery Fixtures
 # ----------
 
 
@@ -104,8 +291,13 @@ def celery_queue() -> CeleryEventEmitter.Queue:
     return CeleryEventEmitter.Queue(celery=celery_app, serializer=CelerySerializerMock)
 
 
-# --------------------
-# FastAPI
+# endregion
+
+# region ---------------------------------------------------------------------------------------------- FastAPI Fixtures
+
+
+# ----------------------------------------------
+# FastAPI Fixtures
 # ----------
 
 
@@ -131,101 +323,4 @@ def fastapi_test_context() -> FastAPITestContext:
         yield FastAPITestContext(background_futures=background_futures, client=TestClient(FastAPI()))
 
 
-# --------------------
-# Event Fixtures
-# ----------
-
-
-@final
-class EventFixtures:
-    @dataclass(frozen=True)
-    class CustomEvent1(Event):
-        attr1: str
-
-    @dataclass(frozen=True)
-    class CustomEvent2(Event):
-        attr1: Dict[str, str]
-        attr2: str
-
-    @dataclass(frozen=True)
-    class CustomEventWithValidation(Event):
-        attr1: str
-        attr2: float
-
-        def __post_init__(self):
-            if len(self.attr1) < 3:
-                raise ValueError(f"[{self.__class__.__name__}] Error: 'attr1' must be at least 3 characters.")
-
-            if self.attr2.is_integer():
-                raise ValueError(f"[{self.__class__.__name__}] Error: 'attr2' must be a float number.")
-
-    class CustomException1(Exception):
-        def __init__(self, error: str | None = None):
-            self.error: str = error if error else self.__class__.__name__
-            super().__init__(error)
-
-    class CustomException2(Exception):
-        def __init__(self, error: str | None = None):
-            self.error: str = error if error else self.__class__.__name__
-            super().__init__(error)
-
-
-# --------------------
-# Callback Fixtures
-# ----------
-
-
-class CallbackFixtures:
-    class Base(ABC):
-        @property
-        def call_count(self) -> int:
-            return self._call_count
-
-        @property
-        def args(self) -> Tuple[Any, ...]:
-            return self._args
-
-        @property
-        def kwargs(self) -> Dict[str, Any]:
-            return self._kwargs
-
-        @property
-        def return_value(self) -> Any | None:
-            return self._return_value
-
-        @property
-        def raise_exception(self) -> Exception | None:
-            return self._raise_exception
-
-        def __init__(self, return_value: Any | None = None, raise_exception: Exception | None = None):
-            self._call_count: int = 0
-            self._args: Tuple[Any, ...] = tuple()
-            self._kwargs: Dict[str, Any] = {}
-            self._return_value: Any = return_value
-            self._raise_exception = raise_exception
-
-        @abstractmethod
-        def __call__(self, *args, **kwargs) -> Any:
-            pass
-
-    class Sync(Base):
-        def __call__(self, *args, **kwargs) -> Any:
-            self._call_count += 1
-            self._args = args
-            self._kwargs = kwargs
-
-            if self._raise_exception and issubclass(self._raise_exception.__class__, Exception):
-                raise self._raise_exception
-
-            return self._return_value
-
-    class Async(Base):
-        async def __call__(self, *args, **kwargs) -> Any:
-            self._call_count += 1
-            self._kwargs = kwargs
-            self._args = args
-
-            if self._raise_exception and issubclass(self._raise_exception.__class__, Exception):
-                raise self._raise_exception
-
-            return self._return_value
+# endregion

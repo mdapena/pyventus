@@ -1,3 +1,8 @@
+# Exploring Event Types
+
+!!! warning "🏗️ Work in Progress"
+    This page is a work in progress.
+
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;In this first tutorial, you'll learn about defining and handling events in Pyventus. Whether you're new
 	to event-driven programming or just getting started with the package, this guide will explain the key concepts.
@@ -6,9 +11,10 @@
 ## What are Events?
 
 <p style='text-align: justify;' markdown>
-    &emsp;&emsp;Events play an important role in Pyventus by allowing different parts of a program to communicate and
-	react to changes. The package provides a powerful event system that supports various event types, enabling
-	developers to define and handle events effectively.
+    &emsp;&emsp;In event-driven programming, events refer to specific occurrences or incidents that happen within the 
+	program or system. These events play an important role in Pyventus by enabling different parts of a program to 
+	communicate and react to changes. Pyventus provides a powerful event system that supports various event types, 
+	allowing developers to effectively define and handle events.
 </p>
 
 ## String Events
@@ -34,42 +40,34 @@
     Let's look at some code examples of defining and handling `String Events`:
 </p>
 
-```Python linenums="1" hl_lines="4 5 12"
-from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
-
-
-@EventLinker.on('StringEvent')
+```Python linenums="1" hl_lines="1-2 8"
+@EventLinker.on("StringEvent")
 def event_handler(param1: str, param2: str, **kwargs):
     print("Parameters:", param1, param2)
     print("**kwargs:", kwargs)
 
 
 event_emitter: EventEmitter = AsyncIOEventEmitter()
-
-event_emitter.emit('StringEvent', 'value1', param2='value2', key1='value3', key2='value4')
+event_emitter.emit("StringEvent", "value1", param2="value2", key1="value3", key2="value4")
 ```
 
 <p style='text-align: justify;' markdown>
     You can also use the `subscribe()` method to define and link string-named events:
 </p>
 
-```Python linenums="13" hl_lines="8"
-from pyventus import EventLinker
-
-
+```Python linenums="1" hl_lines="1 4"
 def event_handler():
     pass
 
-
-EventLinker.subscribe('StringEvent', event_callback=event_handler)
+EventLinker.subscribe("StringEvent", event_callback=event_handler)
 ```
 
 ## Event Objects
 
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;Let's move on to `Event Objects` in Pyventus. They provide a structured way to define events and
-	encapsulate relevant data payloads. Some benefits include better organization, validation support, and
-	autocomplete when handling events.
+	encapsulate relevant data payloads. Some benefits include better organization, maintainability, and validation 
+	support.
 </p>
 
 ### Defining Event Objects
@@ -80,7 +78,7 @@ EventLinker.subscribe('StringEvent', event_callback=event_handler)
 
 <ol style='text-align: justify;' markdown>
 
-<li markdown>Define a new class that inherits from the base `Event` class.</li>
+<li markdown>Define a Python `dataclass`.</li>
 
 <li markdown>Declare fields for the event's payload within the class.</li>
 
@@ -90,27 +88,12 @@ EventLinker.subscribe('StringEvent', event_callback=event_handler)
     For example:
 </p>
 
-```Python linenums="1" hl_lines="3 7"
-from dataclasses import dataclass
-
-from pyventus import Event
-
-
-@dataclass(frozen=True)
-class CustomEvent(Event):
-    param1: str
-    param2: float
+```Python linenums="1" hl_lines="1 3-4"
+@dataclass
+class OrderCreatedEvent:
+    order_id: int
+    payload: dict[str, any]
 ```
-
-!!! info "Note"
-
-	<p style='text-align: justify;' markdown>
-		&emsp;&emsp;The `Event` class is marked with `frozen=True`, to ensure that its attributes cannot be modified
-		once the event object is created. This is crucial because Pyventus supports both synchronous and asynchronous
-		event handling concurrently. When payloads are accessible from multiple threads, having mutable payloads could
-		lead to data inconsistencies. By freezing event objects, their integrity is preserved as they propagate through
-		the system.
-	</p>
 
 ### Adding Validation
 
@@ -119,23 +102,15 @@ class CustomEvent(Event):
 	the dataclass' `__post_init__()` method:
 </p>
 
-```Python linenums="1" hl_lines="3 7 11-13 16"
-from dataclasses import dataclass
-
-from pyventus import Event
-
-
-@dataclass(frozen=True)
-class CustomEvent(Event):
-    param1: str
-    param2: float
+```Python linenums="1" hl_lines="6-8"
+@dataclass
+class OrderCreatedEvent:
+    order_id: int
+    payload: dict[str, any]
 
     def __post_init__(self):
-        if not isinstance(self.param2, float):
-            raise ValueError("Error: 'param2' must be a valid float number!")
-
-
-CustomEvent(param1="param1", param2=None)
+        if not isinstance(self.order_id, int):
+            raise ValueError("Error: 'order_id' must be a valid int number!")
 ```
 
 ### Usage
@@ -144,59 +119,56 @@ CustomEvent(param1="param1", param2=None)
 	Here's an example demonstrating subscription and emission:
 </p>
 
-```Python linenums="1" hl_lines="3 7 12 13 20-23"
-from dataclasses import dataclass
-
-from pyventus import Event, EventLinker, EventEmitter, AsyncIOEventEmitter
-
-
-@dataclass(frozen=True)
-class CustomEvent(Event):
-    param1: str
-    param2: float
+```Python linenums="1" hl_lines="1-2 7-8 16-19"
+@dataclass  # Define a Python dataclass.
+class OrderCreatedEvent:
+    order_id: int
+    payload: dict[str, any]
 
 
-@EventLinker.on(CustomEvent)
-def event_handler(event: CustomEvent):
-    print(event)
+@EventLinker.on(OrderCreatedEvent)  # Subscribe event handlers to the event.
+def handle_order_created_event(event: OrderCreatedEvent):
+    # Pyventus will automatically pass the Event Object 
+    # as the first positional argument.
+    print(f"Event Object: {event}")
 
 
 event_emitter: EventEmitter = AsyncIOEventEmitter()
-
-event_emitter.emit(  # (1)!
-    event=CustomEvent(
-        param1="value1",
-        param2=5.31
-    )
-)  
+event_emitter.emit( # (1)!
+    event=OrderCreatedEvent(  # Emit an instance of the event!
+        order_id=6452879,
+        payload={},
+    ),
+)
 ```
 
 1. You can also emit the `Event` object as a positional argument:
    ```Python linenums="1" hl_lines="2-5"
    event_emitter.emit( 
-	   CustomEvent(
-		   param1="value1",
-		   param2=5.31
-	   )
+	   OrderCreatedEvent(
+		   order_id=6452879,
+		   payload={},
+	   ),
    )  
    ```
    As well as pass extra `*args` and `**kwargs` too:
    ```Python linenums="1" hl_lines="6 7"
    event_emitter.emit( 
-	   CustomEvent(
-		   param1="value1",
-		   param2=5.31
+	   OrderCreatedEvent(
+		   order_id=6452879,
+		   payload={},
 	   ),
-		"param1",
-		param2="param2",
+       "param1",
+	   param2="param2",
    )  
    ```
 
-!!! info "Passing Data"
+!!! info "Event Object's Behavior"
 
 	<p style='text-align: justify;' markdown>
-		&emsp;&emsp;When emitting `Event` objects as events using the `emit()` method, the Event object is automatically
-		passed to the `Event Handler` as the first positional argument even if you pass extra `*args` or `**kwargs`.
+		By default, Pyventus retrieves the event name from the event class and automatically passes the instance of the
+		Event Object as the first positional argument to the event callback, even if you provide additional `*args` or
+		`**kwargs`.
 	</p>
 
 ### Benefits
@@ -224,35 +196,13 @@ Event objects benefit from autocompletion integration provided by code editors a
 
 </ul>
 
-## Handling Exceptions as Events
+## Exception Events
 
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;In addition to normal events, Pyventus allows exceptions to be treated as first-class events. This enables
-	propagating and handling errors in an event-driven manner.
+	propagating and handling errors in an event-driven manner. If you're interested in incorporating error handling
+	in event emission, you can check out [Success and Error Handling](/pyventus/tutorials/event-linker/#success-and-error-handling).
 </p>
-
-### Defining Custom Exceptions
-
-<p style='text-align: justify;' markdown>
-    To define a custom exception event:
-</p>
-
-<ol style='text-align: justify;' markdown>
-
-<li markdown>Create a new class that inherits from any subclass of the `Exception` class.</li>
-
-<li markdown>Add any fields needed to represent the exception.</li>
-
-</ol>
-
-For example:
-
-```Python linenums="1" hl_lines="1 4"
-class UserValidationError(ValueError):
-    def __init__(self, error: str = "Validation Error"):
-        super().__init__(error)
-        self.error: str = error
-```
 
 ### Usage
 
@@ -260,42 +210,36 @@ class UserValidationError(ValueError):
 	Let's look at some code examples that demonstrates the usage of event exceptions:
 </p>
 
-```Python linenums="1" hl_lines="4 10-11 17-19"
-from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
-
-
-class UserValidationError(ValueError):
-    def __init__(self, error: str = "Validation Error"):
-        super().__init__(error)
-        self.error: str = error
-
-
-@EventLinker.on(UserValidationError)
-def handle_validation_error(exc: UserValidationError):
-    print(f"Validation failed for; '{exc.error}'")
+```Python linenums="1" hl_lines="1-2 7 9-10"
+@EventLinker.on(ValueError)
+def handle_validation_error(exc: ValueError):
+    print(f"Validation failed for; '{exc}'")
 
 
 try:
-    raise UserValidationError("username, already in use.")
-except UserValidationError as e:
+    raise ValueError("`username`, already in use.")
+except ValueError as e:
     event_emitter: EventEmitter = AsyncIOEventEmitter()
     event_emitter.emit(e)
 ```
 
-??? info "You can also work with build-in exceptions..."
+??? info "You can also work with custom exceptions..."
 
-	```Python linenums="1" hl_lines="5 11-13"
-	from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
+	```Python linenums="1" hl_lines="1 7-8 13 15-16"
+	class UserValidationError(ValueError):
+	    def __init__(self, error: str = "Validation Error"):
+	        super().__init__(error)
+	        self.error: str = error
 	
 	
-	@EventLinker.on(ValueError)
-	def handle_validation_error(exc: ValueError):
-	    print(f"Validation failed for; '{exc}'")
+	@EventLinker.on(UserValidationError)
+	def handle_validation_error(exc: UserValidationError):
+	    print(f"Validation failed for; '{exc.error}'")
 	
 	
 	try:
-	    raise ValueError("username, already in use.")
-	except ValueError as e:
+	    raise UserValidationError("`username`, already in use.")
+	except UserValidationError as e:
 	    event_emitter: EventEmitter = AsyncIOEventEmitter()
 	    event_emitter.emit(e)
 	```
@@ -303,9 +247,9 @@ except UserValidationError as e:
 ### Benefits
 
 <p style='text-align: justify;' markdown>
-    &emsp;&emsp;By treating exceptions as first-class events, Pyventus provides a unified approach to error handling.
-	This approach leverages the existing event-driven infrastructure, promotes code reuse, and enables flexible and
-	powerful error handling strategies.
+    &emsp;&emsp;By treating exceptions as first-class events, Pyventus provides a unified approach to handling errors in
+	an event-driven manner. This approach leverages the existing event-driven infrastructure, promotes code reuse, and 
+	enables flexible and powerful error handling strategies.
 </p>
 
 ## Global Events
@@ -314,39 +258,22 @@ except UserValidationError as e:
 	&emsp;&emsp;In addition to individual events, Pyventus provides support for Global Events within the context
 	of an `EventLinker`. This feature allows you to register handlers that respond to event occurrences across
 	a specific namespace, regardless of where they happen in your code. Global Events are particularly useful
-	for implementing cross-cutting concerns such as logging, monitoring, or analytics. By subscribing handlers
-	to the `Event` or `Exception` class, you can capture all events, exception events, or even both that may
-	occur in that namespace.
+	for implementing cross-cutting concerns such as logging, monitoring, or analytics. By subscribing event 
+	handlers to `...` or `Ellipsis`, you can capture all events that may occur within that `EventLinker` 
+	context.
 </p>
 
-```Python linenums="1" hl_lines="4 9 14 21 22"
-from pyventus import EventLinker, Event, EventEmitter, AsyncIOEventEmitter
-
-
-@EventLinker.on(Event)  # (1)!
-def global_event_handler(*args, **kwargs):
-    print("Global Event received!")
-
-
-@EventLinker.on(Exception)  # (2)! 
-def global_exception_event_handler(*args, **kwargs):
-    print("Global Exception event received!")
-
-
-@EventLinker.on(Event, Exception)  # (3)!
-def any_event_handler(*args, **kwargs):
-    print("Any event received!")
+```Python linenums="1" hl_lines="1-2 7"
+@EventLinker.on(...)
+def handle_any_event(*args, **kwargs):  #(1)!
+    print(f"Perform logging...\nArgs: {args}\tKwargs: {kwargs}")
 
 
 event_emitter: EventEmitter = AsyncIOEventEmitter()
-
-event_emitter.emit('StringEvent', 'Pyventus')
-event_emitter.emit(ValueError('Value Error!'))
+event_emitter.emit("GreetEvent", name="Pyventus")
 ```
 
-1. This handler will be triggered by any non-Exception event that occurs.
-2. This handler will be triggered by any Exception event that occurs.
-3. This handler will be triggered by any event type that occurs, including both regular events and exceptions.
+1. This handler will be triggered by any event type that occurs.
 
 ## Recap
 
@@ -366,9 +293,9 @@ event_emitter.emit(ValueError('Value Error!'))
 !!! info "Using Different Emitters and Linkers"
 
 	<p style='text-align: justify;' markdown>
-	    &emsp;&emsp;The `EventEmitter` and `EventLinker` used in the code examples can be easily replaced with any
-		custom or built-in Pyventus implementation of your choice. For more information on available options, consult
-		the official documentation.
+	    The `EventEmitter` and `EventLinker` used in the code examples can be easily replaced with any custom or
+		[*built-in*](/pyventus/getting-started/#optional-dependencies) Pyventus implementation of your choice. 
+		For more information on available options, consult the official documentation.
 	</p>
 
 <br>

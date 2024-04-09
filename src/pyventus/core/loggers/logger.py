@@ -2,13 +2,7 @@ from .stdout_logger import StdOutLogger
 
 
 class Logger:
-    """
-    Logger is a custom logger class that wraps the logging module and provides additional functionality.
-
-    This class extends the functionality of the `StdOutLogger` class and adds additional attributes and methods for
-    logging and controlling log behavior. It allows for easy logging of messages, events, and errors, and provides
-    options to enable or disable debug mode and specify a custom name to be displayed with log messages.
-    """
+    """A custom logger class that wraps the `StdOutLogger` and provides additional functionality."""
 
     # Strict class attributes
     __slots__ = ("_name", "_debug")
@@ -23,15 +17,15 @@ class Logger:
 
     def __init__(self, name: str | None = None, debug: bool = False):
         """
-        Initializes a new logger instance.
+        Initializes an instance of `Logger`.
         :param name: The name of the logger instance.
         :param debug: A flag indicating whether debug mode is enabled.
         """
         self._name: str | None = name
-        """ The name of the logger. """
+        """The name of the logger."""
 
         self._debug = debug
-        """ A flag indicating whether or not debug mode is enabled. """
+        """A flag indicating whether or not debug mode is enabled."""
 
     def error(self, msg: str, action: str | None = None) -> None:
         """

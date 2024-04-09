@@ -10,58 +10,64 @@ from ...linkers import EventLinker
 
 class ExecutorEventEmitter(EventEmitter):
     """
-    An event emitter that executes event handlers using an `Executor`.
+    An event emitter subclass that utilizes the `concurrent.futures` Executor base class to
+    handle the execution of event emissions. It can work with either `ThreadPoolExecutor`
+    for thread-based execution or `ProcessPoolExecutor` for process-based execution.
 
-    This class utilizes the `concurrent.futures` Executor base class to handle asynchronous
-    execution of event emissions. It can work with either `ThreadPoolExecutor` for thread-based
-    execution or `ProcessPoolExecutor` for process-based execution.
+    **Notes:**
 
-    By inheriting from `EventEmitter` and utilizing the `Executor` interface, this class
-    provides a consistent way to emit events and execute handlers asynchronously in either
-    threads or processes. This allows choosing the optimal execution approach based on
-    application needs.
+    -   When using this event emitter, it is important to properly manage the underlying `Executor`.
+        Once you have finished emitting events, call the `shutdown()` method to signal the executor to
+        free any resources for pending futures. You can avoid the need to call this method explicitly
+        by using the `with` statement, which will automatically shut down the `Executor` (waiting as
+        if `Executor.shutdown()` were called with `wait` set to `True`).
 
-    **Note:** It is important to properly manage the underlying `Executor` when using
-    this event emitter. Once finished emitting events, call the `shutdown()` method to
-    signal the executor to free any resources for pending futures.
-
-    - You can avoid having to call this method explicitly if you use the `with` statement,
-      which will shut down the `Executor` (waiting as if `Executor.shutdown()` were called
-      with `wait` set to `True`).
-
-    For more information and code examples, please refer to the `ExecutorEventEmitter`
-    tutorials at: [https://mdapena.github.io/pyventus/tutorials/emitters/executor/](https://mdapena.github.io/pyventus/tutorials/emitters/executor/).
+    ---
+    Read more in the
+    [Pyventus docs for Executor Event Emitter](https://mdapena.github.io/pyventus/tutorials/emitters/executor/).
     """
+
+    @staticmethod
+    def _callback(event_emission: EventEmitter.EventEmission) -> None:
+        """
+        This method is used as the callback function for the executor
+        to process the event emission.
+        :param event_emission: The event emission to be executed.
+        :return: None
+        """
+        asyncio.run(event_emission())
 
     def __init__(
         self,
         executor: Executor = ThreadPoolExecutor(),
         event_linker: Type[EventLinker] = EventLinker,
         debug: bool | None = None,
-    ):
+    ) -> None:
         """
-        Initializes an instance of the `ExecutorEventEmitter` class.
-        :param executor: The executor object used for executing event handlers. Defaults
-            to `ThreadPoolExecutor()`.
-        :param event_linker: Specifies the type of event linker to use for associating
-            events with their respective event handlers. Defaults to `EventLinker`.
+        Initialize an instance of `ExecutorEventEmitter`.
+        :param executor: The executor object used to handle the execution of event
+            emissions. Defaults to `ThreadPoolExecutor()`.
+        :param event_linker: Specifies the type of event linker used to manage and access
+            events along with their corresponding event handlers. Defaults to `EventLinker`.
         :param debug: Specifies the debug mode for the logger. If `None`, it is
             determined based on the execution environment.
         """
-        # Call the parent class' __init__ method to set up the event linker
+        # Call the parent class' __init__ method
         super().__init__(event_linker=event_linker, debug=debug)
 
         # Validate the executor argument
-        if executor is None or not issubclass(executor.__class__, Executor):
-            raise PyventusException("The 'executor' argument must be a valid executor.")
+        if executor is None:
+            raise PyventusException("The 'executor' argument cannot be None.")
+        if not isinstance(executor, Executor):
+            raise PyventusException("The 'executor' argument must be an instance of the Executor class.")
 
         # Set the executor object reference
         self._executor: Executor = executor
 
     def __enter__(self) -> "ExecutorEventEmitter":
         """
-        Returns the instance of `ExecutorEventEmitter` for context management.
-        :return: The instance of `ExecutorEventEmitter`.
+        Returns the current instance of `ExecutorEventEmitter` for context management.
+        :return: The current instance of `ExecutorEventEmitter`.
         """
         return self
 
@@ -73,7 +79,7 @@ class ExecutorEventEmitter(EventEmitter):
         :param exc_type: The exception type, if any.
         :param exc_val: The exception value, if any.
         :param exc_tb: The traceback information, if any.
-        :return: A boolean indicating whether to propagate any exception or not.
+        :return: None
         """
         self.shutdown(wait=True)
 
@@ -88,14 +94,5 @@ class ExecutorEventEmitter(EventEmitter):
         self._executor.shutdown(wait=wait, cancel_futures=cancel_futures)
 
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:
-        # Submit the event emission to the execution callback
-        self._executor.submit(ExecutorEventEmitter._execution_callback, event_emission)
-
-    @staticmethod
-    def _execution_callback(event_emission: EventEmitter.EventEmission) -> None:
-        """
-        This method serves as a callback to be passed to the executor.
-        :param event_emission: The event emission to be executed.
-        :return: None
-        """
-        asyncio.run(event_emission())
+        # Submit the event emission to the executor
+        self._executor.submit(ExecutorEventEmitter._callback, event_emission)

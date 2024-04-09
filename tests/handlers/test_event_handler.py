@@ -118,6 +118,8 @@ class TestEventHandler:
         )
         assert type(async_instance).__name__ == EventHandler.get_callback_name(callback=async_instance)
 
+        assert "None" == EventHandler.get_callback_name(callback=None)
+
     def test_once_flag(self):
         # ----------------------------------------------
         # Happy path tests (Arrange | Act | Assert)

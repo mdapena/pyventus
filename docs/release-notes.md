@@ -21,7 +21,7 @@ hide:
 - Removed the base `Event` class due to improved event semantics and unnecessary redundancy.
 - Renamed the `get_event_registry()` method of `EventLinker` to `get_registry()`.
 - Renamed the `__event_registry` inner property of `EventLinker` to `__registry`.
-- Renamed the `get_events_by_handler()` method of `EventLinker` to `get_event_handlers_by_events()`.
+- Renamed the `get_events_by_handler()` method of `EventLinker` to `get_events_by_event_handler()`.
 - Renamed the `get_handlers_by_events()` method of `EventLinker` to `get_event_handlers_by_events()`.
 - Renamed the protected method `_executor_callback()` of the `ExecutorEventEmitter` to `_callback()`.
 - Renamed the task name of `CeleryEventEmitter` from `_executor` to `pyventus_executor` to avoid collisions with other

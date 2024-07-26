@@ -1,10 +1,10 @@
-from asyncio import iscoroutinefunction, to_thread
+from asyncio import to_thread
 from datetime import datetime
-from inspect import isfunction, isclass, isbuiltin, ismethod
 from typing import Callable, Any, final, ParamSpec, TypeAlias
 
 from ...core.exceptions import PyventusException
 from ...core.loggers import StdOutLogger
+from ...core.utils import validate_callback, is_callback_async, get_callback_name
 
 P = ParamSpec("P")
 """A generic type representing the names and types of the event callback parameters."""
@@ -42,54 +42,6 @@ class EventHandler:
     Read more in the
     [Pyventus docs for Event Handler](https://mdapena.github.io/pyventus/tutorials/event-linker/#event-handlers).
     """
-
-    @staticmethod
-    def get_callback_name(
-        callback: EventCallbackType | SuccessCallbackType | FailureCallbackType | None,  # type: ignore[type-arg]
-    ) -> str:
-        """
-        Retrieves the name of the provided callback.
-        :param callback: The callback object.
-        :return: The name of the callback as a string.
-        """
-        if callback is not None and hasattr(callback, "__name__"):
-            return callback.__name__
-        elif callback is not None and hasattr(callback, "__class__"):
-            return type(callback).__name__
-        else:
-            return "None"
-
-    @staticmethod
-    def validate_callback(
-        callback: EventCallbackType | SuccessCallbackType | FailureCallbackType,  # type: ignore[type-arg]
-    ) -> None:
-        """
-        Validates whether the provided callback is a valid callable object.
-        :param callback: The callback to be validated.
-        :return: None
-        :raises PyventusException: If the callback is not a callable object.
-        """
-        if not callable(callback):
-            raise PyventusException(
-                f"'{callback.__name__ if hasattr(callback, '__name__') else callback}' is not a callable object."
-            )
-
-    @staticmethod
-    def is_async(
-        callback: EventCallbackType | SuccessCallbackType | FailureCallbackType,  # type: ignore[type-arg]
-    ) -> bool:
-        """
-        Checks whether the provided callback is an asynchronous function or method.
-        :param callback: The callback to be checked.
-        :return: `True` if the callback is an asynchronous function or method, `False` otherwise.
-        :raises PyventusException: If the callback is not a callable or a string.
-        """
-        if ismethod(callback) or isfunction(callback) or isbuiltin(callback):
-            return iscoroutinefunction(callback)
-        elif not isclass(callback) and hasattr(callback, "__call__"):  # A callable class instance
-            return iscoroutinefunction(callback.__call__)
-        else:
-            raise PyventusException("Expected a callable or a string, but got: {0}".format(callback))
 
     # Event handler attributes
     __slots__ = (
@@ -156,13 +108,13 @@ class EventHandler:
         :raises PyventusException: If the provided callbacks are invalid.
         """
         # Validate callbacks
-        EventHandler.validate_callback(callback=event_callback)
+        validate_callback(callback=event_callback)
 
         if success_callback is not None:
-            EventHandler.validate_callback(callback=success_callback)
+            validate_callback(callback=success_callback)
 
         if failure_callback is not None:
-            EventHandler.validate_callback(callback=failure_callback)
+            validate_callback(callback=failure_callback)
 
         # Validate flags
         if not isinstance(once, bool):
@@ -180,13 +132,9 @@ class EventHandler:
         self._failure_callback: FailureCallbackType | None = failure_callback
 
         # Set the event handler callbacks flags
-        self._is_event_callback_async: bool = EventHandler.is_async(event_callback)
-        self._is_success_callback_async: bool | None = (
-            EventHandler.is_async(success_callback) if success_callback else None
-        )
-        self._is_failure_callback_async: bool | None = (
-            EventHandler.is_async(failure_callback) if failure_callback else None
-        )
+        self._is_event_callback_async: bool = is_callback_async(event_callback)
+        self._is_success_callback_async: bool | None = is_callback_async(success_callback) if success_callback else None
+        self._is_failure_callback_async: bool | None = is_callback_async(failure_callback) if failure_callback else None
 
         # Set the event handler timestamp
         self._timestamp: datetime = datetime.now()
@@ -247,12 +195,12 @@ class EventHandler:
         """
         return "".join(
             [
-                f"Event Callback: `{EventHandler.get_callback_name(callback=self._event_callback)}",
+                f"Event Callback: `{get_callback_name(callback=self._event_callback)}",
                 "` (Async) | " if self._is_event_callback_async else "` (Sync) | ",
                 (
                     "Success Callback: `".join(
                         [
-                            EventHandler.get_callback_name(callback=self._success_callback),
+                            get_callback_name(callback=self._success_callback),
                             "` (Async) | " if self._is_success_callback_async else "` (Sync) | ",
                         ]
                     )
@@ -262,7 +210,7 @@ class EventHandler:
                 (
                     "Failure Callback: `".join(
                         [
-                            EventHandler.get_callback_name(callback=self._failure_callback),
+                            get_callback_name(callback=self._failure_callback),
                             "` (Async) | " if self._is_failure_callback_async else "` (Sync) | ",
                         ]
                     )

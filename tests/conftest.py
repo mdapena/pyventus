@@ -166,6 +166,14 @@ async def async_function():
     pass  # pragma: no cover
 
 
+def sync_generator_function():
+    yield  # pragma: no cover
+
+
+async def async_generator_function():
+    yield  # pragma: no cover
+
+
 class CallbackDefinitions:
 
     class Sync:
@@ -203,6 +211,42 @@ class CallbackDefinitions:
 
         async def instance_method(self):
             pass  # pragma: no cover
+
+    class SyncGenerator:
+
+        function: Callable[[None], None] = sync_generator_function
+
+        def __call__(self):
+            yield  # pragma: no cover
+
+        @staticmethod
+        def static_method():
+            yield  # pragma: no cover
+
+        @classmethod
+        def class_method(cls):
+            yield  # pragma: no cover
+
+        def instance_method(self):
+            yield  # pragma: no cover
+
+    class AsyncGenerator:
+
+        function: Callable[[None], Coroutine] = async_generator_function
+
+        async def __call__(self):
+            yield  # pragma: no cover
+
+        @staticmethod
+        async def static_method():
+            yield  # pragma: no cover
+
+        @classmethod
+        async def class_method(cls):
+            yield  # pragma: no cover
+
+        async def instance_method(self):
+            yield  # pragma: no cover
 
     class NoCallable:
         pass  # pragma: no cover

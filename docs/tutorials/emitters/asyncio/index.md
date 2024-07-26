@@ -56,7 +56,7 @@
 === "`Sync` context"
 
 	```Python title="Usage of the AsyncIOEventEmitter" linenums="1" hl_lines="14-16 19"
-	from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
+	from pyventus.events import EventLinker, EventEmitter, AsyncIOEventEmitter
 
 	
 	@EventLinker.on("StringEvent")
@@ -81,7 +81,7 @@
 
 	```Python title="Usage of the AsyncIOEventEmitter" linenums="1" hl_lines="14-17 19"
 	import asyncio
-	from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
+	from pyventus.events import EventLinker, EventEmitter, AsyncIOEventEmitter
 	
 	@EventLinker.on("StringEvent")
 	def sync_event_callback():

@@ -1,5 +1,5 @@
 # `RQEventEmitter` class
 
-::: pyventus.emitters.rq.RQEventEmitter
+::: pyventus.events.emitters.rq.RQEventEmitter
 
 <br>

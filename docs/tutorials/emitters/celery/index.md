@@ -61,7 +61,7 @@ example, let's create a file called `event_handlers.py` and add the handlers to 
 import asyncio
 import time
 
-from pyventus.linkers import EventLinker
+from pyventus.events import EventLinker
 
 
 @EventLinker.on("StringEvent")
@@ -99,7 +99,7 @@ custom serializer can be implemented if the default does not meet the specific n
 
 ```Python title="worker.py" linenums="1" hl_lines="7-8 13-14 17"
 from celery import Celery
-from pyventus.emitters.celery import CeleryEventEmitter
+from pyventus.events.emitters.celery import CeleryEventEmitter
 
 # To ensure Python recognizes the existence of the event handlers, we need to import them.
 from event_handlers import slow_sync_event_callback, slow_async_event_callback
@@ -155,8 +155,8 @@ celery -A worker worker -l INFO -Q [queue-name]
 To emit events, we will create a `main.py` file where we instantiate the `CeleryEventEmitter` and trigger our first event.
 
 ```Python title="main.py" linenums="1" hl_lines="6-8"
-from pyventus import EventEmitter
-from pyventus.emitters.celery import CeleryEventEmitter
+from pyventus.events import EventEmitter
+from pyventus.events.emitters.celery import CeleryEventEmitter
 
 from worker import celery_event_emitter_queue
 

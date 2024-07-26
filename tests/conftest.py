@@ -12,8 +12,9 @@ from fastapi import FastAPI, BackgroundTasks
 from rq import Queue
 from starlette.testclient import TestClient
 
-from pyventus import EventLinker, EventEmitter, PyventusException
-from pyventus.emitters.celery import CeleryEventEmitter
+from pyventus import PyventusException
+from pyventus.events import EventLinker, EventEmitter
+from pyventus.events.emitters.celery import CeleryEventEmitter
 
 
 # region ----------------------------------------------------------------------------------------------- Global Fixtures

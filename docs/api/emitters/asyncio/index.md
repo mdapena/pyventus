@@ -1,5 +1,5 @@
 # `AsyncIOEventEmitter` class
 
-::: pyventus.AsyncIOEventEmitter
+::: pyventus.events.AsyncIOEventEmitter
 
 <br>

@@ -1,5 +1,5 @@
 # `EventHandler` class
 
-::: pyventus.EventHandler
+::: pyventus.events.EventHandler
 
 <br>

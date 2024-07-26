@@ -95,7 +95,7 @@
 ```Python linenums="1" hl_lines="6 10-11 13-14"
 from fastapi import BackgroundTasks
 
-from pyventus import EventEmitter, EventLinker
+from pyventus.events import EventEmitter, EventLinker
 
 
 class FastAPIEventEmitter(EventEmitter):
@@ -195,7 +195,7 @@ async def console_print_endpoint(background_tasks: BackgroundTasks):
 </p>
 
 ```Python linenums="1" hl_lines="10-11 14 16"
-from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter, ExecutorEventEmitter
+from pyventus.events import EventLinker, EventEmitter, AsyncIOEventEmitter, ExecutorEventEmitter
 
 
 @EventLinker.on("GreetEvent")
@@ -229,7 +229,7 @@ if __name__ == "__main__":
 </p>
 
 ```Python linenums="1" hl_lines="4 9 14 19"
-from pyventus import EventEmitter, EventLinker, AsyncIOEventEmitter
+from pyventus.events import EventEmitter, EventLinker, AsyncIOEventEmitter
 
 
 class UserEventLinker(EventLinker, max_event_handlers=10):

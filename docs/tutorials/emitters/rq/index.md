@@ -126,7 +126,7 @@ to be processed.
 import asyncio
 import time
 
-from pyventus.linkers import EventLinker
+from pyventus.events import EventLinker
 
 
 @EventLinker.on("StringEvent")
@@ -156,8 +156,8 @@ documentation on the enqueue method settings. At this point, we are ready to emi
 from redis import Redis
 from rq import Queue
 
-from pyventus import EventEmitter
-from pyventus.emitters.rq import RQEventEmitter
+from pyventus.events import EventEmitter
+from pyventus.events.emitters.rq import RQEventEmitter
 
 # To ensure Python recognizes the existence of the event handlers, we need to import them.
 from event_handlers import slow_sync_event_callback, slow_async_event_callback

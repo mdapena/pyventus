@@ -1,5 +1,5 @@
 # `CeleryEventEmitter` class
 
-::: pyventus.emitters.celery.CeleryEventEmitter
+::: pyventus.events.emitters.celery.CeleryEventEmitter
 
 <br>

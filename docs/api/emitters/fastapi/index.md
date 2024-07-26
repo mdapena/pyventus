@@ -1,5 +1,5 @@
 # `FastAPIEventEmitter` class
 
-::: pyventus.emitters.fastapi.FastAPIEventEmitter
+::: pyventus.events.emitters.fastapi.FastAPIEventEmitter
 
 <br>

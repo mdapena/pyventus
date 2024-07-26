@@ -151,7 +151,7 @@ pip install pyventus
 </p>
 
 ```Python title="Hello, World! Example" linenums="1"
-from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
+from pyventus.events import EventLinker, EventEmitter, AsyncIOEventEmitter
 
 
 @EventLinker.on("GreetEvent")
@@ -167,7 +167,7 @@ event_emitter.emit("GreetEvent")
 <summary>You can also work with <code>async</code> functions and contexts...</summary>
 
 ```Python title="Hello, World! Example (Async version)" linenums="1" hl_lines="5"
-from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
+from pyventus.events import EventLinker, EventEmitter, AsyncIOEventEmitter
 
 
 @EventLinker.on("GreetEvent")
@@ -266,7 +266,7 @@ Finally, by using the <code>emit()</code> method of the event emitter instance, 
 import asyncio
 import random
 
-from pyventus import EventEmitter, EventLinker, AsyncIOEventEmitter
+from pyventus.events import EventEmitter, EventLinker, AsyncIOEventEmitter
 
 
 class VoltageSensor:
@@ -425,7 +425,7 @@ async def async_function(event_emitter: EventEmitter):
 </p>
 
 ```Python title="Event Emitter Runtime Flexibility Example" linenums="1" hl_lines="10-11 14 16"
-from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter, ExecutorEventEmitter
+from pyventus.events import EventLinker, EventEmitter, AsyncIOEventEmitter, ExecutorEventEmitter
 
 
 @EventLinker.on("GreetEvent")
@@ -454,7 +454,7 @@ if __name__ == "__main__":
 ```Python title="Custom Event Emitter Example" linenums="1" hl_lines="6 10-11 13-14"
 from fastapi import BackgroundTasks
 
-from pyventus import EventEmitter, EventLinker
+from pyventus.events import EventEmitter, EventLinker
 
 
 class FastAPIEventEmitter(EventEmitter):
@@ -541,7 +541,7 @@ event_emitter.emit("GreetEvent", name="Pyventus")
 </p>
 
 ```Python title="Success and Error Handling Example" linenums="1" hl_lines="4 6-7 10-11 14-15"
-from pyventus import EventLinker, EventEmitter, AsyncIOEventEmitter
+from pyventus.events import EventLinker, EventEmitter, AsyncIOEventEmitter
 
 # Create an event linker for the "DivisionEvent"
 with EventLinker.on("DivisionEvent") as linker:

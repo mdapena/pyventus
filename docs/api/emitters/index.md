@@ -1,6 +1,6 @@
 # `EventEmitter` class
 
-::: pyventus.EventEmitter
+::: pyventus.events.EventEmitter
 	options:
 		members:
 			- EventEmission

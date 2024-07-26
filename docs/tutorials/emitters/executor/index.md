@@ -58,7 +58,7 @@
 	import time
 	from concurrent.futures import ThreadPoolExecutor
 	
-	from pyventus import EventLinker, ExecutorEventEmitter
+	from pyventus.events import EventLinker, ExecutorEventEmitter
 	
 	
 	@EventLinker.on("StringEvent")
@@ -91,7 +91,7 @@
 	import time
 	from concurrent.futures import ThreadPoolExecutor
 	
-	from pyventus import EventLinker, ExecutorEventEmitter
+	from pyventus.events import EventLinker, ExecutorEventEmitter
 	
 	
 	@EventLinker.on("StringEvent")
@@ -123,7 +123,7 @@
 	import time
 	from concurrent.futures import ProcessPoolExecutor
 	
-	from pyventus import EventLinker, ExecutorEventEmitter
+	from pyventus.events import EventLinker, ExecutorEventEmitter
 	
 	
 	@EventLinker.on("StringEvent")
@@ -153,7 +153,7 @@
 	import time
 	from concurrent.futures import ProcessPoolExecutor
 	
-	from pyventus import EventLinker, ExecutorEventEmitter
+	from pyventus.events import EventLinker, ExecutorEventEmitter
 	
 	
 	@EventLinker.on("StringEvent")

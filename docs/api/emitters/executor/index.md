@@ -1,5 +1,5 @@
 # `ExecutorEventEmitter` class
 
-::: pyventus.ExecutorEventEmitter
+::: pyventus.events.ExecutorEventEmitter
 
 <br>

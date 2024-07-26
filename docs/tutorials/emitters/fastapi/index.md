@@ -49,8 +49,8 @@
    	   	
    	   	from fastapi import FastAPI, Depends
    	   	
-   	   	from pyventus import EventLinker
-   	   	from pyventus.emitters.fastapi import FastAPIEventEmitter
+   	   	from pyventus.events import EventLinker
+   	   	from pyventus.events.emitters.fastapi import FastAPIEventEmitter
    	   	
    	   	
    	   	@EventLinker.on("SendEmail")
@@ -79,8 +79,8 @@
    	
    	   	from fastapi import FastAPI, Depends
    	   	
-   	   	from pyventus import EventLinker
-   	   	from pyventus.emitters.fastapi import FastAPIEventEmitter
+   	   	from pyventus.events import EventLinker
+   	   	from pyventus.events.emitters.fastapi import FastAPIEventEmitter
    	   	
    	   	
    	   	@EventLinker.on("SendEmail")

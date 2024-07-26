@@ -5,7 +5,7 @@ from _pytest.python_api import raises
 
 from pyventus import PyventusException
 from pyventus.events import EventHandler
-from tests import EventFixtures
+from tests import EventFixtures, CallbackDefinitions
 from ... import CallbackFixtures
 
 
@@ -36,7 +36,7 @@ class TestEventHandler:
         assert not EventHandler(once=False, force_async=False, event_callback=CallbackFixtures.Sync()).force_async
 
         # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
+        # Error path tests (Arrange | Act | Assert)
         # ----------
         with raises(PyventusException):
             EventHandler(
@@ -97,6 +97,16 @@ class TestEventHandler:
         )
         assert success_callback.call_count == 2 and failure_callback.call_count == 0
 
+        # ----------------------------------------------
+        # Error path tests (Arrange | Act | Assert)
+        # ----------
+        with raises(PyventusException):
+            EventHandler(
+                once=False,
+                force_async=True,
+                event_callback=CallbackDefinitions.SyncGenerator(),
+            )
+
     def test_success_callback(self):
         # ----------------------------------------------
         # Happy path tests (Arrange | Act | Assert)
@@ -147,6 +157,17 @@ class TestEventHandler:
         )
         assert event_callback.call_count == 2 and failure_callback.call_count == 0
 
+        # ----------------------------------------------
+        # Error path tests (Arrange | Act | Assert)
+        # ----------
+        with raises(PyventusException):
+            EventHandler(
+                once=False,
+                force_async=True,
+                event_callback=CallbackFixtures.Sync(),
+                success_callback=CallbackDefinitions.AsyncGenerator(),
+            )
+
     def test_failure_callback(self):
         # ----------------------------------------------
         # Happy path tests (Arrange | Act | Assert)
@@ -196,6 +217,17 @@ class TestEventHandler:
             and not async_failure_callback.kwargs
         )
         assert event_callback.call_count == 2 and success_callback.call_count == 0
+
+        # ----------------------------------------------
+        # Error path tests (Arrange | Act | Assert)
+        # ----------
+        with raises(PyventusException):
+            EventHandler(
+                once=False,
+                force_async=True,
+                event_callback=CallbackFixtures.Sync(),
+                failure_callback=CallbackDefinitions.AsyncGenerator(),
+            )
 
     def test_force_async_behavior(self):
         # ----------------------------------------------

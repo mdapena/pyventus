@@ -4,7 +4,7 @@ from typing import Callable, Any, final, ParamSpec, TypeAlias
 
 from ...core.exceptions import PyventusException
 from ...core.loggers import StdOutLogger
-from ...core.utils import validate_callback, is_callback_async, get_callback_name
+from ...core.utils import validate_callback, is_callback_async, get_callback_name, is_callback_generator
 
 P = ParamSpec("P")
 """A generic type representing the names and types of the event callback parameters."""
@@ -110,11 +110,20 @@ class EventHandler:
         # Validate callbacks
         validate_callback(callback=event_callback)
 
+        if is_callback_generator(callback=event_callback):
+            raise PyventusException("The 'event_callback' argument cannot be a generator.")
+
         if success_callback is not None:
             validate_callback(callback=success_callback)
 
+            if is_callback_generator(callback=success_callback):
+                raise PyventusException("The 'success_callback' argument cannot be a generator.")
+
         if failure_callback is not None:
             validate_callback(callback=failure_callback)
+
+            if is_callback_generator(callback=failure_callback):
+                raise PyventusException("The 'failure_callback' argument cannot be a generator.")
 
         # Validate flags
         if not isinstance(once, bool):

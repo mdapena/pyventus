@@ -2,7 +2,7 @@ from dataclasses import is_dataclass
 from sys import gettrace
 from threading import Lock
 from types import TracebackType, EllipsisType
-from typing import TypeAlias, Callable, Mapping, Tuple, Dict, List, Type, Set, Any, final
+from typing import TypeAlias, Mapping, Tuple, Dict, List, Type, Set, Any, final
 
 from ..handlers import EventHandler, EventCallbackType, SuccessCallbackType, FailureCallbackType
 from ...core.constants import StdOutColors
@@ -58,56 +58,43 @@ class EventLinker:
 
         # Event linkage wrapper attributes
         __slots__ = (
-            "_event_linker",
-            "_events",
-            "_once",
-            "_force_async",
-            "_event_callback",
-            "_success_callback",
-            "_failure_callback",
+            "__event_linker",
+            "__events",
+            "__once",
+            "__force_async",
+            "__event_callback",
+            "__success_callback",
+            "__failure_callback",
         )
 
-        @property
-        def on_event(self) -> Callable[[EventCallbackType], EventCallbackType]:  # type: ignore[type-arg]
+        def on_event(self, callback: EventCallbackType) -> EventCallbackType:
             """
-            Decorator that sets the main callback for the event. This callback
-            will be invoked when the associated event occurs.
+            Decorator that sets the main callback for the event.
+            :param callback: The callback to be executed when the event occurs.
             :return: The decorated callback.
             """
+            self.__event_callback = callback
+            return callback
 
-            def _wrapper(callback: EventCallbackType) -> EventCallbackType:  # type: ignore[type-arg]
-                self._event_callback = callback
-                return callback
-
-            return _wrapper
-
-        @property
-        def on_success(self) -> Callable[[SuccessCallbackType], SuccessCallbackType]:
+        def on_success(self, callback: SuccessCallbackType) -> SuccessCallbackType:
             """
-            Decorator that sets the success callback. This callback will be
-            invoked when the event execution completes successfully.
+            Decorator that sets the success callback.
+            :param callback: The callback to be executed when
+            the event execution completes successfully.
             :return: The decorated callback.
             """
+            self.__success_callback = callback
+            return callback
 
-            def _wrapper(callback: SuccessCallbackType) -> SuccessCallbackType:
-                self._success_callback = callback
-                return callback
-
-            return _wrapper
-
-        @property
-        def on_failure(self) -> Callable[[FailureCallbackType], FailureCallbackType]:
+        def on_failure(self, callback: FailureCallbackType) -> FailureCallbackType:
             """
-            Decorator that sets the failure callback. This callback
-            will be invoked when the event execution fails.
+            Decorator that sets the failure callback.
+            :param callback: The callback to be executed
+            when the event execution fails.
             :return: The decorated callback.
             """
-
-            def _wrapper(callback: FailureCallbackType) -> FailureCallbackType:
-                self._failure_callback = callback
-                return callback
-
-            return _wrapper
+            self.__failure_callback = callback
+            return callback
 
         def __init__(
             self,
@@ -123,29 +110,29 @@ class EventLinker:
             :param force_async: Determines whether to force all callbacks to run asynchronously.
             :param once: Specifies if the callback is a one-time subscription.
             """
-            self._event_linker: Type[EventLinker] = event_linker
-            self._events: Tuple[SubscribableEventType, ...] = events
+            self.__event_linker: Type[EventLinker] = event_linker
+            self.__events: Tuple[SubscribableEventType, ...] = events
 
-            self._once: bool = once
-            self._force_async: bool = force_async
-            self._event_callback: EventCallbackType | None = None  # type: ignore[type-arg, no-redef, assignment]
-            self._success_callback: SuccessCallbackType | None = None  # type: ignore[no-redef, assignment]
-            self._failure_callback: FailureCallbackType | None = None  # type: ignore[no-redef, assignment]
+            self.__once: bool = once
+            self.__force_async: bool = force_async
+            self.__event_callback: EventCallbackType | None = None  # type: ignore[no-redef, assignment]
+            self.__success_callback: SuccessCallbackType | None = None  # type: ignore[no-redef, assignment]
+            self.__failure_callback: FailureCallbackType | None = None  # type: ignore[no-redef, assignment]
 
-        def __call__(self, callback: EventCallbackType) -> EventCallbackType:  # type: ignore[type-arg]
+        def __call__(self, callback: EventCallbackType) -> EventCallbackType:
             """
             Subscribes the provided events to the decorated callback.
             :param callback: The callback to associate with the events.
             :return: The decorated callback.
             """
-            self._event_callback = callback
-            self._event_linker.subscribe(
-                *self._events,
-                event_callback=self._event_callback,
+            self.__event_callback = callback
+            self.__event_linker.subscribe(
+                *self.__events,
+                event_callback=self.__event_callback,
                 success_callback=None,
                 failure_callback=None,
-                force_async=self._force_async,
-                once=self._once,
+                force_async=self.__force_async,
+                once=self.__once,
             )
             del self
             return callback
@@ -169,13 +156,13 @@ class EventLinker:
             :param exc_tb: The traceback information, if any.
             :return: None
             """
-            self._event_linker.subscribe(
-                *self._events,
-                event_callback=self._event_callback,
-                success_callback=self._success_callback,
-                failure_callback=self._failure_callback,
-                force_async=self._force_async,
-                once=self._once,
+            self.__event_linker.subscribe(
+                *self.__events,
+                event_callback=self.__event_callback,
+                success_callback=self.__success_callback,
+                failure_callback=self.__failure_callback,
+                force_async=self.__force_async,
+                once=self.__once,
             )
             del self
 
@@ -462,7 +449,7 @@ class EventLinker:
     def subscribe(
         cls,
         *events: SubscribableEventType,
-        event_callback: EventCallbackType,  # type: ignore[type-arg]
+        event_callback: EventCallbackType,
         success_callback: SuccessCallbackType | None = None,
         failure_callback: FailureCallbackType | None = None,
         force_async: bool = False,

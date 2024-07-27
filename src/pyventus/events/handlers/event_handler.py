@@ -1,15 +1,12 @@
 from asyncio import to_thread
 from datetime import datetime
-from typing import Callable, Any, final, ParamSpec, TypeAlias
+from typing import Callable, Any, final, TypeAlias, Tuple, Dict
 
 from ...core.exceptions import PyventusException
 from ...core.loggers import StdOutLogger
 from ...core.utils import validate_callback, is_callback_async, get_callback_name, is_callback_generator
 
-P = ParamSpec("P")
-"""A generic type representing the names and types of the event callback parameters."""
-
-EventCallbackType: TypeAlias = Callable[P, Any]
+EventCallbackType: TypeAlias = Callable[..., Any]
 """Type alias for the event callback invoked when the associated event occurs."""
 
 SuccessCallbackType: TypeAlias = Callable[..., Any]
@@ -89,7 +86,7 @@ class EventHandler:
         self,
         once: bool,
         force_async: bool,
-        event_callback: EventCallbackType,  # type: ignore[type-arg]
+        event_callback: EventCallbackType,
         success_callback: SuccessCallbackType | None = None,
         failure_callback: FailureCallbackType | None = None,
     ) -> None:
@@ -136,7 +133,7 @@ class EventHandler:
         self._force_async: bool = force_async
 
         # Set the event handler callbacks
-        self._event_callback: EventCallbackType = event_callback  # type: ignore[type-arg]
+        self._event_callback: EventCallbackType = event_callback
         self._success_callback: SuccessCallbackType | None = success_callback
         self._failure_callback: FailureCallbackType | None = failure_callback
 
@@ -148,7 +145,7 @@ class EventHandler:
         # Set the event handler timestamp
         self._timestamp: datetime = datetime.now()
 
-    async def __call__(self, *args: P.args, **kwargs: P.kwargs) -> None:
+    async def __call__(self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]) -> None:
         """
         Executes the event flow by invoking the associated callbacks.
         :param args: Positional arguments to be passed to the event callback.

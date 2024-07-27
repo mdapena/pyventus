@@ -126,7 +126,7 @@ class Subscription(Unsubscribable):
             the given finalizer, `False` otherwise.
         """
         if finalizer is None:
-            return False
+            return False  # type: ignore[unreachable]
 
         with self._thread_lock:
             if self.__finalizers is None:

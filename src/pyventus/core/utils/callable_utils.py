@@ -106,9 +106,9 @@ class CallableWrapper(Generic[_P, _R]):
         :return: A string representation of the `CallableWrapper` instance.
         """
         return (
-            f"Callback: '{self.name}' "
-            f"({'Async' if self.__is_callable_async else 'Sync'}) | "
-            f"Force async: {self.force_async}"
+            f"Callable name: '{self.name}' — "
+            f"Exec. mode: '{'Async' if self.__is_callable_async else 'Sync'}' — "
+            f"Force async: '{self.force_async}'"
         )
 
 

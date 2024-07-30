@@ -8,7 +8,7 @@ from ..handlers import EventHandler, EventCallbackType, SuccessCallbackType, Fai
 from ...core.constants import StdOutColors
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
-from ...core.utils import validate_callback, get_callback_name
+from ...core.utils import validate_callable, get_callable_name
 
 SubscribableEventType: TypeAlias = str | Type[Exception] | Type[object] | EllipsisType
 """A type alias representing the supported event types for subscription."""
@@ -250,14 +250,14 @@ class EventLinker:
 
         # Validate the default success callback, if any
         if default_success_callback is not None:
-            validate_callback(callback=default_success_callback)
+            validate_callable(default_success_callback)
 
         # Set the default success callback
         cls.__default_success_callback = default_success_callback
 
         # Validate the default failure callback, if any
         if default_failure_callback is not None:
-            validate_callback(callback=default_failure_callback)
+            validate_callable(default_failure_callback)
 
         # Set the default failure callback
         cls.__default_failure_callback = default_failure_callback
@@ -485,7 +485,7 @@ class EventLinker:
                     if len(cls.__registry.get(event_name, [])) >= cls.__max_event_handlers:
                         raise PyventusException(
                             f"The event '{event_name}' has exceeded the maximum number of handlers allowed. The "
-                            f"'{get_callback_name(callback=event_callback)}'"
+                            f"'{get_callable_name(event_callback)}'"
                             f" callback cannot be subscribed."
                         )
 

@@ -10,7 +10,7 @@ else:
 
 from .unsubscribable import Unsubscribable
 from ..exceptions import PyventusException
-from ..utils import validate_callback
+from ..utils import validate_callable
 
 FinalizerType: TypeAlias = Union["Subscription", Callable[[], None]]
 """Type alias denoting a finalizer, which may refer to either a Subscription or a teardown callback."""
@@ -71,7 +71,7 @@ class Subscription(Unsubscribable):
             or teardown logic associated with the subscription.
         """
         # Validate the teardown callback
-        validate_callback(callback=teardown_callback)
+        validate_callable(teardown_callback)
 
         # Initialize attributes
         self.__closed: bool = False
@@ -184,7 +184,7 @@ class Subscription(Unsubscribable):
             else:
                 # If it is a callback function-based finalizer,
                 # ensure that it is a valid callback function
-                validate_callback(callback=finalizer)
+                validate_callable(finalizer)
 
                 # If the current subscription is already closed,
                 # execute the finalizer and skip it

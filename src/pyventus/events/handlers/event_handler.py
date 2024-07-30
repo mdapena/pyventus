@@ -4,7 +4,7 @@ from typing import Callable, Any, final, TypeAlias, Tuple, Dict
 
 from ...core.exceptions import PyventusException
 from ...core.loggers import StdOutLogger
-from ...core.utils import validate_callback, is_callback_async, get_callback_name, is_callback_generator
+from ...core.utils import validate_callable, is_callable_async, get_callable_name, is_callable_generator
 
 EventCallbackType: TypeAlias = Callable[..., Any]
 """Type alias for the event callback invoked when the associated event occurs."""
@@ -105,21 +105,21 @@ class EventHandler:
         :raises PyventusException: If the provided callbacks are invalid.
         """
         # Validate callbacks
-        validate_callback(callback=event_callback)
+        validate_callable(event_callback)
 
-        if is_callback_generator(callback=event_callback):
+        if is_callable_generator(event_callback):
             raise PyventusException("The 'event_callback' argument cannot be a generator.")
 
         if success_callback is not None:
-            validate_callback(callback=success_callback)
+            validate_callable(success_callback)
 
-            if is_callback_generator(callback=success_callback):
+            if is_callable_generator(success_callback):
                 raise PyventusException("The 'success_callback' argument cannot be a generator.")
 
         if failure_callback is not None:
-            validate_callback(callback=failure_callback)
+            validate_callable(failure_callback)
 
-            if is_callback_generator(callback=failure_callback):
+            if is_callable_generator(failure_callback):
                 raise PyventusException("The 'failure_callback' argument cannot be a generator.")
 
         # Validate flags
@@ -138,9 +138,9 @@ class EventHandler:
         self._failure_callback: FailureCallbackType | None = failure_callback
 
         # Set the event handler callbacks flags
-        self._is_event_callback_async: bool = is_callback_async(event_callback)
-        self._is_success_callback_async: bool | None = is_callback_async(success_callback) if success_callback else None
-        self._is_failure_callback_async: bool | None = is_callback_async(failure_callback) if failure_callback else None
+        self._is_event_callback_async: bool = is_callable_async(event_callback)
+        self._is_success_callback_async: bool | None = is_callable_async(success_callback) if success_callback else None
+        self._is_failure_callback_async: bool | None = is_callable_async(failure_callback) if failure_callback else None
 
         # Set the event handler timestamp
         self._timestamp: datetime = datetime.now()
@@ -201,12 +201,12 @@ class EventHandler:
         """
         return "".join(
             [
-                f"Event Callback: `{get_callback_name(callback=self._event_callback)}",
+                f"Event Callback: `{get_callable_name(self._event_callback)}",
                 "` (Async) | " if self._is_event_callback_async else "` (Sync) | ",
                 (
                     "Success Callback: `".join(
                         [
-                            get_callback_name(callback=self._success_callback),
+                            get_callable_name(self._success_callback),
                             "` (Async) | " if self._is_success_callback_async else "` (Sync) | ",
                         ]
                     )
@@ -216,7 +216,7 @@ class EventHandler:
                 (
                     "Failure Callback: `".join(
                         [
-                            get_callback_name(callback=self._failure_callback),
+                            get_callable_name(self._failure_callback),
                             "` (Async) | " if self._is_failure_callback_async else "` (Sync) | ",
                         ]
                     )

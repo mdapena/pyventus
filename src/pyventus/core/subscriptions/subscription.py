@@ -1,15 +1,18 @@
+import sys
 from datetime import datetime
 from threading import Lock
-from typing import TypeAlias, Callable, Set, Union, List
+from typing import TypeAlias, Callable, Set, Union, List, Any, Dict
 
 from .unsubscribable import Unsubscribable
 from ..exceptions import PyventusException
 from ..utils import validate_callback
 
-TeardownCallbackType: TypeAlias = Callable[[], None]
-"""Type alias for the callback function invoked during unsubscription to release associated resources."""
+if sys.version_info >= (3, 11):
+    from typing import Self
+else:
+    from typing_extensions import Self
 
-FinalizerType: TypeAlias = Union["Subscription", TeardownCallbackType]
+FinalizerType: TypeAlias = Union["Subscription", Callable[[], None]]
 """Type alias denoting a finalizer, which may refer to either a Subscription or a teardown callback."""
 
 
@@ -33,10 +36,16 @@ class Subscription(Unsubscribable):
     -   This class has been implemented with *thread safety* in mind. All of its
         methods synchronize access to mutable attributes to prevent race conditions
         when managing subscriptions in a multi-threaded environment.
+
+    -   The serialization process for this class is optimized to ensure that only
+        attributes relevant to the object's state are preserved. This helps maintain
+        valid states across different scopes by ensuring that attributes that are out
+        of context (such as the `teardown_callback`, `finalizers`, and `_thread_lock`)
+        are not serialized.
     """
 
     # Subscription attributes
-    __slots__ = ("__closed", "__teardown_callback", "__finalizers", "__timestamp", "_thread_lock")
+    __slots__ = ("__closed", "__timestamp", "__teardown_callback", "__finalizers", "_thread_lock")
 
     @property
     def closed(self) -> bool:
@@ -44,8 +53,7 @@ class Subscription(Unsubscribable):
         Determines whether the `Subscription` has already been unsubscribed.
         :return: A boolean value indicating if the subscription is closed (unsubscribed).
         """
-        with self._thread_lock:
-            return self.__closed
+        return self.__closed
 
     @property
     def timestamp(self) -> datetime:
@@ -55,7 +63,7 @@ class Subscription(Unsubscribable):
         """
         return self.__timestamp
 
-    def __init__(self, teardown_callback: TeardownCallbackType) -> None:
+    def __init__(self, teardown_callback: Callable[[Self], None]) -> None:
         """
         Initialize an instance of `Subscription`.
         :param teardown_callback: A callback function that is invoked during
@@ -67,15 +75,15 @@ class Subscription(Unsubscribable):
 
         # Initialize attributes
         self.__closed: bool = False
-        self.__teardown_callback: TeardownCallbackType = teardown_callback
-        self.__finalizers: Set[FinalizerType] | None = None
         self.__timestamp: datetime = datetime.now()
+        self.__teardown_callback: Callable[[Self], None] = teardown_callback
+        self.__finalizers: Set[FinalizerType] | None = None
         self._thread_lock: Lock = Lock()
 
-    def unsubscribe(self) -> None:
+    def unsubscribe(self: Self) -> None:
         # Initialize variables to store the teardown callback and finalizers
         # that will be executed when the current subscription is unsubscribed
-        teardown_callback: TeardownCallbackType | None = None
+        teardown_callback: Callable[[Self], None] | None = None
         finalizers: Set[FinalizerType] | None = None
 
         # Acquire the lock to ensure exclusive access to mutable properties
@@ -93,7 +101,7 @@ class Subscription(Unsubscribable):
 
         # Execute the teardown logic if any
         if teardown_callback is not None:
-            teardown_callback()
+            teardown_callback(self)
 
         # Execute finalizers if any
         if finalizers is not None:
@@ -198,7 +206,7 @@ class Subscription(Unsubscribable):
                     # If there are existing finalizers, add the new finalizers to the set
                     self.__finalizers.update(new_finalizers)
 
-    def remove_finalizers(self, *finalizers: "Subscription") -> None:
+    def remove_finalizers(self, *finalizers: FinalizerType) -> None:
         """
         Remove one or more finalizers from the current subscription.
         :param finalizers: The finalizers to be removed from the subscription.
@@ -231,6 +239,44 @@ class Subscription(Unsubscribable):
         """
         with self._thread_lock:
             self.__finalizers = None
+
+    def __getstate__(self) -> Dict[str, Any]:
+        """
+        Prepare the object state for serialization.
+
+        This method is called when the object is pickled. It returns a dictionary
+        containing the attributes that should be serialized. Only the attributes
+        that are necessary for reconstructing the object in another process or
+        context are included to improve efficiency and avoid issues with
+        contextually irrelevant attributes.
+
+        :return: A dictionary containing the serialized state of the object.
+        """
+        # Include only the attributes that are necessary for serialization
+        # Attributes like __teardown_callback are not included as they are
+        # context-specific and do not make sense in another scope/process.
+        return {"__closed": self.__closed, "__timestamp": self.__timestamp}
+
+    def __setstate__(self, state: Dict[str, Any]) -> None:
+        """
+        Restore the object from the serialized state.
+
+        This method is called when the object is unpickled. It takes a dictionary
+        containing the serialized state and restores the object's attributes.
+        Additionally, it sets default values for attributes that were not serialized,
+        ensuring the object remains in a valid state after deserialization.
+
+        :param state: A dictionary containing the serialized state of the object.
+        :return: None
+        """
+        # Restore the attributes from the serialized state
+        self.__closed = state["__closed"]
+        self.__timestamp = state["__timestamp"]
+
+        # Set default values for attributes that were not serialized
+        self.__teardown_callback = lambda s: print("The teardown_callback is out of scope and has no effect.")
+        self.__finalizers = None
+        self._thread_lock = Lock()
 
     def __str__(self) -> str:
         """

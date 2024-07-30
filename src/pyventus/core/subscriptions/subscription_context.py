@@ -1,6 +1,12 @@
+import sys
 from abc import abstractmethod, ABC
 from types import TracebackType
 from typing import TypeVar, Generic, Tuple, Type
+
+if sys.version_info >= (3, 11):
+    from typing import Self
+else:
+    from typing_extensions import Self
 
 from .subscription import Subscription
 from ..exceptions import PyventusException
@@ -70,14 +76,13 @@ class SubscriptionContext(ABC, Generic[_T, _S]):
         self.__source: _T = source
         self.__subscriber: _S | None = None
 
-    @abstractmethod
-    def __enter__(self) -> "SubscriptionContext[_T, _S]":
+    def __enter__(self: Self) -> Self:
         """
         Enters the subscription context block. Enables a progressive definition
         of the object that will later be subscribed to the specified source.
         :return: The subscription context manager.
         """
-        pass
+        return self
 
     @abstractmethod
     def __exit__(

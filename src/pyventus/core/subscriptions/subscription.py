@@ -3,14 +3,14 @@ from datetime import datetime
 from threading import Lock
 from typing import TypeAlias, Callable, Set, Union, List, Any, Dict
 
-from .unsubscribable import Unsubscribable
-from ..exceptions import PyventusException
-from ..utils import validate_callback
-
 if sys.version_info >= (3, 11):
     from typing import Self
 else:
     from typing_extensions import Self
+
+from .unsubscribable import Unsubscribable
+from ..exceptions import PyventusException
+from ..utils import validate_callback
 
 FinalizerType: TypeAlias = Union["Subscription", Callable[[], None]]
 """Type alias denoting a finalizer, which may refer to either a Subscription or a teardown callback."""

@@ -148,3 +148,12 @@ class EventSubscriber(EventHandler, Subscription):
         # Restore the state of the EventSubscriber attributes
         for attr in EventSubscriber.__slots__:
             self.__setattr__(attr, state[attr])
+
+    def __str__(self) -> str:
+        return (
+            f"Event Callback: ({self.__event_callback}) | "
+            f"Success Callback: {('(' + str(self.__success_callback) + ')') if self.__success_callback else 'None'} | "
+            f"Failure Callback: {('(' + str(self.__failure_callback) + ')') if self.__failure_callback else 'None'} | "
+            f"Once: {self.__once} | "
+            f"{super().__str__()}"
+        )

@@ -3,13 +3,13 @@ from abc import abstractmethod, ABC
 from types import TracebackType
 from typing import TypeVar, Generic, Tuple, Type
 
+from .subscription import Subscription
+from ..exceptions import PyventusException
+
 if sys.version_info >= (3, 11):
     from typing import Self
 else:
     from typing_extensions import Self
-
-from .subscription import Subscription
-from ..exceptions import PyventusException
 
 _T = TypeVar("_T")
 """A generic type representing the source to which the subscription is performed."""

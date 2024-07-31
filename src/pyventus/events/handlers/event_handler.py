@@ -1,230 +1,59 @@
-from asyncio import to_thread
-from datetime import datetime
-from typing import Callable, Any, final, TypeAlias, Tuple, Dict
+from abc import ABC, abstractmethod
+from typing import Any
 
-from ...core.exceptions import PyventusException
 from ...core.loggers import StdOutLogger
-from ...core.utils import validate_callable, is_callable_async, get_callable_name, is_callable_generator
-
-EventCallbackType: TypeAlias = Callable[..., Any]
-"""Type alias for the event callback invoked when the associated event occurs."""
-
-SuccessCallbackType: TypeAlias = Callable[..., Any]
-"""Type alias for the callback invoked upon successful completion of the event."""
-
-FailureCallbackType: TypeAlias = Callable[[Exception], Any]
-"""Type alias for the callback invoked when the event processing fails."""
 
 
-@final
-class EventHandler:
+class EventHandler(ABC):
     """
-    A class that encapsulates event callbacks and provides a mechanism for executing them
-    when the event occurs. This class manages both asynchronous and synchronous execution
-    and handles event completion in both success and error scenarios.
-
-    **Notes:**
-
-    -   The `__call__` method of the `EventHandler` class is an asynchronous method
-        that returns a `Coroutine`. It should never be treated as a synchronous function.
-
-    -   This class is not intended to be subclassed or manually created. It is used
-        internally to encapsulate the callbacks associated with an event and manage
-        their execution.
-
-    -   The event handler can be invoked by calling the instance as a function and
-        passing the required arguments.
-
-    ---
-    Read more in the
-    [Pyventus docs for Event Handler](https://mdapena.github.io/pyventus/tutorials/event-linker/#event-handlers).
+    An abstract base class that defines the workflow and essential protocols
+    for event handling, including procedures for successful and failed completion.
     """
 
-    # Event handler attributes
-    __slots__ = (
-        "_once",
-        "_force_async",
-        "_event_callback",
-        "_success_callback",
-        "_failure_callback",
-        "_is_event_callback_async",
-        "_is_success_callback_async",
-        "_is_failure_callback_async",
-        "_timestamp",
-    )
-
-    @property
-    def once(self) -> bool:
+    @abstractmethod
+    async def _handle_event(self, *args: Any, **kwargs: Any) -> Any:
         """
-        Determines if the event handler is a one-time subscription.
-        :return: A boolean value indicating if the event handler is
-            a one-time subscription.
+        Handles the event response.
+        :param args: Positional arguments containing event-specific data.
+        :param kwargs: Keyword arguments containing event-specific data.
+        :return: The result of handling the event.
         """
-        return self._once
+        pass
 
-    @property
-    def force_async(self) -> bool:
+    @abstractmethod
+    async def _handle_success(self, results: Any) -> None:
         """
-        Determines whether all callbacks are forced to run asynchronously.
-        :return: A boolean value indicating if all callbacks are forced to run
-            asynchronously. If `True`, synchronous callbacks will be converted to
-            run asynchronously in a thread pool, using the `asyncio.to_thread`
-            function. If `False`, callbacks will run synchronously or
-            asynchronously as defined.
+        Handles the successful completion of the event response.
+        :param results: The results of handling the event.
+        :return: None
         """
-        return self._force_async
+        pass
 
-    @property
-    def timestamp(self) -> datetime:
+    @abstractmethod
+    async def _handle_failure(self, exception: Exception) -> None:
         """
-        Retrieves the timestamp when the event handler was created.
-        :return: The timestamp when the event handler was created.
+        Handles the failed completion of the event response.
+        :param exception: The exception that occurred during the event handling.
+        :return: None
         """
-        return self._timestamp
+        pass
 
-    def __init__(
-        self,
-        once: bool,
-        force_async: bool,
-        event_callback: EventCallbackType,
-        success_callback: SuccessCallbackType | None = None,
-        failure_callback: FailureCallbackType | None = None,
-    ) -> None:
+    async def execute(self, *args: Any, **kwargs: Any) -> None:
         """
-        Initialize an instance of `EventHandler`.
-        :param once: Specifies if the event handler is a one-time subscription.
-        :param force_async: Determines whether to force all callbacks to run asynchronously.
-            If `True`, synchronous callbacks will be converted to run asynchronously in a
-            thread pool, using the `asyncio.to_thread` function. If `False`, callbacks
-            will run synchronously or asynchronously as defined.
-        :param event_callback: The callback to be executed when the event occurs.
-        :param success_callback: The callback to be executed when the event execution
-            completes successfully. Default is `None`.
-        :param failure_callback: The callback to be executed when the event execution
-            fails. Default is `None`.
-        :raises PyventusException: If the provided callbacks are invalid.
+        Executes the event workflow.
+        :param args: Positional arguments containing event-specific data.
+        :param kwargs: Keyword arguments containing event-specific data.
+        :return: None
         """
-        # Validate callbacks
-        validate_callable(event_callback)
-
-        if is_callable_generator(event_callback):
-            raise PyventusException("The 'event_callback' argument cannot be a generator.")
-
-        if success_callback is not None:
-            validate_callable(success_callback)
-
-            if is_callable_generator(success_callback):
-                raise PyventusException("The 'success_callback' argument cannot be a generator.")
-
-        if failure_callback is not None:
-            validate_callable(failure_callback)
-
-            if is_callable_generator(failure_callback):
-                raise PyventusException("The 'failure_callback' argument cannot be a generator.")
-
-        # Validate flags
-        if not isinstance(once, bool):
-            raise PyventusException("The 'once' argument must be a boolean value.")
-        if not isinstance(force_async, bool):
-            raise PyventusException("The 'force_async' argument must be a boolean value.")
-
-        # Set the event handler flags
-        self._once: bool = once
-        self._force_async: bool = force_async
-
-        # Set the event handler callbacks
-        self._event_callback: EventCallbackType = event_callback
-        self._success_callback: SuccessCallbackType | None = success_callback
-        self._failure_callback: FailureCallbackType | None = failure_callback
-
-        # Set the event handler callbacks flags
-        self._is_event_callback_async: bool = is_callable_async(event_callback)
-        self._is_success_callback_async: bool | None = is_callable_async(success_callback) if success_callback else None
-        self._is_failure_callback_async: bool | None = is_callable_async(failure_callback) if failure_callback else None
-
-        # Set the event handler timestamp
-        self._timestamp: datetime = datetime.now()
-
-    async def __call__(self, *args: Tuple[Any, ...], **kwargs: Dict[str, Any]) -> None:
-        """
-        Executes the event flow by invoking the associated callbacks.
-        :param args: Positional arguments to be passed to the event callback.
-        :param kwargs: Keyword arguments to be passed to the event callback.
-        :return: Coroutine
-        """
-        # Event callback results
-        results: Any | None = None
-
         try:
-            # Invoke the event callback.
-            if self._is_event_callback_async:
-                results = await self._event_callback(*args, **kwargs)
-            elif self._force_async:
-                results = await to_thread(self._event_callback, *args, **kwargs)
-            else:
-                results = self._event_callback(*args, **kwargs)
+            # Start the event handling process and store the results
+            results: Any = await self._handle_event(*args, **kwargs)
         except Exception as exception:
-            # Log the exception with error level
-            StdOutLogger.error(name=f"{self.__class__.__name__}", action="Exception:", msg=f"{exception}")
+            # Log the exception that occurred during the event handling.
+            StdOutLogger.error(name=f"{type(self).__name__}", action="Exception:", msg=f"{exception}")
 
-            # Invoke the failure callback and pass the exception.
-            if self._failure_callback:
-                if self._is_failure_callback_async:
-                    await self._failure_callback(exception)
-                elif self._force_async:
-                    await to_thread(self._failure_callback, exception)
-                else:
-                    self._failure_callback(exception)
+            # Handle the failed completion of the event response.
+            await self._handle_failure(exception=exception)
         else:
-            # Invoke the success callback and pass the results, if any.
-            if self._success_callback:
-                if self._is_success_callback_async:
-                    if results is None:
-                        await self._success_callback()
-                    else:
-                        await self._success_callback(results)
-                elif self._force_async:
-                    if results is None:
-                        await to_thread(self._success_callback)
-                    else:
-                        await to_thread(self._success_callback, results)
-                else:
-                    if results is None:
-                        self._success_callback()
-                    else:
-                        self._success_callback(results)
-
-    def __str__(self) -> str:
-        """
-        Returns a formatted string representation of the event handler.
-        :return: A string representation of the event handler.
-        """
-        return "".join(
-            [
-                f"Event Callback: `{get_callable_name(self._event_callback)}",
-                "` (Async) | " if self._is_event_callback_async else "` (Sync) | ",
-                (
-                    "Success Callback: `".join(
-                        [
-                            get_callable_name(self._success_callback),
-                            "` (Async) | " if self._is_success_callback_async else "` (Sync) | ",
-                        ]
-                    )
-                    if self._success_callback
-                    else ""
-                ),
-                (
-                    "Failure Callback: `".join(
-                        [
-                            get_callable_name(self._failure_callback),
-                            "` (Async) | " if self._is_failure_callback_async else "` (Sync) | ",
-                        ]
-                    )
-                    if self._failure_callback
-                    else ""
-                ),
-                f"Once: {self.once} | ",
-                f"Force Async: {self.force_async} | ",
-                f"Timestamp: {self.timestamp.strftime('%Y-%m-%d %I:%M:%S %p')}",
-            ]
-        )
+            # Handle the successful completion of the event response.
+            await self._handle_success(results=results)

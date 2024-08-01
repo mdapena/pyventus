@@ -54,7 +54,8 @@ class Subscription(Unsubscribable):
         Determines whether the `Subscription` has already been unsubscribed.
         :return: A boolean value indicating if the subscription is closed (unsubscribed).
         """
-        return self.__closed
+        with self._thread_lock:
+            return self.__closed
 
     @property
     def timestamp(self) -> datetime:
@@ -81,32 +82,34 @@ class Subscription(Unsubscribable):
         self.__finalizers: Set[FinalizerType] | None = None
         self._thread_lock: Lock = Lock()
 
-    def unsubscribe(self: Self) -> None:
-        # Initialize variables to store the teardown callback and finalizers
-        # that will be executed when the current subscription is unsubscribed
-        teardown_callback: Callable[[Self], None] | None = None
-        finalizers: Set[FinalizerType] | None = None
-
+    def unsubscribe(self: Self) -> bool:
         # Acquire the lock to ensure exclusive access to mutable properties
         with self._thread_lock:
-
             # Check if the current subscription is open
             if not self.__closed:
                 # Mark the subscription as closed
                 self.__closed = True
 
                 # Store the teardown callback and finalizers for later execution
-                teardown_callback = self.__teardown_callback
-                finalizers = self.__finalizers
-                self.__finalizers = None
+                teardown_callback: Callable[[Self], None] = self.__teardown_callback
+                finalizers: Set[FinalizerType] | None = self.__finalizers
 
-        # Execute the teardown logic if any
-        if teardown_callback is not None:
-            teardown_callback(self)
+                # Remove the teardown callback and set
+                # finalizers to None to free resources
+                del self.__teardown_callback
+                self.__finalizers = None
+            else:
+                # If the subscription is already closed, return
+                # False to indicate no action was taken
+                return False
+
+        # Execute the teardown logic
+        teardown_callback(self)
 
         # Execute finalizers if any
         if finalizers is not None:
-            # Track exceptions raised during finalizer execution
+            # Initialize a list to track exceptions
+            # raised during finalizer execution
             exceptions: List[str] = []
 
             # Execute each finalizer
@@ -126,6 +129,10 @@ class Subscription(Unsubscribable):
             # exceptions during finalizer execution
             if exceptions:
                 raise PyventusException(exceptions)
+
+        # Return True to indicate that the
+        # unsubscribe operation was successful
+        return True
 
     def contains_finalizer(self, finalizer: FinalizerType) -> bool:
         """

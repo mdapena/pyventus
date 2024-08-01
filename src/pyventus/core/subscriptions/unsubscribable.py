@@ -8,9 +8,11 @@ class Unsubscribable(ABC):
     """
 
     @abstractmethod
-    def unsubscribe(self) -> None:
+    def unsubscribe(self) -> bool:
         """
         Release or clean up any resources associated with the subscribed source.
-        :return: None
+        :return: `True` if the unsubscribe operation was successful; `False` if
+            the subscriber was already unsubscribed.
+        :raises Exception: Any exception raised during the unsubscription process.
         """
         pass

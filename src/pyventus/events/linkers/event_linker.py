@@ -280,13 +280,13 @@ class EventLinker:
             or if the `event_subscriber` argument is `None`, invalid.
         """
         # Validate the events argument
-        if events is None or len(events) <= 0:
+        if events is None or len(events) <= 0:  # pragma: no cover
             raise PyventusException("The 'events' argument cannot be None or empty.")
 
         # Validate the event_subscriber argument
-        if event_subscriber is None:
+        if event_subscriber is None:  # pragma: no cover
             raise PyventusException("The 'event_subscriber' argument cannot be None.")
-        if not isinstance(event_subscriber, EventSubscriber):
+        if not isinstance(event_subscriber, EventSubscriber):  # pragma: no cover
             raise PyventusException("The 'event_subscriber' argument must be an instance of the EventSubscriber class.")
 
         # Retrieve all unique event names
@@ -574,28 +574,3 @@ class EventLinker:
 
         # Return the new event subscriber
         return event_subscriber
-
-    @classmethod
-    def remove_all(cls) -> None:
-        """
-        Removes all events and their associated subscribers from the registry.
-        :return: None
-        """
-        # Retrieve the list of event subscribers from the registry
-        event_subscribers: List[EventSubscriber] = cls.get_event_subscribers()
-
-        # Check if there are no event subscribers
-        if not event_subscribers:
-            # Log a debug message indicating that the registry is empty
-            if cls.__logger.debug_enabled:  # pragma: no cover
-                cls.__logger.debug(msg="The event registry is already empty.")
-
-        # Iterate over each event subscriber to unsubscribe them
-        for event_subscriber in event_subscribers:
-            event_subscriber.unsubscribe()
-
-        # Log a debug message indicating that all events and their subscribers have been removed
-        if cls.__logger.debug_enabled:  # pragma: no cover
-            cls.__logger.debug(
-                msg="All events and their associated subscribers have been successfully removed from the registry."
-            )

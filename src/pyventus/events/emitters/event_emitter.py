@@ -5,8 +5,8 @@ from sys import gettrace
 from typing import List, Type, TypeAlias, Any, Tuple, Dict, final
 from uuid import uuid4
 
-from ..handlers import EventHandler
 from ..linkers import EventLinker
+from ..subscribers import EventSubscriber
 from ...core.constants import StdOutColors
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger, StdOutLogger
@@ -33,7 +33,7 @@ class EventEmitter(ABC):
 
     ---
     Read more in the
-    [Pyventus docs for Event Emitter](https://mdapena.github.io/pyventus/tutorials/emitters/).
+    [Pyventus docs for Event Emitter](https://mdapena.github.io/pyventus/tutorials/events/emitters/).
     """
 
     @final
@@ -41,7 +41,7 @@ class EventEmitter(ABC):
         """
         Represents an event emission that has been triggered but whose propagation is not
         yet complete. It provides a self-contained context for executing the event emission,
-        encapsulating both the event data and the associated event handlers.
+        encapsulating both the event data and the associated event subscribers.
 
         This class acts as an isolated unit of work to asynchronously propagate the emission
         of an event. When an event occurs, the `EventEmitter` class creates an `EventEmission`
@@ -49,8 +49,16 @@ class EventEmitter(ABC):
         propagation.
         """
 
-        # Event emission attributes
-        __slots__ = ("_id", "_timestamp", "_debug", "_event", "_event_handlers", "_event_args", "_event_kwargs")
+        # Attributes for the EventEmission
+        __slots__ = (
+            "__id",
+            "__timestamp",
+            "__debug",
+            "__event",
+            "__event_subscribers",
+            "__event_args",
+            "__event_kwargs",
+        )
 
         @property
         def id(self) -> str:
@@ -58,7 +66,7 @@ class EventEmitter(ABC):
             Gets the unique identifier of the event emission.
             :return: The unique identifier of the event emission.
             """
-            return self._id
+            return self.__id
 
         @property
         def timestamp(self) -> datetime:
@@ -66,7 +74,7 @@ class EventEmitter(ABC):
             Gets the timestamp when the event emission was created.
             :return: The timestamp when the event emission was created.
             """
-            return self._timestamp
+            return self.__timestamp
 
         @property
         def event(self) -> str:
@@ -74,12 +82,12 @@ class EventEmitter(ABC):
             Gets the name of the event being emitted.
             :return: The name of the event.
             """
-            return self._event
+            return self.__event
 
         def __init__(
             self,
             event: str,
-            event_handlers: List[EventHandler],
+            event_subscribers: List[EventSubscriber],
             event_args: Tuple[Any, ...],
             event_kwargs: Dict[str, Any],
             debug: bool,
@@ -87,41 +95,40 @@ class EventEmitter(ABC):
             """
             Initialize an instance of `EventEmission`.
             :param event: The name of the event being emitted.
-            :param event_handlers: List of event handlers associated with the event.
-            :param event_args: Positional arguments to be passed to the event handlers.
-            :param event_kwargs: Keyword arguments to be passed to the event handlers.
+            :param event_subscribers: List of event subscribers associated with the event.
+            :param event_args: Positional arguments containing event-specific data.
+            :param event_kwargs: Keyword arguments containing event-specific data.
             :param debug: Indicates if debug mode is enabled.
-            :raises PyventusException: If `event_handlers` or `event` is empty.
             """
-            if not event_handlers:  # pragma: no cover
-                raise PyventusException("The 'event_handlers' argument cannot be empty.")
+            if not event_subscribers:  # pragma: no cover
+                raise PyventusException("The 'event_subscribers' argument cannot be None or empty.")
 
             if not event:  # pragma: no cover
-                raise PyventusException("The 'event' argument cannot be empty.")
+                raise PyventusException("The 'event' argument cannot be None or empty.")
 
             # Set the event emission metadata
-            self._id: str = str(uuid4())
-            self._timestamp: datetime = datetime.now()
-            self._debug: bool = debug
+            self.__id: str = str(uuid4())
+            self.__timestamp: datetime = datetime.now()
+            self.__debug: bool = debug
 
             # Set the event emission properties
-            self._event: str = event
-            self._event_handlers: Tuple[EventHandler, ...] = tuple(event_handlers)
-            self._event_args: Tuple[Any, ...] = event_args
-            self._event_kwargs: Dict[str, Any] = event_kwargs
+            self.__event: str = event
+            self.__event_subscribers: List[EventSubscriber] = event_subscribers
+            self.__event_args: Tuple[Any, ...] = event_args
+            self.__event_kwargs: Dict[str, Any] = event_kwargs
 
         async def __call__(self) -> None:
             """
-            Execute the event handlers concurrently.
+            Execute the event subscribers concurrently.
             :return: None
             """
             # Log the event execution if debug is enabled
-            if self._debug:  # pragma: no cover
-                StdOutLogger.debug(name=self.__class__.__name__, action="Running:", msg=str(self))
+            if self.__debug:  # pragma: no cover
+                StdOutLogger.debug(name=type(self).__name__, action="Running:", msg=str(self))
 
-            # Execute the event handlers concurrently
+            # Execute the event subscribers concurrently
             await gather(
-                *[event_handler(*self._event_args, **self._event_kwargs) for event_handler in self._event_handlers],
+                *[sub.execute(*self.__event_args, **self.__event_kwargs) for sub in self.__event_subscribers],
                 return_exceptions=True,
             )
 
@@ -132,17 +139,17 @@ class EventEmitter(ABC):
             """
             return (
                 f"ID: {self.id} | Timestamp: {self.timestamp.strftime('%Y-%m-%d %I:%M:%S %p')} | "
-                f"Event: {self.event} | Handlers: {len(self._event_handlers)}"
+                f"Event: {self.event} | Subscribers: {len(self.__event_subscribers)}"
             )
 
     def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None) -> None:
         """
         Initialize an instance of `EventEmitter`.
         :param event_linker: Specifies the type of event linker used to manage and access
-            events along with their corresponding event handlers. Defaults to `EventLinker`.
-        :param debug: Specifies the debug mode for the subclass logger. If `None`,
-            it is determined based on the execution environment.
-        :raises PyventusException: If the `event_linker` argument is None.
+            events along with their corresponding event subscribers. Defaults to `EventLinker`.
+        :param debug: Specifies the debug mode for the logger. If `None`, it is determined
+            based on the execution environment.
+        :raises PyventusException: If the `event_linker` argument is None or invalid.
         """
         # Validate the event linker argument
         if event_linker is None:
@@ -152,75 +159,71 @@ class EventEmitter(ABC):
 
         # Set the event_linker value
         self._event_linker: Type[EventLinker] = event_linker
-        """
-        Specifies the type of event linker to use for associating events with their 
-        respective event handlers.
-        """
 
+        # Set up the logger
         self._logger: Logger = Logger(
-            name=self.__class__.__name__,
+            name=type(self).__name__,
             debug=debug if debug is not None else bool(gettrace() is not None),
         )
-        """
-        An instance of the logger used for logging events and debugging information.
-        """
 
     def emit(self, /, event: EmittableEventType, *args: Any, **kwargs: Any) -> None:
         """
-        Emits an event and triggers its associated event handlers.
+        Emits an event and notifies all registered event subscribers.
 
         **Notes:**
 
-        -   When emitting `dataclass` objects or `Exception` objects, they are automatically passed
-            to the event handler as the first positional argument, even if you pass additional `*args`
-            or `**kwargs`.
-        -   If there are event handlers subscribed to the global event `...`, also known as `Ellipsis`,
-            they will also be triggered each time an event or exception is emitted.
+        -   When emitting `dataclass` objects or `Exception` objects, they are automatically
+            passed to the event subscribers as the first positional argument, even if you pass
+            additional `*args` or `**kwargs`.
+
+        -   If there are event subscribers registered to the global event `...` (also known
+            as `Ellipsis`), they will be notified each time an event is emitted.
 
         :param event: The event to be emitted. It can be `str`, a `dataclass`
             object, or an `Exception` object.
-        :param args: Positional arguments to be passed to the event handlers.
-        :param kwargs: Keyword arguments to be passed to the event handlers.
+        :param args: Positional arguments containing event-specific data.
+        :param kwargs: Keyword arguments containing event-specific data.
         :return: None
         """
-        # Raise an exception if the event is None
+        # Raise an exception if the event is None.
         if event is None:
             raise PyventusException("The 'event' argument cannot be None.")
 
-        # Raise an exception if the event is a type
+        # Raise an exception if the event is a type.
         if isinstance(event, type):
             raise PyventusException("The 'event' argument cannot be a type.")
 
-        # Determine the event name
+        # Determine the event name.
         event_name: str = self._event_linker.get_event_name(event=event if isinstance(event, str) else type(event))
 
-        # Retrieve the event handlers associated with the event
-        event_handlers: List[EventHandler] = self._event_linker.get_event_handlers_by_events(event_name, Ellipsis)
+        # Retrieve the list of event subscribers associated with the event.
+        event_subscribers = self._event_linker.get_event_subscribers_by_events(event_name, Ellipsis)
 
-        # Sort the event handlers by timestamp
-        event_handlers.sort(key=lambda handler: handler.timestamp)
+        # Initialize the list of event subscribers to be executed.
+        pending_event_subscribers: List[EventSubscriber] = []
 
-        # Initialize the list of event handlers to be executed
-        pending_event_handlers: List[EventHandler] = []
+        # Iterate through each event subscriber to determine which ones to process.
+        for event_subscriber in event_subscribers:
+            # Skip closed subscribers
+            if event_subscriber.closed:
+                continue
 
-        # Iterate through each event handler
-        for event_handler in event_handlers:
-            # Check if the event handler is a one-time subscription
-            if event_handler.once:
-                # If the event handler is a one-time subscription, we attempt to remove it.
-                if self._event_linker.remove_event_handler(event_handler=event_handler):  # pragma: no cover (Race-Cond)
-                    # If the removal is successful, it indicates that the handler has not
-                    # been processed before, so we add it to the pending list.
-                    pending_event_handlers.append(event_handler)
+            # Check if the event subscriber is a one-time subscription.
+            if event_subscriber.once:
+                # Attempt to unsubscribe the one-time subscriber.
+                if event_subscriber.unsubscribe():
+                    # If unsubscription is successful, add it to the pending list
+                    pending_event_subscribers.append(event_subscriber)
             else:
-                pending_event_handlers.append(event_handler)
+                # Add regular subscribers to the pending list for processing
+                pending_event_subscribers.append(event_subscriber)
 
-        # Check if the pending list of event handlers is not empty
-        if len(pending_event_handlers) > 0:
+        # Check if the pending list is not empty
+        if len(pending_event_subscribers) > 0:
             # Create a new EventEmission instance
-            event_emission: EventEmitter.EventEmission = EventEmitter.EventEmission(
+            event_emission = EventEmitter.EventEmission(
                 event=event_name,
-                event_handlers=pending_event_handlers,
+                event_subscribers=pending_event_subscribers,
                 event_args=args if isinstance(event, str) else (event, *args),
                 event_kwargs=kwargs,
                 debug=self._logger.debug_enabled,
@@ -235,13 +238,13 @@ class EventEmitter(ABC):
 
             # Delegate the event emission processing to subclasses
             self._process(event_emission)
-
-        # Log a debug message if there are no event handlers subscribed to the event
-        elif self._logger.debug_enabled:  # pragma: no cover
-            self._logger.debug(
-                action="Emitting Event:",
-                msg=f"{event_name}{StdOutColors.PURPLE} Message:{StdOutColors.DEFAULT} No event handlers subscribed",
-            )
+        else:
+            # Log a debug message if there are no subscribers for the event
+            if self._logger.debug_enabled:  # pragma: no cover
+                self._logger.debug(
+                    action="Emitting Event:",
+                    msg=f"{event_name}{StdOutColors.PURPLE} Message:{StdOutColors.DEFAULT} No event subscribers.",
+                )
 
     @abstractmethod
     def _process(self, event_emission: EventEmission) -> None:

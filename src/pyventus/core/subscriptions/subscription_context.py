@@ -11,14 +11,14 @@ if sys.version_info >= (3, 11):
 else:
     from typing_extensions import Self
 
-_T = TypeVar("_T")
+_SourceType = TypeVar("_SourceType")
 """A generic type representing the source to which the subscription is performed."""
 
-_S = TypeVar("_S", bound=Subscription)
+_SubscriberType = TypeVar("_SubscriberType", bound=Subscription)
 """A generic type representing the subscriber returned after performing the subscription."""
 
 
-class SubscriptionContext(ABC, Generic[_T, _S]):
+class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
     """
     An abstract base class for subscription context managers.
 
@@ -44,7 +44,7 @@ class SubscriptionContext(ABC, Generic[_T, _S]):
     )
 
     @property
-    def source(self) -> _T:
+    def source(self) -> _SourceType:
         """
         Retrieves the source to which the subscription is performed.
         :return: The source object.
@@ -52,7 +52,7 @@ class SubscriptionContext(ABC, Generic[_T, _S]):
         return self.__source
 
     @property
-    def subscriber(self) -> _S:
+    def subscriber(self) -> _SubscriberType:
         """
         Retrieves the subscriber that is returned after performing the subscription
         to the specified source.
@@ -63,7 +63,7 @@ class SubscriptionContext(ABC, Generic[_T, _S]):
             raise PyventusException("The 'subscriber' property is not accessible before or during the context block.")
         return self.__subscriber
 
-    def __init__(self, source: _T) -> None:
+    def __init__(self, source: _SourceType) -> None:
         """
         Initialize an instance of `SubscriptionContext`.
         :param source: The source to which the subscription is performed.
@@ -73,8 +73,8 @@ class SubscriptionContext(ABC, Generic[_T, _S]):
             raise PyventusException("The 'source' argument cannot be None.")
 
         # Initialize source and subscriber variables
-        self.__source: _T = source
-        self.__subscriber: _S | None = None
+        self.__source: _SourceType = source
+        self.__subscriber: _SubscriberType | None = None
 
     def __enter__(self: Self) -> Self:
         """
@@ -98,7 +98,7 @@ class SubscriptionContext(ABC, Generic[_T, _S]):
         """
         pass
 
-    def _set_subscriber(self, subscriber: _S) -> None:
+    def _set_subscriber(self, subscriber: _SubscriberType) -> None:
         """
         Sets the subscriber object.
         :param subscriber: The subscriber object to be assigned.
@@ -117,7 +117,7 @@ class SubscriptionContext(ABC, Generic[_T, _S]):
         # Assign the given subscriber
         self.__subscriber = subscriber
 
-    def astuple(self) -> Tuple[_T, _S]:
+    def astuple(self) -> Tuple[_SourceType, _SubscriberType]:
         """
         Retrieves a tuple containing the source object and its subscriber.
         Handles the release and cleanup of associated resources.
@@ -125,7 +125,7 @@ class SubscriptionContext(ABC, Generic[_T, _S]):
         :raises PyventusException: If accessed before or during the subscription context.
         """
         # Create a tuple with the source object and its subscriber
-        results: Tuple[_T, _S] = (self.source, self.subscriber)
+        results: Tuple[_SourceType, _SubscriberType] = (self.source, self.subscriber)
 
         # Perform cleanup by deleting unnecessary references
         del self.__source, self.__subscriber

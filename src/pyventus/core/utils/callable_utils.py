@@ -12,15 +12,15 @@ from typing import TypeVar, Callable, ParamSpec, Any, Generic, final
 
 from ..exceptions import PyventusException
 
-_P = ParamSpec("_P")
+_ParamType = ParamSpec("_ParamType")
 """A generic type representing the names and types of the parameters for a callable."""
 
-_R = TypeVar("_R", covariant=True)
+_ReturnType = TypeVar("_ReturnType", covariant=True)
 """A generic type representing the return value of a callable."""
 
 
 @final
-class CallableWrapper(Generic[_P, _R]):
+class CallableWrapper(Generic[_ParamType, _ReturnType]):
     """
     A wrapper class that encapsulates a synchronous or asynchronous callable object
     and provides a unified asynchronous interface for its execution.
@@ -55,7 +55,7 @@ class CallableWrapper(Generic[_P, _R]):
         """
         return self.__force_async
 
-    def __init__(self, cb: Callable[_P, _R], /, force_async: bool) -> None:
+    def __init__(self, cb: Callable[_ParamType, _ReturnType], /, force_async: bool) -> None:
         """
         Initializes an instance of `CallableWrapper`.
         :param cb: The callable object to be wrapped.
@@ -77,13 +77,13 @@ class CallableWrapper(Generic[_P, _R]):
         self.__name__: str = get_callable_name(cb)
 
         # Store the callable and determine if it is asynchronous.
-        self.__callable: Callable[_P, _R] = cb
+        self.__callable: Callable[_ParamType, _ReturnType] = cb
         self.__is_callable_async: bool = is_callable_async(cb)
 
         # Store the force_async flag.
         self.__force_async: bool = force_async
 
-    async def __call__(self, *args: _P.args, **kwargs: _P.kwargs) -> _R:
+    async def __call__(self, *args: _ParamType.args, **kwargs: _ParamType.kwargs) -> _ReturnType:
         """
         Executes the wrapped callable with the given arguments.
         :param args: Positional arguments to pass to the wrapped callable.

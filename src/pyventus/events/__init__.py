@@ -1,8 +1,9 @@
 from .emitters import EventEmitter, EmittableEventType
 from .emitters.asyncio import AsyncIOEventEmitter
 from .emitters.executor import ExecutorEventEmitter
-from .handlers import EventHandler, EventCallbackType, SuccessCallbackType, FailureCallbackType
+from .handlers import EventHandler
 from .linkers import EventLinker, SubscribableEventType
+from .subscribers import EventSubscriber, EventCallbackType, SuccessCallbackType, FailureCallbackType
 
 __all__ = [
     "EventEmitter",
@@ -10,9 +11,10 @@ __all__ = [
     "AsyncIOEventEmitter",
     "ExecutorEventEmitter",
     "EventHandler",
+    "EventLinker",
+    "SubscribableEventType",
+    "EventSubscriber",
     "EventCallbackType",
     "SuccessCallbackType",
     "FailureCallbackType",
-    "EventLinker",
-    "SubscribableEventType",
 ]

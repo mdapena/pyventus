@@ -5,7 +5,6 @@ from types import TracebackType, EllipsisType
 from typing import TypeAlias, Mapping, Tuple, Dict, List, Type, Set, final
 
 from ..subscribers import EventSubscriber, EventCallbackType, SuccessCallbackType, FailureCallbackType
-from ...core.constants import StdOutColors
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
 from ...core.subscriptions import SubscriptionContext
@@ -267,57 +266,36 @@ class EventLinker:
         )
 
     @classmethod
-    def __remove_event_subscriber_from_events(
-        cls, *events: SubscribableEventType, event_subscriber: EventSubscriber
-    ) -> None:
+    def __unsubscribe(cls, event_subscriber: EventSubscriber, event_names: Set[str]) -> None:
         """
-        Remove the specified event subscriber from the given events. If there are no more
-        subscribers for a particular event, that event is also removed from the registry.
-        :param events: The events from which to remove the subscriber.
-        :param event_subscriber: The event subscriber to remove.
+        Teardown callback for the `EventSubscriber`, invoked during the unsubscription process.
+
+        This method removes the specified event subscriber from the given events. If there
+        are no remaining subscribers for a particular event after the removal, that event is
+        also removed from the registry. This cleanup ensures that resources are properly managed.
+
+        :param event_subscriber: The event subscriber to remove from the registry.
+        :param event_names: A set of event names from which the subscriber will be removed.
         :return: None
-        :raises PyventusException: If the `events` argument is `None`, empty, unsupported,
-            or if the `event_subscriber` argument is `None`, invalid.
         """
-        # Validate the events argument
-        if events is None or len(events) <= 0:  # pragma: no cover
-            raise PyventusException("The 'events' argument cannot be None or empty.")
-
-        # Validate the event_subscriber argument
-        if event_subscriber is None:  # pragma: no cover
-            raise PyventusException("The 'event_subscriber' argument cannot be None.")
-        if not isinstance(event_subscriber, EventSubscriber):  # pragma: no cover
-            raise PyventusException("The 'event_subscriber' argument must be an instance of the EventSubscriber class.")
-
-        # Retrieve all unique event names
-        event_names: Set[str] = {cls.get_event_name(event=event) for event in events}
-
-        # Obtain the lock to ensure exclusive access to the main registry
+        # Obtain the lock to ensure exclusive access to the registry
         with cls.__thread_lock:
-            # For each event name, check and remove the event subscriber if found
+            # For each event name, remove the event subscriber
             for event_name in event_names:
-                # Skip if the event name is not found in the registry
-                if event_name not in cls.__registry:
-                    continue
-
-                # Get the list of event subscribers for the current event name
+                # Get the list of event subscribers
                 event_subscribers = cls.__registry[event_name]
 
-                # Check if the event subscriber is present
-                if event_subscriber in event_subscribers:
-                    # Remove the event subscriber
-                    event_subscribers.remove(event_subscriber)
+                # Remove the event subscriber
+                event_subscribers.remove(event_subscriber)
 
-                    # If there are no more subscribers for the event, remove the event
-                    if not event_subscribers:
-                        cls.__registry.pop(event_name)
+                # If there are no more subscribers
+                # for the event, remove the event
+                if not event_subscribers:
+                    cls.__registry.pop(event_name)
 
-                    # Log the removal of the subscriber from the event if debug is enabled.
-                    if cls.__logger.debug_enabled:  # pragma: no cover
-                        cls.__logger.debug(
-                            action="Event Subscriber Removed:",
-                            msg=f"{event_subscriber} {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} {event_name}",
-                        )
+        # Log the removal of the subscriber from the events if debug is enabled.
+        if cls.__logger.debug_enabled:  # pragma: no cover
+            cls.__logger.debug(action="Unsubscribed:", msg=f"{event_subscriber} Events: {event_names}")
 
     @classmethod
     def _get_logger(cls) -> Logger:
@@ -546,9 +524,7 @@ class EventLinker:
 
             # Create a new event subscriber
             event_subscriber: EventSubscriber = EventSubscriber(
-                teardown_callback=(
-                    lambda self: cls.__remove_event_subscriber_from_events(*events, event_subscriber=self)
-                ),
+                teardown_callback=lambda self: cls.__unsubscribe(self, event_names),
                 event_callback=event_callback,
                 success_callback=success_callback if success_callback else cls.__default_success_callback,
                 failure_callback=failure_callback if failure_callback else cls.__default_failure_callback,
@@ -565,12 +541,9 @@ class EventLinker:
                 # Append the event subscriber to the list
                 cls.__registry[event_name].append(event_subscriber)
 
-                # Log the subscription if debug is enabled
-                if cls.__logger.debug_enabled:  # pragma: no cover
-                    cls.__logger.debug(
-                        action="Subscribed:",
-                        msg=f"{event_subscriber} {StdOutColors.PURPLE}Event:{StdOutColors.DEFAULT} {event_name}",
-                    )
+        # Log the subscription if debug is enabled
+        if cls.__logger.debug_enabled:  # pragma: no cover
+            cls.__logger.debug(action="Subscribed:", msg=f"{event_subscriber} Events: {event_names}")
 
         # Return the new event subscriber
         return event_subscriber

@@ -5,6 +5,7 @@ from types import TracebackType, EllipsisType
 from typing import TypeAlias, Mapping, Tuple, Dict, List, Type, Set, final
 
 from ..subscribers import EventSubscriber, EventCallbackType, SuccessCallbackType, FailureCallbackType
+from ...core.constants import StdOutColors
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
 from ...core.subscriptions import SubscriptionContext
@@ -297,7 +298,9 @@ class EventLinker:
 
         # Log the removal of the subscriber from the events if debug is enabled.
         if cls.__logger.debug_enabled:  # pragma: no cover
-            cls.__logger.debug(action="Unsubscribed:", msg=f"{event_subscriber} Events: {event_names}")
+            cls.__logger.debug(
+                action="Unsubscribed:", msg=f"{event_subscriber} {StdOutColors.PURPLE_TEXT('Events:')} {event_names}"
+            )
 
     @classmethod
     def _get_logger(cls) -> Logger:
@@ -545,7 +548,9 @@ class EventLinker:
 
         # Log the subscription if debug is enabled
         if cls.__logger.debug_enabled:  # pragma: no cover
-            cls.__logger.debug(action="Subscribed:", msg=f"{event_subscriber} Events: {event_names}")
+            cls.__logger.debug(
+                action="Subscribed:", msg=f"{event_subscriber} {StdOutColors.PURPLE_TEXT('Events:')} {event_names}"
+            )
 
         # Return the new event subscriber
         return event_subscriber

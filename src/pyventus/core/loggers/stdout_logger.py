@@ -40,7 +40,7 @@ class StdOutLogger(ABC):
 
             # Define the logger format
             logger_format: str = (
-                f"{level_color}[Logger] "
+                f"{level_color}[Pyventus] "
                 f"{StdOutColors.DEFAULT}%(asctime)s "
                 f"{level_color}%(levelname)8s "
                 f"{level_color}%(message)s"

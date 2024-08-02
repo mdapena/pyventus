@@ -124,13 +124,15 @@ class EventLinker:
 
             # Subscribe the defined callbacks to the specified events
             # and store the returned subscriber for future reference.
-            self.source.subscribe(
-                *self.__events,
-                event_callback=self.__event_callback,
-                success_callback=self.__success_callback,
-                failure_callback=self.__failure_callback,
-                force_async=self.__force_async,
-                once=self.__once,
+            self._set_subscriber(
+                subscriber=self.source.subscribe(
+                    *self.__events,
+                    event_callback=self.__event_callback,
+                    success_callback=self.__success_callback,
+                    failure_callback=self.__failure_callback,
+                    force_async=self.__force_async,
+                    once=self.__once,
+                )
             )
 
             # Remove context-specific attributes.

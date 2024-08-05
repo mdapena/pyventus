@@ -251,6 +251,13 @@ class EventRegistry:
 
         return events, subscribers
 
+    def is_empty(self) -> bool:
+        """
+        Checks if the registry is empty.
+        :return: `True` if the forward registry is empty, `False` otherwise.
+        """
+        return not self.__fwd_registry
+
     def __str__(self) -> str:
         """
         Returns a string representation of the EventRegistry.

@@ -119,6 +119,20 @@ class EventRegistry:
         """
         return subscriber in self.__inv_registry
 
+    def are_associated(self, event: str, subscriber: EventSubscriber) -> bool:
+        """
+        Check if a specific event is associated with a particular subscriber.
+        :param event: The event for which association is being checked.
+        :param subscriber: The subscriber for which association is being checked.
+        :return: `True` if the subscriber is associated with the event, `False` otherwise.
+        """
+        # Ensure that both the event and subscriber are registered
+        if event not in self.__fwd_registry or subscriber not in self.__inv_registry:
+            return False
+
+        # Check if the subscriber is associated with the event
+        return subscriber in self.__fwd_registry[event]
+
     def insert(self, event: str, subscriber: EventSubscriber) -> None:
         """
         Inserts the given subscriber with the specified event in the registry.
@@ -199,6 +213,43 @@ class EventRegistry:
 
         # Return the removed events
         return removed_events
+
+    def remove_event_from_subscriber(
+        self, event: str, subscriber: EventSubscriber
+    ) -> Set[str | EventSubscriber] | None:
+        """
+        Removes an event from a subscriber.
+        :param event: The event to be removed from the subscriber.
+        :param subscriber: The subscriber from which the event should be removed.
+        :return: A set containing elements that were completely removed as a result
+            of the removal operation, such as events or subscribers, or `None` if
+            the event or subscriber is not registered.
+        """
+        # Check if the event and subscriber are registered
+        if event not in self.__fwd_registry or subscriber not in self.__inv_registry:
+            return None
+
+        # Set to store elements that were completely removed
+        removed_elements: Set[str | EventSubscriber] = set()
+
+        # Remove the event from the subscriber
+        self.__inv_registry[subscriber].remove(event)
+
+        # If the subscriber is no longer subscribed to any events, remove it completely
+        if len(self.__inv_registry[subscriber]) == 0:
+            removed_elements.add(subscriber)
+            self.__inv_registry.pop(subscriber)
+
+        # Remove the subscriber from the event
+        self.__fwd_registry[event].discard(subscriber)
+
+        # If the event no longer has any subscribers, remove it completely
+        if len(self.__fwd_registry[event]) == 0:
+            removed_elements.add(event)
+            self.__fwd_registry.pop(event)
+
+        # Return the set of elements that were deleted
+        return removed_elements
 
     def clear(self) -> Tuple[Set[str], Set[EventSubscriber]]:
         """

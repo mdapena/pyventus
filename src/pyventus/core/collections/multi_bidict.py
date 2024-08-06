@@ -169,21 +169,15 @@ class MultiBidict(Generic[_KT, _VT]):
             self.__inv_dict[value] = set()
         self.__inv_dict[value].add(key)
 
-    def remove(self, key: _KT, value: _VT) -> Set[_KT | _VT]:
+    def remove(self, key: _KT, value: _VT) -> None:
         """
-        Removes the specified value from the given key and returns the
-        key or value that was completely removed from the dictionary.
+        Removes the specified value from the given key.
         :param key: The key from which the value will be removed.
         :param value: The value to be removed from the key.
-        :return: A set containing the key or value that was
-            completely removed from the dictionary.
+        :return: None.
         :raises KeyError: If the key or value is
             not registered or associated.
         """
-        # Initialize a set to store the key/value that
-        # will be completely removed from both dictionaries
-        removed_elements: Set[_KT | _VT] = set()
-
         # Remove the value from the key's set
         self.__fwd_dict[key].remove(value)
 
@@ -191,7 +185,6 @@ class MultiBidict(Generic[_KT, _VT]):
         # remove it from the dictionary
         if not self.__fwd_dict[key]:
             self.__fwd_dict.pop(key)
-            removed_elements.add(key)
 
         # Remove the key from the value's set
         self.__inv_dict[value].remove(key)
@@ -200,27 +193,16 @@ class MultiBidict(Generic[_KT, _VT]):
         # any key, remove it from the inverse dictionary
         if not self.__inv_dict[value]:
             self.__inv_dict.pop(value)
-            removed_elements.add(value)
 
-        # Return the removed elements
-        return removed_elements
-
-    def remove_key(self, key: _KT) -> Set[_KT | _VT]:
+    def remove_key(self, key: _KT) -> None:
         """
-        Removes the specified key from the dictionary and returns a set of elements
-        that were removed during the process. This includes the key itself and any
-        values that were exclusively associated with the key.
+        Removes the specified key from the dictionary.
         :param key: The key to be removed from the dictionary.
-        :return: A set of elements that were removed from
-            the dictionary during the process.
+        :return: None.
         :raises KeyError: If the key is not registered.
         """
         # Remove the key and retrieve its associated values
         values: Set[_VT] = self.__fwd_dict.pop(key)
-
-        # Initialize a set to store the elements that will
-        # be completely removed from both dictionaries
-        removed_elements: Set[_KT | _VT] = {key}
 
         # Remove the key from each value's set
         for value in values:
@@ -230,27 +212,16 @@ class MultiBidict(Generic[_KT, _VT]):
             # keys, remove it from the inverse dictionary
             if not self.__inv_dict[value]:
                 self.__inv_dict.pop(value)
-                removed_elements.add(value)
 
-        # Return the set of removed elements
-        return removed_elements
-
-    def remove_value(self, value: _VT) -> Set[_KT | _VT]:
+    def remove_value(self, value: _VT) -> None:
         """
-        Removes the specified value from the dictionary and returns a set of elements
-        that were removed during the process. This includes the value itself and any
-        keys that were exclusively associated with the value.
+        Removes the specified value from the dictionary.
         :param value: The value to be removed from the dictionary.
-        :return: A set of elements that were removed from
-            the dictionary during the process.
+        :return: None.
         :raises KeyError: If the value is not registered.
         """
         # Remove the value and retrieve its associated keys
         keys: Set[_KT] = self.__inv_dict.pop(value)
-
-        # Initialize a set to store the elements that will
-        # be completely removed from both dictionaries
-        removed_elements: Set[_KT | _VT] = {value}
 
         # Remove the value from each key's set
         for key in keys:
@@ -260,10 +231,6 @@ class MultiBidict(Generic[_KT, _VT]):
             # any values, remove it from the dictionary
             if not self.__fwd_dict[key]:
                 self.__fwd_dict.pop(key)
-                removed_elements.add(key)
-
-        # Return the set of removed elements
-        return removed_elements
 
     def pop_key(self, key: _KT) -> Set[_VT]:
         """

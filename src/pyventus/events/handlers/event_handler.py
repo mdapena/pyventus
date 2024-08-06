@@ -50,7 +50,7 @@ class EventHandler(ABC):
             results: Any = await self._handle_event(*args, **kwargs)
         except Exception as exception:
             # Log the exception that occurred during the event handling.
-            StdOutLogger.error(name=f"{type(self).__name__}", action="Exception:", msg=f"{exception}")
+            StdOutLogger.error(name=f"{type(self).__name__}", action="Exception:", msg=f"{repr(exception)}")
 
             # Handle the failed completion of the event response.
             await self._handle_failure(exception=exception)

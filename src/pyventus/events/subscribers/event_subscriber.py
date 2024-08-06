@@ -135,9 +135,10 @@ class EventSubscriber(EventHandler, Subscription):
 
     def __str__(self) -> str:
         return (
-            f"Event Callback: ({self.__event_callback}) | "
-            f"Success Callback: {('(' + str(self.__success_callback) + ')') if self.__success_callback else 'None'} | "
-            f"Failure Callback: {('(' + str(self.__failure_callback) + ')') if self.__failure_callback else 'None'} | "
-            f"Once: {self.__once} | "
-            f"{super().__str__()}"
+            f"EventSubscriber("
+            f"event_callback={self.__event_callback}, "
+            f"success_callback={self.__success_callback}, "
+            f"failure_callback={self.__failure_callback}, "
+            f"once={self.__once}, "
+            f"timestamp='{self.timestamp.strftime('%Y-%m-%d %I:%M:%S %p')}')"
         )

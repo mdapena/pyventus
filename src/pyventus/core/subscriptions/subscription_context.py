@@ -38,10 +38,7 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
     """
 
     # Subscription Context attributes
-    __slots__ = (
-        "__source",
-        "__subscriber",
-    )
+    __slots__ = ("__source", "__subscriber")
 
     @property
     def source(self) -> _SourceType:

@@ -55,4 +55,4 @@ class Subscription(Unsubscribable):
         Return a formatted string representation of the subscription.
         :return: A string representation of the subscription.
         """
-        return f"Timestamp: {self.__timestamp.strftime('%Y-%m-%d %I:%M:%S %p')}"
+        return f"Subscription(timestamp='{self.__timestamp.strftime('%Y-%m-%d %I:%M:%S %p')}')"

@@ -97,7 +97,7 @@ class EventEmitter(ABC):
             """
             # Log the event execution if debug mode is enabled
             if self.__debug:  # pragma: no cover
-                StdOutLogger.debug(name=type(self).__name__, action="Executing:", msg=f"EventEmission[{self}]")
+                StdOutLogger.debug(name=type(self).__name__, action="Executing:", msg=f"{self}")
 
             # Execute the subscribers concurrently
             await gather(
@@ -138,8 +138,13 @@ class EventEmitter(ABC):
             :return: The formatted string representation of the event emission.
             """
             return (
-                f"ID: {self.id} — Timestamp: {self.timestamp.strftime('%Y-%m-%d %I:%M:%S %p')} — "
-                f"Event: {self.event} — Subscribers: {len(self.__subscribers)}"
+                f"EventEmission("
+                f"id='{self.__id}', "
+                f"event='{self.__event}', "
+                f"subscribers={len(self.__subscribers)}, "
+                f"args={self.__args}, "
+                f"kwargs={self.__kwargs}, "
+                f"timestamp='{self.__timestamp.strftime('%Y-%m-%d %I:%M:%S %p')}')"
             )
 
     def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None) -> None:

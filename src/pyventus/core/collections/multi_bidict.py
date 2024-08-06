@@ -299,11 +299,4 @@ class MultiBidict(Generic[_KT, _VT]):
         """
         if self.is_empty:
             return "{}"
-        return (
-            "{\n"
-            + "\n".join(
-                f"\t'{key}': {{{', '.join(f'Object[{hex(id(value))}]' for value in values)}}}"
-                for key, values in self.__fwd_dict.items()
-            )
-            + "\n}"
-        )
+        return "{\n" + "\n".join(f"\t'{key}': {values}" for key, values in self.__fwd_dict.items()) + "\n}"

@@ -58,10 +58,6 @@ class AsyncIOEventEmitter(EventEmitter):
         # Check if there is an active event loop
         is_loop_running: bool = self.__is_loop_running
 
-        # Log the execution context, if debug mode is enabled
-        if self._logger.debug_enabled:  # pragma: no cover
-            self._logger.debug(action=f"Context:", msg=f"{'Async' if is_loop_running else 'Sync'}")
-
         if is_loop_running:
             # Schedule the event emission in the running loop as a future
             future = asyncio.ensure_future(event_emission())

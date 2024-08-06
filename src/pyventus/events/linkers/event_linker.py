@@ -2,14 +2,15 @@ from dataclasses import is_dataclass
 from sys import gettrace
 from threading import Lock
 from types import TracebackType, EllipsisType
-from typing import TypeAlias, Mapping, Tuple, Dict, List, Type, Set, final
+from typing import TypeAlias, Tuple, Type, Set, final, Dict
 
 from ..subscribers import EventSubscriber, EventCallbackType, SuccessCallbackType, FailureCallbackType
+from ...core.collections import MultiBidict
 from ...core.constants import StdOutColors
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
 from ...core.subscriptions import SubscriptionContext
-from ...core.utils import validate_callable, get_callable_name
+from ...core.utils import validate_callable
 
 SubscribableEventType: TypeAlias = str | Type[Exception] | Type[object] | EllipsisType
 """A type alias representing the supported event types for subscription."""
@@ -17,21 +18,21 @@ SubscribableEventType: TypeAlias = str | Type[Exception] | Type[object] | Ellips
 
 class EventLinker:
     """
-    A base class that serves as a global registry for linking events and their responses. It
-    provides a centralized mechanism for managing event subscriptions, unsubscriptions, and
-    retrieval of events along with their associated event subscribers.
+    A base class that orchestrates the linkage of events and their inherent logic.
 
     **Notes:**
 
-    -   The `EventLinker` can be subclassed to create specific namespaces or contexts for managing
-        event subscriptions within different scopes. This design offers modularity and flexibility
-        in event management. Subclassing also allows users to configure settings of the `EventLinker`
-        to suit their specific use cases.
+    -   This class provides a centralized mechanism for managing the connections
+        between events and their corresponding logic.
 
-    -   The `EventLinker` is designed with *thread safety* in mind. All methods synchronize access
-        to prevent race conditions when managing events and event subscribers across multiple threads. This
-        ensures that concurrent operations on the `EventLinker` are properly synchronized, avoiding
-        data inconsistencies.
+    -   The `EventLinker` can be subclassed to create specific namespaces or contexts
+        for managing events within different scopes. This design offers modularity and
+        flexibility in event management. Subclassing also allows users to configure
+        the settings of the `EventLinker` to suit their specific use cases.
+
+    -   The `EventLinker` is designed with *thread safety* in mind. All methods
+        synchronize access to prevent race conditions when managing mutable
+        properties across multiple threads.
 
     ---
     Read more in the
@@ -168,35 +169,35 @@ class EventLinker:
             self.__failure_callback = callback
             return callback
 
-    __registry: Dict[str, List[EventSubscriber]] = {}
-    """ 
-    A dictionary that serves as a container for storing events and their associated event 
-    subscribers. The keys represent registered event names, and the values are lists of event
-    subscribers associated with each event.
+    __registry: MultiBidict[str, EventSubscriber] = MultiBidict[str, EventSubscriber]()
+    """
+    A registry that serves as a container for storing events and their associated subscribers. It 
+    utilizes an optimized data structure that enables quick lookups, updates, and even deletions 
+    of events and their subscribers.
     """
 
-    __max_event_subscribers: int | None = None
-    """The maximum number of event subscribers allowed per event, or `None` if there is no limit."""
+    __max_subscribers: int | None = None
+    """The maximum number of subscribers allowed per event, or `None` if there is no limit."""
 
     __default_success_callback: SuccessCallbackType | None = None
     """ 
-    Represents the default success callback that will be assigned to event subscribers in the 
+    Represents the default success callback that will be assigned to subscribers in the 
     absence of a specific success callback. This callback will be executed upon successful 
-    completion of the event response in each event subscriber.
+    completion of the event response in each subscriber.
     """
 
     __default_failure_callback: FailureCallbackType | None = None
     """
-    Represents the default failure callback that will be assigned to event subscribers in the
+    Represents the default failure callback that will be assigned to subscribers in the
     absence of a specific failure callback. This callback will be executed when the event 
-    response fails in each event subscriber.
+    response fails in each subscriber.
     """
 
     __thread_lock: Lock = Lock()
     """
-    A `threading.Lock` object used for thread synchronization when accessing and modifying the 
-    event registry to ensure thread safety. It prevents multiple threads from accessing and 
-    modifying the registry simultaneously.
+    A `threading.Lock` object used for thread synchronization when accessing and modifying 
+    mutable attributes to ensure thread safety. It prevents multiple threads from accessing 
+    and modifying mutable properties simultaneously.
     """
 
     __logger: Logger = Logger(name="EventLinker", debug=bool(gettrace() is not None))
@@ -208,7 +209,7 @@ class EventLinker:
 
     def __init_subclass__(
         cls,
-        max_event_subscribers: int | None = None,
+        max_subscribers: int | None = None,
         default_success_callback: SuccessCallbackType | None = None,
         default_failure_callback: FailureCallbackType | None = None,
         debug: bool | None = None,
@@ -219,30 +220,29 @@ class EventLinker:
         By default, this method sets up the main registry and the thread lock object, but
         it can also be used to configure specific settings of the `EventLinker` subclass.
 
-        :param max_event_subscribers: The maximum number of event subscribers allowed per
-            event, or `None` if there is no limit.
-        :param default_success_callback: The default callback to assign as the success
-            callback in the event subscribers when no specific success callback is provided.
-        :param default_failure_callback: The default callback to assign as the failure
-            callback in the event subscribers when no specific failure callback is provided.
-        :param debug: Specifies the debug mode for the subclass logger. If `None`,
-            it is determined based on the execution environment.
-        :raises PyventusException: If `max_event_subscribers` is less than 1 or
-            if the provided callbacks are invalid.
-        :return: None
+        :param max_subscribers: The maximum number of subscribers allowed per event, or `None` if there is no limit.
+        :param default_success_callback: The default callback to assign as the success callback in the subscribers
+            when no specific success callback is provided.
+        :param default_failure_callback: The default callback to assign as the failure callback in the subscribers
+            when no specific failure callback is provided.
+        :param debug: Specifies the debug mode for the subclass logger. If `None`, it is determined based
+            on the execution environment.
+        :raises PyventusException: If `max_subscribers` is less than 1 or if the provided
+            callbacks are invalid.
+        :return: None.
         """
         # Initialize the main registry
-        cls.__registry = {}
+        cls.__registry = MultiBidict[str, EventSubscriber]()
 
         # Create a lock object for thread synchronization
         cls.__thread_lock = Lock()
 
-        # Validate the max_event_subscribers argument
-        if max_event_subscribers is not None and max_event_subscribers < 1:
-            raise PyventusException("The 'max_event_subscribers' argument must be greater than or equal to 1.")
+        # Validate the max_subscribers argument
+        if max_subscribers is not None and max_subscribers < 1:
+            raise PyventusException("The 'max_subscribers' argument must be greater than or equal to 1.")
 
-        # Set the maximum number of event subscribers per event
-        cls.__max_event_subscribers = max_event_subscribers
+        # Set the maximum number of subscribers per event
+        cls.__max_subscribers = max_subscribers
 
         # Validate the default success callback, if any
         if default_success_callback is not None:
@@ -269,40 +269,6 @@ class EventLinker:
         )
 
     @classmethod
-    def __unsubscribe(cls, event_subscriber: EventSubscriber, event_names: Set[str]) -> None:
-        """
-        Teardown callback for the `EventSubscriber`, invoked during the unsubscription process.
-
-        This method removes the specified event subscriber from the given events. If there
-        are no remaining subscribers for a particular event after the removal, that event is
-        also removed from the registry. This cleanup ensures that resources are properly managed.
-
-        :param event_subscriber: The event subscriber to remove from the registry.
-        :param event_names: A set of event names from which the subscriber will be removed.
-        :return: None
-        """
-        # Obtain the lock to ensure exclusive access to the registry
-        with cls.__thread_lock:
-            # For each event name, remove the event subscriber
-            for event_name in event_names:
-                # Get the list of event subscribers
-                event_subscribers = cls.__registry[event_name]
-
-                # Remove the event subscriber
-                event_subscribers.remove(event_subscriber)
-
-                # If there are no more subscribers
-                # for the event, remove the event
-                if not event_subscribers:
-                    cls.__registry.pop(event_name)
-
-        # Log the removal of the subscriber from the events if debug is enabled.
-        if cls.__logger.debug_enabled:  # pragma: no cover
-            cls.__logger.debug(
-                action="Unsubscribed:", msg=f"{event_subscriber} {StdOutColors.PURPLE_TEXT('Events:')} {event_names}"
-            )
-
-    @classmethod
     def _get_logger(cls) -> Logger:
         """
         Retrieve the class-level logger instance.
@@ -312,9 +278,33 @@ class EventLinker:
         return cls.__logger
 
     @classmethod
-    def get_event_name(cls, event: SubscribableEventType) -> str:
+    def _get_valid_and_unique_event_names(cls, events: Tuple[SubscribableEventType, ...]) -> Set[str]:
         """
-        Determines the name of the event.
+        Validates and extracts unique event names from the specified tuple of event objects.
+        :param events: A tuple of event objects to validate and extract unique names from.
+        :return: A set of unique and valid event names derived from the provided tuple of event objects.
+        :raises PyventusException: If the 'events' argument is None, empty, or contains invalid events.
+        """
+        if not events:
+            raise PyventusException("The 'events' argument cannot be None or empty.")
+        return {cls.get_valid_event_name(event) for event in events}
+
+    @classmethod
+    def _get_valid_and_unique_subscribers(cls, subscribers: Tuple[EventSubscriber, ...]) -> Set[EventSubscriber]:
+        """
+        Validates and extracts unique subscribers from the specified tuple of subscribers.
+        :param subscribers: A tuple of event subscribers to validate and extract unique entries from.
+        :return: A set of unique and valid subscribers derived from the provided tuple of subscribers.
+        :raises PyventusException: If the 'subscribers' argument is None, empty, or contains invalid subscribers.
+        """
+        if not subscribers:
+            raise PyventusException("The 'subscribers' argument cannot be None or empty.")
+        return {cls.get_valid_subscriber(subscriber) for subscriber in subscribers}
+
+    @classmethod
+    def get_valid_event_name(cls, event: SubscribableEventType) -> str:
+        """
+        Determines the name of the event and performs validation.
         :param event: The event to obtain the name for.
         :return: A string that represents the event name.
         :raises PyventusException: If the `event` argument is invalid
@@ -342,18 +332,31 @@ class EventLinker:
             raise PyventusException("Unsupported event")
 
     @classmethod
-    def get_max_event_subscribers(cls) -> int | None:
+    def get_valid_subscriber(cls, subscriber: EventSubscriber) -> EventSubscriber:
         """
-        Retrieve the maximum number of event subscribers allowed per event.
-        :return: The maximum number of event subscribers or `None` if there is no limit.
+        Validates and returns the specified subscriber.
+        :param subscriber: The subscriber to validate.
+        :return: The validated subscriber.
+        :raises PyventusException: If the subscriber is not an instance of `EventSubscriber`.
         """
-        return cls.__max_event_subscribers
+        # Validate that the subscriber is an instance of EventSubscriber
+        if not isinstance(subscriber, EventSubscriber):
+            raise PyventusException("The 'subscriber' argument must be an instance of EventSubscriber.")
+        return subscriber
+
+    @classmethod
+    def get_max_subscribers(cls) -> int | None:
+        """
+        Retrieve the maximum number of subscribers allowed per event.
+        :return: The maximum number of subscribers or `None` if there is no limit.
+        """
+        return cls.__max_subscribers
 
     @classmethod
     def get_default_success_callback(cls) -> SuccessCallbackType | None:
         """
         Retrieve the default callback to be assigned as the success callback
-        in the event subscribers when no specific success callback is provided.
+        in the subscribers when no specific success callback is provided.
         :return: The default success callback or `None` if not set.
         """
         return cls.__default_success_callback
@@ -362,89 +365,169 @@ class EventLinker:
     def get_default_failure_callback(cls) -> FailureCallbackType | None:
         """
         Retrieve the default callback to be assigned as the failure callback
-        in the event subscribers when no specific failure callback is provided.
+        in the subscribers when no specific failure callback is provided.
         :return: The default failure callback or `None` if not set.
         """
         return cls.__default_failure_callback
 
     @classmethod
-    def get_registry(cls) -> Mapping[str, List[EventSubscriber]]:
+    def is_empty(cls) -> bool:
         """
-        Retrieve the main registry mapping.
-        :return: A mapping of event names to event subscribers.
+        Determines whether the main registry is empty.
+        :return: `True` if the main registry is empty, `False` otherwise.
         """
         with cls.__thread_lock:
-            return {event_name: event_subscribers.copy() for event_name, event_subscribers in cls.__registry.items()}
+            return cls.__registry.is_empty
 
     @classmethod
-    def get_events(cls) -> List[str]:
+    def get_registry(cls) -> Dict[str, Set[EventSubscriber]]:
         """
-        Retrieve a list of all the registered events.
-        :return: A list of event names.
+        Retrieves a shallow copy of the main registry.
+        :return: A shallow copy of the main registry, where each
+            event is mapped to a set of its linked subscribers.
         """
         with cls.__thread_lock:
-            return list(cls.__registry.keys())
+            return cls.__registry.to_dict()
 
     @classmethod
-    def get_event_subscribers(cls) -> List[EventSubscriber]:
+    def get_events(cls) -> Set[str]:
         """
-        Retrieve a list of non-duplicated event subscribers
-        that have been registered across all events.
-        :return: A list of event subscribers.
+        Retrieves all registered events.
+        :return: A set of all registered event names.
         """
         with cls.__thread_lock:
-            return list(
-                {
-                    event_subscriber
-                    for event_subscribers in cls.__registry.values()
-                    for event_subscriber in event_subscribers
-                }
-            )
+            return cls.__registry.keys
 
     @classmethod
-    def get_events_by_event_subscriber(cls, event_subscriber: EventSubscriber) -> List[str]:
+    def get_subscribers(cls) -> Set[EventSubscriber]:
         """
-        Retrieve a list of event names associated with the given event subscriber.
-        :param event_subscriber: The event subscriber to retrieve the associated events for.
-        :return: A list of event names.
-        :raise PyventusException: If the `event_subscriber` argument is `None` or invalid.
+        Retrieves all registered subscribers.
+        :return: A set of all registered subscribers.
         """
-        # Validate the event_subscriber argument
-        if event_subscriber is None:
-            raise PyventusException("The 'event_subscriber' argument cannot be None.")
-        if not isinstance(event_subscriber, EventSubscriber):
-            raise PyventusException("The 'event_subscriber' argument must be an instance of the EventSubscriber class.")
-
         with cls.__thread_lock:
-            return [
-                event_name
-                for event_name, event_subscribers in cls.__registry.items()
-                if event_subscriber in event_subscribers
-            ]
+            return cls.__registry.values
 
     @classmethod
-    def get_event_subscribers_by_events(cls, *events: SubscribableEventType) -> List[EventSubscriber]:
+    def get_event_count(cls) -> int:
         """
-        Retrieve a list of non-duplicated event subscribers associated with the specified events.
-        :param events: Events to retrieve the event subscribers for.
-        :return: A list of event subscribers.
-        :raise PyventusException: If the `events` argument is `None`, empty or unsupported.
+        Retrieves the number of registered events.
+        :return: The total count of events in the registry.
         """
-        # Validate the events argument
-        if events is None or len(events) <= 0:
-            raise PyventusException("The 'events' argument cannot be None or empty.")
-
-        # Retrieve all unique event names
-        event_names: Set[str] = {cls.get_event_name(event=event) for event in events}
-
         with cls.__thread_lock:
-            return list(
-                {
-                    event_subscriber
-                    for event_name in event_names
-                    for event_subscriber in cls.__registry.get(event_name, [])
-                }
-            )
+            return cls.__registry.key_count
+
+    @classmethod
+    def get_subscriber_count(cls) -> int:
+        """
+        Retrieves the number of registered subscribers.
+        :return: The total count of subscribers in the registry.
+        """
+        with cls.__thread_lock:
+            return cls.__registry.value_count
+
+    @classmethod
+    def get_events_from_subscribers(cls, *subscribers: EventSubscriber) -> Set[str]:
+        """
+        Retrieves a set of events associated with the specified subscribers.
+        :param subscribers: One or more subscribers for which to retrieve associated events.
+        :return: A set of events linked to the specified subscribers. Unregistered subscribers are ignored.
+        """
+        # Validate and retrieve all unique subscribers to avoid duplicate processing
+        unique_subscribers: Set[EventSubscriber] = cls._get_valid_and_unique_subscribers(subscribers)
+
+        # Return the set of event names associated with the unique subscribers
+        with cls.__thread_lock:
+            return cls.__registry.get_keys_from_values(unique_subscribers)
+
+    @classmethod
+    def get_subscribers_from_events(
+        cls, *events: SubscribableEventType, pop_one_time_subscribers: bool = False
+    ) -> Set[EventSubscriber]:
+        """
+        Retrieves a set of subscribers associated with the specified events.
+        :param events: One or more events for which to retrieve associated subscribers.
+        :param pop_one_time_subscribers: If `True`, removes one-time subscribers (those
+            with the property `once` set to True) from the registry.
+        :return: A set of subscribers linked to the specified events. Unregistered events are ignored.
+        """
+        # Validate and retrieve all unique event names to avoid duplicate processing
+        unique_events: Set[str] = cls._get_valid_and_unique_event_names(events)
+
+        # Acquire lock to ensure thread safety
+        with cls.__thread_lock:
+            # Retrieve subscribers associated with the unique events
+            subscribers: Set[EventSubscriber] = cls.__registry.get_values_from_keys(unique_events)
+
+            # Just return subscribers if pop_one_time_subscribers is False
+            if not pop_one_time_subscribers:
+                return subscribers
+
+            # Remove one-time subscribers from the registry
+            for subscriber in subscribers:
+                if subscriber.once:
+                    cls.__registry.remove_value(subscriber)
+
+        # Return the set of subscribers
+        return subscribers
+
+    @classmethod
+    def get_event_count_from_subscriber(cls, subscriber: EventSubscriber) -> int:
+        """
+        Retrieves the number of events associated with the specified subscriber.
+        :param subscriber: The subscriber for which to count the associated events.
+        :return: The count of events associated with the specified subscriber,
+            or 0 if the subscriber is not found.
+        """
+        valid_subscriber: EventSubscriber = cls.get_valid_subscriber(subscriber)
+        with cls.__thread_lock:
+            return cls.__registry.get_key_count_from_value(valid_subscriber)
+
+    @classmethod
+    def get_subscriber_count_from_event(cls, event: SubscribableEventType) -> int:
+        """
+        Returns the number of subscribers associated with a given event.
+        :param event: The event for which to count the associated subscribers.
+        :return: The count of subscribers associated with the specified event,
+            or 0 if the event is not found.
+        """
+        valid_event: str = cls.get_valid_event_name(event)
+        with cls.__thread_lock:
+            return cls.__registry.get_value_count_from_key(valid_event)
+
+    @classmethod
+    def contains_event(cls, event: SubscribableEventType) -> bool:
+        """
+        Determines if the specified event is present in the registry.
+        :param event: The event to be checked.
+        :return: `True` if the event is found; `False` otherwise.
+        """
+        valid_event: str = cls.get_valid_event_name(event)
+        with cls.__thread_lock:
+            return cls.__registry.contains_key(valid_event)
+
+    @classmethod
+    def contains_subscriber(cls, subscriber: EventSubscriber) -> bool:
+        """
+        Determines if the specified subscriber is present in the registry.
+        :param subscriber: The subscriber to be checked.
+        :return: `True` if the subscriber is found; `False` otherwise.
+        """
+        valid_subscriber: EventSubscriber = cls.get_valid_subscriber(subscriber)
+        with cls.__thread_lock:
+            return cls.__registry.contains_value(valid_subscriber)
+
+    @classmethod
+    def are_linked(cls, event: SubscribableEventType, subscriber: EventSubscriber) -> bool:
+        """
+        Determines whether the given event is linked with the specified subscriber.
+        :param event: The event for which the association is being checked.
+        :param subscriber: The subscriber for which the association is being checked.
+        :return: `True` if the subscriber is linked to the event; `False` otherwise.
+        """
+        valid_event: str = cls.get_valid_event_name(event)
+        valid_subscriber: EventSubscriber = cls.get_valid_subscriber(subscriber)
+        with cls.__thread_lock:
+            return cls.__registry.are_associated(valid_event, valid_subscriber)
 
     @classmethod
     def once(cls, *events: SubscribableEventType, force_async: bool = False) -> EventSubscriptionContext:
@@ -505,31 +588,28 @@ class EventLinker:
             If `True`, synchronous callbacks will be converted to run asynchronously in a
             thread pool, using the `asyncio.to_thread` function. If `False`, callbacks
             will run synchronously or asynchronously as defined.
-        :param once: Specifies if the event subscriber will be a one-time subscription.
-        :return: The event subscriber associated with the given events.
+        :param once: Specifies if the subscriber will be a one-time subscriber.
+        :return: The subscriber associated with the given events.
         """
-        # Validate the events argument
-        if events is None or len(events) <= 0:
-            raise PyventusException("The 'events' argument cannot be None or empty.")
-
-        # Retrieve all unique event names
-        event_names: Set[str] = {cls.get_event_name(event=event) for event in events}
+        # Validate and retrieve all unique event names
+        unique_events: Set[str] = cls._get_valid_and_unique_event_names(events)
 
         # Acquire the lock to ensure exclusive access to the main registry
         with cls.__thread_lock:
-            # Check if the maximum number of event subscribers is set
-            if cls.__max_event_subscribers is not None:
-                # For each event name, check if the maximum number of event subscribers for the event has been exceeded
-                for event_name in event_names:
-                    if len(cls.__registry.get(event_name, [])) >= cls.__max_event_subscribers:
+
+            # Check if the maximum number of subscribers is set
+            if cls.__max_subscribers is not None:
+                # For each event name, check if the maximum number
+                # of subscribers for the event has been exceeded
+                for event in unique_events:
+                    if cls.__registry.get_value_count_from_key(event) >= cls.__max_subscribers:
                         raise PyventusException(
-                            f"The event '{event_name}' has exceeded the maximum number of event subscribers allowed. "
-                            f"The '{get_callable_name(event_callback)}' callback cannot be subscribed."
+                            f"The event '{event}' has exceeded the maximum number of subscribers allowed. "
                         )
 
             # Create a new event subscriber
-            event_subscriber: EventSubscriber = EventSubscriber(
-                teardown_callback=lambda self: cls.__unsubscribe(self, event_names),
+            subscriber: EventSubscriber = EventSubscriber(
+                teardown_callback=cls.remove_subscriber,
                 event_callback=event_callback,
                 success_callback=success_callback if success_callback else cls.__default_success_callback,
                 failure_callback=failure_callback if failure_callback else cls.__default_failure_callback,
@@ -537,20 +617,120 @@ class EventLinker:
                 once=once,
             )
 
-            # For each event name, register the event subscriber
-            for event_name in event_names:
-                # If the event name is not present in the main registry, create a new empty list for it
-                if event_name not in cls.__registry:
-                    cls.__registry[event_name] = []
-
-                # Append the event subscriber to the list
-                cls.__registry[event_name].append(event_subscriber)
+            # Register the subscriber for each unique event
+            for event in unique_events:
+                cls.__registry.insert(event, subscriber)
 
         # Log the subscription if debug is enabled
         if cls.__logger.debug_enabled:  # pragma: no cover
             cls.__logger.debug(
-                action="Subscribed:", msg=f"{event_subscriber} {StdOutColors.PURPLE_TEXT('Events:')} {event_names}"
+                action="Subscribed:", msg=f"{subscriber} {StdOutColors.PURPLE_TEXT('Events:')} {unique_events}"
             )
 
         # Return the new event subscriber
-        return event_subscriber
+        return subscriber
+
+    @classmethod
+    def remove(cls, event: SubscribableEventType, subscriber: EventSubscriber) -> bool:
+        """
+        Removes the specified subscriber from the given event.
+        :param event: The event from which the subscriber will be removed.
+        :param subscriber: The subscriber to be removed from the event.
+        :return: `True` if the subscriber was successfully removed; `False` if
+            no removal occurred due to the event or subscriber not being registered,
+            or if they are not linked.
+        """
+        # Validate the given event and subscriber
+        valid_event: str = cls.get_valid_event_name(event)
+        valid_subscriber: EventSubscriber = cls.get_valid_subscriber(subscriber)
+
+        # Acquire lock to ensure thread safety
+        with cls.__thread_lock:
+
+            # Check if the event and subscriber are registered and linked
+            if not cls.__registry.are_associated(valid_event, valid_subscriber):
+                return False
+
+            # Remove the subscriber from the event
+            cls.__registry.remove(valid_event, valid_subscriber)
+
+        if cls.__logger.debug_enabled:  # pragma: no cover
+            cls.__logger.debug(
+                action="Removed:", msg=f"{subscriber} {StdOutColors.PURPLE_TEXT('Event:')} {valid_event}"
+            )
+
+        return True
+
+    @classmethod
+    def remove_event(cls, event: SubscribableEventType) -> bool:
+        """
+        Removes the specified event from the registry.
+        :param event: The event to be removed from the registry.
+        :return: `True` if the event was successfully removed; `False`
+            if the event was not found in the registry.
+        """
+        # Get the valid event name
+        valid_event: str = cls.get_valid_event_name(event)
+
+        # Acquire lock to ensure thread safety
+        with cls.__thread_lock:
+
+            # Check if the event is registered; return False if not
+            if not cls.__registry.contains_key(valid_event):
+                return False
+
+            # Remove the event from the registry
+            cls.__registry.remove_key(valid_event)
+
+        if cls.__logger.debug_enabled:  # pragma: no cover
+            cls.__logger.debug(action="Event Removed:", msg=f"{valid_event}")
+
+        return True
+
+    @classmethod
+    def remove_subscriber(cls, subscriber: EventSubscriber) -> bool:
+        """
+        Removes the specified subscriber from the registry.
+        :param subscriber: The subscriber to be removed from the registry.
+        :return: `True` if the subscriber was successfully removed; `False` if
+            the subscriber was not found in the registry.
+        """
+        # Get the valid subscriber instance
+        valid_subscriber: EventSubscriber = cls.get_valid_subscriber(subscriber)
+
+        # Acquire lock to ensure thread safety
+        with cls.__thread_lock:
+
+            # Check if the subscriber is registered; return False if not
+            if not cls.__registry.contains_value(valid_subscriber):
+                return False
+
+            # Remove the subscriber from the registry
+            cls.__registry.remove_value(valid_subscriber)
+
+        if cls.__logger.debug_enabled:  # pragma: no cover
+            cls.__logger.debug(action="Subscriber Removed:", msg=f"{valid_subscriber}")
+
+        return True
+
+    @classmethod
+    def remove_all(cls) -> bool:
+        """
+        Removes all events and subscribers from the registry.
+        :return: `True` if the registry was successfully cleared; `False`
+            if the registry was already empty.
+        """
+        # Acquire lock to ensure thread safety
+        with cls.__thread_lock:
+
+            # Check if the registry is already empty
+            if cls.__registry.is_empty:
+                return False
+
+            # Clear the registry
+            cls.__registry.clear()
+
+        if cls.__logger.debug_enabled:  # pragma: no cover
+            cls.__logger.debug(msg=f"All events and subscribers successfully removed from the registry.")
+
+        return True

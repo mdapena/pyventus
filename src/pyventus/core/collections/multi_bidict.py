@@ -276,26 +276,13 @@ class MultiBidict(Generic[_KT, _VT]):
         # Return the set of keys
         return keys
 
-    def clear(self) -> Set[_KT | _VT]:
+    def clear(self) -> None:
         """
         Clears the dictionary by removing all keys and values.
-        :return: A set of keys and values that were removed from the dictionary.
+        :return: None.
         """
-        # Store the current keys and values before clearing the dictionaries
-        removed_elements: Set[_KT | _VT] = set()
-
-        # Add the keys from the forward dictionary to the removed elements
-        removed_elements.update(self.__fwd_dict.keys())
-
-        # Add the values from the inverse dictionary to the removed elements
-        removed_elements.update(self.__inv_dict.keys())
-
-        # Clear both the forward dictionary and its inverse
         self.__fwd_dict.clear()
         self.__inv_dict.clear()
-
-        # Return the set of elements
-        return removed_elements
 
     def to_dict(self) -> Dict[_KT, Set[_VT]]:
         """

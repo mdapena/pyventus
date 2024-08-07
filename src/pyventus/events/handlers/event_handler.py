@@ -10,6 +10,9 @@ class EventHandler(ABC):
     for event handling, including procedures for successful and failed completion.
     """
 
+    # Allow subclasses to define __slots__
+    __slots__ = ()
+
     @abstractmethod
     async def _handle_event(self, *args: Any, **kwargs: Any) -> Any:
         """

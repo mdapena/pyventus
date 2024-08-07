@@ -7,6 +7,9 @@ class Unsubscribable(ABC):
     a subscribed source.
     """
 
+    # Allow subclasses to define __slots__
+    __slots__ = ()
+
     @abstractmethod
     def unsubscribe(self) -> bool:
         """

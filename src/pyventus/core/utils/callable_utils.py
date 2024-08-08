@@ -1,14 +1,14 @@
 from asyncio import to_thread
 from inspect import (
-    isfunction,
-    isclass,
-    isbuiltin,
-    ismethod,
-    iscoroutinefunction,
-    isgeneratorfunction,
     isasyncgenfunction,
+    isbuiltin,
+    isclass,
+    iscoroutinefunction,
+    isfunction,
+    isgeneratorfunction,
+    ismethod,
 )
-from typing import TypeVar, Callable, ParamSpec, Any, Generic, final
+from typing import Any, Awaitable, Callable, Generic, ParamSpec, TypeVar, final
 
 from ..exceptions import PyventusException
 
@@ -55,7 +55,7 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
         """
         return self.__force_async
 
-    def __init__(self, cb: Callable[_ParamType, _ReturnType], /, force_async: bool) -> None:
+    def __init__(self, cb: Callable[_ParamType, Awaitable[_ReturnType] | _ReturnType], /, force_async: bool) -> None:
         """
         Initializes an instance of `CallableWrapper`.
         :param cb: The callable object to be wrapped.
@@ -77,7 +77,7 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
         self.__name__: str = get_callable_name(cb)
 
         # Store the callable and determine if it is asynchronous.
-        self.__callable: Callable[_ParamType, _ReturnType] = cb
+        self.__callable: Callable[_ParamType, Awaitable[_ReturnType] | _ReturnType] = cb
         self.__is_callable_async: bool = is_callable_async(cb)
 
         # Store the force_async flag.
@@ -95,10 +95,10 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
             return await self.__callable(*args, **kwargs)  # type: ignore[no-any-return, misc]
         elif self.__force_async:
             # If the callable is synchronous and force_async is True, run it in a separate thread.
-            return await to_thread(self.__callable, *args, **kwargs)
+            return await to_thread(self.__callable, *args, **kwargs)  # type: ignore[arg-type]
         else:
             # If the callable is synchronous and force_async is False, run it synchronously.
-            return self.__callable(*args, **kwargs)
+            return self.__callable(*args, **kwargs)  # type: ignore[return-value]
 
     def __str__(self) -> str:
         """

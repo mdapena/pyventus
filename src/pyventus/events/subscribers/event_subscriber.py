@@ -37,12 +37,7 @@ class EventSubscriber(EventHandler, Subscription):
     """
 
     # Attributes for the EventSubscriber
-    __slots__ = (
-        "__event_callback",
-        "__success_callback",
-        "__failure_callback",
-        "__once",
-    )
+    __slots__ = ("__event_callback", "__success_callback", "__failure_callback", "__once")
 
     @property
     def once(self) -> bool:

@@ -49,15 +49,7 @@ class EventEmitter(ABC):
         """
 
         # Attributes for the EventEmission
-        __slots__ = (
-            "__id",
-            "__event",
-            "__subscribers",
-            "__args",
-            "__kwargs",
-            "__timestamp",
-            "__debug",
-        )
+        __slots__ = ("__id", "__event", "__subscribers", "__args", "__kwargs", "__timestamp", "__debug")
 
         def __init__(
             self,

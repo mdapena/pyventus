@@ -1,7 +1,7 @@
 from dataclasses import is_dataclass
 from sys import gettrace
 from threading import Lock
-from types import TracebackType, EllipsisType
+from types import EllipsisType
 from typing import TypeAlias, Tuple, Type, Set, final, Dict
 
 from ..subscribers import EventSubscriber, EventCallbackType, SuccessCallbackType, FailureCallbackType
@@ -68,10 +68,12 @@ class EventLinker:
 
         def __init__(
             self,
-            *events: SubscribableEventType,
+            events: Tuple[SubscribableEventType, ...],
             event_linker: Type["EventLinker"],
             force_async: bool,
             once: bool,
+            retain_linker: bool,
+            retain_subscriber: bool,
         ) -> None:
             """
             Initialize an instance of `EventSubscriptionContext`.
@@ -79,9 +81,17 @@ class EventLinker:
             :param event_linker: The type of event linker used for the actual subscription.
             :param force_async: Determines whether to force all callbacks to run asynchronously.
             :param once: Specifies if the event subscriber will be a one-time subscription.
+            :param retain_linker: A flag indicating whether to store the event linker within the context,
+                allowing it to be retrieved after the subscription context is closed. If set to `False`,
+                the reference to the event linker will be removed from the context instance upon closing
+                the subscription context to optimize memory usage.
+            :param retain_subscriber: A flag indicating whether to store the returned subscriber object
+                within the context, allowing it to be retrieved after the subscription context block is
+                closed. If set to `False`, the reference to the subscriber will not be stored in the
+                context instance upon closing the subscription context, thereby optimizing memory usage.
             """
-            # Initialize the base SubscriptionContext class with the given source
-            super().__init__(source=event_linker)
+            # Initialize the base SubscriptionContext class
+            super().__init__(source=event_linker, retain_source=retain_linker, retain_subscriber=retain_subscriber)
 
             # Initialize variables
             self.__events: Tuple[SubscribableEventType, ...] = events
@@ -91,56 +101,54 @@ class EventLinker:
             self.__force_async: bool = force_async
             self.__once: bool = once
 
-        def __call__(self, callback: EventCallbackType) -> EventCallbackType:
+        def __call__(self, callback: EventCallbackType) -> "EventLinker.EventSubscriptionContext":
             """
             Subscribes the decorated callback to the specified events.
             :param callback: The callback to be executed when the event occurs.
             :return: The decorated callback.
             """
-            # Subscribe the decorated callback to the specified events
-            # and store the returned subscriber for future reference.
-            self._set_subscriber(
-                subscriber=self.source.subscribe(
-                    *self.__events,
-                    event_callback=callback,
-                    success_callback=None,
-                    failure_callback=None,
-                    force_async=self.__force_async,
-                    once=self.__once,
-                )
-            )
+            # Store the provided callback as the event callback
+            self.__event_callback = callback
 
-            # Remove context-specific attributes.
-            del self.__events
-            del self.__event_callback, self.__success_callback, self.__failure_callback
-            del self.__force_async, self.__once
+            # Set success and failure callbacks to None
+            self.__success_callback = None
+            self.__failure_callback = None
 
-            return callback
+            # Call the exit method to finalize the
+            # subscription process and clean up any necessary context.
+            self.__exit__(None, None, None)
 
-        def __exit__(
-            self, exc_type: Type[BaseException] | None, exc_val: BaseException | None, exc_tb: TracebackType | None
-        ) -> None:
+            # Return context
+            return self
+
+        def _exit(self) -> EventSubscriber:
+            # Ensure that the source is not None
+            if self.source is None:
+                raise PyventusException("The subscription context is closed.")
+
             # Check if the event callback has been set
             if self.__event_callback is None:
                 raise PyventusException("The event callback has not been set.")
 
-            # Subscribe the defined callbacks to the specified events
-            # and store the returned subscriber for future reference.
-            self._set_subscriber(
-                subscriber=self.source.subscribe(
-                    *self.__events,
-                    event_callback=self.__event_callback,
-                    success_callback=self.__success_callback,
-                    failure_callback=self.__failure_callback,
-                    force_async=self.__force_async,
-                    once=self.__once,
-                )
+            # Subscribe the defined callbacks to the
+            # specified events and store the returned subscriber.
+            subscriber: EventSubscriber = self.source.subscribe(
+                *self.__events,
+                event_callback=self.__event_callback,
+                success_callback=self.__success_callback,
+                failure_callback=self.__failure_callback,
+                force_async=self.__force_async,
+                once=self.__once,
             )
 
-            # Remove context-specific attributes.
+            # Remove context-specific attributes to clean up
+            # and prevent memory leaks.
             del self.__events
             del self.__event_callback, self.__success_callback, self.__failure_callback
             del self.__force_async, self.__once
+
+            # Return the subscriber
+            return subscriber
 
         def on_event(self, callback: EventCallbackType) -> EventCallbackType:
             """
@@ -530,7 +538,13 @@ class EventLinker:
             return cls.__registry.are_associated(valid_event, valid_subscriber)
 
     @classmethod
-    def once(cls, *events: SubscribableEventType, force_async: bool = False) -> EventSubscriptionContext:
+    def once(
+        cls,
+        *events: SubscribableEventType,
+        force_async: bool = False,
+        retain_linker: bool = False,
+        retain_subscriber: bool = False,
+    ) -> EventSubscriptionContext:
         """
         Decorator that allows you to conveniently subscribe callbacks to the provided events
         for a single invocation.
@@ -545,12 +559,33 @@ class EventLinker:
             If `True`, synchronous callbacks will be converted to run asynchronously in a
             thread pool, using the `asyncio.to_thread` function. If `False`, callbacks
             will run synchronously or asynchronously as defined.
+        :param retain_linker: A flag indicating whether to store the event linker within the context,
+            allowing it to be retrieved after the subscription context is closed. If set to `False`,
+            the reference to the event linker will be removed from the context instance upon closing
+            the subscription context to optimize memory usage.
+        :param retain_subscriber: A flag indicating whether to store the returned subscriber object
+            within the context, allowing it to be retrieved after the subscription context block is
+            closed. If set to `False`, the reference to the subscriber will not be stored in the
+            context instance upon closing the subscription context, thereby optimizing memory usage.
         :return: A `EventSubscriptionContext` instance.
         """
-        return EventLinker.EventSubscriptionContext(*events, event_linker=cls, force_async=force_async, once=True)
+        return EventLinker.EventSubscriptionContext(
+            events=events,
+            event_linker=cls,
+            force_async=force_async,
+            once=True,
+            retain_linker=retain_linker,
+            retain_subscriber=retain_subscriber,
+        )
 
     @classmethod
-    def on(cls, *events: SubscribableEventType, force_async: bool = False) -> EventSubscriptionContext:
+    def on(
+        cls,
+        *events: SubscribableEventType,
+        force_async: bool = False,
+        retain_linker: bool = False,
+        retain_subscriber: bool = False,
+    ) -> EventSubscriptionContext:
         """
         Decorator that allows you to conveniently subscribe callbacks to the provided events.
 
@@ -564,9 +599,24 @@ class EventLinker:
             If `True`, synchronous callbacks will be converted to run asynchronously in a
             thread pool, using the `asyncio.to_thread` function. If `False`, callbacks
             will run synchronously or asynchronously as defined.
+        :param retain_linker: A flag indicating whether to store the event linker within the context,
+            allowing it to be retrieved after the subscription context is closed. If set to `False`,
+            the reference to the event linker will be removed from the context instance upon closing
+            the subscription context to optimize memory usage.
+        :param retain_subscriber: A flag indicating whether to store the returned subscriber object
+            within the context, allowing it to be retrieved after the subscription context block is
+            closed. If set to `False`, the reference to the subscriber will not be stored in the
+            context instance upon closing the subscription context, thereby optimizing memory usage.
         :return: A `EventSubscriptionContext` instance.
         """
-        return EventLinker.EventSubscriptionContext(*events, event_linker=cls, force_async=force_async, once=False)
+        return EventLinker.EventSubscriptionContext(
+            events=events,
+            event_linker=cls,
+            force_async=force_async,
+            once=False,
+            retain_linker=retain_linker,
+            retain_subscriber=retain_subscriber,
+        )
 
     @classmethod
     def subscribe(

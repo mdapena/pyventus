@@ -69,14 +69,14 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
         """
         Initialize an instance of `SubscriptionContext`.
         :param source: The source to which the subscription is performed.
-        :param retain_source: A flag indicating whether to store the source object within the
-            context, allowing it to be retrieved after the context block is exited. If set to `False`,
-            the reference to the source will be removed from the class instance upon exiting the context
-            block to optimize memory usage.
-        :param retain_subscriber: A flag indicating whether to store the returned subscriber object within
-            the context, allowing it to be retrieved after the context block is exited. If set to `False`,
-            the reference to the subscriber will not be stored in the class instance upon exiting the
-            context block to optimize memory usage.
+        :param retain_source: A flag indicating whether to store the source object within the context,
+            allowing it to be retrieved after the subscription context is closed. If set to `False`,
+            the reference to the source object will be removed from the context instance upon closing
+            the subscription context to optimize memory usage.
+        :param retain_subscriber: A flag indicating whether to store the returned subscriber object
+            within the context, allowing it to be retrieved after the subscription context block is
+            closed. If set to `False`, the reference to the subscriber will not be stored in the
+            context instance upon closing the subscription context, thereby optimizing memory usage.
         """
         # Validate the source and return flags
         if source is None:

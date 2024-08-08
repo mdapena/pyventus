@@ -46,7 +46,7 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
         :return: The source object, or `None` if it was not retained
             for later access after exiting the context.
         """
-        return self.__source if hasattr(self, "__source") else None
+        return self.__source if hasattr(self, "_SubscriptionContext__source") else None
 
     @property
     def subscriber(self) -> _SubscriberType | None:
@@ -57,7 +57,7 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
             access after exiting the context.
         :raises PyventusException: If accessed before or during the subscription context.
         """
-        if not hasattr(self, "__subscriber"):
+        if not hasattr(self, "_SubscriptionContext__subscriber"):
             return None
 
         if self.__subscriber is None:

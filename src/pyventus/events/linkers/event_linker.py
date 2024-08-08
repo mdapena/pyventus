@@ -101,11 +101,13 @@ class EventLinker:
             self.__force_async: bool = force_async
             self.__once: bool = once
 
-        def __call__(self, callback: EventCallbackType) -> "EventLinker.EventSubscriptionContext":
+        def __call__(
+            self, callback: EventCallbackType
+        ) -> Tuple[EventCallbackType, "EventLinker.EventSubscriptionContext"]:
             """
             Subscribes the decorated callback to the specified events.
             :param callback: The callback to be executed when the event occurs.
-            :return: The decorated callback.
+            :return: A tuple containing the decorated callback and its subscription context.
             """
             # Store the provided callback as the event callback
             self.__event_callback = callback
@@ -118,8 +120,9 @@ class EventLinker:
             # subscription process and clean up any necessary context.
             self.__exit__(None, None, None)
 
-            # Return context
-            return self
+            # Return a tuple containing the decorated
+            # callback and the current subscription context
+            return callback, self
 
         def _exit(self) -> EventSubscriber:
             # Ensure that the source is not None

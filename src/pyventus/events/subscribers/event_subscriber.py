@@ -1,10 +1,10 @@
 import sys
 from typing import Any, Awaitable, Callable, TypeAlias, final
 
-from pyventus.core.exceptions import PyventusException
-from pyventus.core.subscriptions import Subscription
-from pyventus.core.utils import CallableWrapper
-from pyventus.events.handlers import EventHandler
+from ...core.exceptions import PyventusException
+from ...core.subscriptions import Subscription
+from ...core.utils import CallableWrapper
+from ...events.handlers import EventHandler
 
 if sys.version_info >= (3, 11):
     from typing import Self

@@ -53,6 +53,10 @@ class EventLinker:
             When used as a context manager with the `with` statement, it allows multiple callbacks
             to be associated with the specified events within the context block.
 
+        -   This subscription context can be `stateful`, retaining references to the `event linker`
+            and `subscriber`, or `stateless`, which clears the context upon exiting the subscription
+            block.
+
         -   This class is not intended to be subclassed or manually instantiated.
         """
 
@@ -72,8 +76,7 @@ class EventLinker:
             event_linker: Type["EventLinker"],
             force_async: bool,
             once: bool,
-            retain_linker: bool,
-            retain_subscriber: bool,
+            is_stateful: bool,
         ) -> None:
             """
             Initialize an instance of `EventSubscriptionContext`.
@@ -81,17 +84,14 @@ class EventLinker:
             :param event_linker: The type of event linker used for the actual subscription.
             :param force_async: Determines whether to force all callbacks to run asynchronously.
             :param once: Specifies if the event subscriber will be a one-time subscription.
-            :param retain_linker: A flag indicating whether to store the event linker within the context,
-                allowing it to be retrieved after the subscription context is closed. If set to `False`,
-                the reference to the event linker will be removed from the context instance upon closing
-                the subscription context to optimize memory usage.
-            :param retain_subscriber: A flag indicating whether to store the returned subscriber object
-                within the context, allowing it to be retrieved after the subscription context block is
-                closed. If set to `False`, the reference to the subscriber will not be stored in the
-                context instance upon closing the subscription context, thereby optimizing memory usage.
+            :param is_stateful: A flag indicating whether the context preserves its state (stateful) or
+                not (stateless) after exiting the subscription context. If `True`, the context retains its
+                state, allowing access to stored objects, including the `event linker` and the `subscriber`
+                object. If `False`, the context is stateless, and the stored state is cleared upon exiting
+                the subscription context to prevent memory leaks.
             """
             # Initialize the base SubscriptionContext class
-            super().__init__(source=event_linker, retain_source=retain_linker, retain_subscriber=retain_subscriber)
+            super().__init__(source=event_linker, is_stateful=is_stateful)
 
             # Initialize variables
             self.__events: Tuple[SubscribableEventType, ...] = events
@@ -126,7 +126,7 @@ class EventLinker:
 
         def _exit(self) -> EventSubscriber:
             # Ensure that the source is not None
-            if self.source is None:
+            if self._source is None:
                 raise PyventusException("The subscription context is closed.")
 
             # Check if the event callback has been set
@@ -135,7 +135,7 @@ class EventLinker:
 
             # Subscribe the defined callbacks to the
             # specified events and store the returned subscriber.
-            subscriber: EventSubscriber = self.source.subscribe(
+            subscriber: EventSubscriber = self._source.subscribe(
                 *self.__events,
                 event_callback=self.__event_callback,
                 success_callback=self.__success_callback,
@@ -542,11 +542,7 @@ class EventLinker:
 
     @classmethod
     def once(
-        cls,
-        *events: SubscribableEventType,
-        force_async: bool = False,
-        retain_linker: bool = False,
-        retain_subscriber: bool = False,
+        cls, *events: SubscribableEventType, force_async: bool = False, stateful_context: bool = False
     ) -> EventSubscriptionContext:
         """
         Decorator that allows you to conveniently subscribe callbacks to the provided events
@@ -562,32 +558,19 @@ class EventLinker:
             If `True`, synchronous callbacks will be converted to run asynchronously in a
             thread pool, using the `asyncio.to_thread` function. If `False`, callbacks
             will run synchronously or asynchronously as defined.
-        :param retain_linker: A flag indicating whether to store the event linker within the context,
-            allowing it to be retrieved after the subscription context is closed. If set to `False`,
-            the reference to the event linker will be removed from the context instance upon closing
-            the subscription context to optimize memory usage.
-        :param retain_subscriber: A flag indicating whether to store the returned subscriber object
-            within the context, allowing it to be retrieved after the subscription context block is
-            closed. If set to `False`, the reference to the subscriber will not be stored in the
-            context instance upon closing the subscription context, thereby optimizing memory usage.
-        :return: A `EventSubscriptionContext` instance.
+        :param stateful_context: A flag indicating whether the subscription context preserves its state
+            (stateful) or not (stateless) after exiting the subscription block. If `True`, the context retains
+            its state, allowing access to stored objects, including the `event linker` and the `subscriber`
+            object. If `False`, the context is stateless, and the stored state is cleared upon exiting the
+            subscription block to prevent memory leaks.
         """
         return EventLinker.EventSubscriptionContext(
-            events=events,
-            event_linker=cls,
-            force_async=force_async,
-            once=True,
-            retain_linker=retain_linker,
-            retain_subscriber=retain_subscriber,
+            events=events, event_linker=cls, force_async=force_async, once=True, is_stateful=stateful_context
         )
 
     @classmethod
     def on(
-        cls,
-        *events: SubscribableEventType,
-        force_async: bool = False,
-        retain_linker: bool = False,
-        retain_subscriber: bool = False,
+        cls, *events: SubscribableEventType, force_async: bool = False, stateful_context: bool = False
     ) -> EventSubscriptionContext:
         """
         Decorator that allows you to conveniently subscribe callbacks to the provided events.
@@ -602,23 +585,15 @@ class EventLinker:
             If `True`, synchronous callbacks will be converted to run asynchronously in a
             thread pool, using the `asyncio.to_thread` function. If `False`, callbacks
             will run synchronously or asynchronously as defined.
-        :param retain_linker: A flag indicating whether to store the event linker within the context,
-            allowing it to be retrieved after the subscription context is closed. If set to `False`,
-            the reference to the event linker will be removed from the context instance upon closing
-            the subscription context to optimize memory usage.
-        :param retain_subscriber: A flag indicating whether to store the returned subscriber object
-            within the context, allowing it to be retrieved after the subscription context block is
-            closed. If set to `False`, the reference to the subscriber will not be stored in the
-            context instance upon closing the subscription context, thereby optimizing memory usage.
+        :param stateful_context: A flag indicating whether the subscription context preserves its state
+            (stateful) or not (stateless) after exiting the subscription block. If `True`, the context retains
+            its state, allowing access to stored objects, including the `event linker` and the `subscriber`
+            object. If `False`, the context is stateless, and the stored state is cleared upon exiting the
+            subscription block to prevent memory leaks.
         :return: A `EventSubscriptionContext` instance.
         """
         return EventLinker.EventSubscriptionContext(
-            events=events,
-            event_linker=cls,
-            force_async=force_async,
-            once=False,
-            retain_linker=retain_linker,
-            retain_subscriber=retain_subscriber,
+            events=events, event_linker=cls, force_async=force_async, once=False, is_stateful=stateful_context
         )
 
     @classmethod

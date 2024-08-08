@@ -29,18 +29,19 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
 
     -   Upon exiting the context, the defined object will be automatically subscribed.
 
-    -   Through the `astuple()` method, this class not only returns the source object and
+    -   Through the `unpack()` method, this class not only returns the source object and
         its subscriber but also handles the release and cleanup of associated resources.
 
-    -   Accessing the `subscriber` property before or during the subscription context
-        will raise an exception.
+    -   This subscription context can be `stateful`, retaining references to the `source` object
+        and `subscriber`, or `stateless`, which clears the context upon exiting the subscription
+        block.
     """
 
     # Attributes for the SubscriptionContext
-    __slots__ = ("__source", "__retain_source", "__subscriber", "__retain_subscriber")
+    __slots__ = ("__source", "__subscriber", "__is_stateful")
 
     @property
-    def source(self) -> _SourceType | None:
+    def _source(self) -> _SourceType | None:
         """
         Retrieves the source to which the subscription is performed.
         :return: The source object, or `None` if it was not retained
@@ -49,7 +50,7 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
         return self.__source if hasattr(self, "_SubscriptionContext__source") else None
 
     @property
-    def subscriber(self) -> _SubscriberType | None:
+    def _subscriber(self) -> _SubscriberType | None:
         """
         Retrieves the subscriber that is returned after performing the subscription
         to the specified source.
@@ -65,32 +66,26 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
 
         return self.__subscriber
 
-    def __init__(self, source: _SourceType, retain_source: bool, retain_subscriber: bool) -> None:
+    def __init__(self, source: _SourceType, is_stateful: bool) -> None:
         """
         Initialize an instance of `SubscriptionContext`.
         :param source: The source to which the subscription is performed.
-        :param retain_source: A flag indicating whether to store the source object within the context,
-            allowing it to be retrieved after the subscription context is closed. If set to `False`,
-            the reference to the source object will be removed from the context instance upon closing
-            the subscription context to optimize memory usage.
-        :param retain_subscriber: A flag indicating whether to store the returned subscriber object
-            within the context, allowing it to be retrieved after the subscription context block is
-            closed. If set to `False`, the reference to the subscriber will not be stored in the
-            context instance upon closing the subscription context, thereby optimizing memory usage.
+        :param is_stateful: A flag indicating whether the context preserves its state (stateful) or
+            not (stateless) after exiting the subscription context. If `True`, the context retains its
+            state, allowing access to stored objects, including the `source` object and the `subscriber`
+            object. If `False`, the context is stateless, and the stored state is cleared upon exiting
+            the subscription context to prevent memory leaks.
         """
-        # Validate the source and return flags
+        # Validate the source and flags
         if source is None:
             raise PyventusException("The 'source' argument cannot be None.")
-        if not isinstance(retain_source, bool):
-            raise PyventusException("The 'return_source' argument must be a boolean.")
-        if not isinstance(retain_subscriber, bool):
-            raise PyventusException("The 'return_subscriber' argument must be a boolean.")
+        if not isinstance(is_stateful, bool):
+            raise PyventusException("The 'stateful_context' argument must be a boolean.")
 
         # Initialize instance variables
         self.__source: _SourceType = source
-        self.__retain_source: bool = retain_source
         self.__subscriber: _SubscriberType | None = None
-        self.__retain_subscriber: bool = retain_subscriber
+        self.__is_stateful: bool = is_stateful
 
     def __enter__(self: Self) -> Self:
         """
@@ -122,17 +117,15 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
         if self.__subscriber:
             raise PyventusException("A 'subscriber' has already been set.")
 
-        # Check if the subscriber should be retained for future access
-        if not self.__retain_subscriber:
-            # Remove subscriber-related attributes from the context
-            del self.__subscriber, self.__retain_subscriber
-        else:
-            # Store the subscriber for future access
+        if self.__is_stateful:
+            # Retain the subscriber if the context is stateful
             self.__subscriber = subscriber
+        else:
+            # Remove context-specific references if stateless
+            del self.__source, self.__subscriber
 
-        # Remove source-related attributes from the context if not retained
-        if not self.__retain_source:
-            del self.__source, self.__retain_source
+        # Remove the stateful context flag
+        del self.__is_stateful
 
     @abstractmethod
     def _exit(self) -> _SubscriberType:
@@ -149,20 +142,27 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
         """
         pass
 
-    def astuple(self) -> Tuple[_SourceType | None, _SubscriberType | None]:
+    def unpack(self) -> Tuple[_SourceType | None, _SubscriberType | None]:
         """
-        Retrieves a tuple containing the source object and its subscriber.
-        Handles the release and cleanup of associated resources.
-        :return: A tuple containing the source object and its subscriber.
-        :raises PyventusException: If accessed before or during the subscription context.
+        Unpacks and retrieves the source object and its associated subscriber.
+
+        This method returns a tuple containing the source object and its subscriber,
+        while also handling the cleanup of associated resources to prevent memory leaks.
+        After retrieving the objects, it deletes internal references to the source and
+        subscriber to ensure they are no longer retained.
+
+        :return: A tuple of the form (source, subscriber). Both may be `None` if the
+            subscription context has either unpacked the state previously or is stateless.
+        :raises PyventusException: If this method is called before or during the subscription
+            context, indicating that the resources are not yet available for unpacking.
         """
         # Create a tuple with the source object and its subscriber
-        results: Tuple[_SourceType | None, _SubscriberType | None] = (self.source, self.subscriber)
+        results: Tuple[_SourceType | None, _SubscriberType | None] = (self._source, self._subscriber)
 
         # Perform cleanup by deleting unnecessary references
         if results[0]:
-            del self.__source, self.__retain_source
+            del self.__source
         if results[1]:
-            del self.__subscriber, self.__retain_subscriber
+            del self.__subscriber
 
         return results

@@ -542,7 +542,7 @@ class EventLinker:
 
     @classmethod
     def once(
-        cls, *events: SubscribableEventType, force_async: bool = False, stateful_context: bool = False
+        cls, *events: SubscribableEventType, force_async: bool = False, stateful_subctx: bool = False
     ) -> EventSubscriptionContext:
         """
         Decorator that allows you to conveniently subscribe callbacks to the provided events
@@ -558,19 +558,20 @@ class EventLinker:
             If `True`, synchronous callbacks will be converted to run asynchronously in a
             thread pool, using the `asyncio.to_thread` function. If `False`, callbacks
             will run synchronously or asynchronously as defined.
-        :param stateful_context: A flag indicating whether the subscription context preserves its state
-            (stateful) or not (stateless) after exiting the subscription block. If `True`, the context retains
-            its state, allowing access to stored objects, including the `event linker` and the `subscriber`
-            object. If `False`, the context is stateless, and the stored state is cleared upon exiting the
-            subscription block to prevent memory leaks.
+        :param stateful_subctx: A flag indicating whether the subscription context preserves its state
+            (`stateful`) or not (`stateless`) after exiting the subscription block. If `True`, the context retains
+            its state, allowing access to stored objects, including the `event linker` and the `subscriber` object.
+            If `False`, the context is stateless, and the stored state is cleared upon exiting the subscription
+            block to prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.
+        :return: A `EventSubscriptionContext` instance.
         """
         return EventLinker.EventSubscriptionContext(
-            events=events, event_linker=cls, force_async=force_async, once=True, is_stateful=stateful_context
+            events=events, event_linker=cls, force_async=force_async, once=True, is_stateful=stateful_subctx
         )
 
     @classmethod
     def on(
-        cls, *events: SubscribableEventType, force_async: bool = False, stateful_context: bool = False
+        cls, *events: SubscribableEventType, force_async: bool = False, stateful_subctx: bool = False
     ) -> EventSubscriptionContext:
         """
         Decorator that allows you to conveniently subscribe callbacks to the provided events.
@@ -585,15 +586,15 @@ class EventLinker:
             If `True`, synchronous callbacks will be converted to run asynchronously in a
             thread pool, using the `asyncio.to_thread` function. If `False`, callbacks
             will run synchronously or asynchronously as defined.
-        :param stateful_context: A flag indicating whether the subscription context preserves its state
-            (stateful) or not (stateless) after exiting the subscription block. If `True`, the context retains
-            its state, allowing access to stored objects, including the `event linker` and the `subscriber`
-            object. If `False`, the context is stateless, and the stored state is cleared upon exiting the
-            subscription block to prevent memory leaks.
+        :param stateful_subctx: A flag indicating whether the subscription context preserves its state
+            (`stateful`) or not (`stateless`) after exiting the subscription block. If `True`, the context retains
+            its state, allowing access to stored objects, including the `event linker` and the `subscriber` object.
+            If `False`, the context is stateless, and the stored state is cleared upon exiting the subscription
+            block to prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.
         :return: A `EventSubscriptionContext` instance.
         """
         return EventLinker.EventSubscriptionContext(
-            events=events, event_linker=cls, force_async=force_async, once=False, is_stateful=stateful_context
+            events=events, event_linker=cls, force_async=force_async, once=False, is_stateful=stateful_subctx
         )
 
     @classmethod

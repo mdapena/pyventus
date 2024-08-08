@@ -85,7 +85,7 @@ class EventSubscriber(EventHandler, Subscription):
         # Wrap and set the success callback, if provided
         self.__success_callback = (
             CallableWrapper[..., None](
-                success_callback,  # type: ignore[arg-type]
+                success_callback,
                 force_async=force_async,
             )
             if success_callback
@@ -95,7 +95,7 @@ class EventSubscriber(EventHandler, Subscription):
         # Wrap and set the failure callback, if provided
         self.__failure_callback = (
             CallableWrapper[[Exception], None](
-                failure_callback,  # type: ignore[arg-type]
+                failure_callback,
                 force_async=force_async,
             )
             if failure_callback

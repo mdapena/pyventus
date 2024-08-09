@@ -105,7 +105,7 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
         Returns a string representation of the `CallableWrapper` instance.
         :return: A string representation of the `CallableWrapper` instance.
         """
-        return (
+        return (  # pragma: no cover
             f"CallableWrapper(callable='{self.name}', "
             f"is_callable_async={self.__is_callable_async}, "
             f"force_async={self.__force_async})"
@@ -131,9 +131,9 @@ def get_callable_name(cb: Callable[..., Any] | None, /) -> str:
     """
     if cb is None:
         return "None"
-    elif hasattr(cb, "__name__"):
+    elif ismethod(cb) or isfunction(cb) or isbuiltin(cb):
         return cb.__name__
-    elif hasattr(cb, "__class__"):
+    elif not isclass(cb) and hasattr(cb, "__call__"):
         return type(cb).__name__
     else:
         return "Unknown"

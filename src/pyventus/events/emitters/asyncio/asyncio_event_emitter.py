@@ -1,9 +1,9 @@
-import asyncio
-from asyncio import Future
+from asyncio import Task, create_task, gather, run
 from typing import Set, Type
 
 from ..event_emitter import EventEmitter
 from ...linkers import EventLinker
+from ....core.utils import is_loop_running
 
 
 class AsyncIOEventEmitter(EventEmitter):
@@ -28,18 +28,6 @@ class AsyncIOEventEmitter(EventEmitter):
     [Pyventus docs for AsyncIO Event Emitter](https://mdapena.github.io/pyventus/tutorials/emitters/asyncio/).
     """
 
-    @property
-    def __is_loop_running(self) -> bool:
-        """
-        Check if there is currently an active AsyncIO event loop.
-        :return: `True` if an event loop is running, `False` otherwise.
-        """
-        try:
-            asyncio.get_running_loop()
-            return True
-        except RuntimeError:
-            return False
-
     def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None) -> None:
         """
         Initialize an instance of `AsyncIOEventEmitter`.
@@ -52,21 +40,34 @@ class AsyncIOEventEmitter(EventEmitter):
         super().__init__(event_linker=event_linker, debug=debug)
 
         # Initialize the set of background futures
-        self._background_futures: Set[Future] = set()  # type: ignore[type-arg]
+        self._background_tasks: Set[Task[None]] = set()
 
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:
         # Check if there is an active event loop
-        is_loop_running: bool = self.__is_loop_running
+        loop_running: bool = is_loop_running()
 
-        if is_loop_running:
-            # Schedule the event emission in the running loop as a future
-            future = asyncio.ensure_future(event_emission())
+        if loop_running:
+            # Schedule the event emission in the running loop as a background task
+            task: Task[None] = create_task(event_emission())
 
-            # Remove the Future from the set of background futures after completion
-            future.add_done_callback(self._background_futures.remove)
+            # Remove the Task from the set of background futures after completion
+            task.add_done_callback(self._background_tasks.remove)
 
             # Add the Future to the set of background futures
-            self._background_futures.add(future)
+            self._background_tasks.add(task)
         else:
             # Run the event emission in a blocking manner
-            asyncio.run(event_emission())
+            run(event_emission())
+
+    async def wait_for_tasks(self) -> None:
+        """
+        Waits for all background tasks associated with the emitter to complete.
+        It ensures that any ongoing tasks are finished before proceeding.
+        :return: None
+        """
+        # Retrieve the current set of background tasks and clear the registry
+        tasks: Set[Task[None]] = self._background_tasks.copy()
+        self._background_tasks.clear()
+
+        # Await the completion of all background tasks
+        await gather(*tasks)

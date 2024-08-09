@@ -1,185 +1,230 @@
-from _pytest.python_api import raises
+from threading import current_thread, main_thread
+from typing import Any, Callable, Dict, Tuple
+
+import pytest
 
 from pyventus import PyventusException
-from pyventus.core.utils import validate_callable, get_callable_name, is_callable_async, is_callable_generator
-from ... import CallbackDefinitions
+from pyventus.core.utils import get_callable_name, is_callable_async, is_callable_generator, validate_callable
+from pyventus.core.utils.callable_utils import CallableWrapper
+
+from ...fixtures import CallableMock, DummyCallable
 
 
-class TestCallbackUtils:
-    def test_validate_callback(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
+class TestCallableUtils:
 
-        # Sync callbacks
-        sync_instance = CallbackDefinitions.Sync()
+    # ==========================
+    # Test Cases for validate_callable
+    # ==========================
 
-        validate_callable(CallbackDefinitions.Sync.function)
-        validate_callable(CallbackDefinitions.Sync.static_method)
-        validate_callable(CallbackDefinitions.Sync.class_method)
-        validate_callable(sync_instance.instance_method)
-        validate_callable(sync_instance)
+    @pytest.mark.parametrize(
+        "cb",
+        [  # Valid callables
+            *DummyCallable.Sync().ALL,
+            *DummyCallable.Sync.Generator().ALL,
+            *DummyCallable.Async().ALL,
+            *DummyCallable.Async.Generator().ALL,
+        ],
+    )
+    def test_validate_callable_with_valid_input(self, cb: Callable[..., Any]) -> None:
+        # Arrange, Act, and Assert
+        validate_callable(cb)
 
-        # Sync generator callbacks
-        sync_generator_instance = CallbackDefinitions.SyncGenerator()
+    # ==========================
 
-        validate_callable(CallbackDefinitions.SyncGenerator.function)
-        validate_callable(CallbackDefinitions.SyncGenerator.static_method)
-        validate_callable(CallbackDefinitions.SyncGenerator.class_method)
-        validate_callable(sync_generator_instance.instance_method)
-        validate_callable(sync_generator_instance)
+    @pytest.mark.parametrize(
+        ["cb", "exception"],
+        [  # Invalid callables
+            (None, PyventusException),
+            (True, PyventusException),
+            (DummyCallable.Invalid(), PyventusException),
+        ],
+    )
+    def test_validate_callable_with_invalid_input(self, cb: Any, exception: Exception) -> None:
+        # Arrange, Act, and Assert
+        with pytest.raises(exception):
+            validate_callable(cb)
 
-        # Async callbacks
-        async_instance = CallbackDefinitions.Async()
+    # ==========================
+    # Test Cases for get_callable_name
+    # ==========================
 
-        validate_callable(CallbackDefinitions.Async.function)
-        validate_callable(CallbackDefinitions.Async.static_method)
-        validate_callable(CallbackDefinitions.Async.class_method)
-        validate_callable(async_instance.instance_method)
-        validate_callable(async_instance)
+    @pytest.mark.parametrize(
+        ["cb", "expected"],
+        [
+            (None, "None"),
+            (True, "Unknown"),
+            (DummyCallable.Invalid, "Unknown"),
+            (DummyCallable.Invalid(), "Unknown"),
+            *[(c, n) for c, n in zip(DummyCallable.Sync().ALL, DummyCallable.Sync().ALL_NAMES)],
+            *[(c, n) for c, n in zip(DummyCallable.Sync.Generator().ALL, DummyCallable.Sync.Generator().ALL_NAMES)],
+        ],
+    )
+    def test_get_callable_name(self, cb: Callable[..., Any], expected: str) -> None:
+        # Arrange, Act, and Assert
+        assert get_callable_name(cb) == expected
 
-        # Async generator callbacks
-        async_generator_instance = CallbackDefinitions.AsyncGenerator()
+    # ==========================
+    # Test Cases for is_callable_async
+    # ==========================
 
-        validate_callable(CallbackDefinitions.AsyncGenerator.function)
-        validate_callable(CallbackDefinitions.AsyncGenerator.static_method)
-        validate_callable(CallbackDefinitions.AsyncGenerator.class_method)
-        validate_callable(async_generator_instance.instance_method)
-        validate_callable(async_generator_instance)
+    @pytest.mark.parametrize(
+        ["cb", "expected"],
+        [
+            (None, False),
+            (True, False),
+            (DummyCallable.Invalid, False),
+            (DummyCallable.Invalid(), False),
+            *[(c, False) for c in DummyCallable.Sync().ALL],
+            *[(c, False) for c in DummyCallable.Sync.Generator().ALL],
+            *[(c, True) for c in DummyCallable.Async().ALL],
+            *[(c, True) for c in DummyCallable.Async.Generator().ALL],
+        ],
+    )
+    def test_is_callable_async(self, cb: Callable[..., Any], expected: str) -> None:
+        # Arrange, Act, and Assert
+        assert is_callable_async(cb) is expected
 
-        # ----------------------------------------------
-        # Error path tests (Arrange | Act | Assert)
-        # ----------
-        no_callable = CallbackDefinitions.NoCallable()
-        with raises(PyventusException):
-            validate_callable(no_callable)
+    # ==========================
+    # Test Cases for is_callable_generator
+    # ==========================
 
-        with raises(PyventusException):
-            validate_callable(True)
+    @pytest.mark.parametrize(
+        ["cb", "expected"],
+        [
+            (None, False),
+            (True, False),
+            (DummyCallable.Invalid, False),
+            (DummyCallable.Invalid(), False),
+            *[(cb, False) for cb in DummyCallable.Sync().ALL],
+            *[(cb, True) for cb in DummyCallable.Sync.Generator().ALL],
+            *[(cb, False) for cb in DummyCallable.Async().ALL],
+            *[(cb, True) for cb in DummyCallable.Async.Generator().ALL],
+        ],
+    )
+    def test_is_callable_generator(self, cb: Callable[..., Any], expected: str) -> None:
+        # Arrange, Act, and Assert
+        assert is_callable_generator(cb) is expected
 
-        with raises(PyventusException):
-            validate_callable(None)
+    # ==========================
+    # Test Cases for CallableWrapper
+    # ==========================
 
-    def test_get_callback_name(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-
-        sync_instance = CallbackDefinitions.Sync()
-        async_instance = CallbackDefinitions.Async()
-
-        # Sync
-        assert CallbackDefinitions.Sync.function.__name__ == get_callable_name(CallbackDefinitions.Sync.function)
-        assert CallbackDefinitions.Sync.static_method.__name__ == get_callable_name(
-            CallbackDefinitions.Sync.static_method
+    def test_callable_wrapper_creation_with_valid_input(self) -> None:
+        # Arrange/Act: Create an instance of CallableWrapper
+        callable_wrapper: CallableWrapper[..., Any] = CallableWrapper[..., Any](
+            DummyCallable.Async.func, force_async=True
         )
-        assert CallbackDefinitions.Sync.class_method.__name__ == get_callable_name(
-            CallbackDefinitions.Sync.class_method
-        )
-        assert sync_instance.instance_method.__name__ == get_callable_name(sync_instance.instance_method)
-        assert type(sync_instance).__name__ == get_callable_name(sync_instance)
 
-        # Async
-        assert CallbackDefinitions.Async.function.__name__ == get_callable_name(CallbackDefinitions.Async.function)
-        assert CallbackDefinitions.Async.static_method.__name__ == get_callable_name(
-            CallbackDefinitions.Async.static_method
-        )
-        assert CallbackDefinitions.Async.class_method.__name__ == get_callable_name(
-            CallbackDefinitions.Async.class_method
-        )
-        assert async_instance.instance_method.__name__ == get_callable_name(async_instance.instance_method)
-        assert type(async_instance).__name__ == get_callable_name(async_instance)
+        # Assert: Check that the callable_wrapper is created
+        # successfully and has the expected properties
+        assert callable_wrapper
+        assert callable_wrapper.force_async is True
+        assert callable_wrapper.name == get_callable_name(DummyCallable.Async.func)
 
-        assert "None" == get_callable_name(None)
+    # ==========================
 
-    def test_is_callback_async(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
+    def test_callable_wrapper_creation_with_invalid_input(self) -> None:
+        # Arrange: Prepare invalid inputs for CallableWrapper
+        invalid_generator_callable = DummyCallable.Async.Generator.func
+        invalid_force_async_value = None
 
-        # Sync callbacks
-        sync_instance = CallbackDefinitions.Sync()
+        # Act & Assert: Verify that creating CallableWrapper with
+        # invalid inputs raises the expected exceptions
+        with pytest.raises(PyventusException):
+            CallableWrapper[..., Any](invalid_generator_callable, force_async=True)
 
-        assert not is_callable_async(CallbackDefinitions.Sync.function)
-        assert not is_callable_async(CallbackDefinitions.Sync.static_method)
-        assert not is_callable_async(CallbackDefinitions.Sync.class_method)
-        assert not is_callable_async(sync_instance.instance_method)
-        assert not is_callable_async(sync_instance)
+        with pytest.raises(PyventusException):
+            CallableWrapper[..., Any](DummyCallable.Async.func, force_async=invalid_force_async_value)
 
-        # Sync generator callbacks
-        sync_generator_instance = CallbackDefinitions.SyncGenerator()
+    # ==========================
 
-        assert not is_callable_async(CallbackDefinitions.SyncGenerator.function)
-        assert not is_callable_async(CallbackDefinitions.SyncGenerator.static_method)
-        assert not is_callable_async(CallbackDefinitions.SyncGenerator.class_method)
-        assert not is_callable_async(sync_generator_instance.instance_method)
-        assert not is_callable_async(sync_generator_instance)
+    @pytest.mark.parametrize(
+        ["cb", "force_async", "args", "kwargs"],
+        [
+            *[  # Synchronous call scenarios
+                (CallableMock.Sync(return_value=None, raise_exception=None), True, (), {}),
+                (CallableMock.Sync(return_value=None, raise_exception=None), False, (), {}),
+                (CallableMock.Sync(return_value=None, raise_exception=ValueError("str")), False, (), {}),
+                (CallableMock.Sync(return_value="str", raise_exception=None), False, ("str", 0), {"str": ...}),
+            ],
+            *[  # Asynchronous call scenarios
+                (CallableMock.Async(return_value=None, raise_exception=None), True, (), {}),
+                (CallableMock.Async(return_value=None, raise_exception=None), False, (), {}),
+                (CallableMock.Async(return_value=None, raise_exception=ValueError("str")), False, (), {}),
+                (CallableMock.Async(return_value="str", raise_exception=None), False, ("str", 0), {"str": ...}),
+            ],
+        ],
+    )
+    @pytest.mark.asyncio
+    async def test_callable_wrapper_execution(
+        self, cb: CallableMock.Base, force_async: bool, args: Tuple[Any, ...], kwargs: Dict[str, Any]
+    ) -> None:
+        # Arrange: Create an instance of CallableWrapper with the provided callable mock
+        callable_wrapper: CallableWrapper[..., Any] = CallableWrapper[..., Any](cb, force_async=force_async)
 
-        # Async callbacks
-        async_instance = CallbackDefinitions.Async()
+        try:
+            # Act: Attempt to call the wrapper with the specified arguments
+            return_value = await callable_wrapper(*args, **kwargs)
+        except type(cb.exception) as e:
+            # Assert: Check if the raised exception matches the expected exception
+            assert cb.exception is e
+        else:
+            # Assert: Verify the return value matches the expected return value
+            assert cb.return_value is return_value  # Asserts
 
-        assert is_callable_async(CallbackDefinitions.Async.function)
-        assert is_callable_async(CallbackDefinitions.Async.static_method)
-        assert is_callable_async(CallbackDefinitions.Async.class_method)
-        assert is_callable_async(async_instance.instance_method)
-        assert is_callable_async(async_instance)
+        # Final assertions: Verify the call count and arguments used
+        assert cb.call_count == 1
+        assert cb.last_args == args
+        assert cb.last_kwargs == kwargs
 
-        # Async generator callbacks
-        async_generator_instance = CallbackDefinitions.AsyncGenerator()
+    # ==========================
 
-        assert is_callable_async(CallbackDefinitions.AsyncGenerator.function)
-        assert is_callable_async(CallbackDefinitions.AsyncGenerator.static_method)
-        assert is_callable_async(CallbackDefinitions.AsyncGenerator.class_method)
-        assert is_callable_async(async_generator_instance.instance_method)
-        assert is_callable_async(async_generator_instance)
+    @pytest.mark.asyncio
+    async def test_callable_wrapper_sync_callable_force_async_disabled(self) -> None:
 
-        # No callable
-        no_callable = CallbackDefinitions.NoCallable()
+        # Arrange: Define the assertion function
+        def assertion():
+            # Assert that the current thread is the
+            # main thread when force_async is False.
+            assert current_thread() is main_thread()
 
-        assert not is_callable_async(no_callable)
+        # Create a CallableWrapper instance with force_async set to False
+        callable_wrapper: CallableWrapper[..., Any] = CallableWrapper[..., Any](assertion, force_async=False)
 
-    def test_is_callback_generator(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
+        # Act and Arrange
+        await callable_wrapper()  # This should run in the main thread
 
-        # Sync callbacks
-        sync_instance = CallbackDefinitions.Sync()
+    # ==========================
 
-        assert not is_callable_generator(CallbackDefinitions.Sync.function)
-        assert not is_callable_generator(CallbackDefinitions.Sync.static_method)
-        assert not is_callable_generator(CallbackDefinitions.Sync.class_method)
-        assert not is_callable_generator(sync_instance.instance_method)
-        assert not is_callable_generator(sync_instance)
+    @pytest.mark.asyncio
+    async def test_callable_wrapper_sync_callable_force_async_enabled(self) -> None:
 
-        # Sync generator callbacks
-        sync_generator_instance = CallbackDefinitions.SyncGenerator()
+        # Arrange: Define the assertion function
+        def assertion():
+            # Assert that the current thread is not the
+            # main thread due to force_async being enabled.
+            assert current_thread() is not main_thread()
 
-        assert is_callable_generator(CallbackDefinitions.SyncGenerator.function)
-        assert is_callable_generator(CallbackDefinitions.SyncGenerator.static_method)
-        assert is_callable_generator(CallbackDefinitions.SyncGenerator.class_method)
-        assert is_callable_generator(sync_generator_instance.instance_method)
-        assert is_callable_generator(sync_generator_instance)
+        # Create a CallableWrapper instance with force_async set to True
+        callable_wrapper: CallableWrapper[..., Any] = CallableWrapper[..., Any](assertion, force_async=True)
 
-        # Async callbacks
-        async_instance = CallbackDefinitions.Async()
+        # Act: Execute the callable wrapper
+        await callable_wrapper()  # This should run in a different thread
 
-        assert not is_callable_generator(CallbackDefinitions.Async.function)
-        assert not is_callable_generator(CallbackDefinitions.Async.static_method)
-        assert not is_callable_generator(CallbackDefinitions.Async.class_method)
-        assert not is_callable_generator(async_instance.instance_method)
-        assert not is_callable_generator(async_instance)
+    # ==========================
 
-        # Async generator callbacks
-        async_generator_instance = CallbackDefinitions.AsyncGenerator()
+    @pytest.mark.asyncio
+    async def test_callable_wrapper_async_callable_with_force_async_flag(self) -> None:
 
-        assert is_callable_generator(CallbackDefinitions.AsyncGenerator.function)
-        assert is_callable_generator(CallbackDefinitions.AsyncGenerator.static_method)
-        assert is_callable_generator(CallbackDefinitions.AsyncGenerator.class_method)
-        assert is_callable_generator(async_generator_instance.instance_method)
-        assert is_callable_generator(async_generator_instance)
+        # Arrange: Define the assertion function
+        async def assertion():
+            # Assert that the current thread is the main thread in an async context.
+            assert current_thread() is main_thread()
 
-        # No callable
-        no_callable = CallbackDefinitions.NoCallable()
+        # Create CallableWrapper instances for the async callable
+        callable_wrapper1: CallableWrapper[..., Any] = CallableWrapper[..., Any](assertion, force_async=False)
+        callable_wrapper2: CallableWrapper[..., Any] = CallableWrapper[..., Any](assertion, force_async=True)
 
-        assert not is_callable_generator(no_callable)
+        # Act: Execute the callable wrappers
+        await callable_wrapper1()  # This should run in the main thread
+        await callable_wrapper2()  # This should also run in the main thread

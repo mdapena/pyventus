@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 from typing import TypeVar, Generic
 
 _in_T = TypeVar("_in_T", contravariant=True)
-"""A generic type representing the input value for the `next` method."""
+"""A generic type representing the input value for the `next` method of the observer."""
 
 
 class Observer(ABC, Generic[_in_T]):

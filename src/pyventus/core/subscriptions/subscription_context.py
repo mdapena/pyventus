@@ -6,7 +6,7 @@ from typing import TypeVar, Generic, Tuple, Type
 from .subscription import Subscription
 from ..exceptions import PyventusException
 
-if sys.version_info >= (3, 11):
+if sys.version_info >= (3, 11):  # pragma: no cover
     from typing import Self
 else:
     from typing_extensions import Self

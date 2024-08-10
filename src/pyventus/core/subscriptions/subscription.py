@@ -1,17 +1,14 @@
 import sys
 from datetime import datetime
-from typing import Callable, TypeAlias, Union
+from typing import Callable
 
 from .unsubscribable import Unsubscribable
 from ..utils import validate_callable
 
-if sys.version_info >= (3, 11):
+if sys.version_info >= (3, 11):  # pragma: no cover
     from typing import Self
 else:
     from typing_extensions import Self
-
-FinalizerType: TypeAlias = Union["Subscription", Callable[[], None]]
-"""Type alias denoting a finalizer, which may refer to either a Subscription or a teardown callback."""
 
 
 class Subscription(Unsubscribable):
@@ -50,7 +47,7 @@ class Subscription(Unsubscribable):
     def unsubscribe(self: Self) -> bool:
         return self.__teardown_callback(self)
 
-    def __str__(self) -> str:
+    def __str__(self) -> str:  # pragma: no cover
         """
         Return a formatted string representation of the subscription.
         :return: A string representation of the subscription.

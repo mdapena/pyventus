@@ -292,7 +292,7 @@ class MultiBidict(Generic[_KT, _VT]):
         """
         return self.__fwd_dict.copy()
 
-    def __str__(self) -> str:
+    def __str__(self) -> str:  # pragma: no cover
         """
         Returns a string representation of the MultiBidict.
         :return: A string representation of the MultiBidict.

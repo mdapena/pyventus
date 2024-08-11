@@ -107,7 +107,7 @@ class CallableMock:
             return self._return_value
 
     @classmethod
-    def Random(cls, return_value: Any | None = None, raise_exception: Exception | None = None) -> "CallableMock.Base":
+    def Random(cls, return_value: Any | None = None, raise_exception: Exception | None = None) -> Base:
         """Returns a random callable mock, which can be either synchronous or asynchronous."""
         return (
             cls.Sync(return_value=return_value, raise_exception=raise_exception)

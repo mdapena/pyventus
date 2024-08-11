@@ -2,15 +2,15 @@ from dataclasses import is_dataclass
 from sys import gettrace
 from threading import Lock
 from types import EllipsisType
-from typing import TypeAlias, Tuple, Type, Set, final, Dict
+from typing import Dict, Set, Tuple, Type, TypeAlias, final
 
-from ..subscribers import EventSubscriber, EventCallbackType, SuccessCallbackType, FailureCallbackType
 from ...core.collections import MultiBidict
 from ...core.constants import StdOutColors
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
 from ...core.subscriptions import SubscriptionContext
 from ...core.utils import validate_callable
+from ..subscribers import EventCallbackType, EventSubscriber, FailureCallbackType, SuccessCallbackType
 
 SubscribableEventType: TypeAlias = str | Type[Exception] | Type[object] | EllipsisType
 """A type alias representing the supported event types for subscription."""
@@ -40,7 +40,7 @@ class EventLinker:
     """
 
     @final
-    class EventSubscriptionContext(SubscriptionContext[Type["EventLinker"], EventSubscriber]):
+    class EventLinkerSubscriptionContext(SubscriptionContext[Type["EventLinker"], EventSubscriber]):
         """
         A context manager for event subscriptions. This class establishes a context block for
         the step-by-step definition of event responses prior to the actual subscription, which
@@ -60,7 +60,7 @@ class EventLinker:
         -   This class is not intended to be subclassed or manually instantiated.
         """
 
-        # Attributes for the EventSubscriptionContext
+        # Attributes for the EventLinkerSubscriptionContext
         __slots__ = (
             "__events",
             "__event_callback",
@@ -79,7 +79,7 @@ class EventLinker:
             is_stateful: bool,
         ) -> None:
             """
-            Initialize an instance of `EventSubscriptionContext`.
+            Initialize an instance of `EventLinkerSubscriptionContext`.
             :param events: The events to subscribe/link to.
             :param event_linker: The type of event linker used for the actual subscription.
             :param force_async: Determines whether to force all callbacks to run asynchronously.
@@ -103,7 +103,7 @@ class EventLinker:
 
         def __call__(
             self, callback: EventCallbackType
-        ) -> Tuple[EventCallbackType, "EventLinker.EventSubscriptionContext"]:
+        ) -> Tuple[EventCallbackType, "EventLinker.EventLinkerSubscriptionContext"]:
             """
             Subscribes the decorated callback to the specified events.
             :param callback: The callback to be executed when the event occurs.
@@ -543,7 +543,7 @@ class EventLinker:
     @classmethod
     def once(
         cls, *events: SubscribableEventType, force_async: bool = False, stateful_subctx: bool = False
-    ) -> EventSubscriptionContext:
+    ) -> EventLinkerSubscriptionContext:
         """
         Decorator that allows you to conveniently subscribe callbacks to the provided events
         for a single invocation.
@@ -563,16 +563,16 @@ class EventLinker:
             its state, allowing access to stored objects, including the `event linker` and the `subscriber` object.
             If `False`, the context is stateless, and the stored state is cleared upon exiting the subscription
             block to prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.
-        :return: A `EventSubscriptionContext` instance.
+        :return: A `EventLinkerSubscriptionContext` instance.
         """
-        return EventLinker.EventSubscriptionContext(
+        return EventLinker.EventLinkerSubscriptionContext(
             events=events, event_linker=cls, force_async=force_async, once=True, is_stateful=stateful_subctx
         )
 
     @classmethod
     def on(
         cls, *events: SubscribableEventType, force_async: bool = False, stateful_subctx: bool = False
-    ) -> EventSubscriptionContext:
+    ) -> EventLinkerSubscriptionContext:
         """
         Decorator that allows you to conveniently subscribe callbacks to the provided events.
 
@@ -591,9 +591,9 @@ class EventLinker:
             its state, allowing access to stored objects, including the `event linker` and the `subscriber` object.
             If `False`, the context is stateless, and the stored state is cleared upon exiting the subscription
             block to prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.
-        :return: A `EventSubscriptionContext` instance.
+        :return: A `EventLinkerSubscriptionContext` instance.
         """
-        return EventLinker.EventSubscriptionContext(
+        return EventLinker.EventLinkerSubscriptionContext(
             events=events, event_linker=cls, force_async=force_async, once=False, is_stateful=stateful_subctx
         )
 

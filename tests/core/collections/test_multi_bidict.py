@@ -1,4 +1,4 @@
-from typing import Dict, Set
+from typing import Set
 
 import pytest
 

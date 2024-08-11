@@ -2,7 +2,7 @@ from datetime import datetime
 
 import pytest
 
-from pyventus.core.exceptions.pyventus_exception import PyventusException
+from pyventus import PyventusException
 from pyventus.core.subscriptions.subscription import Subscription
 
 from ...fixtures.callable_fixtures import CallableMock

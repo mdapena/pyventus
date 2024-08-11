@@ -6,7 +6,7 @@ from ...core.subscriptions import Subscription
 from ...core.utils import CallableWrapper
 from ...events.handlers import EventHandler
 
-if sys.version_info >= (3, 11):
+if sys.version_info >= (3, 11):  # pragma: no cover
     from typing import Self
 else:
     from typing_extensions import Self
@@ -128,7 +128,7 @@ class EventSubscriber(EventHandler, Subscription):
             # Invoke the failure callback with the provided exception
             await self.__failure_callback(exception)
 
-    def __str__(self) -> str:
+    def __str__(self) -> str:  # pragma: no cover
         return (
             f"EventSubscriber("
             f"event_callback={self.__event_callback}, "

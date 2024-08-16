@@ -1,58 +1,83 @@
-from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
+from concurrent.futures import Executor, ProcessPoolExecutor, ThreadPoolExecutor
+from typing import Any
 
 import pytest
-from _pytest.python_api import raises
 
 from pyventus import PyventusException
-from pyventus.events import ExecutorEventEmitter, EventLinker
+from pyventus.events import EventLinker, ExecutorEventEmitter
+
 from ..event_emitter_test import EventEmitterTest
 
 
-class TestExecutorEventEmitter(EventEmitterTest):
+class TestExecutorEventEmitter(EventEmitterTest[ExecutorEventEmitter]):
 
-    def test_creation(self) -> None:
-        # Thread event emitter
-        thread_emitter = ExecutorEventEmitter(executor=ThreadPoolExecutor())
-        assert thread_emitter is not None
-        thread_emitter.shutdown()
+    def _create_event_emitter(self, event_linker: EventLinker) -> ExecutorEventEmitter:
+        return ExecutorEventEmitter(executor=ThreadPoolExecutor(), event_linker=event_linker)
 
-        # Process event emitter
-        process_emitter = ExecutorEventEmitter(executor=ProcessPoolExecutor())
-        assert process_emitter is not None
-        process_emitter.shutdown()
+    # ==========================
+    # Test Cases for creation
+    # ==========================
 
-    def test_creation_with_invalid_params(self) -> None:
-        with raises(PyventusException):
-            ExecutorEventEmitter(executor=None)
-        with raises(PyventusException):
-            ExecutorEventEmitter(executor=True)
+    @pytest.mark.parametrize(
+        ["executor"],
+        [(ThreadPoolExecutor(),), (ProcessPoolExecutor(),)],
+    )
+    def test_creation_with_valid_input(self, executor: Executor) -> None:
+        # Arrange, Act, Assert
+        assert ExecutorEventEmitter(executor=executor) is not None
+
+    # ==========================
+
+    @pytest.mark.parametrize(
+        ["executor", "event_linker", "debug", "exception"],
+        [
+            (None, EventLinker, False, PyventusException),
+            (True, EventLinker, False, PyventusException),
+            (object(), EventLinker, False, PyventusException),
+            (ThreadPoolExecutor(), None, False, PyventusException),
+            (ThreadPoolExecutor(), type, False, PyventusException),
+            (ThreadPoolExecutor(), EventLinker, object(), PyventusException),
+        ],
+    )
+    def test_creation_with_invalid_input(
+        self, executor: Any, event_linker: Any, debug: Any, exception: Exception
+    ) -> None:
+        # Arrange, Act, Assert
+        with pytest.raises(exception):
+            ExecutorEventEmitter(executor=executor, event_linker=event_linker, debug=debug)
+
+    # ==========================
+    # Test Cases for emit()
+    # ==========================
 
     def test_emission_in_sync_context(self) -> None:
-        # Thread emission
-        thread_emitter = ExecutorEventEmitter(executor=ThreadPoolExecutor())
-        with TestExecutorEventEmitter.run_emission_test(event_emitter=thread_emitter), thread_emitter:
-            pass  # pragma: no cover
+        with self.event_emitter_test(EventLinker) as event_emitter:
+            with event_emitter:  # Testing context manager
+                ...
+
+    # ==========================
 
     def test_emission_in_sync_context_with_custom_event_linker(self) -> None:
-        class CustomEventLinker(EventLinker):
-            pass
 
-        thread_emitter = ExecutorEventEmitter(executor=ThreadPoolExecutor(), event_linker=CustomEventLinker)
-        with TestExecutorEventEmitter.run_emission_test(event_emitter=thread_emitter, event_linker=CustomEventLinker):
-            thread_emitter.shutdown(wait=True)
+        class CustomEventLinker(EventLinker): ...
+
+        with self.event_emitter_test(CustomEventLinker) as event_emitter:
+            event_emitter.shutdown(wait=True)
+
+    # ==========================
 
     @pytest.mark.asyncio
     async def test_emission_in_async_context(self) -> None:
-        # Thread emission
-        thread_emitter = ExecutorEventEmitter(executor=ThreadPoolExecutor())
-        with TestExecutorEventEmitter.run_emission_test(event_emitter=thread_emitter):
-            thread_emitter.shutdown(wait=True)
+        with self.event_emitter_test(EventLinker) as event_emitter:
+            with event_emitter:  # Testing context manager
+                ...
+
+    # ==========================
 
     @pytest.mark.asyncio
     async def test_emission_in_async_context_with_custom_event_linker(self) -> None:
-        class CustomEventLinker(EventLinker):
-            pass
 
-        thread_emitter = ExecutorEventEmitter(executor=ThreadPoolExecutor(), event_linker=CustomEventLinker)
-        with TestExecutorEventEmitter.run_emission_test(event_emitter=thread_emitter, event_linker=CustomEventLinker):
-            thread_emitter.shutdown(wait=True)
+        class CustomEventLinker(EventLinker): ...
+
+        with self.event_emitter_test(CustomEventLinker) as event_emitter:
+            event_emitter.shutdown(wait=True)

@@ -149,11 +149,13 @@ class EventEmitter(ABC):
             based on the execution environment.
         :raises PyventusException: If the `event_linker` argument is None or invalid.
         """
-        # Validate the event linker argument
+        # Validate the event_linker and debug arguments
         if event_linker is None:
             raise PyventusException("The 'event_linker' argument cannot be None.")
         if not issubclass(event_linker, EventLinker):
             raise PyventusException("The 'event_linker' argument must be a subtype of the EventLinker class.")
+        if debug is not None and not isinstance(debug, bool):
+            raise PyventusException("The 'debug' argument must be a boolean value.")
 
         # Set the event_linker value
         self._event_linker: Type[EventLinker] = event_linker

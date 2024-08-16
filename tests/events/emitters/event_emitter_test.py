@@ -16,7 +16,7 @@ class EventEmitterTest(Generic[_E], ABC):
     """A set of pre-configured tests for subclasses of EventEmitter."""
 
     @abstractmethod
-    def create_event_emitter(self, event_linker: Type[EventLinker]) -> _E:
+    def _create_event_emitter(self, event_linker: Type[EventLinker]) -> _E:
         pass
 
     # ==========================
@@ -157,7 +157,7 @@ class EventEmitterTest(Generic[_E], ABC):
         # ==========================
 
         # Create event emitter
-        event_emitter: _E = self.create_event_emitter(event_linker)
+        event_emitter: _E = self._create_event_emitter(event_linker)
 
         # ==========================
         # Act: Emit string events
@@ -259,9 +259,8 @@ class EventEmitterTest(Generic[_E], ABC):
         assert cb_with_kwargs.last_args == ()
         assert cb_with_kwargs.last_kwargs == {"param1": int_param, "param2": str_param, "param3": list_param}
 
+        # Assert call count only, as last args and kwargs can be in any order
         assert cb_with_args_and_kwargs.call_count == 20
-        assert cb_with_args_and_kwargs.last_args == (dtc_immutable,)
-        assert cb_with_args_and_kwargs.last_kwargs == {"mutable": dtc_mutable}
 
         assert cb_with_dtc_immutable.call_count == 1
         assert cb_with_dtc_immutable.last_args == (dtc_immutable,)
@@ -275,9 +274,8 @@ class EventEmitterTest(Generic[_E], ABC):
         assert cb_with_dtc_validated.last_args == (dtc_with_val,)
         assert cb_with_dtc_validated.last_kwargs == {}
 
+        # Assert call count only, as last args and kwargs can be in any order
         assert cb_with_dtc.call_count == 2
-        assert cb_with_dtc.last_args == (dtc_with_val,)
-        assert cb_with_dtc.last_kwargs == {}
 
         assert cb_with_custom_exc1.call_count == 1
         assert cb_with_custom_exc1.last_args == (custom_exc1,)

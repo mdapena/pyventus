@@ -7,9 +7,14 @@ from typing import Any, Dict, Set, Tuple, Type
 import pytest
 
 from pyventus import PyventusException
-from pyventus.events import (EventCallbackType, EventLinker, EventSubscriber,
-                             FailureCallbackType, SubscribableEventType,
-                             SuccessCallbackType)
+from pyventus.events import (
+    EventCallbackType,
+    EventLinker,
+    EventSubscriber,
+    FailureCallbackType,
+    SubscribableEventType,
+    SuccessCallbackType,
+)
 
 from ...fixtures import CallableMock, EventFixtures
 

@@ -1,5 +1,5 @@
 import sys
-from typing import Any, Awaitable, Callable, TypeAlias, final
+from typing import Any, Awaitable, Callable, Dict, TypeAlias, final
 
 from ...core.exceptions import PyventusException
 from ...core.subscriptions import Subscription
@@ -127,6 +127,29 @@ class EventSubscriber(EventHandler, Subscription):
         else:
             # Invoke the failure callback with the provided exception
             await self.__failure_callback(exception)
+
+    def __getstate__(self) -> Dict[str, Any]:
+        # Retrieve the state of the base Subscription class
+        state: Dict[str, Any] = super().__getstate__()
+
+        # Add the state of the EventSubscriber attributes
+        state["__event_callback"] = self.__event_callback
+        state["__success_callback"] = self.__success_callback
+        state["__failure_callback"] = self.__failure_callback
+        state["__once"] = self.__once
+
+        # Return the complete state for serialization
+        return state
+
+    def __setstate__(self, state: Dict[str, Any]) -> None:
+        # Restore the state of the base Subscription class
+        super().__setstate__(state)
+
+        # Restore the state of the EventSubscriber attributes
+        self.__event_callback = state["__event_callback"]
+        self.__success_callback = state["__success_callback"]
+        self.__failure_callback = state["__failure_callback"]
+        self.__once = state["__once"]
 
     def __str__(self) -> str:  # pragma: no cover
         return (

@@ -1,9 +1,9 @@
 import sys
 from datetime import datetime
-from typing import Callable
+from typing import Any, Callable, Dict
 
-from .unsubscribable import Unsubscribable
 from ..utils import validate_callable
+from .unsubscribable import Unsubscribable
 
 if sys.version_info >= (3, 11):  # pragma: no cover
     from typing import Self
@@ -46,6 +46,41 @@ class Subscription(Unsubscribable):
 
     def unsubscribe(self: Self) -> bool:
         return self.__teardown_callback(self)
+
+    def __getstate__(self) -> Dict[str, Any]:
+        """
+        Prepare the object state for serialization.
+
+        This method is called when the object is pickled. It returns a dictionary
+        containing the attributes that should be serialized. Only the attributes
+        that are necessary for reconstructing the object in another process or
+        context are included to improve efficiency and avoid issues with
+        contextually irrelevant attributes.
+
+        :return: A dictionary containing the serialized state of the object.
+        """
+        # Include only the attributes that are necessary for serialization
+        # Attributes like __teardown_callback are not included as they are
+        # context-specific and do not make sense in another scope/process.
+        return {"__timestamp": self.__timestamp}
+
+    def __setstate__(self, state: Dict[str, Any]) -> None:
+        """
+        Restore the object from the serialized state.
+
+        This method is called when the object is unpickled. It takes a dictionary
+        containing the serialized state and restores the object's attributes.
+        Additionally, it sets default values for attributes that were not serialized,
+        ensuring the object remains in a valid state after deserialization.
+
+        :param state: A dictionary containing the serialized state of the object.
+        :return: None
+        """
+        # Restore the attributes from the serialized state
+        self.__timestamp = state["__timestamp"]
+
+        # Set default values for attributes that were not serialized
+        self.__teardown_callback = lambda sub: False
 
     def __str__(self) -> str:  # pragma: no cover
         """

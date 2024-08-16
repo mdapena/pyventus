@@ -1,9 +1,9 @@
 import sys
-from typing import Awaitable, Callable, Generic, TypeAlias, TypeVar, final
+from typing import Any, Awaitable, Callable, Dict, Generic, TypeAlias, TypeVar, final
 
-from ..observers import Observer
 from ...core.subscriptions import Subscription
 from ...core.utils import CallableWrapper
+from ..observers import Observer
 
 if sys.version_info >= (3, 11):
     from typing import Self
@@ -119,6 +119,27 @@ class Subscriber(Generic[_in_T], Observer[_in_T], Subscription):
         else:
             # Invoke the complete callback
             await self.__complete_callback()
+
+    def __getstate__(self) -> Dict[str, Any]:
+        # Retrieve the state of the base Subscription class
+        state: Dict[str, Any] = super().__getstate__()
+
+        # Add the state of the Subscriber attributes
+        state["__next_callback"] = self.__next_callback
+        state["__error_callback"] = self.__error_callback
+        state["__complete_callback"] = self.__complete_callback
+
+        # Return the complete state for serialization
+        return state
+
+    def __setstate__(self, state: Dict[str, Any]) -> None:
+        # Restore the state of the base Subscription class
+        super().__setstate__(state)
+
+        # Restore the state of the Subscriber attributes
+        self.__next_callback = state["__next_callback"]
+        self.__error_callback = state["__error_callback"]
+        self.__complete_callback = state["__complete_callback"]
 
     def __str__(self) -> str:
         return (

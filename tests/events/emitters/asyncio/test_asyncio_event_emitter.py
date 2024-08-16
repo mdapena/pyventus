@@ -1,53 +1,53 @@
-import asyncio
+from asyncio import run
+from typing import Type
 
 import pytest
-from _pytest.python_api import raises
 
 from pyventus import PyventusException
-from pyventus.events import EventLinker, AsyncIOEventEmitter
+from pyventus.events import AsyncIOEventEmitter, EventLinker
+
 from ..event_emitter_test import EventEmitterTest
 
 
-class TestAsyncIOEventEmitter(EventEmitterTest):
-    @staticmethod
-    async def __run_until_complete() -> None:
-        """Waits for all AsyncIO pending task to complete"""
-        await asyncio.gather(*asyncio.all_tasks().difference({asyncio.current_task()}), return_exceptions=True)
+class TestAsyncIOEventEmitter(EventEmitterTest[AsyncIOEventEmitter]):
 
-    def test_creation(self) -> None:
-        event_emitter = AsyncIOEventEmitter()
-        assert event_emitter is not None
+    def create_event_emitter(self, event_linker: Type[EventLinker]) -> AsyncIOEventEmitter:
+        return AsyncIOEventEmitter(event_linker=event_linker)
 
-    def test_creation_with_invalid_params(self) -> None:
-        with raises(PyventusException):
-            AsyncIOEventEmitter(event_linker=None)
-        with raises(PyventusException):
-            AsyncIOEventEmitter(event_linker=Exception)
+    # ==========================
+
+    def test_creation_with_invalid_input(self) -> None:
+        with pytest.raises(PyventusException):
+            self.create_event_emitter(event_linker=None)
+        with pytest.raises(PyventusException):
+            self.create_event_emitter(event_linker=type(True))
+
+    # ==========================
 
     def test_emission_in_sync_context(self) -> None:
-        event_emitter = AsyncIOEventEmitter()
-        with TestAsyncIOEventEmitter.run_emission_test(event_emitter=event_emitter):
-            pass
+        with self.event_emitter_test(EventLinker) as event_emitter:
+            run(event_emitter.wait_for_tasks())
+
+    # ==========================
 
     def test_emission_in_sync_context_with_custom_event_linker(self) -> None:
-        class CustomEventLinker(EventLinker):
-            pass
+        class CustomEventLinker(EventLinker): ...
 
-        event_emitter = AsyncIOEventEmitter(event_linker=CustomEventLinker)
-        with TestAsyncIOEventEmitter.run_emission_test(event_emitter=event_emitter, event_linker=CustomEventLinker):
-            pass
+        with self.event_emitter_test(CustomEventLinker) as event_emitter:
+            run(event_emitter.wait_for_tasks())
+
+    # ==========================
 
     @pytest.mark.asyncio
     async def test_emission_in_async_context(self) -> None:
-        event_emitter = AsyncIOEventEmitter()
-        with TestAsyncIOEventEmitter.run_emission_test(event_emitter=event_emitter):
-            await TestAsyncIOEventEmitter.__run_until_complete()
+        with self.event_emitter_test(EventLinker) as event_emitter:
+            await event_emitter.wait_for_tasks()
+
+    # ==========================
 
     @pytest.mark.asyncio
     async def test_emission_in_async_context_with_custom_event_linker(self) -> None:
-        class CustomEventLinker(EventLinker):
-            pass
+        class CustomEventLinker(EventLinker): ...
 
-        event_emitter = AsyncIOEventEmitter(event_linker=CustomEventLinker)
-        with TestAsyncIOEventEmitter.run_emission_test(event_emitter=event_emitter, event_linker=CustomEventLinker):
-            await TestAsyncIOEventEmitter.__run_until_complete()
+        with self.event_emitter_test(CustomEventLinker) as event_emitter:
+            await event_emitter.wait_for_tasks()

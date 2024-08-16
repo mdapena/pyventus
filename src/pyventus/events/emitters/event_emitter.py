@@ -2,15 +2,16 @@ from abc import ABC, abstractmethod
 from asyncio import gather
 from datetime import datetime
 from sys import gettrace
-from typing import Type, TypeAlias, Any, Tuple, Dict, final, Set
+from types import EllipsisType
+from typing import Any, Dict, Set, Tuple, Type, TypeAlias, final
 from uuid import uuid4
 
-from ..linkers import EventLinker
-from ..subscribers import EventSubscriber
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger, StdOutLogger
+from ..linkers import EventLinker
+from ..subscribers import EventSubscriber
 
-EmittableEventType: TypeAlias = str | Exception | object
+EmittableEventType: TypeAlias = str | Exception | object | EllipsisType
 """A type alias representing the supported types of events that can be emitted."""
 
 
@@ -101,7 +102,7 @@ class EventEmitter(ABC):
             del self.__id, self.__event, self.__subscribers, self.__args, self.__kwargs, self.__timestamp, self.__debug
 
         @property
-        def id(self) -> str:
+        def id(self) -> str:  # pragma: no cover
             """
             Gets the unique identifier of the event emission.
             :return: The unique identifier of the event emission.
@@ -109,7 +110,7 @@ class EventEmitter(ABC):
             return self.__id
 
         @property
-        def event(self) -> str:
+        def event(self) -> str:  # pragma: no cover
             """
             Gets the name of the event being emitted.
             :return: The name of the event.
@@ -117,7 +118,7 @@ class EventEmitter(ABC):
             return self.__event
 
         @property
-        def timestamp(self) -> datetime:
+        def timestamp(self) -> datetime:  # pragma: no cover
             """
             Gets the timestamp when the event emission was created.
             :return: The timestamp when the event emission was created.
@@ -191,7 +192,9 @@ class EventEmitter(ABC):
             raise PyventusException("The 'event' argument cannot be a type.")
 
         # Get the valid event name
-        event_name: str = self._event_linker.get_valid_event_name(event if isinstance(event, str) else type(event))
+        event_name: str = self._event_linker.get_valid_event_name(
+            event=(event if isinstance(event, (str, EllipsisType)) else type(event))
+        )
 
         # Get the set of subscribers associated with the event, removing one-time subscribers.
         subscribers: Set[EventSubscriber] = self._event_linker.get_subscribers_from_events(
@@ -209,7 +212,7 @@ class EventEmitter(ABC):
         event_emission = EventEmitter.EventEmission(
             event=event_name,
             subscribers=subscribers,
-            args=args if isinstance(event, str) else (event, *args),
+            args=(args if isinstance(event, (str, EllipsisType)) else (event, *args)),
             kwargs=kwargs,
             debug=self._logger.debug_enabled,
         )

@@ -1,4 +1,5 @@
 from collections import namedtuple
+from pickle import dumps, loads
 from typing import Any, Dict, Tuple
 
 import pytest
@@ -9,7 +10,7 @@ from pyventus.events import EventSubscriber
 from ...fixtures.callable_fixtures import CallableMock
 
 
-class TestSubscriber:
+class TestEventSubscriber:
 
     # ==========================
     # Test Cases for creation
@@ -385,3 +386,27 @@ class TestSubscriber:
         # Act/Assert
         with pytest.raises(ValueError):
             await subscriber.execute()
+
+    # ==========================
+
+    def test_pickle_serialization(self) -> None:
+        # Arrange
+        teardown_callback = CallableMock.Sync(return_value=False)
+        event_callback = CallableMock.Random()
+        subscriber = EventSubscriber(
+            teardown_callback=teardown_callback,
+            event_callback=event_callback,
+            success_callback=None,
+            failure_callback=None,
+            force_async=True,
+            once=True,
+        )
+
+        # Act
+        data = dumps(subscriber)
+        restored = loads(data)
+
+        # Assert
+        for attr in EventSubscriber.__slots__:
+            attr_name: str = f"_{type(restored).__name__}{attr}" if attr.startswith("__") else attr
+            assert hasattr(restored, attr_name)

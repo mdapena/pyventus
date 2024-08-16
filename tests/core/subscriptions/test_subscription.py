@@ -1,4 +1,5 @@
 from datetime import datetime
+from pickle import dumps, loads
 
 import pytest
 
@@ -74,3 +75,19 @@ class TestSubscription:
         assert teardown_callback.call_count == 1
         assert teardown_callback.last_args == (subscription,)
         assert teardown_callback.return_value is return_value
+
+    # ==========================
+
+    def test_pickle_serialization(self) -> None:
+        # Arrange
+        teardown_callback = CallableMock.Sync(return_value=False)
+        subscription = Subscription(teardown_callback=teardown_callback)
+
+        # Act
+        data = dumps(subscription)
+        restored = loads(data)
+
+        # Assert
+        for attr in Subscription.__slots__:
+            attr_name: str = f"_{type(restored).__name__}{attr}" if attr.startswith("__") else attr
+            assert hasattr(restored, attr_name)

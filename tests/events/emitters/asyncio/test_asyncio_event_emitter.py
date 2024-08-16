@@ -50,7 +50,7 @@ class TestAsyncIOEventEmitter(EventEmitterTest[AsyncIOEventEmitter]):
     # ==========================
 
     def test_emission_in_sync_context(self) -> None:
-        with self.event_emitter_test(EventLinker) as event_emitter:
+        with self.run_emissions_test(EventLinker) as event_emitter:
             run(event_emitter.wait_for_tasks())
 
     # ==========================
@@ -58,14 +58,14 @@ class TestAsyncIOEventEmitter(EventEmitterTest[AsyncIOEventEmitter]):
     def test_emission_in_sync_context_with_custom_event_linker(self) -> None:
         class CustomEventLinker(EventLinker): ...
 
-        with self.event_emitter_test(CustomEventLinker) as event_emitter:
+        with self.run_emissions_test(CustomEventLinker) as event_emitter:
             run(event_emitter.wait_for_tasks())
 
     # ==========================
 
     @pytest.mark.asyncio
     async def test_emission_in_async_context(self) -> None:
-        with self.event_emitter_test(EventLinker) as event_emitter:
+        with self.run_emissions_test(EventLinker) as event_emitter:
             await event_emitter.wait_for_tasks()
 
     # ==========================
@@ -74,5 +74,5 @@ class TestAsyncIOEventEmitter(EventEmitterTest[AsyncIOEventEmitter]):
     async def test_emission_in_async_context_with_custom_event_linker(self) -> None:
         class CustomEventLinker(EventLinker): ...
 
-        with self.event_emitter_test(CustomEventLinker) as event_emitter:
+        with self.run_emissions_test(CustomEventLinker) as event_emitter:
             await event_emitter.wait_for_tasks()

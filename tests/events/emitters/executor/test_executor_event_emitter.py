@@ -51,7 +51,7 @@ class TestExecutorEventEmitter(EventEmitterTest[ExecutorEventEmitter]):
     # ==========================
 
     def test_emission_in_sync_context(self) -> None:
-        with self.event_emitter_test(EventLinker) as event_emitter:
+        with self.run_emissions_test(EventLinker) as event_emitter:
             with event_emitter:  # Testing context manager
                 ...
 
@@ -61,14 +61,14 @@ class TestExecutorEventEmitter(EventEmitterTest[ExecutorEventEmitter]):
 
         class CustomEventLinker(EventLinker): ...
 
-        with self.event_emitter_test(CustomEventLinker) as event_emitter:
+        with self.run_emissions_test(CustomEventLinker) as event_emitter:
             event_emitter.shutdown(wait=True)
 
     # ==========================
 
     @pytest.mark.asyncio
     async def test_emission_in_async_context(self) -> None:
-        with self.event_emitter_test(EventLinker) as event_emitter:
+        with self.run_emissions_test(EventLinker) as event_emitter:
             with event_emitter:  # Testing context manager
                 ...
 
@@ -79,5 +79,5 @@ class TestExecutorEventEmitter(EventEmitterTest[ExecutorEventEmitter]):
 
         class CustomEventLinker(EventLinker): ...
 
-        with self.event_emitter_test(CustomEventLinker) as event_emitter:
+        with self.run_emissions_test(CustomEventLinker) as event_emitter:
             event_emitter.shutdown(wait=True)

@@ -22,20 +22,20 @@ class EventEmitterTest(Generic[_E], ABC):
     # ==========================
 
     @contextmanager
-    def event_emitter_test(self, event_linker: Type[EventLinker]) -> Generator[_E, None, None]:
+    def run_emissions_test(self, event_linker: Type[EventLinker]) -> Generator[_E, None, None]:
         """
         Context manager for performing tests to check if the event emission is working
         properly using both synchronous and asynchronous callbacks.
 
-        The `run_emission_test` function is a context manager that allows you to perform tests
+        The `run_emissions_test` function is a context manager that allows you to perform tests
         on event emission behavior. When used with a `with` statement, you should complete the
         necessary actions to propagate the events that were linked and emitted within the
-        `run_emission_test` function before the yield statement. These actions might include
+        `run_emissions_test` function before the yield statement. These actions might include
         triggering events, calling relevant functions, or waiting for event propagation to
         complete.
 
         After the execution of the code section inside the `with` statement, the control is
-        returned to the `run_emission_test` function. At this point, the function can proceed
+        returned to the `run_emissions_test` function. At this point, the function can proceed
         to perform the assertions to validate the expected behavior of the callbacks.
 
         Usage:
@@ -308,7 +308,7 @@ class EventEmitterTest(Generic[_E], ABC):
     # ==========================
 
     @abstractmethod
-    def test_emission_in_sync_context(self, *args, **kwargs) -> None:
+    def test_emission_in_sync_context(self) -> None:
         """
         Performs tests to check if the event emission is working properly within a (SYNC) context.
         """
@@ -317,7 +317,7 @@ class EventEmitterTest(Generic[_E], ABC):
     # ==========================
 
     @abstractmethod
-    def test_emission_in_sync_context_with_custom_event_linker(self, *args, **kwargs) -> None:
+    def test_emission_in_sync_context_with_custom_event_linker(self) -> None:
         """
         Performs tests to check if the event emission is working properly within a (SYNC) context
         and using a custom event linker.
@@ -327,7 +327,7 @@ class EventEmitterTest(Generic[_E], ABC):
     # ==========================
 
     @abstractmethod
-    async def test_emission_in_async_context(self, *args, **kwargs) -> None:
+    async def test_emission_in_async_context(self) -> None:
         """
         Performs tests to check if the event emission is working properly within an (ASYNC) context.
         """
@@ -336,7 +336,7 @@ class EventEmitterTest(Generic[_E], ABC):
     # ==========================
 
     @abstractmethod
-    async def test_emission_in_async_context_with_custom_event_linker(self, *args, **kwargs) -> None:
+    async def test_emission_in_async_context_with_custom_event_linker(self) -> None:
         """
         Performs tests to check if the event emission is working properly within an (ASYNC) context
         and using a custom event linker.

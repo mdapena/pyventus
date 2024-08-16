@@ -1,7 +1,7 @@
 import sys
-from abc import abstractmethod, ABC
+from abc import ABC, abstractmethod
 from types import TracebackType
-from typing import TypeVar, Generic, Tuple, Type
+from typing import Generic, Tuple, Type, TypeVar
 
 from .subscription import Subscription
 from ..exceptions import PyventusException
@@ -77,9 +77,9 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
             the subscription context to prevent memory leaks.
         """
         # Validate the source and flags
-        if source is None:
+        if source is None:  # pragma: no cover
             raise PyventusException("The 'source' argument cannot be None.")
-        if not isinstance(is_stateful, bool):
+        if not isinstance(is_stateful, bool):  # pragma: no cover
             raise PyventusException("The 'stateful_context' argument must be a boolean.")
 
         # Initialize instance variables
@@ -110,11 +110,11 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
         subscriber: _SubscriberType = self._exit()
 
         # Ensure the subscriber is valid
-        if subscriber is None:
+        if subscriber is None:  # pragma: no cover
             raise PyventusException("The 'subscriber' argument cannot be None.")
 
         # Check if a subscriber has already been set to avoid an override
-        if self.__subscriber:
+        if self.__subscriber:  # pragma: no cover
             raise PyventusException("A 'subscriber' has already been set.")
 
         if self.__is_stateful:

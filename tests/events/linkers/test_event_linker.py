@@ -1,758 +1,1375 @@
+from collections import namedtuple
+from dataclasses import astuple, dataclass, fields
 from sys import gettrace
 from types import EllipsisType
+from typing import Any, Dict, Set, Tuple, Type
 
-from _pytest.python_api import raises
+import pytest
 
 from pyventus import PyventusException
-from pyventus.events import EventLinker
-from ... import EventFixtures, CallbackFixtures
+from pyventus.events import (EventCallbackType, EventLinker, EventSubscriber,
+                             FailureCallbackType, SubscribableEventType,
+                             SuccessCallbackType)
+
+from ...fixtures import CallableMock, EventFixtures
+
+
+# Define a named tuple for better readability of event linker fixture
+@dataclass
+class EventLinkerFixture:
+    event_linker: Type[EventLinker]
+    events: Set[str]
+    subscribers: Set[EventSubscriber]
+    onetime_subscriber_events: Set[str]
+    onetime_subscribers: Set[str]
+    to_dict: Dict[str, Set[EventSubscriber]]
+
+
+@pytest.fixture
+def empty() -> EventLinkerFixture:
+    """Fixture for an empty MultiBidict."""
+    EventLinker.remove_all()
+    return EventLinkerFixture(
+        event_linker=EventLinker,
+        events=set(),
+        subscribers=set(),
+        onetime_subscriber_events=set(),
+        onetime_subscribers=set(),
+        to_dict={},
+    )
+
+
+@pytest.fixture
+def populated() -> EventLinkerFixture:
+    """
+    Fixture for a
+
+    EventLinker = {
+        "A": {EventSubscriber1, EventSubscriber3, EventSubscriber4},
+        "B": {EventSubscriber1},
+        "C": {EventSubscriber3},
+        "D": {EventSubscriber2},
+    }
+    """
+    EventLinker.remove_all()
+
+    sub1 = EventLinker.subscribe(
+        "A",
+        "B",
+        event_callback=CallableMock.Random(),
+        success_callback=None,
+        failure_callback=None,
+        force_async=False,
+        once=False,
+    )
+    sub2 = EventLinker.subscribe(
+        "D",
+        event_callback=CallableMock.Random(),
+        success_callback=None,
+        failure_callback=None,
+        force_async=False,
+        once=True,
+    )
+    sub3 = EventLinker.subscribe(
+        "A",
+        "C",
+        event_callback=CallableMock.Random(),
+        success_callback=None,
+        failure_callback=None,
+        force_async=False,
+        once=False,
+    )
+    sub4 = EventLinker.subscribe(
+        "A",
+        event_callback=CallableMock.Random(),
+        success_callback=None,
+        failure_callback=None,
+        force_async=False,
+        once=True,
+    )
+
+    return EventLinkerFixture(
+        event_linker=EventLinker,
+        events={"A", "B", "C", "D"},
+        subscribers={sub1, sub2, sub3, sub4},
+        onetime_subscriber_events={"A", "D"},
+        onetime_subscribers={sub2, sub4},
+        to_dict={
+            "A": {sub1, sub3, sub4},
+            "B": {sub1},
+            "C": {sub3},
+            "D": {sub2},
+        },
+    )
+
+
+# ==========================
+
+
+def create_subscriber() -> EventSubscriber:
+    return EventSubscriber(
+        teardown_callback=lambda: True,
+        event_callback=lambda: None,
+        success_callback=None,
+        failure_callback=None,
+        force_async=False,
+        once=False,
+    )
+
+
+# ==========================
 
 
 class TestEventLinker:
 
-    def test__init_subclass__(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        class CustomEventLinker(EventLinker, debug=True):
-            pass
+    # ==========================
+    # Test Cases for max_subscribers setting and its getter
+    # ==========================
 
-        assert CustomEventLinker._get_logger().debug_enabled
-        assert EventLinker._get_logger().debug_enabled == bool(gettrace() is not None)
+    def test_max_subscribers_default_value(self) -> None:
+        # Arrange, Act, Assert
+        assert EventLinker.get_max_subscribers() is None
 
-        event_handler = CustomEventLinker.subscribe(..., event_callback=CallbackFixtures.Sync())
-        EventLinker.remove_all()
+    # ==========================
 
-        assert EventLinker.get_registry() == {}
-        assert CustomEventLinker.get_registry()[EllipsisType.__name__] == [event_handler]
+    def test_max_subscribers_with_valid_input(self) -> None:
+        # Arrange
+        class CustomEventLinker(EventLinker, max_subscribers=2): ...
 
-        # ----------------------------------------------
-        # Error path tests (Arrange | Act | Assert)
-        # ----------
-        with raises(PyventusException):
+        # Act, Assert
+        assert CustomEventLinker.get_max_subscribers() == 2
 
-            class InvalidEventLinker1(EventLinker, debug="None"):
-                pass
+    # ==========================
 
-        with raises(PyventusException):
+    def test_max_subscribers_with_invalid_input(self) -> None:
+        # Arrange/Act/Assert
+        with pytest.raises(PyventusException):
 
-            class InvalidEventLinker2(EventLinker, max_event_handlers=0):
-                pass
+            class CustomEventLinker(EventLinker, max_subscribers=0): ...
 
-        with raises(PyventusException):
+    # ==========================
+    # Test Cases for default_success_callback setting and its getter
+    # ==========================
 
-            class InvalidEventLinker3(EventLinker, default_success_callback=True):
-                pass
+    def test_default_success_callback_default_value(self) -> None:
+        # Arrange, Act, Assert
+        assert EventLinker.get_default_success_callback() is None
 
-        with raises(PyventusException):
+    # ==========================
 
-            class InvalidEventLinker4(EventLinker, default_failure_callback=True):
-                pass
+    def test_default_success_callback_with_valid_input(self) -> None:
+        # Arrange
+        default_success_callback = CallableMock.Random()
 
-    def test_get_event_name(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        assert EventFixtures.StringEvent == EventLinker.get_event_name(event=EventFixtures.StringEvent)
-        assert EventFixtures.ExceptionEvent.__name__ == EventLinker.get_event_name(event=EventFixtures.ExceptionEvent)
-        assert EventFixtures.DtcEvent1.__name__ == EventLinker.get_event_name(event=EventFixtures.DtcEvent1)
-        assert EllipsisType.__name__ == EventLinker.get_event_name(event=...)
+        # Act
+        class CustomEventLinker(EventLinker, default_success_callback=default_success_callback): ...
 
-        # ----------------------------------------------
-        # Error path tests (Arrange | Act | Assert)
-        # ----------
-        with raises(PyventusException):
-            EventLinker.get_event_name(event=None)
+        # Assert
+        assert CustomEventLinker.get_default_success_callback() == default_success_callback
 
-        with raises(PyventusException):
-            EventLinker.get_event_name(event=False)
+    # ==========================
 
-        with raises(PyventusException):
-            EventLinker.get_event_name(event="")
+    def test_default_success_callback_with_invalid_input(self) -> None:
+        # Arrange, Act, Assert
+        with pytest.raises(PyventusException):
 
-        with raises(PyventusException):
-            EventLinker.get_event_name(event=str)
+            class CustomEventLinker(EventLinker, default_success_callback=True): ...
 
-        with raises(PyventusException):
-            EventLinker.get_event_name(event=EventFixtures.NonDtcEvent)
+    # ==========================
+    # Test Cases for default_failure_callback setting and its getter
+    # ==========================
 
-    def test_get_max_event_handlers(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        class CustomEventLinker1(EventLinker, max_event_handlers=1):
-            pass  # pragma: no cover
+    def test_default_failure_callback_default_value(self) -> None:
+        # Arrange, Act, Assert
+        assert EventLinker.get_default_failure_callback() is None
 
-        assert CustomEventLinker1.get_max_event_handlers() == 1
+    # ==========================
 
-    def test_get_default_success_callback(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        success_callback = CallbackFixtures.Async()
+    def test_default_failure_callback_with_valid_input(self) -> None:
+        # Arrange
+        default_failure_callback = CallableMock.Random()
 
-        class CustomEventLinker1(EventLinker, default_success_callback=success_callback):
-            pass  # pragma: no cover
+        # Act
+        class CustomEventLinker(EventLinker, default_failure_callback=default_failure_callback): ...
 
-        assert CustomEventLinker1.get_default_success_callback() == success_callback
-        assert CustomEventLinker1.get_default_failure_callback() is None
+        # Assert
+        assert CustomEventLinker.get_default_failure_callback() == default_failure_callback
 
-    def test_get_default_failure_callback(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        failure_callback = CallbackFixtures.Async()
+    # ==========================
 
-        class CustomEventLinker1(EventLinker, default_failure_callback=failure_callback):
-            pass  # pragma: no cover
+    def test_default_failure_callback_with_invalid_input(self) -> None:
+        # Arrange, Act, Assert
+        with pytest.raises(PyventusException):
 
-        assert CustomEventLinker1.get_default_success_callback() is None
-        assert CustomEventLinker1.get_default_failure_callback() == failure_callback
+            class CustomEventLinker(EventLinker, default_failure_callback=True): ...
 
-    def test_get_registry(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        event_handler_1 = EventLinker.subscribe(..., EventFixtures.DtcEvent1, event_callback=CallbackFixtures.Sync())
-        event_handler_2 = EventLinker.subscribe(
-            EventFixtures.DtcEvent1,
-            EventFixtures.DtcEvent2,
-            event_callback=CallbackFixtures.Sync(),
-        )
+    # ==========================
+    # Test Cases for debug mode setting and its getter
+    # ==========================
 
-        # Try to modify the event registry manually
-        EventLinker.get_registry()[EventFixtures.DtcEvent2.__name__].append(event_handler_1)
+    def test_debug_mode_default_value(self) -> None:
+        # Arrange
+        env_exc: bool = bool(gettrace() is not None)
 
-        assert len(EventLinker.get_registry().keys()) == 3
+        # Act, Assert
+        assert EventLinker._get_logger().debug_enabled is env_exc
+
+    # ==========================
+
+    def test_debug_mode_with_valid_input(self) -> None:
+        # Arrange, Act
+        class CustomEventLinker(EventLinker, debug=True): ...
+
+        # Assert
+        assert CustomEventLinker._get_logger().debug_enabled is True
+
+    # ==========================
+
+    def test_debug_mode_with_invalid_input(self) -> None:
+        # Arrange/Act/Assert
+        with pytest.raises(PyventusException):
+
+            class CustomEventLinker(EventLinker, debug="True"): ...
+
+    # ==========================
+    # Test Case for the EvenLinker registry isolation
+    # ==========================
+
+    def test_registry_isolation(self, populated: EventLinkerFixture) -> None:
+        # Arrange, Act
+        class CustomEventLinker1(EventLinker): ...
+
+        class CustomEventLinker2(EventLinker): ...
+
+        CustomEventLinker1.subscribe("1", event_callback=lambda: None)
+        CustomEventLinker2.subscribe("1", event_callback=lambda: None)
+
+        # Assert
         assert (
-            len(EventLinker.get_registry().get(EventFixtures.DtcEvent1.__name__, [])) == 2
-            and event_handler_1 in EventLinker.get_registry().get(EventFixtures.DtcEvent1.__name__, [])
-            and event_handler_2 in EventLinker.get_registry().get(EventFixtures.DtcEvent1.__name__, [])
-        )
-        assert len(
-            EventLinker.get_registry().get(EllipsisType.__name__, [])
-        ) == 1 and event_handler_1 in EventLinker.get_registry().get(EllipsisType.__name__, [])
-        assert len(
-            EventLinker.get_registry().get(EventFixtures.DtcEvent2.__name__, [])
-        ) == 1 and event_handler_2 in EventLinker.get_registry().get(EventFixtures.DtcEvent2.__name__, [])
-
-    def test_get_events(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        EventLinker.subscribe(EventFixtures.DtcEvent1, event_callback=CallbackFixtures.Sync())
-        EventLinker.subscribe(..., EventFixtures.DtcEvent1, event_callback=CallbackFixtures.Async())
-        EventLinker.subscribe(..., event_callback=CallbackFixtures.Sync())
-
-        assert len(EventLinker.get_events()) == 2
-        assert EllipsisType.__name__ in EventLinker.get_events()
-        assert EventFixtures.DtcEvent1.__name__ in EventLinker.get_events()
-
-    def test_get_event_handlers(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        event_handler_1 = EventLinker.subscribe(EventFixtures.DtcEvent1, ..., event_callback=CallbackFixtures.Sync())
-        event_handler_2 = EventLinker.subscribe(
-            EventFixtures.DtcEvent1, EventFixtures.DtcEvent2, ..., event_callback=CallbackFixtures.Async()
+            populated.event_linker.get_registry()
+            != CustomEventLinker1.get_registry()
+            != CustomEventLinker2.get_registry()
         )
 
-        assert len(EventLinker.get_event_handlers()) == 2
-        assert event_handler_1 in EventLinker.get_event_handlers()
-        assert event_handler_2 in EventLinker.get_event_handlers()
+    # ==========================
+    # Test Cases for get_valid_event_name()
+    # ==========================
 
-    def test_get_events_by_event_handler(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        event_handler_1 = EventLinker.subscribe(EventFixtures.DtcEvent1, ..., event_callback=CallbackFixtures.Sync())
-        event_handler_2 = EventLinker.subscribe(EventFixtures.DtcEvent1, event_callback=CallbackFixtures.Async())
-        EventLinker.unsubscribe(..., event_handler=event_handler_2)
+    @pytest.mark.parametrize(
+        ["event", "expected"],
+        [
+            (EventFixtures.Str, EventFixtures.Str),
+            (EventFixtures.Exc, EventFixtures.Exc.__name__),
+            (EventFixtures.EmptyDtc, EventFixtures.EmptyDtc.__name__),
+            (EventFixtures.DtcImmutable, EventFixtures.DtcImmutable.__name__),
+            (EventFixtures.DtcMutable, EventFixtures.DtcMutable.__name__),
+            (EventFixtures.DtcWithVal, EventFixtures.DtcWithVal.__name__),
+            (EventFixtures.CustomExc, EventFixtures.CustomExc.__name__),
+            (EventFixtures.All, type(EventFixtures.All).__name__),
+        ],
+    )
+    def test_get_valid_event_name_with_valid_input(self, event: SubscribableEventType, expected: str):
+        # Arrange, Act, Assert
+        assert EventLinker.get_valid_event_name(event) == expected
 
-        assert (
-            len(EventLinker.get_events_by_event_handler(event_handler_1)) == 2
-            and EventFixtures.DtcEvent1.__name__ in EventLinker.get_events_by_event_handler(event_handler_1)
-            and EllipsisType.__name__ in EventLinker.get_events_by_event_handler(event_handler_1)
-        )
-        assert EventLinker.get_events_by_event_handler(
-            event_handler=event_handler_2,
-        ) == [EventFixtures.DtcEvent1.__name__]
+    # ==========================
 
-        # ----------------------------------------------
-        # Error path tests (Arrange | Act | Assert)
-        # ----------
-        with raises(PyventusException):
-            EventLinker.get_events_by_event_handler(event_handler=None)
-        with raises(PyventusException):
-            EventLinker.get_events_by_event_handler(event_handler=True)
+    @pytest.mark.parametrize(
+        ["event", "exception"],
+        [
+            (None, PyventusException),
+            (True, PyventusException),
+            ("", PyventusException),
+            (str, PyventusException),
+            (EllipsisType, PyventusException),
+            (EventFixtures.NonDtc, PyventusException),
+            (object, PyventusException),
+        ],
+    )
+    def test_get_valid_event_name_with_invalid_input(self, event: SubscribableEventType, exception: Exception) -> None:
+        # Arrange, Act, Assert
+        with pytest.raises(exception):
+            EventLinker.get_valid_event_name(event)
 
-    def test_get_event_handlers_by_events(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        event_handler_1 = EventLinker.subscribe(EventFixtures.DtcEvent1, ..., event_callback=CallbackFixtures.Sync())
-        event_handler_2 = EventLinker.subscribe(
-            EventFixtures.DtcEvent1, EventFixtures.DtcEvent2, event_callback=CallbackFixtures.Async()
-        )
+    # ==========================
+    # Test Cases for get_valid_subscriber()
+    # ==========================
 
-        assert (
-            len(EventLinker.get_event_handlers_by_events(EventFixtures.DtcEvent1)) == 2
-            and event_handler_1 in EventLinker.get_event_handlers_by_events(EventFixtures.DtcEvent1)
-            and event_handler_2 in EventLinker.get_event_handlers_by_events(EventFixtures.DtcEvent1)
-        )
-        assert (
-            len(EventLinker.get_event_handlers_by_events(EventFixtures.DtcEvent1, ...)) == 2
-            and event_handler_1 in EventLinker.get_event_handlers_by_events(EventFixtures.DtcEvent1, ...)
-            and event_handler_2 in EventLinker.get_event_handlers_by_events(EventFixtures.DtcEvent1, ...)
-        )
-        assert EventLinker.get_event_handlers_by_events(..., ..., Ellipsis) == [event_handler_1]
-        assert EventLinker.get_event_handlers_by_events(EventFixtures.DtcEvent2) == [event_handler_2]
-        assert len(EventLinker.get_event_handlers_by_events("...")) == 0
+    def test_get_valid_subscriber_with_valid_input(self):
+        # Arrange
+        subscriber = create_subscriber()
 
-        # ----------------------------------------------
-        # Error path tests (Arrange | Act | Assert)
-        # ----------
-        with raises(PyventusException):
-            EventLinker.get_event_handlers_by_events()
-        with raises(PyventusException):
-            EventLinker.get_event_handlers_by_events(True)
+        # Act, Assert
+        assert EventLinker.get_valid_subscriber(subscriber) is subscriber
 
-    def test_once_decorator(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        @EventLinker.once(EventFixtures.StringEvent, EventFixtures.ExceptionEvent, EventFixtures.DtcEvent1)
-        def event_callback1(*args, **kwargs):  # Multiple event subscription
-            pass  # pragma: no cover
+    # ==========================
 
-        @EventLinker.once(..., force_async=True)
-        async def event_callback2(*args, **kwargs):  # Single event subscription
-            pass  # pragma: no cover
+    @pytest.mark.parametrize(
+        ["subscriber", "exception"],
+        [
+            (None, PyventusException),
+            (True, PyventusException),
+            ("", PyventusException),
+            (EventSubscriber, PyventusException),
+            (object(), PyventusException),
+        ],
+    )
+    def test_get_valid_subscriber_with_invalid_input(self, subscriber: EventSubscriber, exception: Exception) -> None:
+        # Arrange, Act, Assert
+        with pytest.raises(exception):
+            EventLinker.get_valid_subscriber(subscriber)
 
-        assert len(EventLinker.get_event_handlers()) == 2
+    # ==========================
+    # Test Cases for _get_valid_and_unique_event_names()
+    # ==========================
 
-        event_handler1 = EventLinker.get_event_handlers_by_events(EventFixtures.StringEvent)[0]
-        assert event_handler1 and event_handler1.once and not event_handler1.force_async  # Flag validations
+    @pytest.mark.parametrize(
+        ["events", "expected"],
+        [
+            ((Ellipsis, ...), {EllipsisType.__name__}),
+            (("A", "B", "C", "B", "A"), {"A", "B", "C"}),
+            (
+                (..., EventFixtures.EmptyDtc, "A", Exception, Ellipsis, EventFixtures.EmptyDtc, "A"),
+                {"A", EllipsisType.__name__, EventFixtures.EmptyDtc.__name__, Exception.__name__},
+            ),
+        ],
+    )
+    def test_get_valid_and_unique_event_names_with_valid_input(
+        self, events: Tuple[SubscribableEventType, ...], expected: Set[str]
+    ) -> None:
+        # Arrange, Act, Assert
+        assert EventLinker._get_valid_and_unique_event_names(events=events) == expected
 
-        event_handler2 = EventLinker.get_event_handlers_by_events(...)[0]
-        assert event_handler2 and event_handler2.once and event_handler2.force_async  # Flag validations
+    # ==========================
 
-        assert event_callback2 is EventLinker.once(EventFixtures.EmptyEvent)(event_callback2)  # Check return value
+    @pytest.mark.parametrize(
+        ["events", "exception"],
+        [
+            ((), PyventusException),
+            ((None,), PyventusException),
+            (("A", None), PyventusException),
+            ((True,), PyventusException),
+            (("A", True), PyventusException),
+            ((str(),), PyventusException),
+            (("A", str()), PyventusException),
+        ],
+    )
+    def test_get_valid_and_unique_event_names_with_invalid_input(
+        self, events: Tuple[Any, ...], exception: Exception
+    ) -> None:
+        # Arrange, Act, Assert
+        with pytest.raises(exception):
+            EventLinker._get_valid_and_unique_event_names(events=events)
 
-        # ----------------------------------------------
-        # Error path tests (Arrange | Act | Assert)
-        # ----------
-        with raises(PyventusException):
+    # ==========================
+    # Test Cases for _get_valid_and_unique_subscribers()
+    # ==========================
 
-            @EventLinker.once()
-            def event_callback3():
-                pass  # pragma: no cover
+    def test_get_valid_and_unique_subscribers_with_valid_input(self) -> None:
+        # Arrange
+        sub1, sub2, sub3 = create_subscriber(), create_subscriber(), create_subscriber()
+        expected = {sub1, sub2, sub3}
 
-        assert len(EventLinker.get_event_handlers()) == 3
+        # Act
+        subscribers = EventLinker._get_valid_and_unique_subscribers(subscribers=(sub1, sub2, sub3, sub2, sub1, sub2))
 
-    def test_once_context_manager(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        event_callback = CallbackFixtures.Sync()
-        success_callback = CallbackFixtures.Async()
-        failure_callback = CallbackFixtures.Sync()
+        # Assert
+        assert subscribers == expected
 
-        with EventLinker.once(
-            EventFixtures.StringEvent, EventFixtures.ExceptionEvent, EventFixtures.DtcEvent1
-        ) as linker:  # Multiple event subscription
-            linker.on_event(event_callback)
-            linker.on_success(success_callback)
-            linker.on_failure(failure_callback)
+    # ==========================
 
-        with EventLinker.once(..., force_async=True) as linker:  # Single event subscription
-            linker.on_event(event_callback)
-            linker.on_failure(failure_callback)
+    @pytest.mark.parametrize(
+        ["subscribers", "exception"],
+        [
+            ((), PyventusException),
+            ((None,), PyventusException),
+            ((create_subscriber(), None), PyventusException),
+            ((object(),), PyventusException),
+            ((create_subscriber(), object()), PyventusException),
+            ((True,), PyventusException),
+            ((create_subscriber(), True), PyventusException),
+        ],
+    )
+    def test_get_valid_and_unique_subscribers_with_invalid_input(
+        self, subscribers: Tuple[Any, ...], exception: Exception
+    ) -> None:
+        # Arrange, Act, Assert
+        with pytest.raises(exception):
+            EventLinker._get_valid_and_unique_subscribers(subscribers=subscribers)
 
-        assert len(EventLinker.get_event_handlers()) == 2
+    # ==========================
+    # Test Cases for is_empty()
+    # ==========================
 
-        event_handler1 = EventLinker.get_event_handlers_by_events(EventFixtures.DtcEvent1)[0]
-        assert event_handler1 and event_handler1.once and not event_handler1.force_async  # Flag validations
-        assert (
-            event_handler1._event_callback is event_callback
-            and event_handler1._success_callback is success_callback
-            and event_handler1._failure_callback is failure_callback
-        )
+    def test_is_empty_when_empty(self, empty: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert empty.event_linker.is_empty() is True
 
-        event_handler2 = EventLinker.get_event_handlers_by_events(Ellipsis)[0]
-        assert event_handler2 and event_handler2.once and event_handler2.force_async  # Flag validations
-        assert (
-            event_handler2._event_callback is event_callback
-            and event_handler2._success_callback is None
-            and event_handler1._failure_callback is failure_callback
-        )
+    # ==========================
 
-        # ----------------------------------------------
-        # Error path tests (Arrange | Act | Assert)
-        # ----------
-        with raises(PyventusException):
+    def test_is_empty_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert populated.event_linker.is_empty() is False
 
-            with EventLinker.once(EventFixtures.EmptyEvent) as linker:
-                linker.on_success(success_callback)
-                linker.on_failure(failure_callback)
+    # ==========================
+    # Test Cases for get_registry()
+    # ==========================
 
-        assert len(EventLinker.get_event_handlers()) == 2
+    def test_get_registry_when_empty(self, empty: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert empty.event_linker.get_registry() == empty.to_dict
 
-    def test_on_decorator(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        @EventLinker.on(EventFixtures.StringEvent, EventFixtures.ExceptionEvent, EventFixtures.DtcEvent1)
-        def event_callback1(*args, **kwargs):  # Multiple event subscription
-            pass  # pragma: no cover
+    # ==========================
 
-        @EventLinker.on(..., force_async=True)
-        async def event_callback2(*args, **kwargs):  # Single event subscription
-            pass  # pragma: no cover
+    def test_get_registry_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert populated.event_linker.get_registry() == populated.to_dict
 
-        assert len(EventLinker.get_event_handlers()) == 2
+    # ==========================
+    # Test Cases for get_events()
+    # ==========================
 
-        event_handler1 = EventLinker.get_event_handlers_by_events(EventFixtures.ExceptionEvent)[0]
-        assert event_handler1 and not event_handler1.once and not event_handler1.force_async  # Flag validations
+    def test_get_events_when_empty(self, empty: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert empty.event_linker.get_events() == empty.events
 
-        event_handler2 = EventLinker.get_event_handlers_by_events(Ellipsis)[0]
-        assert event_handler2 and not event_handler2.once and event_handler2.force_async  # Flag validations
+    # ==========================
 
-        assert event_callback2 is EventLinker.on(EventFixtures.EmptyEvent)(event_callback2)  # Check return value
+    def test_get_events_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert populated.event_linker.get_events() == populated.events
 
-        # ----------------------------------------------
-        # Error path tests (Arrange | Act | Assert)
-        # ----------
-        with raises(PyventusException):
+    # ==========================
+    # Test Cases for get_subscribers()
+    # ==========================
 
-            @EventLinker.on()
-            def event_callback3():
-                pass  # pragma: no cover
+    def test_get_subscribers_when_empty(self, empty: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert empty.event_linker.get_subscribers() == empty.subscribers
 
-        assert len(EventLinker.get_event_handlers()) == 3
+    # ==========================
 
-    def test_on_context_manager(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        event_callback = CallbackFixtures.Sync()
-        success_callback = CallbackFixtures.Async()
-        failure_callback = CallbackFixtures.Sync()
+    def test_get_subscribers_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert populated.event_linker.get_subscribers() == populated.subscribers
 
-        with EventLinker.on(
-            EventFixtures.StringEvent, EventFixtures.ExceptionEvent, EventFixtures.DtcEvent1
-        ) as linker:  # Multiple event subscription
-            linker.on_event(event_callback)
-            linker.on_success(success_callback)
-            linker.on_failure(failure_callback)
+    # ==========================
+    # Test Cases for get_event_count()
+    # ==========================
 
-        with EventLinker.on(..., force_async=True) as linker:  # Single event subscription
-            linker.on_event(event_callback)
-            linker.on_failure(failure_callback)
+    def test_get_event_count_when_empty(self, empty: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert empty.event_linker.get_event_count() == len(empty.events)
 
-        assert len(EventLinker.get_event_handlers()) == 2
+    # ==========================
 
-        event_handler1 = EventLinker.get_event_handlers_by_events(EventFixtures.StringEvent)[0]
-        assert event_handler1 and not event_handler1.once and not event_handler1.force_async  # Flag validations
-        assert (  # Callback validations
-            event_handler1._event_callback is event_callback
-            and event_handler1._success_callback is success_callback
-            and event_handler1._failure_callback is failure_callback
-        )
+    def test_get_event_count_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert populated.event_linker.get_event_count() == len(populated.events)
 
-        event_handler2 = EventLinker.get_event_handlers_by_events(...)[0]
-        assert event_handler2 and not event_handler2.once and event_handler2.force_async  # Flag validations
-        assert (  # Callback validations
-            event_handler2._event_callback is event_callback
-            and event_handler2._success_callback is None
-            and event_handler1._failure_callback is failure_callback
-        )
+    # ==========================
+    # Test Cases for get_subscriber_count()
+    # ==========================
 
-        # ----------------------------------------------
-        # Error path tests (Arrange | Act | Assert)
-        # ----------
-        with raises(PyventusException):
+    def test_get_subscriber_count_when_empty(self, empty: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert empty.event_linker.get_subscriber_count() == len(empty.subscribers)
 
-            with EventLinker.on(EventFixtures.EmptyEvent) as linker:
-                linker.on_success(success_callback)
-                linker.on_failure(failure_callback)
+    # ==========================
 
-        assert len(EventLinker.get_event_handlers()) == 2
+    def test_get_subscriber_count_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert populated.event_linker.get_subscriber_count() == len(populated.subscribers)
 
-    def test_subscribe(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        event_callback = CallbackFixtures.Sync()
-        success_callback = CallbackFixtures.Async()
-        failure_callback = CallbackFixtures.Sync()
+    # ==========================
+    # Test Cases for get_events_from_subscribers()
+    # ==========================
 
-        event_handler1 = EventLinker.subscribe(
-            EventFixtures.DtcEvent1,
-            event_callback=event_callback,
-            success_callback=success_callback,
-        )
-        event_handler2 = EventLinker.subscribe(
-            ...,
-            EventFixtures.DtcWithValidation,
-            event_callback=event_callback,
-            failure_callback=failure_callback,
-        )
-        event_handler3 = EventLinker.subscribe(
-            EventFixtures.StringEvent,
-            EventFixtures.DtcWithValidation,
-            event_callback=event_callback,
-            success_callback=success_callback,
-            failure_callback=failure_callback,
-        )
-        event_handler4 = EventLinker.subscribe(
-            Ellipsis,
-            PyventusException,
-            ...,
-            event_callback=event_callback,
-            once=True,
-        )
-        event_handler5 = EventLinker.subscribe(
-            Exception,
-            Exception,
-            event_callback=event_callback,
-            force_async=True,
-        )
-        event_handler6 = EventLinker.subscribe(
-            "Exception",
-            event_callback=event_callback,
-            force_async=True,
-            once=True,
+    def test_get_events_from_subscribers_when_empty(self, empty: EventLinkerFixture) -> None:
+        # Arrange
+        sub1, sub2 = create_subscriber(), create_subscriber()
+
+        # Act
+        events = empty.event_linker.get_events_from_subscribers(sub1, sub1, sub2)
+
+        # Assert
+        assert events == set()
+
+    # ==========================
+
+    def test_get_events_from_subscribers_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange
+        sub1, sub2, sub3 = populated.subscribers.pop(), populated.subscribers.pop(), create_subscriber()
+        expected_events = {e for e, s in populated.to_dict.items() if sub1 in s or sub2 in s}
+
+        # Act
+        events = populated.event_linker.get_events_from_subscribers(sub1, sub1, sub2, sub3)
+
+        # Assert
+        assert events == expected_events
+
+    # ==========================
+    # Test Cases for get_subscribers_from_events()
+    # ==========================
+
+    def test_get_subscribers_from_events_when_empty(self, empty: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert empty.event_linker.get_subscribers_from_events("A", "A", "B", "C") == empty.events
+
+    # ==========================
+
+    def test_get_subscribers_from_events_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange
+        event1, event2, event3 = populated.events.pop(), populated.events.pop(), "Invalid"
+        expected_subscribers: Set[EventSubscriber] = populated.to_dict[event1]
+        expected_subscribers.update(populated.to_dict[event2])
+
+        # Act
+        subscribers = populated.event_linker.get_subscribers_from_events(event1, event1, event2, event3)
+
+        # Assert
+        assert subscribers == expected_subscribers
+        assert populated.event_linker.get_event_count() == 4
+        assert populated.event_linker.get_subscriber_count() == 4
+
+    # ==========================
+
+    def test_get_subscribers_from_events_when_populated_with_pop_onetime_subscribers(
+        self, populated: EventLinkerFixture
+    ) -> None:
+        # Arrange
+        expected_subscribers = populated.subscribers
+
+        # Act
+        subscribers = populated.event_linker.get_subscribers_from_events(
+            *populated.events, "D", "Invalid", pop_one_time_subscribers=True
         )
 
         # Assert
-        assert event_handler1 != event_handler2 != event_handler3 != event_handler4 != event_handler5 != event_handler6
-        assert (
-            event_handler1._event_callback is event_callback
-            and event_handler1._success_callback is success_callback
-            and event_handler1._failure_callback is None
-            and not event_handler1.once
-            and not event_handler1.force_async
-        )
-        assert (
-            event_handler2._event_callback is event_callback
-            and event_handler2._success_callback is None
-            and event_handler2._failure_callback is failure_callback
-            and not event_handler2.once
-            and not event_handler2.force_async
-        )
-        assert (
-            event_handler3._event_callback is event_callback
-            and event_handler3._success_callback is success_callback
-            and event_handler3._failure_callback is failure_callback
-            and not event_handler3.once
-            and not event_handler3.force_async
-        )
-        assert (
-            event_handler4._event_callback is event_callback
-            and event_handler4._success_callback is None
-            and event_handler4._failure_callback is None
-            and event_handler4.once
-            and not event_handler4.force_async
-        )
-        assert (
-            event_handler5._event_callback is event_callback
-            and event_handler5._success_callback is None
-            and event_handler5._failure_callback is None
-            and not event_handler5.once
-            and event_handler5.force_async
-        )
-        assert (
-            event_handler6._event_callback is event_callback
-            and event_handler6._success_callback is None
-            and event_handler6._failure_callback is None
-            and event_handler6.once
-            and event_handler6.force_async
-        )
+        assert subscribers == expected_subscribers
+        assert populated.event_linker.get_event_count() == 3
+        assert populated.event_linker.get_subscriber_count() == 2
 
-        assert len(EventLinker.get_events()) == 6
-        assert len(EventLinker.get_event_handlers()) == 6
+    # ==========================
+    # Test Cases for get_event_count_from_subscriber()
+    # ==========================
 
-        assert len(
-            EventLinker.get_registry().get(EventFixtures.DtcEvent1.__name__, [])
-        ) == 1 and event_handler1 in EventLinker.get_registry().get(EventFixtures.DtcEvent1.__name__, [])
-        assert len(
-            EventLinker.get_registry().get(EventFixtures.StringEvent, [])
-        ) == 1 and event_handler3 in EventLinker.get_registry().get(EventFixtures.StringEvent, [])
-        assert len(
-            EventLinker.get_registry().get(PyventusException.__name__, [])
-        ) == 1 and event_handler4 in EventLinker.get_registry().get(PyventusException.__name__, [])
-        assert (
-            len(EventLinker.get_registry().get(EllipsisType.__name__, [])) == 2
-            and event_handler2 in EventLinker.get_registry().get(EllipsisType.__name__, [])
-            and event_handler4 in EventLinker.get_registry().get(EllipsisType.__name__, [])
-        )
-        assert (
-            len(EventLinker.get_registry().get(EventFixtures.DtcWithValidation.__name__, [])) == 2
-            and event_handler2 in EventLinker.get_registry().get(EventFixtures.DtcWithValidation.__name__, [])
-            and event_handler3 in EventLinker.get_registry().get(EventFixtures.DtcWithValidation.__name__, [])
-        )
-        assert (
-            len(EventLinker.get_registry().get(Exception.__name__, [])) == 2
-            and event_handler5 in EventLinker.get_registry().get(Exception.__name__, [])
-            and event_handler6 in EventLinker.get_registry().get(Exception.__name__, [])
-        )
+    def test_get_event_count_from_subscriber_when_empty(self, empty: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert empty.event_linker.get_event_count_from_subscriber(create_subscriber()) == 0
 
-        # ----------------------------------------------
-        # Error path tests (Arrange | Act | Assert)
-        # ----------
-        with raises(PyventusException):
-            EventLinker.subscribe(event_callback=event_callback)
+    # ==========================
 
-        assert len(EventLinker.get_event_handlers()) == 6
+    def test_get_event_count_from_subscriber_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange
+        sub1 = populated.subscribers.pop()
+        expected_event_count = len({e for e, s in populated.to_dict.items() if sub1 in s})
 
-    def test_subscribe_with_max_event_handler(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        class CustomEventLinker(EventLinker, max_event_handlers=2):
-            pass  # pragma: no cover
+        # Act
+        event_count = populated.event_linker.get_event_count_from_subscriber(sub1)
 
-        event_callback = CallbackFixtures.Sync()
+        # Assert
+        assert event_count == expected_event_count
 
-        CustomEventLinker.subscribe(EventFixtures.DtcEvent1, event_callback=event_callback)
-        CustomEventLinker.subscribe(EventFixtures.DtcEvent1, ..., event_callback=event_callback)
+    # ==========================
+    # Test Cases for get_subscriber_count_from_event()
+    # ==========================
 
-        # Remove and add new event handlers
-        CustomEventLinker.remove_event(EventFixtures.DtcEvent1)
-        CustomEventLinker.subscribe(EventFixtures.DtcEvent1, ..., event_callback=event_callback)
-        CustomEventLinker.subscribe(EventFixtures.DtcEvent1, EventFixtures.DtcEvent1, event_callback=event_callback)
+    def test_get_subscriber_count_from_event_when_empty(self, empty: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert empty.event_linker.get_subscriber_count_from_event("A") == 0
 
-        assert len(CustomEventLinker.get_registry().get(EllipsisType.__name__, [])) == 2
-        assert len(CustomEventLinker.get_registry().get(EventFixtures.DtcEvent1.__name__, [])) == 2
+    # ==========================
 
-        # ----------------------------------------------
-        # Error path tests (Arrange | Act | Assert)
-        # ----------
-        with raises(PyventusException):
-            CustomEventLinker.subscribe(EventFixtures.StringEvent, ..., event_callback=event_callback)
+    def test_get_subscriber_count_from_event_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange
+        event = populated.events.pop()
+        expected_subscriber_count = len(populated.to_dict[event])
 
-        assert len(CustomEventLinker.get_registry().get(EllipsisType.__name__, [])) == 2
-        assert len(CustomEventLinker.get_registry().get(EventFixtures.DtcEvent1.__name__, [])) == 2
-        assert len(CustomEventLinker.get_registry().get(EventFixtures.StringEvent, [])) == 0
+        # Act
+        subscriber_count = populated.event_linker.get_subscriber_count_from_event(event)
 
-    def test_subscribe_with_default_success_callback(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        event_callback = CallbackFixtures.Sync()
-        default_success_callback = CallbackFixtures.Sync()
-        success_callback = CallbackFixtures.Async()
+        # Assert
+        assert subscriber_count == expected_subscriber_count
 
-        class CustomEventLinker(EventLinker, default_success_callback=default_success_callback):
-            pass  # pragma: no cover
+    # ==========================
+    # Test Cases for contains_event()
+    # ==========================
 
-        event_handler1 = EventLinker.subscribe(..., event_callback=event_callback)
-        event_handler2 = CustomEventLinker.subscribe(..., event_callback=event_callback)
-        event_handler3 = CustomEventLinker.subscribe(
-            ..., event_callback=event_callback, success_callback=success_callback
-        )
+    def test_contains_event_when_empty(self, empty: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert empty.event_linker.contains_event("A") is False
 
-        assert (  # Default EventLinker
-            event_handler1._event_callback == event_callback
-            and event_handler1._success_callback is None
-            and event_handler1._failure_callback is None
-        )
-        assert (
-            event_handler2._event_callback == event_callback
-            and event_handler2._success_callback is default_success_callback
-            and event_handler2._failure_callback is None
-        )
-        assert (
-            event_handler3._event_callback == event_callback
-            and event_handler3._success_callback is success_callback
-            and event_handler3._failure_callback is None
-        )
+    # ==========================
 
-    def test_subscribe_with_default_failure_callback(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        event_callback = CallbackFixtures.Sync()
-        default_failure_callback = CallbackFixtures.Sync()
-        failure_callback = CallbackFixtures.Async()
+    def test_contains_event_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert populated.event_linker.contains_event(populated.events.pop()) is True
 
-        class CustomEventLinker(EventLinker, default_failure_callback=default_failure_callback):
-            pass  # pragma: no cover
+    # ==========================
+    # Test Cases for contains_subscriber()
+    # ==========================
 
-        event_handler1 = EventLinker.subscribe(..., event_callback=event_callback)
-        event_handler2 = CustomEventLinker.subscribe(..., event_callback=event_callback)
-        event_handler3 = CustomEventLinker.subscribe(
-            ..., event_callback=event_callback, failure_callback=failure_callback
-        )
+    def test_contains_subscriber_when_empty(self, empty: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert empty.event_linker.contains_subscriber(create_subscriber()) is False
 
-        assert (  # Default EventLinker
-            event_handler1._event_callback == event_callback
-            and event_handler1._success_callback is None
-            and event_handler1._failure_callback is None
-        )
-        assert (
-            event_handler2._event_callback == event_callback
-            and event_handler2._success_callback is None
-            and event_handler2._failure_callback is default_failure_callback
-        )
-        assert (
-            event_handler3._event_callback == event_callback
-            and event_handler3._success_callback is None
-            and event_handler3._failure_callback is failure_callback
-        )
+    # ==========================
 
-    def test_unsubscribe(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        event_callback = CallbackFixtures.Sync()
+    def test_contains_subscriber_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert populated.event_linker.contains_subscriber(populated.subscribers.pop()) is True
 
-        event_handler1 = EventLinker.subscribe(EventFixtures.DtcEvent1, event_callback=event_callback)
-        event_handler2 = EventLinker.subscribe(..., EventFixtures.DtcEvent1, event_callback=event_callback)
-        event_handler3 = EventLinker.subscribe(EventFixtures.StringEvent, event_callback=event_callback)
+    # ==========================
+    # Test Cases for are_linked()
+    # ==========================
 
-        result1 = EventLinker.unsubscribe(..., EventFixtures.DtcEvent1, event_handler=event_handler1)
-        result2 = EventLinker.unsubscribe(EventFixtures.StringEvent, event_handler=event_handler2)
-        result3 = EventLinker.unsubscribe(EventFixtures.StringEvent, event_handler=event_handler3)
+    def test_are_linked_when_empty(self, empty: EventLinkerFixture) -> None:
+        # Arrange, Act, Assert
+        assert empty.event_linker.are_linked("A", create_subscriber()) is False
 
-        assert result1 and not result2 and result3
-        assert len(EventLinker.get_events()) == 2
-        assert len(EventLinker.get_event_handlers()) == 1
-        assert EventLinker.get_registry().get(EllipsisType.__name__, []) == [event_handler2]
-        assert EventLinker.get_registry().get(EventFixtures.DtcEvent1.__name__, []) == [event_handler2]
+    # ==========================
 
-        # ----------------------------------------------
-        # Error path tests (Arrange | Act | Assert)
-        # ----------
-        with raises(PyventusException):
-            EventLinker.unsubscribe(event_handler=event_handler2)
-        with raises(PyventusException):
-            EventLinker.unsubscribe(..., event_handler=None)
-        with raises(PyventusException):
-            EventLinker.unsubscribe(..., event_handler=True)
+    def test_are_linked_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange
+        event = populated.events.pop()
+        subscriber = populated.to_dict[event].pop()
 
-        assert len(EventLinker.get_events()) == 2
-        assert len(EventLinker.get_event_handlers()) == 1
+        # Act, Assert
+        assert populated.event_linker.are_linked(event, subscriber) is True
 
-    def test_remove_event_handler(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        event_callback = CallbackFixtures.Sync()
+    # ==========================
+    # Test Cases for subscribe()
+    # ==========================
 
-        event_handler1 = EventLinker.subscribe(EventFixtures.DtcWithValidation, event_callback=event_callback)
-        event_handler2 = EventLinker.subscribe(..., EventFixtures.DtcWithValidation, event_callback=event_callback)
-        event_handler3 = EventLinker.subscribe(
-            EventFixtures.StringEvent,
-            EventFixtures.DtcWithValidation,
-            event_callback=event_callback,
-        )
+    # Define a dataclass for better readability of test cases
+    @dataclass
+    class SubscribeTestCase:
+        events: Tuple[SubscribableEventType, ...]
+        event_callback: EventCallbackType
+        success_callback: SuccessCallbackType | None
+        failure_callback: FailureCallbackType | None
+        force_async: bool
+        once: bool
 
-        result1 = EventLinker.remove_event_handler(event_handler=event_handler2)
-        result2 = EventLinker.remove_event_handler(event_handler=event_handler2)
-        assert result1 and not result2
-        assert (
-            len(EventLinker.get_events()) == 2
-            and EventFixtures.DtcWithValidation.__name__ in EventLinker.get_events()
-            and EventFixtures.StringEvent in EventLinker.get_events()
-        )
-        assert (
-            len(EventLinker.get_event_handlers()) == 2
-            and event_handler1 in EventLinker.get_event_handlers()
-            and event_handler2 not in EventLinker.get_event_handlers()
-            and event_handler3 in EventLinker.get_event_handlers()
+    # ==========================
+
+    @pytest.mark.parametrize(
+        ["tc", "default_success_callback", "default_failure_callback"],
+        [
+            # Tests without default success and failure callbacks
+            # ==========================
+            (
+                SubscribeTestCase(
+                    events=("A", "B"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=None,
+                    force_async=False,
+                    once=False,
+                ),
+                None,
+                None,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("A", "B"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=CallableMock.Random(),
+                    failure_callback=None,
+                    force_async=True,
+                    once=False,
+                ),
+                None,
+                None,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("A", "B"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=CallableMock.Random(),
+                    force_async=False,
+                    once=True,
+                ),
+                None,
+                None,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("A", "B"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=CallableMock.Random(),
+                    failure_callback=CallableMock.Random(),
+                    force_async=True,
+                    once=True,
+                ),
+                None,
+                None,
+            ),
+            # Tests with default success and failure callbacks
+            # ==========================
+            (
+                SubscribeTestCase(
+                    events=("A", "B"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=None,
+                    force_async=False,
+                    once=False,
+                ),
+                CallableMock.Random(),
+                CallableMock.Random(),
+            ),
+            (
+                SubscribeTestCase(
+                    events=("A", "B"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=CallableMock.Random(),
+                    failure_callback=None,
+                    force_async=True,
+                    once=False,
+                ),
+                CallableMock.Random(),
+                CallableMock.Random(),
+            ),
+            (
+                SubscribeTestCase(
+                    events=("A", "B"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=CallableMock.Random(),
+                    force_async=False,
+                    once=True,
+                ),
+                CallableMock.Random(),
+                CallableMock.Random(),
+            ),
+            (
+                SubscribeTestCase(
+                    events=("A", "B"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=CallableMock.Random(),
+                    failure_callback=CallableMock.Random(),
+                    force_async=True,
+                    once=True,
+                ),
+                CallableMock.Random(),
+                CallableMock.Random(),
+            ),
+        ],
+    )
+    def test_subscribe_returns_subscriber_with_expected_attributes(
+        self,
+        tc: SubscribeTestCase,
+        default_success_callback: SuccessCallbackType | None,
+        default_failure_callback: FailureCallbackType | None,
+    ) -> None:
+        # Arrange
+        class CustomEventLinker(
+            EventLinker,
+            default_success_callback=default_success_callback,
+            default_failure_callback=default_failure_callback,
+        ): ...
+
+        # Act
+        subscriber = CustomEventLinker.subscribe(
+            *tc.events,
+            event_callback=tc.event_callback,
+            success_callback=tc.success_callback,
+            failure_callback=tc.failure_callback,
+            force_async=tc.force_async,
+            once=tc.once,
         )
 
-        result3 = EventLinker.remove_event_handler(event_handler=event_handler3)
-        result4 = EventLinker.remove_event_handler(event_handler=event_handler3)
-        assert result3 and not result4
-        assert (
-            len(EventLinker.get_events()) == 1 and EventFixtures.DtcWithValidation.__name__ in EventLinker.get_events()
+        subscriber_event_callback = getattr(subscriber, "_EventSubscriber__event_callback")
+        subscriber_success_callback = getattr(subscriber, "_EventSubscriber__success_callback")
+        subscriber_failure_callback = getattr(subscriber, "_EventSubscriber__failure_callback")
+
+        # Assert
+        assert subscriber is not None
+        assert isinstance(subscriber, EventSubscriber)
+
+        assert subscriber.once is tc.once
+
+        assert subscriber_event_callback.force_async is tc.force_async
+        assert getattr(subscriber_event_callback, "_CallableWrapper__callable") is tc.event_callback
+
+        if tc.success_callback:
+            assert subscriber_success_callback.force_async is tc.force_async
+            assert getattr(subscriber_success_callback, "_CallableWrapper__callable") is tc.success_callback
+        else:
+            if default_success_callback:
+                assert subscriber_success_callback.force_async is tc.force_async
+                assert getattr(subscriber_success_callback, "_CallableWrapper__callable") is default_success_callback
+            else:
+                assert subscriber_success_callback is None
+
+        if tc.failure_callback:
+            assert subscriber_failure_callback.force_async is tc.force_async
+            assert getattr(subscriber_failure_callback, "_CallableWrapper__callable") is tc.failure_callback
+        else:
+            if default_failure_callback:
+                assert subscriber_failure_callback.force_async is tc.force_async
+                assert getattr(subscriber_failure_callback, "_CallableWrapper__callable") is default_failure_callback
+            else:
+                assert subscriber_failure_callback is None
+
+    # ==========================
+
+    def test_subscribe_with_max_subscribers_when_not_exceeded(self) -> None:
+        # Arrange
+        class CustomEventLinker(EventLinker, max_subscribers=1): ...
+
+        CustomEventLinker.subscribe("B", event_callback=CallableMock.Random())
+
+        # Act/Assert
+        assert CustomEventLinker.subscribe("A", "C", event_callback=CallableMock.Random())
+
+    # ==========================
+
+    def test_subscribe_with_max_subscribers_when_exceeded(self) -> None:
+        # Arrange
+        class CustomEventLinker(EventLinker, max_subscribers=1): ...
+
+        CustomEventLinker.subscribe("B", event_callback=CallableMock.Random())
+
+        # Act/Assert
+        with pytest.raises(PyventusException):
+            CustomEventLinker.subscribe("A", "B", event_callback=CallableMock.Random())
+
+    # ==========================
+
+    @pytest.mark.parametrize(
+        ["tc", "expected_event_count", "expected_subscriber_count"],
+        [
+            (
+                SubscribeTestCase(
+                    events=("E", "E"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=None,
+                    force_async=False,
+                    once=False,
+                ),
+                5,
+                5,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("A", "B"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=None,
+                    force_async=False,
+                    once=False,
+                ),
+                4,
+                5,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("D", "E"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=None,
+                    force_async=False,
+                    once=False,
+                ),
+                5,
+                5,
+            ),
+        ],
+    )
+    def test_subscribe_when_populated(
+        self,
+        tc: SubscribeTestCase,
+        expected_event_count: int,
+        expected_subscriber_count: int,
+        populated: EventLinkerFixture,
+    ) -> None:
+        # Arrange, Act
+        subscriber = populated.event_linker.subscribe(
+            *tc.events,
+            event_callback=tc.event_callback,
+            success_callback=tc.success_callback,
+            failure_callback=tc.failure_callback,
+            force_async=tc.force_async,
+            once=tc.once,
         )
-        assert (
-            len(EventLinker.get_event_handlers()) == 1
-            and event_handler1 in EventLinker.get_event_handlers()
-            and event_handler2 not in EventLinker.get_event_handlers()
-            and event_handler3 not in EventLinker.get_event_handlers()
-        )
 
-        result5 = EventLinker.remove_event_handler(event_handler=event_handler1)
-        result6 = EventLinker.remove_event_handler(event_handler=event_handler1)
-        assert result5 and not result6
-        assert EventLinker.get_registry() == {}
+        # Asserts
+        assert all(populated.event_linker.are_linked(event, subscriber) for event in tc.events)
+        assert populated.event_linker.get_event_count() == expected_event_count
+        assert populated.event_linker.get_subscriber_count() == expected_subscriber_count
 
-        # ----------------------------------------------
-        # Error path tests (Arrange | Act | Assert)
-        # ----------
-        with raises(PyventusException):
-            EventLinker.remove_event_handler(event_handler=None)
-        with raises(PyventusException):
-            EventLinker.remove_event_handler(event_handler=True)
+    # ==========================
+    # Test Cases for once() decorator
+    # ==========================
 
-    def test_remove_event(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        event_callback = CallbackFixtures.Sync()
+    @pytest.mark.parametrize(
+        ["tc", "stateful_subctx", "expected_event_count", "expected_subscriber_count"],
+        [
+            (
+                SubscribeTestCase(
+                    events=("E", "E"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=None,
+                    force_async=False,
+                    once=True,
+                ),
+                False,
+                5,
+                5,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("A", "B"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=None,
+                    force_async=False,
+                    once=True,
+                ),
+                True,
+                4,
+                5,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("D", "E"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=None,
+                    force_async=False,
+                    once=True,
+                ),
+                True,
+                5,
+                5,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("E", "E"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=None,
+                    force_async=False,
+                    once=False,
+                ),
+                False,
+                5,
+                5,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("A", "B"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=None,
+                    force_async=False,
+                    once=False,
+                ),
+                True,
+                4,
+                5,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("D", "E"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=None,
+                    force_async=False,
+                    once=False,
+                ),
+                True,
+                5,
+                5,
+            ),
+        ],
+    )
+    def test_on_and_once_methods_as_decorator(
+        self,
+        tc: SubscribeTestCase,
+        stateful_subctx: bool,
+        expected_event_count: int,
+        expected_subscriber_count: int,
+        populated: EventLinkerFixture,
+    ) -> None:
+        # Arrange
+        if tc.once:
+            # Test once method as decorator
+            subscription_context = populated.event_linker.once(
+                *tc.events, force_async=tc.force_async, stateful_subctx=stateful_subctx
+            )
+        else:
+            # Test on method as decorator
+            subscription_context = populated.event_linker.on(
+                *tc.events, force_async=tc.force_async, stateful_subctx=stateful_subctx
+            )
 
-        event_handler1 = EventLinker.subscribe(EventFixtures.DtcWithValidation, event_callback=event_callback)
-        event_handler2 = EventLinker.subscribe(..., EventFixtures.DtcWithValidation, event_callback=event_callback)
-        event_handler3 = EventLinker.subscribe(
-            EventFixtures.StringEvent,
-            EventFixtures.DtcWithValidation,
-            event_callback=event_callback,
-        )
+        # Act
+        results = subscription_context(tc.event_callback)
+        event_callback, ctx = results
 
-        result1 = EventLinker.remove_event(event=EllipsisType.__name__)  # Remove Ellipsis using its string name
-        result2 = EventLinker.remove_event(event=Ellipsis)
-        result3 = EventLinker.remove_event(event=EventFixtures.DtcEvent1)
+        event_linker, subscriber = ctx.unpack()
 
-        assert result1 and not result2 and not result3
-        assert (
-            len(EventLinker.get_events()) == 2
-            and EventFixtures.DtcWithValidation.__name__ in EventLinker.get_events()
-            and EventFixtures.StringEvent in EventLinker.get_events()
-        )
-        assert (
-            len(EventLinker.get_event_handlers()) == 3
-            and event_handler1 in EventLinker.get_event_handlers()
-            and event_handler2 in EventLinker.get_event_handlers()
-            and event_handler3 in EventLinker.get_event_handlers()
-        )
+        # Assert
+        assert event_callback is tc.event_callback
+        assert isinstance(ctx, EventLinker.EventLinkerSubscriptionContext)
 
-        result4 = EventLinker.remove_event(event=EventFixtures.DtcWithValidation)
-        result5 = EventLinker.remove_event(event=EventFixtures.DtcWithValidation)
+        if stateful_subctx:
+            assert subscriber
+            assert subscriber.once is tc.once
+            assert populated.event_linker.contains_subscriber(subscriber)
+            assert populated.event_linker is event_linker
+        else:
+            assert subscriber is None
+            assert event_linker is None
 
-        assert result4 and not result5
-        assert len(EventLinker.get_events()) == 1 and EventFixtures.StringEvent in EventLinker.get_events()
-        assert len(EventLinker.get_event_handlers()) == 1 and event_handler3 in EventLinker.get_event_handlers()
+        assert populated.event_linker.get_event_count() == expected_event_count
+        assert populated.event_linker.get_subscriber_count() == expected_subscriber_count
 
-        # ----------------------------------------------
-        # Error path tests (Arrange | Act | Assert)
-        # ----------
-        with raises(PyventusException):
-            EventLinker.remove_event(event=None)
+    # ==========================
 
-        assert len(EventLinker.get_events()) == 1
-        assert len(EventLinker.get_event_handlers()) == 1
+    def test_on_and_once_methods_as_decorator_with_invalid_input(self, empty: EventLinkerFixture) -> None:
+        # Arrange
+        once_subctx = empty.event_linker.once("A")
+        on_subctx = empty.event_linker.once("A")
 
-    def test_remove_all(self):
-        # ----------------------------------------------
-        # Happy path tests (Arrange | Act | Assert)
-        # ----------
-        event_callback = CallbackFixtures.Sync()
+        # Act, Assert
+        with pytest.raises(PyventusException):
+            once_subctx(None)
 
-        EventLinker.subscribe(EventFixtures.DtcWithValidation, event_callback=event_callback)
-        EventLinker.subscribe(..., EventFixtures.DtcWithValidation, event_callback=event_callback)
-        EventLinker.subscribe(
-            EventFixtures.StringEvent,
-            EventFixtures.DtcWithValidation,
-            event_callback=event_callback,
-        )
+        with pytest.raises(PyventusException):
+            on_subctx(None)
 
-        result1 = EventLinker.remove_all()
-        result2 = EventLinker.remove_all()
+    # ==========================
 
-        assert result1 and not result2
-        assert EventLinker.get_registry() == {}
+    @pytest.mark.parametrize(
+        ["tc", "stateful_subctx", "expected_event_count", "expected_subscriber_count"],
+        [
+            (
+                SubscribeTestCase(
+                    events=("E", "E"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=None,
+                    force_async=False,
+                    once=True,
+                ),
+                False,
+                5,
+                5,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("A", "B"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=CallableMock.Random(),
+                    failure_callback=None,
+                    force_async=False,
+                    once=True,
+                ),
+                True,
+                4,
+                5,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("D", "E"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=CallableMock.Random(),
+                    force_async=False,
+                    once=True,
+                ),
+                True,
+                5,
+                5,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("E", "F"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=CallableMock.Random(),
+                    failure_callback=CallableMock.Random(),
+                    force_async=False,
+                    once=True,
+                ),
+                True,
+                6,
+                5,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("E", "E"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=None,
+                    force_async=False,
+                    once=False,
+                ),
+                False,
+                5,
+                5,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("A", "B"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=CallableMock.Random(),
+                    failure_callback=None,
+                    force_async=False,
+                    once=False,
+                ),
+                True,
+                4,
+                5,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("D", "E"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=None,
+                    failure_callback=CallableMock.Random(),
+                    force_async=False,
+                    once=False,
+                ),
+                True,
+                5,
+                5,
+            ),
+            (
+                SubscribeTestCase(
+                    events=("E", "F"),
+                    event_callback=CallableMock.Random(),
+                    success_callback=CallableMock.Random(),
+                    failure_callback=CallableMock.Random(),
+                    force_async=False,
+                    once=False,
+                ),
+                True,
+                6,
+                5,
+            ),
+        ],
+    )
+    def test_on_and_once_methods_as_context_manager(
+        self,
+        tc: SubscribeTestCase,
+        stateful_subctx: bool,
+        expected_event_count: int,
+        expected_subscriber_count: int,
+        populated: EventLinkerFixture,
+    ) -> None:
+        # Arrange
+        if tc.once:
+            # Test once method as decorator
+            subscription_context = populated.event_linker.once(
+                *tc.events, force_async=tc.force_async, stateful_subctx=stateful_subctx
+            )
+        else:
+            # Test on method as decorator
+            subscription_context = populated.event_linker.on(
+                *tc.events, force_async=tc.force_async, stateful_subctx=stateful_subctx
+            )
+
+        # Act
+        with subscription_context as ctx:
+            ctx.on_event(tc.event_callback)
+            ctx.on_success(tc.success_callback)
+            ctx.on_failure(tc.failure_callback)
+
+        event_linker, subscriber = ctx.unpack()
+
+        # Assert
+        assert isinstance(ctx, EventLinker.EventLinkerSubscriptionContext)
+
+        if stateful_subctx:
+            assert subscriber
+            assert subscriber.once is tc.once
+            assert populated.event_linker.contains_subscriber(subscriber)
+            assert populated.event_linker is event_linker
+
+            subscriber_event_callback = getattr(subscriber, "_EventSubscriber__event_callback")
+            subscriber_success_callback = getattr(subscriber, "_EventSubscriber__success_callback")
+            subscriber_failure_callback = getattr(subscriber, "_EventSubscriber__failure_callback")
+
+            assert subscriber_event_callback.force_async is tc.force_async
+            assert getattr(subscriber_event_callback, "_CallableWrapper__callable") is tc.event_callback
+
+            if tc.success_callback:
+                assert subscriber_success_callback.force_async is tc.force_async
+                assert getattr(subscriber_success_callback, "_CallableWrapper__callable") is tc.success_callback
+            else:
+                assert subscriber_success_callback is None
+
+            if tc.failure_callback:
+                assert subscriber_failure_callback.force_async is tc.force_async
+                assert getattr(subscriber_failure_callback, "_CallableWrapper__callable") is tc.failure_callback
+            else:
+                assert subscriber_failure_callback is None
+        else:
+            assert subscriber is None
+            assert event_linker is None
+
+        assert populated.event_linker.get_event_count() == expected_event_count
+        assert populated.event_linker.get_subscriber_count() == expected_subscriber_count
+
+    # ==========================
+
+    def test_on_and_once_methods_as_context_manager_with_invalid_input(self, empty: EventLinkerFixture) -> None:
+        # Arrange
+        once_subctx = empty.event_linker.once("A")
+        on_subctx = empty.event_linker.once("A")
+
+        # Act, Assert
+        with pytest.raises(PyventusException):
+            with once_subctx as ctx1:
+                pass
+
+        with pytest.raises(PyventusException):
+            with on_subctx as ctx2:
+                pass
+
+    # ==========================
+
+    def test_on_and_once_methods_context_manager_unpack_before_exit(self, empty: EventLinkerFixture) -> None:
+        # Arrange
+        once_subctx = empty.event_linker.once("A")
+        on_subctx = empty.event_linker.once("A")
+
+        # Act, Assert
+        with pytest.raises(PyventusException):
+            with once_subctx as ctx1:
+                ctx1.on_event(CallableMock.Random())
+                ctx1.unpack()
+
+        with pytest.raises(PyventusException):
+            with on_subctx as ctx2:
+                ctx2.on_event(CallableMock.Random())
+                ctx2.unpack()
+
+    # ==========================
+    # Test Case for subscribers teardown callback
+    # ==========================
+
+    def test_subscribers_teardown_callback(self, empty: EventLinkerFixture) -> None:
+        # Arrange
+        subscriber = empty.event_linker.subscribe("A", "B", "C", event_callback=CallableMock.Random())
+
+        # Act
+        results = subscriber.unsubscribe()
+
+        # Assert
+        assert results is True
+        assert subscriber.unsubscribe() is False
+        assert empty.event_linker.is_empty() is True
+
+    # ==========================
+    # Test Cases for remove()
+    # ==========================
+
+    def test_remove_when_empty(self, empty: EventLinkerFixture) -> None:
+        assert empty.event_linker.remove("A", create_subscriber()) is False
+
+    # ==========================
+
+    def test_remove_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange
+        event1, event2, event3 = populated.events.pop(), populated.events.pop(), populated.events.pop()
+        subscriber1 = populated.to_dict[event1].pop()
+        subscriber2 = populated.to_dict[event2].pop()
+        subscriber3 = populated.to_dict[event3].pop()
+
+        # Act
+        result1 = populated.event_linker.remove(event1, create_subscriber())
+        result2 = populated.event_linker.remove("Invalid", subscriber1)
+        result3 = populated.event_linker.remove(event1, subscriber1)
+        result4 = populated.event_linker.remove(event2, subscriber2)
+        result5 = populated.event_linker.remove(event3, subscriber3)
+
+        # Assert
+        assert result1 is False and result2 is False
+        assert result3 is True and result4 is True and result5 is True
+        assert not populated.event_linker.are_linked(event1, subscriber1)
+        assert not populated.event_linker.are_linked(event2, subscriber2)
+        assert not populated.event_linker.are_linked(event3, subscriber3)
+
+    # ==========================
+    # Test Cases for remove_event()
+    # ==========================
+
+    def test_remove_event_when_empty(self, empty: EventLinkerFixture) -> None:
+        assert empty.event_linker.remove_event(...) is False
+
+    # ==========================
+
+    @pytest.mark.parametrize(
+        ["event", "expected", "expected_event_count", "expected_subscriber_count"],
+        [
+            ("Invalid", False, 4, 4),
+            ("A", True, 3, 3),
+            ("B", True, 3, 4),
+            ("D", True, 3, 3),
+        ],
+    )
+    def test_remove_event_when_populated(
+        self,
+        event: SubscribableEventType,
+        expected: bool,
+        expected_event_count: int,
+        expected_subscriber_count: int,
+        populated: EventLinkerFixture,
+    ) -> None:
+        # Arrange, Act
+        results = populated.event_linker.remove_event(event)
+
+        # Assert
+        assert results is expected
+        assert populated.event_linker.get_event_count() == expected_event_count
+        assert populated.event_linker.get_subscriber_count() == expected_subscriber_count
+
+    # ==========================
+    # Test Cases for remove_subscriber()
+    # ==========================
+
+    def test_remove_subscriber_when_empty(self, empty: EventLinkerFixture) -> None:
+        assert empty.event_linker.remove_subscriber(create_subscriber()) is False
+
+    # ==========================
+
+    def test_remove_subscriber_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange
+        sub1, sub2, sub3 = populated.subscribers.pop(), populated.subscribers.pop(), populated.subscribers.pop()
+
+        # Act
+        result1 = populated.event_linker.remove_subscriber(create_subscriber())
+        result2 = populated.event_linker.remove_subscriber(sub1)
+        result3 = populated.event_linker.remove_subscriber(sub2)
+        result4 = populated.event_linker.remove_subscriber(sub3)
+
+        # Assert
+        assert result1 is False
+        assert result2 is True and result3 is True and result4 is True
+        assert populated.event_linker.get_subscriber_count() == 1
+
+    # ==========================
+    # Test Cases for remove_all()
+    # ==========================
+
+    def test_remove_all_when_empty(self, empty: EventLinkerFixture) -> None:
+        assert empty.event_linker.remove_all() is False
+
+    # ==========================
+
+    def test_remove_all_when_populated(self, populated: EventLinkerFixture) -> None:
+        # Arrange, Act
+        results = populated.event_linker.remove_all()
+
+        # Assert
+        assert results is True
+        assert populated.event_linker.is_empty() is True

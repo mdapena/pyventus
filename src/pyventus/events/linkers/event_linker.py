@@ -26,9 +26,8 @@ class EventLinker:
         between events and their corresponding logic.
 
     -   The `EventLinker` can be subclassed to create specific namespaces or contexts
-        for managing events within different scopes. This design offers modularity and
-        flexibility in event management. Subclassing also allows users to configure
-        the settings of the `EventLinker` to suit their specific use cases.
+        for managing events within different scopes. Subclassing also allows users to
+        configure the settings of the `EventLinker` to suit their specific use cases.
 
     -   The `EventLinker` is designed with *thread safety* in mind. All methods
         synchronize access to prevent race conditions when managing mutable
@@ -126,7 +125,7 @@ class EventLinker:
 
         def _exit(self) -> EventSubscriber:
             # Ensure that the source is not None
-            if self._source is None:
+            if self._source is None:  # pragma: no cover
                 raise PyventusException("The subscription context is closed.")
 
             # Check if the event callback has been set

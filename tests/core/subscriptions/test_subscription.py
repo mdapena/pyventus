@@ -5,7 +5,7 @@ import pytest
 from pyventus import PyventusException
 from pyventus.core.subscriptions.subscription import Subscription
 
-from ...fixtures.callable_fixtures import CallableMock
+from ...fixtures import CallableMock
 
 
 class TestSubscription:

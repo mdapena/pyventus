@@ -181,6 +181,7 @@ source_pkgs = ["pyventus", "tests"]
 parallel = true
 omit = [
     "tests/conftest.py",
+    "tests/fixtures/*",
 ]
 
 [tool.coverage.paths]

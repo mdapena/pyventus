@@ -1,6 +1,6 @@
 import random
 from abc import ABC, abstractmethod
-from typing import Any, AsyncGenerator, Awaitable, Callable, Dict, Generator, Tuple
+from typing import Any, AsyncGenerator, Awaitable, Callable, Dict, Final, Generator, Tuple
 
 
 class CallableMock:
@@ -150,7 +150,7 @@ class DummyCallable:
         class Generator:
             """Contains dummy synchronous generator callable fixtures."""
 
-            func: Generator[None, None, None] = _sync_generator_function
+            func: Final[Generator[None, None, None]] = _sync_generator_function
 
             @staticmethod
             def static(*args, **kwargs):
@@ -206,9 +206,9 @@ class DummyCallable:
                     type(self).__name__,
                 )
 
-        func: Callable[..., None] = _sync_function
+        func: Final[Callable[..., None]] = _sync_function
 
-        lamb: Callable[..., None] = lambda *args: None
+        lamb: Final[Callable[..., None]] = lambda *args: None
 
         @staticmethod
         def static(*args, **kwargs) -> None:
@@ -274,7 +274,7 @@ class DummyCallable:
         class Generator:
             """Contains dummy asynchronous generator callable fixtures."""
 
-            func: AsyncGenerator[None, None] = _async_generator_function
+            func: Final[AsyncGenerator[None, None]] = _async_generator_function
 
             @staticmethod
             async def static(*args, **kwargs):
@@ -330,7 +330,7 @@ class DummyCallable:
                     type(self).__name__,
                 )
 
-        func: Callable[..., Awaitable[None]] = _async_function
+        func: Final[Callable[..., Awaitable[None]]] = _async_function
 
         @staticmethod
         async def static(*args, **kwargs):

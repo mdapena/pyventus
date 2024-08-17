@@ -9,7 +9,7 @@ from pyventus.events.emitters.celery import CeleryEventEmitter
 
 
 # ==========================
-# Celery Mock and fixtures
+# Mocks and fixtures
 # ==========================
 
 

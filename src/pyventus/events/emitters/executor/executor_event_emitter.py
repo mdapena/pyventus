@@ -3,9 +3,9 @@ from concurrent.futures import Executor, ThreadPoolExecutor
 from types import TracebackType
 from typing import Type
 
-from ..event_emitter import EventEmitter
-from ...linkers import EventLinker
 from ....core.exceptions import PyventusException
+from ...linkers import EventLinker
+from ..event_emitter import EventEmitter
 
 
 class ExecutorEventEmitter(EventEmitter):

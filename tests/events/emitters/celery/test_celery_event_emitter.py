@@ -5,8 +5,9 @@ import pytest
 from pyventus import PyventusException
 from pyventus.events import EventLinker
 from pyventus.events.emitters.celery import CeleryEventEmitter
-from .test_celery_event_emitter_queue import create_celery_queue_mock
+
 from ..event_emitter_test import EventEmitterTest
+from .test_celery_event_emitter_queue import create_celery_queue_mock
 
 
 class TestCeleryEventEmitter(EventEmitterTest[CeleryEventEmitter]):

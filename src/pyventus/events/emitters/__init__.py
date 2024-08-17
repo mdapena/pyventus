@@ -1,1 +1,1 @@
-from .event_emitter import EventEmitter, EmittableEventType
+from .event_emitter import EmittableEventType, EventEmitter

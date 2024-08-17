@@ -7,7 +7,6 @@ from pyventus import PyventusException
 from pyventus.events import EventEmitter
 from pyventus.events.emitters.celery import CeleryEventEmitter
 
-
 # ==========================
 # Mocks and fixtures
 # ==========================

@@ -5,9 +5,9 @@ from pickle import dumps, loads
 from types import ModuleType
 from typing import Any, Callable, Dict, NamedTuple, Type, cast
 
-from ..event_emitter import EventEmitter
-from ...linkers import EventLinker
 from ....core.exceptions import PyventusException
+from ...linkers import EventLinker
+from ..event_emitter import EventEmitter
 
 try:  # pragma: no cover
     from celery import Celery

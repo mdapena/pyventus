@@ -1,9 +1,9 @@
 from asyncio import Task, create_task, gather, run
 from typing import Set, Type
 
-from ..event_emitter import EventEmitter
-from ...linkers import EventLinker
 from ....core.utils import is_loop_running
+from ...linkers import EventLinker
+from ..event_emitter import EventEmitter
 
 
 class AsyncIOEventEmitter(EventEmitter):

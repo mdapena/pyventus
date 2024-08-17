@@ -14,6 +14,7 @@ from pyventus.events import (
     SubscribableEventType,
     SuccessCallbackType,
 )
+
 from ...fixtures import CallableMock, EventFixtures
 
 

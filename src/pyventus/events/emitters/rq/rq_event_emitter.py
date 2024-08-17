@@ -1,11 +1,11 @@
-from typing import Any, Type, Dict
+from typing import Any, Dict, Type
 
-from ..event_emitter import EventEmitter
-from ...linkers import EventLinker
 from ....core.exceptions import PyventusException
+from ...linkers import EventLinker
+from ..event_emitter import EventEmitter
 
 try:  # pragma: no cover
-    from rq import Queue, Callback
+    from rq import Callback, Queue
 except ImportError:  # pragma: no cover
     raise PyventusException(
         "Optional dependency 'rq' not found."

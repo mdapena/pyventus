@@ -14,12 +14,11 @@ from typing import (
     Tuple,
     TypeAlias,
     TypeVar,
+    Union,
     final,
     overload,
-    Union,
 )
 
-from ..subscribers import CompleteCallbackType, ErrorCallbackType, NextCallbackType, Subscriber
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
 from ...core.subscriptions import SubscriptionContext
@@ -29,6 +28,12 @@ from ...core.utils import (
     is_callable_generator,
     is_loop_running,
     validate_callable,
+)
+from ..subscribers import (
+    CompleteCallbackType,
+    ErrorCallbackType,
+    NextCallbackType,
+    Subscriber,
 )
 
 _out_T = TypeVar("_out_T", covariant=True)

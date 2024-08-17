@@ -5,6 +5,7 @@ import pytest
 
 from pyventus import PyventusException
 from pyventus.events import EventLinker, ExecutorEventEmitter
+
 from ..event_emitter_test import EventEmitterTest
 
 

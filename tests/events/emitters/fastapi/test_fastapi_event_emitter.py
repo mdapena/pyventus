@@ -1,16 +1,16 @@
-from asyncio import Task, create_task, get_running_loop, run, gather
-from typing import Set, Type, Any, Callable
+from asyncio import Task, create_task, gather, get_running_loop, run
+from typing import Any, Callable, Set, Type
 
 import pytest
-from fastapi import Depends, BackgroundTasks, FastAPI
+from fastapi import BackgroundTasks, Depends, FastAPI
 from starlette import status
 from starlette.testclient import TestClient
 
 from pyventus import PyventusException
 from pyventus.events import EventLinker
 from pyventus.events.emitters.fastapi import FastAPIEventEmitter
-from ..event_emitter_test import EventEmitterTest
 
+from ..event_emitter_test import EventEmitterTest
 
 # ==========================
 # Mocks and fixtures

@@ -1,1 +1,6 @@
-from .subscriber import Subscriber, NextCallbackType, ErrorCallbackType, CompleteCallbackType
+from .subscriber import (
+    CompleteCallbackType,
+    ErrorCallbackType,
+    NextCallbackType,
+    Subscriber,
+)

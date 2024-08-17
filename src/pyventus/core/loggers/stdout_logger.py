@@ -1,5 +1,5 @@
 from abc import ABC
-from logging import StreamHandler, INFO, DEBUG, WARNING, ERROR, Formatter, getLogger
+from logging import DEBUG, ERROR, INFO, WARNING, Formatter, StreamHandler, getLogger
 from sys import stdout
 
 from ...core.constants import StdOutColors

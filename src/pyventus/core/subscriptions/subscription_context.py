@@ -3,8 +3,8 @@ from abc import ABC, abstractmethod
 from types import TracebackType
 from typing import Generic, Tuple, Type, TypeVar
 
-from .subscription import Subscription
 from ..exceptions import PyventusException
+from .subscription import Subscription
 
 if sys.version_info >= (3, 11):  # pragma: no cover
     from typing import Self

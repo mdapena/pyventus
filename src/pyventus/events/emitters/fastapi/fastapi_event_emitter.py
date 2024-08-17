@@ -1,8 +1,8 @@
-from typing import Type, Callable
+from typing import Callable, Type
 
-from ..event_emitter import EventEmitter
-from ...linkers import EventLinker
 from ....core.exceptions import PyventusException
+from ...linkers import EventLinker
+from ..event_emitter import EventEmitter
 
 try:  # pragma: no cover
     from fastapi import BackgroundTasks

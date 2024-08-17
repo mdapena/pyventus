@@ -78,6 +78,7 @@ tests = [
     "pyventus[all]",
     "mypy>=1.7.1",
     "black>=23.12.0",
+    "isort>=5.13.2",
     "pytest>=7.4.0",
     "coverage[toml]>=7.3.3",
     "pytest-asyncio>=0.21.0",
@@ -145,6 +146,7 @@ dependencies = ["pyventus[tests]"]
 [tool.hatch.envs.tests.scripts]
 test = "pytest -v {args:tests}"
 style = "black --check --diff {args:.}"
+imports = "isort --check --diff {args:.}"
 typing = "mypy"
 cov = [
     "coverage run -m pytest -v {args:tests}",
@@ -154,6 +156,7 @@ cov = [
 ]
 all = [
     "style",
+    "imports",
     "typing",
     "cov",
 ]
@@ -203,3 +206,11 @@ exclude_lines = [
 [tool.black]
 line-length = 120
 target-version = ["py310"]
+
+# ------------------------------------------------------------------
+# | Imports Sorting                                                |
+# ------------------------------------------------------------------
+
+[tool.isort]
+profile = "black"
+src_paths = ["src/pyventus", "tests"]

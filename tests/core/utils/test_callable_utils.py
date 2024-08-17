@@ -4,7 +4,12 @@ from typing import Any, Callable, Dict, Tuple, Type
 import pytest
 
 from pyventus import PyventusException
-from pyventus.core.utils import get_callable_name, is_callable_async, is_callable_generator, validate_callable
+from pyventus.core.utils import (
+    get_callable_name,
+    is_callable_async,
+    is_callable_generator,
+    validate_callable,
+)
 from pyventus.core.utils.callable_utils import CallableWrapper
 
 from ...fixtures import CallableMock, DummyCallable

@@ -10,7 +10,12 @@ from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
 from ...core.subscriptions import SubscriptionContext
 from ...core.utils import validate_callable
-from ..subscribers import EventCallbackType, EventSubscriber, FailureCallbackType, SuccessCallbackType
+from ..subscribers import (
+    EventCallbackType,
+    EventSubscriber,
+    FailureCallbackType,
+    SuccessCallbackType,
+)
 
 SubscribableEventType: TypeAlias = str | Type[Exception] | Type[object] | EllipsisType
 """A type alias representing the supported event types for subscription."""

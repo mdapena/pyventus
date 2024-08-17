@@ -1,1 +1,6 @@
-from .event_subscriber import EventSubscriber, EventCallbackType, SuccessCallbackType, FailureCallbackType
+from .event_subscriber import (
+    EventCallbackType,
+    EventSubscriber,
+    FailureCallbackType,
+    SuccessCallbackType,
+)

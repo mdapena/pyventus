@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic, Dict, Set
+from typing import Dict, Generic, Set, TypeVar
 
 _KT = TypeVar("_KT")
 """A generic type variable that represents the keys in a MultiBidict."""

@@ -1,72 +1,72 @@
+from typing import Any, Type
+
 import pytest
-from _pytest.python_api import raises
-from celery import Celery
 
 from pyventus import PyventusException
 from pyventus.events import EventLinker
 from pyventus.events.emitters.celery import CeleryEventEmitter
+from .test_celery_event_emitter_queue import create_celery_queue_mock
 from ..event_emitter_test import EventEmitterTest
-from .... import CeleryMock
 
 
-class TestCeleryEventEmitter(EventEmitterTest):
+class TestCeleryEventEmitter(EventEmitterTest[CeleryEventEmitter]):
 
-    def test_payload(self):
-        # Arrange | Act | Assert
-        payload = CeleryEventEmitter.Queue._Payload.from_json(serialized_obj=b"object", obj_hash=b"hash")
-        assert payload is not None
+    def _create_event_emitter(self, event_linker: Type[EventLinker]) -> CeleryEventEmitter:
+        return CeleryEventEmitter(queue=create_celery_queue_mock(), event_linker=event_linker)
 
-        # Arrange | Act | Assert
-        with raises(PyventusException):
-            CeleryEventEmitter.Queue._Payload.from_json(serialized_obj=b"object")
+    # ==========================
+    # Test Cases for creation
+    # ==========================
 
-        # Arrange | Act | Assert
-        with raises(PyventusException):
-            CeleryEventEmitter.Queue._Payload.from_json(serialized_obj=b"object", obj_hash=b"hash", extra="extra")
+    def test_creation_with_valid_input(self) -> None:
+        # Arrange, Act, Assert
+        assert self._create_event_emitter(EventLinker) is not None
 
-    def test_creation(self, celery_queue: CeleryEventEmitter.Queue) -> None:
-        event_emitter = CeleryEventEmitter(queue=celery_queue)
-        assert event_emitter is not None
+    # ==========================
 
-    def test_creation_with_invalid_params(self) -> None:
-        with raises(PyventusException):
-            CeleryEventEmitter(queue=None)
-        with raises(PyventusException):
-            CeleryEventEmitter(queue=True)
+    @pytest.mark.parametrize(
+        ["queue", "event_linker", "debug", "exception"],
+        [
+            (None, EventLinker, False, PyventusException),
+            (True, EventLinker, False, PyventusException),
+            (object(), EventLinker, False, PyventusException),
+            (create_celery_queue_mock(), None, False, PyventusException),
+            (create_celery_queue_mock(), type, False, PyventusException),
+            (create_celery_queue_mock(), EventLinker, object(), PyventusException),
+        ],
+    )
+    def test_creation_with_invalid_input(
+        self, queue: CeleryEventEmitter.Queue, event_linker: Any, debug: Any, exception: Type[Exception]
+    ) -> None:
+        # Arrange, Act, Assert
+        with pytest.raises(exception):
+            CeleryEventEmitter(queue=queue, event_linker=event_linker, debug=debug)
 
-        with raises(PyventusException):
-            CeleryEventEmitter.Queue(celery=None)
-        with raises(PyventusException):
-            CeleryEventEmitter.Queue(celery=True)
+    # ==========================
+    # Test Cases for emit()
+    # ==========================
 
-        with raises(PyventusException):
-            CeleryEventEmitter.Queue(celery=Celery())
-        with raises(PyventusException):
-            celery_app = CeleryMock()
-            celery_app.conf.accept_content = ["application/json", "application/x-python-serialize"]
-            CeleryEventEmitter.Queue(celery=celery_app, secret="")
-
-    def test_emission_in_sync_context(self, celery_queue: CeleryEventEmitter.Queue) -> None:
-        event_emitter = CeleryEventEmitter(queue=celery_queue)
-        with TestCeleryEventEmitter.run_emission_test(event_emitter=event_emitter):
+    def test_emission_in_sync_context(self) -> None:
+        with self.run_emissions_test(EventLinker) as event_emitter:
             pass
 
-    def test_emission_in_sync_context_with_custom_event_linker(self, celery_queue: CeleryEventEmitter.Queue) -> None:
-        class CustomEventLinker(EventLinker):
+    # ==========================
+
+    def test_emission_in_sync_context_with_custom_event_linker(self) -> None:
+
+        class CustomEventLinker(EventLinker): ...
+
+        with self.run_emissions_test(CustomEventLinker) as event_emitter:
             pass
 
-        event_emitter = CeleryEventEmitter(queue=celery_queue, event_linker=CustomEventLinker)
-        with TestCeleryEventEmitter.run_emission_test(event_emitter=event_emitter, event_linker=CustomEventLinker):
-            pass
+    # ==========================
 
     @pytest.mark.asyncio
     async def test_emission_in_async_context(self) -> None:
-        pytest.skip(
-            "Celery package doesn't support async tests yet, but works fine in async contexts outside of testing."
-        )
+        pytest.skip("Celery package doesn't support async tests yet.")
+
+    # ==========================
 
     @pytest.mark.asyncio
     async def test_emission_in_async_context_with_custom_event_linker(self) -> None:
-        pytest.skip(
-            "Celery package doesn't support async tests yet, but works fine in async contexts outside of testing."
-        )
+        pytest.skip("Celery package doesn't support async tests yet.")

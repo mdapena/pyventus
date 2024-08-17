@@ -1,17 +1,16 @@
 from concurrent.futures import Executor, ProcessPoolExecutor, ThreadPoolExecutor
-from typing import Any
+from typing import Any, Type
 
 import pytest
 
 from pyventus import PyventusException
 from pyventus.events import EventLinker, ExecutorEventEmitter
-
 from ..event_emitter_test import EventEmitterTest
 
 
 class TestExecutorEventEmitter(EventEmitterTest[ExecutorEventEmitter]):
 
-    def _create_event_emitter(self, event_linker: EventLinker) -> ExecutorEventEmitter:
+    def _create_event_emitter(self, event_linker: Type[EventLinker]) -> ExecutorEventEmitter:
         return ExecutorEventEmitter(executor=ThreadPoolExecutor(), event_linker=event_linker)
 
     # ==========================
@@ -40,7 +39,7 @@ class TestExecutorEventEmitter(EventEmitterTest[ExecutorEventEmitter]):
         ],
     )
     def test_creation_with_invalid_input(
-        self, executor: Any, event_linker: Any, debug: Any, exception: Exception
+        self, executor: Any, event_linker: Any, debug: Any, exception: Type[Exception]
     ) -> None:
         # Arrange, Act, Assert
         with pytest.raises(exception):
@@ -53,7 +52,7 @@ class TestExecutorEventEmitter(EventEmitterTest[ExecutorEventEmitter]):
     def test_emission_in_sync_context(self) -> None:
         with self.run_emissions_test(EventLinker) as event_emitter:
             with event_emitter:  # Testing context manager
-                ...
+                pass
 
     # ==========================
 
@@ -70,7 +69,7 @@ class TestExecutorEventEmitter(EventEmitterTest[ExecutorEventEmitter]):
     async def test_emission_in_async_context(self) -> None:
         with self.run_emissions_test(EventLinker) as event_emitter:
             with event_emitter:  # Testing context manager
-                ...
+                pass
 
     # ==========================
 

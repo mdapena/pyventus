@@ -41,7 +41,7 @@ class CeleryEventEmitter(EventEmitter):
             """An event emitter object serializer for Celery queues."""
 
             @staticmethod
-            def dumps(obj: EventEmitter.EventEmission) -> bytes:
+            def dumps(obj: EventEmitter.EventEmission) -> Any:
                 """
                 Serializes the event emission object.
                 :param obj: The event emission object to be serialized.

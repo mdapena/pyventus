@@ -1,5 +1,4 @@
-from collections import namedtuple
-from dataclasses import astuple, dataclass, fields
+from dataclasses import dataclass
 from sys import gettrace
 from types import EllipsisType
 from typing import Any, Dict, Set, Tuple, Type
@@ -15,7 +14,6 @@ from pyventus.events import (
     SubscribableEventType,
     SuccessCallbackType,
 )
-
 from ...fixtures import CallableMock, EventFixtures
 
 
@@ -113,7 +111,7 @@ def populated() -> EventLinkerFixture:
 
 def create_subscriber() -> EventSubscriber:
     return EventSubscriber(
-        teardown_callback=lambda: True,
+        teardown_callback=lambda sub: True,
         event_callback=lambda: None,
         success_callback=None,
         failure_callback=None,
@@ -291,7 +289,9 @@ class TestEventLinker:
             (object, PyventusException),
         ],
     )
-    def test_get_valid_event_name_with_invalid_input(self, event: SubscribableEventType, exception: Exception) -> None:
+    def test_get_valid_event_name_with_invalid_input(
+        self, event: SubscribableEventType, exception: Type[Exception]
+    ) -> None:
         # Arrange, Act, Assert
         with pytest.raises(exception):
             EventLinker.get_valid_event_name(event)
@@ -319,7 +319,9 @@ class TestEventLinker:
             (object(), PyventusException),
         ],
     )
-    def test_get_valid_subscriber_with_invalid_input(self, subscriber: EventSubscriber, exception: Exception) -> None:
+    def test_get_valid_subscriber_with_invalid_input(
+        self, subscriber: EventSubscriber, exception: Type[Exception]
+    ) -> None:
         # Arrange, Act, Assert
         with pytest.raises(exception):
             EventLinker.get_valid_subscriber(subscriber)
@@ -360,7 +362,7 @@ class TestEventLinker:
         ],
     )
     def test_get_valid_and_unique_event_names_with_invalid_input(
-        self, events: Tuple[Any, ...], exception: Exception
+        self, events: Tuple[Any, ...], exception: Type[Exception]
     ) -> None:
         # Arrange, Act, Assert
         with pytest.raises(exception):
@@ -396,7 +398,7 @@ class TestEventLinker:
         ],
     )
     def test_get_valid_and_unique_subscribers_with_invalid_input(
-        self, subscribers: Tuple[Any, ...], exception: Exception
+        self, subscribers: Tuple[Any, ...], exception: Type[Exception]
     ) -> None:
         # Arrange, Act, Assert
         with pytest.raises(exception):
@@ -1026,14 +1028,10 @@ class TestEventLinker:
             assert event_callback is tc.event_callback
             assert isinstance(ctx, EventLinker.EventLinkerSubscriptionContext)
 
-            if stateful_subctx:
-                assert subscriber
-                assert subscriber.once is tc.once
-                assert populated.event_linker.contains_subscriber(subscriber)
-                assert populated.event_linker is event_linker
-            else:
-                assert subscriber is None
-                assert event_linker is None
+            assert subscriber
+            assert subscriber.once is tc.once
+            assert populated.event_linker.contains_subscriber(subscriber)
+            assert populated.event_linker is event_linker
         else:
             assert results is tc.event_callback
 

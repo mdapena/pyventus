@@ -20,7 +20,7 @@ class TestAsyncIOEventEmitter(EventEmitterTest[AsyncIOEventEmitter]):
 
     def test_creation_with_valid_input(self) -> None:
         # Arrange, Act, Assert
-        assert AsyncIOEventEmitter() is not None
+        assert self._create_event_emitter(EventLinker) is not None
 
     # ==========================
 
@@ -32,21 +32,13 @@ class TestAsyncIOEventEmitter(EventEmitterTest[AsyncIOEventEmitter]):
             (EventLinker, object(), PyventusException),
         ],
     )
-    def test_creation_with_invalid_input(self, event_linker: Any, debug: Any, exception: Exception) -> None:
+    def test_creation_with_invalid_input(self, event_linker: Any, debug: Any, exception: Type[Exception]) -> None:
         # Arrange, Act, Assert
         with pytest.raises(exception):
             AsyncIOEventEmitter(event_linker=event_linker, debug=debug)
 
     # ==========================
     # Test Cases for emit()
-    # ==========================
-
-    def test_creation_with_invalid_input(self) -> None:
-        with pytest.raises(PyventusException):
-            self._create_event_emitter(event_linker=None)
-        with pytest.raises(PyventusException):
-            self._create_event_emitter(event_linker=type(True))
-
     # ==========================
 
     def test_emission_in_sync_context(self) -> None:

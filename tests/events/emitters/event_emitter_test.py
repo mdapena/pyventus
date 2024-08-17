@@ -58,8 +58,8 @@ class EventEmitterTest(Generic[_E], ABC):
         dtc_param: object = EventFixtures.EmptyDtc()
         list_param: List[int] = [1, 2, 3, 4, 5, 6, 7, 8, 9]
         dict_param: Dict[str, str] = {"key": "value"}
-        dtc_immutable = EventFixtures.DtcImmutable(attr1="str", attr2=(1, 2, 3))
-        dtc_mutable = EventFixtures.DtcMutable(attr1=[1, 2, 3], attr2={"key": "value"})
+        dtc_immutable = EventFixtures.DtcImmutable(attr1="str", attr2=("1", "2", "3"))
+        dtc_mutable = EventFixtures.DtcMutable(attr1=["1", "2", "3"], attr2={"key": "value"})
         dtc_with_val = EventFixtures.DtcWithVal(attr1="str", attr2=7.65)
         custom_exc1: Exception = EventFixtures.CustomExc()
         custom_exc2: Exception = KeyError()

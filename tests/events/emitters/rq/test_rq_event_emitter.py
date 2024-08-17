@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Type
 
 import pytest
 from fakeredis import FakeStrictRedis
@@ -13,7 +13,7 @@ from ..event_emitter_test import EventEmitterTest
 
 class TestRQEventEmitter(EventEmitterTest[RQEventEmitter]):
 
-    def _create_event_emitter(self, event_linker: EventLinker) -> RQEventEmitter:
+    def _create_event_emitter(self, event_linker: Type[EventLinker]) -> RQEventEmitter:
         return RQEventEmitter(
             event_linker=event_linker,
             queue=Queue(
@@ -29,7 +29,7 @@ class TestRQEventEmitter(EventEmitterTest[RQEventEmitter]):
 
     def test_creation_with_valid_input(self) -> None:
         # Arrange, Act, Assert
-        assert RQEventEmitter(queue=Queue(connection=FakeStrictRedis())) is not None
+        assert self._create_event_emitter(EventLinker) is not None
 
     # ==========================
 
@@ -44,7 +44,9 @@ class TestRQEventEmitter(EventEmitterTest[RQEventEmitter]):
             (Queue(connection=FakeStrictRedis()), EventLinker, object(), PyventusException),
         ],
     )
-    def test_creation_with_invalid_input(self, queue: Any, event_linker: Any, debug: Any, exception: Exception) -> None:
+    def test_creation_with_invalid_input(
+        self, queue: Any, event_linker: Any, debug: Any, exception: Type[Exception]
+    ) -> None:
         # Arrange, Act, Assert
         with pytest.raises(exception):
             RQEventEmitter(queue=queue, event_linker=event_linker, debug=debug)
@@ -55,7 +57,7 @@ class TestRQEventEmitter(EventEmitterTest[RQEventEmitter]):
 
     def test_emission_in_sync_context(self) -> None:
         with self.run_emissions_test(EventLinker):
-            ...
+            pass
 
     # ==========================
 
@@ -63,7 +65,7 @@ class TestRQEventEmitter(EventEmitterTest[RQEventEmitter]):
         class CustomEventLinker(EventLinker): ...
 
         with self.run_emissions_test(CustomEventLinker):
-            ...
+            pass
 
     # ==========================
 

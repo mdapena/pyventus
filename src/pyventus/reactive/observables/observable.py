@@ -16,6 +16,7 @@ from typing import (
     TypeVar,
     final,
     overload,
+    Union,
 )
 
 from ..subscribers import CompleteCallbackType, ErrorCallbackType, NextCallbackType, Subscriber
@@ -113,13 +114,15 @@ class Observable(Generic[_out_T]):
             self.__complete_callback: CompleteCallbackType | None = None
             self.__force_async: bool = force_async
 
-        def __call__(
-            self, callback: NextCallbackType[_ctx_T]
-        ) -> Tuple[NextCallbackType[_ctx_T], "Observable.ObservableSubscriptionContext[_ctx_T]"]:
+        def __call__(self, callback: NextCallbackType[_ctx_T]) -> Union[
+            Tuple[NextCallbackType[_ctx_T], "Observable.ObservableSubscriptionContext[_ctx_T]"],
+            NextCallbackType[_ctx_T],
+        ]:
             """
             Subscribes the decorated callback to the specified observable, using it as the observer's next callback.
             :param callback: The callback to be executed when the observable emits a new value.
-            :return: A tuple containing the decorated callback and its subscription context.
+            :return: A tuple containing the decorated callback and its subscription context
+                if the context is stateful; otherwise, returns the decorated callback alone.
             """
             # Store the provided callback in the subscription context
             self.__next_callback = callback
@@ -128,13 +131,17 @@ class Observable(Generic[_out_T]):
             self.__error_callback = None
             self.__complete_callback = None
 
+            # Determine if the subscription context is stateful
+            is_stateful: bool = self._is_stateful
+
             # Call the exit method to finalize the
             # subscription process and clean up any necessary context.
             self.__exit__(None, None, None)
 
-            # Return a tuple containing the decorated
-            # callback and the current subscription context
-            return callback, self
+            # Return a tuple containing the decorated callback
+            # and the current subscription context if the context
+            # is stateful; otherwise, return just the callback.
+            return (callback, self) if is_stateful else callback
 
         def _exit(self) -> Subscriber[_ctx_T]:
             # Ensure that the source is not None

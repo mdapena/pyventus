@@ -66,6 +66,18 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
 
         return self.__subscriber
 
+    @property
+    def _is_stateful(self) -> bool:
+        """
+        Indicates whether the context preserves its state (stateful) or not (stateless)
+        after exiting the subscription context.
+        :return: Returns `True` if the context retains its state, allowing access to stored objects,
+            including the `source` object and the `subscriber` object; returns `False` if the
+            context is stateless, meaning the stored state is cleared upon exiting the
+            subscription context to prevent memory leaks.
+        """
+        return self.__is_stateful
+
     def __init__(self, source: _SourceType, is_stateful: bool) -> None:
         """
         Initialize an instance of `SubscriptionContext`.

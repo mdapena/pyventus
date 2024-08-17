@@ -102,11 +102,12 @@ class EventLinker:
 
         def __call__(
             self, callback: EventCallbackType
-        ) -> Tuple[EventCallbackType, "EventLinker.EventLinkerSubscriptionContext"]:
+        ) -> Tuple[EventCallbackType, "EventLinker.EventLinkerSubscriptionContext"] | EventCallbackType:
             """
             Subscribes the decorated callback to the specified events.
             :param callback: The callback to be executed when the event occurs.
-            :return: A tuple containing the decorated callback and its subscription context.
+            :return: A tuple containing the decorated callback and its subscription context
+                if the context is stateful; otherwise, returns the decorated callback alone.
             """
             # Store the provided callback as the event callback
             self.__event_callback = callback
@@ -115,13 +116,17 @@ class EventLinker:
             self.__success_callback = None
             self.__failure_callback = None
 
+            # Determine if the subscription context is stateful
+            is_stateful: bool = self._is_stateful
+
             # Call the exit method to finalize the
             # subscription process and clean up any necessary context.
             self.__exit__(None, None, None)
 
-            # Return a tuple containing the decorated
-            # callback and the current subscription context
-            return callback, self
+            # Return a tuple containing the decorated callback
+            # and the current subscription context if the context
+            # is stateful; otherwise, return just the callback.
+            return (callback, self) if is_stateful else callback
 
         def _exit(self) -> EventSubscriber:
             # Ensure that the source is not None

@@ -1,5 +1,5 @@
 from threading import current_thread, main_thread
-from typing import Any, Callable, Dict, Tuple
+from typing import Any, Callable, Dict, Tuple, Type
 
 import pytest
 
@@ -39,7 +39,7 @@ class TestCallableUtils:
             (DummyCallable.Invalid(), PyventusException),
         ],
     )
-    def test_validate_callable_with_invalid_input(self, cb: Any, exception: Exception) -> None:
+    def test_validate_callable_with_invalid_input(self, cb: Any, exception: Type[Exception]) -> None:
         # Arrange, Act, and Assert
         with pytest.raises(exception):
             validate_callable(cb)
@@ -80,7 +80,7 @@ class TestCallableUtils:
             *[(c, True) for c in DummyCallable.Async.Generator().ALL],
         ],
     )
-    def test_is_callable_async(self, cb: Callable[..., Any], expected: str) -> None:
+    def test_is_callable_async(self, cb: Callable[..., Any], expected: bool) -> None:
         # Arrange, Act, and Assert
         assert is_callable_async(cb) is expected
 
@@ -101,7 +101,7 @@ class TestCallableUtils:
             *[(cb, True) for cb in DummyCallable.Async.Generator().ALL],
         ],
     )
-    def test_is_callable_generator(self, cb: Callable[..., Any], expected: str) -> None:
+    def test_is_callable_generator(self, cb: Callable[..., Any], expected: bool) -> None:
         # Arrange, Act, and Assert
         assert is_callable_generator(cb) is expected
 
@@ -134,7 +134,10 @@ class TestCallableUtils:
             CallableWrapper[..., Any](invalid_generator_callable, force_async=True)
 
         with pytest.raises(PyventusException):
-            CallableWrapper[..., Any](DummyCallable.Async.func, force_async=invalid_force_async_value)
+            CallableWrapper[..., Any](
+                DummyCallable.Async.func,
+                force_async=invalid_force_async_value,  # type: ignore[arg-type]
+            )
 
     # ==========================
 
@@ -165,7 +168,7 @@ class TestCallableUtils:
         try:
             # Act: Attempt to call the wrapper with the specified arguments
             return_value = await callable_wrapper(*args, **kwargs)
-        except type(cb.exception) as e:
+        except Exception as e:
             # Assert: Check if the raised exception matches the expected exception
             assert cb.exception is e
         else:
@@ -183,7 +186,7 @@ class TestCallableUtils:
     async def test_callable_wrapper_sync_callable_force_async_disabled(self) -> None:
 
         # Arrange: Define the assertion function
-        def assertion():
+        def assertion() -> None:
             # Assert that the current thread is the
             # main thread when force_async is False.
             assert current_thread() is main_thread()
@@ -200,7 +203,7 @@ class TestCallableUtils:
     async def test_callable_wrapper_sync_callable_force_async_enabled(self) -> None:
 
         # Arrange: Define the assertion function
-        def assertion():
+        def assertion() -> None:
             # Assert that the current thread is not the
             # main thread due to force_async being enabled.
             assert current_thread() is not main_thread()
@@ -217,7 +220,7 @@ class TestCallableUtils:
     async def test_callable_wrapper_async_callable_with_force_async_flag(self) -> None:
 
         # Arrange: Define the assertion function
-        async def assertion():
+        async def assertion() -> None:
             # Assert that the current thread is the main thread in an async context.
             assert current_thread() is main_thread()
 

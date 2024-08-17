@@ -13,7 +13,7 @@ from pyventus.events.emitters.celery import CeleryEventEmitter
 # ==========================
 
 
-class CeleryMock(Celery):
+class CeleryMock(Celery):  # type: ignore[misc]
     """Create and configure a CeleryMock for testing."""
 
     class Serializer(CeleryEventEmitter.Queue.Serializer):
@@ -23,9 +23,9 @@ class CeleryMock(Celery):
 
         @staticmethod
         def loads(serialized_obj: Any) -> EventEmitter.EventEmission:
-            return serialized_obj
+            return serialized_obj  # type: ignore[no-any-return]
 
-    def send_task(self, *args, **kwargs) -> None:
+    def send_task(self, *args: Any, **kwargs: Any) -> None:
         self.tasks[kwargs["name"]](**kwargs["kwargs"])
 
 
@@ -98,7 +98,7 @@ class TestCeleryEventEmitterQueue:
 
     # ==========================
 
-    def test_payload_creation_with_missing_kwargs(self):
+    def test_payload_creation_with_missing_kwargs(self) -> None:
         # Arrange, Act, Assert
         with pytest.raises(PyventusException):
             CeleryEventEmitter.Queue.Payload.from_json(serialized_obj=b"serialized")

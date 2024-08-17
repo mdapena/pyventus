@@ -37,7 +37,7 @@ class CallableMock:
             self._exception: Exception | None = raise_exception
 
         @abstractmethod
-        def __call__(self, *args, **kwargs) -> Any:
+        def __call__(self, *args: Any, **kwargs: Any) -> Any:
             """Abstract method to be implemented by subclasses for callable behavior."""
             pass
 
@@ -69,7 +69,7 @@ class CallableMock:
     class Sync(Base):
         """Synchronous callable mock."""
 
-        def __call__(self, *args, **kwargs) -> Any:
+        def __call__(self, *args: Any, **kwargs: Any) -> Any:
             """
             Invokes the synchronous callable, tracking call details.
             :param args: Positional arguments for the callable.
@@ -89,7 +89,7 @@ class CallableMock:
     class Async(Base):
         """Asynchronous callable mock."""
 
-        async def __call__(self, *args, **kwargs) -> Any:
+        async def __call__(self, *args: Any, **kwargs: Any) -> Any:
             """
             Invokes the asynchronous callable, tracking call details.
             :param args: Positional arguments for the callable.
@@ -121,22 +121,22 @@ class CallableMock:
 # ----------
 
 
-def _sync_function(*args, **kwargs):
+def _sync_function(*args: Any, **kwargs: Any) -> None:
     """A dummy synchronous function."""
     pass  # pragma: no cover
 
 
-def _sync_generator_function(*args, **kwargs):
+def _sync_generator_function(*args: Any, **kwargs: Any) -> Generator[None, None, None]:
     """A dummy synchronous generator function."""
     yield  # pragma: no cover
 
 
-async def _async_function(*args, **kwargs):
+async def _async_function(*args: Any, **kwargs: Any) -> None:
     """A dummy asynchronous function."""
     pass  # pragma: no cover
 
 
-async def _async_generator_function(*args, **kwargs):
+async def _async_generator_function(*args: Any, **kwargs: Any) -> AsyncGenerator[None, None]:
     """A dummy asynchronous generator function."""
     yield  # pragma: no cover
 
@@ -150,24 +150,24 @@ class DummyCallable:
         class Generator:
             """Contains dummy synchronous generator callable fixtures."""
 
-            func: Final[Generator[None, None, None]] = _sync_generator_function
+            func: Final[Callable[..., Generator[None, None, None]]] = _sync_generator_function
 
             @staticmethod
-            def static(*args, **kwargs):
+            def static(*args: Any, **kwargs: Any) -> Generator[None, None, None]:
                 yield  # pragma: no cover
 
             @classmethod
-            def cls(cls, *args, **kwargs):
+            def cls(cls, *args: Any, **kwargs: Any) -> Generator[None, None, None]:
                 yield  # pragma: no cover
 
-            def inst(sel, *args, **kwargs):
+            def inst(self, *args: Any, **kwargs: Any) -> Generator[None, None, None]:
                 yield  # pragma: no cover
 
-            def __call__(self, *args, **kwargs):
+            def __call__(self, *args: Any, **kwargs: Any) -> Generator[None, None, None]:
                 yield  # pragma: no cover
 
             @property
-            def ALL(self) -> Tuple[Generator]:
+            def ALL(self) -> Tuple[Callable[..., Generator[None, None, None]], ...]:
                 """
                 Return a tuple of all dummy synchronous generator callables.
 
@@ -187,7 +187,7 @@ class DummyCallable:
                 )
 
             @property
-            def ALL_NAMES(self) -> Tuple[str]:
+            def ALL_NAMES(self) -> Tuple[str, ...]:
                 """
                 Return a tuple of all dummy synchronous generator callable names.
 
@@ -208,24 +208,24 @@ class DummyCallable:
 
         func: Final[Callable[..., None]] = _sync_function
 
-        lamb: Final[Callable[..., None]] = lambda *args: None
+        lamb: Final[Callable[..., None]] = lambda *args, **kwargs: None
 
         @staticmethod
-        def static(*args, **kwargs) -> None:
+        def static(*args: Any, **kwargs: Any) -> None:
             pass  # pragma: no cover
 
         @classmethod
-        def cls(cls, *args, **kwargs) -> None:
+        def cls(cls, *args: Any, **kwargs: Any) -> None:
             pass  # pragma: no cover
 
-        def inst(self, *args, **kwargs) -> None:
+        def inst(self, *args: Any, **kwargs: Any) -> None:
             pass  # pragma: no cover
 
-        def __call__(self, *args, **kwargs) -> None:
+        def __call__(self, *args: Any, **kwargs: Any) -> None:
             pass  # pragma: no cover
 
         @property
-        def ALL(self) -> Tuple[Callable]:
+        def ALL(self) -> Tuple[Callable[..., None], ...]:
             """
             Return a tuple of all dummy synchronous callables.
 
@@ -247,7 +247,7 @@ class DummyCallable:
             )
 
         @property
-        def ALL_NAMES(self) -> Tuple[str]:
+        def ALL_NAMES(self) -> Tuple[str, ...]:
             """
             Return a tuple of all dummy synchronous callable names.
 
@@ -274,24 +274,24 @@ class DummyCallable:
         class Generator:
             """Contains dummy asynchronous generator callable fixtures."""
 
-            func: Final[AsyncGenerator[None, None]] = _async_generator_function
+            func: Final[Callable[..., AsyncGenerator[None, None]]] = _async_generator_function
 
             @staticmethod
-            async def static(*args, **kwargs):
+            async def static(*args: Any, **kwargs: Any) -> AsyncGenerator[None, None]:
                 yield  # pragma: no cover
 
             @classmethod
-            async def cls(cls, *args, **kwargs):
+            async def cls(cls, *args: Any, **kwargs: Any) -> AsyncGenerator[None, None]:
                 yield  # pragma: no cover
 
-            async def inst(self, *args, **kwargs):
+            async def inst(self, *args: Any, **kwargs: Any) -> AsyncGenerator[None, None]:
                 yield  # pragma: no cover
 
-            async def __call__(self, *args, **kwargs):
+            async def __call__(self, *args: Any, **kwargs: Any) -> AsyncGenerator[None, None]:
                 yield  # pragma: no cover
 
             @property
-            def ALL(self) -> Tuple[AsyncGenerator]:
+            def ALL(self) -> Tuple[Callable[..., AsyncGenerator[None, None]], ...]:
                 """
                 Return a tuple of all dummy asynchronous generator callables.
 
@@ -311,7 +311,7 @@ class DummyCallable:
                 )
 
             @property
-            def ALL_NAMES(self) -> Tuple[str]:
+            def ALL_NAMES(self) -> Tuple[str, ...]:
                 """
                 Return a tuple of all dummy asynchronous generator callable names.
 
@@ -333,21 +333,21 @@ class DummyCallable:
         func: Final[Callable[..., Awaitable[None]]] = _async_function
 
         @staticmethod
-        async def static(*args, **kwargs):
+        async def static(*args: Any, **kwargs: Any) -> None:
             pass  # pragma: no cover
 
         @classmethod
-        async def cls(cls, *args, **kwargs):
+        async def cls(cls, *args: Any, **kwargs: Any) -> None:
             pass  # pragma: no cover
 
-        async def inst(self, *args, **kwargs):
+        async def inst(self, *args: Any, **kwargs: Any) -> None:
             pass  # pragma: no cover
 
-        async def __call__(self, *args, **kwargs):
+        async def __call__(self, *args: Any, **kwargs: Any) -> None:
             pass  # pragma: no cover
 
         @property
-        def ALL(self) -> Tuple[Callable]:
+        def ALL(self) -> Tuple[Callable[..., Awaitable[None]], ...]:
             """
             Return a tuple of all dummy asynchronous callables.
 
@@ -367,7 +367,7 @@ class DummyCallable:
             )
 
         @property
-        def ALL_NAMES(self) -> Tuple[str]:
+        def ALL_NAMES(self) -> Tuple[str, ...]:
             """
             Return a tuple of all dummy asynchronous callable names.
 

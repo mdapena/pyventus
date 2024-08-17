@@ -28,7 +28,7 @@ class TestSubscription:
     def test_creation_with_invalid_input(self) -> None:
         # Arrange, Act, Assert
         with pytest.raises(PyventusException):
-            Subscription(teardown_callback=None)
+            Subscription(teardown_callback=None)  # type: ignore[arg-type]
 
     # ==========================
     # Test Cases for unsubscribe

@@ -125,7 +125,7 @@ packages = ["src/pyventus"]
 # ------------------------------------------------------------------
 
 [tool.mypy]
-files = ["src/pyventus"]
+files = ["src/pyventus", "tests"]
 namespace_packages = false
 show_error_codes = true
 warn_no_return = true

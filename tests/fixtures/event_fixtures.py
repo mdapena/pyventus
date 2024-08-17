@@ -39,7 +39,7 @@ class EventFixtures:
         attr2: float
         """It must be a float number."""
 
-        def __post_init__(self):
+        def __post_init__(self) -> None:
             if len(self.attr1) < 3:
                 raise PyventusException(f"[{type(self).__name__}] Error: 'attr1' must be at least 3 characters.")
 

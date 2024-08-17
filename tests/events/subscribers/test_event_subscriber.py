@@ -42,18 +42,18 @@ class TestEventSubscriber:
                 success_callback=None,
                 failure_callback=None,
                 force_async=False,
-                once="False",
+                once="False",  # type: ignore[arg-type]
             )
 
         # Arrange/Act/Assert
         with pytest.raises(PyventusException):
             EventSubscriber(
                 teardown_callback=lambda sub: True,
-                event_callback=None,
+                event_callback=None,  # type: ignore[arg-type]
                 success_callback=None,
                 failure_callback=None,
                 force_async=False,
-                once="False",
+                once=False,
             )
 
     # ==========================

@@ -24,7 +24,7 @@ class EventLinkerFixture:
     events: Set[str]
     subscribers: Set[EventSubscriber]
     onetime_subscriber_events: Set[str]
-    onetime_subscribers: Set[str]
+    onetime_subscribers: Set[EventSubscriber]
     to_dict: Dict[str, Set[EventSubscriber]]
 
 
@@ -176,7 +176,7 @@ class TestEventLinker:
         # Arrange, Act, Assert
         with pytest.raises(PyventusException):
 
-            class CustomEventLinker(EventLinker, default_success_callback=True): ...
+            class CustomEventLinker(EventLinker, default_success_callback=True): ...  # type: ignore[arg-type]
 
     # ==========================
     # Test Cases for default_failure_callback setting and its getter
@@ -204,7 +204,7 @@ class TestEventLinker:
         # Arrange, Act, Assert
         with pytest.raises(PyventusException):
 
-            class CustomEventLinker(EventLinker, default_failure_callback=True): ...
+            class CustomEventLinker(EventLinker, default_failure_callback=True): ...  # type: ignore[arg-type]
 
     # ==========================
     # Test Cases for debug mode setting and its getter
@@ -232,7 +232,7 @@ class TestEventLinker:
         # Arrange/Act/Assert
         with pytest.raises(PyventusException):
 
-            class CustomEventLinker(EventLinker, debug="True"): ...
+            class CustomEventLinker(EventLinker, debug="True"): ...  # type: ignore[arg-type]
 
     # ==========================
     # Test Case for the EvenLinker registry isolation
@@ -271,7 +271,7 @@ class TestEventLinker:
             (EventFixtures.All, type(EventFixtures.All).__name__),
         ],
     )
-    def test_get_valid_event_name_with_valid_input(self, event: SubscribableEventType, expected: str):
+    def test_get_valid_event_name_with_valid_input(self, event: SubscribableEventType, expected: str) -> None:
         # Arrange, Act, Assert
         assert EventLinker.get_valid_event_name(event) == expected
 
@@ -300,7 +300,7 @@ class TestEventLinker:
     # Test Cases for get_valid_subscriber()
     # ==========================
 
-    def test_get_valid_subscriber_with_valid_input(self):
+    def test_get_valid_subscriber_with_valid_input(self) -> None:
         # Arrange
         subscriber = create_subscriber()
 
@@ -521,7 +521,7 @@ class TestEventLinker:
 
     def test_get_subscribers_from_events_when_empty(self, empty: EventLinkerFixture) -> None:
         # Arrange, Act, Assert
-        assert empty.event_linker.get_subscribers_from_events("A", "A", "B", "C") == empty.events
+        assert empty.event_linker.get_subscribers_from_events("A", "A", "B", "C") == empty.subscribers
 
     # ==========================
 
@@ -1022,7 +1022,7 @@ class TestEventLinker:
 
         # Assert
         if stateful_subctx:
-            event_callback, ctx = results
+            event_callback, ctx = results  # type: ignore[misc]
             event_linker, subscriber = ctx.unpack()
 
             assert event_callback is tc.event_callback
@@ -1047,10 +1047,10 @@ class TestEventLinker:
 
         # Act, Assert
         with pytest.raises(PyventusException):
-            once_subctx(None)
+            once_subctx(None)  # type: ignore[arg-type]
 
         with pytest.raises(PyventusException):
-            on_subctx(None)
+            on_subctx(None)  # type: ignore[arg-type]
 
     # ==========================
 
@@ -1186,8 +1186,8 @@ class TestEventLinker:
         # Act
         with subscription_context as ctx:
             ctx.on_event(tc.event_callback)
-            ctx.on_success(tc.success_callback)
-            ctx.on_failure(tc.failure_callback)
+            ctx.on_success(tc.success_callback)  # type: ignore[arg-type]
+            ctx.on_failure(tc.failure_callback)  # type: ignore[arg-type]
 
         event_linker, subscriber = ctx.unpack()
 

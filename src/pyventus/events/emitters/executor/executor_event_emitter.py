@@ -1,4 +1,4 @@
-import asyncio
+from asyncio import run
 from concurrent.futures import Executor, ThreadPoolExecutor
 from types import TracebackType
 from typing import Type
@@ -26,16 +26,6 @@ class ExecutorEventEmitter(EventEmitter):
     Read more in the
     [Pyventus docs for Executor Event Emitter](https://mdapena.github.io/pyventus/tutorials/emitters/executor/).
     """
-
-    @staticmethod
-    def _callback(event_emission: EventEmitter.EventEmission) -> None:
-        """
-        This method is used as the callback function for the executor
-        to process the event emission.
-        :param event_emission: The event emission to be executed.
-        :return: None
-        """
-        asyncio.run(event_emission())
 
     def __init__(
         self,
@@ -83,6 +73,20 @@ class ExecutorEventEmitter(EventEmitter):
         """
         self.shutdown(wait=True)
 
+    @staticmethod
+    def _execute_event_emission(event_emission: EventEmitter.EventEmission) -> None:
+        """
+        This method is used as the callback function for the executor
+        to process the event emission.
+        :param event_emission: The event emission to be executed.
+        :return: None
+        """
+        run(event_emission())
+
+    def _process(self, event_emission: EventEmitter.EventEmission) -> None:
+        # Submit the event emission to the executor
+        self._executor.submit(ExecutorEventEmitter._execute_event_emission, event_emission)
+
     def shutdown(self, wait: bool = True, cancel_futures: bool = False) -> None:
         """
         Shuts down the executor and frees any resources it is using.
@@ -92,7 +96,3 @@ class ExecutorEventEmitter(EventEmitter):
         :return: None
         """
         self._executor.shutdown(wait=wait, cancel_futures=cancel_futures)
-
-    def _process(self, event_emission: EventEmitter.EventEmission) -> None:
-        # Submit the event emission to the executor
-        self._executor.submit(ExecutorEventEmitter._callback, event_emission)

@@ -166,6 +166,17 @@ class EventEmitter(ABC):
             debug=debug if debug is not None else bool(gettrace() is not None),
         )
 
+    @abstractmethod
+    def _process(self, event_emission: EventEmission) -> None:
+        """
+        Process the event emission execution. Subclasses must implement
+        this method to define the specific processing logic.
+
+        :param event_emission: The event emission to be processed.
+        :return: None
+        """
+        pass
+
     def emit(self, /, event: EmittableEventType, *args: Any, **kwargs: Any) -> None:
         """
         Emits an event and notifies all registered subscribers.
@@ -225,14 +236,3 @@ class EventEmitter(ABC):
 
         # Delegate the event emission processing to subclasses
         self._process(event_emission)
-
-    @abstractmethod
-    def _process(self, event_emission: EventEmission) -> None:
-        """
-        Process the event emission execution. Subclasses must implement
-        this method to define the specific processing logic.
-
-        :param event_emission: The event emission to be processed.
-        :return: None
-        """
-        pass

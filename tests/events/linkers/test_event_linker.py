@@ -1017,22 +1017,25 @@ class TestEventLinker:
 
         # Act
         results = subscription_context(tc.event_callback)
-        event_callback, ctx = results
-
-        event_linker, subscriber = ctx.unpack()
 
         # Assert
-        assert event_callback is tc.event_callback
-        assert isinstance(ctx, EventLinker.EventLinkerSubscriptionContext)
-
         if stateful_subctx:
-            assert subscriber
-            assert subscriber.once is tc.once
-            assert populated.event_linker.contains_subscriber(subscriber)
-            assert populated.event_linker is event_linker
+            event_callback, ctx = results
+            event_linker, subscriber = ctx.unpack()
+
+            assert event_callback is tc.event_callback
+            assert isinstance(ctx, EventLinker.EventLinkerSubscriptionContext)
+
+            if stateful_subctx:
+                assert subscriber
+                assert subscriber.once is tc.once
+                assert populated.event_linker.contains_subscriber(subscriber)
+                assert populated.event_linker is event_linker
+            else:
+                assert subscriber is None
+                assert event_linker is None
         else:
-            assert subscriber is None
-            assert event_linker is None
+            assert results is tc.event_callback
 
         assert populated.event_linker.get_event_count() == expected_event_count
         assert populated.event_linker.get_subscriber_count() == expected_subscriber_count

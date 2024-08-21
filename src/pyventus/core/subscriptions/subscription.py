@@ -1,6 +1,6 @@
 import sys
 from datetime import datetime
-from typing import Any, Callable, Dict
+from typing import Any, Callable, Dict, override
 
 from ..utils import validate_callable
 from .unsubscribable import Unsubscribable
@@ -44,6 +44,7 @@ class Subscription(Unsubscribable):
         self.__timestamp: datetime = datetime.now()
         self.__teardown_callback: Callable[[Self], bool] = teardown_callback
 
+    @override
     def unsubscribe(self: Self) -> bool:
         return self.__teardown_callback(self)
 

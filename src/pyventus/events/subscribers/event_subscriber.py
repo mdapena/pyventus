@@ -1,5 +1,5 @@
 import sys
-from typing import Any, Awaitable, Callable, Dict, TypeAlias, final
+from typing import Any, Awaitable, Callable, Dict, TypeAlias, final, override
 
 from ...core.exceptions import PyventusException
 from ...core.subscriptions import Subscription
@@ -105,10 +105,12 @@ class EventSubscriber(EventHandler, Subscription):
         # Store the one-time subscription flag
         self.__once: bool = once
 
+    @override
     async def _handle_event(self, *args: Any, **kwargs: Any) -> Any:
         # Execute the event callback with the provided arguments and return the result
         return await self.__event_callback(*args, **kwargs)
 
+    @override
     async def _handle_success(self, results: Any) -> None:
         if self.__success_callback is None:
             # If no success callback is set, exit early
@@ -120,6 +122,7 @@ class EventSubscriber(EventHandler, Subscription):
             # Invoke the success callback with the given results
             await self.__success_callback(results)
 
+    @override
     async def _handle_failure(self, exception: Exception) -> None:
         if self.__failure_callback is None:
             # If no failure callback is set, exit early
@@ -128,6 +131,7 @@ class EventSubscriber(EventHandler, Subscription):
             # Invoke the failure callback with the provided exception
             await self.__failure_callback(exception)
 
+    @override
     def __getstate__(self) -> Dict[str, Any]:
         # Retrieve the state of the base Subscription class
         state: Dict[str, Any] = super().__getstate__()
@@ -141,6 +145,7 @@ class EventSubscriber(EventHandler, Subscription):
         # Return the complete state for serialization
         return state
 
+    @override
     def __setstate__(self, state: Dict[str, Any]) -> None:
         # Restore the state of the base Subscription class
         super().__setstate__(state)
@@ -152,6 +157,10 @@ class EventSubscriber(EventHandler, Subscription):
         self.__once = state["__once"]
 
     def __str__(self) -> str:  # pragma: no cover
+        """
+        Return a formatted string representation of the event subscriber.
+        :return: A string representation of the event subscriber.
+        """
         return (
             f"EventSubscriber("
             f"event_callback={self.__event_callback}, "

@@ -1,11 +1,11 @@
-from typing import Any, Dict, Type
+from typing import Any, Dict, Type, override
 
 from ....core.exceptions import PyventusException
 from ...linkers import EventLinker
 from ..event_emitter import EventEmitter
 
 try:  # pragma: no cover
-    from rq import Callback, Queue
+    from rq import Queue
 except ImportError:  # pragma: no cover
     raise PyventusException(
         "Optional dependency 'rq' not found."
@@ -59,6 +59,7 @@ class RQEventEmitter(EventEmitter):
         self._queue: Queue = queue
         self._options: Dict[str, Any] = options if options is not None else {}
 
+    @override
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:
         # Add the event emission to the Redis Queue
         self._queue.enqueue(event_emission, **self._options)

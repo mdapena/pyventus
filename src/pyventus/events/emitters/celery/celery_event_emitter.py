@@ -3,7 +3,7 @@ from asyncio import run
 from hashlib import sha256
 from pickle import dumps, loads
 from types import ModuleType
-from typing import Any, Callable, Dict, NamedTuple, Type, cast
+from typing import Any, Callable, Dict, NamedTuple, Type, cast, override
 
 from ....core.exceptions import PyventusException
 from ...linkers import EventLinker
@@ -246,6 +246,7 @@ class CeleryEventEmitter(EventEmitter):
         # Store the queue object
         self._queue: CeleryEventEmitter.Queue = queue
 
+    @override
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:
         # Add the event emission object to the Celery queue for asynchronous execution
         self._queue.enqueue(event_emission=event_emission)

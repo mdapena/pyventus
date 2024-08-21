@@ -17,6 +17,7 @@ from typing import (
     Union,
     final,
     overload,
+    override,
 )
 
 from ...core.exceptions import PyventusException
@@ -148,6 +149,7 @@ class Observable(Generic[_out_T]):
             # is stateful; otherwise, return just the callback.
             return (callback, self) if is_stateful else callback
 
+        @override
         def _exit(self) -> Subscriber[_ctx_T]:
             # Ensure that the source is not None
             if self._source is None:
@@ -267,7 +269,7 @@ class Observable(Generic[_out_T]):
         """
         Removes the specified background task from the task registry.
         :param task:  The background task to be removed from the registry.
-        :return: None
+        :return: None.
         """
         with self.__thread_lock:
             self.__background_tasks.discard(task)
@@ -534,7 +536,7 @@ class Observable(Generic[_out_T]):
         """
         Waits for all background tasks associated with the `Observable` to complete.
         It ensures that any ongoing tasks are finished before proceeding.
-        :return: None
+        :return: None.
         """
         # Acquire lock to ensure thread safety
         with self.__thread_lock:

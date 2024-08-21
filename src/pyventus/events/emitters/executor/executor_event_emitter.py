@@ -1,7 +1,7 @@
 from asyncio import run
 from concurrent.futures import Executor, ThreadPoolExecutor
 from types import TracebackType
-from typing import Type
+from typing import Type, override
 
 from ....core.exceptions import PyventusException
 from ...linkers import EventLinker
@@ -69,7 +69,7 @@ class ExecutorEventEmitter(EventEmitter):
         :param exc_type: The exception type, if any.
         :param exc_val: The exception value, if any.
         :param exc_tb: The traceback information, if any.
-        :return: None
+        :return: None.
         """
         self.shutdown(wait=True)
 
@@ -79,10 +79,11 @@ class ExecutorEventEmitter(EventEmitter):
         This method is used as the callback function for the executor
         to process the event emission.
         :param event_emission: The event emission to be executed.
-        :return: None
+        :return: None.
         """
         run(event_emission())
 
+    @override
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:
         # Submit the event emission to the executor
         self._executor.submit(ExecutorEventEmitter._execute_event_emission, event_emission)
@@ -93,6 +94,6 @@ class ExecutorEventEmitter(EventEmitter):
         :param wait: A boolean indicating whether to wait for the currently pending futures
             to complete before shutting down.
         :param cancel_futures: A boolean indicating whether to cancel any pending futures.
-        :return: None
+        :return: None.
         """
         self._executor.shutdown(wait=wait, cancel_futures=cancel_futures)

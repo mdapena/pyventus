@@ -1,5 +1,5 @@
 from asyncio import Task, create_task, gather, run
-from typing import Set, Type
+from typing import Set, Type, override
 
 from ....core.utils import is_loop_running
 from ...linkers import EventLinker
@@ -42,6 +42,7 @@ class AsyncIOEventEmitter(EventEmitter):
         # Initialize the set of background futures
         self._background_tasks: Set[Task[None]] = set()
 
+    @override
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:
         # Check if there is an active event loop
         loop_running: bool = is_loop_running()
@@ -63,7 +64,7 @@ class AsyncIOEventEmitter(EventEmitter):
         """
         Waits for all background tasks associated with the emitter to complete.
         It ensures that any ongoing tasks are finished before proceeding.
-        :return: None
+        :return: None.
         """
         # Retrieve the current set of background tasks and clear the registry
         tasks: Set[Task[None]] = self._background_tasks.copy()

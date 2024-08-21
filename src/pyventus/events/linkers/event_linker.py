@@ -2,7 +2,7 @@ from dataclasses import is_dataclass
 from sys import gettrace
 from threading import Lock
 from types import EllipsisType
-from typing import Dict, Set, Tuple, Type, TypeAlias, final
+from typing import Dict, Set, Tuple, Type, TypeAlias, final, override
 
 from ...core.collections import MultiBidict
 from ...core.constants import StdOutColors
@@ -133,6 +133,7 @@ class EventLinker:
             # is stateful; otherwise, return just the callback.
             return (callback, self) if is_stateful else callback
 
+        @override
         def _exit(self) -> EventSubscriber:
             # Ensure that the source is not None
             if self._source is None:  # pragma: no cover
@@ -772,6 +773,6 @@ class EventLinker:
             cls.__registry.clear()
 
         if cls.__logger.debug_enabled:  # pragma: no cover
-            cls.__logger.debug(action="Removed:", msg=f"All events and subscribers.")
+            cls.__logger.debug(action="Removed:", msg="All events and subscribers.")
 
         return True

@@ -1,4 +1,4 @@
-from typing import Callable, Type
+from typing import Callable, Type, override
 
 from ....core.exceptions import PyventusException
 from ...linkers import EventLinker
@@ -84,6 +84,7 @@ class FastAPIEventEmitter(EventEmitter):
         # Set the background tasks
         self._background_tasks: BackgroundTasks = background_tasks
 
+    @override
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:
         # Submit the event emission to the background tasks
         self._background_tasks.add_task(event_emission)

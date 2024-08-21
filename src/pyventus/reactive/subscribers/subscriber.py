@@ -1,5 +1,5 @@
 import sys
-from typing import Any, Awaitable, Callable, Dict, Generic, TypeAlias, TypeVar, final
+from typing import Any, Awaitable, Callable, Dict, Generic, TypeAlias, TypeVar, final, override
 
 from ...core.subscriptions import Subscription
 from ...core.utils import CallableWrapper
@@ -96,6 +96,7 @@ class Subscriber(Generic[_in_T], Observer[_in_T], Subscription):
             else None
         )
 
+    @override
     async def next(self, value: _in_T) -> None:
         if self.__next_callback is None:
             # If no next callback is set, exit early
@@ -104,6 +105,7 @@ class Subscriber(Generic[_in_T], Observer[_in_T], Subscription):
             # Invoke the next callback with the provided value
             await self.__next_callback(value)
 
+    @override
     async def error(self, exception: Exception) -> None:
         if self.__error_callback is None:
             # If no error callback is set, exit early
@@ -112,6 +114,7 @@ class Subscriber(Generic[_in_T], Observer[_in_T], Subscription):
             # Invoke the error callback with the provided exception
             await self.__error_callback(exception)
 
+    @override
     async def complete(self) -> None:
         if self.__complete_callback is None:
             # If no complete callback is set, exit early
@@ -120,6 +123,7 @@ class Subscriber(Generic[_in_T], Observer[_in_T], Subscription):
             # Invoke the complete callback
             await self.__complete_callback()
 
+    @override
     def __getstate__(self) -> Dict[str, Any]:
         # Retrieve the state of the base Subscription class
         state: Dict[str, Any] = super().__getstate__()
@@ -132,6 +136,7 @@ class Subscriber(Generic[_in_T], Observer[_in_T], Subscription):
         # Return the complete state for serialization
         return state
 
+    @override
     def __setstate__(self, state: Dict[str, Any]) -> None:
         # Restore the state of the base Subscription class
         super().__setstate__(state)
@@ -142,6 +147,10 @@ class Subscriber(Generic[_in_T], Observer[_in_T], Subscription):
         self.__complete_callback = state["__complete_callback"]
 
     def __str__(self) -> str:
+        """
+        Return a formatted string representation of the subscriber.
+        :return: A string representation of the subscriber.
+        """
         return (
             f"Subscriber("
             f"next_callback={self.__next_callback}, "

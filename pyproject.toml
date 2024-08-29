@@ -144,7 +144,7 @@ dependencies = ["pyventus[tests]"]
 
 [tool.hatch.envs.tests.scripts]
 test = "pytest -v {args:tests}"
-linting = "ruff check --diff {args:.}"
+linting = "ruff check {args:.} & ruff format --check {args:.}"
 typing = "mypy"
 cov = [
     "coverage run -m pytest -v {args:tests}",
@@ -201,8 +201,9 @@ exclude_lines = [
 # ------------------------------------------------------------------
 
 [tool.ruff]
-line-length = 120
+include = ["pyproject.toml", "src/pyventus/*.py", "tests/*.py"]
 target-version = "py310"
+line-length = 120
 
 [tool.ruff.format]
 quote-style = "double"  # Like Black, use double quotes for strings.
@@ -215,16 +216,33 @@ select = [
     "N",        # pep8-naming
     "D",        # pydocstyle
     "UP",       # pyupgrade
-    "YTT",      # flake8-2020
     "B",        # flake8-bugbear
     "C4",       # flake8-comprehensions
     "T10",      # flake8-debugger
     "T20",      # flake8-print
-    "PYI006",   # flake8-pyi
+    "PYI006",   # flake8-pyi (bad-version-info-comparison)
+    "RUF100",   # Ruff-specific rules (unused-noqa)
 ]
-ignore = ["E501"]
-pydocstyle = { convention = "google" }
-isort = { known-first-party = ["pyventus", "tests"] }
+ignore = [
+    "E111",     # Ignore indentation-with-invalid-multiple rule; formatter enforces consistent indentation.
+    "E114",     # Ignore indentation-with-invalid-multiple-comment rule; formatter enforces consistent indentation.
+    "E117",     # Ignore over-indented rule; formatter enforces consistent indentation.
+    "N818",     # Ignore error-suffix-on-exception-name rule; pyventus uses Exception suffix.
+    "D100",     # Ignore undocumented-public-module rule; module names imply their content.
+    "D206",     # Ignore indent-with-spaces rule; formatter enforces consistent indentation.
+    "D300",     # Ignore triple-single-quotes rule; formatter enforces consistent quotes.
+]
+
+[tool.ruff.lint.isort]
+known-third-party = ["pyventus"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
 
 [tool.ruff.lint.per-file-ignores]
-"__init__.py" = ["F401"]
+"__init__.py" = ["F401"] # Ignore unused imports for init files.
+"tests/*.py" = ["D"] # Ignore pydocstyle rules for test files.
+"tests/events/linkers/test_event_linker.py" = ["B009"] # Ignore get-attr-with-constant rule.
+"tests/core/utils/test_callable_utils.py" = ["B905", "C416"] # zip-without-explicit-strict/unnecessary-comprehension.
+"tests/events/emitters/fastapi/test_fastapi_event_emitter.py" = ["B008"] # Ignore function-call-in-default-argument.
+"!src/pyventus/{core, events, reactive}/__init__.py" = ["D104"] # Apply undocumented-public-package rule.

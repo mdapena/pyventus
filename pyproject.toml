@@ -2,9 +2,9 @@
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-# ------------------------------------------------------------------
+# ==================================================================
 # | Project                                                        |
-# ------------------------------------------------------------------
+# ==================================================================
 
 [project]
 name = "pyventus"
@@ -39,21 +39,25 @@ classifiers = [
     "Typing :: Typed",
 ]
 
-# ------------------------------------------------------------------
+# ==================================================================
 # | Project URLs                                                   |
-# ------------------------------------------------------------------
+# ==================================================================
 
 [project.urls]
 Homepage = "https://github.com/mdapena/pyventus"
 Documentation = "https://mdapena.github.io/pyventus"
 Repository = "https://github.com/mdapena/pyventus"
-Changelog = "https://mdapena.github.io/pyventus/release-notes"
 
-# ------------------------------------------------------------------
-# | Project Optional dependencies                                  |
-# ------------------------------------------------------------------
+# ==================================================================
+# | Project Optional Dependencies                                  |
+# ==================================================================
 
 [project.optional-dependencies]
+
+# =================================
+# | Package dependencies
+# =================================
+
 rq = ["rq>=1.15.0"]
 celery = ["celery>=5.3.5"]
 fastapi = ["fastapi>=0.95.2"]
@@ -64,9 +68,9 @@ all = [
     "pyventus[fastapi]",
 ]
 
-# --------------------
+# =================================
 # | Docs dependencies
-# ----------
+# =================================
 
 docs = [
     "mkdocs-material>=9.5.17",
@@ -76,9 +80,9 @@ docs = [
     "mkdocs-material[imaging]",
 ]
 
-# --------------------
+# =================================
 # | Tests dependencies
-# ----------
+# =================================
 
 tests = [
     "pyventus[all]",
@@ -91,9 +95,9 @@ tests = [
     "httpx>=0.23.0",
 ]
 
-# --------------------
+# =================================
 # | Dev dependencies
-# ----------
+# =================================
 
 dev = [
     "pyventus[docs]",
@@ -101,16 +105,16 @@ dev = [
     "hatch>=1.8.1",
 ]
 
-# ------------------------------------------------------------------
+# ==================================================================
 # | Project Version                                                |
-# ------------------------------------------------------------------
+# ==================================================================
 
 [tool.hatch.version]
 path = "src/pyventus/__init__.py"
 
-# ------------------------------------------------------------------
-# | Building Target                                                |
-# ------------------------------------------------------------------
+# ==================================================================
+# | Project Build Targets                                          |
+# ==================================================================
 
 [tool.hatch.build.targets.sdist]
 include = [
@@ -126,24 +130,13 @@ include = [
 [tool.hatch.build.targets.wheel]
 packages = ["src/pyventus"]
 
-# ------------------------------------------------------------------
-# | mypy configuration                                             |
-# ------------------------------------------------------------------
+# ==================================================================
+# | Hatch Environments                                             |
+# ==================================================================
 
-[tool.mypy]
-files = ["src/pyventus", "tests"]
-namespace_packages = false
-show_error_codes = true
-warn_no_return = true
-warn_unreachable = true
-warn_unused_ignores = true
-implicit_reexport = true
-ignore_missing_imports = true
-strict = true
-
-# ------------------------------------------------------------------
-# | Hatch tests environment                                         |
-# ------------------------------------------------------------------
+# =================================
+# | Tests environment
+# =================================
 
 [tool.hatch.envs.tests]
 dependencies = ["pyventus[tests]"]
@@ -158,6 +151,7 @@ cov = [
     "coverage report",
     "coverage xml",
 ]
+
 all = [
     "linting",
     "typing",
@@ -167,9 +161,9 @@ all = [
 [[tool.hatch.envs.tests.matrix]]
 python = ["3.10", "3.11", "3.12"]
 
-# ------------------------------------------------------------------
-# | Hatch docs environment                                         |
-# ------------------------------------------------------------------
+# =================================
+# | Docs environment
+# =================================
 
 [tool.hatch.envs.docs]
 dependencies = ["pyventus[docs]"]
@@ -178,9 +172,28 @@ dependencies = ["pyventus[docs]"]
 build = "mkdocs build --clean --strict"
 serve = "mkdocs serve --dev-addr localhost:8000"
 
-# ------------------------------------------------------------------
-# | Coverage                                                       |
-# ------------------------------------------------------------------
+# ==================================================================
+# | Configurations                                                 |
+# ==================================================================
+
+# =================================
+# | mypy configuration
+# =================================
+
+[tool.mypy]
+files = ["src/pyventus", "tests"]
+namespace_packages = false
+show_error_codes = true
+warn_no_return = true
+warn_unreachable = true
+warn_unused_ignores = true
+implicit_reexport = true
+ignore_missing_imports = true
+strict = true
+
+# =================================
+# | Coverage configuration
+# =================================
 
 [tool.coverage.run]
 source_pkgs = ["pyventus", "tests"]
@@ -202,9 +215,9 @@ exclude_lines = [
     '@(abc\.)?abstractmethod',
 ]
 
-# ------------------------------------------------------------------
-# | Linting                                                        |
-# ------------------------------------------------------------------
+# =================================
+# | Ruff configuration
+# =================================
 
 [tool.ruff]
 include = ["pyproject.toml", "src/pyventus/*.py", "tests/*.py"]
@@ -252,3 +265,7 @@ convention = "pep257"
 "tests/core/utils/test_callable_utils.py" = ["B905", "C416"] # zip-without-explicit-strict/unnecessary-comprehension.
 "tests/events/emitters/fastapi/test_fastapi_event_emitter.py" = ["B008"] # Ignore function-call-in-default-argument.
 "!src/pyventus/{core, events, reactive}/__init__.py" = ["D104"] # Apply undocumented-public-package rule.
+
+# ==================================================================
+# |                          end-of-file                           |
+# ==================================================================

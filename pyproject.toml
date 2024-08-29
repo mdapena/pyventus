@@ -13,10 +13,16 @@ description = "A powerful Python package for event-driven programming; define, e
 requires-python = ">=3.10"
 readme = "README.md"
 license = "MIT"
-authors = [
-    { name = "Manuel Da Pena", email = "dapensoft@gmail.com" },
+authors = [{ name = "Manuel Da Pena", email = "dapensoft@gmail.com" }]
+keywords = [
+    "events",
+    "event-emitters",
+    "event-dispatchers",
+    "event-handlers",
+    "event-linkers",
+    "event-driven",
+    "python",
 ]
-keywords = ["events", "event-emitters", "event-dispatchers", "event-handlers", "event-linkers", "event-driven", "python"]
 classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
@@ -206,7 +212,7 @@ target-version = "py310"
 line-length = 120
 
 [tool.ruff.format]
-quote-style = "double"  # Like Black, use double quotes for strings.
+quote-style = "double" # Like Black, use double quotes for strings.
 
 [tool.ruff.lint]
 select = [

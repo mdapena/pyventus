@@ -5,10 +5,7 @@ from ...core.loggers import StdOutLogger
 
 
 class EventHandler(ABC):
-    """
-    An abstract base class that defines the workflow and essential protocols
-    for event handling, including procedures for successful and failed completion.
-    """
+    """An abstract base class that defines the workflow and essential protocols for event handling."""
 
     # Allow subclasses to define __slots__
     __slots__ = ()
@@ -16,7 +13,8 @@ class EventHandler(ABC):
     @abstractmethod
     async def _handle_event(self, *args: Any, **kwargs: Any) -> Any:
         """
-        Handles the event response.
+        Handle the event response.
+
         :param args: Positional arguments containing event-specific data.
         :param kwargs: Keyword arguments containing event-specific data.
         :return: The result of handling the event.
@@ -26,27 +24,30 @@ class EventHandler(ABC):
     @abstractmethod
     async def _handle_success(self, results: Any) -> None:
         """
-        Handles the successful completion of the event response.
+        Handle the successful completion of the event response.
+
         :param results: The results of handling the event.
-        :return: None
+        :return: None.
         """
         pass
 
     @abstractmethod
     async def _handle_failure(self, exception: Exception) -> None:
         """
-        Handles the failed completion of the event response.
+        Handle the failed completion of the event response.
+
         :param exception: The exception that occurred during the event handling.
-        :return: None
+        :return: None.
         """
         pass
 
     async def execute(self, *args: Any, **kwargs: Any) -> None:
         """
-        Executes the event workflow.
+        Execute the event workflow.
+
         :param args: Positional arguments containing event-specific data.
         :param kwargs: Keyword arguments containing event-specific data.
-        :return: None
+        :return: None.
         """
         try:
             # Start the event handling process and store the results

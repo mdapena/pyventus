@@ -1,36 +1,34 @@
 from asyncio import Task, create_task, gather, get_running_loop, run
-from typing import Any, Callable, Set, Type
+from collections.abc import Callable
+from typing import Any
 
 import pytest
 from fastapi import BackgroundTasks, Depends, FastAPI
-from starlette import status
-from starlette.testclient import TestClient
-
 from pyventus import PyventusException
 from pyventus.events import EventLinker
 from pyventus.events.emitters.fastapi import FastAPIEventEmitter
+from starlette import status
+from starlette.testclient import TestClient
 
 from ..event_emitter_test import EventEmitterTest
 
-# ==========================
+# =================================
 # Mocks and fixtures
-# ==========================
+# =================================
 
 
 def create_fastapi_test_client() -> TestClient:
     return TestClient(FastAPI())
 
 
-# ==========================
+# =================================
 
 
 def create_background_tasks_mock() -> BackgroundTasks:
-
     class BackgroundTasksMock(BackgroundTasks):
-
         def __init__(self, *args: Any, **kwargs: Any) -> None:
             super().__init__(*args, **kwargs)
-            self.__background_tasks: Set[Task[None]] = set()
+            self.__background_tasks: set[Task[None]] = set()
 
         def add_task(self, func: Callable[..., Any], *args: Any, **kwargs: Any) -> None:
             try:
@@ -43,7 +41,7 @@ def create_background_tasks_mock() -> BackgroundTasks:
 
         async def wait_for_tasks(self) -> None:
             # Retrieve the current set of background tasks and clear the registry
-            tasks: Set[Task[None]] = self.__background_tasks.copy()
+            tasks: set[Task[None]] = self.__background_tasks.copy()
             self.__background_tasks.clear()
 
             # Await the completion of all background tasks
@@ -52,22 +50,22 @@ def create_background_tasks_mock() -> BackgroundTasks:
     return BackgroundTasksMock()
 
 
-# ==========================
+# =================================
 
 
 class TestFastAPIEventEmitter(EventEmitterTest[FastAPIEventEmitter]):
-    def _create_event_emitter(self, event_linker: Type[EventLinker]) -> FastAPIEventEmitter:
+    def _create_event_emitter(self, event_linker: type[EventLinker]) -> FastAPIEventEmitter:
         return FastAPIEventEmitter(background_tasks=create_background_tasks_mock(), event_linker=event_linker)
 
-    # ==========================
+    # =================================
     # Test Cases for creation
-    # ==========================
+    # =================================
 
     def test_creation_with_valid_input(self) -> None:
         # Arrange, Act, Assert
         assert self._create_event_emitter(EventLinker) is not None
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["background_tasks", "event_linker", "debug", "exception"],
@@ -80,13 +78,13 @@ class TestFastAPIEventEmitter(EventEmitterTest[FastAPIEventEmitter]):
         ],
     )
     def test_creation_with_invalid_input(
-        self, background_tasks: BackgroundTasks, event_linker: Any, debug: Any, exception: Type[Exception]
+        self, background_tasks: BackgroundTasks, event_linker: Any, debug: Any, exception: type[Exception]
     ) -> None:
         # Arrange, Act, Assert
         with pytest.raises(exception):
             FastAPIEventEmitter(background_tasks=background_tasks, event_linker=event_linker, debug=debug)
 
-    # ==========================
+    # =================================
 
     def test_creation_with_depends(self) -> None:
         client = create_fastapi_test_client()
@@ -98,7 +96,7 @@ class TestFastAPIEventEmitter(EventEmitterTest[FastAPIEventEmitter]):
         res = client.get("/")
         assert res.status_code == status.HTTP_200_OK
 
-    # ==========================
+    # =================================
 
     def test_creation_with_depends_and_options(self) -> None:
         client = create_fastapi_test_client()
@@ -110,22 +108,22 @@ class TestFastAPIEventEmitter(EventEmitterTest[FastAPIEventEmitter]):
         res = client.get("/")
         assert res.status_code == status.HTTP_200_OK
 
-    # ==========================
+    # =================================
     # Test Cases for emit()
-    # ==========================
+    # =================================
 
     def test_emission_in_sync_context(self) -> None:
         client = create_fastapi_test_client()
 
         @client.app.get("/")  # type: ignore[attr-defined, misc]
         def api() -> None:
-            with self.run_emissions_test(EventLinker) as event_emitter:
+            with self.run_emissions_test(EventLinker):
                 pass
 
         res = client.get("/")
         assert res.status_code == status.HTTP_200_OK
 
-    # ==========================
+    # =================================
 
     def test_emission_in_sync_context_with_custom_event_linker(self) -> None:
         client = create_fastapi_test_client()
@@ -134,13 +132,13 @@ class TestFastAPIEventEmitter(EventEmitterTest[FastAPIEventEmitter]):
 
         @client.app.get("/")  # type: ignore[attr-defined, misc]
         def api() -> None:
-            with self.run_emissions_test(CustomEventLinker) as event_emitter:
+            with self.run_emissions_test(CustomEventLinker):
                 pass
 
         res = client.get("/")
         assert res.status_code == status.HTTP_200_OK
 
-    # ==========================
+    # =================================
 
     @pytest.mark.asyncio
     async def test_emission_in_async_context(self) -> None:
@@ -154,7 +152,7 @@ class TestFastAPIEventEmitter(EventEmitterTest[FastAPIEventEmitter]):
         res = client.get("/")
         assert res.status_code == status.HTTP_200_OK
 
-    # ==========================
+    # =================================
 
     @pytest.mark.asyncio
     async def test_emission_in_async_context_with_custom_event_linker(self) -> None:

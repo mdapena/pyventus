@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from types import EllipsisType
-from typing import Dict, Final, Tuple, Type, final
+from typing import Final, final
 
 from pyventus import PyventusException
 
@@ -11,7 +11,7 @@ class EventFixtures:
 
     Str: Final[str] = "StringEvent"
 
-    Exc: Final[Type[ValueError]] = ValueError
+    Exc: Final[type[ValueError]] = ValueError
 
     class CustomExc(ValueError):
         def __init__(self) -> None:
@@ -24,12 +24,12 @@ class EventFixtures:
     @dataclass
     class DtcImmutable:
         attr1: str
-        attr2: Tuple[str, ...]
+        attr2: tuple[str, ...]
 
     @dataclass
     class DtcMutable:
         attr1: list[str]
-        attr2: Dict[str, str]
+        attr2: dict[str, str]
 
     @dataclass
     class DtcWithVal:

@@ -1,20 +1,21 @@
-import sys
+from collections.abc import Callable
 from datetime import datetime
-from typing import Any, Callable, Dict, override
+from typing import Any
+
+from typing_extensions import Self, override
 
 from ..utils import validate_callable
 from .unsubscribable import Unsubscribable
 
-if sys.version_info >= (3, 11):  # pragma: no cover
-    from typing import Self
-else:
-    from typing_extensions import Self
-
 
 class Subscription(Unsubscribable):
     """
-    A base class that represents a subscription to a source and provides a
-    mechanism to release or clean up any associated resources.
+    A base class that represents a subscription to a source.
+
+    **Notes:**
+
+    -   This class encapsulates the subscription lifecycle and provides a
+        mechanism for releasing or cleaning up any associated resources.
     """
 
     # Attributes for the Subscription
@@ -23,7 +24,8 @@ class Subscription(Unsubscribable):
     @property
     def timestamp(self) -> datetime:
         """
-        Retrieves the timestamp when the subscription was created.
+        Retrieve the timestamp when the subscription was created.
+
         :return: The timestamp when the subscription was created.
         """
         return self.__timestamp
@@ -31,6 +33,7 @@ class Subscription(Unsubscribable):
     def __init__(self, teardown_callback: Callable[[Self], bool]) -> None:
         """
         Initialize an instance of `Subscription`.
+
         :param teardown_callback: A callback function invoked during the
             unsubscription process to perform cleanup or teardown operations
             associated with the subscription. It should return `True` if the
@@ -48,7 +51,7 @@ class Subscription(Unsubscribable):
     def unsubscribe(self: Self) -> bool:
         return self.__teardown_callback(self)
 
-    def __getstate__(self) -> Dict[str, Any]:
+    def __getstate__(self) -> dict[str, Any]:
         """
         Prepare the object state for serialization.
 
@@ -65,7 +68,7 @@ class Subscription(Unsubscribable):
         # context-specific and do not make sense in another scope/process.
         return {"__timestamp": self.__timestamp}
 
-    def __setstate__(self, state: Dict[str, Any]) -> None:
+    def __setstate__(self, state: dict[str, Any]) -> None:
         """
         Restore the object from the serialized state.
 
@@ -86,6 +89,7 @@ class Subscription(Unsubscribable):
     def __str__(self) -> str:  # pragma: no cover
         """
         Return a formatted string representation of the subscription.
+
         :return: A string representation of the subscription.
         """
         return f"Subscription(timestamp='{self.__timestamp.strftime('%Y-%m-%d %I:%M:%S %p')}')"

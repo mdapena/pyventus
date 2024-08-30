@@ -1,4 +1,6 @@
-from typing import Callable, Type, override
+from collections.abc import Callable
+
+from typing_extensions import override
 
 from ....core.exceptions import PyventusException
 from ...linkers import EventLinker
@@ -10,21 +12,19 @@ except ImportError:  # pragma: no cover
     raise PyventusException(
         "Optional dependency 'fastapi' not found."
         "\nPlease install it using 'pip install pyventus[fastapi]' to use this event emitter."
-    )
+    ) from None
 
 
 class FastAPIEventEmitter(EventEmitter):
     """
-    An event emitter subclass that utilizes FastAPI's BackgroundTasks system
-    to handle the execution of event emissions.
+    An event emitter subclass that utilizes FastAPI's BackgroundTasks to handle the execution of event emissions.
 
     **Notes:**
 
-    -   It provides a convenient way to incorporate event-driven functionality
-        into FastAPI apps.
-    -   This class offers a powerful mechanism for implementing asynchronous
-        and decoupled operations in FastAPI, such as asynchronously sending
-        emails in an event-driven manner.
+    -   It provides a convenient way to incorporate event-driven functionality into FastAPI apps.
+
+    -   This class offers a powerful mechanism for implementing asynchronous and decoupled operations
+        in FastAPI, such as asynchronously sending emails in an event-driven manner.
 
     ---
     Read more in the
@@ -33,13 +33,13 @@ class FastAPIEventEmitter(EventEmitter):
 
     @classmethod
     def options(
-        cls, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None
+        cls, event_linker: type[EventLinker] = EventLinker, debug: bool | None = None
     ) -> Callable[[BackgroundTasks], "FastAPIEventEmitter"]:
         """
-        Returns a decorator that allows you to configure the `FastAPIEventEmitter` class
-        when using FastAPI's `Depends` method.
+        Return a decorator for configuring the `FastAPIEventEmitter` class with FastAPI's `Depends`.
+
         :param event_linker: Specifies the type of event linker used to manage and access
-            events along with their corresponding event handlers. Defaults to `EventLinker`.
+            events along with their corresponding subscribers. Defaults to `EventLinker`.
         :param debug: Specifies the debug mode for the logger. If `None`, it is
             determined based on the execution environment.
         :return: A decorator that can be used with the `Depends` method.
@@ -47,8 +47,8 @@ class FastAPIEventEmitter(EventEmitter):
 
         def wrapper(background_tasks: BackgroundTasks) -> "FastAPIEventEmitter":
             """
-            A decorator wrapper function that configures the `FastAPIEventEmitter` class with
-            the provided options.
+            Configure the `FastAPIEventEmitter` class with the specified options.
+
             :param background_tasks: The FastAPI `BackgroundTasks` object used to handle
                 the execution of event emissions.
             :return: An instance of `FastAPIEventEmitter` configured with the specified options.
@@ -60,15 +60,16 @@ class FastAPIEventEmitter(EventEmitter):
     def __init__(
         self,
         background_tasks: BackgroundTasks,
-        event_linker: Type[EventLinker] = EventLinker,
+        event_linker: type[EventLinker] = EventLinker,
         debug: bool | None = None,
     ) -> None:
         """
         Initialize an instance of `FastAPIEventEmitter`.
+
         :param background_tasks: The FastAPI `BackgroundTasks` object used to handle
             the execution of event emissions.
-        :param event_linker: Specifies the type of event linker to use for associating
-            events with their respective event handlers. Defaults to `EventLinker`.
+        :param event_linker: Specifies the type of event linker used to manage and access
+            events along with their corresponding subscribers. Defaults to `EventLinker`.
         :param debug: Specifies the debug mode for the logger. If `None`, it is
             determined based on the execution environment.
         """

@@ -1,8 +1,8 @@
+from collections.abc import Callable
 from threading import current_thread, main_thread
-from typing import Any, Callable, Dict, Tuple, Type
+from typing import Any
 
 import pytest
-
 from pyventus import PyventusException
 from pyventus.core.utils import (
     get_callable_name,
@@ -16,10 +16,9 @@ from ...fixtures import CallableMock, DummyCallable
 
 
 class TestCallableUtils:
-
-    # ==========================
+    # =================================
     # Test Cases for validate_callable
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         "cb",
@@ -34,7 +33,7 @@ class TestCallableUtils:
         # Arrange, Act, and Assert
         validate_callable(cb)
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["cb", "exception"],
@@ -44,14 +43,14 @@ class TestCallableUtils:
             (DummyCallable.Invalid(), PyventusException),
         ],
     )
-    def test_validate_callable_with_invalid_input(self, cb: Any, exception: Type[Exception]) -> None:
+    def test_validate_callable_with_invalid_input(self, cb: Any, exception: type[Exception]) -> None:
         # Arrange, Act, and Assert
         with pytest.raises(exception):
             validate_callable(cb)
 
-    # ==========================
+    # =================================
     # Test Cases for get_callable_name
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["cb", "expected"],
@@ -68,9 +67,9 @@ class TestCallableUtils:
         # Arrange, Act, and Assert
         assert get_callable_name(cb) == expected
 
-    # ==========================
+    # =================================
     # Test Cases for is_callable_async
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["cb", "expected"],
@@ -89,9 +88,9 @@ class TestCallableUtils:
         # Arrange, Act, and Assert
         assert is_callable_async(cb) is expected
 
-    # ==========================
+    # =================================
     # Test Cases for is_callable_generator
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["cb", "expected"],
@@ -110,9 +109,9 @@ class TestCallableUtils:
         # Arrange, Act, and Assert
         assert is_callable_generator(cb) is expected
 
-    # ==========================
+    # =================================
     # Test Cases for CallableWrapper
-    # ==========================
+    # =================================
 
     def test_callable_wrapper_creation_with_valid_input(self) -> None:
         # Arrange/Act: Create an instance of CallableWrapper
@@ -126,7 +125,7 @@ class TestCallableUtils:
         assert callable_wrapper.force_async is True
         assert callable_wrapper.name == get_callable_name(DummyCallable.Async.func)
 
-    # ==========================
+    # =================================
 
     def test_callable_wrapper_creation_with_invalid_input(self) -> None:
         # Arrange: Prepare invalid inputs for CallableWrapper
@@ -144,7 +143,7 @@ class TestCallableUtils:
                 force_async=invalid_force_async_value,  # type: ignore[arg-type]
             )
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["cb", "force_async", "args", "kwargs"],
@@ -165,7 +164,7 @@ class TestCallableUtils:
     )
     @pytest.mark.asyncio
     async def test_callable_wrapper_execution(
-        self, cb: CallableMock.Base, force_async: bool, args: Tuple[Any, ...], kwargs: Dict[str, Any]
+        self, cb: CallableMock.Base, force_async: bool, args: tuple[Any, ...], kwargs: dict[str, Any]
     ) -> None:
         # Arrange: Create an instance of CallableWrapper with the provided callable mock
         callable_wrapper: CallableWrapper[..., Any] = CallableWrapper[..., Any](cb, force_async=force_async)
@@ -185,11 +184,10 @@ class TestCallableUtils:
         assert cb.last_args == args
         assert cb.last_kwargs == kwargs
 
-    # ==========================
+    # =================================
 
     @pytest.mark.asyncio
     async def test_callable_wrapper_sync_callable_force_async_disabled(self) -> None:
-
         # Arrange: Define the assertion function
         def assertion() -> None:
             # Assert that the current thread is the
@@ -202,11 +200,10 @@ class TestCallableUtils:
         # Act and Arrange
         await callable_wrapper()  # This should run in the main thread
 
-    # ==========================
+    # =================================
 
     @pytest.mark.asyncio
     async def test_callable_wrapper_sync_callable_force_async_enabled(self) -> None:
-
         # Arrange: Define the assertion function
         def assertion() -> None:
             # Assert that the current thread is not the
@@ -219,11 +216,10 @@ class TestCallableUtils:
         # Act: Execute the callable wrapper
         await callable_wrapper()  # This should run in a different thread
 
-    # ==========================
+    # =================================
 
     @pytest.mark.asyncio
     async def test_callable_wrapper_async_callable_with_force_async_flag(self) -> None:
-
         # Arrange: Define the assertion function
         async def assertion() -> None:
             # Assert that the current thread is the main thread in an async context.

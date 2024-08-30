@@ -1,15 +1,14 @@
-from typing import Any, Type
+from typing import Any
 
 import pytest
 from celery import Celery
-
 from pyventus import PyventusException
 from pyventus.events import EventEmitter
 from pyventus.events.emitters.celery import CeleryEventEmitter
 
-# ==========================
+# =================================
 # Mocks and fixtures
-# ==========================
+# =================================
 
 
 class CeleryMock(Celery):  # type: ignore[misc]
@@ -28,7 +27,7 @@ class CeleryMock(Celery):  # type: ignore[misc]
         self.tasks[kwargs["name"]](**kwargs["kwargs"])
 
 
-# ==========================
+# =================================
 
 
 def create_celery_mock() -> Celery:
@@ -38,7 +37,7 @@ def create_celery_mock() -> Celery:
     return celery_mock
 
 
-# ==========================
+# =================================
 
 
 def create_celery_queue_mock() -> CeleryEventEmitter.Queue:
@@ -46,20 +45,19 @@ def create_celery_queue_mock() -> CeleryEventEmitter.Queue:
     return CeleryEventEmitter.Queue(celery=create_celery_mock(), serializer=CeleryMock.Serializer)
 
 
-# ==========================
+# =================================
 
 
 class TestCeleryEventEmitterQueue:
-
-    # ==========================
+    # =================================
     # Test Cases for creation
-    # ==========================
+    # =================================
 
     def test_creation_with_valid_input(self) -> None:
         # Arrange, Act, Assert
         assert create_celery_queue_mock() is not None
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["celery", "name", "secret", "serializer", "exception"],
@@ -74,28 +72,28 @@ class TestCeleryEventEmitterQueue:
         ],
     )
     def test_creation_with_invalid_input(
-        self, celery: Any, name: Any, secret: Any, serializer: Any, exception: Type[Exception]
+        self, celery: Any, name: Any, secret: Any, serializer: Any, exception: type[Exception]
     ) -> None:
         # Arrange, Act, Assert
         with pytest.raises(exception):
             CeleryEventEmitter.Queue(celery=celery, name=name, secret=secret, serializer=serializer)
 
-    # ==========================
+    # =================================
     # Test Cases for payload creation
-    # ==========================
+    # =================================
 
     def test_payload_creation_with_valid_input(self) -> None:
         # Arrange, Act, Assert
         assert CeleryEventEmitter.Queue.Payload.from_json(serialized_obj=b"serialized", obj_hash=b"hash") is not None
 
-    # ==========================
+    # =================================
 
     def test_payload_creation_with_unexpected_kwargs(self) -> None:
         # Arrange, Act, Assert
         with pytest.raises(PyventusException):
             CeleryEventEmitter.Queue.Payload.from_json(serialized_obj=b"serialized", obj_hash=b"hash", extra=object())
 
-    # ==========================
+    # =================================
 
     def test_payload_creation_with_missing_kwargs(self) -> None:
         # Arrange, Act, Assert

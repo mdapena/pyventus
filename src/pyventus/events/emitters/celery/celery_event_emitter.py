@@ -1,9 +1,12 @@
 import hmac
 from asyncio import run
+from collections.abc import Callable
 from hashlib import sha256
 from pickle import dumps, loads
 from types import ModuleType
-from typing import Any, Callable, Dict, NamedTuple, Type, cast, override
+from typing import Any, NamedTuple, cast
+
+from typing_extensions import override
 
 from ....core.exceptions import PyventusException
 from ...linkers import EventLinker
@@ -15,19 +18,18 @@ except ImportError:  # pragma: no cover
     raise PyventusException(
         "Optional dependency 'celery' not found."
         "\nPlease install it using 'pip install pyventus[celery]' to use this event emitter."
-    )
+    ) from None
 
 
 class CeleryEventEmitter(EventEmitter):
     """
-    An event emitter subclass that utilizes the `Celery` distributed system
-    to handle the execution of event emissions.
+    An event emitter subclass that utilizes the `Celery` distributed system to handle the execution of event emissions.
 
     **Notes:**
 
-    -   This class uses a Celery Queue instance to enqueue event emissions, which are
-        subsequently executed by Celery workers. This approach provides a scalable
-        and distributed method for handling the execution of event emissions.
+    -   This class uses a Celery Queue instance to enqueue event emissions, which are subsequently executed by
+        Celery workers. This approach provides a scalable and distributed method for handling the execution
+        of event emissions.
 
     ---
     Read more in the
@@ -43,7 +45,8 @@ class CeleryEventEmitter(EventEmitter):
             @staticmethod
             def dumps(obj: EventEmitter.EventEmission) -> Any:
                 """
-                Serializes the event emission object.
+                Serialize the event emission object.
+
                 :param obj: The event emission object to be serialized.
                 :return: The serialized representation of the event emission object.
                 """
@@ -52,7 +55,8 @@ class CeleryEventEmitter(EventEmitter):
             @staticmethod
             def loads(serialized_obj: Any) -> EventEmitter.EventEmission:
                 """
-                Deserializes the task payload back to the event emission object.
+                Deserialize the task payload back to the event emission object.
+
                 :param serialized_obj: The serialized object to be loaded.
                 :return: The deserialized event emission object.
                 """
@@ -70,7 +74,8 @@ class CeleryEventEmitter(EventEmitter):
             @classmethod
             def from_json(cls, **kwargs: Any) -> "CeleryEventEmitter.Queue.Payload":
                 """
-                Creates a Payload instance from a JSON-compatible dictionary.
+                Create a Payload instance from a JSON-compatible dictionary.
+
                 :param kwargs: JSON-compatible dictionary representing the payload.
                 :return: Payload instance.
                 :raises ValueError: If the JSON data is missing fields or contains extra keys.
@@ -85,14 +90,15 @@ class CeleryEventEmitter(EventEmitter):
                 # Check for extra keys in the JSON data
                 extra_keys = set(kwargs.keys()) - set(tuple_fields)
                 if extra_keys:
-                    raise PyventusException("Extra keys in JSON data: {}".format(extra_keys))
+                    raise PyventusException(f"Extra keys in JSON data: {extra_keys}")
 
                 # Create the named tuple using the JSON data
                 return cls(**kwargs)
 
-            def to_json(self) -> Dict[str, Any]:
+            def to_json(self) -> dict[str, Any]:
                 """
-                Converts the payload to a JSON-compatible dictionary.
+                Convert the payload to a JSON-compatible dictionary.
+
                 :return: JSON-compatible dictionary representing the payload.
                 """
                 return self._asdict()
@@ -102,10 +108,11 @@ class CeleryEventEmitter(EventEmitter):
             celery: Celery,
             name: str | None = None,
             secret: str | None = None,
-            serializer: Type[Serializer] = Serializer,
+            serializer: type[Serializer] = Serializer,
         ) -> None:
             """
             Initialize an instance of `CeleryEventEmitter.Queue`.
+
             :param celery: The Celery object used to enqueue and process event emissions.
             :param name: The name of the queue where the event emission will be enqueued.
                 Default is None (task_default_queue).
@@ -143,7 +150,7 @@ class CeleryEventEmitter(EventEmitter):
             self._name: str = self._celery.conf.task_default_queue if name is None else name
             self._secret: bytes | None = secret.encode("utf-8") if secret else None
             self._digestmod: str | Callable[[], Any] | ModuleType = sha256  # The digest algorithm used for hashing
-            self._serializer: Type[CeleryEventEmitter.Queue.Serializer] = serializer
+            self._serializer: type[CeleryEventEmitter.Queue.Serializer] = serializer
 
             # Register the event processor method as a Celery task
             self._celery.task(
@@ -154,13 +161,13 @@ class CeleryEventEmitter(EventEmitter):
 
         def _execute_event_emission(self, **kwargs: Any) -> None:
             """
-            Executes the enqueued event emission object.
+            Execute the enqueued event emission object.
 
             This method serves as the Celery task responsible
             for processing the execution of the enqueued event emission.
 
             :param kwargs: The JSON-compatible dictionary representing the payload.
-            :return: None
+            :return: None.
             """
             # Create a Payload instance from the JSON data
             payload = CeleryEventEmitter.Queue.Payload.from_json(**kwargs)
@@ -193,7 +200,7 @@ class CeleryEventEmitter(EventEmitter):
 
         def enqueue(self, event_emission: EventEmitter.EventEmission) -> None:
             """
-            Enqueues an event emission object for asynchronous processing in Celery.
+            Enqueue an event emission object for asynchronous processing in Celery.
 
             This method takes an `EventEmission` object and enqueues it for asynchronous
             execution by Celery workers. If a secret key is provided during initialization,
@@ -202,7 +209,7 @@ class CeleryEventEmitter(EventEmitter):
             object during execution.
 
             :param event_emission: The event emission object to be enqueued for asynchronous execution.
-            :return: None
+            :return: None.
             """
             # Serialize the event emission object
             serialized_obj: Any = self._serializer.dumps(event_emission)
@@ -225,12 +232,13 @@ class CeleryEventEmitter(EventEmitter):
                 queue=self._name,
             )
 
-    def __init__(self, queue: Queue, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None) -> None:
+    def __init__(self, queue: Queue, event_linker: type[EventLinker] = EventLinker, debug: bool | None = None) -> None:
         """
         Initialize an instance of `CeleryEventEmitter`.
+
         :param queue: The queue used for enqueuing event emissions in the Celery event emitter.
         :param event_linker: Specifies the type of event linker used to manage and access
-            events along with their corresponding event handlers. Defaults to `EventLinker`.
+            events along with their corresponding subscribers. Defaults to `EventLinker`.
         :param debug: Specifies the debug mode for the logger. If `None`, it is
             determined based on the execution environment.
         """

@@ -1,20 +1,16 @@
-import sys
-from typing import Any, Awaitable, Callable, Dict, Generic, TypeAlias, TypeVar, final, override
+from collections.abc import Awaitable, Callable
+from typing import Any, Generic, TypeAlias, TypeVar, final
+
+from typing_extensions import Self, override
 
 from ...core.subscriptions import Subscription
 from ...core.utils import CallableWrapper
 from ..observers import Observer
 
-if sys.version_info >= (3, 11):
-    from typing import Self
-else:
-    from typing_extensions import Self
-
-
-_in_T = TypeVar("_in_T", contravariant=True)
+_InT = TypeVar("_InT", contravariant=True)
 """A generic type representing the input value for the `next` method."""
 
-NextCallbackType: TypeAlias = Callable[[_in_T], Awaitable[None] | None]
+NextCallbackType: TypeAlias = Callable[[_InT], Awaitable[None] | None]
 """Type alias for the callback to be executed when the observable emits a new value."""
 
 ErrorCallbackType: TypeAlias = Callable[[Exception], Awaitable[None] | None]
@@ -25,7 +21,7 @@ CompleteCallbackType: TypeAlias = Callable[[], Awaitable[None] | None]
 
 
 @final
-class Subscriber(Generic[_in_T], Observer[_in_T], Subscription):
+class Subscriber(Generic[_InT], Observer[_InT], Subscription):
     """
     A class that represents an `Observer` subscribed to an `Observable`.
 
@@ -44,13 +40,14 @@ class Subscriber(Generic[_in_T], Observer[_in_T], Subscription):
     def __init__(
         self,
         teardown_callback: Callable[[Self], bool],
-        next_callback: NextCallbackType[_in_T] | None,
+        next_callback: NextCallbackType[_InT] | None,
         error_callback: ErrorCallbackType | None,
         complete_callback: CompleteCallbackType | None,
         force_async: bool,
     ) -> None:
         """
-        Initializes an instance of `Subscriber`.
+        Initialize an instance of `Subscriber`.
+
         :param teardown_callback: A callback function invoked during the unsubscription process to perform
             cleanup or teardown operations associated with the subscription. It should return `True` if the
             cleanup was successful, or `False` if the teardown has already been executed and the subscription
@@ -68,7 +65,7 @@ class Subscriber(Generic[_in_T], Observer[_in_T], Subscription):
 
         # Wrap and set the next callback, if provided
         self.__next_callback = (
-            CallableWrapper[[_in_T], None](
+            CallableWrapper[[_InT], None](
                 next_callback,
                 force_async=force_async,
             )
@@ -97,7 +94,7 @@ class Subscriber(Generic[_in_T], Observer[_in_T], Subscription):
         )
 
     @override
-    async def next(self, value: _in_T) -> None:
+    async def next(self, value: _InT) -> None:
         if self.__next_callback is None:
             # If no next callback is set, exit early
             return
@@ -124,9 +121,9 @@ class Subscriber(Generic[_in_T], Observer[_in_T], Subscription):
             await self.__complete_callback()
 
     @override
-    def __getstate__(self) -> Dict[str, Any]:
+    def __getstate__(self) -> dict[str, Any]:
         # Retrieve the state of the base Subscription class
-        state: Dict[str, Any] = super().__getstate__()
+        state: dict[str, Any] = super().__getstate__()
 
         # Add the state of the Subscriber attributes
         state["__next_callback"] = self.__next_callback
@@ -137,7 +134,7 @@ class Subscriber(Generic[_in_T], Observer[_in_T], Subscription):
         return state
 
     @override
-    def __setstate__(self, state: Dict[str, Any]) -> None:
+    def __setstate__(self, state: dict[str, Any]) -> None:
         # Restore the state of the base Subscription class
         super().__setstate__(state)
 
@@ -149,6 +146,7 @@ class Subscriber(Generic[_in_T], Observer[_in_T], Subscription):
     def __str__(self) -> str:
         """
         Return a formatted string representation of the subscriber.
+
         :return: A string representation of the subscriber.
         """
         return (

@@ -1,15 +1,11 @@
-import sys
 from abc import ABC, abstractmethod
 from types import TracebackType
-from typing import Generic, Tuple, Type, TypeVar
+from typing import Generic, TypeVar
+
+from typing_extensions import Self
 
 from ..exceptions import PyventusException
 from .subscription import Subscription
-
-if sys.version_info >= (3, 11):  # pragma: no cover
-    from typing import Self
-else:
-    from typing_extensions import Self
 
 _SourceType = TypeVar("_SourceType")
 """A generic type representing the source to which the subscription is performed."""
@@ -43,7 +39,8 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
     @property
     def _source(self) -> _SourceType | None:
         """
-        Retrieves the source to which the subscription is performed.
+        Retrieve the source to which the subscription is performed.
+
         :return: The source object, or `None` if it was not retained
             for later access after exiting the context.
         """
@@ -52,10 +49,9 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
     @property
     def _subscriber(self) -> _SubscriberType | None:
         """
-        Retrieves the subscriber that is returned after performing the subscription
-        to the specified source.
-        :return: The subscriber object, or `None` if it was not retained for later
-            access after exiting the context.
+        Retrieve the subscriber that is returned after performing the subscription to the specified source.
+
+        :return: The subscriber object, or `None` if it was not retained for later access after exiting the context.
         :raises PyventusException: If accessed before or during the subscription context.
         """
         if not hasattr(self, "_SubscriptionContext__subscriber"):
@@ -69,18 +65,19 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
     @property
     def _is_stateful(self) -> bool:
         """
-        Indicates whether the context preserves its state (stateful) or not (stateless)
-        after exiting the subscription context.
-        :return: Returns `True` if the context retains its state, allowing access to stored objects,
-            including the `source` object and the `subscriber` object; returns `False` if the
-            context is stateless, meaning the stored state is cleared upon exiting the
-            subscription context to prevent memory leaks.
+        Determine whether the context preserves its state or not after exiting the subscription context.
+
+        :return: `True` if the context retains its state, allowing access to stored objects,
+            including the `source` object and the `subscriber` object; `False` if the context
+            is stateless, meaning the stored state is cleared upon exiting the subscription
+            context to prevent memory leaks.
         """
         return self.__is_stateful
 
     def __init__(self, source: _SourceType, is_stateful: bool) -> None:
         """
         Initialize an instance of `SubscriptionContext`.
+
         :param source: The source to which the subscription is performed.
         :param is_stateful: A flag indicating whether the context preserves its state (stateful) or
             not (stateless) after exiting the subscription context. If `True`, the context retains its
@@ -101,22 +98,28 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
 
     def __enter__(self: Self) -> Self:
         """
-        Enters the subscription context block. Enables a progressive definition
-        of the object that will later be subscribed to the specified source.
+        Enter the subscription context block.
+
+        This method facilitates the progressive definition of an
+        object that will later be subscribed to the specified source.
+
         :return: The subscription context manager.
         """
         return self
 
     def __exit__(
-        self, exc_type: Type[BaseException] | None, exc_val: BaseException | None, exc_tb: TracebackType | None
+        self, exc_type: type[BaseException] | None, exc_val: BaseException | None, exc_tb: TracebackType | None
     ) -> None:
         """
-        Exits the subscription context block. Subscribes the defined object
-        to the specified source, and performs any necessary cleanup.
+        Exit the subscription context block.
+
+        This method subscribes the defined object to the
+        specified source, and performs any necessary cleanup.
+
         :param exc_type: The type of the raised exception, if any.
         :param exc_val: The raised exception object, if any.
         :param exc_tb: The traceback information, if any.
-        :return: None
+        :return: None.
         """
         # Finalize the subscription and retrieve the subscriber
         subscriber: _SubscriberType = self._exit()
@@ -142,7 +145,7 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
     @abstractmethod
     def _exit(self) -> _SubscriberType:
         """
-        Finalizes the subscription process and returns the subscriber.
+        Finalize the subscription process and returns the subscriber.
 
         This method is invoked upon exiting the context. It is responsible
         for completing the subscription of the defined object and returning
@@ -154,9 +157,9 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
         """
         pass
 
-    def unpack(self) -> Tuple[_SourceType | None, _SubscriberType | None]:
+    def unpack(self) -> tuple[_SourceType | None, _SubscriberType | None]:
         """
-        Unpacks and retrieves the source object and its associated subscriber.
+        Unpack and retrieve the source object and its associated subscriber.
 
         This method returns a tuple containing the source object and its subscriber,
         while also handling the cleanup of associated resources to prevent memory leaks.
@@ -169,7 +172,7 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
             context, indicating that the resources are not yet available for unpacking.
         """
         # Create a tuple with the source object and its subscriber
-        results: Tuple[_SourceType | None, _SubscriberType | None] = (self._source, self._subscriber)
+        results: tuple[_SourceType | None, _SubscriberType | None] = (self._source, self._subscriber)
 
         # Perform cleanup by deleting unnecessary references
         if results[0]:

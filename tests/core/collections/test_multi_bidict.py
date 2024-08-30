@@ -1,7 +1,4 @@
-from typing import Set
-
 import pytest
-
 from pyventus.core.collections import MultiBidict
 
 
@@ -34,86 +31,85 @@ def populated_multibidict() -> MultiBidict[str, str]:
 
 
 class TestMultiBidict:
-
-    # ==========================
+    # ========================================
     # Test Cases for is_empty
-    # ==========================
+    # ========================================
 
     def test_is_empty_when_no_values(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert empty_multibidict.is_empty is True
 
-    # ==========================
+    # ========================================
 
     def test_is_empty_when_populated(self, populated_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert populated_multibidict.is_empty is False
 
-    # ==========================
+    # ========================================
     # Test Cases for keys
-    # ==========================
+    # ========================================
 
     def test_keys_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert empty_multibidict.keys == set()
 
-    # ==========================
+    # ========================================
 
     def test_keys_when_populated(self, populated_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert populated_multibidict.keys == {"Apple", "Banana", "Grapes", "Lime"}
 
-    # ==========================
+    # ========================================
     # Test Cases for values
-    # ==========================
+    # ========================================
 
     def test_values_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert empty_multibidict.values == set()
 
-    # ==========================
+    # ========================================
 
     def test_values_when_populated(self, populated_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert populated_multibidict.values == {"Red", "Green", "Yellow", "Purple"}
 
-    # ==========================
+    # ========================================
     # Test Cases for key_count
-    # ==========================
+    # ========================================
 
     def test_key_count_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert empty_multibidict.key_count == 0
 
-    # ==========================
+    # ========================================
 
     def test_key_count_when_populated(self, populated_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert populated_multibidict.key_count == 4
 
-    # ==========================
+    # ========================================
     # Test Cases for key_count
-    # ==========================
+    # ========================================
 
     def test_value_count_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert empty_multibidict.value_count == 0
 
-    # ==========================
+    # ========================================
 
     def test_value_count_when_populated(self, populated_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert populated_multibidict.value_count == 4
 
-    # ==========================
+    # ========================================
     # Test Cases for get_keys_from_values
-    # ==========================
+    # ========================================
 
     def test_get_keys_from_values_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert empty_multibidict.get_keys_from_values({"Any"}) == set()
 
-    # ==========================
+    # ========================================
 
     @pytest.mark.parametrize(
         ["values", "expected"],
@@ -126,20 +122,20 @@ class TestMultiBidict:
         ],
     )
     def test_get_keys_from_values_when_populated(
-        self, values: Set[str], expected: Set[str], populated_multibidict: MultiBidict[str, str]
+        self, values: set[str], expected: set[str], populated_multibidict: MultiBidict[str, str]
     ) -> None:
         # Arrange, Act, Assert
         assert populated_multibidict.get_keys_from_values(values) == expected
 
-    # ==========================
+    # ========================================
     # Test Cases for get_values_from_keys
-    # ==========================
+    # =================================
 
     def test_get_values_from_keys_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert empty_multibidict.get_values_from_keys({"Any"}) == set()
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["keys", "expected"],
@@ -152,19 +148,19 @@ class TestMultiBidict:
         ],
     )
     def test_get_values_from_keys_when_populated(
-        self, keys: Set[str], expected: Set[str], populated_multibidict: MultiBidict[str, str]
+        self, keys: set[str], expected: set[str], populated_multibidict: MultiBidict[str, str]
     ) -> None:
         # Arrange, Act, Assert
         assert populated_multibidict.get_values_from_keys(keys) == expected
 
-    # ==========================
+    # =================================
     # Test Cases for get_key_count_from_value
-    # ==========================
+    # =================================
 
     def test_get_key_count_from_value_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         assert empty_multibidict.get_key_count_from_value("Any") == 0
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["value", "expected"],
@@ -181,15 +177,15 @@ class TestMultiBidict:
         # Arrange, Act, Assert
         assert populated_multibidict.get_key_count_from_value(value) == expected
 
-    # ==========================
+    # =================================
     # Test Cases for get_value_count_from_key
-    # ==========================
+    # =================================
 
     def test_get_value_count_from_key_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert empty_multibidict.get_value_count_from_key("Any") == 0
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["key", "expected"],
@@ -206,15 +202,15 @@ class TestMultiBidict:
         # Arrange, Act, Assert
         assert populated_multibidict.get_value_count_from_key(key) == expected
 
-    # ==========================
+    # =================================
     # Test Cases for contains_key
-    # ==========================
+    # =================================
 
     def test_contains_key_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert empty_multibidict.contains_key("Any") is False
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["key", "expected"],
@@ -230,15 +226,15 @@ class TestMultiBidict:
         # Arrange, Act, Assert
         assert populated_multibidict.contains_key(key) is expected
 
-    # ==========================
+    # =================================
     # Test Cases for contains_value
-    # ==========================
+    # =================================
 
     def test_contains_value_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert empty_multibidict.contains_value("Any") is False
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["value", "expected"],
@@ -254,15 +250,15 @@ class TestMultiBidict:
         # Arrange, Act, Assert
         assert populated_multibidict.contains_value(value) is expected
 
-    # ==========================
+    # =================================
     # Test Cases for are_associated
-    # ==========================
+    # =================================
 
     def test_are_associated_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         assert empty_multibidict.are_associated("Any", "Any") is False
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["key", "value", "expected"],
@@ -282,9 +278,9 @@ class TestMultiBidict:
         # Arrange, Act, Assert
         assert populated_multibidict.are_associated(key, value) is expected
 
-    # ==========================
+    # =================================
     # Test Cases for insert
-    # ==========================
+    # =================================
 
     def test_insert_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange/Act
@@ -297,7 +293,7 @@ class TestMultiBidict:
         # Assert
         assert empty_multibidict.to_dict() == {"Apple": {"Green", "Red"}, "Apples": {"Red and Green"}}
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["key", "value", "expected_key_count", "expected_value_count"],
@@ -325,16 +321,16 @@ class TestMultiBidict:
         assert populated_multibidict.key_count == expected_key_count
         assert populated_multibidict.value_count == expected_value_count
 
-    # ==========================
+    # =================================
     # Test Cases for remove
-    # ==========================
+    # =================================
 
     def test_remove_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         with pytest.raises(KeyError):
             empty_multibidict.remove("Any", "Any")
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["key", "value", "expected_key_count", "expected_value_count"],
@@ -361,16 +357,16 @@ class TestMultiBidict:
         assert populated_multibidict.key_count == expected_key_count
         assert populated_multibidict.value_count == expected_value_count
 
-    # ==========================
+    # =================================
     # Test Cases for remove_key
-    # ==========================
+    # =================================
 
     def test_remove_key_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         with pytest.raises(KeyError):
             empty_multibidict.remove_key("Any")
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["key", "expected_key_count", "expected_value_count"],
@@ -394,16 +390,16 @@ class TestMultiBidict:
         assert populated_multibidict.key_count == expected_key_count
         assert populated_multibidict.value_count == expected_value_count
 
-    # ==========================
+    # =================================
     # Test Cases for remove_value
-    # ==========================
+    # =================================
 
     def test_remove_value_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         with pytest.raises(KeyError):
             empty_multibidict.remove_value("Any")
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["value", "expected_key_count", "expected_value_count"],
@@ -427,16 +423,16 @@ class TestMultiBidict:
         assert populated_multibidict.key_count == expected_key_count
         assert populated_multibidict.value_count == expected_value_count
 
-    # ==========================
+    # =================================
     # Test Cases for pop_key
-    # ==========================
+    # =================================
 
     def test_pop_key_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         with pytest.raises(KeyError):
             empty_multibidict.pop_key("Any")
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["key", "expected", "expected_key_count", "expected_value_count"],
@@ -449,7 +445,7 @@ class TestMultiBidict:
     def test_pop_key_when_populated(
         self,
         key: str,
-        expected: Set[str],
+        expected: set[str],
         expected_key_count: int,
         expected_value_count: int,
         populated_multibidict: MultiBidict[str, str],
@@ -462,16 +458,16 @@ class TestMultiBidict:
         assert populated_multibidict.key_count == expected_key_count
         assert populated_multibidict.value_count == expected_value_count
 
-    # ==========================
+    # =================================
     # Test Cases for pop_value
-    # ==========================
+    # =================================
 
     def test_pop_value_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert
         with pytest.raises(KeyError):
             empty_multibidict.pop_value("Any")
 
-    # ==========================
+    # =================================
 
     @pytest.mark.parametrize(
         ["value", "expected", "expected_key_count", "expected_value_count"],
@@ -484,7 +480,7 @@ class TestMultiBidict:
     def test_pop_value_when_populated(
         self,
         value: str,
-        expected: Set[str],
+        expected: set[str],
         expected_key_count: int,
         expected_value_count: int,
         populated_multibidict: MultiBidict[str, str],
@@ -497,15 +493,15 @@ class TestMultiBidict:
         assert populated_multibidict.key_count == expected_key_count
         assert populated_multibidict.value_count == expected_value_count
 
-    # ==========================
+    # =================================
     # Test Cases for clear
-    # ==========================
+    # =================================
 
     def test_clear_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         empty_multibidict.clear()
         assert empty_multibidict.is_empty
 
-    # ==========================
+    # =================================
 
     def test_clear_when_populated(self, populated_multibidict: MultiBidict[str, str]) -> None:
         # Arrange/Act
@@ -514,14 +510,14 @@ class TestMultiBidict:
         # Assert
         assert populated_multibidict.is_empty
 
-    # ==========================
+    # =================================
     # Test Cases for to_dict
-    # ==========================
+    # =================================
 
     def test_to_dict_when_empty(self, empty_multibidict: MultiBidict[str, str]) -> None:
         assert empty_multibidict.to_dict() == {}
 
-    # ==========================
+    # =================================
 
     def test_to_dict_when_populated(self, populated_multibidict: MultiBidict[str, str]) -> None:
         # Arrange, Act, Assert

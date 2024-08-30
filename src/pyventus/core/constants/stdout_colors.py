@@ -1,8 +1,7 @@
-from abc import ABC
-from typing import Callable
+from collections.abc import Callable
 
 
-class StdOutColors(ABC):
+class StdOutColors:
     """A utility class for ANSI escape codes that add color and style to console text output."""
 
     DEFAULT: str = "\033[0m"

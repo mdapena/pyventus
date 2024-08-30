@@ -2,7 +2,6 @@ from datetime import datetime
 from pickle import dumps, loads
 
 import pytest
-
 from pyventus import PyventusException
 from pyventus.core.subscriptions.subscription import Subscription
 
@@ -10,10 +9,9 @@ from ...fixtures import CallableMock
 
 
 class TestSubscription:
-
-    # ==========================
+    # =================================
     # Test Cases for creation
-    # ==========================
+    # =================================
 
     def test_creation_with_valid_input(self) -> None:
         # Arrange/Act
@@ -23,16 +21,16 @@ class TestSubscription:
         assert subscription
         assert isinstance(subscription.timestamp, datetime)
 
-    # ==========================
+    # =================================
 
     def test_creation_with_invalid_input(self) -> None:
         # Arrange, Act, Assert
         with pytest.raises(PyventusException):
             Subscription(teardown_callback=None)  # type: ignore[arg-type]
 
-    # ==========================
+    # =================================
     # Test Cases for unsubscribe
-    # ==========================
+    # =================================
 
     def test_unsubscribe_execution(self) -> None:
         # Arrange
@@ -46,7 +44,7 @@ class TestSubscription:
         assert teardown_callback.call_count == 1
         assert teardown_callback.last_args == (subscription,)
 
-    # ==========================
+    # =================================
 
     def test_unsubscribe_with_exceptions(self) -> None:
         # Arrange
@@ -61,7 +59,7 @@ class TestSubscription:
         assert teardown_callback.call_count == 1
         assert teardown_callback.last_args == (subscription,)
 
-    # ==========================
+    # =================================
 
     def test_unsubscribe_return_value(self) -> None:
         # Arrange
@@ -76,7 +74,7 @@ class TestSubscription:
         assert teardown_callback.last_args == (subscription,)
         assert teardown_callback.return_value is return_value
 
-    # ==========================
+    # =================================
 
     def test_pickle_serialization(self) -> None:
         # Arrange

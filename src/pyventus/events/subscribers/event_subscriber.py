@@ -1,16 +1,12 @@
-import sys
-from typing import Any, Awaitable, Callable, Dict, TypeAlias, final, override
+from collections.abc import Awaitable, Callable
+from typing import Any, TypeAlias, final
+
+from typing_extensions import Self, override
 
 from ...core.exceptions import PyventusException
 from ...core.subscriptions import Subscription
 from ...core.utils import CallableWrapper
 from ...events.handlers import EventHandler
-
-if sys.version_info >= (3, 11):  # pragma: no cover
-    from typing import Self
-else:
-    from typing_extensions import Self
-
 
 EventCallbackType: TypeAlias = Callable[..., Any]
 """Type alias for the event callback invoked when the event occurs."""
@@ -42,7 +38,8 @@ class EventSubscriber(EventHandler, Subscription):
     @property
     def once(self) -> bool:
         """
-        Determines if the event subscriber is a one-time subscription.
+        Determine if the event subscriber is a one-time subscription.
+
         :return: A boolean value indicating if the event subscriber
             is a one-time subscription.
         """
@@ -58,7 +55,8 @@ class EventSubscriber(EventHandler, Subscription):
         once: bool,
     ) -> None:
         """
-        Initializes an instance of `EventSubscriber`.
+        Initialize an instance of `EventSubscriber`.
+
         :param teardown_callback: A callback function invoked during the unsubscription process to perform
             cleanup or teardown operations associated with the subscription. It should return `True` if the
             cleanup was successful, or `False` if the teardown has already been executed and the subscription
@@ -132,9 +130,9 @@ class EventSubscriber(EventHandler, Subscription):
             await self.__failure_callback(exception)
 
     @override
-    def __getstate__(self) -> Dict[str, Any]:
+    def __getstate__(self) -> dict[str, Any]:
         # Retrieve the state of the base Subscription class
-        state: Dict[str, Any] = super().__getstate__()
+        state: dict[str, Any] = super().__getstate__()
 
         # Add the state of the EventSubscriber attributes
         state["__event_callback"] = self.__event_callback
@@ -146,7 +144,7 @@ class EventSubscriber(EventHandler, Subscription):
         return state
 
     @override
-    def __setstate__(self, state: Dict[str, Any]) -> None:
+    def __setstate__(self, state: dict[str, Any]) -> None:
         # Restore the state of the base Subscription class
         super().__setstate__(state)
 
@@ -159,6 +157,7 @@ class EventSubscriber(EventHandler, Subscription):
     def __str__(self) -> str:  # pragma: no cover
         """
         Return a formatted string representation of the event subscriber.
+
         :return: A string representation of the event subscriber.
         """
         return (

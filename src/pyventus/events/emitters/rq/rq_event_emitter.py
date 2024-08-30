@@ -1,4 +1,6 @@
-from typing import Any, Dict, Type, override
+from typing import Any
+
+from typing_extensions import override
 
 from ....core.exceptions import PyventusException
 from ...linkers import EventLinker
@@ -10,19 +12,18 @@ except ImportError:  # pragma: no cover
     raise PyventusException(
         "Optional dependency 'rq' not found."
         "\nPlease install it using 'pip install pyventus[rq]' to use this event emitter."
-    )
+    ) from None
 
 
 class RQEventEmitter(EventEmitter):
     """
-    An event emitter subclass that utilizes the Redis Queue system to handle the
-    execution of event emissions.
+    An event emitter subclass that uses the Redis Queue system to handle the execution of event emissions.
 
     **Notes:**
 
-    -   This class uses a Redis Queue instance to enqueue event emissions, which are
-        subsequently executed by Redis Queue workers. This approach provides a scalable
-        and distributed method for handling the execution of event emissions.
+    -   This class uses a Redis Queue instance to enqueue event emissions, which are subsequently executed
+        by Redis Queue workers. This approach provides a scalable and distributed method for handling the
+        execution of event emissions.
 
     ---
     Read more in the
@@ -32,17 +33,18 @@ class RQEventEmitter(EventEmitter):
     def __init__(
         self,
         queue: Queue,
-        options: Dict[str, Any] | None = None,
-        event_linker: Type[EventLinker] = EventLinker,
+        options: dict[str, Any] | None = None,
+        event_linker: type[EventLinker] = EventLinker,
         debug: bool | None = None,
     ) -> None:
         """
         Initialize an instance of `RQEventEmitter`.
-        :param queue: The Redis queue for enqueuing event handlers.
+
+        :param queue: The Redis queue for enqueuing event emissions.
         :param options: Additional options for the RQ package enqueueing method.
             Defaults to an empty dictionary.
         :param event_linker: Specifies the type of event linker used to manage and access
-            events along with their corresponding event handlers. Defaults to `EventLinker`.
+            events along with their corresponding subscribers. Defaults to `EventLinker`.
         :param debug: Specifies the debug mode for the logger. If `None`, it is
             determined based on the execution environment.
         """
@@ -57,7 +59,7 @@ class RQEventEmitter(EventEmitter):
 
         # Store the Redis queue and RQ options
         self._queue: Queue = queue
-        self._options: Dict[str, Any] = options if options is not None else {}
+        self._options: dict[str, Any] = options if options is not None else {}
 
     @override
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:

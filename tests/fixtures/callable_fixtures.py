@@ -1,14 +1,9 @@
 import random
 from abc import ABC, abstractmethod
+from collections.abc import AsyncGenerator, Awaitable, Callable, Generator
 from typing import (
     Any,
-    AsyncGenerator,
-    Awaitable,
-    Callable,
-    Dict,
     Final,
-    Generator,
-    Tuple,
 )
 
 
@@ -40,8 +35,8 @@ class CallableMock:
             :param raise_exception: An exception to raise when the callable is invoked, defaults to None.
             """
             self._call_count: int = 0
-            self._last_args: Tuple[Any, ...] = ()
-            self._last_kwargs: Dict[str, Any] = {}
+            self._last_args: tuple[Any, ...] = ()
+            self._last_kwargs: dict[str, Any] = {}
             self._return_value: Any | None = return_value
             self._exception: Exception | None = raise_exception
 
@@ -56,12 +51,12 @@ class CallableMock:
             return self._call_count
 
         @property
-        def last_args(self) -> Tuple[Any, ...]:
+        def last_args(self) -> tuple[Any, ...]:
             """Returns the positional arguments from the last call."""
             return self._last_args
 
         @property
-        def last_kwargs(self) -> Dict[str, Any]:
+        def last_kwargs(self) -> dict[str, Any]:
             """Returns the keyword arguments from the last call."""
             return self._last_kwargs
 
@@ -116,7 +111,7 @@ class CallableMock:
             return self._return_value
 
     @classmethod
-    def Random(cls, return_value: Any | None = None, raise_exception: Exception | None = None) -> Base:
+    def Random(cls, return_value: Any | None = None, raise_exception: Exception | None = None) -> Base:  # noqa: N802
         """Returns a random callable mock, which can be either synchronous or asynchronous."""
         return (
             cls.Sync(return_value=return_value, raise_exception=raise_exception)
@@ -125,9 +120,9 @@ class CallableMock:
         )
 
 
-# ----------------------------------------------
+# =================================
 # Callables
-# ----------
+# =================================
 
 
 def _sync_function(*args: Any, **kwargs: Any) -> None:
@@ -176,7 +171,7 @@ class DummyCallable:
                 yield  # pragma: no cover
 
             @property
-            def ALL(self) -> Tuple[Callable[..., Generator[None, None, None]], ...]:
+            def ALL(self) -> tuple[Callable[..., Generator[None, None, None]], ...]:  # noqa: N802
                 """
                 Return a tuple of all dummy synchronous generator callables.
 
@@ -196,7 +191,7 @@ class DummyCallable:
                 )
 
             @property
-            def ALL_NAMES(self) -> Tuple[str, ...]:
+            def ALL_NAMES(self) -> tuple[str, ...]:  # noqa: N802
                 """
                 Return a tuple of all dummy synchronous generator callable names.
 
@@ -234,7 +229,7 @@ class DummyCallable:
             pass  # pragma: no cover
 
         @property
-        def ALL(self) -> Tuple[Callable[..., None], ...]:
+        def ALL(self) -> tuple[Callable[..., None], ...]:  # noqa: N802
             """
             Return a tuple of all dummy synchronous callables.
 
@@ -256,7 +251,7 @@ class DummyCallable:
             )
 
         @property
-        def ALL_NAMES(self) -> Tuple[str, ...]:
+        def ALL_NAMES(self) -> tuple[str, ...]:  # noqa: N802
             """
             Return a tuple of all dummy synchronous callable names.
 
@@ -300,7 +295,7 @@ class DummyCallable:
                 yield  # pragma: no cover
 
             @property
-            def ALL(self) -> Tuple[Callable[..., AsyncGenerator[None, None]], ...]:
+            def ALL(self) -> tuple[Callable[..., AsyncGenerator[None, None]], ...]:  # noqa: N802
                 """
                 Return a tuple of all dummy asynchronous generator callables.
 
@@ -320,7 +315,7 @@ class DummyCallable:
                 )
 
             @property
-            def ALL_NAMES(self) -> Tuple[str, ...]:
+            def ALL_NAMES(self) -> tuple[str, ...]:  # noqa: N802
                 """
                 Return a tuple of all dummy asynchronous generator callable names.
 
@@ -356,7 +351,7 @@ class DummyCallable:
             pass  # pragma: no cover
 
         @property
-        def ALL(self) -> Tuple[Callable[..., Awaitable[None]], ...]:
+        def ALL(self) -> tuple[Callable[..., Awaitable[None]], ...]:  # noqa: N802
             """
             Return a tuple of all dummy asynchronous callables.
 
@@ -376,7 +371,7 @@ class DummyCallable:
             )
 
         @property
-        def ALL_NAMES(self) -> Tuple[str, ...]:
+        def ALL_NAMES(self) -> tuple[str, ...]:  # noqa: N802
             """
             Return a tuple of all dummy asynchronous callable names.
 

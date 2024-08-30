@@ -1,4 +1,5 @@
 from asyncio import to_thread
+from collections.abc import Awaitable, Callable
 from inspect import (
     isasyncgenfunction,
     isbuiltin,
@@ -8,7 +9,7 @@ from inspect import (
     isgeneratorfunction,
     ismethod,
 )
-from typing import Any, Awaitable, Callable, Generic, ParamSpec, TypeVar, final
+from typing import Any, Generic, ParamSpec, TypeVar, final
 
 from ..exceptions import PyventusException
 
@@ -22,13 +23,14 @@ _ReturnType = TypeVar("_ReturnType", covariant=True)
 @final
 class CallableWrapper(Generic[_ParamType, _ReturnType]):
     """
-    A wrapper class that encapsulates a synchronous or asynchronous callable object
-    and provides a unified asynchronous interface for its execution.
+    A wrapper class that encapsulates a callable object.
 
-    **Notes**:
+    **Notes:**
 
-    -   The `__call__` method of the `CallableWrapper` class is an asynchronous method
-        that returns a `Coroutine`. It should never be treated as a synchronous function.
+    -   This class provides a unified interface for executing callable objects.
+
+    -   The `__call__` method of the `CallableWrapper` class is an asynchronous method that
+        returns a `Coroutine`. It should never be treated as a synchronous function.
 
     -   If `force_async` is set to `True`, synchronous callables will be executed asynchronously
         using the `asyncio.to_thread` function. If `force_async` is `False`, the callable will
@@ -41,7 +43,8 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
     @property
     def name(self) -> str:
         """
-        Retrieves the name of the wrapped callable object.
+        Retrieve the name of the wrapped callable object.
+
         :return: A string representing the name of the wrapped callable object.
         """
         return self.__name__
@@ -49,7 +52,8 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
     @property
     def force_async(self) -> bool:
         """
-        Determines whether the wrapped callable is forced to run asynchronously.
+        Determine whether the wrapped callable is forced to run asynchronously.
+
         :return: A boolean value indicating if the wrapped callable is forced to
             run asynchronously.
         """
@@ -57,7 +61,8 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
 
     def __init__(self, cb: Callable[_ParamType, Awaitable[_ReturnType] | _ReturnType], /, force_async: bool) -> None:
         """
-        Initializes an instance of `CallableWrapper`.
+        Initialize an instance of `CallableWrapper`.
+
         :param cb: The callable object to be wrapped.
         :param force_async: A flag indicating whether to force the wrapped callable to run asynchronously.
         :raises PyventusException: If the given callable is invalid or if `force_async` is not a boolean.
@@ -85,7 +90,8 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
 
     async def __call__(self, *args: _ParamType.args, **kwargs: _ParamType.kwargs) -> _ReturnType:
         """
-        Executes the wrapped callable with the given arguments.
+        Execute the wrapped callable with the given arguments.
+
         :param args: Positional arguments to pass to the wrapped callable.
         :param kwargs: Keyword arguments to pass to the wrapped callable.
         :return: The result of the wrapped callable execution.
@@ -102,7 +108,8 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
 
     def __str__(self) -> str:
         """
-        Returns a string representation of the `CallableWrapper` instance.
+        Return a string representation of the `CallableWrapper` instance.
+
         :return: A string representation of the `CallableWrapper` instance.
         """
         return (  # pragma: no cover
@@ -114,9 +121,10 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
 
 def validate_callable(cb: Callable[..., Any], /) -> None:
     """
-    Validates whether the given object is a valid callable.
+    Validate whether the given object is a valid callable.
+
     :param cb: The object to be validated.
-    :return: None
+    :return: None.
     :raises PyventusException: If the object is not a valid callable.
     """
     if not callable(cb):
@@ -125,7 +133,8 @@ def validate_callable(cb: Callable[..., Any], /) -> None:
 
 def get_callable_name(cb: Callable[..., Any] | None, /) -> str:
     """
-    Retrieves the name of the provided callable.
+    Retrieve the name of the provided callable.
+
     :param cb: The callable object.
     :return: The name of the callable as a string.
     """
@@ -133,7 +142,7 @@ def get_callable_name(cb: Callable[..., Any] | None, /) -> str:
         return "None"
     elif ismethod(cb) or isfunction(cb) or isbuiltin(cb):
         return cb.__name__
-    elif not isclass(cb) and hasattr(cb, "__call__"):
+    elif not isclass(cb) and callable(cb):
         return type(cb).__name__
     else:
         return "Unknown"
@@ -141,13 +150,14 @@ def get_callable_name(cb: Callable[..., Any] | None, /) -> str:
 
 def is_callable_async(cb: Callable[..., Any], /) -> bool:
     """
-    Checks whether the given callable object is asynchronous.
+    Determine whether the given callable object is asynchronous.
+
     :param cb: The callable object to be checked.
     :return: `True` if the callable object is asynchronous, `False` otherwise.
     """
     if ismethod(cb) or isfunction(cb) or isbuiltin(cb):
         return iscoroutinefunction(cb) or isasyncgenfunction(cb)
-    elif not isclass(cb) and hasattr(cb, "__call__"):  # A callable class instance
+    elif not isclass(cb) and hasattr(cb, "__call__") and callable(cb):  # noqa: B004
         return iscoroutinefunction(cb.__call__) or isasyncgenfunction(cb.__call__)
     else:
         return False
@@ -155,13 +165,14 @@ def is_callable_async(cb: Callable[..., Any], /) -> bool:
 
 def is_callable_generator(cb: Callable[..., Any], /) -> bool:
     """
-    Checks whether the provided callable object is a generator.
+    Determine whether the provided callable object is a generator.
+
     :param cb: The callable object to be checked.
     :return:`True` if the callable object is a generator, `False` otherwise.
     """
     if ismethod(cb) or isfunction(cb) or isbuiltin(cb):
         return isgeneratorfunction(cb) or isasyncgenfunction(cb)
-    elif not isclass(cb) and hasattr(cb, "__call__"):  # A callable class instance
+    elif not isclass(cb) and hasattr(cb, "__call__") and callable(cb):  # noqa: B004
         return isgeneratorfunction(cb.__call__) or isasyncgenfunction(cb.__call__)
     else:
         return False

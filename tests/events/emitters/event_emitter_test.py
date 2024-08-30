@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
+from collections.abc import Generator
 from contextlib import contextmanager
-from typing import Dict, Generator, Generic, List, Type, TypeVar
+from typing import Generic, TypeVar
 
 import pytest
-
 from pyventus import PyventusException
 from pyventus.events import EventEmitter, EventLinker
 
@@ -16,13 +16,13 @@ class EventEmitterTest(Generic[_E], ABC):
     """A set of pre-configured tests for subclasses of EventEmitter."""
 
     @abstractmethod
-    def _create_event_emitter(self, event_linker: Type[EventLinker]) -> _E:
+    def _create_event_emitter(self, event_linker: type[EventLinker]) -> _E:
         pass
 
-    # ==========================
+    # =================================
 
     @contextmanager
-    def run_emissions_test(self, event_linker: Type[EventLinker]) -> Generator[_E, None, None]:
+    def run_emissions_test(self, event_linker: type[EventLinker]) -> Generator[_E, None, None]:
         """
         Context manager for performing tests to check if the event emission is working
         properly using both synchronous and asynchronous callbacks.
@@ -48,16 +48,15 @@ class EventEmitterTest(Generic[_E], ABC):
             callbacks. Defaults to EventLinker.
         :return: A generator object for the test.
         """
-
-        # ==========================
+        # =================================
         # Arrange: Parameters
-        # ==========================
+        # =================================
 
         int_param: int = 2
         str_param: str = "str"
         dtc_param: object = EventFixtures.EmptyDtc()
-        list_param: List[int] = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-        dict_param: Dict[str, str] = {"key": "value"}
+        list_param: list[int] = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        dict_param: dict[str, str] = {"key": "value"}
         dtc_immutable = EventFixtures.DtcImmutable(attr1="str", attr2=("1", "2", "3"))
         dtc_mutable = EventFixtures.DtcMutable(attr1=["1", "2", "3"], attr2={"key": "value"})
         dtc_with_val = EventFixtures.DtcWithVal(attr1="str", attr2=7.65)
@@ -67,9 +66,9 @@ class EventEmitterTest(Generic[_E], ABC):
         return_value: object = EventFixtures.EmptyDtc()
         raise_exception: Exception = EventFixtures.CustomExc()
 
-        # ==========================
+        # =================================
         # Arrange: Callbacks
-        # ==========================
+        # =================================
 
         cb_without_params: CallableMock.Base = CallableMock.Random()
         cb_with_two_params: CallableMock.Base = CallableMock.Random()
@@ -93,15 +92,15 @@ class EventEmitterTest(Generic[_E], ABC):
         cb_success: CallableMock.Base = CallableMock.Random()
         cb_failure: CallableMock.Base = CallableMock.Random()
 
-        # ==========================
+        # =================================
         # Arrange: Create a dummy event linker
-        # ==========================
+        # =================================
 
-        class __DummyEventLinker(EventLinker, max_subscribers=1): ...
+        class DummyEventLinker(EventLinker, max_subscribers=1): ...
 
-        # ==========================
+        # =================================
         # Arrange: EventLinker
-        # ==========================
+        # =================================
 
         # Clear event linker
         event_linker.remove_all()
@@ -150,18 +149,18 @@ class EventEmitterTest(Generic[_E], ABC):
         event_linker.subscribe(..., event_callback=cb_with_args_and_kwargs)
 
         # Different namespace
-        __DummyEventLinker.subscribe(..., event_callback=cb_with_args_and_kwargs)
+        DummyEventLinker.subscribe(..., event_callback=cb_with_args_and_kwargs)
 
-        # ==========================
+        # =================================
         # Arrange: Create event emitter
-        # ==========================
+        # =================================
 
         # Create event emitter
         event_emitter: _E = self._create_event_emitter(event_linker)
 
-        # ==========================
+        # =================================
         # Act: Emit string events
-        # ==========================
+        # =================================
 
         event_emitter.emit("Another")
         event_emitter.emit("WithoutParams")  # Has no subscribers
@@ -175,9 +174,9 @@ class EventEmitterTest(Generic[_E], ABC):
         with pytest.raises(PyventusException):
             event_emitter.emit("")
 
-        # ==========================
+        # =================================
         # Act: Emit dataclass events
-        # ==========================
+        # =================================
 
         event_emitter.emit(dtc_immutable)
         event_emitter.emit(dtc_mutable, int_param, str_param, param3=dtc_param, param4=list_param)
@@ -192,9 +191,9 @@ class EventEmitterTest(Generic[_E], ABC):
         with pytest.raises(PyventusException):  # `attr1` must be at least 3 characters, it is not emitted
             event_emitter.emit(EventFixtures.DtcWithVal(attr1="at", attr2=2.3))
 
-        # ==========================
+        # =================================
         # Act: Emit exception events
-        # ==========================
+        # =================================
 
         event_emitter.emit(custom_exc1)
         event_emitter.emit(custom_exc2, int_param, str_param, param2=dtc_param, param3=list_param)
@@ -209,39 +208,39 @@ class EventEmitterTest(Generic[_E], ABC):
         with pytest.raises(PyventusException):
             event_emitter.emit(Exception)
 
-        # ==========================
+        # =================================
         # Act: Emit events with success and error handling
-        # ==========================
+        # =================================
 
         event_emitter.emit("WithSuccessCallback")
         event_emitter.emit("WithSuccessCallback")  # Has no subscribers
         event_emitter.emit("WithFailureCallback")
         event_emitter.emit("ErrorHandling")
 
-        # ==========================
+        # =================================
         # Act: Emit any event
-        # ==========================
+        # =================================
 
         event_emitter.emit(..., dtc_immutable, mutable=dtc_mutable)
 
-        # ==========================
+        # =================================
         # Act: Remove the Ellipsis event and emit unregistered ones
-        # ==========================
+        # =================================
 
         event_linker.remove_event(...)
 
         event_emitter.emit("str")
         event_emitter.emit(...)
 
-        # ==========================
+        # =================================
         # Act: Wait for all events to propagate
-        # ==========================
+        # =================================
 
         yield event_emitter
 
-        # ==========================
+        # =================================
         # Assert
-        # ==========================
+        # =================================
 
         assert cb_without_params.call_count == 1
         assert cb_without_params.last_args == ()
@@ -305,16 +304,14 @@ class EventEmitterTest(Generic[_E], ABC):
         assert cb_failure.last_args == (cb_with_raise_exception.exception,)
         assert cb_failure.last_kwargs == {}
 
-    # ==========================
+    # =================================
 
     @abstractmethod
     def test_emission_in_sync_context(self) -> None:
-        """
-        Performs tests to check if the event emission is working properly within a (SYNC) context.
-        """
+        """Performs tests to check if the event emission is working properly within a (SYNC) context."""
         pass
 
-    # ==========================
+    # =================================
 
     @abstractmethod
     def test_emission_in_sync_context_with_custom_event_linker(self) -> None:
@@ -324,16 +321,14 @@ class EventEmitterTest(Generic[_E], ABC):
         """
         pass
 
-    # ==========================
+    # =================================
 
     @abstractmethod
     async def test_emission_in_async_context(self) -> None:
-        """
-        Performs tests to check if the event emission is working properly within an (ASYNC) context.
-        """
+        """Performs tests to check if the event emission is working properly within an (ASYNC) context."""
         pass
 
-    # ==========================
+    # =================================
 
     @abstractmethod
     async def test_emission_in_async_context_with_custom_event_linker(self) -> None:

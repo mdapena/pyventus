@@ -10,55 +10,58 @@ class Logger:
     @property
     def debug_enabled(self) -> bool:
         """
-        Returns a boolean value indicating whether debug mode is enabled.
+        Return a boolean value indicating whether debug mode is enabled.
+
         :return: `True` if debug mode is enabled, `False` otherwise.
         """
         return self.__debug
 
     def __init__(self, name: str | None = None, debug: bool = False):
         """
-        Initializes an instance of `Logger`.
+        Initialize an instance of `Logger`.
+
         :param name: The name of the logger instance.
         :param debug: A flag indicating whether debug mode is enabled.
         """
         self.__name: str | None = name
-        """The name of the logger."""
-
         self.__debug = debug
-        """A flag indicating whether or not debug mode is enabled."""
 
     def error(self, msg: str, action: str | None = None) -> None:
         """
-        Logs an ERROR level message.
+        Log an ERROR level message.
+
         :param msg: The message to be logged.
         :param action: The action or method associated with the log. Defaults to None.
-        :return: None
+        :return: None.
         """
         StdOutLogger.error(msg=msg, name=self.__name, action=action)
 
     def warning(self, msg: str, action: str | None = None) -> None:
         """
-        Logs a WARNING level message.
+        Log a WARNING level message.
+
         :param msg: The message to be logged.
         :param action: The action or method associated with the log. Defaults to None.
-        :return: None
+        :return: None.
         """
         StdOutLogger.warning(msg=msg, name=self.__name, action=action)
 
     def info(self, msg: str, action: str | None = None) -> None:
         """
-        Logs an INFO level message.
+        Log an INFO level message.
+
         :param msg: The message to be logged.
         :param action: The action or method associated with the log. Defaults to None.
-        :return: None
+        :return: None.
         """
         StdOutLogger.info(msg=msg, name=self.__name, action=action)
 
     def debug(self, msg: str, action: str | None = None) -> None:
         """
-        Logs a DEBUG level message.
+        Log a DEBUG level message.
+
         :param msg: The message to be logged.
         :param action: The action or method associated with the log. Defaults to None.
-        :return: None
+        :return: None.
         """
         StdOutLogger.debug(msg=msg, name=self.__name, action=action)

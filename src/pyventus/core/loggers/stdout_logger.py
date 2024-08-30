@@ -1,11 +1,10 @@
-from abc import ABC
 from logging import DEBUG, ERROR, INFO, WARNING, Formatter, StreamHandler, getLogger
 from sys import stdout
 
 from ...core.constants import StdOutColors
 
 
-class StdOutLogger(ABC):
+class StdOutLogger:
     """A simple logging interface for writing log messages to the standard output."""
 
     class Handler:
@@ -14,7 +13,8 @@ class StdOutLogger(ABC):
         @classmethod
         def get_color_by_level(cls, level: int) -> str:
             """
-            Returns the color code associated with the specified log level.
+            Return the color code associated with the specified log level.
+
             :param level: The log level for which to retrieve the color code.
             :return: The color code associated with the log level.
             """
@@ -31,7 +31,8 @@ class StdOutLogger(ABC):
         @classmethod
         def get_stream_handler_by_level(cls, level: int) -> StreamHandler:  # type: ignore[type-arg]
             """
-            Returns a stream handler configured with the specified log level.
+            Return a stream handler configured with the specified log level.
+
             :param level: The log level to set for the stream handler.
             :return: The configured stream handler.
             """
@@ -61,7 +62,8 @@ class StdOutLogger(ABC):
         @classmethod
         def build_log(cls, level: int, msg: str, name: str | None = None, action: str | None = None) -> str:
             """
-            Builds a log message string with the specified log level, message, name, and action.
+            Build a log message string with the specified log level, message, name, and action.
+
             :param level: The log level of the message.
             :param msg: The log message.
             :param name: The name of the logger or class associated with the log. Defaults to None.
@@ -101,43 +103,47 @@ class StdOutLogger(ABC):
     @classmethod
     def error(cls, msg: str, name: str | None = None, action: str | None = None) -> None:
         """
-        Logs an ERROR level message.
+        Log an ERROR level message.
+
         :param msg: The message to be logged.
         :param name: The name of the logger or class associated with the log. Defaults to None.
         :param action: The action or method associated with the log. Defaults to None.
-        :return: None
+        :return: None.
         """
         cls.__error_logger.error(cls.Handler.build_log(level=ERROR, msg=msg, name=name, action=action))
 
     @classmethod
     def warning(cls, msg: str, name: str | None = None, action: str | None = None) -> None:
         """
-        Logs a WARNING level message.
+        Log a WARNING level message.
+
         :param msg: The message to be logged.
         :param name: The name of the logger or class associated with the log. Defaults to None.
         :param action: The action or method associated with the log. Defaults to None.
-        :return: None
+        :return: None.
         """
         cls.__warning_logger.warning(cls.Handler.build_log(level=WARNING, msg=msg, name=name, action=action))
 
     @classmethod
     def info(cls, msg: str, name: str | None = None, action: str | None = None) -> None:
         """
-        Logs an INFO level message.
+        Log an INFO level message.
+
         :param msg: The message to be logged.
         :param name: The name of the logger or class associated with the log. Defaults to None.
         :param action: The action or method associated with the log. Defaults to None.
-        :return: None
+        :return: None.
         """
         cls.__info_logger.info(cls.Handler.build_log(level=INFO, msg=msg, name=name, action=action))
 
     @classmethod
     def debug(cls, msg: str, name: str | None = None, action: str | None = None) -> None:
         """
-        Logs a DEBUG level message.
+        Log a DEBUG level message.
+
         :param msg: The message to be logged.
         :param name: The name of the logger or class associated with the log. Defaults to None.
         :param action: The action or method associated with the log. Defaults to None.
-        :return: None
+        :return: None.
         """
         cls.__debug_logger.debug(cls.Handler.build_log(level=DEBUG, msg=msg, name=name, action=action))

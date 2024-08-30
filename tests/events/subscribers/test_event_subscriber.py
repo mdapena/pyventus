@@ -1,9 +1,8 @@
 from collections import namedtuple
 from pickle import dumps, loads
-from typing import Any, Dict, Tuple
+from typing import Any
 
 import pytest
-
 from pyventus import PyventusException
 from pyventus.events import EventSubscriber
 
@@ -11,10 +10,9 @@ from ...fixtures.callable_fixtures import CallableMock
 
 
 class TestEventSubscriber:
-
-    # ==========================
+    # =================================
     # Test Cases for creation
-    # ==========================
+    # =================================
 
     def test_creation_with_valid_input(self) -> None:
         # Arrange/Act
@@ -31,7 +29,7 @@ class TestEventSubscriber:
         assert subscriber
         assert subscriber.once is False
 
-    # ==========================
+    # =================================
 
     def test_creation_with_invalid_input(self) -> None:
         # Arrange/Act/Assert
@@ -56,9 +54,9 @@ class TestEventSubscriber:
                 once=False,
             )
 
-    # ==========================
+    # =================================
     # Test Cases for execution
-    # ==========================
+    # =================================
 
     # Define a named tuple for better readability of test cases
     ExecutionTestCase = namedtuple(
@@ -69,7 +67,7 @@ class TestEventSubscriber:
         ExecutionTestCase._fields,
         [
             # Test without success and failure callbacks
-            # ==========================
+            # =================================
             ExecutionTestCase(
                 event_callback=CallableMock.Random(),
                 success_callback=None,
@@ -127,7 +125,7 @@ class TestEventSubscriber:
                 kwargs={"str": ...},
             ),
             # Testing with event and success callbacks
-            # ==========================
+            # =================================
             ExecutionTestCase(
                 event_callback=CallableMock.Random(),
                 success_callback=CallableMock.Random(),
@@ -241,7 +239,7 @@ class TestEventSubscriber:
                 kwargs={"str": ...},
             ),
             # Test with event, success and failure callbacks
-            # ==========================
+            # =================================
             ExecutionTestCase(
                 event_callback=CallableMock.Random(),
                 success_callback=CallableMock.Random(),
@@ -306,8 +304,8 @@ class TestEventSubscriber:
         event_callback: CallableMock.Base,
         success_callback: CallableMock.Base,
         failure_callback: CallableMock.Base,
-        args: Tuple[Any, ...],
-        kwargs: Dict[str, Any],
+        args: tuple[Any, ...],
+        kwargs: dict[str, Any],
     ) -> None:
         # Arrange: Create an EventSubscriber instance with the provided callbacks
         subscriber = EventSubscriber(
@@ -351,7 +349,7 @@ class TestEventSubscriber:
             if success_callback:
                 assert success_callback.call_count == 0
 
-    # ==========================
+    # =================================
 
     @pytest.mark.asyncio
     async def test_execution_when_success_callback_raises_exception(self) -> None:
@@ -369,7 +367,7 @@ class TestEventSubscriber:
         with pytest.raises(ValueError):
             await subscriber.execute()
 
-    # ==========================
+    # =================================
 
     @pytest.mark.asyncio
     async def test_execution_when_failure_callback_raises_exception(self) -> None:
@@ -387,7 +385,7 @@ class TestEventSubscriber:
         with pytest.raises(ValueError):
             await subscriber.execute()
 
-    # ==========================
+    # =================================
 
     def test_pickle_serialization(self) -> None:
         # Arrange

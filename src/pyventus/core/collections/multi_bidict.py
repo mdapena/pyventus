@@ -1,4 +1,4 @@
-from typing import Dict, Generic, Set, TypeVar
+from typing import Generic, TypeVar
 
 _KT = TypeVar("_KT")
 """A generic type variable that represents the keys in a MultiBidict."""
@@ -35,7 +35,7 @@ class MultiBidict(Generic[_KT, _VT]):
 
     def __init__(self) -> None:
         """
-        Initializes an instance of `MultiBidict`.
+        Initialize an instance of `MultiBidict`.
 
         This constructor sets up two dictionaries: one for storing
         the forward mapping of keys to values and another for the
@@ -43,29 +43,32 @@ class MultiBidict(Generic[_KT, _VT]):
         initialized as empty.
         """
         # Initialize the main dictionary and its inverse
-        self.__fwd_dict: Dict[_KT, Set[_VT]] = {}
-        self.__inv_dict: Dict[_VT, Set[_KT]] = {}
+        self.__fwd_dict: dict[_KT, set[_VT]] = {}
+        self.__inv_dict: dict[_VT, set[_KT]] = {}
 
     @property
     def is_empty(self) -> bool:
         """
-        Determines whether the dictionary is empty.
+        Determine whether the dictionary is empty.
+
         :return: `True` if the dictionary is empty, `False` otherwise.
         """
         return not self.__fwd_dict
 
     @property
-    def keys(self) -> Set[_KT]:
+    def keys(self) -> set[_KT]:
         """
-        Retrieves all keys from the dictionary.
+        Retrieve all keys from the dictionary.
+
         :return: A set of all keys in the dictionary.
         """
         return set(self.__fwd_dict.keys())
 
     @property
-    def values(self) -> Set[_VT]:
+    def values(self) -> set[_VT]:
         """
-        Retrieves all values from the dictionary.
+        Retrieve all values from the dictionary.
+
         :return: A set of all values in the dictionary.
         """
         return set(self.__inv_dict.keys())
@@ -73,7 +76,8 @@ class MultiBidict(Generic[_KT, _VT]):
     @property
     def key_count(self) -> int:
         """
-        Retrieves the number of unique keys in the dictionary.
+        Retrieve the number of unique keys in the dictionary.
+
         :return: The total count of keys in the dictionary.
         """
         return len(self.__fwd_dict)
@@ -81,23 +85,26 @@ class MultiBidict(Generic[_KT, _VT]):
     @property
     def value_count(self) -> int:
         """
-        Retrieves the number of unique values in the dictionary.
+        Retrieve the number of unique values in the dictionary.
+
         :return: The total count of values in the dictionary.
         """
         return len(self.__inv_dict)
 
-    def get_keys_from_values(self, values: Set[_VT]) -> Set[_KT]:
+    def get_keys_from_values(self, values: set[_VT]) -> set[_KT]:
         """
-        Retrieves a set of keys associated with the specified values.
+        Retrieve a set of keys associated with the specified values.
+
         :param values: A set of values for which to retrieve the associated keys.
         :return: A set of keys associated with the given values.
             Unregistered values are ignored.
         """
         return {key for value in values for key in self.__inv_dict.get(value, [])}
 
-    def get_values_from_keys(self, keys: Set[_KT]) -> Set[_VT]:
+    def get_values_from_keys(self, keys: set[_KT]) -> set[_VT]:
         """
-        Retrieves a set of values associated with the specified keys.
+        Retrieve a set of values associated with the specified keys.
+
         :param keys: A set of keys for which to retrieve the associated values.
         :return: A set of values associated with the given keys.
             Unregistered keys are ignored.
@@ -106,7 +113,8 @@ class MultiBidict(Generic[_KT, _VT]):
 
     def get_key_count_from_value(self, value: _VT) -> int:
         """
-        Retrieves the number of keys associated with the specified value.
+        Retrieve the number of keys associated with the specified value.
+
         :param value: The value for which to count the associated keys.
         :return: The count of keys associated with the specified value,
             or 0 if the value is not found.
@@ -115,7 +123,8 @@ class MultiBidict(Generic[_KT, _VT]):
 
     def get_value_count_from_key(self, key: _KT) -> int:
         """
-        Returns the number of values associated with a given key.
+        Return the number of values associated with a given key.
+
         :param key: The key for which to count the associated values.
         :return: The count of values associated with the specified key,
             or 0 if the key is not found.
@@ -124,7 +133,8 @@ class MultiBidict(Generic[_KT, _VT]):
 
     def contains_key(self, key: _KT) -> bool:
         """
-        Determines if the specified key is present in the dictionary.
+        Determine if the specified key is present in the dictionary.
+
         :param key: The key to be checked.
         :return: `True` if the key is found, `False` otherwise.
         """
@@ -132,7 +142,8 @@ class MultiBidict(Generic[_KT, _VT]):
 
     def contains_value(self, value: _VT) -> bool:
         """
-        Determines if the specified value is present in the dictionary.
+        Determine if the specified value is present in the dictionary.
+
         :param value: The value to be checked.
         :return: `True` if the value is found, `False` otherwise.
         """
@@ -140,7 +151,8 @@ class MultiBidict(Generic[_KT, _VT]):
 
     def are_associated(self, key: _KT, value: _VT) -> bool:
         """
-        Determines whether the given key is associated with the specified value.
+        Determine whether the given key is associated with the specified value.
+
         :param key: The key for which the association is being checked.
         :param value: The value for which the association is being checked.
         :return: `True` if the value is associated with the key, `False` otherwise.
@@ -154,10 +166,11 @@ class MultiBidict(Generic[_KT, _VT]):
 
     def insert(self, key: _KT, value: _VT) -> None:
         """
-        Inserts the given value with the specified key into the dictionary.
+        Insert the given value with the specified key into the dictionary.
+
         :param key: The key to which the value will be associated.
         :param value: The value to be inserted for the key.
-        :return: None
+        :return: None.
         """
         # Add the value to the key's set
         if key not in self.__fwd_dict:
@@ -171,7 +184,8 @@ class MultiBidict(Generic[_KT, _VT]):
 
     def remove(self, key: _KT, value: _VT) -> None:
         """
-        Removes the specified value from the given key.
+        Remove the specified value from the given key.
+
         :param key: The key from which the value will be removed.
         :param value: The value to be removed from the key.
         :return: None.
@@ -196,13 +210,14 @@ class MultiBidict(Generic[_KT, _VT]):
 
     def remove_key(self, key: _KT) -> None:
         """
-        Removes the specified key from the dictionary.
+        Remove the specified key from the dictionary.
+
         :param key: The key to be removed from the dictionary.
         :return: None.
         :raises KeyError: If the key is not registered.
         """
         # Remove the key and retrieve its associated values
-        values: Set[_VT] = self.__fwd_dict.pop(key)
+        values: set[_VT] = self.__fwd_dict.pop(key)
 
         # Remove the key from each value's set
         for value in values:
@@ -215,13 +230,14 @@ class MultiBidict(Generic[_KT, _VT]):
 
     def remove_value(self, value: _VT) -> None:
         """
-        Removes the specified value from the dictionary.
+        Remove the specified value from the dictionary.
+
         :param value: The value to be removed from the dictionary.
         :return: None.
         :raises KeyError: If the value is not registered.
         """
         # Remove the value and retrieve its associated keys
-        keys: Set[_KT] = self.__inv_dict.pop(value)
+        keys: set[_KT] = self.__inv_dict.pop(value)
 
         # Remove the value from each key's set
         for key in keys:
@@ -232,15 +248,16 @@ class MultiBidict(Generic[_KT, _VT]):
             if not self.__fwd_dict[key]:
                 self.__fwd_dict.pop(key)
 
-    def pop_key(self, key: _KT) -> Set[_VT]:
+    def pop_key(self, key: _KT) -> set[_VT]:
         """
-        Removes the specified key from the dictionary and returns the associated values.
+        Remove the specified key from the dictionary and returns the associated values.
+
         :param key: The key to be removed.
         :return: A set of values associated with the removed key.
         :raises KeyError: If the key is not found in the dictionary.
         """
         # Remove the key and retrieve its associated values
-        values: Set[_VT] = self.__fwd_dict.pop(key)
+        values: set[_VT] = self.__fwd_dict.pop(key)
 
         # Remove the key from each value's set
         for value in values:
@@ -254,15 +271,16 @@ class MultiBidict(Generic[_KT, _VT]):
         # Return the set of values
         return values
 
-    def pop_value(self, value: _VT) -> Set[_KT]:
+    def pop_value(self, value: _VT) -> set[_KT]:
         """
-        Removes the specified value from the dictionary and returns the associated keys.
+        Remove the specified value from the dictionary and returns the associated keys.
+
         :param value: The value to be removed.
         :return: A set of keys associated with the removed value.
         :raises KeyError: If the value is not found in the dictionary.
         """
         # Remove the value and retrieve its associated keys
-        keys: Set[_KT] = self.__inv_dict.pop(value)
+        keys: set[_KT] = self.__inv_dict.pop(value)
 
         # Remove the value from each key's set
         for key in keys:
@@ -278,15 +296,17 @@ class MultiBidict(Generic[_KT, _VT]):
 
     def clear(self) -> None:
         """
-        Clears the dictionary by removing all keys and values.
+        Clear the dictionary by removing all keys and values.
+
         :return: None.
         """
         self.__fwd_dict.clear()
         self.__inv_dict.clear()
 
-    def to_dict(self) -> Dict[_KT, Set[_VT]]:
+    def to_dict(self) -> dict[_KT, set[_VT]]:
         """
-        Retrieves a shallow copy of the dictionary.
+        Retrieve a shallow copy of the dictionary.
+
         :return: A shallow copy of the main dictionary, where
             each key is mapped to a set of its associated values.
         """
@@ -294,7 +314,8 @@ class MultiBidict(Generic[_KT, _VT]):
 
     def __str__(self) -> str:  # pragma: no cover
         """
-        Returns a string representation of the MultiBidict.
+        Return a string representation of the MultiBidict.
+
         :return: A string representation of the MultiBidict.
         """
         if self.is_empty:

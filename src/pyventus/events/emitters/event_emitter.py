@@ -3,7 +3,7 @@ from asyncio import gather
 from datetime import datetime
 from sys import gettrace
 from types import EllipsisType
-from typing import Any, Dict, Set, Tuple, Type, TypeAlias, final
+from typing import Any, TypeAlias, final
 from uuid import uuid4
 
 from ...core.exceptions import PyventusException
@@ -39,14 +39,12 @@ class EventEmitter(ABC):
     @final
     class EventEmission:
         """
-        Represents an event emission that has been triggered but whose propagation is not
-        yet complete. It provides a self-contained context for executing the event emission,
-        encapsulating both the event data and the associated subscribers.
+        Represents an event emission that has been triggered but whose propagation is not yet complete.
 
-        This class acts as an isolated unit of work to asynchronously propagate the emission
-        of an event. When an event occurs, the `EventEmitter` class creates an `EventEmission`
-        instance, which is then processed by the `_process()` method to handle the event
-        propagation.
+        This class provides a self-contained context for executing the event emission, encapsulating both the
+        event data and the associated subscribers. It acts as an isolated unit of work to asynchronously propagate
+        the emission of an event. When an event occurs, the `EventEmitter` class creates an `EventEmission`
+        instance, which is then processed by the `_process()` method to handle the event propagation.
         """
 
         # Attributes for the EventEmission
@@ -55,13 +53,14 @@ class EventEmitter(ABC):
         def __init__(
             self,
             event: str,
-            subscribers: Set[EventSubscriber],
-            args: Tuple[Any, ...],
-            kwargs: Dict[str, Any],
+            subscribers: set[EventSubscriber],
+            args: tuple[Any, ...],
+            kwargs: dict[str, Any],
             debug: bool,
         ) -> None:
             """
             Initialize an instance of `EventEmission`.
+
             :param event: The name of the event being emitted.
             :param subscribers: A set of subscribers associated with the event.
             :param args: Positional arguments containing event-specific data.
@@ -77,16 +76,17 @@ class EventEmitter(ABC):
             # Define and set the event emission attributes
             self.__id: str = str(uuid4())
             self.__event: str = event
-            self.__subscribers: Set[EventSubscriber] = subscribers
-            self.__args: Tuple[Any, ...] = args
-            self.__kwargs: Dict[str, Any] = kwargs
+            self.__subscribers: set[EventSubscriber] = subscribers
+            self.__args: tuple[Any, ...] = args
+            self.__kwargs: dict[str, Any] = kwargs
             self.__timestamp: datetime = datetime.now()
             self.__debug: bool = debug
 
         async def __call__(self) -> None:
             """
             Execute the subscribers concurrently.
-            :return: None
+
+            :return: None.
             """
             # Log the event execution if debug mode is enabled
             if self.__debug:  # pragma: no cover
@@ -104,7 +104,8 @@ class EventEmitter(ABC):
         @property
         def id(self) -> str:  # pragma: no cover
             """
-            Gets the unique identifier of the event emission.
+            Retrieve the unique identifier of the event emission.
+
             :return: The unique identifier of the event emission.
             """
             return self.__id
@@ -112,7 +113,8 @@ class EventEmitter(ABC):
         @property
         def event(self) -> str:  # pragma: no cover
             """
-            Gets the name of the event being emitted.
+            Retrieve the name of the emitted event.
+
             :return: The name of the event.
             """
             return self.__event
@@ -120,14 +122,16 @@ class EventEmitter(ABC):
         @property
         def timestamp(self) -> datetime:  # pragma: no cover
             """
-            Gets the timestamp when the event emission was created.
+            Retrieve the timestamp when the event emission was created.
+
             :return: The timestamp when the event emission was created.
             """
             return self.__timestamp
 
         def __str__(self) -> str:
             """
-            Returns a formatted string representation of the event emission.
+            Return a formatted string representation of the event emission.
+
             :return: The formatted string representation of the event emission.
             """
             return (
@@ -140,9 +144,10 @@ class EventEmitter(ABC):
                 f"timestamp='{self.__timestamp.strftime('%Y-%m-%d %I:%M:%S %p')}')"
             )
 
-    def __init__(self, event_linker: Type[EventLinker] = EventLinker, debug: bool | None = None) -> None:
+    def __init__(self, event_linker: type[EventLinker] = EventLinker, debug: bool | None = None) -> None:
         """
         Initialize an instance of `EventEmitter`.
+
         :param event_linker: Specifies the type of event linker used to manage and access
             events along with their corresponding subscribers. Defaults to `EventLinker`.
         :param debug: Specifies the debug mode for the logger. If `None`, it is determined
@@ -158,7 +163,7 @@ class EventEmitter(ABC):
             raise PyventusException("The 'debug' argument must be a boolean value.")
 
         # Set the event_linker value
-        self._event_linker: Type[EventLinker] = event_linker
+        self._event_linker: type[EventLinker] = event_linker
 
         # Set up the logger
         self._logger: Logger = Logger(
@@ -169,8 +174,9 @@ class EventEmitter(ABC):
     @abstractmethod
     def _process(self, event_emission: EventEmission) -> None:
         """
-        Process the event emission execution. Subclasses must implement
-        this method to define the specific processing logic.
+        Process the event emission execution.
+
+        Subclasses must implement this method to define the specific processing logic.
 
         :param event_emission: The event emission to be processed.
         :return: None
@@ -179,7 +185,7 @@ class EventEmitter(ABC):
 
     def emit(self, /, event: EmittableEventType, *args: Any, **kwargs: Any) -> None:
         """
-        Emits an event and notifies all registered subscribers.
+        Emit an event and notifies all registered subscribers.
 
         **Notes:**
 
@@ -206,11 +212,11 @@ class EventEmitter(ABC):
 
         # Get the valid event name
         event_name: str = self._event_linker.get_valid_event_name(
-            event=(event if isinstance(event, (str, EllipsisType)) else type(event))
+            event=(event if isinstance(event, str | EllipsisType) else type(event))
         )
 
         # Get the set of subscribers associated with the event, removing one-time subscribers.
-        subscribers: Set[EventSubscriber] = self._event_linker.get_subscribers_from_events(
+        subscribers: set[EventSubscriber] = self._event_linker.get_subscribers_from_events(
             event_name, Ellipsis, pop_one_time_subscribers=True
         )
 
@@ -225,7 +231,7 @@ class EventEmitter(ABC):
         event_emission = EventEmitter.EventEmission(
             event=event_name,
             subscribers=subscribers,
-            args=(args if isinstance(event, (str, EllipsisType)) else (event, *args)),
+            args=(args if isinstance(event, str | EllipsisType) else (event, *args)),
             kwargs=kwargs,
             debug=self._logger.debug_enabled,
         )

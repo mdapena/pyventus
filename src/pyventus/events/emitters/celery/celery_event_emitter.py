@@ -9,6 +9,7 @@ from typing import Any, NamedTuple, cast
 from typing_extensions import override
 
 from ....core.exceptions import PyventusException
+from ....core.utils import attributes_repr, formatted_repr
 from ...linkers import EventLinker
 from ..event_emitter import EventEmitter
 
@@ -159,6 +160,23 @@ class CeleryEventEmitter(EventEmitter):
                 queue=self._name,
             )
 
+        def __repr__(self) -> str:  # pragma: no cover
+            """
+            Retrieve a string representation of the instance.
+
+            :return: A string representation of the instance.
+            """
+            return formatted_repr(
+                instance=self,
+                info=attributes_repr(
+                    celery=self._celery,
+                    name=self._name,
+                    secret=self._secret,
+                    digestmod=self._digestmod,
+                    serializer=self._serializer.__name__,
+                ),
+            )
+
         def _execute_event_emission(self, **kwargs: Any) -> None:
             """
             Execute the enqueued event emission object.
@@ -253,6 +271,18 @@ class CeleryEventEmitter(EventEmitter):
 
         # Store the queue object
         self._queue: CeleryEventEmitter.Queue = queue
+
+    @override
+    def __repr__(self) -> str:  # pragma: no cover
+        return formatted_repr(
+            instance=self,
+            info=(
+                attributes_repr(
+                    queue=self._queue,
+                )
+                + f", {super().__repr__()}"
+            ),
+        )
 
     @override
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:

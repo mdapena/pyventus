@@ -1,5 +1,7 @@
 from typing import Generic, TypeVar
 
+from ..utils import attributes_repr, formatted_repr
+
 _KT = TypeVar("_KT")
 """A generic type variable that represents the keys in a MultiBidict."""
 
@@ -45,6 +47,20 @@ class MultiBidict(Generic[_KT, _VT]):
         # Initialize the main dictionary and its inverse
         self.__fwd_dict: dict[_KT, set[_VT]] = {}
         self.__inv_dict: dict[_VT, set[_KT]] = {}
+
+    def __repr__(self) -> str:  # pragma: no cover
+        """
+        Retrieve a string representation of the instance.
+
+        :return: A string representation of the instance.
+        """
+        return formatted_repr(
+            instance=self,
+            info=attributes_repr(
+                fwd_dict=self.__fwd_dict,
+                inv_dict=self.__inv_dict,
+            ),
+        )
 
     @property
     def is_empty(self) -> bool:
@@ -311,13 +327,3 @@ class MultiBidict(Generic[_KT, _VT]):
             each key is mapped to a set of its associated values.
         """
         return self.__fwd_dict.copy()
-
-    def __str__(self) -> str:  # pragma: no cover
-        """
-        Return a string representation of the MultiBidict.
-
-        :return: A string representation of the MultiBidict.
-        """
-        if self.is_empty:
-            return "{}"
-        return "{\n" + "\n".join(f"\t'{key}': {values}" for key, values in self.__fwd_dict.items()) + "\n}"

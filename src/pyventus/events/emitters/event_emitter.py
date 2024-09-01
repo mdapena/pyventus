@@ -8,6 +8,7 @@ from uuid import uuid4
 
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger, StdOutLogger
+from ...core.utils import attributes_repr, formatted_repr
 from ..linkers import EventLinker
 from ..subscribers import EventSubscriber
 
@@ -82,24 +83,24 @@ class EventEmitter(ABC):
             self.__timestamp: datetime = datetime.now()
             self.__debug: bool = debug
 
-        async def __call__(self) -> None:
+        def __repr__(self) -> str:  # pragma: no cover
             """
-            Execute the subscribers concurrently.
+            Retrieve a string representation of the instance.
 
-            :return: None.
+            :return: A string representation of the instance.
             """
-            # Log the event execution if debug mode is enabled
-            if self.__debug:  # pragma: no cover
-                StdOutLogger.debug(name=type(self).__name__, action="Executing:", msg=f"{self}")
-
-            # Execute the subscribers concurrently
-            await gather(
-                *[subscriber.execute(*self.__args, **self.__kwargs) for subscriber in self.__subscribers],
-                return_exceptions=True,
+            return formatted_repr(
+                instance=self,
+                info=attributes_repr(
+                    id=self.__id,
+                    event=self.__event,
+                    subscribers=self.__subscribers,
+                    args=self.__args,
+                    kwargs=self.__kwargs,
+                    timestamp=self.__timestamp,
+                    debug=self.__debug,
+                ),
             )
-
-            # Perform cleanup by deleting unnecessary references
-            del self.__id, self.__event, self.__subscribers, self.__args, self.__kwargs, self.__timestamp, self.__debug
 
         @property
         def id(self) -> str:  # pragma: no cover
@@ -128,21 +129,24 @@ class EventEmitter(ABC):
             """
             return self.__timestamp
 
-        def __str__(self) -> str:
+        async def __call__(self) -> None:
             """
-            Return a formatted string representation of the event emission.
+            Execute the subscribers concurrently.
 
-            :return: The formatted string representation of the event emission.
+            :return: None.
             """
-            return (
-                f"EventEmission("
-                f"id='{self.__id}', "
-                f"event='{self.__event}', "
-                f"subscribers={len(self.__subscribers)}, "
-                f"args={self.__args}, "
-                f"kwargs={self.__kwargs}, "
-                f"timestamp='{self.__timestamp.strftime('%Y-%m-%d %I:%M:%S %p')}')"
+            # Log the event execution if debug mode is enabled
+            if self.__debug:  # pragma: no cover
+                StdOutLogger.debug(name=type(self).__name__, action="Executing:", msg=f"{self}")
+
+            # Execute the subscribers concurrently
+            await gather(
+                *[subscriber.execute(*self.__args, **self.__kwargs) for subscriber in self.__subscribers],
+                return_exceptions=True,
             )
+
+            # Perform cleanup by deleting unnecessary references
+            del self.__id, self.__event, self.__subscribers, self.__args, self.__kwargs, self.__timestamp, self.__debug
 
     def __init__(self, event_linker: type[EventLinker] = EventLinker, debug: bool | None = None) -> None:
         """
@@ -169,6 +173,17 @@ class EventEmitter(ABC):
         self._logger: Logger = Logger(
             name=type(self).__name__,
             debug=debug if debug is not None else bool(gettrace() is not None),
+        )
+
+    def __repr__(self) -> str:  # pragma: no cover
+        """
+        Retrieve a string representation of the instance.
+
+        :return: A string representation of the instance.
+        """
+        return attributes_repr(
+            event_linker=self._event_linker.__name__,
+            debug=self._logger.debug_enabled,
         )
 
     @abstractmethod

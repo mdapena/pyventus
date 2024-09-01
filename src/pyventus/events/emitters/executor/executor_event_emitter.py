@@ -5,6 +5,7 @@ from types import TracebackType
 from typing_extensions import override
 
 from ....core.exceptions import PyventusException
+from ....core.utils import attributes_repr, formatted_repr
 from ...linkers import EventLinker
 from ..event_emitter import EventEmitter
 
@@ -28,6 +29,16 @@ class ExecutorEventEmitter(EventEmitter):
     Read more in the
     [Pyventus docs for Executor Event Emitter](https://mdapena.github.io/pyventus/tutorials/emitters/executor/).
     """
+
+    @staticmethod
+    def _execute_event_emission(event_emission: EventEmitter.EventEmission) -> None:
+        """
+        Execute the event emission.
+
+        :param event_emission: The event emission to be executed.
+        :return: None.
+        """
+        run(event_emission())
 
     def __init__(
         self,
@@ -55,6 +66,34 @@ class ExecutorEventEmitter(EventEmitter):
         # Use the provided executor or create a default ThreadPoolExecutor if None is given
         self._executor: Executor = executor if executor else ThreadPoolExecutor()
 
+    @override
+    def __repr__(self) -> str:  # pragma: no cover
+        return formatted_repr(
+            instance=self,
+            info=(
+                attributes_repr(
+                    executor=self._executor,
+                )
+                + f", {super().__repr__()}"
+            ),
+        )
+
+    @override
+    def _process(self, event_emission: EventEmitter.EventEmission) -> None:
+        # Submit the event emission to the executor
+        self._executor.submit(ExecutorEventEmitter._execute_event_emission, event_emission)
+
+    def shutdown(self, wait: bool = True, cancel_futures: bool = False) -> None:
+        """
+        Shut down the executor and release any resources it is using.
+
+        :param wait: A boolean indicating whether to wait for the currently pending futures
+            to complete before shutting down.
+        :param cancel_futures: A boolean indicating whether to cancel any pending futures.
+        :return: None.
+        """
+        self._executor.shutdown(wait=wait, cancel_futures=cancel_futures)
+
     def __enter__(self) -> "ExecutorEventEmitter":
         """
         Return the current instance of `ExecutorEventEmitter` for context management.
@@ -75,29 +114,3 @@ class ExecutorEventEmitter(EventEmitter):
         :return: None.
         """
         self.shutdown(wait=True)
-
-    @staticmethod
-    def _execute_event_emission(event_emission: EventEmitter.EventEmission) -> None:
-        """
-        Execute the event emission.
-
-        :param event_emission: The event emission to be executed.
-        :return: None.
-        """
-        run(event_emission())
-
-    @override
-    def _process(self, event_emission: EventEmitter.EventEmission) -> None:
-        # Submit the event emission to the executor
-        self._executor.submit(ExecutorEventEmitter._execute_event_emission, event_emission)
-
-    def shutdown(self, wait: bool = True, cancel_futures: bool = False) -> None:
-        """
-        Shut down the executor and release any resources it is using.
-
-        :param wait: A boolean indicating whether to wait for the currently pending futures
-            to complete before shutting down.
-        :param cancel_futures: A boolean indicating whether to cancel any pending futures.
-        :return: None.
-        """
-        self._executor.shutdown(wait=wait, cancel_futures=cancel_futures)

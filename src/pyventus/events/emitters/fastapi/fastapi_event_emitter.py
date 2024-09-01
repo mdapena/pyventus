@@ -3,6 +3,7 @@ from collections.abc import Callable
 from typing_extensions import override
 
 from ....core.exceptions import PyventusException
+from ....core.utils import attributes_repr, formatted_repr
 from ...linkers import EventLinker
 from ..event_emitter import EventEmitter
 
@@ -84,6 +85,18 @@ class FastAPIEventEmitter(EventEmitter):
 
         # Set the background tasks
         self._background_tasks: BackgroundTasks = background_tasks
+
+    @override
+    def __repr__(self) -> str:  # pragma: no cover
+        return formatted_repr(
+            instance=self,
+            info=(
+                attributes_repr(
+                    background_tasks=self._background_tasks,
+                )
+                + f", {super().__repr__()}"
+            ),
+        )
 
     @override
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:

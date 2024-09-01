@@ -3,6 +3,7 @@ from typing import Any
 from typing_extensions import override
 
 from ....core.exceptions import PyventusException
+from ....core.utils import attributes_repr, formatted_repr
 from ...linkers import EventLinker
 from ..event_emitter import EventEmitter
 
@@ -60,6 +61,19 @@ class RQEventEmitter(EventEmitter):
         # Store the Redis queue and RQ options
         self._queue: Queue = queue
         self._options: dict[str, Any] = options if options is not None else {}
+
+    @override
+    def __repr__(self) -> str:  # pragma: no cover
+        return formatted_repr(
+            instance=self,
+            info=(
+                attributes_repr(
+                    queue=self._queue,
+                    options=self._options,
+                )
+                + f", {super().__repr__()}"
+            ),
+        )
 
     @override
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:

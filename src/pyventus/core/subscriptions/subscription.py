@@ -4,7 +4,7 @@ from typing import Any
 
 from typing_extensions import Self, override
 
-from ..utils import validate_callable
+from ..utils import attributes_repr, validate_callable
 from .unsubscribable import Unsubscribable
 
 
@@ -20,15 +20,6 @@ class Subscription(Unsubscribable):
 
     # Attributes for the Subscription
     __slots__ = ("__timestamp", "__teardown_callback")
-
-    @property
-    def timestamp(self) -> datetime:
-        """
-        Retrieve the timestamp when the subscription was created.
-
-        :return: The timestamp when the subscription was created.
-        """
-        return self.__timestamp
 
     def __init__(self, teardown_callback: Callable[[Self], bool]) -> None:
         """
@@ -46,6 +37,26 @@ class Subscription(Unsubscribable):
         # Initialize attributes
         self.__timestamp: datetime = datetime.now()
         self.__teardown_callback: Callable[[Self], bool] = teardown_callback
+
+    def __repr__(self) -> str:  # pragma: no cover
+        """
+        Retrieve a string representation of the instance.
+
+        :return: A string representation of the instance.
+        """
+        return attributes_repr(
+            timestamp=self.__timestamp,
+            teardown_callback=self.__teardown_callback,
+        )
+
+    @property
+    def timestamp(self) -> datetime:
+        """
+        Retrieve the timestamp when the subscription was created.
+
+        :return: The timestamp when the subscription was created.
+        """
+        return self.__timestamp
 
     @override
     def unsubscribe(self: Self) -> bool:
@@ -85,11 +96,3 @@ class Subscription(Unsubscribable):
 
         # Set default values for attributes that were not serialized
         self.__teardown_callback = lambda sub: False
-
-    def __str__(self) -> str:  # pragma: no cover
-        """
-        Return a formatted string representation of the subscription.
-
-        :return: A string representation of the subscription.
-        """
-        return f"Subscription(timestamp='{self.__timestamp.strftime('%Y-%m-%d %I:%M:%S %p')}')"

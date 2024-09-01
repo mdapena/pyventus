@@ -1,3 +1,4 @@
+from ..utils import attributes_repr, formatted_repr
 from .stdout_logger import StdOutLogger
 
 
@@ -6,15 +7,6 @@ class Logger:
 
     # Attributes for the Logger
     __slots__ = ("__name", "__debug")
-
-    @property
-    def debug_enabled(self) -> bool:
-        """
-        Return a boolean value indicating whether debug mode is enabled.
-
-        :return: `True` if debug mode is enabled, `False` otherwise.
-        """
-        return self.__debug
 
     def __init__(self, name: str | None = None, debug: bool = False):
         """
@@ -25,6 +17,29 @@ class Logger:
         """
         self.__name: str | None = name
         self.__debug = debug
+
+    def __repr__(self) -> str:  # pragma: no cover
+        """
+        Retrieve a string representation of the instance.
+
+        :return: A string representation of the instance.
+        """
+        return formatted_repr(
+            instance=self,
+            info=attributes_repr(
+                name=self.__name,
+                debug=self.__debug,
+            ),
+        )
+
+    @property
+    def debug_enabled(self) -> bool:
+        """
+        Return a boolean value indicating whether debug mode is enabled.
+
+        :return: `True` if debug mode is enabled, `False` otherwise.
+        """
+        return self.__debug
 
     def error(self, msg: str, action: str | None = None) -> None:
         """

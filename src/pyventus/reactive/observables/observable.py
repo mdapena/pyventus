@@ -3,14 +3,7 @@ from collections.abc import AsyncGenerator, Awaitable, Callable, Generator
 from concurrent.futures import ThreadPoolExecutor
 from sys import gettrace
 from threading import Lock
-from typing import (
-    Any,
-    Generic,
-    TypeAlias,
-    TypeVar,
-    final,
-    overload,
-)
+from typing import Any, Generic, TypeAlias, TypeVar, final, overload
 
 from typing_extensions import override
 
@@ -18,18 +11,15 @@ from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
 from ...core.subscriptions import SubscriptionContext
 from ...core.utils import (
+    attributes_repr,
+    formatted_repr,
     get_callable_name,
     is_callable_async,
     is_callable_generator,
     is_loop_running,
     validate_callable,
 )
-from ..subscribers import (
-    CompleteCallbackType,
-    ErrorCallbackType,
-    NextCallbackType,
-    Subscriber,
-)
+from ..subscribers import CompleteCallbackType, ErrorCallbackType, NextCallbackType, Subscriber
 
 _OutT = TypeVar("_OutT", covariant=True)
 """A generic type representing the value that will be streamed through the observable."""
@@ -114,36 +104,20 @@ class Observable(Generic[_OutT]):
             self.__complete_callback: CompleteCallbackType | None = None
             self.__force_async: bool = force_async
 
-        def __call__(
-            self, callback: NextCallbackType[_CtxT]
-        ) -> (
-            tuple[NextCallbackType[_CtxT], "Observable.ObservableSubscriptionContext[_CtxT]"] | NextCallbackType[_CtxT]
-        ):
-            """
-            Subscribe the decorated callback as the observer's `next` function for the specified observable.
-
-            :param callback: The callback to be executed when the observable emits a new value.
-            :return: A tuple containing the decorated callback and its subscription context
-                if the context is stateful; otherwise, returns the decorated callback alone.
-            """
-            # Store the provided callback in the subscription context
-            self.__next_callback = callback
-
-            # Set error and complete callbacks to None
-            self.__error_callback = None
-            self.__complete_callback = None
-
-            # Determine if the subscription context is stateful
-            is_stateful: bool = self._is_stateful
-
-            # Call the exit method to finalize the
-            # subscription process and clean up any necessary context.
-            self.__exit__(None, None, None)
-
-            # Return a tuple containing the decorated callback
-            # and the current subscription context if the context
-            # is stateful; otherwise, return just the callback.
-            return (callback, self) if is_stateful else callback
+        @override
+        def __repr__(self) -> str:  # pragma: no cover
+            return formatted_repr(
+                instance=self,
+                info=(
+                    attributes_repr(
+                        next_callback=self.__next_callback,
+                        error_callback=self.__error_callback,
+                        complete_callback=self.__complete_callback,
+                        force_async=self.__force_async,
+                    )
+                    + f", {super().__repr__()}"
+                ),
+            )
 
         @override
         def _exit(self) -> Subscriber[_CtxT]:
@@ -200,11 +174,53 @@ class Observable(Generic[_OutT]):
             self.__complete_callback = callback
             return callback
 
+        def __call__(
+            self, callback: NextCallbackType[_CtxT]
+        ) -> (
+            tuple[NextCallbackType[_CtxT], "Observable.ObservableSubscriptionContext[_CtxT]"] | NextCallbackType[_CtxT]
+        ):
+            """
+            Subscribe the decorated callback as the observer's `next` function for the specified observable.
+
+            :param callback: The callback to be executed when the observable emits a new value.
+            :return: A tuple containing the decorated callback and its subscription context
+                if the context is stateful; otherwise, returns the decorated callback alone.
+            """
+            # Store the provided callback in the subscription context
+            self.__next_callback = callback
+
+            # Set error and complete callbacks to None
+            self.__error_callback = None
+            self.__complete_callback = None
+
+            # Determine if the subscription context is stateful
+            is_stateful: bool = self._is_stateful
+
+            # Call the exit method to finalize the
+            # subscription process and clean up any necessary context.
+            self.__exit__(None, None, None)
+
+            # Return a tuple containing the decorated callback
+            # and the current subscription context if the context
+            # is stateful; otherwise, return just the callback.
+            return (callback, self) if is_stateful else callback
+
     @final
     class Completed(Exception):
         """Exception raised to indicate that an observable sequence has completed."""
 
-        pass
+    @staticmethod
+    def get_valid_subscriber(subscriber: Subscriber[_OutT]) -> Subscriber[_OutT]:
+        """
+        Validate and return the specified subscriber.
+
+        :param subscriber: The subscriber to validate.
+        :return: The validated subscriber.
+        :raises PyventusException: If the subscriber is not an instance of `Subscriber`.
+        """
+        if not isinstance(subscriber, Subscriber):
+            raise PyventusException("The 'subscriber' argument must be an instance of Subscriber.")
+        return subscriber
 
     # Attributes for the Observable
     __slots__ = (
@@ -263,6 +279,27 @@ class Observable(Generic[_OutT]):
         self.__logger: Logger = Logger(
             name=self.__class__.__name__,
             debug=debug if debug is not None else bool(gettrace() is not None),
+        )
+
+    def __repr__(self) -> str:  # pragma: no cover
+        """
+        Retrieve a string representation of the instance.
+
+        :return: A string representation of the instance.
+        """
+        return formatted_repr(
+            instance=self,
+            info=attributes_repr(
+                args=self.__args,
+                kwargs=self.__kwargs,
+                callback=self.__callback_name,
+                is_callback_async=self.__is_callback_async,
+                is_callback_generator=self.__is_callback_generator,
+                subscribers=self.__subscribers,
+                background_tasks=self.__background_tasks,
+                thread_lock=self.__thread_lock,
+                debug=self.__logger.debug_enabled,
+            ),
         )
 
     def __remove_background_task(self, task: Task[None]) -> None:
@@ -334,76 +371,6 @@ class Observable(Generic[_OutT]):
         except Exception as exception:
             # Notify all subscribers of any errors encountered during callback execution
             await gather(*[subscriber.error(exception) for subscriber in self.get_subscribers()])
-
-    def __call__(self, executor: ThreadPoolExecutor | None = None) -> None:
-        """
-        Execute the current `Observable`.
-
-        Depending on the context, Observables manage their execution differently:
-
-        -   In a synchronous environment, a new event loop is started to execute
-            the `Observable`. The loop then waits for all scheduled tasks to
-            finish before closing, preserving synchronous execution while
-            still benefiting from concurrent execution.
-
-        -   In an asynchronous setting, the `Observable` is scheduled as a
-            background task within the running asyncio event loop.
-
-        -   When a thread-based executor is provided, the `Observable`'s
-            execution is submitted to the given thread.
-
-        :param executor: An optional `ThreadPoolExecutor` instance for executing
-            the `Observable` within the given thread-based executor.
-        :return: None
-        """
-        if executor is None:
-            # Check if there is an active event loop
-            loop_running: bool = is_loop_running()
-
-            if loop_running:
-                # Schedule the Observable execution in the running loop as a background task
-                task: Task[None] = create_task(self.__execute())
-
-                # Remove the Task from the set of background tasks upon completion
-                task.add_done_callback(self.__remove_background_task)
-
-                # Acquire lock to ensure thread safety
-                with self.__thread_lock:
-                    # Add the Task to the set of background tasks
-                    self.__background_tasks.add(task)
-            else:
-                # Execute the Observable in a new event loop
-                # and wait for its execution to complete
-                run(self.__execute())
-        else:
-            # Validate that the executor is an instance of ThreadPoolExecutor
-            if not isinstance(executor, ThreadPoolExecutor):
-                raise PyventusException("The 'executor' argument must be an instance of ThreadPoolExecutor.")
-
-            # Submit the Observable's execution to
-            # the provided thread-based executor
-            executor.submit(self)
-
-    def _get_logger(self) -> Logger:
-        """
-        Retrieve the logger instance associated with the `Observable`.
-
-        :return: The logger instance associated with the `Observable`.
-        """
-        return self.__logger
-
-    @staticmethod
-    def get_valid_subscriber(subscriber: Subscriber[_OutT]) -> Subscriber[_OutT]:
-        """
-        Validate and return the specified subscriber.
-
-        :param subscriber: The subscriber to validate.
-        :return: The validated subscriber.
-        :raises PyventusException: If the subscriber is not an instance of `Subscriber`.
-        """
-        if not isinstance(subscriber, Subscriber):
-            raise PyventusException("The 'subscriber' argument must be an instance of Subscriber.")
-        return subscriber
 
     def get_subscribers(self) -> set[Subscriber[_OutT]]:
         """
@@ -554,21 +521,54 @@ class Observable(Generic[_OutT]):
         # Await the completion of all background tasks
         await gather(*tasks)
 
-    def __str__(self) -> str:
+    def __call__(self, executor: ThreadPoolExecutor | None = None) -> None:
         """
-        Return a formatted string representation of the Observable.
+        Execute the current `Observable`.
 
-        :return: A string representation of the Observable.
+        Depending on the context, Observables manage their execution differently:
+
+        -   In a synchronous environment, a new event loop is started to execute
+            the `Observable`. The loop then waits for all scheduled tasks to
+            finish before closing, preserving synchronous execution while
+            still benefiting from concurrent execution.
+
+        -   In an asynchronous setting, the `Observable` is scheduled as a
+            background task within the running asyncio event loop.
+
+        -   When a thread-based executor is provided, the `Observable`'s
+            execution is submitted to the given thread.
+
+        :param executor: An optional `ThreadPoolExecutor` instance for executing
+            the `Observable` within the given thread-based executor.
+        :return: None
         """
-        return (
-            f"Observable("
-            f"callback=(name='{self.__callback_name}', "
-            f"is_async={self.__is_callback_async}, "
-            f"is_generator={self.__is_callback_generator}), "
-            f"args={self.__args}, "
-            f"kwargs={self.__kwargs}, "
-            f"subscribers={len(self.__subscribers)})"
-        )
+        if executor is None:
+            # Check if there is an active event loop
+            loop_running: bool = is_loop_running()
+
+            if loop_running:
+                # Schedule the Observable execution in the running loop as a background task
+                task: Task[None] = create_task(self.__execute())
+
+                # Remove the Task from the set of background tasks upon completion
+                task.add_done_callback(self.__remove_background_task)
+
+                # Acquire lock to ensure thread safety
+                with self.__thread_lock:
+                    # Add the Task to the set of background tasks
+                    self.__background_tasks.add(task)
+            else:
+                # Execute the Observable in a new event loop
+                # and wait for its execution to complete
+                run(self.__execute())
+        else:
+            # Validate that the executor is an instance of ThreadPoolExecutor
+            if not isinstance(executor, ThreadPoolExecutor):
+                raise PyventusException("The 'executor' argument must be an instance of ThreadPoolExecutor.")
+
+            # Submit the Observable's execution to
+            # the provided thread-based executor
+            executor.submit(self)
 
 
 Completed = Observable.Completed()

@@ -2,7 +2,7 @@ from asyncio import Task, create_task, gather, run
 
 from typing_extensions import override
 
-from ....core.utils import is_loop_running
+from ....core.utils import attributes_repr, formatted_repr, is_loop_running
 from ...linkers import EventLinker
 from ..event_emitter import EventEmitter
 
@@ -40,6 +40,18 @@ class AsyncIOEventEmitter(EventEmitter):
 
         # Initialize the set of background futures
         self._background_tasks: set[Task[None]] = set()
+
+    @override
+    def __repr__(self) -> str:  # pragma: no cover
+        return formatted_repr(
+            instance=self,
+            info=(
+                attributes_repr(
+                    background_tasks=self._background_tasks,
+                )
+                + f", {super().__repr__()}"
+            ),
+        )
 
     @override
     def _process(self, event_emission: EventEmitter.EventEmission) -> None:

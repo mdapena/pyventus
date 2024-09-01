@@ -4,7 +4,7 @@ from typing import Any, Generic, TypeAlias, TypeVar, final
 from typing_extensions import Self, override
 
 from ...core.subscriptions import Subscription
-from ...core.utils import CallableWrapper
+from ...core.utils import CallableWrapper, attributes_repr, formatted_repr
 from ..observers import Observer
 
 _InT = TypeVar("_InT", contravariant=True)
@@ -94,6 +94,20 @@ class Subscriber(Generic[_InT], Observer[_InT], Subscription):
         )
 
     @override
+    def __repr__(self) -> str:  # pragma: no cover
+        return formatted_repr(
+            instance=self,
+            info=(
+                attributes_repr(
+                    next_callback=self.__next_callback,
+                    error_callback=self.__error_callback,
+                    complete_callback=self.__complete_callback,
+                )
+                + f", {super().__repr__()}"
+            ),
+        )
+
+    @override
     async def next(self, value: _InT) -> None:
         if self.__next_callback is None:
             # If no next callback is set, exit early
@@ -142,17 +156,3 @@ class Subscriber(Generic[_InT], Observer[_InT], Subscription):
         self.__next_callback = state["__next_callback"]
         self.__error_callback = state["__error_callback"]
         self.__complete_callback = state["__complete_callback"]
-
-    def __str__(self) -> str:
-        """
-        Return a formatted string representation of the subscriber.
-
-        :return: A string representation of the subscriber.
-        """
-        return (
-            f"Subscriber("
-            f"next_callback={self.__next_callback}, "
-            f"error_callback={self.__error_callback}, "
-            f"complete_callback={self.__complete_callback}, "
-            f"timestamp='{self.timestamp.strftime('%Y-%m-%d %I:%M:%S %p')}')"
-        )

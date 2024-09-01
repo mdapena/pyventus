@@ -11,13 +11,8 @@ from ...core.constants import StdOutColors
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
 from ...core.subscriptions import SubscriptionContext
-from ...core.utils import validate_callable
-from ..subscribers import (
-    EventCallbackType,
-    EventSubscriber,
-    FailureCallbackType,
-    SuccessCallbackType,
-)
+from ...core.utils import attributes_repr, formatted_repr, validate_callable
+from ..subscribers import EventCallbackType, EventSubscriber, FailureCallbackType, SuccessCallbackType
 
 SubscribableEventType: TypeAlias = str | type[Exception] | type[object] | EllipsisType
 """A type alias representing the supported event types for subscription."""
@@ -109,34 +104,22 @@ class EventLinker:
             self.__force_async: bool = force_async
             self.__once: bool = once
 
-        def __call__(
-            self, callback: EventCallbackType
-        ) -> tuple[EventCallbackType, "EventLinker.EventLinkerSubscriptionContext"] | EventCallbackType:
-            """
-            Subscribe the decorated callback to the specified events.
-
-            :param callback: The callback to be executed when the event occurs.
-            :return: A tuple containing the decorated callback and its subscription context
-                if the context is stateful; otherwise, returns the decorated callback alone.
-            """
-            # Store the provided callback as the event callback
-            self.__event_callback = callback
-
-            # Set success and failure callbacks to None
-            self.__success_callback = None
-            self.__failure_callback = None
-
-            # Determine if the subscription context is stateful
-            is_stateful: bool = self._is_stateful
-
-            # Call the exit method to finalize the
-            # subscription process and clean up any necessary context.
-            self.__exit__(None, None, None)
-
-            # Return a tuple containing the decorated callback
-            # and the current subscription context if the context
-            # is stateful; otherwise, return just the callback.
-            return (callback, self) if is_stateful else callback
+        @override
+        def __repr__(self) -> str:  # pragma: no cover
+            return formatted_repr(
+                instance=self,
+                info=(
+                    attributes_repr(
+                        events=self.__events,
+                        event_callback=self.__event_callback,
+                        success_callback=self.__success_callback,
+                        failure_callback=self.__failure_callback,
+                        force_async=self.__force_async,
+                        once=self.__once,
+                    )
+                    + f", {super().__repr__()}"
+                ),
+            )
 
         @override
         def _exit(self) -> EventSubscriber:
@@ -197,6 +180,35 @@ class EventLinker:
             """
             self.__failure_callback = callback
             return callback
+
+        def __call__(
+            self, callback: EventCallbackType
+        ) -> tuple[EventCallbackType, "EventLinker.EventLinkerSubscriptionContext"] | EventCallbackType:
+            """
+            Subscribe the decorated callback to the specified events.
+
+            :param callback: The callback to be executed when the event occurs.
+            :return: A tuple containing the decorated callback and its subscription context
+                if the context is stateful; otherwise, returns the decorated callback alone.
+            """
+            # Store the provided callback as the event callback
+            self.__event_callback = callback
+
+            # Set success and failure callbacks to None
+            self.__success_callback = None
+            self.__failure_callback = None
+
+            # Determine if the subscription context is stateful
+            is_stateful: bool = self._is_stateful
+
+            # Call the exit method to finalize the
+            # subscription process and clean up any necessary context.
+            self.__exit__(None, None, None)
+
+            # Return a tuple containing the decorated callback
+            # and the current subscription context if the context
+            # is stateful; otherwise, return just the callback.
+            return (callback, self) if is_stateful else callback
 
     __registry: MultiBidict[str, EventSubscriber] = MultiBidict[str, EventSubscriber]()
     """

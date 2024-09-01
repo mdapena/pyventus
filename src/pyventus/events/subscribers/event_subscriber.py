@@ -5,7 +5,7 @@ from typing_extensions import Self, override
 
 from ...core.exceptions import PyventusException
 from ...core.subscriptions import Subscription
-from ...core.utils import CallableWrapper
+from ...core.utils import CallableWrapper, attributes_repr, formatted_repr
 from ...events.handlers import EventHandler
 
 EventCallbackType: TypeAlias = Callable[..., Any]
@@ -34,16 +34,6 @@ class EventSubscriber(EventHandler, Subscription):
 
     # Attributes for the EventSubscriber
     __slots__ = ("__event_callback", "__success_callback", "__failure_callback", "__once")
-
-    @property
-    def once(self) -> bool:
-        """
-        Determine if the event subscriber is a one-time subscription.
-
-        :return: A boolean value indicating if the event subscriber
-            is a one-time subscription.
-        """
-        return self.__once
 
     def __init__(
         self,
@@ -104,6 +94,31 @@ class EventSubscriber(EventHandler, Subscription):
         self.__once: bool = once
 
     @override
+    def __repr__(self) -> str:  # pragma: no cover
+        return formatted_repr(
+            instance=self,
+            info=(
+                attributes_repr(
+                    event_callback=self.__event_callback,
+                    success_callback=self.__success_callback,
+                    failure_callback=self.__failure_callback,
+                    once=self.__once,
+                )
+                + f", {super().__repr__()}"
+            ),
+        )
+
+    @property
+    def once(self) -> bool:
+        """
+        Determine if the event subscriber is a one-time subscription.
+
+        :return: A boolean value indicating if the event subscriber
+            is a one-time subscription.
+        """
+        return self.__once
+
+    @override
     async def _handle_event(self, *args: Any, **kwargs: Any) -> Any:
         # Execute the event callback with the provided arguments and return the result
         return await self.__event_callback(*args, **kwargs)
@@ -153,18 +168,3 @@ class EventSubscriber(EventHandler, Subscription):
         self.__success_callback = state["__success_callback"]
         self.__failure_callback = state["__failure_callback"]
         self.__once = state["__once"]
-
-    def __str__(self) -> str:  # pragma: no cover
-        """
-        Return a formatted string representation of the event subscriber.
-
-        :return: A string representation of the event subscriber.
-        """
-        return (
-            f"EventSubscriber("
-            f"event_callback={self.__event_callback}, "
-            f"success_callback={self.__success_callback}, "
-            f"failure_callback={self.__failure_callback}, "
-            f"once={self.__once}, "
-            f"timestamp='{self.timestamp.strftime('%Y-%m-%d %I:%M:%S %p')}')"
-        )

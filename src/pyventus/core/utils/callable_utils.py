@@ -12,6 +12,7 @@ from inspect import (
 from typing import Any, Generic, ParamSpec, TypeVar, final
 
 from ..exceptions import PyventusException
+from ..utils.repr_utils import attributes_repr, formatted_repr
 
 _ParamType = ParamSpec("_ParamType")
 """A generic type representing the names and types of the parameters for a callable."""
@@ -39,25 +40,6 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
 
     # CallableWrapper attributes
     __slots__ = ("__name__", "__callable", "__is_callable_async", "__force_async")
-
-    @property
-    def name(self) -> str:
-        """
-        Retrieve the name of the wrapped callable object.
-
-        :return: A string representing the name of the wrapped callable object.
-        """
-        return self.__name__
-
-    @property
-    def force_async(self) -> bool:
-        """
-        Determine whether the wrapped callable is forced to run asynchronously.
-
-        :return: A boolean value indicating if the wrapped callable is forced to
-            run asynchronously.
-        """
-        return self.__force_async
 
     def __init__(self, cb: Callable[_ParamType, Awaitable[_ReturnType] | _ReturnType], /, force_async: bool) -> None:
         """
@@ -88,6 +70,41 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
         # Store the force_async flag.
         self.__force_async: bool = force_async
 
+    def __repr__(self) -> str:  # pragma: no cover
+        """
+        Retrieve a string representation of the instance.
+
+        :return: A string representation of the instance.
+        """
+        return formatted_repr(
+            instance=self,
+            info=attributes_repr(
+                name=self.__name__,
+                callable=self.__callable,
+                is_callable_async=self.__is_callable_async,
+                force_async=self.__force_async,
+            ),
+        )
+
+    @property
+    def name(self) -> str:
+        """
+        Retrieve the name of the wrapped callable object.
+
+        :return: A string representing the name of the wrapped callable object.
+        """
+        return self.__name__
+
+    @property
+    def force_async(self) -> bool:
+        """
+        Determine whether the wrapped callable is forced to run asynchronously.
+
+        :return: A boolean value indicating if the wrapped callable is forced to
+            run asynchronously.
+        """
+        return self.__force_async
+
     async def __call__(self, *args: _ParamType.args, **kwargs: _ParamType.kwargs) -> _ReturnType:
         """
         Execute the wrapped callable with the given arguments.
@@ -105,18 +122,6 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
         else:
             # If the callable is synchronous and force_async is False, run it synchronously.
             return self.__callable(*args, **kwargs)  # type: ignore[return-value]
-
-    def __str__(self) -> str:
-        """
-        Return a string representation of the `CallableWrapper` instance.
-
-        :return: A string representation of the `CallableWrapper` instance.
-        """
-        return (  # pragma: no cover
-            f"CallableWrapper(callable='{self.name}', "
-            f"is_callable_async={self.__is_callable_async}, "
-            f"force_async={self.__force_async})"
-        )
 
 
 def validate_callable(cb: Callable[..., Any], /) -> None:

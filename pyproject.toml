@@ -150,6 +150,7 @@ cov = [
     "- coverage combine",
     "coverage report",
     "coverage xml",
+    "coverage html",
 ]
 
 all = [

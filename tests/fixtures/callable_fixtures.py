@@ -110,6 +110,48 @@ class CallableMock:
 
             return self._return_value
 
+    class SyncGenerator(Base):
+        """Sync generator callable mock."""
+
+        def __call__(self, *args: Any, **kwargs: Any) -> Generator[Any, None, None]:
+            """
+            Call the generator and yield the return value.
+
+            :param args: Positional arguments for the callable.
+            :param kwargs: Keyword arguments for the callable.
+            :return: The return value of the generator.
+            :raises Exception: If an exception was specified during initialization.
+            """
+            self._call_count += 1
+            self._last_kwargs = kwargs
+            self._last_args = args
+
+            if self._exception and issubclass(self._exception.__class__, Exception):
+                raise self._exception
+
+            yield self._return_value
+
+    class AsyncGenerator(Base):
+        """Async generator callable mock."""
+
+        async def __call__(self, *args: Any, **kwargs: Any) -> AsyncGenerator[Any, None]:
+            """
+            Call the async generator and yield the return value.
+
+            :param args: Positional arguments for the callable.
+            :param kwargs: Keyword arguments for the callable.
+            :return: The return value of the async generator.
+            :raises Exception: If an exception was specified during initialization.
+            """
+            self._call_count += 1
+            self._last_kwargs = kwargs
+            self._last_args = args
+
+            if self._exception and issubclass(self._exception.__class__, Exception):
+                raise self._exception
+
+            yield self._return_value
+
     @classmethod
     def Random(cls, return_value: Any | None = None, raise_exception: Exception | None = None) -> Base:  # noqa: N802
         """Returns a random callable mock, which can be either synchronous or asynchronous."""

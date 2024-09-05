@@ -11,7 +11,7 @@ from ...core.constants import StdOutColors
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
 from ...core.subscriptions import SubscriptionContext
-from ...core.utils import attributes_repr, formatted_repr, validate_callable
+from ...core.utils import validate_callable
 from ..subscribers import EventCallbackType, EventSubscriber, FailureCallbackType, SuccessCallbackType
 
 SubscribableEventType: TypeAlias = str | type[Exception] | type[object] | EllipsisType
@@ -103,23 +103,6 @@ class EventLinker:
             self.__failure_callback: FailureCallbackType | None = None
             self.__force_async: bool = force_async
             self.__once: bool = once
-
-        @override
-        def __repr__(self) -> str:  # pragma: no cover
-            return formatted_repr(
-                instance=self,
-                info=(
-                    attributes_repr(
-                        events=self.__events,
-                        event_callback=self.__event_callback,
-                        success_callback=self.__success_callback,
-                        failure_callback=self.__failure_callback,
-                        force_async=self.__force_async,
-                        once=self.__once,
-                    )
-                    + f", {super().__repr__()}"
-                ),
-            )
 
         @override
         def _exit(self) -> EventSubscriber:

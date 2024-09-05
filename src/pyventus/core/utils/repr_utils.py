@@ -1,7 +1,7 @@
 from typing import Any
 
 
-def formatted_repr(instance: object, info: str = "...") -> str:
+def formatted_repr(instance: object, info: str | None = None) -> str:
     """
     Generate a formatted string representation of an object instance.
 
@@ -11,11 +11,11 @@ def formatted_repr(instance: object, info: str = "...") -> str:
     easier to identify and debug object instances.
 
     :param instance: The object to be represented. It should be an instance of any class.
-    :param info: Optional string providing extra information about the object. Defaults to "...".
+    :param info: Optional string providing extra information about the object. Defaults to `None`.
     :return: A formatted string representation of the object, structured as:
         "<`ClassName` object at `MemoryAddress` with (`Info`)>".
     """
-    return f"<{instance.__class__.__name__} object at {hex(id(instance))} with ({info})>"
+    return f"<{instance.__class__.__name__} object at {hex(id(instance))}{f' with [{info}]' if info else ''}>"
 
 
 def attributes_repr(**kwargs: Any) -> str:

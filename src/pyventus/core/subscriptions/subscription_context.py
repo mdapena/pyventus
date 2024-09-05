@@ -5,7 +5,7 @@ from typing import Generic, TypeVar
 from typing_extensions import Self
 
 from ..exceptions import PyventusException
-from ..utils import attributes_repr
+from ..utils import attributes_repr, formatted_repr
 from .subscription import Subscription
 
 _SourceType = TypeVar("_SourceType")
@@ -65,10 +65,12 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
 
         :return: A string representation of the instance.
         """
-        return attributes_repr(
-            source=self.__source,
-            subscriber=self.__subscriber,
-            is_stateful=self.__is_stateful,
+        return formatted_repr(
+            instance=self,
+            info=attributes_repr(
+                source=self._source.__name__ if isinstance(self._source, type) else self._source,
+                subscriber=self._subscriber,
+            ),
         )
 
     @property

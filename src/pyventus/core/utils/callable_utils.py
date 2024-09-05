@@ -1,5 +1,5 @@
 from asyncio import to_thread
-from collections.abc import Awaitable, Callable
+from collections.abc import AsyncGenerator, Awaitable, Callable, Generator
 from inspect import (
     isasyncgenfunction,
     isbuiltin,
@@ -9,20 +9,23 @@ from inspect import (
     isgeneratorfunction,
     ismethod,
 )
-from typing import Any, Generic, ParamSpec, TypeVar, final
+from typing import Any, Generic, ParamSpec, TypeAlias, TypeVar, final
 
 from ..exceptions import PyventusException
 from ..utils.repr_utils import attributes_repr, formatted_repr
 
-_ParamType = ParamSpec("_ParamType")
+_P = ParamSpec("_P")
 """A generic type representing the names and types of the parameters for a callable."""
 
-_ReturnType = TypeVar("_ReturnType", covariant=True)
+_R = TypeVar("_R", covariant=True)
 """A generic type representing the return value of a callable."""
+
+_CallableType: TypeAlias = Callable[_P, _R | Awaitable[_R] | Generator[_R, None, None] | AsyncGenerator[_R, None]]
+"""Type alias for a callable."""
 
 
 @final
-class CallableWrapper(Generic[_ParamType, _ReturnType]):
+class CallableWrapper(Generic[_P, _R]):
     """
     A wrapper class that encapsulates a callable object.
 
@@ -30,42 +33,37 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
 
     -   This class provides a unified interface for executing callable objects.
 
-    -   The `__call__` method of the `CallableWrapper` class is an asynchronous method that
-        returns a `Coroutine`. It should never be treated as a synchronous function.
-
-    -   If `force_async` is set to `True`, synchronous callables will be executed asynchronously
-        using the `asyncio.to_thread` function. If `force_async` is `False`, the callable will
-        run in its original context (synchronously or asynchronously, as defined).
+    -   If `force_async` is set to `True`, synchronous callables will be executed
+        asynchronously using the `asyncio.to_thread` function. If `force_async` is `False`,
+        the callable will run in its original context (synchronously or asynchronously, as
+        defined). Note that `force_async` only applies to regular callables and does not
+        affect generator callables.
     """
 
     # CallableWrapper attributes
-    __slots__ = ("__name__", "__callable", "__is_callable_async", "__force_async")
+    __slots__ = ("__callable", "__is_generator", "__is_async", "__name", "__force_async")
 
-    def __init__(self, cb: Callable[_ParamType, Awaitable[_ReturnType] | _ReturnType], /, force_async: bool) -> None:
+    def __init__(self, cb: _CallableType[_P, _R], /, *, force_async: bool) -> None:
         """
         Initialize an instance of `CallableWrapper`.
 
         :param cb: The callable object to be wrapped.
         :param force_async: A flag indicating whether to force the wrapped callable to run asynchronously.
+            Note that `force_async` only applies to regular callables and does not affect generator callables.
         :raises PyventusException: If the given callable is invalid or if `force_async` is not a boolean.
         """
         # Validate the given callable object.
         validate_callable(cb)
 
-        # Ensure that the provided callable is not a generator.
-        if is_callable_generator(cb):
-            raise PyventusException("The 'callable' argument cannot be a generator.")
-
         # Validate the provided force_async flag.
         if not isinstance(force_async, bool):
             raise PyventusException("The 'force_async' argument must be a boolean value.")
 
-        # Store the name of the wrapped callable.
-        self.__name__: str = get_callable_name(cb)
-
-        # Store the callable and determine if it is asynchronous.
-        self.__callable: Callable[_ParamType, Awaitable[_ReturnType] | _ReturnType] = cb
-        self.__is_callable_async: bool = is_callable_async(cb)
+        # Store the callable and its properties.
+        self.__callable: _CallableType[_P, _R] = cb
+        self.__is_generator: bool = is_callable_generator(cb)
+        self.__is_async: bool = is_callable_async(cb)
+        self.__name: str = get_callable_name(cb)
 
         # Store the force_async flag.
         self.__force_async: bool = force_async
@@ -79,12 +77,31 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
         return formatted_repr(
             instance=self,
             info=attributes_repr(
-                name=self.__name__,
                 callable=self.__callable,
-                is_callable_async=self.__is_callable_async,
+                is_generator=self.__is_generator,
+                is_async=self.__is_async,
+                name=self.__name,
                 force_async=self.__force_async,
             ),
         )
+
+    @property
+    def is_generator(self) -> bool:
+        """
+        Determine if the wrapped callable is a generator.
+
+        :return: `True` if the wrapped callable is a generator; otherwise, `False`.
+        """
+        return self.__is_generator
+
+    @property
+    def is_async(self) -> bool:
+        """
+        Determine if the wrapped callable is asynchronous.
+
+        :return: `True` if the wrapped callable is asynchronous; otherwise, `False`.
+        """
+        return self.__is_async
 
     @property
     def name(self) -> str:
@@ -93,27 +110,33 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
 
         :return: A string representing the name of the wrapped callable object.
         """
-        return self.__name__
+        return self.__name
 
     @property
     def force_async(self) -> bool:
         """
         Determine whether the wrapped callable is forced to run asynchronously.
 
-        :return: A boolean value indicating if the wrapped callable is forced to
-            run asynchronously.
+        :return: A boolean value indicating if the wrapped callable is forced to run
+            asynchronously. Note that `force_async` only applies to regular callables
+            and does not affect generator callables.
         """
         return self.__force_async
 
-    async def __call__(self, *args: _ParamType.args, **kwargs: _ParamType.kwargs) -> _ReturnType:
+    async def execute(self, *args: _P.args, **kwargs: _P.kwargs) -> _R:
         """
         Execute the wrapped callable with the given arguments.
 
         :param args: Positional arguments to pass to the wrapped callable.
         :param kwargs: Keyword arguments to pass to the wrapped callable.
         :return: The result of the wrapped callable execution.
+        :raises PyventusException: If the wrapped callable is a generator.
         """
-        if self.__is_callable_async:
+        # Ensure that the callable is not a generator before execution.
+        if self.__is_generator:
+            raise PyventusException("Cannot execute a generator; it must be streamed.")
+
+        if self.__is_async:
             # Execute the callable directly if it is asynchronous.
             return await self.__callable(*args, **kwargs)  # type: ignore[no-any-return, misc]
         elif self.__force_async:
@@ -122,6 +145,33 @@ class CallableWrapper(Generic[_ParamType, _ReturnType]):
         else:
             # If the callable is synchronous and force_async is False, run it synchronously.
             return self.__callable(*args, **kwargs)  # type: ignore[return-value]
+
+    def stream(self, *args: _P.args, **kwargs: _P.kwargs) -> AsyncGenerator[_R, None]:
+        """
+        Stream the results of the wrapped generator callable.
+
+        :param args: Positional arguments to pass to the wrapped callable.
+        :param kwargs: Keyword arguments to pass to the wrapped callable.
+        :return: An async generator that yields results from the wrapped callable.
+        :raises PyventusException: If the wrapped callable is not a generator.
+        """
+        # Ensure that the callable is a generator before streaming.
+        if not self.__is_generator:
+            raise PyventusException("Cannot stream a non-generator; it must be executed.")
+
+        if self.__is_async:
+            # If the callable is an async generator, return it directly.
+            return self.__callable(*args, **kwargs)  # type: ignore[return-value]
+        else:
+
+            async def async_generator() -> AsyncGenerator[_R, None]:
+                # Wrap the synchronous generator in an async generator.
+                generator: Generator[_R, None, None] = self.__callable(*args, **kwargs)  # type: ignore[assignment]
+                for value in generator:
+                    yield value
+
+            # Return the async generator.
+            return async_generator()
 
 
 def validate_callable(cb: Callable[..., Any], /) -> None:

@@ -1,4 +1,5 @@
 from collections import namedtuple
+from collections.abc import Callable
 from pickle import dumps, loads
 from typing import Any
 
@@ -6,7 +7,7 @@ import pytest
 from pyventus import PyventusException
 from pyventus.events import EventSubscriber
 
-from ...fixtures.callable_fixtures import CallableMock
+from ...fixtures.callable_fixtures import CallableMock, DummyCallable
 
 
 class TestEventSubscriber:
@@ -31,27 +32,33 @@ class TestEventSubscriber:
 
     # =================================
 
-    def test_creation_with_invalid_input(self) -> None:
+    @pytest.mark.parametrize(
+        ["event_callback", "success_callback", "failure_callback", "once", "exception"],
+        [
+            (None, None, None, True, PyventusException),
+            (DummyCallable.Sync.Generator.func, None, None, True, PyventusException),
+            (lambda: None, DummyCallable.Async.Generator.func, None, True, PyventusException),
+            (lambda: None, None, DummyCallable.Async.Generator.func, True, PyventusException),
+            (lambda: None, None, None, "True", PyventusException),
+        ],
+    )
+    def test_creation_with_invalid_input(
+        self,
+        event_callback: Callable[..., Any],
+        success_callback: Callable[..., Any],
+        failure_callback: Callable[..., Any],
+        once: bool,
+        exception: type[BaseException],
+    ) -> None:
         # Arrange/Act/Assert
-        with pytest.raises(PyventusException):
+        with pytest.raises(exception):
             EventSubscriber(
                 teardown_callback=lambda sub: True,
-                event_callback=lambda: None,
-                success_callback=None,
-                failure_callback=None,
+                event_callback=event_callback,
+                success_callback=success_callback,
+                failure_callback=failure_callback,
                 force_async=False,
-                once="False",  # type: ignore[arg-type]
-            )
-
-        # Arrange/Act/Assert
-        with pytest.raises(PyventusException):
-            EventSubscriber(
-                teardown_callback=lambda sub: True,
-                event_callback=None,  # type: ignore[arg-type]
-                success_callback=None,
-                failure_callback=None,
-                force_async=False,
-                once=False,
+                once=once,
             )
 
     # =================================

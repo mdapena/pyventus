@@ -122,20 +122,25 @@ class TestCallableUtils:
         # Assert: Check that the callable_wrapper is created
         # successfully and has the expected properties
         assert callable_wrapper
-        assert callable_wrapper.force_async is True
+        assert callable_wrapper.is_generator is False
+        assert callable_wrapper.is_async is True
         assert callable_wrapper.name == get_callable_name(DummyCallable.Async.func)
+        assert callable_wrapper.force_async is True
 
     # =================================
 
     def test_callable_wrapper_creation_with_invalid_input(self) -> None:
         # Arrange: Prepare invalid inputs for CallableWrapper
-        invalid_generator_callable = DummyCallable.Async.Generator.func
+        invalid_generator_callable = None
         invalid_force_async_value = None
 
         # Act & Assert: Verify that creating CallableWrapper with
         # invalid inputs raises the expected exceptions
         with pytest.raises(PyventusException):
-            CallableWrapper[..., Any](invalid_generator_callable, force_async=True)
+            CallableWrapper[..., Any](
+                invalid_generator_callable,  # type: ignore[arg-type]
+                force_async=True,
+            )
 
         with pytest.raises(PyventusException):
             CallableWrapper[..., Any](
@@ -171,7 +176,7 @@ class TestCallableUtils:
 
         try:
             # Act: Attempt to call the wrapper with the specified arguments
-            return_value = await callable_wrapper(*args, **kwargs)
+            return_value = await callable_wrapper.execute(*args, **kwargs)
         except Exception as e:
             # Assert: Check if the raised exception matches the expected exception
             assert cb.exception is e
@@ -187,7 +192,7 @@ class TestCallableUtils:
     # =================================
 
     @pytest.mark.asyncio
-    async def test_callable_wrapper_sync_callable_force_async_disabled(self) -> None:
+    async def test_callable_wrapper_execution_with_sync_callable_and_force_async_disabled(self) -> None:
         # Arrange: Define the assertion function
         def assertion() -> None:
             # Assert that the current thread is the
@@ -198,12 +203,12 @@ class TestCallableUtils:
         callable_wrapper: CallableWrapper[..., Any] = CallableWrapper[..., Any](assertion, force_async=False)
 
         # Act and Arrange
-        await callable_wrapper()  # This should run in the main thread
+        await callable_wrapper.execute()  # This should run in the main thread
 
     # =================================
 
     @pytest.mark.asyncio
-    async def test_callable_wrapper_sync_callable_force_async_enabled(self) -> None:
+    async def test_callable_wrapper_execution_with_sync_callable_and_force_async_enabled(self) -> None:
         # Arrange: Define the assertion function
         def assertion() -> None:
             # Assert that the current thread is not the
@@ -214,12 +219,12 @@ class TestCallableUtils:
         callable_wrapper: CallableWrapper[..., Any] = CallableWrapper[..., Any](assertion, force_async=True)
 
         # Act: Execute the callable wrapper
-        await callable_wrapper()  # This should run in a different thread
+        await callable_wrapper.execute()  # This should run in a different thread
 
     # =================================
 
     @pytest.mark.asyncio
-    async def test_callable_wrapper_async_callable_with_force_async_flag(self) -> None:
+    async def test_callable_wrapper_execution_with_async_callable_and_force_async_flag(self) -> None:
         # Arrange: Define the assertion function
         async def assertion() -> None:
             # Assert that the current thread is the main thread in an async context.
@@ -230,5 +235,84 @@ class TestCallableUtils:
         callable_wrapper2: CallableWrapper[..., Any] = CallableWrapper[..., Any](assertion, force_async=True)
 
         # Act: Execute the callable wrappers
-        await callable_wrapper1()  # This should run in the main thread
-        await callable_wrapper2()  # This should also run in the main thread
+        await callable_wrapper1.execute()  # This should run in the main thread
+        await callable_wrapper2.execute()  # This should also run in the main thread
+
+    # =================================
+
+    @pytest.mark.asyncio
+    async def test_callable_wrapper_execution_with_generators(self) -> None:
+        # Arrange: Create instances of CallableWrapper for both sync and async generators
+        callable_wrapper1: CallableWrapper[..., Any] = CallableWrapper[..., Any](
+            CallableMock.SyncGenerator(), force_async=False
+        )
+        callable_wrapper2: CallableWrapper[..., Any] = CallableWrapper[..., Any](
+            CallableMock.AsyncGenerator(), force_async=False
+        )
+
+        # Act/Assert: Execute the callable wrappers with generators.
+        with pytest.raises(PyventusException):
+            await callable_wrapper1.execute()  # Sync generators must be streamed.
+        with pytest.raises(PyventusException):
+            await callable_wrapper2.execute()  # Async generators must also be streamed.
+
+    # =================================
+
+    @pytest.mark.parametrize(
+        ["cb", "force_async", "args", "kwargs"],
+        [
+            *[  # Synchronous call scenarios
+                (CallableMock.SyncGenerator(return_value=..., raise_exception=None), True, (), {}),
+                (CallableMock.SyncGenerator(return_value=object(), raise_exception=None), False, (), {}),
+                (CallableMock.SyncGenerator(return_value=None, raise_exception=ValueError("str")), False, (), {}),
+                (CallableMock.SyncGenerator(return_value="str", raise_exception=None), False, ("str", 0), {"str": 0}),
+            ],
+            *[  # Asynchronous call scenarios
+                (CallableMock.AsyncGenerator(return_value=..., raise_exception=None), True, (), {}),
+                (CallableMock.AsyncGenerator(return_value=object(), raise_exception=None), False, (), {}),
+                (CallableMock.AsyncGenerator(return_value=None, raise_exception=ValueError("str")), False, (), {}),
+                (CallableMock.AsyncGenerator(return_value="str", raise_exception=None), False, ("str", 0), {"str": 0}),
+            ],
+        ],
+    )
+    @pytest.mark.asyncio
+    async def test_callable_wrapper_streaming(
+        self, cb: CallableMock.Base, force_async: bool, args: tuple[Any, ...], kwargs: dict[str, Any]
+    ) -> None:
+        # Arrange: Create an instance of CallableWrapper with the provided callable mock
+        callable_wrapper: CallableWrapper[..., Any] = CallableWrapper[..., Any](cb, force_async=force_async)
+
+        try:
+            # Act: Attempt to call the wrapper with the specified arguments
+            return_value = None
+            async for value in callable_wrapper.stream(*args, **kwargs):
+                return_value = value
+        except Exception as e:
+            # Assert: Check if the raised exception matches the expected exception
+            assert cb.exception is e
+        else:
+            # Assert: Verify the return value matches the expected return value
+            assert cb.return_value is return_value  # Asserts
+
+        # Final assertions: Verify the call count and arguments used
+        assert cb.call_count == 1
+        assert cb.last_args == args
+        assert cb.last_kwargs == kwargs
+
+    # =================================
+
+    @pytest.mark.asyncio
+    async def test_callable_wrapper_streaming_with_regular_callables(self) -> None:
+        # Arrange: Create instances of CallableWrapper for both sync and async regular callables
+        callable_wrapper1: CallableWrapper[..., Any] = CallableWrapper[..., Any](CallableMock.Sync(), force_async=False)
+        callable_wrapper2: CallableWrapper[..., Any] = CallableWrapper[..., Any](
+            CallableMock.Async(), force_async=False
+        )
+
+        # Act/Assert: Stream the callable wrappers with regular callables.
+        with pytest.raises(PyventusException):
+            callable_wrapper1.stream()  # Sync regular callables must be executed, not streamed.
+        with pytest.raises(PyventusException):
+            callable_wrapper2.stream()  # Async regular callables must also be executed, not streamed.
+
+    # =================================

@@ -97,7 +97,7 @@ class EventEmitter(ABC):
                     subscribers=self.__subscribers,
                     args=self.__args,
                     kwargs=self.__kwargs,
-                    timestamp=self.__timestamp,
+                    timestamp=self.__timestamp.strftime("%Y-%m-%d %I:%M:%S %p"),
                     debug=self.__debug,
                 ),
             )

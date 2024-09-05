@@ -45,7 +45,7 @@ class Subscription(Unsubscribable):
         :return: A string representation of the instance.
         """
         return attributes_repr(
-            timestamp=self.__timestamp,
+            timestamp=self.__timestamp.strftime("%Y-%m-%d %I:%M:%S %p"),
             teardown_callback=self.__teardown_callback,
         )
 

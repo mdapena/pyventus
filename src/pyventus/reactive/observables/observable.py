@@ -10,15 +10,7 @@ from typing_extensions import override
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
 from ...core.subscriptions import SubscriptionContext
-from ...core.utils import (
-    attributes_repr,
-    formatted_repr,
-    get_callable_name,
-    is_callable_async,
-    is_callable_generator,
-    is_loop_running,
-    validate_callable,
-)
+from ...core.utils import CallableWrapper, attributes_repr, formatted_repr, is_loop_running
 from ..subscribers import CompleteCallbackType, ErrorCallbackType, NextCallbackType, Subscriber
 
 _OutT = TypeVar("_OutT", covariant=True)
@@ -28,7 +20,7 @@ _CtxT = TypeVar("_CtxT", contravariant=True)
 """A generic type representing the value type for the Observable and Subscriber within the subscription context."""
 
 ObservableCallbackReturnType: TypeAlias = (
-    Generator[_OutT, None, None] | AsyncGenerator[_OutT, None] | Awaitable[_OutT] | _OutT
+    _OutT | Awaitable[_OutT] | Generator[_OutT, None, None] | AsyncGenerator[_OutT, None]
 )
 """Type alias for the return type of the observable callback."""
 
@@ -103,21 +95,6 @@ class Observable(Generic[_OutT]):
             self.__error_callback: ErrorCallbackType | None = None
             self.__complete_callback: CompleteCallbackType | None = None
             self.__force_async: bool = force_async
-
-        @override
-        def __repr__(self) -> str:  # pragma: no cover
-            return formatted_repr(
-                instance=self,
-                info=(
-                    attributes_repr(
-                        next_callback=self.__next_callback,
-                        error_callback=self.__error_callback,
-                        complete_callback=self.__complete_callback,
-                        force_async=self.__force_async,
-                    )
-                    + f", {super().__repr__()}"
-                ),
-            )
 
         @override
         def _exit(self) -> Subscriber[_CtxT]:
@@ -223,18 +200,7 @@ class Observable(Generic[_OutT]):
         return subscriber
 
     # Attributes for the Observable
-    __slots__ = (
-        "__args",
-        "__kwargs",
-        "__callback",
-        "__callback_name",
-        "__is_callback_async",
-        "__is_callback_generator",
-        "__subscribers",
-        "__background_tasks",
-        "__thread_lock",
-        "__logger",
-    )
+    __slots__ = ("__callback", "__args", "__kwargs", "__subscribers", "__background_tasks", "__thread_lock", "__logger")
 
     def __init__(
         self,
@@ -253,29 +219,23 @@ class Observable(Generic[_OutT]):
         :param debug: Specifies the debug mode for the logger. If `None`,
             the mode is determined based on the execution environment.
         """
-        # Validate that the provided callback
-        validate_callable(callback)
+        # Wrap and set the callback.
+        self.__callback = CallableWrapper[..., _OutT](callback, force_async=False)
 
-        # Store the callback and its metadata
-        self.__callback: ObservableCallbackType[_OutT] = callback
-        self.__callback_name: str = get_callable_name(callback)
-        self.__is_callback_async: bool = is_callable_async(callback)
-        self.__is_callback_generator: bool = is_callable_generator(callback)
-
-        # Store the positional and keyword arguments for the callback
+        # Store the positional and keyword arguments for the callback.
         self.__args: tuple[Any, ...] = args if args else ()
         self.__kwargs: dict[str, Any] = kwargs if kwargs else {}
 
-        # Initialize the set of subscribers
+        # Initialize the set of subscribers.
         self.__subscribers: set[Subscriber[_OutT]] = set()
 
-        # Initialize the set of background tasks
+        # Initialize the set of background tasks.
         self.__background_tasks: set[Task[None]] = set()
 
-        # Create a lock object for thread synchronization
+        # Create a lock object for thread synchronization.
         self.__thread_lock: Lock = Lock()
 
-        # Set up the logger with the appropriate debug mode
+        # Set up the logger with the appropriate debug mode.
         self.__logger: Logger = Logger(
             name=self.__class__.__name__,
             debug=debug if debug is not None else bool(gettrace() is not None),
@@ -290,11 +250,9 @@ class Observable(Generic[_OutT]):
         return formatted_repr(
             instance=self,
             info=attributes_repr(
+                callback=self.__callback,
                 args=self.__args,
                 kwargs=self.__kwargs,
-                callback=self.__callback_name,
-                is_callback_async=self.__is_callback_async,
-                is_callback_generator=self.__is_callback_generator,
                 subscribers=self.__subscribers,
                 background_tasks=self.__background_tasks,
                 thread_lock=self.__thread_lock,
@@ -322,54 +280,28 @@ class Observable(Generic[_OutT]):
 
         :return: None
         """
-        # Execute the main callback, handling
-        # any exceptions that may occur
+        # Execute the main callback and handle
+        # any exceptions that may arise.
         try:
-            if self.__is_callback_generator:
-                # If the callback is a generator, initialize it to start retrieving values
-                generator = self.__callback(*self.__args, **self.__kwargs)
-
-                # Retrieve and emit values from the generator
-                # to all subscribers concurrently
-                while True:
-                    await gather(
-                        *[
-                            subscriber.next(
-                                value=(
-                                    await anext(generator)  # type: ignore[arg-type]
-                                    if self.__is_callback_async
-                                    else next(generator)  # type: ignore[arg-type]
-                                ),
-                            )
-                            for subscriber in self.get_subscribers()
-                        ]
-                    )
+            if self.__callback.is_generator:
+                # If the callback is a generator, asynchronously
+                # retrieve and emit values to all subscribers concurrently.
+                async for g_value in self.__callback.stream(*self.__args, **self.__kwargs):
+                    await gather(*[subscriber.next(value=g_value) for subscriber in self.get_subscribers()])
             else:
-                # If the callback is a regular function, invoke it and
-                # emit the result to all subscribers concurrently
-                await gather(
-                    *[
-                        subscriber.next(
-                            value=(
-                                await self.__callback(*self.__args, **self.__kwargs)  # type: ignore[misc]
-                                if self.__is_callback_async
-                                else self.__callback(*self.__args, **self.__kwargs)
-                            ),
-                        )
-                        for subscriber in self.get_subscribers()
-                    ]
-                )
+                # If the callback is a regular callable, execute it
+                # and emit the result to all subscribers concurrently.
+                r_value: _OutT = await self.__callback.execute(*self.__args, **self.__kwargs)
+                await gather(*[subscriber.next(value=r_value) for subscriber in self.get_subscribers()])
 
                 # Signal that the observable has
                 # completed emitting values
-                raise Completed
-        except (StopIteration, StopAsyncIteration):
-            pass  # Ignore StopIteration signals from sync or async generators
+                raise Completed from None
         except Observable.Completed:
-            # Notify all subscribers that the Observable has completed emitting values
+            # Notify all subscribers that the Observable has completed emitting values.
             await gather(*[subscriber.complete() for subscriber in self.get_subscribers()])
         except Exception as exception:
-            # Notify all subscribers of any errors encountered during callback execution
+            # Notify all subscribers of any errors encountered during callback execution/streaming.
             await gather(*[subscriber.error(exception) for subscriber in self.get_subscribers()])
 
     def get_subscribers(self) -> set[Subscriber[_OutT]]:

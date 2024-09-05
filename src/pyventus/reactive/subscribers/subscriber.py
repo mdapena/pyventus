@@ -3,6 +3,7 @@ from typing import Any, Generic, TypeAlias, TypeVar, final
 
 from typing_extensions import Self, override
 
+from ...core.exceptions import PyventusException
 from ...core.subscriptions import Subscription
 from ...core.utils import CallableWrapper, attributes_repr, formatted_repr
 from ..observers import Observer
@@ -73,6 +74,10 @@ class Subscriber(Generic[_InT], Observer[_InT], Subscription):
             else None
         )
 
+        # Ensure that the next callback is not a generator.
+        if self.__next_callback and self.__next_callback.is_generator:
+            raise PyventusException("The 'next_callback' cannot be a generator.")
+
         # Wrap and set the error callback, if provided
         self.__error_callback = (
             CallableWrapper[[Exception], None](
@@ -83,6 +88,10 @@ class Subscriber(Generic[_InT], Observer[_InT], Subscription):
             else None
         )
 
+        # Ensure that the error callback is not a generator.
+        if self.__error_callback and self.__error_callback.is_generator:
+            raise PyventusException("The 'error_callback' cannot be a generator.")
+
         # Wrap and set the complete callback, if provided
         self.__complete_callback = (
             CallableWrapper[[], None](
@@ -92,6 +101,10 @@ class Subscriber(Generic[_InT], Observer[_InT], Subscription):
             if complete_callback
             else None
         )
+
+        # Ensure that the complete callback is not a generator.
+        if self.__complete_callback and self.__complete_callback.is_generator:
+            raise PyventusException("The 'complete_callback' cannot be a generator.")
 
     @override
     def __repr__(self) -> str:  # pragma: no cover
@@ -114,7 +127,7 @@ class Subscriber(Generic[_InT], Observer[_InT], Subscription):
             return
         else:
             # Invoke the next callback with the provided value
-            await self.__next_callback(value)
+            await self.__next_callback.execute(value)
 
     @override
     async def error(self, exception: Exception) -> None:
@@ -123,7 +136,7 @@ class Subscriber(Generic[_InT], Observer[_InT], Subscription):
             return
         else:
             # Invoke the error callback with the provided exception
-            await self.__error_callback(exception)
+            await self.__error_callback.execute(exception)
 
     @override
     async def complete(self) -> None:
@@ -132,7 +145,7 @@ class Subscriber(Generic[_InT], Observer[_InT], Subscription):
             return
         else:
             # Invoke the complete callback
-            await self.__complete_callback()
+            await self.__complete_callback.execute()
 
     @override
     def __getstate__(self) -> dict[str, Any]:

@@ -4,11 +4,11 @@ from typing import ParamSpec, TypeVar
 
 from .observable import Observable, ObservableCallbackReturnType
 
-_OutT = TypeVar("_OutT", covariant=True)
-"""A generic type for the value that will be streamed through the observable."""
-
 _P = ParamSpec("_P")
 """A generic type representing the names and types of the callback parameters."""
+
+_OutT = TypeVar("_OutT", covariant=True)
+"""A generic type for the value that will be streamed through the observable."""
 
 
 def as_observable(callback: Callable[_P, ObservableCallbackReturnType[_OutT]]) -> Callable[_P, Observable[_OutT]]:

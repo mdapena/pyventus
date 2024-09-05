@@ -70,7 +70,11 @@ class EventSubscriber(EventHandler, Subscription):
         # Wrap and set the event callback
         self.__event_callback = CallableWrapper[..., Any](event_callback, force_async=force_async)
 
-        # Wrap and set the success callback, if provided
+        # Ensure that the event callback is not a generator.
+        if self.__event_callback.is_generator:
+            raise PyventusException("The 'event_callback' cannot be a generator.")
+
+        # Wrap and set the success callback, if provided.
         self.__success_callback = (
             CallableWrapper[..., None](
                 success_callback,
@@ -80,7 +84,11 @@ class EventSubscriber(EventHandler, Subscription):
             else None
         )
 
-        # Wrap and set the failure callback, if provided
+        # Ensure that the success callback is not a generator.
+        if self.__success_callback and self.__success_callback.is_generator:
+            raise PyventusException("The 'success_callback' cannot be a generator.")
+
+        # Wrap and set the failure callback, if provided.
         self.__failure_callback = (
             CallableWrapper[[Exception], None](
                 failure_callback,
@@ -90,7 +98,11 @@ class EventSubscriber(EventHandler, Subscription):
             else None
         )
 
-        # Store the one-time subscription flag
+        # Ensure that the failure callback is not a generator.
+        if self.__failure_callback and self.__failure_callback.is_generator:
+            raise PyventusException("The 'failure_callback' cannot be a generator.")
+
+        # Store the one-time subscription flag.
         self.__once: bool = once
 
     @override
@@ -121,7 +133,7 @@ class EventSubscriber(EventHandler, Subscription):
     @override
     async def _handle_event(self, *args: Any, **kwargs: Any) -> Any:
         # Execute the event callback with the provided arguments and return the result
-        return await self.__event_callback(*args, **kwargs)
+        return await self.__event_callback.execute(*args, **kwargs)
 
     @override
     async def _handle_success(self, results: Any) -> None:
@@ -130,10 +142,10 @@ class EventSubscriber(EventHandler, Subscription):
             return
         elif results is None:
             # If results are None, invoke the success callback without parameters
-            await self.__success_callback()
+            await self.__success_callback.execute()
         else:
             # Invoke the success callback with the given results
-            await self.__success_callback(results)
+            await self.__success_callback.execute(results)
 
     @override
     async def _handle_failure(self, exception: Exception) -> None:
@@ -142,7 +154,7 @@ class EventSubscriber(EventHandler, Subscription):
             return
         else:
             # Invoke the failure callback with the provided exception
-            await self.__failure_callback(exception)
+            await self.__failure_callback.execute(exception)
 
     @override
     def __getstate__(self) -> dict[str, Any]:

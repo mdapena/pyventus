@@ -15,6 +15,7 @@ from pyventus.events import (
 )
 
 from ...fixtures import CallableMock, EventFixtures
+from ...utils import get_private_attr
 
 
 # Define a named tuple for better readability of event linker fixture
@@ -788,9 +789,9 @@ class TestEventLinker:
             once=tc.once,
         )
 
-        subscriber_event_callback = getattr(subscriber, "_EventSubscriber__event_callback")
-        subscriber_success_callback = getattr(subscriber, "_EventSubscriber__success_callback")
-        subscriber_failure_callback = getattr(subscriber, "_EventSubscriber__failure_callback")
+        subscriber_event_callback = get_private_attr(subscriber, "__event_callback")
+        subscriber_success_callback = get_private_attr(subscriber, "__success_callback")
+        subscriber_failure_callback = get_private_attr(subscriber, "__failure_callback")
 
         # Assert
         assert subscriber is not None
@@ -799,25 +800,25 @@ class TestEventLinker:
         assert subscriber.once is tc.once
 
         assert subscriber_event_callback.force_async is tc.force_async
-        assert getattr(subscriber_event_callback, "_CallableWrapper__callable") is tc.event_callback
+        assert get_private_attr(subscriber_event_callback, "__callable") is tc.event_callback
 
         if tc.success_callback:
             assert subscriber_success_callback.force_async is tc.force_async
-            assert getattr(subscriber_success_callback, "_CallableWrapper__callable") is tc.success_callback
+            assert get_private_attr(subscriber_success_callback, "__callable") is tc.success_callback
         else:
             if default_success_callback:
                 assert subscriber_success_callback.force_async is tc.force_async
-                assert getattr(subscriber_success_callback, "_CallableWrapper__callable") is default_success_callback
+                assert get_private_attr(subscriber_success_callback, "__callable") is default_success_callback
             else:
                 assert subscriber_success_callback is None
 
         if tc.failure_callback:
             assert subscriber_failure_callback.force_async is tc.force_async
-            assert getattr(subscriber_failure_callback, "_CallableWrapper__callable") is tc.failure_callback
+            assert get_private_attr(subscriber_failure_callback, "__callable") is tc.failure_callback
         else:
             if default_failure_callback:
                 assert subscriber_failure_callback.force_async is tc.force_async
-                assert getattr(subscriber_failure_callback, "_CallableWrapper__callable") is default_failure_callback
+                assert get_private_attr(subscriber_failure_callback, "__callable") is default_failure_callback
             else:
                 assert subscriber_failure_callback is None
 
@@ -1199,22 +1200,22 @@ class TestEventLinker:
             assert populated.event_linker.contains_subscriber(subscriber)
             assert populated.event_linker is event_linker
 
-            subscriber_event_callback = getattr(subscriber, "_EventSubscriber__event_callback")
-            subscriber_success_callback = getattr(subscriber, "_EventSubscriber__success_callback")
-            subscriber_failure_callback = getattr(subscriber, "_EventSubscriber__failure_callback")
+            subscriber_event_callback = get_private_attr(subscriber, "__event_callback")
+            subscriber_success_callback = get_private_attr(subscriber, "__success_callback")
+            subscriber_failure_callback = get_private_attr(subscriber, "__failure_callback")
 
             assert subscriber_event_callback.force_async is tc.force_async
-            assert getattr(subscriber_event_callback, "_CallableWrapper__callable") is tc.event_callback
+            assert get_private_attr(subscriber_event_callback, "__callable") is tc.event_callback
 
             if tc.success_callback:
                 assert subscriber_success_callback.force_async is tc.force_async
-                assert getattr(subscriber_success_callback, "_CallableWrapper__callable") is tc.success_callback
+                assert get_private_attr(subscriber_success_callback, "__callable") is tc.success_callback
             else:
                 assert subscriber_success_callback is None
 
             if tc.failure_callback:
                 assert subscriber_failure_callback.force_async is tc.force_async
-                assert getattr(subscriber_failure_callback, "_CallableWrapper__callable") is tc.failure_callback
+                assert get_private_attr(subscriber_failure_callback, "__callable") is tc.failure_callback
             else:
                 assert subscriber_failure_callback is None
         else:

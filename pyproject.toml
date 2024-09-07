@@ -199,10 +199,6 @@ strict = true
 [tool.coverage.run]
 source_pkgs = ["pyventus", "tests"]
 parallel = true
-omit = [
-    "tests/conftest.py",
-    "tests/fixtures/*",
-]
 
 [tool.coverage.paths]
 pyventus = ["pyventus"]
@@ -262,8 +258,8 @@ convention = "pep257"
 [tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"] # Ignore unused imports for init files.
 "tests/*.py" = ["D"] # Ignore pydocstyle rules for test files.
-"tests/core/utils/test_callable_utils.py" = ["B905", "C416"] # zip-without-explicit-strict/unnecessary-comprehension.
-"tests/events/emitters/fastapi/test_fastapi_event_emitter.py" = ["B008"] # Ignore function-call-in-default-argument.
+"tests/pyventus/core/utils/test_callable_utils.py" = ["B905", "C416"] # zip-without-explicit-strict/unnecessary-comprehension.
+"tests/pyventus/events/emitters/fastapi/test_fastapi_event_emitter.py" = ["B008"] # Ignore function-call-in-default-argument.
 "!src/pyventus/{core, events, reactive}/__init__.py" = ["D104"] # Apply undocumented-public-package rule.
 
 # ==================================================================

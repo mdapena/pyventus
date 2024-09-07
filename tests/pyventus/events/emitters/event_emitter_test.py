@@ -7,7 +7,7 @@ import pytest
 from pyventus import PyventusException
 from pyventus.events import EventEmitter, EventLinker
 
-from ...fixtures import CallableMock, EventFixtures
+from ....fixtures import CallableMock, EventFixtures
 
 _E = TypeVar("_E", bound=EventEmitter)
 

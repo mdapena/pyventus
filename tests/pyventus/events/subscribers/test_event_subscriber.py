@@ -7,7 +7,7 @@ import pytest
 from pyventus import PyventusException
 from pyventus.events import EventSubscriber
 
-from ...fixtures.callable_fixtures import CallableMock, DummyCallable
+from ....fixtures.callable_fixtures import CallableMock, DummyCallable
 
 
 class TestEventSubscriber:

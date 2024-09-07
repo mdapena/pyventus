@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from types import EllipsisType
-from typing import Final, final
+from typing import Any, Final, final
 
 from pyventus import PyventusException
 
@@ -33,18 +33,12 @@ class EventFixtures:
 
     @dataclass
     class DtcWithVal:
-        attr1: str
-        """It must be at least 3 characters."""
-
-        attr2: float
-        """It must be a float number."""
+        attr1: str  # It must be at least 3 characters.
+        attr2: Any
 
         def __post_init__(self) -> None:
             if len(self.attr1) < 3:
                 raise PyventusException(f"[{type(self).__name__}] Error: 'attr1' must be at least 3 characters.")
-
-            if self.attr2.is_integer():
-                raise PyventusException(f"[{type(self).__name__}] Error: 'attr2' must be a float number.")
 
     class NonDtc:
         pass

@@ -2,8 +2,8 @@ import pytest
 from pyventus.reactive import Observable, as_observable
 from typing_extensions import Any
 
-from ...fixtures import CallableMock
-from ...utils import get_private_attr
+from ....fixtures import CallableMock
+from ....utils import get_private_attr
 
 
 class TestAsObservable:

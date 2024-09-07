@@ -14,8 +14,8 @@ from pyventus.events import (
     SuccessCallbackType,
 )
 
-from ...fixtures import CallableMock, EventFixtures
-from ...utils import get_private_attr
+from ....fixtures import CallableMock, EventFixtures
+from ....utils import get_private_attr
 
 
 # Define a named tuple for better readability of event linker fixture

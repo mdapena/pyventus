@@ -12,7 +12,7 @@ from pyventus.core.utils import (
 )
 from pyventus.core.utils.callable_utils import CallableWrapper
 
-from ...fixtures import CallableMock, DummyCallable
+from ....fixtures import CallableMock, DummyCallable
 
 
 class TestCallableUtils:
@@ -60,7 +60,9 @@ class TestCallableUtils:
             (DummyCallable.Invalid, "Unknown"),
             (DummyCallable.Invalid(), "Unknown"),
             *[(c, n) for c, n in zip(DummyCallable.Sync().ALL, DummyCallable.Sync().ALL_NAMES)],
+            *[(c, n) for c, n in zip(DummyCallable.Async().ALL, DummyCallable.Async().ALL_NAMES)],
             *[(c, n) for c, n in zip(DummyCallable.Sync.Generator().ALL, DummyCallable.Sync.Generator().ALL_NAMES)],
+            *[(c, n) for c, n in zip(DummyCallable.Async.Generator().ALL, DummyCallable.Async.Generator().ALL_NAMES)],
         ],
     )
     def test_get_callable_name(self, cb: Callable[..., Any], expected: str) -> None:

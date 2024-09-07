@@ -64,6 +64,10 @@ class Subscriber(Generic[_InT], Observer[_InT], Subscription):
         # Initialize the base Subscription class with the teardown callback
         super().__init__(teardown_callback=teardown_callback)
 
+        # Ensure that at least one of the callbacks (next, error, or complete) is defined.
+        if next_callback is None and error_callback is None and complete_callback is None:
+            raise PyventusException("At least one of the callbacks (next, error, or complete) must be defined.")
+
         # Wrap and set the next callback, if provided
         self.__next_callback = (
             CallableWrapper[[_InT], None](

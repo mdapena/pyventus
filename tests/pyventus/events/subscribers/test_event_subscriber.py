@@ -8,6 +8,7 @@ from pyventus import PyventusException
 from pyventus.events import EventSubscriber
 
 from ....fixtures.callable_fixtures import CallableMock, DummyCallable
+from ....utils import has_private_attr
 
 
 class TestEventSubscriber:
@@ -413,5 +414,8 @@ class TestEventSubscriber:
 
         # Assert
         for attr in EventSubscriber.__slots__:
-            attr_name: str = f"_{type(restored).__name__}{attr}" if attr.startswith("__") else attr
-            assert hasattr(restored, attr_name)
+            assert (
+                hasattr(restored, attr)
+                if not attr.startswith("__") or attr.endswith("__")
+                else has_private_attr(restored, attr)
+            )

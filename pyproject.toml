@@ -38,6 +38,9 @@ classifiers = [
     "Topic :: Software Development",
     "Typing :: Typed",
 ]
+dependencies = [
+    "typing-extensions>=4.12.2",
+]
 
 # ==================================================================
 # | Project URLs                                                   |

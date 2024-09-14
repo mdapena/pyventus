@@ -1,4 +1,4 @@
-from collections.abc import Callable
+from collections.abc import Callable, Generator
 from concurrent.futures import Executor, ThreadPoolExecutor
 from contextlib import contextmanager
 from typing import Any
@@ -91,7 +91,7 @@ def ExecutorEventEmitterCtx(  # noqa: N802
     executor: Executor | None = None,
     event_linker: type[EventLinker] = EventLinker,
     debug: bool | None = None,
-) -> EventEmitter:
+) -> Generator[EventEmitter, None, None]:
     """
     Context manager that creates an `EventEmitter` instance configured with the `ExecutorProcessingService`.
 

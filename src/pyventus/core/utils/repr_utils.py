@@ -15,7 +15,7 @@ def formatted_repr(instance: object, info: str | None = None) -> str:
     :return: A formatted string representation of the object, structured as:
         "<`ClassName` object at `MemoryAddress` with (`Info`)>".
     """
-    return f"<{instance.__class__.__name__} object at {hex(id(instance))}{f' with [{info}]' if info else ''}>"
+    return f"<{instance.__class__.__name__} at 0x{id(instance):016X}{f' with {info}' if info else ''}>"
 
 
 def attributes_repr(**kwargs: Any) -> str:

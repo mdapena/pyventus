@@ -11,7 +11,7 @@ class TestReprUtils:
         class Inner: ...
 
         inner = Inner()
-        expected: str = f"<{Inner.__name__} object at {hex(id(inner))}>"
+        expected: str = f"<{Inner.__name__} at 0x{id(inner):016X}>"
 
         # Act
         res = formatted_repr(inner)

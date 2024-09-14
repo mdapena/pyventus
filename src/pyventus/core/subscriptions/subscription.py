@@ -4,7 +4,7 @@ from typing import Any
 
 from typing_extensions import Self, override
 
-from ..utils import attributes_repr, validate_callable
+from ..utils import attributes_repr, get_callable_name, validate_callable
 from .unsubscribable import Unsubscribable
 
 
@@ -46,7 +46,7 @@ class Subscription(Unsubscribable):
         """
         return attributes_repr(
             timestamp=self.__timestamp.strftime("%Y-%m-%d %I:%M:%S %p"),
-            teardown_callback=self.__teardown_callback,
+            teardown_callback=get_callable_name(self.__teardown_callback),
         )
 
     @property

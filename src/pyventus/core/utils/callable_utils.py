@@ -182,7 +182,7 @@ def validate_callable(cb: Callable[..., Any], /) -> None:
     :return: None.
     :raises PyventusException: If the object is not a valid callable.
     """
-    if not callable(cb):
+    if not callable(cb) or isclass(cb):
         raise PyventusException(f"The '{get_callable_name(cb)}' is not a valid callable object.")
 
 

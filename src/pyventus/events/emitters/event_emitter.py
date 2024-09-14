@@ -159,7 +159,8 @@ class EventEmitter:
             events along with their corresponding subscribers. Defaults to `EventLinker`.
         :param debug: Specifies the debug mode for the logger. If `None`, it is determined
             based on the execution environment.
-        :raises PyventusException: If the `event_linker` argument is None or invalid.
+        :raises PyventusException: If the `event_processor` argument is invalid or if
+            the `event_linker` argument is invalid.
         """
         # Validate the event_processor instance.
         if event_processor is None or not isinstance(event_processor, ProcessingService):

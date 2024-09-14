@@ -478,13 +478,13 @@ class EventLinker:
 
     @classmethod
     def get_subscribers_from_events(
-        cls, *events: SubscribableEventType, pop_one_time_subscribers: bool = False
+        cls, *events: SubscribableEventType, pop_onetime_subscribers: bool = False
     ) -> set[EventSubscriber]:
         """
         Retrieve a set of subscribers associated with the specified events.
 
         :param events: One or more events for which to retrieve associated subscribers.
-        :param pop_one_time_subscribers: If `True`, removes one-time subscribers (those
+        :param pop_onetime_subscribers: If `True`, removes one-time subscribers (those
             with the property `once` set to True) from the registry.
         :return: A set of subscribers linked to the specified events. Unregistered events are ignored.
         """
@@ -497,7 +497,7 @@ class EventLinker:
             subscribers: set[EventSubscriber] = cls.__registry.get_values_from_keys(unique_events)
 
             # Just return subscribers if pop_one_time_subscribers is False
-            if not pop_one_time_subscribers:
+            if not pop_onetime_subscribers:
                 return subscribers
 
             # Remove one-time subscribers from the registry

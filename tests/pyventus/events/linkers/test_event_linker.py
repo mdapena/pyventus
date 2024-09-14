@@ -549,7 +549,7 @@ class TestEventLinker:
 
         # Act
         subscribers = populated.event_linker.get_subscribers_from_events(
-            *populated.events, "D", "Invalid", pop_one_time_subscribers=True
+            *populated.events, "D", "Invalid", pop_onetime_subscribers=True
         )
 
         # Assert

@@ -181,6 +181,14 @@ serve = "mkdocs serve --dev-addr localhost:8000"
 # ==================================================================
 
 # =================================
+# | pytest configuration
+# =================================
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope="function"
+
+# =================================
 # | mypy configuration
 # =================================
 

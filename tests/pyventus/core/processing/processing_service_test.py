@@ -46,30 +46,20 @@ class ProcessingServiceTest(ABC):
         pass
 
     @pytest.mark.parametrize(
-        ["callback", "args", "kwargs"],
+        ["callback_type", "args", "kwargs"],
         [
-            (CallableMock.Sync(), (), {}),
-            (CallableMock.Sync(), ("str", 0), {}),
-            (CallableMock.Sync(), (), {"str": ...}),
-            (CallableMock.Sync(), ("str", 0), {"str": ...}),
-            (CallableMock.Async(), (), {}),
-            (CallableMock.Async(), ("str", 0), {}),
-            (CallableMock.Async(), (), {"str": ...}),
-            (CallableMock.Async(), ("str", 0), {"str": ...}),
-        ],
-        ids=[
-            "SyncCallback0-args0-kwargs0",
-            "SyncCallback1-args1-kwargs1",
-            "SyncCallback2-args2-kwargs2",
-            "SyncCallback3-args3-kwargs3",
-            "AsyncCallback0-args0-kwargs0",
-            "AsyncCallback1-args1-kwargs1",
-            "AsyncCallback2-args2-kwargs2",
-            "AsyncCallback3-args3-kwargs3",
+            (CallableMock.Sync, (), {}),
+            (CallableMock.Sync, ("str", 0), {}),
+            (CallableMock.Sync, (), {"str": ...}),
+            (CallableMock.Sync, ("str", 0), {"str": ...}),
+            (CallableMock.Async, (), {}),
+            (CallableMock.Async, ("str", 0), {}),
+            (CallableMock.Async, (), {"str": ...}),
+            (CallableMock.Async, ("str", 0), {"str": ...}),
         ],
     )
     def test_submission_in_sync_context(
-        self, callback: CallableMock.Base, args: tuple[Any, ...], kwargs: dict[str, Any]
+        self, callback_type: type[CallableMock.Base], args: tuple[Any, ...], kwargs: dict[str, Any]
     ) -> None:
         """
         Test the submission of a callback in a synchronous context.
@@ -79,44 +69,35 @@ class ProcessingServiceTest(ABC):
         It checks that the callback is called exactly once and that the arguments
         passed to the callback match the expected values.
 
-        :param callback: The callback to be submitted for execution.
+        :param callback_type: The callback type to be instantiated and submitted for execution.
         :param args: Positional arguments to be passed to the callback.
         :param kwargs: Keyword arguments to be passed to the callback.
         :return: None.
         """
-        # Arrange/Act: Submit the callback with the provided arguments.
+        # Arrange/Act: Instantiate the callback and submit it with the provided arguments in a sync context.
+        callback: CallableMock.Base = callback_type()
         self.handle_submission_in_sync_context(callback=callback, args=args, kwargs=kwargs)
 
         # Assert: Verify that the callback was called exactly once with the specified arguments.
-        assert callback.call_count == 1, "Callback was not called exactly once."
+        assert callback.call_count == 1, f"Callback was not called exactly once ({callback.call_count} == 1)."
         assert callback.last_args == args, f"Expected args {args}, but got {callback.last_args}."
         assert callback.last_kwargs == kwargs, f"Expected kwargs {kwargs}, but got {callback.last_kwargs}."
 
     @pytest.mark.parametrize(
-        ["callback", "args", "kwargs"],
+        ["callback_type", "args", "kwargs"],
         [
-            (CallableMock.Sync(), (), {}),
-            (CallableMock.Sync(), ("str", 0), {}),
-            (CallableMock.Sync(), (), {"str": ...}),
-            (CallableMock.Sync(), ("str", 0), {"str": ...}),
-            (CallableMock.Async(), (), {}),
-            (CallableMock.Async(), ("str", 0), {}),
-            (CallableMock.Async(), (), {"str": ...}),
-            (CallableMock.Async(), ("str", 0), {"str": ...}),
-        ],
-        ids=[
-            "SyncCallback0-args0-kwargs0",
-            "SyncCallback1-args1-kwargs1",
-            "SyncCallback2-args2-kwargs2",
-            "SyncCallback3-args3-kwargs3",
-            "AsyncCallback0-args0-kwargs0",
-            "AsyncCallback1-args1-kwargs1",
-            "AsyncCallback2-args2-kwargs2",
-            "AsyncCallback3-args3-kwargs3",
+            (CallableMock.Sync, (), {}),
+            (CallableMock.Sync, ("str", 0), {}),
+            (CallableMock.Sync, (), {"str": ...}),
+            (CallableMock.Sync, ("str", 0), {"str": ...}),
+            (CallableMock.Async, (), {}),
+            (CallableMock.Async, ("str", 0), {}),
+            (CallableMock.Async, (), {"str": ...}),
+            (CallableMock.Async, ("str", 0), {"str": ...}),
         ],
     )
     async def test_submission_in_async_context(
-        self, callback: CallableMock.Base, args: tuple[Any, ...], kwargs: dict[str, Any]
+        self, callback_type: type[CallableMock.Base], args: tuple[Any, ...], kwargs: dict[str, Any]
     ) -> None:
         """
         Test the submission of a callback in an asynchronous context.
@@ -127,15 +108,16 @@ class ProcessingServiceTest(ABC):
         exactly once and that the arguments passed to the callback match the
         expected values.
 
-        :param callback: The callback to be submitted for execution.
+        :param callback_type: The callback type to be instantiated and submitted for execution.
         :param args: Positional arguments to be passed to the callback.
         :param kwargs: Keyword arguments to be passed to the callback.
         :return: None.
         """
-        # Arrange/Act: Submit the callback with the provided arguments in an async context.
+        # Arrange/Act: Instantiate the callback and submit it with the provided arguments in an async context.
+        callback: CallableMock.Base = callback_type()
         await self.handle_submission_in_async_context(callback=callback, args=args, kwargs=kwargs)
 
         # Assert: Verify that the callback was called exactly once with the specified arguments.
-        assert callback.call_count == 1, "Callback was not called exactly once."
+        assert callback.call_count == 1, f"Callback was not called exactly once ({callback.call_count} == 1)."
         assert callback.last_args == args, f"Expected args {args}, but got {callback.last_args}."
         assert callback.last_kwargs == kwargs, f"Expected kwargs {kwargs}, but got {callback.last_kwargs}."

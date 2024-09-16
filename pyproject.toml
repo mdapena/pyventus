@@ -181,27 +181,12 @@ serve = "mkdocs serve --dev-addr localhost:8000"
 # ==================================================================
 
 # =================================
-# | pytest configuration
+# | Pytest configuration
 # =================================
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
-asyncio_default_fixture_loop_scope="function"
-
-# =================================
-# | mypy configuration
-# =================================
-
-[tool.mypy]
-files = ["src/pyventus", "tests"]
-namespace_packages = false
-show_error_codes = true
-warn_no_return = true
-warn_unreachable = true
-warn_unused_ignores = true
-implicit_reexport = true
-ignore_missing_imports = true
-strict = true
+asyncio_default_fixture_loop_scope = "function"
 
 # =================================
 # | Coverage configuration
@@ -222,6 +207,21 @@ exclude_lines = [
     "if TYPE_CHECKING:",
     '@(abc\.)?abstractmethod',
 ]
+
+# =================================
+# | mypy configuration
+# =================================
+
+[tool.mypy]
+files = ["src/pyventus", "tests"]
+namespace_packages = false
+show_error_codes = true
+warn_no_return = true
+warn_unreachable = true
+warn_unused_ignores = true
+implicit_reexport = true
+ignore_missing_imports = true
+strict = true
 
 # =================================
 # | Ruff configuration

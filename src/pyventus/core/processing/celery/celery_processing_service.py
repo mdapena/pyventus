@@ -1,6 +1,6 @@
 from asyncio import run
 from pickle import dumps, loads
-from typing import Any, cast
+from typing import Any, Final, cast
 
 from typing_extensions import override
 
@@ -31,7 +31,7 @@ class CeleryProcessingService(ProcessingService):
         callbacks are processed within a new asyncio event loop using the `asyncio.run()` function.
     """
 
-    __CELERY_TASK_NAME: str = "pyventus_task"
+    CELERY_TASK_NAME: Final[str] = "pyventus_task"
     """The name of the task in Celery."""
 
     @classmethod
@@ -66,10 +66,6 @@ class CeleryProcessingService(ProcessingService):
             if not serialized_payload:
                 raise PyventusException("The 'serialized_payload' argument is required but was not received.")
 
-            # Ensure the serialized payload is of the correct type (bytes).
-            if not isinstance(serialized_payload, bytes):
-                raise PyventusException("The 'serialized_payload' argument must be a sequence of bytes.")
-
             # Deserialize the payload to retrieve the original callback and its arguments.
             payload: CeleryPayload = cast(CeleryPayload, loads(serialized_payload))
 
@@ -86,7 +82,7 @@ class CeleryProcessingService(ProcessingService):
                 payload.callback(*payload.args, **payload.kwargs)
 
         # Register the service's task as a shared task in Celery.
-        shared_task(name=cls.__CELERY_TASK_NAME)(task)
+        shared_task(name=cls.CELERY_TASK_NAME)(task)
 
     # Attributes for the CeleryProcessingService
     __slots__ = ("__celery", "__queue")
@@ -150,7 +146,7 @@ class CeleryProcessingService(ProcessingService):
 
         # Send the serialized payload to Celery for asynchronous execution.
         self.__celery.send_task(
-            name=self.__class__.__CELERY_TASK_NAME,
+            name=self.__class__.CELERY_TASK_NAME,
             args=(serialized_payload,),
             queue=self.__queue,
         )

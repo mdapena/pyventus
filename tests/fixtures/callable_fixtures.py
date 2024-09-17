@@ -153,7 +153,9 @@ class CallableMock:
             yield self._return_value
 
     @classmethod
-    def Random(cls, return_value: Any | None = None, raise_exception: Exception | None = None) -> Base:  # noqa: N802
+    def Random(  # noqa: N802
+        cls, return_value: Any | None = None, raise_exception: Exception | None = None
+    ) -> Base:  # pragma: no cover
         """Returns a random callable mock, which can be either synchronous or asynchronous."""
         return (
             cls.Sync(return_value=return_value, raise_exception=raise_exception)
@@ -164,7 +166,7 @@ class CallableMock:
     @classmethod
     def RandomGenerator(  # noqa: N802
         cls, return_value: Any | None = None, raise_exception: Exception | None = None
-    ) -> Base:
+    ) -> Base:  # pragma: no cover
         """Returns a random generator callable mock, which can be either synchronous or asynchronous."""
         return (
             cls.SyncGenerator(return_value=return_value, raise_exception=raise_exception)
@@ -173,7 +175,9 @@ class CallableMock:
         )
 
     @classmethod
-    def RandomAll(cls, return_value: Any | None = None, raise_exception: Exception | None = None) -> Base:  # noqa: N802
+    def RandomAll(  # noqa: N802
+        cls, return_value: Any | None = None, raise_exception: Exception | None = None
+    ) -> Base:  # pragma: no cover
         """Returns a random regular/generator callable mock, which can be either synchronous or asynchronous."""
         return (
             cls.Random(return_value=return_value, raise_exception=raise_exception)

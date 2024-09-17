@@ -68,7 +68,7 @@ class ExecutorProcessingService(ProcessingService):
         # Store the executor instance.
         self.__executor: Executor = executor
 
-    def __repr__(self) -> str:
+    def __repr__(self) -> str:  # pragma: no cover
         """
         Retrieve a string representation of the instance.
 

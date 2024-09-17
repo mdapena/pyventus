@@ -25,7 +25,11 @@ class CeleryMock(Celery):  # type: ignore[misc]
 
         # Use a new thread to separate the execution of the task from the current test thread.
         with ThreadPoolExecutor() as executor:
-            executor.submit(self.tasks[kwargs["name"]], *kwargs["args"])
+            fut = executor.submit(self.tasks[kwargs["name"]], *kwargs["args"])
+
+        # Retrieve the results and raise
+        # any exceptions that occurred.
+        fut.result()
 
 
 class TestCeleryProcessingService(ProcessingServiceTest):
@@ -94,8 +98,8 @@ class TestCeleryProcessingService(ProcessingServiceTest):
         # This ensures that objects are not serialized or deserialized during testing,
         # allowing access to callback metrics for assertions such as call count and others.
         with (
-            patch("pickle.dumps", new_callable=lambda: (lambda obj: obj)),
-            patch("pickle.loads", new_callable=lambda: (lambda obj: obj)),
+            patch("pickle.dumps", new=lambda obj: obj),
+            patch("pickle.loads", new=lambda obj: obj),
         ):
             from pyventus.core.processing.celery import CeleryProcessingService
 
@@ -116,8 +120,8 @@ class TestCeleryProcessingService(ProcessingServiceTest):
         # This ensures that objects are not serialized or deserialized during testing,
         # allowing access to callback metrics for assertions such as call count and others.
         with (
-            patch("pickle.dumps", new_callable=lambda: (lambda obj: obj)),
-            patch("pickle.loads", new_callable=lambda: (lambda obj: obj)),
+            patch("pickle.dumps", new=lambda obj: obj),
+            patch("pickle.loads", new=lambda obj: obj),
         ):
             from pyventus.core.processing.celery import CeleryProcessingService
 

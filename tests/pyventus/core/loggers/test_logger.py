@@ -2,6 +2,10 @@ from pyventus.core.loggers import Logger
 
 
 class TestLogger:
+    # =================================
+    # Test Cases for creation
+    # =================================
+
     def test_creation(self) -> None:
         # Arrange | Act
         logger = Logger(name="New Logger", debug=True)

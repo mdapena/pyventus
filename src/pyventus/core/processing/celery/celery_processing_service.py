@@ -63,14 +63,14 @@ class CeleryProcessingService(ProcessingService):
             :raises PyventusException: If the serialized payload is invalid or cannot be deserialized.
             """
             # Validate that the serialized payload is provided.
-            if not serialized_payload:
+            if not serialized_payload:  # pragma: no cover
                 raise PyventusException("The 'serialized_payload' argument is required but was not received.")
 
             # Deserialize the payload to retrieve the original callback and its arguments.
             payload: CeleryPayload = cast(CeleryPayload, loads(serialized_payload))
 
             # Validate the deserialized payload to ensure it is of the expected type.
-            if payload is None or not isinstance(payload, CeleryPayload):
+            if payload is None or not isinstance(payload, CeleryPayload):  # pragma: no cover
                 raise PyventusException("Failed to deserialize the given payload.")
 
             # Check if the callback is asynchronous and execute accordingly.

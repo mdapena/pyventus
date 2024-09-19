@@ -1,38 +1,33 @@
-from asyncio import Task, create_task, gather, run
-from collections.abc import AsyncGenerator, Awaitable, Callable, Generator
-from concurrent.futures import ThreadPoolExecutor
+from abc import ABC
+from asyncio import gather
 from sys import gettrace
 from threading import Lock
-from typing import Any, Generic, TypeAlias, TypeVar, final, overload
+from typing import Generic, TypeVar, final
 
-from typing_extensions import override
+from typing_extensions import overload, override
 
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
 from ...core.subscriptions import SubscriptionContext
-from ...core.utils import CallableWrapper, attributes_repr, formatted_repr, is_loop_running
+from ...core.utils import attributes_repr
 from ..subscribers import CompleteCallbackType, ErrorCallbackType, NextCallbackType, Subscriber
 
 _OutT = TypeVar("_OutT", covariant=True)
 """A generic type representing the value that will be streamed through the observable."""
 
-_CtxT = TypeVar("_CtxT", contravariant=True)
+_SubCtxT = TypeVar("_SubCtxT", contravariant=True)
 """A generic type representing the value type for the Observable and Subscriber within the subscription context."""
 
-ObservableCallbackReturnType: TypeAlias = (
-    _OutT | Awaitable[_OutT] | Generator[_OutT, None, None] | AsyncGenerator[_OutT, None]
-)
-"""Type alias for the return type of the observable callback."""
 
-ObservableCallbackType: TypeAlias = Callable[..., ObservableCallbackReturnType[_OutT]]
-"""Type alias for the observable callback."""
-
-
-class Observable(Generic[_OutT]):
+class Observable(ABC, Generic[_OutT]):
     """
-    A class that provides a lazy push-style notification mechanism for streaming data to a set of subscribers.
+    A base class that defines a lazy push-style notification mechanism for streaming data to subscribers.
 
     **Notes:**
+
+    -   The `Observable` class serves as a foundation for implementing various observable types with different
+        dispatch logic and strategies, encapsulating the essential protocols and workflows for streaming data
+        to subscribers in a reactive manner.
 
     -   This class is parameterized by the type of value that will be streamed through the observable. This
         type parameter is covariant, allowing it to be either the specified type or any subtype.
@@ -49,9 +44,9 @@ class Observable(Generic[_OutT]):
     """
 
     @final
-    class ObservableSubscriptionContext(Generic[_CtxT], SubscriptionContext["Observable[_CtxT]", Subscriber[_CtxT]]):
+    class ObservableSubCtx(Generic[_SubCtxT], SubscriptionContext["Observable[_SubCtxT]", Subscriber[_SubCtxT]]):
         """
-        A context manager for observable subscriptions.
+        A context manager for Observable subscriptions.
 
         **Notes:**
 
@@ -72,12 +67,12 @@ class Observable(Generic[_OutT]):
         -   This class is not intended to be subclassed or manually instantiated.
         """
 
-        # Attributes for the ObservableSubscriptionContext
+        # Attributes for the ObservableSubCtx
         __slots__ = ("__next_callback", "__error_callback", "__complete_callback", "__force_async")
 
-        def __init__(self, observable: "Observable[_CtxT]", force_async: bool, is_stateful: bool) -> None:
+        def __init__(self, observable: "Observable[_SubCtxT]", force_async: bool, is_stateful: bool) -> None:
             """
-            Initialize an instance of `ObservableSubscriptionContext`.
+            Initialize an instance of `ObservableSubCtx`.
 
             :param observable: The observable to which the observer will be subscribed.
             :param force_async: Determines whether to force all callbacks to run asynchronously.
@@ -91,37 +86,37 @@ class Observable(Generic[_OutT]):
             super().__init__(source=observable, is_stateful=is_stateful)
 
             # Initialize variables
-            self.__next_callback: NextCallbackType[_CtxT] | None = None
+            self.__next_callback: NextCallbackType[_SubCtxT] | None = None
             self.__error_callback: ErrorCallbackType | None = None
             self.__complete_callback: CompleteCallbackType | None = None
             self.__force_async: bool = force_async
 
         @override
-        def _exit(self) -> Subscriber[_CtxT]:
-            # Ensure that the source is not None
+        def _exit(self) -> Subscriber[_SubCtxT]:
+            # Ensure that the source is not None.
             if self._source is None:
                 raise PyventusException("The subscription context is closed.")
 
-            # Ensure that at least one callback is defined before performing the subscription
+            # Ensure that at least one callback is defined before performing the subscription.
             if self.__next_callback is None and self.__error_callback is None and self.__complete_callback is None:
                 raise PyventusException("At least one callback must be defined before performing the subscription.")
 
             # Subscribe the defined callbacks to the specified
             # observable and store the returned subscriber.
-            subscriber: Subscriber[_CtxT] = self._source.subscribe(
+            subscriber: Subscriber[_SubCtxT] = self._source.subscribe(
                 next_callback=self.__next_callback,
                 error_callback=self.__error_callback,
                 complete_callback=self.__complete_callback,
                 force_async=self.__force_async,
             )
 
-            # Remove context-specific attributes
+            # Remove context-specific attributes.
             del self.__next_callback, self.__error_callback, self.__complete_callback, self.__force_async
 
-            # Return the subscriber
+            # Return the subscriber.
             return subscriber
 
-        def on_next(self, callback: NextCallbackType[_CtxT]) -> NextCallbackType[_CtxT]:
+        def on_next(self, callback: NextCallbackType[_SubCtxT]) -> NextCallbackType[_SubCtxT]:
             """
             Set the observer's next callback.
 
@@ -152,25 +147,23 @@ class Observable(Generic[_OutT]):
             return callback
 
         def __call__(
-            self, callback: NextCallbackType[_CtxT]
-        ) -> (
-            tuple[NextCallbackType[_CtxT], "Observable.ObservableSubscriptionContext[_CtxT]"] | NextCallbackType[_CtxT]
-        ):
+            self, callback: NextCallbackType[_SubCtxT]
+        ) -> tuple[NextCallbackType[_SubCtxT], "Observable.ObservableSubCtx[_SubCtxT]"] | NextCallbackType[_SubCtxT]:
             """
             Subscribe the decorated callback as the observer's `next` function for the specified observable.
 
             :param callback: The callback to be executed when the observable emits a new value.
             :return: A tuple containing the decorated callback and its subscription context
-                if the context is stateful; otherwise, returns the decorated callback alone.
+                if the context is `stateful`; otherwise, returns the decorated callback alone.
             """
-            # Store the provided callback in the subscription context
+            # Store the provided callback in the subscription context.
             self.__next_callback = callback
 
-            # Set error and complete callbacks to None
+            # Set error and complete callbacks to None.
             self.__error_callback = None
             self.__complete_callback = None
 
-            # Determine if the subscription context is stateful
+            # Determine if the subscription context is stateful.
             is_stateful: bool = self._is_stateful
 
             # Call the exit method to finalize the
@@ -195,51 +188,29 @@ class Observable(Generic[_OutT]):
         :return: The validated subscriber.
         :raises PyventusException: If the subscriber is not an instance of `Subscriber`.
         """
+        # Validate that the subscriber is an instance of Subscriber.
         if not isinstance(subscriber, Subscriber):
             raise PyventusException("The 'subscriber' argument must be an instance of Subscriber.")
         return subscriber
 
     # Attributes for the Observable
-    __slots__ = ("__callback", "__args", "__kwargs", "__subscribers", "__background_tasks", "__thread_lock", "__logger")
+    __slots__ = ("__subscribers", "__thread_lock", "__logger")
 
-    def __init__(
-        self,
-        callback: ObservableCallbackType[_OutT],
-        args: tuple[Any, ...] | None = None,
-        kwargs: dict[str, Any] | None = None,
-        debug: bool | None = None,
-    ) -> None:
+    def __init__(self, debug: bool | None = None) -> None:
         """
         Initialize an instance of `Observable`.
 
-        :param callback: A callback function that defines the behavior of the `Observable`.
-            This function is responsible for generating the stream of data emitted to subscribers.
-        :param args: Positional arguments to be passed to the callback.
-        :param kwargs: Keyword arguments to be passed to the callback.
         :param debug: Specifies the debug mode for the logger. If `None`,
             the mode is determined based on the execution environment.
         """
-        # Wrap and set the callback.
-        self.__callback = CallableWrapper[..., _OutT](callback, force_async=False)
-
-        # Store the positional and keyword arguments for the callback.
-        self.__args: tuple[Any, ...] = args if args else ()
-        self.__kwargs: dict[str, Any] = kwargs if kwargs else {}
-
         # Initialize the set of subscribers.
         self.__subscribers: set[Subscriber[_OutT]] = set()
-
-        # Initialize the set of background tasks.
-        self.__background_tasks: set[Task[None]] = set()
 
         # Create a lock object for thread synchronization.
         self.__thread_lock: Lock = Lock()
 
         # Set up the logger with the appropriate debug mode.
-        self.__logger: Logger = Logger(
-            name=self.__class__.__name__,
-            debug=debug if debug is not None else bool(gettrace() is not None),
-        )
+        self.__logger: Logger = Logger(source=self, debug=debug if debug is not None else bool(gettrace() is not None))
 
     def __repr__(self) -> str:  # pragma: no cover
         """
@@ -247,62 +218,133 @@ class Observable(Generic[_OutT]):
 
         :return: A string representation of the instance.
         """
-        return formatted_repr(
-            instance=self,
-            info=attributes_repr(
-                callback=self.__callback,
-                args=self.__args,
-                kwargs=self.__kwargs,
-                subscribers=self.__subscribers,
-                background_tasks=self.__background_tasks,
-                thread_lock=self.__thread_lock,
-                debug=self.__logger.debug_enabled,
-            ),
+        return attributes_repr(
+            subscribers=self.__subscribers,
+            thread_lock=self.__thread_lock,
+            debug=self.__logger.debug_enabled,
         )
 
-    def __remove_background_task(self, task: Task[None]) -> None:
+    @property
+    def _logger(self) -> Logger:
         """
-        Remove the specified background task from the task registry.
+        Retrieve the logger instance.
 
-        :param task:  The background task to be removed from the registry.
+        :return: The logger instance used for logging messages.
+        """
+        return self.__logger
+
+    @property
+    def _thread_lock(self) -> Lock:
+        """
+        Retrieve the thread lock instance.
+
+        :return: The thread lock instance used to ensure thread-safe operations.
+        """
+        return self.__thread_lock
+
+    async def _emit_next(self, value: _OutT) -> None:
+        """
+        Emit the next value to all subscribers.
+
+        This method notifies all subscribers of the next value in the stream.
+
+        :param value: The value to be emitted to all subscribers.
         :return: None.
         """
+        # Acquire lock to ensure thread safety.
         with self.__thread_lock:
-            self.__background_tasks.discard(task)
+            # Copy current subscribers to avoid modification during iteration.
+            subscribers: set[Subscriber] = self.__subscribers.copy()
 
-    async def __execute(self) -> None:
+        # Exit if there are no subscribers.
+        if not subscribers:
+            # Log a debug message if debug mode is enabled.
+            if self.__logger.debug_enabled:  # pragma: no cover
+                self.__logger.debug(
+                    action="Emitting Next Value:",
+                    msg=f"No subscribers to notify of the next value: {value}",
+                )
+            return
+
+        # Log the emission of the next value if debug mode is enabled.
+        if self.__logger.debug_enabled:  # pragma: no cover
+            self.__logger.debug(
+                action="Emitting Next Value:",
+                msg=f"Notifying {len(subscribers)} subscribers of the next value: {value}",
+            )
+
+        # Notify all subscribers concurrently.
+        await gather(*[subscriber.next(value) for subscriber in subscribers], return_exceptions=True)
+
+    async def _emit_error(self, exception: Exception) -> None:
         """
-        Execute the main callback of the `Observable` and manages the emission of data to subscribers.
+        Emit the error that occurred to all subscribers.
 
-        This method is responsible for invoking the Observable's callback, emitting the stream of
-        data to subscribers, and managing the execution of their `next`, `error`, and `completion`
-        workflows.
+        This method notifies all subscribers of the error that occurred.
 
-        :return: None
+        :param exception: The exception to be emitted to all subscribers.
+        :return: None.
         """
-        # Execute the main callback and handle
-        # any exceptions that may arise.
-        try:
-            if self.__callback.is_generator:
-                # If the callback is a generator, asynchronously
-                # retrieve and emit values to all subscribers concurrently.
-                async for g_value in self.__callback.stream(*self.__args, **self.__kwargs):
-                    await gather(*[subscriber.next(value=g_value) for subscriber in self.get_subscribers()])
-            else:
-                # If the callback is a regular callable, execute it
-                # and emit the result to all subscribers concurrently.
-                r_value: _OutT = await self.__callback.execute(*self.__args, **self.__kwargs)
-                await gather(*[subscriber.next(value=r_value) for subscriber in self.get_subscribers()])
+        # Acquire lock to ensure thread safety.
+        with self.__thread_lock:
+            # Copy current subscribers to avoid modification during iteration.
+            subscribers: set[Subscriber] = self.__subscribers.copy()
 
-                # Signal that the observable has
-                # completed emitting values
-                raise Completed from None
-        except Observable.Completed:
-            # Notify all subscribers that the Observable has completed emitting values.
-            await gather(*[subscriber.complete() for subscriber in self.get_subscribers()])
-        except Exception as exception:
-            # Notify all subscribers of any errors encountered during callback execution/streaming.
-            await gather(*[subscriber.error(exception) for subscriber in self.get_subscribers()])
+        # Exit if there are no subscribers.
+        if not subscribers:
+            # Log a debug message if debug mode is enabled.
+            if self.__logger.debug_enabled:  # pragma: no cover
+                self.__logger.debug(
+                    action="Emitting Error:",
+                    msg=f"No subscribers to notify of the error: {exception}.",
+                )
+            return
+
+        # Log the error emission if debug mode is enabled.
+        if self.__logger.debug_enabled:  # pragma: no cover
+            self.__logger.debug(
+                action="Emitting Error:",
+                msg=f"Notifying {len(subscribers)} subscribers of the error: {exception}",
+            )
+
+        # Notify all subscribers of the error concurrently.
+        await gather(*[subscriber.error(exception) for subscriber in subscribers], return_exceptions=True)
+
+    async def _emit_complete(self) -> None:
+        """
+        Emit the completion signal to all subscribers.
+
+        This method notifies all subscribers that the stream has completed.
+
+        :return: None.
+        """
+        # Acquire lock to ensure thread safety.
+        with self.__thread_lock:
+            # Copy current subscribers to avoid modification during iteration.
+            subscribers: set[Subscriber] = self.__subscribers.copy()
+
+            # Unsubscribe all observers since the stream has completed.
+            self.__subscribers.clear()
+
+        # Exit if there are no subscribers.
+        if not subscribers:
+            # Log a debug message if debug mode is enabled.
+            if self.__logger.debug_enabled:  # pragma: no cover
+                self.__logger.debug(
+                    action="Emitting Completion:",
+                    msg="No subscribers to notify of completion.",
+                )
+            return
+
+        # Log the emission if debug is enabled.
+        if self.__logger.debug_enabled:  # pragma: no cover
+            self.__logger.debug(
+                action="Emitting Completion:",
+                msg=f"Notifying {len(subscribers)} subscribers of completion.",
+            )
+
+        # Notify all subscribers of the completion concurrently.
+        await gather(*[subscriber.complete() for subscriber in subscribers], return_exceptions=True)
 
     def get_subscribers(self) -> set[Subscriber[_OutT]]:
         """
@@ -327,7 +369,7 @@ class Observable(Generic[_OutT]):
     @overload
     def subscribe(
         self, *, force_async: bool = False, stateful_subctx: bool = False
-    ) -> "Observable.ObservableSubscriptionContext[_OutT]": ...
+    ) -> "Observable.ObservableSubCtx[_OutT]": ...
 
     @overload
     def subscribe(
@@ -347,20 +389,20 @@ class Observable(Generic[_OutT]):
         *,
         force_async: bool = False,
         stateful_subctx: bool = False,
-    ) -> Subscriber[_OutT] | "Observable.ObservableSubscriptionContext[_OutT]":
+    ) -> Subscriber[_OutT] | "Observable.ObservableSubCtx[_OutT]":
         """
         Subscribe the specified callbacks to the current `Observable`.
 
         This method can be utilized in three ways:
 
-        -   As a regular function: Automatically creates and subscribes an observer
+        -   **As a regular function:** Automatically creates and subscribes an observer
             with the specified callbacks.
 
-        -   As a decorator: Creates and subscribes an observer, using the decorated
+        -   **As a decorator:** Creates and subscribes an observer, using the decorated
             callback as the next callback.
 
-        -   As a context manager: Enables a step-by-step definition of the observer's callbacks
-            prior to subscription, which occurs immediately after exiting the context.
+        -   **As a context manager:** Enables a step-by-step definition of the observer's
+            callbacks prior to subscription, which occurs immediately after exiting the context.
 
         :param next_callback: The callback to be executed when the observable emits a new value.
         :param error_callback: The callback to be executed when the observable encounters an error.
@@ -371,15 +413,17 @@ class Observable(Generic[_OutT]):
             allowing access to stored objects, including the `observable` and the `subscriber` object. If `False`,
             the context is stateless, and the stored state is cleared upon exiting the subscription block to
             prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.
-        :return: A `Subscriber` if callbacks are provided; otherwise, an `ObservableSubscriptionContext`.
+        :return: A `Subscriber` if callbacks are provided; otherwise, an `ObservableSubCtx`.
         """
-        # If no callbacks are provided, create a subscription context for progressive definition
         if next_callback is None and error_callback is None and complete_callback is None:
-            return Observable.ObservableSubscriptionContext[_OutT](
-                observable=self, force_async=force_async, is_stateful=stateful_subctx
+            # If no callbacks are provided, create a subscription context for progressive definition.
+            return Observable.ObservableSubCtx[_OutT](
+                observable=self,
+                force_async=force_async,
+                is_stateful=stateful_subctx,
             )
         else:
-            # Create a subscriber with the provided callbacks
+            # Create a subscriber with the provided callbacks.
             subscriber = Subscriber[_OutT](
                 teardown_callback=self.remove_subscriber,
                 next_callback=next_callback,
@@ -388,12 +432,16 @@ class Observable(Generic[_OutT]):
                 force_async=force_async,
             )
 
-            # Acquire lock to ensure thread safety
+            # Acquire lock to ensure thread safety.
             with self.__thread_lock:
-                # Add the subscriber to the observable
+                # Add the subscriber to the observable.
                 self.__subscribers.add(subscriber)
 
-            # Return the subscriber
+            # Log the subscription if debug is enabled
+            if self.__logger.debug_enabled:  # pragma: no cover
+                self.__logger.debug(action="Subscribed:", msg=f"{subscriber}")
+
+            # Return the subscriber.
             return subscriber
 
     def remove_subscriber(self, subscriber: Subscriber[_OutT]) -> bool:
@@ -404,17 +452,21 @@ class Observable(Generic[_OutT]):
         :return: `True` if the subscriber was successfully removed; `False` if
             the subscriber was not found in the observable.
         """
-        # Get the valid subscriber instance
+        # Get the valid subscriber instance.
         valid_subscriber: Subscriber[_OutT] = self.get_valid_subscriber(subscriber)
 
-        # Acquire lock to ensure thread safety
+        # Acquire lock to ensure thread safety.
         with self.__thread_lock:
-            # Check if the subscriber is registered; return False if not
+            # Check if the subscriber is registered; return False if not.
             if valid_subscriber not in self.__subscribers:
                 return False
 
-            # Remove the subscriber from the observable
+            # Remove the subscriber from the observable.
             self.__subscribers.remove(valid_subscriber)
+
+        # Log the removal if the debug mode is enabled
+        if self.__logger.debug_enabled:  # pragma: no cover
+            self.__logger.debug(action="Removed:", msg=f"{valid_subscriber}")
 
         return True
 
@@ -434,74 +486,11 @@ class Observable(Generic[_OutT]):
             # Clear the observable
             self.__subscribers.clear()
 
+        if self.__logger.debug_enabled:  # pragma: no cover
+            self.__logger.debug(action="Removed:", msg="All subscribers.")
+
         return True
-
-    async def wait_for_tasks(self) -> None:
-        """
-        Wait for all background tasks associated with the `Observable` to complete.
-
-        It ensures that any ongoing tasks are finished before proceeding.
-
-        :return: None.
-        """
-        # Acquire lock to ensure thread safety
-        with self.__thread_lock:
-            # Retrieve the current set of background tasks and clear the registry
-            tasks: set[Task[None]] = self.__background_tasks
-            self.__background_tasks = set()
-
-        # Await the completion of all background tasks
-        await gather(*tasks)
-
-    def __call__(self, executor: ThreadPoolExecutor | None = None) -> None:
-        """
-        Execute the current `Observable`.
-
-        Depending on the context, Observables manage their execution differently:
-
-        -   In a synchronous environment, a new event loop is started to execute
-            the `Observable`. The loop then waits for all scheduled tasks to
-            finish before closing, preserving synchronous execution while
-            still benefiting from concurrent execution.
-
-        -   In an asynchronous setting, the `Observable` is scheduled as a
-            background task within the running asyncio event loop.
-
-        -   When a thread-based executor is provided, the `Observable`'s
-            execution is submitted to the given thread.
-
-        :param executor: An optional `ThreadPoolExecutor` instance for executing
-            the `Observable` within the given thread-based executor.
-        :return: None
-        """
-        if executor is None:
-            # Check if there is an active event loop
-            loop_running: bool = is_loop_running()
-
-            if loop_running:
-                # Schedule the Observable execution in the running loop as a background task
-                task: Task[None] = create_task(self.__execute())
-
-                # Remove the Task from the set of background tasks upon completion
-                task.add_done_callback(self.__remove_background_task)
-
-                # Acquire lock to ensure thread safety
-                with self.__thread_lock:
-                    # Add the Task to the set of background tasks
-                    self.__background_tasks.add(task)
-            else:
-                # Execute the Observable in a new event loop
-                # and wait for its execution to complete
-                run(self.__execute())
-        else:
-            # Validate that the executor is an instance of ThreadPoolExecutor
-            if not isinstance(executor, ThreadPoolExecutor):
-                raise PyventusException("The 'executor' argument must be an instance of ThreadPoolExecutor.")
-
-            # Submit the Observable's execution to
-            # the provided thread-based executor
-            executor.submit(self)
 
 
 Completed = Observable.Completed()
-"""Signal raised to indicate that the observable has completed emitting values and will not emit any more."""
+"""Signal raised to indicate that the observable has completed emitting values."""

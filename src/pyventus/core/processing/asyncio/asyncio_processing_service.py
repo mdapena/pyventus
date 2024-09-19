@@ -76,7 +76,7 @@ class AsyncIOProcessingService(ProcessingService):
                 task: Task[Any] = create_task(callback(*args, **kwargs))
 
                 # Add a callback to remove the Task from the set of background tasks upon completion.
-                task.add_done_callback(self.__background_tasks.remove)
+                task.add_done_callback(self.__background_tasks.discard)
 
                 # Add the Task to the set of background tasks.
                 self.__background_tasks.add(task)

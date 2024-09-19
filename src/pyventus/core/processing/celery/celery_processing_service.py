@@ -1,4 +1,5 @@
 from asyncio import run
+from dataclasses import dataclass
 from pickle import dumps, loads
 from typing import Any, Final, cast
 
@@ -8,7 +9,6 @@ from ...exceptions import PyventusException, PyventusImportException
 from ...loggers import StdOutLogger
 from ...utils import attributes_repr, formatted_repr, is_callable_async
 from ..processing_service import ProcessingService, ProcessingServiceCallbackType
-from .celery_payload import CeleryPayload
 
 try:  # pragma: no cover
     from celery import Celery, shared_task
@@ -33,6 +33,14 @@ class CeleryProcessingService(ProcessingService):
 
     CELERY_TASK_NAME: Final[str] = "pyventus_task"
     """The name of the task in Celery."""
+
+    @dataclass(slots=True, frozen=True)
+    class CeleryPayload:
+        """A data class representing the payload of the `CeleryProcessingService`."""
+
+        callback: ProcessingServiceCallbackType
+        args: tuple[Any, ...]
+        kwargs: dict[str, Any]
 
     @classmethod
     def register(cls) -> None:
@@ -67,10 +75,10 @@ class CeleryProcessingService(ProcessingService):
                 raise PyventusException("The 'serialized_payload' argument is required but was not received.")
 
             # Deserialize the payload to retrieve the original callback and its arguments.
-            payload: CeleryPayload = cast(CeleryPayload, loads(serialized_payload))
+            payload = cast(CeleryProcessingService.CeleryPayload, loads(serialized_payload))
 
             # Validate the deserialized payload to ensure it is of the expected type.
-            if payload is None or not isinstance(payload, CeleryPayload):  # pragma: no cover
+            if payload is None or not isinstance(payload, CeleryProcessingService.CeleryPayload):  # pragma: no cover
                 raise PyventusException("Failed to deserialize the given payload.")
 
             # Check if the callback is asynchronous and execute accordingly.
@@ -139,7 +147,7 @@ class CeleryProcessingService(ProcessingService):
     @override
     def submit(self, callback: ProcessingServiceCallbackType, *args: Any, **kwargs: Any) -> None:
         # Create the Celery payload to encapsulate the callback and its arguments.
-        payload: CeleryPayload = CeleryPayload(callback=callback, args=args, kwargs=kwargs)
+        payload = CeleryProcessingService.CeleryPayload(callback=callback, args=args, kwargs=kwargs)
 
         # Serialize the payload object.
         serialized_payload: bytes = dumps(payload)

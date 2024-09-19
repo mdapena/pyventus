@@ -41,7 +41,7 @@ class EventLinker:
     """
 
     @final
-    class EventLinkerSubscriptionContext(SubscriptionContext[type["EventLinker"], EventSubscriber]):
+    class EventLinkerSubCtx(SubscriptionContext[type["EventLinker"], EventSubscriber]):
         """
         A context manager for event linker subscriptions.
 
@@ -166,7 +166,7 @@ class EventLinker:
 
         def __call__(
             self, callback: EventCallbackType
-        ) -> tuple[EventCallbackType, "EventLinker.EventLinkerSubscriptionContext"] | EventCallbackType:
+        ) -> tuple[EventCallbackType, "EventLinker.EventLinkerSubCtx"] | EventCallbackType:
             """
             Subscribe the decorated callback to the specified events.
 
@@ -575,7 +575,7 @@ class EventLinker:
     @classmethod
     def once(
         cls, *events: SubscribableEventType, force_async: bool = False, stateful_subctx: bool = False
-    ) -> EventLinkerSubscriptionContext:
+    ) -> EventLinkerSubCtx:
         """
         Subscribe callbacks to the specified events for a single invocation.
 
@@ -596,14 +596,14 @@ class EventLinker:
             block to prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.
         :return: A `EventLinkerSubscriptionContext` instance.
         """
-        return EventLinker.EventLinkerSubscriptionContext(
+        return EventLinker.EventLinkerSubCtx(
             events=events, event_linker=cls, force_async=force_async, once=True, is_stateful=stateful_subctx
         )
 
     @classmethod
     def on(
         cls, *events: SubscribableEventType, force_async: bool = False, stateful_subctx: bool = False
-    ) -> EventLinkerSubscriptionContext:
+    ) -> EventLinkerSubCtx:
         """
         Subscribe callbacks to the specified events.
 
@@ -624,7 +624,7 @@ class EventLinker:
             block to prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.
         :return: A `EventLinkerSubscriptionContext` instance.
         """
-        return EventLinker.EventLinkerSubscriptionContext(
+        return EventLinker.EventLinkerSubCtx(
             events=events, event_linker=cls, force_async=force_async, once=False, is_stateful=stateful_subctx
         )
 

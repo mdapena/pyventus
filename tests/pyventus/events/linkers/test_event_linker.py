@@ -1026,7 +1026,7 @@ class TestEventLinker:
             event_linker, subscriber = ctx.unpack()
 
             assert event_callback is tc.event_callback
-            assert isinstance(ctx, EventLinker.EventLinkerSubscriptionContext)
+            assert isinstance(ctx, EventLinker.EventLinkerSubCtx)
 
             assert subscriber
             assert subscriber.once is tc.once
@@ -1192,7 +1192,7 @@ class TestEventLinker:
         event_linker, subscriber = ctx.unpack()
 
         # Assert
-        assert isinstance(ctx, EventLinker.EventLinkerSubscriptionContext)
+        assert isinstance(ctx, EventLinker.EventLinkerSubCtx)
 
         if stateful_subctx:
             assert subscriber

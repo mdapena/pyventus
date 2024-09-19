@@ -7,7 +7,7 @@ from typing_extensions import override
 
 from ...exceptions import PyventusException, PyventusImportException
 from ...loggers import StdOutLogger
-from ...utils import attributes_repr, formatted_repr, is_callable_async
+from ...utils import attributes_repr, formatted_repr, is_callable_async, summarized_repr
 from ..processing_service import ProcessingService, ProcessingServiceCallbackType
 
 try:  # pragma: no cover
@@ -112,7 +112,7 @@ class CeleryProcessingService(ProcessingService):
         # Check if the Celery app configuration uses the 'auth' serializer.
         if celery.conf.task_serializer != "auth":
             StdOutLogger.warning(
-                name=self.__class__.__name__,
+                source=summarized_repr(self),
                 action="Security Message:",
                 msg=(
                     "To enhance security in message communication, it is recommended to employ the Celery 'auth' "

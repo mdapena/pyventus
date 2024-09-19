@@ -8,7 +8,7 @@ from uuid import uuid4
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger, StdOutLogger
 from ...core.processing import ProcessingService
-from ...core.utils import attributes_repr, formatted_repr
+from ...core.utils import attributes_repr, formatted_repr, summarized_repr
 from ..linkers import EventLinker
 from ..subscribers import EventSubscriber
 
@@ -39,7 +39,7 @@ class EventEmitter:
         This class provides a self-contained context for executing the event emission, encapsulating both the
         event data and the associated subscribers. It acts as an isolated unit of work to asynchronously propagate
         the emission of an event. When an event occurs, the `EventEmitter` class creates an `EventEmission`
-        instance, which is then processed by the `_process()` method to handle the event propagation.
+        instance, which is then processed by the event processor to handle the event propagation.
         """
 
         # Attributes for the EventEmission
@@ -131,7 +131,7 @@ class EventEmitter:
             """
             # Log the event execution if debug mode is enabled
             if self.__debug:  # pragma: no cover
-                StdOutLogger.debug(name=type(self).__name__, action="Executing:", msg=f"{self}")
+                StdOutLogger.debug(source=summarized_repr(self), action="Executing:", msg=f"{self}")
 
             # Execute the subscribers concurrently
             await gather(
@@ -181,10 +181,7 @@ class EventEmitter:
         self.__event_linker: type[EventLinker] = event_linker
 
         # Create and store logger.
-        self.__logger: Logger = Logger(
-            name=type(self).__name__,
-            debug=debug if debug is not None else bool(gettrace() is not None),
-        )
+        self.__logger: Logger = Logger(source=self, debug=debug if debug is not None else bool(gettrace() is not None))
 
     def __repr__(self) -> str:  # pragma: no cover
         """

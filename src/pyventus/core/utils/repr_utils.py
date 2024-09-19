@@ -13,7 +13,7 @@ def formatted_repr(instance: object, info: str | None = None) -> str:
     :param instance: The object to be represented. It should be an instance of any class.
     :param info: Optional string providing extra information about the object. Defaults to `None`.
     :return: A formatted string representation of the object, structured as:
-        "<`ClassName` object at `MemoryAddress` with (`Info`)>".
+        "<`ClassName` at `MemoryAddress` with `Info`>".
     """
     return f"<{instance.__class__.__name__} at 0x{id(instance):016X}{f' with {info}' if info else ''}>"
 
@@ -27,3 +27,16 @@ def attributes_repr(**kwargs: Any) -> str:
         overview of the attributes.
     """
     return ", ".join(f"{key}={value!r}" for key, value in kwargs.items())
+
+
+def summarized_repr(instance: object) -> str:
+    """
+    Generate a summary representation of an object instance.
+
+    This function returns a formatted string that includes the name of the class
+    of the given instance and its unique identifier in the format `ClassName<id>`.
+
+    :param instance: The object instance for which to generate the summary representation.
+    :return: A string in the format `ClassName<id>`.
+    """
+    return f"{type(instance).__name__}<0x{id(instance):016X}>"

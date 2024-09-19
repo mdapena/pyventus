@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Any
 
 from ...core.loggers import StdOutLogger
+from ...core.utils import summarized_repr
 
 
 class EventHandler(ABC):
@@ -54,7 +55,7 @@ class EventHandler(ABC):
             results: Any = await self._handle_event(*args, **kwargs)
         except Exception as exception:
             # Log the exception that occurred during the event handling.
-            StdOutLogger.error(name=f"{type(self).__name__}", action="Exception:", msg=f"{repr(exception)}")
+            StdOutLogger.error(source=summarized_repr(self), action="Exception:", msg=f"{repr(exception)}")
 
             # Handle the failed completion of the event response.
             await self._handle_failure(exception=exception)

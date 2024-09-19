@@ -60,13 +60,13 @@ class StdOutLogger:
             return stream_handler
 
         @classmethod
-        def build_log(cls, level: int, msg: str, name: str | None = None, action: str | None = None) -> str:
+        def build_log(cls, level: int, msg: str, source: str | None = None, action: str | None = None) -> str:
             """
-            Build a log message string with the specified log level, message, name, and action.
+            Build a log message string with the specified log level, message, source, and action.
 
             :param level: The log level of the message.
             :param msg: The log message.
-            :param name: The name of the logger or class associated with the log. Defaults to None.
+            :param source: The source of the log message. Defaults to None.
             :param action: The action or method associated with the log. Defaults to None.
             :return: The formatted log message string.
             """
@@ -75,7 +75,7 @@ class StdOutLogger:
 
             # Build the log message string
             log: str = (
-                f"{StdOutColors.DEFAULT}{('[' + (name if name else 'StdOutLogger') + ']'):<23}"
+                f"{StdOutColors.DEFAULT}{('[' + (source if source else 'StdOutLogger') + ']'):<23}"
                 f"{level_color} {((action if action[-1] == ' ' else action + ' ') if action else 'Message: '):<13}"
                 f"{StdOutColors.DEFAULT}{msg}"
             )
@@ -101,49 +101,49 @@ class StdOutLogger:
     __debug_logger.addHandler(hdlr=Handler.get_stream_handler_by_level(level=__debug_logger.level))
 
     @classmethod
-    def error(cls, msg: str, name: str | None = None, action: str | None = None) -> None:
+    def error(cls, msg: str, source: str | None = None, action: str | None = None) -> None:
         """
         Log an ERROR level message.
 
         :param msg: The message to be logged.
-        :param name: The name of the logger or class associated with the log. Defaults to None.
+        :param source: The source of the log message. Defaults to None.
         :param action: The action or method associated with the log. Defaults to None.
         :return: None.
         """
-        cls.__error_logger.error(cls.Handler.build_log(level=ERROR, msg=msg, name=name, action=action))
+        cls.__error_logger.error(cls.Handler.build_log(level=ERROR, msg=msg, source=source, action=action))
 
     @classmethod
-    def warning(cls, msg: str, name: str | None = None, action: str | None = None) -> None:
+    def warning(cls, msg: str, source: str | None = None, action: str | None = None) -> None:
         """
         Log a WARNING level message.
 
         :param msg: The message to be logged.
-        :param name: The name of the logger or class associated with the log. Defaults to None.
+        :param source: The source of the log message. Defaults to None.
         :param action: The action or method associated with the log. Defaults to None.
         :return: None.
         """
-        cls.__warning_logger.warning(cls.Handler.build_log(level=WARNING, msg=msg, name=name, action=action))
+        cls.__warning_logger.warning(cls.Handler.build_log(level=WARNING, msg=msg, source=source, action=action))
 
     @classmethod
-    def info(cls, msg: str, name: str | None = None, action: str | None = None) -> None:
+    def info(cls, msg: str, source: str | None = None, action: str | None = None) -> None:
         """
         Log an INFO level message.
 
         :param msg: The message to be logged.
-        :param name: The name of the logger or class associated with the log. Defaults to None.
+        :param source: The source of the log message. Defaults to None.
         :param action: The action or method associated with the log. Defaults to None.
         :return: None.
         """
-        cls.__info_logger.info(cls.Handler.build_log(level=INFO, msg=msg, name=name, action=action))
+        cls.__info_logger.info(cls.Handler.build_log(level=INFO, msg=msg, source=source, action=action))
 
     @classmethod
-    def debug(cls, msg: str, name: str | None = None, action: str | None = None) -> None:
+    def debug(cls, msg: str, source: str | None = None, action: str | None = None) -> None:
         """
         Log a DEBUG level message.
 
         :param msg: The message to be logged.
-        :param name: The name of the logger or class associated with the log. Defaults to None.
+        :param source: The source of the log message. Defaults to None.
         :param action: The action or method associated with the log. Defaults to None.
         :return: None.
         """
-        cls.__debug_logger.debug(cls.Handler.build_log(level=DEBUG, msg=msg, name=name, action=action))
+        cls.__debug_logger.debug(cls.Handler.build_log(level=DEBUG, msg=msg, source=source, action=action))

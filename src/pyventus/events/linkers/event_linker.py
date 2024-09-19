@@ -62,7 +62,7 @@ class EventLinker:
         -   This class is not intended to be subclassed or manually instantiated.
         """
 
-        # Attributes for the EventLinkerSubscriptionContext
+        # Attributes for the EventLinkerSubCtx
         __slots__ = (
             "__events",
             "__event_callback",
@@ -81,7 +81,7 @@ class EventLinker:
             is_stateful: bool,
         ) -> None:
             """
-            Initialize an instance of `EventLinkerSubscriptionContext`.
+            Initialize an instance of `EventLinkerSubCtx`.
 
             :param events: The events to subscribe/link to.
             :param event_linker: The type of event linker used for the actual subscription.
@@ -224,7 +224,7 @@ class EventLinker:
     and modifying mutable properties simultaneously.
     """
 
-    __logger: Logger = Logger(name="EventLinker", debug=bool(gettrace() is not None))
+    __logger: Logger = Logger(source="EventLinker", debug=bool(gettrace() is not None))
     """
     The logger used to debug and log information within the `EventLinker` class. The debug mode
     of the logger depends on the execution environment and the value returned by the `gettrace()`
@@ -287,10 +287,7 @@ class EventLinker:
             raise PyventusException("The 'debug' argument must be a boolean value.")
 
         # Set up the logger
-        cls.__logger = Logger(
-            name=cls.__name__,
-            debug=debug if debug is not None else bool(gettrace() is not None),
-        )
+        cls.__logger = Logger(source=cls, debug=debug if debug is not None else bool(gettrace() is not None))
 
     @classmethod
     def _get_logger(cls) -> Logger:
@@ -594,7 +591,7 @@ class EventLinker:
             its state, allowing access to stored objects, including the `event linker` and the `subscriber` object.
             If `False`, the context is stateless, and the stored state is cleared upon exiting the subscription
             block to prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.
-        :return: A `EventLinkerSubscriptionContext` instance.
+        :return: A `EventLinkerSubCtx` instance.
         """
         return EventLinker.EventLinkerSubCtx(
             events=events, event_linker=cls, force_async=force_async, once=True, is_stateful=stateful_subctx
@@ -622,7 +619,7 @@ class EventLinker:
             its state, allowing access to stored objects, including the `event linker` and the `subscriber` object.
             If `False`, the context is stateless, and the stored state is cleared upon exiting the subscription
             block to prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.
-        :return: A `EventLinkerSubscriptionContext` instance.
+        :return: A `EventLinkerSubCtx` instance.
         """
         return EventLinker.EventLinkerSubCtx(
             events=events, event_linker=cls, force_async=force_async, once=False, is_stateful=stateful_subctx

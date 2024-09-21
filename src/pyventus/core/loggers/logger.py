@@ -16,20 +16,20 @@ class Logger:
         :param debug: A flag indicating whether debug mode is enabled.
         """
         # Variable to hold the name of the source.
-        source_name: str | None
+        source_name: str
 
         # Determine the name of the source based on its type.
         if source is None:
-            source_name = None
+            source_name = summarized_repr(self)
         elif isinstance(source, str):
             source_name = source
         elif isinstance(source, type):
-            source_name = source.__name__
+            source_name = f"{source.__name__}(ClassReference)"
         else:
             source_name = summarized_repr(source)
 
         # Store the determined source name and debug flag.
-        self.__source: str | None = source_name
+        self.__source: str = source_name
         self.__debug = debug
 
     def __repr__(self) -> str:  # pragma: no cover

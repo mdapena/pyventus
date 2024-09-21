@@ -41,10 +41,8 @@ class StdOutLogger:
 
             # Define the logger format
             logger_format: str = (
-                f"{level_color}[Pyventus] "
-                f"{StdOutColors.DEFAULT}— %(asctime)s "
-                f"{level_color}%(levelname)8s "
-                f"{level_color}%(message)s"
+                f"{level_color}[Pyventus] {StdOutColors.DEFAULT}%(process)5d (%(thread)5d) {level_color}• "
+                f"{StdOutColors.DEFAULT}%(asctime)s {level_color}%(levelname)8s {level_color}%(message)s"
             )
 
             # Create a formatter with the logger format
@@ -75,8 +73,8 @@ class StdOutLogger:
 
             # Build the log message string
             log: str = (
-                f"{StdOutColors.DEFAULT}{('[' + (source if source else 'StdOutLogger') + ']'):<23}"
-                f"{level_color} {((action if action[-1] == ' ' else action + ' ') if action else 'Message: '):<13}"
+                f"{StdOutColors.DEFAULT}{'[' + (source if source else 'StdOutLogger(ClassReference)') + ']'}"
+                f"{level_color} {(action if action[-1] == ' ' else action + ' ') if action else 'Message: '}"
                 f"{StdOutColors.DEFAULT}{msg}"
             )
             return log

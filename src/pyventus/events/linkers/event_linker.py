@@ -224,7 +224,7 @@ class EventLinker:
     and modifying mutable properties simultaneously.
     """
 
-    __logger: Logger = Logger(source="EventLinker", debug=bool(gettrace() is not None))
+    __logger: Logger = Logger(source="EventLinker(ClassReference)", debug=bool(gettrace() is not None))
     """
     The logger used to debug and log information within the `EventLinker` class. The debug mode
     of the logger depends on the execution environment and the value returned by the `gettrace()`

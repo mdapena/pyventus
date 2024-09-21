@@ -44,7 +44,7 @@ def summarized_repr(instance: object) -> str:
 
 def hex_id_repr(instance: object) -> str:
     """
-    Returns the hexadecimal string representation of the unique identifier (ID) for a given object instance.
+    Return the hexadecimal string representation of the unique identifier (ID) for a given object instance.
 
     :param instance: The object instance for which to retrieve the ID.
     :return: A string representing the hexadecimal ID of the object, formatted as `0x(16-character hex number)`.

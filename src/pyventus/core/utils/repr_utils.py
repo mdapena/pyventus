@@ -15,7 +15,7 @@ def formatted_repr(instance: object, info: str | None = None) -> str:
     :return: A formatted string representation of the object, structured as:
         "<`ClassName` at `MemoryAddress` with `Info`>".
     """
-    return f"<{instance.__class__.__name__} at 0x{id(instance):016X}{f' with {info}' if info else ''}>"
+    return f"<{instance.__class__.__name__} at {hex_id_repr(instance)}{f' with {info}' if info else ''}>"
 
 
 def attributes_repr(**kwargs: Any) -> str:
@@ -37,6 +37,16 @@ def summarized_repr(instance: object) -> str:
     of the given instance and its unique identifier in the format `ClassName<id>`.
 
     :param instance: The object instance for which to generate the summary representation.
-    :return: A string in the format `ClassName<id>`.
+    :return: A string in the format `ClassName(id)`.
     """
-    return f"{type(instance).__name__}<0x{id(instance):016X}>"
+    return f"{type(instance).__name__}({hex_id_repr(instance)})"
+
+
+def hex_id_repr(instance: object) -> str:
+    """
+    Returns the hexadecimal string representation of the unique identifier (ID) for a given object instance.
+
+    :param instance: The object instance for which to retrieve the ID.
+    :return: A string representing the hexadecimal ID of the object, formatted as `0x(16-character hex number)`.
+    """
+    return f"0x{id(instance):016X}"

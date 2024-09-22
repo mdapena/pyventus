@@ -242,7 +242,7 @@ class Observable(ABC, Generic[_OutT]):
         """
         return self.__thread_lock
 
-    async def _emit_next(self, value: _OutT) -> None:
+    async def _emit_next(self, value: _OutT) -> None:  # type: ignore[misc]
         """
         Emit the next value to all subscribers.
 
@@ -254,7 +254,7 @@ class Observable(ABC, Generic[_OutT]):
         # Acquire lock to ensure thread safety.
         with self.__thread_lock:
             # Copy current subscribers to avoid modification during iteration.
-            subscribers: set[Subscriber] = self.__subscribers.copy()
+            subscribers: set[Subscriber[_OutT]] = self.__subscribers.copy()
 
         # Exit if there are no subscribers.
         if not subscribers:
@@ -288,7 +288,7 @@ class Observable(ABC, Generic[_OutT]):
         # Acquire lock to ensure thread safety.
         with self.__thread_lock:
             # Copy current subscribers to avoid modification during iteration.
-            subscribers: set[Subscriber] = self.__subscribers.copy()
+            subscribers: set[Subscriber[_OutT]] = self.__subscribers.copy()
 
         # Exit if there are no subscribers.
         if not subscribers:
@@ -321,7 +321,7 @@ class Observable(ABC, Generic[_OutT]):
         # Acquire lock to ensure thread safety.
         with self.__thread_lock:
             # Copy current subscribers to avoid modification during iteration.
-            subscribers: set[Subscriber] = self.__subscribers.copy()
+            subscribers: set[Subscriber[_OutT]] = self.__subscribers.copy()
 
             # Unsubscribe all observers since the stream has completed.
             self.__subscribers.clear()

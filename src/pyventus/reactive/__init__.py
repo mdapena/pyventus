@@ -7,9 +7,10 @@ It provides a set of tools to easily create and manage data streams that reflect
 from .observables import (
     Completed,
     Observable,
-    ObservableCallbackReturnType,
-    ObservableCallbackType,
-    as_observable,
+    ObservableTask,
+    ObservableTaskCallbackReturnType,
+    ObservableTaskCallbackType,
+    as_observable_task,
 )
 from .observers import Observer
 from .subscribers import (
@@ -20,14 +21,15 @@ from .subscribers import (
 )
 
 __all__ = [
-    "Observable",
     "Completed",
-    "ObservableCallbackType",
-    "ObservableCallbackReturnType",
-    "as_observable",
+    "Observable",
+    "ObservableTask",
+    "ObservableTaskCallbackReturnType",
+    "ObservableTaskCallbackType",
+    "as_observable_task",
     "Observer",
-    "Subscriber",
-    "NextCallbackType",
-    "ErrorCallbackType",
     "CompleteCallbackType",
+    "ErrorCallbackType",
+    "NextCallbackType",
+    "Subscriber",
 ]

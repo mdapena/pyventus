@@ -41,7 +41,7 @@ class StdOutLogger:
 
             # Define the logger format
             logger_format: str = (
-                f"{level_color}[Pyventus] {StdOutColors.DEFAULT}%(process)5d (%(thread)5d) {level_color}• "
+                f"{level_color}[Pyventus] {StdOutColors.DEFAULT}%(process)05d (%(thread)05d) {level_color}• "
                 f"{StdOutColors.DEFAULT}%(asctime)s {level_color}%(levelname)8s {level_color}%(message)s"
             )
 

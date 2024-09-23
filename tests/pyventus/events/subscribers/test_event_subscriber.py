@@ -1,5 +1,4 @@
 from collections import namedtuple
-from collections.abc import Callable
 from pickle import dumps, loads
 from typing import Any
 
@@ -28,7 +27,8 @@ class TestEventSubscriber:
         )
 
         # Assert
-        assert subscriber
+        assert subscriber is not None
+        assert isinstance(subscriber, EventSubscriber)
         assert subscriber.once is False
 
     # =================================
@@ -44,12 +44,7 @@ class TestEventSubscriber:
         ],
     )
     def test_creation_with_invalid_input(
-        self,
-        event_callback: Callable[..., Any],
-        success_callback: Callable[..., Any],
-        failure_callback: Callable[..., Any],
-        once: bool,
-        exception: type[BaseException],
+        self, event_callback: Any, success_callback: Any, failure_callback: Any, once: bool, exception: type[Exception]
     ) -> None:
         # Arrange/Act/Assert
         with pytest.raises(exception):
@@ -77,56 +72,56 @@ class TestEventSubscriber:
             # Test without success and failure callbacks
             # =================================
             ExecutionTestCase(
-                event_callback=CallableMock.Random(),
+                event_callback=CallableMock.Sync(),
                 success_callback=None,
                 failure_callback=None,
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(),
+                event_callback=CallableMock.Sync(),
                 success_callback=None,
                 failure_callback=None,
                 args=("str", 0),
                 kwargs={"str": ...},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=...),
+                event_callback=CallableMock.Async(return_value=...),
                 success_callback=None,
                 failure_callback=None,
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=[0, 1]),
+                event_callback=CallableMock.Async(return_value=[0, 1]),
                 success_callback=None,
                 failure_callback=None,
                 args=("str", 0),
                 kwargs={"str": ...},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(raise_exception=KeyError()),
+                event_callback=CallableMock.Sync(raise_exception=KeyError()),
                 success_callback=None,
                 failure_callback=None,
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(raise_exception=ValueError()),
+                event_callback=CallableMock.Sync(raise_exception=ValueError()),
                 success_callback=None,
                 failure_callback=None,
                 args=("str", 0),
                 kwargs={"str": ...},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=..., raise_exception=KeyError()),
+                event_callback=CallableMock.Async(return_value=..., raise_exception=KeyError()),
                 success_callback=None,
                 failure_callback=None,
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=[0, 1], raise_exception=ValueError()),
+                event_callback=CallableMock.Async(return_value=[0, 1], raise_exception=ValueError()),
                 success_callback=None,
                 failure_callback=None,
                 args=("str", 0),
@@ -135,178 +130,177 @@ class TestEventSubscriber:
             # Testing with event and success callbacks
             # =================================
             ExecutionTestCase(
-                event_callback=CallableMock.Random(),
-                success_callback=CallableMock.Random(),
+                event_callback=CallableMock.Sync(),
+                success_callback=CallableMock.Async(),
                 failure_callback=None,
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(),
-                success_callback=CallableMock.Random(),
+                event_callback=CallableMock.Sync(),
+                success_callback=CallableMock.Async(),
                 failure_callback=None,
                 args=("str", 0),
                 kwargs={"str": ...},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=...),
-                success_callback=CallableMock.Random(),
+                event_callback=CallableMock.Async(return_value=...),
+                success_callback=CallableMock.Sync(),
                 failure_callback=None,
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=[0, 1]),
-                success_callback=CallableMock.Random(),
+                event_callback=CallableMock.Async(return_value=[0, 1]),
+                success_callback=CallableMock.Sync(),
                 failure_callback=None,
                 args=("str", 0),
                 kwargs={"str": ...},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(raise_exception=KeyError()),
-                success_callback=CallableMock.Random(),
+                event_callback=CallableMock.Sync(raise_exception=KeyError()),
+                success_callback=CallableMock.Async(),
                 failure_callback=None,
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(raise_exception=ValueError()),
-                success_callback=CallableMock.Random(),
+                event_callback=CallableMock.Sync(raise_exception=ValueError()),
+                success_callback=CallableMock.Async(),
                 failure_callback=None,
                 args=("str", 0),
                 kwargs={"str": ...},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=..., raise_exception=KeyError()),
-                success_callback=CallableMock.Random(),
+                event_callback=CallableMock.Async(return_value=..., raise_exception=KeyError()),
+                success_callback=CallableMock.Sync(),
                 failure_callback=None,
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=[0, 1], raise_exception=ValueError()),
-                success_callback=CallableMock.Random(),
+                event_callback=CallableMock.Async(return_value=[0, 1], raise_exception=ValueError()),
+                success_callback=CallableMock.Sync(),
                 failure_callback=None,
                 args=("str", 0),
                 kwargs={"str": ...},
             ),
             ExecutionTestCase(  # Test with event and failure callbacks
-                event_callback=CallableMock.Random(),
+                event_callback=CallableMock.Sync(),
                 success_callback=None,
-                failure_callback=CallableMock.Random(),
+                failure_callback=CallableMock.Async(),
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(),
+                event_callback=CallableMock.Sync(),
                 success_callback=None,
-                failure_callback=CallableMock.Random(),
+                failure_callback=CallableMock.Async(),
                 args=("str", 0),
                 kwargs={"str": ...},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=...),
+                event_callback=CallableMock.Async(return_value=...),
                 success_callback=None,
-                failure_callback=CallableMock.Random(),
+                failure_callback=CallableMock.Sync(),
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=[0, 1]),
+                event_callback=CallableMock.Async(return_value=[0, 1]),
                 success_callback=None,
-                failure_callback=CallableMock.Random(),
+                failure_callback=CallableMock.Sync(),
                 args=("str", 0),
                 kwargs={"str": ...},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(raise_exception=KeyError()),
+                event_callback=CallableMock.Async(raise_exception=KeyError()),
                 success_callback=None,
-                failure_callback=CallableMock.Random(),
+                failure_callback=CallableMock.Sync(),
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(raise_exception=ValueError()),
+                event_callback=CallableMock.Sync(raise_exception=ValueError()),
                 success_callback=None,
-                failure_callback=CallableMock.Random(),
+                failure_callback=CallableMock.Async(),
                 args=("str", 0),
                 kwargs={"str": ...},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=..., raise_exception=KeyError()),
+                event_callback=CallableMock.Sync(return_value=..., raise_exception=KeyError()),
                 success_callback=None,
-                failure_callback=CallableMock.Random(),
+                failure_callback=CallableMock.Async(),
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=[0, 1], raise_exception=ValueError()),
+                event_callback=CallableMock.Async(return_value=[0, 1], raise_exception=ValueError()),
                 success_callback=None,
-                failure_callback=CallableMock.Random(),
+                failure_callback=CallableMock.Sync(),
                 args=("str", 0),
                 kwargs={"str": ...},
             ),
             # Test with event, success and failure callbacks
             # =================================
             ExecutionTestCase(
-                event_callback=CallableMock.Random(),
-                success_callback=CallableMock.Random(),
-                failure_callback=CallableMock.Random(),
+                event_callback=CallableMock.Sync(),
+                success_callback=CallableMock.Async(),
+                failure_callback=CallableMock.Sync(),
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(),
-                success_callback=CallableMock.Random(),
-                failure_callback=CallableMock.Random(),
+                event_callback=CallableMock.Sync(),
+                success_callback=CallableMock.Async(),
+                failure_callback=CallableMock.Sync(),
                 args=("str", 0),
                 kwargs={"str": ...},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=...),
-                success_callback=CallableMock.Random(),
-                failure_callback=CallableMock.Random(),
+                event_callback=CallableMock.Async(return_value=...),
+                success_callback=CallableMock.Sync(),
+                failure_callback=CallableMock.Async(),
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=[0, 1]),
-                success_callback=CallableMock.Random(),
-                failure_callback=CallableMock.Random(),
+                event_callback=CallableMock.Async(return_value=[0, 1]),
+                success_callback=CallableMock.Sync(),
+                failure_callback=CallableMock.Async(),
                 args=("str", 0),
                 kwargs={"str": ...},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(raise_exception=KeyError()),
-                success_callback=CallableMock.Random(),
-                failure_callback=CallableMock.Random(),
+                event_callback=CallableMock.Sync(raise_exception=KeyError()),
+                success_callback=CallableMock.Async(),
+                failure_callback=CallableMock.Sync(),
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(raise_exception=ValueError()),
-                success_callback=CallableMock.Random(),
-                failure_callback=CallableMock.Random(),
+                event_callback=CallableMock.Async(raise_exception=ValueError()),
+                success_callback=CallableMock.Sync(),
+                failure_callback=CallableMock.Async(),
                 args=("str", 0),
                 kwargs={"str": ...},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=..., raise_exception=KeyError()),
-                success_callback=CallableMock.Random(),
-                failure_callback=CallableMock.Random(),
+                event_callback=CallableMock.Sync(return_value=..., raise_exception=KeyError()),
+                success_callback=CallableMock.Async(),
+                failure_callback=CallableMock.Sync(),
                 args=(),
                 kwargs={},
             ),
             ExecutionTestCase(
-                event_callback=CallableMock.Random(return_value=[0, 1], raise_exception=ValueError()),
-                success_callback=CallableMock.Random(),
-                failure_callback=CallableMock.Random(),
+                event_callback=CallableMock.Async(return_value=[0, 1], raise_exception=ValueError()),
+                success_callback=CallableMock.Sync(),
+                failure_callback=CallableMock.Async(),
                 args=("str", 0),
                 kwargs={"str": ...},
             ),
         ],
     )
-    @pytest.mark.asyncio
     async def test_execution(
         self,
         event_callback: CallableMock.Base,
@@ -359,7 +353,6 @@ class TestEventSubscriber:
 
     # =================================
 
-    @pytest.mark.asyncio
     async def test_execution_when_success_callback_raises_exception(self) -> None:
         # Arrange
         subscriber = EventSubscriber(
@@ -377,7 +370,6 @@ class TestEventSubscriber:
 
     # =================================
 
-    @pytest.mark.asyncio
     async def test_execution_when_failure_callback_raises_exception(self) -> None:
         # Arrange
         subscriber = EventSubscriber(
@@ -394,14 +386,14 @@ class TestEventSubscriber:
             await subscriber.execute()
 
     # =================================
+    # Test Cases for Serialization/Deserialization
+    # =================================
 
-    def test_pickle_serialization(self) -> None:
+    def test_pickle_serialization_and_deserialization(self) -> None:
         # Arrange
-        teardown_callback = CallableMock.Sync(return_value=False)
-        event_callback = CallableMock.Random()
         subscriber = EventSubscriber(
-            teardown_callback=teardown_callback,
-            event_callback=event_callback,
+            teardown_callback=CallableMock.Sync(return_value=False),
+            event_callback=CallableMock.Random(),
             success_callback=None,
             failure_callback=None,
             force_async=True,

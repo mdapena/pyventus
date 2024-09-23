@@ -1,11 +1,12 @@
-from datetime import datetime
 from pickle import dumps, loads
+from typing import Any
 
 import pytest
 from pyventus import PyventusException
 from pyventus.core.subscriptions.subscription import Subscription
 
 from ....fixtures import CallableMock
+from ....utils import get_private_attr
 
 
 class TestSubscription:
@@ -18,15 +19,25 @@ class TestSubscription:
         subscription = Subscription(teardown_callback=lambda s: True)
 
         # Assert
-        assert subscription
-        assert isinstance(subscription.timestamp, datetime)
+        assert subscription is not None
+        assert isinstance(subscription, Subscription)
+        assert subscription.timestamp is get_private_attr(subscription, "__timestamp")
 
     # =================================
 
-    def test_creation_with_invalid_input(self) -> None:
-        # Arrange, Act, Assert
-        with pytest.raises(PyventusException):
-            Subscription(teardown_callback=None)  # type: ignore[arg-type]
+    @pytest.mark.parametrize(
+        ["teardown_callback", "exception"],
+        [
+            (None, PyventusException),
+            (True, PyventusException),
+            (object, PyventusException),
+            (object(), PyventusException),
+        ],
+    )
+    def test_creation_with_invalid_input(self, teardown_callback: Any, exception: type[Exception]) -> None:
+        # Arrange/Act/Assert
+        with pytest.raises(exception):
+            Subscription(teardown_callback=teardown_callback)
 
     # =================================
     # Test Cases for unsubscribe
@@ -61,9 +72,13 @@ class TestSubscription:
 
     # =================================
 
-    def test_unsubscribe_return_value(self) -> None:
+    @pytest.mark.parametrize(
+        ["expected"],
+        [(True,), (False,)],
+    )
+    def test_unsubscribe_return_value(self, expected: bool) -> None:
         # Arrange
-        teardown_callback = CallableMock.Sync(return_value=True)
+        teardown_callback = CallableMock.Sync(return_value=expected)
         subscription = Subscription(teardown_callback=teardown_callback)
 
         # Act
@@ -72,11 +87,13 @@ class TestSubscription:
         # Assert
         assert teardown_callback.call_count == 1
         assert teardown_callback.last_args == (subscription,)
-        assert teardown_callback.return_value is return_value
+        assert return_value is expected
 
     # =================================
+    # Test Cases for Serialization/Deserialization
+    # =================================
 
-    def test_pickle_serialization(self) -> None:
+    def test_pickle_serialization_and_deserialization(self) -> None:
         # Arrange
         teardown_callback = CallableMock.Sync(return_value=False)
         subscription = Subscription(teardown_callback=teardown_callback)

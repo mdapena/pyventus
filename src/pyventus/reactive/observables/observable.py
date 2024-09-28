@@ -94,7 +94,7 @@ class Observable(ABC, Generic[_OutT]):
         @override
         def _exit(self) -> Subscriber[_SubCtxT]:
             # Ensure that the source is not None.
-            if self._source is None:
+            if self._source is None:  # pragma: no cover
                 raise PyventusException("The subscription context is closed.")
 
             # Ensure that at least one callback is defined before performing the subscription.
@@ -209,6 +209,10 @@ class Observable(ABC, Generic[_OutT]):
         # Create a lock object for thread synchronization.
         self.__thread_lock: Lock = Lock()
 
+        # Validate the debug argument.
+        if debug is not None and not isinstance(debug, bool):
+            raise PyventusException("The 'debug' argument must be a boolean value.")
+
         # Set up the logger with the appropriate debug mode.
         self.__logger: Logger = Logger(source=self, debug=debug if debug is not None else bool(gettrace() is not None))
 
@@ -242,6 +246,7 @@ class Observable(ABC, Generic[_OutT]):
         """
         return self.__thread_lock
 
+    @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
     async def _emit_next(self, value: _OutT) -> None:  # type: ignore[misc]
         """
         Emit the next value to all subscribers.
@@ -276,6 +281,7 @@ class Observable(ABC, Generic[_OutT]):
         # Notify all subscribers concurrently.
         await gather(*[subscriber.next(value) for subscriber in subscribers], return_exceptions=True)
 
+    @final
     async def _emit_error(self, exception: Exception) -> None:
         """
         Emit the error that occurred to all subscribers.
@@ -310,6 +316,7 @@ class Observable(ABC, Generic[_OutT]):
         # Notify all subscribers of the error concurrently.
         await gather(*[subscriber.error(exception) for subscriber in subscribers], return_exceptions=True)
 
+    @final
     async def _emit_complete(self) -> None:
         """
         Emit the completion signal to all subscribers.
@@ -354,6 +361,15 @@ class Observable(ABC, Generic[_OutT]):
         """
         with self.__thread_lock:
             return self.__subscribers.copy()
+
+    def get_subscriber_count(self) -> int:
+        """
+        Retrieve the number of registered subscribers.
+
+        :return: The total count of subscribers in the observable.
+        """
+        with self.__thread_lock:
+            return len(self.__subscribers)
 
     def contains_subscriber(self, subscriber: Subscriber[_OutT]) -> bool:
         """

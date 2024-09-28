@@ -31,7 +31,7 @@ class EventLinkerFixture:
 
 @pytest.fixture
 def empty() -> EventLinkerFixture:
-    """Fixture for an empty MultiBidict."""
+    """Fixture for an empty EventLinker."""
     EventLinker.remove_all()
     return EventLinkerFixture(
         event_linker=EventLinker,
@@ -46,7 +46,7 @@ def empty() -> EventLinkerFixture:
 @pytest.fixture
 def populated() -> EventLinkerFixture:
     """
-    Fixture for a.
+    Fixture for an:
 
     EventLinker = {
         "A": {EventSubscriber1, EventSubscriber3, EventSubscriber4},
@@ -130,7 +130,7 @@ class TestEventLinker:
     # =================================
 
     def test_max_subscribers_default_value(self) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert EventLinker.get_max_subscribers() is None
 
     # =================================
@@ -139,7 +139,7 @@ class TestEventLinker:
         # Arrange
         class CustomEventLinker(EventLinker, max_subscribers=2): ...
 
-        # Act, Assert
+        # Act/Assert
         assert CustomEventLinker.get_max_subscribers() == 2
 
     # =================================
@@ -155,7 +155,7 @@ class TestEventLinker:
     # =================================
 
     def test_default_success_callback_default_value(self) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert EventLinker.get_default_success_callback() is None
 
     # =================================
@@ -173,7 +173,7 @@ class TestEventLinker:
     # =================================
 
     def test_default_success_callback_with_invalid_input(self) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         with pytest.raises(PyventusException):
 
             class CustomEventLinker(EventLinker, default_success_callback=True): ...  # type: ignore[arg-type]
@@ -183,7 +183,7 @@ class TestEventLinker:
     # =================================
 
     def test_default_failure_callback_default_value(self) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert EventLinker.get_default_failure_callback() is None
 
     # =================================
@@ -201,7 +201,7 @@ class TestEventLinker:
     # =================================
 
     def test_default_failure_callback_with_invalid_input(self) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         with pytest.raises(PyventusException):
 
             class CustomEventLinker(EventLinker, default_failure_callback=True): ...  # type: ignore[arg-type]
@@ -214,13 +214,13 @@ class TestEventLinker:
         # Arrange
         env_exc: bool = bool(gettrace() is not None)
 
-        # Act, Assert
+        # Act/Assert
         assert EventLinker._get_logger().debug_enabled is env_exc
 
     # =================================
 
     def test_debug_mode_with_valid_input(self) -> None:
-        # Arrange, Act
+        # Arrange/Act
         class CustomEventLinker(EventLinker, debug=True): ...
 
         # Assert
@@ -239,19 +239,19 @@ class TestEventLinker:
     # =================================
 
     def test_registry_isolation(self, populated: EventLinkerFixture) -> None:
-        # Arrange, Act
-        class CustomEventLinker1(EventLinker): ...
+        # Arrange/Act
+        class IsolatedEventLinker1(EventLinker): ...
 
-        class CustomEventLinker2(EventLinker): ...
+        class IsolatedEventLinker2(EventLinker): ...
 
-        CustomEventLinker1.subscribe("1", event_callback=lambda: None)
-        CustomEventLinker2.subscribe("1", event_callback=lambda: None)
+        IsolatedEventLinker1.subscribe("1", event_callback=lambda: None)
+        IsolatedEventLinker2.subscribe("1", event_callback=lambda: None)
 
         # Assert
         assert (
             populated.event_linker.get_registry()
-            != CustomEventLinker1.get_registry()
-            != CustomEventLinker2.get_registry()
+            != IsolatedEventLinker1.get_registry()
+            != IsolatedEventLinker2.get_registry()
         )
 
     # =================================
@@ -272,7 +272,7 @@ class TestEventLinker:
         ],
     )
     def test_get_valid_event_name_with_valid_input(self, event: SubscribableEventType, expected: str) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert EventLinker.get_valid_event_name(event) == expected
 
     # =================================
@@ -289,10 +289,8 @@ class TestEventLinker:
             (object, PyventusException),
         ],
     )
-    def test_get_valid_event_name_with_invalid_input(
-        self, event: SubscribableEventType, exception: type[Exception]
-    ) -> None:
-        # Arrange, Act, Assert
+    def test_get_valid_event_name_with_invalid_input(self, event: Any, exception: type[Exception]) -> None:
+        # Arrange/Act/Assert
         with pytest.raises(exception):
             EventLinker.get_valid_event_name(event)
 
@@ -304,7 +302,7 @@ class TestEventLinker:
         # Arrange
         subscriber = create_subscriber()
 
-        # Act, Assert
+        # Act/Assert
         assert EventLinker.get_valid_subscriber(subscriber) is subscriber
 
     # =================================
@@ -319,10 +317,8 @@ class TestEventLinker:
             (object(), PyventusException),
         ],
     )
-    def test_get_valid_subscriber_with_invalid_input(
-        self, subscriber: EventSubscriber, exception: type[Exception]
-    ) -> None:
-        # Arrange, Act, Assert
+    def test_get_valid_subscriber_with_invalid_input(self, subscriber: Any, exception: type[Exception]) -> None:
+        # Arrange/Act/Assert
         with pytest.raises(exception):
             EventLinker.get_valid_subscriber(subscriber)
 
@@ -344,7 +340,7 @@ class TestEventLinker:
     def test_get_valid_and_unique_event_names_with_valid_input(
         self, events: tuple[SubscribableEventType, ...], expected: set[str]
     ) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert EventLinker._get_valid_and_unique_event_names(events=events) == expected
 
     # =================================
@@ -364,7 +360,7 @@ class TestEventLinker:
     def test_get_valid_and_unique_event_names_with_invalid_input(
         self, events: tuple[Any, ...], exception: type[Exception]
     ) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         with pytest.raises(exception):
             EventLinker._get_valid_and_unique_event_names(events=events)
 
@@ -400,7 +396,7 @@ class TestEventLinker:
     def test_get_valid_and_unique_subscribers_with_invalid_input(
         self, subscribers: tuple[Any, ...], exception: type[Exception]
     ) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         with pytest.raises(exception):
             EventLinker._get_valid_and_unique_subscribers(subscribers=subscribers)
 
@@ -409,13 +405,13 @@ class TestEventLinker:
     # =================================
 
     def test_is_empty_when_empty(self, empty: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert empty.event_linker.is_empty() is True
 
     # =================================
 
     def test_is_empty_when_populated(self, populated: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert populated.event_linker.is_empty() is False
 
     # =================================
@@ -423,13 +419,13 @@ class TestEventLinker:
     # =================================
 
     def test_get_registry_when_empty(self, empty: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert empty.event_linker.get_registry() == empty.to_dict
 
     # =================================
 
     def test_get_registry_when_populated(self, populated: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert populated.event_linker.get_registry() == populated.to_dict
 
     # =================================
@@ -437,13 +433,13 @@ class TestEventLinker:
     # =================================
 
     def test_get_events_when_empty(self, empty: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert empty.event_linker.get_events() == empty.events
 
     # =================================
 
     def test_get_events_when_populated(self, populated: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert populated.event_linker.get_events() == populated.events
 
     # =================================
@@ -451,13 +447,13 @@ class TestEventLinker:
     # =================================
 
     def test_get_subscribers_when_empty(self, empty: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert empty.event_linker.get_subscribers() == empty.subscribers
 
     # =================================
 
     def test_get_subscribers_when_populated(self, populated: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert populated.event_linker.get_subscribers() == populated.subscribers
 
     # =================================
@@ -465,13 +461,13 @@ class TestEventLinker:
     # =================================
 
     def test_get_event_count_when_empty(self, empty: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert empty.event_linker.get_event_count() == len(empty.events)
 
     # =================================
 
     def test_get_event_count_when_populated(self, populated: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert populated.event_linker.get_event_count() == len(populated.events)
 
     # =================================
@@ -479,13 +475,13 @@ class TestEventLinker:
     # =================================
 
     def test_get_subscriber_count_when_empty(self, empty: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert empty.event_linker.get_subscriber_count() == len(empty.subscribers)
 
     # =================================
 
     def test_get_subscriber_count_when_populated(self, populated: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert populated.event_linker.get_subscriber_count() == len(populated.subscribers)
 
     # =================================
@@ -520,7 +516,7 @@ class TestEventLinker:
     # =================================
 
     def test_get_subscribers_from_events_when_empty(self, empty: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert empty.event_linker.get_subscribers_from_events("A", "A", "B", "C") == empty.subscribers
 
     # =================================
@@ -562,7 +558,7 @@ class TestEventLinker:
     # =================================
 
     def test_get_event_count_from_subscriber_when_empty(self, empty: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert empty.event_linker.get_event_count_from_subscriber(create_subscriber()) == 0
 
     # =================================
@@ -583,7 +579,7 @@ class TestEventLinker:
     # =================================
 
     def test_get_subscriber_count_from_event_when_empty(self, empty: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert empty.event_linker.get_subscriber_count_from_event("A") == 0
 
     # =================================
@@ -604,13 +600,13 @@ class TestEventLinker:
     # =================================
 
     def test_contains_event_when_empty(self, empty: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert empty.event_linker.contains_event("A") is False
 
     # =================================
 
     def test_contains_event_when_populated(self, populated: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert populated.event_linker.contains_event(populated.events.pop()) is True
 
     # =================================
@@ -618,13 +614,13 @@ class TestEventLinker:
     # =================================
 
     def test_contains_subscriber_when_empty(self, empty: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert empty.event_linker.contains_subscriber(create_subscriber()) is False
 
     # =================================
 
     def test_contains_subscriber_when_populated(self, populated: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert populated.event_linker.contains_subscriber(populated.subscribers.pop()) is True
 
     # =================================
@@ -632,7 +628,7 @@ class TestEventLinker:
     # =================================
 
     def test_are_linked_when_empty(self, empty: EventLinkerFixture) -> None:
-        # Arrange, Act, Assert
+        # Arrange/Act/Assert
         assert empty.event_linker.are_linked("A", create_subscriber()) is False
 
     # =================================
@@ -642,7 +638,7 @@ class TestEventLinker:
         event = populated.events.pop()
         subscriber = populated.to_dict[event].pop()
 
-        # Act, Assert
+        # Act/Assert
         assert populated.event_linker.are_linked(event, subscriber) is True
 
     # =================================
@@ -766,21 +762,21 @@ class TestEventLinker:
             ),
         ],
     )
-    def test_subscribe_returns_subscriber_with_expected_attributes(
+    def test_subscribe(
         self,
         tc: SubscribeTestCase,
         default_success_callback: SuccessCallbackType | None,
         default_failure_callback: FailureCallbackType | None,
     ) -> None:
         # Arrange
-        class CustomEventLinker(
+        class IsolatedEventLinker(
             EventLinker,
             default_success_callback=default_success_callback,
             default_failure_callback=default_failure_callback,
         ): ...
 
         # Act
-        subscriber = CustomEventLinker.subscribe(
+        subscriber = IsolatedEventLinker.subscribe(
             *tc.events,
             event_callback=tc.event_callback,
             success_callback=tc.success_callback,
@@ -826,24 +822,24 @@ class TestEventLinker:
 
     def test_subscribe_with_max_subscribers_when_not_exceeded(self) -> None:
         # Arrange
-        class CustomEventLinker(EventLinker, max_subscribers=1): ...
+        class IsolatedEventLinker(EventLinker, max_subscribers=1): ...
 
-        CustomEventLinker.subscribe("B", event_callback=CallableMock.Random())
+        IsolatedEventLinker.subscribe("B", event_callback=CallableMock.Random())
 
         # Act/Assert
-        assert CustomEventLinker.subscribe("A", "C", event_callback=CallableMock.Random())
+        assert IsolatedEventLinker.subscribe("A", "C", event_callback=CallableMock.Random())
 
     # =================================
 
     def test_subscribe_with_max_subscribers_when_exceeded(self) -> None:
         # Arrange
-        class CustomEventLinker(EventLinker, max_subscribers=1): ...
+        class IsolatedEventLinker(EventLinker, max_subscribers=1): ...
 
-        CustomEventLinker.subscribe("B", event_callback=CallableMock.Random())
+        IsolatedEventLinker.subscribe("B", event_callback=CallableMock.Random())
 
         # Act/Assert
         with pytest.raises(PyventusException):
-            CustomEventLinker.subscribe("A", "B", event_callback=CallableMock.Random())
+            IsolatedEventLinker.subscribe("A", "B", event_callback=CallableMock.Random())
 
     # =================================
 
@@ -895,7 +891,7 @@ class TestEventLinker:
         expected_subscriber_count: int,
         populated: EventLinkerFixture,
     ) -> None:
-        # Arrange, Act
+        # Arrange/Act
         subscriber = populated.event_linker.subscribe(
             *tc.events,
             event_callback=tc.event_callback,
@@ -911,7 +907,7 @@ class TestEventLinker:
         assert populated.event_linker.get_subscriber_count() == expected_subscriber_count
 
     # =================================
-    # Test Cases for once() decorator
+    # Test Cases for on() & once() as Decorator
     # =================================
 
     @pytest.mark.parametrize(
@@ -997,7 +993,7 @@ class TestEventLinker:
             ),
         ],
     )
-    def test_on_and_once_methods_as_decorator(
+    def test_on_and_once_as_decorator(
         self,
         tc: SubscribeTestCase,
         stateful_subctx: bool,
@@ -1032,6 +1028,16 @@ class TestEventLinker:
             assert subscriber.once is tc.once
             assert populated.event_linker.contains_subscriber(subscriber)
             assert populated.event_linker is event_linker
+
+            subscriber_event_callback = get_private_attr(subscriber, "__event_callback")
+            subscriber_success_callback = get_private_attr(subscriber, "__success_callback")
+            subscriber_failure_callback = get_private_attr(subscriber, "__failure_callback")
+
+            assert subscriber_event_callback.force_async is tc.force_async
+            assert get_private_attr(subscriber_event_callback, "__callable") is tc.event_callback
+
+            assert subscriber_success_callback is None
+            assert subscriber_failure_callback is None
         else:
             assert results is tc.event_callback
 
@@ -1040,18 +1046,20 @@ class TestEventLinker:
 
     # =================================
 
-    def test_on_and_once_methods_as_decorator_with_invalid_input(self, empty: EventLinkerFixture) -> None:
+    def test_on_and_once_as_decorator_with_invalid_input(self, empty: EventLinkerFixture) -> None:
         # Arrange
         once_subctx = empty.event_linker.once("A")
         on_subctx = empty.event_linker.once("A")
 
-        # Act, Assert
+        # Act/Assert
         with pytest.raises(PyventusException):
             once_subctx(None)  # type: ignore[arg-type]
 
         with pytest.raises(PyventusException):
             on_subctx(None)  # type: ignore[arg-type]
 
+    # =================================
+    # Test Cases for on() & once() as Context Manager
     # =================================
 
     @pytest.mark.parametrize(
@@ -1163,7 +1171,7 @@ class TestEventLinker:
             ),
         ],
     )
-    def test_on_and_once_methods_as_context_manager(
+    def test_on_and_once_as_context_manager(
         self,
         tc: SubscribeTestCase,
         stateful_subctx: bool,
@@ -1227,12 +1235,12 @@ class TestEventLinker:
 
     # =================================
 
-    def test_on_and_once_methods_as_context_manager_with_invalid_input(self, empty: EventLinkerFixture) -> None:
+    def test_on_and_once_as_context_manager_with_invalid_input(self, empty: EventLinkerFixture) -> None:
         # Arrange
         once_subctx = empty.event_linker.once("A")
         on_subctx = empty.event_linker.once("A")
 
-        # Act, Assert
+        # Act/Assert
         with pytest.raises(PyventusException):
             with once_subctx:
                 pass
@@ -1243,12 +1251,12 @@ class TestEventLinker:
 
     # =================================
 
-    def test_on_and_once_methods_context_manager_unpack_before_exit(self, empty: EventLinkerFixture) -> None:
+    def test_on_and_once_as_context_manager_and_unpack_before_exit(self, empty: EventLinkerFixture) -> None:
         # Arrange
         once_subctx = empty.event_linker.once("A")
         on_subctx = empty.event_linker.once("A")
 
-        # Act, Assert
+        # Act/Assert
         with pytest.raises(PyventusException):
             with once_subctx as ctx1:
                 ctx1.on_event(CallableMock.Random())
@@ -1331,7 +1339,7 @@ class TestEventLinker:
         expected_subscriber_count: int,
         populated: EventLinkerFixture,
     ) -> None:
-        # Arrange, Act
+        # Arrange/Act
         results = populated.event_linker.remove_event(event)
 
         # Assert
@@ -1373,7 +1381,7 @@ class TestEventLinker:
     # =================================
 
     def test_remove_all_when_populated(self, populated: EventLinkerFixture) -> None:
-        # Arrange, Act
+        # Arrange/Act
         results = populated.event_linker.remove_all()
 
         # Assert

@@ -169,7 +169,6 @@ class TestCallableUtils:
             ],
         ],
     )
-    @pytest.mark.asyncio
     async def test_callable_wrapper_execution(
         self, cb: CallableMock.Base, force_async: bool, args: tuple[Any, ...], kwargs: dict[str, Any]
     ) -> None:
@@ -193,7 +192,6 @@ class TestCallableUtils:
 
     # =================================
 
-    @pytest.mark.asyncio
     async def test_callable_wrapper_execution_with_sync_callable_and_force_async_disabled(self) -> None:
         # Arrange: Define the assertion function
         def assertion() -> None:
@@ -209,7 +207,6 @@ class TestCallableUtils:
 
     # =================================
 
-    @pytest.mark.asyncio
     async def test_callable_wrapper_execution_with_sync_callable_and_force_async_enabled(self) -> None:
         # Arrange: Define the assertion function
         def assertion() -> None:
@@ -225,7 +222,6 @@ class TestCallableUtils:
 
     # =================================
 
-    @pytest.mark.asyncio
     async def test_callable_wrapper_execution_with_async_callable_and_force_async_flag(self) -> None:
         # Arrange: Define the assertion function
         async def assertion() -> None:
@@ -242,7 +238,6 @@ class TestCallableUtils:
 
     # =================================
 
-    @pytest.mark.asyncio
     async def test_callable_wrapper_execution_with_generators(self) -> None:
         # Arrange: Create instances of CallableWrapper for both sync and async generators
         callable_wrapper1: CallableWrapper[..., Any] = CallableWrapper[..., Any](
@@ -277,7 +272,6 @@ class TestCallableUtils:
             ],
         ],
     )
-    @pytest.mark.asyncio
     async def test_callable_wrapper_streaming(
         self, cb: CallableMock.Base, force_async: bool, args: tuple[Any, ...], kwargs: dict[str, Any]
     ) -> None:
@@ -303,7 +297,6 @@ class TestCallableUtils:
 
     # =================================
 
-    @pytest.mark.asyncio
     async def test_callable_wrapper_streaming_with_regular_callables(self) -> None:
         # Arrange: Create instances of CallableWrapper for both sync and async regular callables
         callable_wrapper1: CallableWrapper[..., Any] = CallableWrapper[..., Any](CallableMock.Sync(), force_async=False)

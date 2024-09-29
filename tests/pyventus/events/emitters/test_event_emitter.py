@@ -323,26 +323,26 @@ class TestEventEmitter:
             event_emitter.emit(tc.emission_event, *tc.emission_args, **tc.emission_kwargs)
 
     @contextmanager
-    def event_emission_behavior_test(
+    def event_emission_test(
         self, event_processor: ProcessingService, event_linker: type[EventLinker]
     ) -> Generator[None, None, None]:
         """
         Context manager for performing tests to check if the event emission is working properly using
         both synchronous and asynchronous callbacks.
 
-        The `event_emission_behavior_test` function is a context manager that allows you to perform tests
+        The `event_emission_test` function is a context manager that allows you to perform tests
         on event emission behavior. When used with a `with` statement, you should complete the necessary
-        actions to propagate the events that were linked and emitted within the `event_emission_behavior_test`
+        actions to propagate the events that were linked and emitted within the `event_emission_test`
         function before the yield statement. These actions might include triggering events, calling
         relevant functions, or waiting for event propagation to complete.
 
         After the execution of the code section inside the `with` statement, the control is returned to
-        the `event_emission_behavior_test` function. At this point, the function can proceed to perform
+        the `event_emission_test` function. At this point, the function can proceed to perform
         the assertions to validate the expected behavior of the callbacks.
 
         Usage:
         ```Python
-        with self.event_emission_behavior_test(event_processor, event_linker):
+        with self.event_emission_test(event_processor, event_linker):
             # Wait for all events to propagate
         ```
 
@@ -594,22 +594,22 @@ class TestEventEmitter:
         assert cb_failure.last_args == (cb_with_raise_exception.exception,)
         assert cb_failure.last_kwargs == {}
 
-    def test_event_emission_behavior_in_sync_context(self) -> None:
+    def test_event_emission_in_sync_context(self) -> None:
         # Arrange
         class IsolatedEventLinker(EventLinker): ...
 
         event_processor = AsyncIOProcessingService()
 
         # Act/Assert
-        with self.event_emission_behavior_test(event_processor, IsolatedEventLinker):
+        with self.event_emission_test(event_processor, IsolatedEventLinker):
             pass
 
-    async def test_event_emission_behavior_in_async_context(self) -> None:
+    async def test_event_emission_in_async_context(self) -> None:
         # Arrange
         class IsolatedEventLinker(EventLinker): ...
 
         event_processor = AsyncIOProcessingService()
 
         # Act/Assert
-        with self.event_emission_behavior_test(event_processor, IsolatedEventLinker):
+        with self.event_emission_test(event_processor, IsolatedEventLinker):
             await event_processor.wait_for_tasks()

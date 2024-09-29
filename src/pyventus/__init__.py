@@ -1,4 +1,4 @@
-"""A powerful Python package for event-driven programming; define, emit, and orchestrate events with ease."""
+"""A powerful Python package for event-driven and reactive programming."""
 
 __version__ = "0.5.0"
 

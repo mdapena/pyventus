@@ -3,7 +3,7 @@ site_name: Pyventus
 site_url: https://mdapena.github.io/pyventus/
 site_author: Manuel Da Pena
 site_description: >-
-  A powerful Python package for event-driven programming; define, emit, and orchestrate events with ease.
+  A powerful Python package for event-driven and reactive programming.
 
 # Repository
 repo_name: mdapena/pyventus

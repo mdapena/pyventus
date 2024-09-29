@@ -9,7 +9,7 @@ build-backend = "hatchling.build"
 [project]
 name = "pyventus"
 dynamic = ["version"]
-description = "A powerful Python package for event-driven and reactive programming."
+description = "A powerful Python library for event-driven and reactive programming."
 requires-python = ">=3.10"
 readme = "README.md"
 license = "MIT"

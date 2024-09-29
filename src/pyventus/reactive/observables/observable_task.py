@@ -45,8 +45,8 @@ class ObservableTask(Generic[_OutT], Observable[_OutT]):
     def __init__(
         self,
         callback: ObservableTaskCallbackType[_OutT],
-        args: tuple[Any, ...],
-        kwargs: dict[str, Any],
+        args: tuple[Any, ...] | None = None,
+        kwargs: dict[str, Any] | None = None,
         debug: bool | None = None,
     ) -> None:
         """
@@ -61,10 +61,18 @@ class ObservableTask(Generic[_OutT], Observable[_OutT]):
         # Initialize the base Observable class with the given debug value.
         super().__init__(debug=debug)
 
+        # Validate the args argument.
+        if args and not isinstance(args, tuple):
+            raise PyventusException("The 'args' argument must be a tuple.")
+
+        # Validate the kwargs argument.
+        if kwargs and not isinstance(kwargs, dict):
+            raise PyventusException("The 'kwargs' argument must be a dictionary.")
+
         # Wrap and set the callback along with its arguments.
         self.__callback = CallableWrapper[..., _OutT](callback, force_async=False)
-        self.__args: tuple[Any, ...] = args
-        self.__kwargs: dict[str, Any] = kwargs
+        self.__args: tuple[Any, ...] = args if args else ()
+        self.__kwargs: dict[str, Any] = kwargs if kwargs else {}
 
         # Set up an AsyncIO processing service for handling the callback execution.
         self.__processing_service: AsyncIOProcessingService = AsyncIOProcessingService()

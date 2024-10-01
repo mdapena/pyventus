@@ -527,3 +527,23 @@ class TestMultiBidict:
             "Grapes": {"Purple", "Green"},
             "Lime": {"Green"},
         }
+
+    # =================================
+
+    def test_to_dict_returns_shallow_copy(self) -> None:
+        # Arrange
+        object1 = object()
+        object2 = object()
+        multibidict = MultiBidict[str, object]()
+        multibidict.insert("key1", object1)
+        dict_copy = multibidict.to_dict()
+
+        # Act
+        dict_copy["key1"].add(object2)
+
+        # Assert
+        assert object1 in dict_copy["key1"]
+        assert object2 in dict_copy["key1"]
+        assert object1 in multibidict.get_values_from_keys({"key1"})
+        assert object2 not in multibidict.get_values_from_keys({"key1"})
+        assert dict_copy != multibidict.to_dict()

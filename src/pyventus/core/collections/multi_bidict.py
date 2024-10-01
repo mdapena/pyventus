@@ -326,4 +326,4 @@ class MultiBidict(Generic[_KT, _VT]):
         :return: A shallow copy of the main dictionary, where
             each key is mapped to a set of its associated values.
         """
-        return self.__fwd_dict.copy()
+        return {key: values.copy() for key, values in self.__fwd_dict.items()}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found</title>
+    <script>
+        (function () {
+            // Get the current URL pathname, search parameters, and hash fragment
+            const pathname = window.location.pathname;
+            const search = window.location.search;
+            const hash = window.location.hash;
+
+            // Extract the version from the pathname (second segment after the first slash)
+            const version = pathname.split('/')[2];
+
+            // Check if the extracted version is valid (either a version number or "latest")
+            const hasVersion = version && /^(latest|\d+\.\d+)$/.test(version);
+
+            // Redirect based on the presence of a version
+            if (!hasVersion) {
+                // If no version is found, redirect to the oldest documentation version (0.5)
+                window.location.replace(pathname.replace("/pyventus", "/pyventus/0.5") + search + hash);
+            } else {
+                // If a version is found, redirect to the latest 404 page of the documentation
+                window.location.replace("/pyventus/latest/404" + search + hash);
+            }
+        })(); // Execute immediately
+    </script>
+</head>
+<body>
+<p>Redirecting...</p>
+</body>
+</html>

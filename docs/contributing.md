@@ -285,6 +285,12 @@ hatch run tests:all
 		hatch run +py=3.12 tests:all
 		```
 
+	=== "Python 3.13"
+
+	```console
+	hatch run +py=3.13 tests:all
+	```
+
 !!! warning "Troubleshooting Hatch Environment Errors"
 
 	<p style='text-align: justify;' markdown>

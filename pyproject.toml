@@ -68,6 +68,7 @@ docs = [
     "mkdocs-git-revision-date-localized-plugin>=1.2.1",
     "mkdocs-git-committers-plugin-2>=2.3.0",
     "mkdocs-material[imaging]",
+    "mike>=2.1.3",
 ]
 
 # --------------------

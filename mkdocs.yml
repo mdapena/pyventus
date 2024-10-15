@@ -17,6 +17,7 @@ copyright: |
 theme:
   name: material
   language: en
+  custom_dir: docs/.overrides
   logo: images/logo/pyventus-logo-white.png
   favicon: images/favicon/pyventus-logo.ico
   palette:
@@ -51,6 +52,8 @@ theme:
 
 # Customization
 extra:
+  version:
+    provider: mike
   social:
     - icon: fontawesome/brands/linkedin
       link: https://ve.linkedin.com/in/manuel-da-pena/en
@@ -91,6 +94,9 @@ plugins:
             show_symbol_type_toc: true
             show_signature_annotations: true
             show_category_heading: true
+  - mike:
+      alias_type: symlink
+      canonical_version: latest
   - social:
       enabled: !ENV [ CI, false ]
 

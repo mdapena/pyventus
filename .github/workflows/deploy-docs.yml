@@ -1,9 +1,10 @@
 name: Docs
 
 on:
-  push:
-    branches:
-      - master
+  release:
+    types:
+      - created
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -32,4 +33,8 @@ jobs:
           restore-keys: |
             mkdocs-material-
       - run: pip install .[docs]
-      - run: mkdocs gh-deploy --force
+      - name: Get Pyventus Docs Version
+        run: |
+          pyventus_docs_version=$(python -c "import pyventus; print('.'.join(map(str, pyventus.__version__.split('.')[:2])))")
+          echo "PYVENTUS_DOCS_VERSION=$pyventus_docs_version" >> $GITHUB_ENV
+      - run: mike deploy --push --update-aliases $PYVENTUS_DOCS_VERSION latest

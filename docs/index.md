@@ -5,8 +5,7 @@ hide:
 ---
 
 <style>
-    .md-content .md-content__inner.md-typeset h1 { height: 0; margin: 0; color: transparent; display: none; }
-    .md-content .md-content__inner.md-typeset::before { height: 0; } 
+    .md-typeset h1 {margin: 0 0 -4rem 0; color: transparent;}
 
 	.terminal-command {
 		.go:before {

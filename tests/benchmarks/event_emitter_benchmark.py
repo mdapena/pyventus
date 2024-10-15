@@ -212,9 +212,9 @@ class EventEmitterBenchmark:
         # Subscribe the remaining ones to complete the number of subscriptions.
         for r in range(remaining):
             IsolatedEventLinker.subscribe(
-                f"Event{r}",
+                event_names[r],
                 event_callback=self.__class__.dummy_event_callback,
-                once=EventEmitterBenchmark.OneTimeSubscriptionMode.once_value(self.onetime_subscription_mode),
+                once=self.__class__.OneTimeSubscriptionMode.once_value(self.onetime_subscription_mode),
             )
 
         # Create and return the isolated event linker and emitter.

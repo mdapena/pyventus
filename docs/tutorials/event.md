@@ -1,8 +1,5 @@
 # Exploring Event Types
 
-!!! warning "🏗️ Work in Progress"
-    This page is a work in progress.
-
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;In this first tutorial, you'll learn about defining and handling events in Pyventus. Whether you're new
 	to event-driven programming or just getting started with the package, this guide will explain the key concepts.

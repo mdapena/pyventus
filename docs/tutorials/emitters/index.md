@@ -1,8 +1,5 @@
 # Master the Event Emitter
 
-!!! warning "🏗️ Work in Progress"
-    This page is a work in progress.
-
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;In the previous tutorial, we learned how to link events with their event handlers using the 
 	`EventLinker`. Now, let's dive into the process of dispatching events and triggering the associated callbacks.

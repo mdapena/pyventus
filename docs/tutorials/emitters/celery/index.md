@@ -1,8 +1,5 @@
 # Celery Event Emitter
 
-!!! warning "🏗️ Work in Progress"
-    This page is a work in progress.
-
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;The `CeleryEventEmitter` provides a powerful way to build event-driven applications that can handle high 
 	volumes of work in a scalable and asynchronous manner.

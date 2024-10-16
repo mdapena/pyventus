@@ -1,8 +1,5 @@
 # The EventLinker Registry
 
-!!! warning "🏗️ Work in Progress"
-    This page is a work in progress.
-
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;Events are essential for building reactive applications with Pyventus. However, we need a way to connect
 	events to the code that should run in response. This is where the `EventLinker` comes in.

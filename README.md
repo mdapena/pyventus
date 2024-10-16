@@ -29,8 +29,8 @@
     <img src="https://img.shields.io/pypi/pyversions/pyventus?color=0097a8" alt="Supported Python versions">
 </a>
 
-<a href="https://github.com/psf/black">
-	<img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black">
+<a href="https://pypi.org/project/pyventus">
+	<img src="https://img.shields.io/pypi/dm/pyventus.svg?color=0097a8" alt="Code style: black">
 </a>
 
 </p>

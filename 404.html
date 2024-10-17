@@ -22,8 +22,8 @@
                 // If no version is found, redirect to the oldest documentation version (0.5)
                 window.location.replace(pathname.replace("/pyventus", "/pyventus/0.5") + search + hash);
             } else {
-                // If a version is found, redirect to the latest 404 page of the documentation, including the missing path
-                window.location.replace(`/pyventus/latest/404?path=${encodeURIComponent(pathname.split('/').slice(2).join('/'))}`);
+                // If a version is found, redirect to the 404 page of the documentation for that version, including missing path
+                window.location.replace(`/pyventus/${version}/404?path=${encodeURIComponent(pathname.split('/').slice(3).join('/'))}`);
             }
         })(); // Execute immediately
     </script>

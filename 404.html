@@ -14,8 +14,8 @@
             // Extract the version from the pathname (second segment after the first slash)
             const version = pathname.split('/')[2];
 
-            // Check if the extracted version is valid (either a version number or "latest")
-            const hasVersion = version && /^(latest|\d+\.\d+)$/.test(version);
+            // Check if the extracted version is valid (either a version number or "dev/latest")
+            const hasVersion = version && /^(dev|latest|\d+\.\d+)$/.test(version);
 
             // Redirect based on the presence of a version
             if (!hasVersion) {

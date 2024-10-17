@@ -54,6 +54,9 @@ theme:
 extra:
   version:
     provider: mike
+    default:
+      - latest
+      - dev
   social:
     - icon: fontawesome/brands/linkedin
       link: https://ve.linkedin.com/in/manuel-da-pena/en

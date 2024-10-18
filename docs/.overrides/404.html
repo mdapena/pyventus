@@ -21,24 +21,22 @@
         function get_path() {
             const urlParams = new URLSearchParams(window.location.search);
             const pathValue = urlParams.get('path');
-            return pathValue ? decodeURIComponent(pathValue) : "/unknown-path"
+            return pathValue ? decodeURIComponent(pathValue) : "/unknown"
         }
 
         document.getElementById("path").textContent = get_path();
     });
 </script>
 
-<div align="center">
-    <h1>404 - Page Not Found</h1>
+<h1>404 - Page Not Found</h1>
 
-    <p style="opacity: .75;">
-        We're sorry, but we couldn't find a page at the path <strong><span id="path"></span></strong>.
-    </p>
+<p style="opacity: .75;">
+    We're sorry, but the page at the path <strong><span id="path"></span></strong> could not be found.
+</p>
 
-    <p style="opacity: .75;">
-        Try searching or go to <a href="{{ base_url }}">Pyventus' homepage</a>.
-    </p>
-</div>
+<p style="opacity: .75;">
+    Try searching or go to <a href="{{ base_url }}">Pyventus' homepage</a>.
+</p>
 
 <svg id="clouds" xmlns="http://www.w3.org/2000/svg" width="2611.084" height="485.677" viewBox="0 0 2611.084 485.677">
     <title>Gray Clouds Background</title>

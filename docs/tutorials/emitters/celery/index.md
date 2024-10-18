@@ -24,7 +24,7 @@
 <ol style='text-align: justify;' markdown>
 
 <li style='text-align: justify;' markdown>**Event emission:**
-When an event is triggered, an object is created and submitted as a task to the Celery [queue](/pyventus/api/emitters/celery/#pyventus.emitters.celery.CeleryEventEmitter.Queue).
+When an event is triggered, an object is created and submitted as a task to the Celery [queue](../../../api/emitters/celery/index.md/#pyventus.emitters.celery.CeleryEventEmitter.Queue).
 </li>
 
 <li style='text-align: justify;' markdown>**Task queue:**
@@ -46,7 +46,7 @@ Idle Celery workers pull tasks from the queue and execute the event emissions as
 <ol style='text-align: justify;' markdown>
 
 <li style='text-align: justify;' markdown>**Install Celery:**
-Before proceeding, make sure you have installed the [Celery optional dependency](/pyventus/getting-started/#optional-dependencies).
+Before proceeding, make sure you have installed the [Celery optional dependency](../../../getting-started.md/#optional-dependencies).
 </li>
 
 <li style='text-align: justify;' markdown>**Define event handlers:**

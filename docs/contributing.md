@@ -45,7 +45,7 @@ hide:
 
 <li markdown>Fork the repository and create a new branch.</li>
 <li markdown>Implement your changes in the branch.</li>
-<li markdown>Ensure that [formatting, linting, and tests pass](/pyventus/contributing/#pre-submission-testing-and-validation).</li>
+<li markdown>Ensure that [formatting, linting, and tests pass](#pre-submission-testing-and-validation).</li>
 <li markdown>Whenever possible, include tests to cover the lines of code you added or modified.</li>
 <li markdown>Commit your changes and submit a pull request with a clear, detailed message.</li>
 
@@ -284,7 +284,6 @@ hatch run tests:all
 		```console
 		hatch run +py=3.12 tests:all
 		```
-	```
 
 !!! warning "Troubleshooting Hatch Environment Errors"
 

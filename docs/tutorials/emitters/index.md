@@ -51,7 +51,7 @@
 ### Built-in Event Emitters
 
 <p style='text-align: justify;' markdown>
-	&emsp;&emsp;Pyventus includes several [*built-in*](/pyventus/getting-started/#optional-dependencies) event emitters 
+	&emsp;&emsp;Pyventus includes several [*built-in*](../../getting-started.md/#optional-dependencies) event emitters 
 	by default. For instance, the `AsyncIOEventEmitter`	leverages the `AsyncIO` framework to handle the execution of
 	event emissions, while the `RQEventEmitter`	utilizes Redis Queue pub/sub system with workers to manage the 
 	execution of event emissions.
@@ -61,7 +61,7 @@
 
 	<p style='text-align: justify;' markdown>
 	Pyventus is an open source project that welcomes community involvement. If you wish to contribute additional 
-	event emitters, improvements, or bug fixes, please check the [Contributing](/pyventus/contributing)	section for
+	event emitters, improvements, or bug fixes, please check the [Contributing](../../contributing.md) section for
 	guidelines on collaborating. Together, we can further the possibilities of event-driven development.
 	</p>
 
@@ -176,9 +176,9 @@ async def console_print_endpoint(background_tasks: BackgroundTasks):
 
 !!! tip "Official `FastAPIEventEmitter` Integration"
 
-	<p style='text-align: justify;'>
+	<p style='text-align: justify;' markdown>
     In case you're interested in integrating Pyventus with FastAPI, you can refer to the official Pyventus 
-	[*FastAPI Event Emitter*](/pyventus/tutorials/emitters/fastapi/) implementation.
+	[*FastAPI Event Emitter*](../../tutorials/emitters/fastapi/index.md) implementation.
 	</p>
 
 ## Runtime Flexibility

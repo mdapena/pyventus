@@ -1466,7 +1466,7 @@
 
 <p><br></p>
 <p align="center">
-   <img src="./images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="900px">
+   <img src="images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="900px">
 </p>
 
 <p><br></p>
@@ -1562,14 +1562,13 @@ effectively leverage all the features and capabilities of the package.
 </code></pre></div>
 </div>
 
-<p style='text-align: justify;'>
+<p style="text-align: justify;">
     &emsp;&emsp;Pyventus by default relies on the Python standard library and <b>requires Python 3.10 or higher</b> with no 
     additional dependencies. However, this package also includes alternative integrations to access additional features 
     such as Redis Queue, Celery, and FastAPI. For more information on this matter, please refer to the 
-    <a href="/getting-started/#optional-dependencies" target="_blank">Optional Dependencies</a>
+    <a href="getting-started/#optional-dependencies">Optional Dependencies</a>
     section.
 </p>
-
 <h2 id="a-simple-example">A Simple Example<a class="headerlink" href="#a-simple-example" title="Permanent link">&para;</a></h2>
 <p style='text-align: justify;'>
     &emsp;&emsp;Experience the power of Pyventus through a simple <code>Hello, World!</code> example that illustrates
@@ -1625,43 +1624,36 @@ effectively leverage all the features and capabilities of the package.
     workflow for defining and emitting events. Let's recap the essential steps involved:
 </p>
 
-<ol style='text-align: justify;'>
-
+<ol style="text-align: justify;">
 <li>
 <b>Importing Necessary Modules:</b> 
 We first imported the required modules from Pyventus,  which encompassed the <code>EventLinker</code>
 class, the <code>EventEmitter</code> interface, and the <code>AsyncIOEventEmitter</code> implementation.
 </li>
-
 <li>
 <b>Linking Events to Callbacks:</b> 
 Next, we used the <code>@EventLinker.on()</code> decorator to define and link the string event <code>GreetEvent</code> 
 to the function <code>handle_greet_event()</code>, which will print <i>'Hello, World!'</i> to the console whenever the
 <code>GreetEvent</code> is emitted.
 </li>
-
 <li>
 <b>Instantiating an Event Emitter:</b> 
 After that, and in order to trigger our event, we needed to create an instance of the event emitter class. While 
-<code>AsyncIOEventEmitter</code> was utilized, any <a href="/getting-started/#optional-dependencies"><i>built-in</i></a>
+<code>AsyncIOEventEmitter</code> was utilized, any <a href="getting-started/#optional-dependencies"><em>built-in</em></a>
 or custom implementation could be employed.
 </li>
-
 <li>
 <b>Triggering the Event:</b>
 Finally, by using the <code>emit()</code> method of the event emitter instance, we were able to trigger the 
 <code>GreetEvent</code>, which resulted in the execution of the <code>handle_greet_event()</code> callback.
 </li>
-
 </ol>
-
-<p style='text-align: justify;'>
+<p style="text-align: justify;">
     &emsp;&emsp;Having gained a clear understanding of the workflow showcased in the <code>Hello, World!</code> example,
     you are now well-equipped to explore more intricate event-driven scenarios and fully harness the capabilities of 
     Pyventus in your own projects. For a deep dive into the package's functionalities, you can refer to the 
-    Pyventus <a href="/0.5/tutorials" target="_blank">Tutorials</a> or <a href="/0.5/api" target="_blank">API</a>.
+    Pyventus <a href="tutorials/">Tutorials</a> or <a href="api/">API</a>.
 </p>
-
 <h2 id="a-practical-example">A Practical Example<a class="headerlink" href="#a-practical-example" title="Permanent link">&para;</a></h2>
 <p style='text-align: justify;'>
     &emsp;&emsp;To showcase Pyventus' event-driven capabilities in a real-world scenario, we will explore a practical 
@@ -1673,7 +1665,7 @@ Finally, by using the <code>emit()</code> method of the event emitter instance, 
 <details class="quote" open="open">
 <summary>Example ─ Monitoring Voltage Levels Across Devices (Context)</summary>
 <p><a style="text-align: center" href="https://unsplash.com/photos/macro-photography-of-black-circuit-board-FO7JIlwjOtU?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash" target="_blank">
-    <img src="./images/examples/practical-example-index.jpg" alt="Macro photography of black circuit board">
+    <img src="images/examples/practical-example-index.jpg" alt="Macro photography of black circuit board">
 </a></p>
 <p style="text-align: justify;">
     <i>&emsp;&emsp;A common aspect found in many systems is the need to monitor and respond to changes in sensor data.
@@ -1893,14 +1885,13 @@ Finally, by using the <code>emit()</code> method of the event emitter instance, 
 </p>
 </details>
 <h2 id="runtime-flexibility-and-customization">Runtime Flexibility and Customization<a class="headerlink" href="#runtime-flexibility-and-customization" title="Permanent link">&para;</a></h2>
-<p style='text-align: justify;'>
+<p style="text-align: justify;">
     &emsp;&emsp;At its core, Pyventus utilizes a modular event emitter design that allows you to switch seamlessly
-    between different <a href="/getting-started/#optional-dependencies"><i>built-in</i></a> or custom event emitter 
+    between different <a href="getting-started/#optional-dependencies"><em>built-in</em></a> or custom event emitter 
     implementations on the fly. Whether you opt for official emitters or decide to create your custom ones, Pyventus 
     allows you to tailor the behavior and capabilities of the event emitters to perfectly align with your unique 
     requirements.
 </p>
-
 <h3 id="swapping-event-emitter-implementations-at-runtime">Swapping Event Emitter Implementations at Runtime<a class="headerlink" href="#swapping-event-emitter-implementations-at-runtime" title="Permanent link">&para;</a></h3>
 <p style='text-align: justify;'>
     &emsp;&emsp;By leveraging the principle of dependency inversion and using the base <code>EventEmitter</code> as a
@@ -1979,7 +1970,7 @@ Finally, by using the <code>emit()</code> method of the event emitter instance, 
 <summary>Official <code>FastAPIEventEmitter</code> Integration.</summary>
 <p style="text-align: justify;">
     In case you're interested in integrating Pyventus with FastAPI, you can refer to the official Pyventus 
-    <a href="/tutorials/emitters/fastapi/"><i>FastAPI Event Emitter</i></a> implementation.
+    <a href="tutorials/emitters/fastapi/"><em>FastAPI Event Emitter</em></a> implementation.
 </p>
 </details>
 <h2 id="event-objects-and-global-events">Event Objects and Global Events<a class="headerlink" href="#event-objects-and-global-events" title="Permanent link">&para;</a></h2>
@@ -2119,7 +2110,7 @@ Finally, by using the <code>emit()</code> method of the event emitter instance, 
 <summary>Driving Innovation Through Collaboration</summary>
 <p style="text-align: justify;">
     &emsp;&emsp;Pyventus is an open source project that welcomes community involvement. If you wish to contribute
-    additional event emitters, improvements, or bug fixes, please check the <a href="/pyventus/contributing/">Contributing</a> 
+    additional event emitters, improvements, or bug fixes, please check the <a href="contributing/">Contributing</a> 
     section for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
 </p>
 </details>

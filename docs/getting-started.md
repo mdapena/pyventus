@@ -13,14 +13,14 @@ hide:
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;Welcome to the Getting Started section! This guide will help you install and configure Pyventus in
 	your project. For more detailed information on how to use this package, you can refer to the Pyventus 
-    [Tutorials](/pyventus/tutorials) or [API Reference](/pyventus/api).
+    [Tutorials](tutorials/index.md) or [API Reference](api/index.md).
 </p>
 
 ## Requirements
 
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;By default, Pyventus' core functionalities and default event emitter implementations, such as the
-	[AsyncIO Event Emitter](/pyventus/tutorials/emitters/asyncio), and the [Executor Event Emitter](/pyventus/tutorials/emitters/executor), 
+	[AsyncIO Event Emitter](tutorials/emitters/asyncio/index.md), and the [Executor Event Emitter](tutorials/emitters/executor/index.md), 
 	**only require Python 3.10+** with no additional dependencies. However, these requirements may expand if you opt to 
 	use alternative [*built-in*](#optional-dependencies) event emitter implementations.
 </p>
@@ -51,7 +51,7 @@ pip install pyventus
 
 <li class="annotate" markdown>
 <a href="https://docs.celeryq.dev/en/stable/getting-started/introduction.html" target="_blank">**Celery**</a> ─ 
-Pyventus integrates with Celery using the [`CeleryEventEmitter`](/pyventus/tutorials/emitters/celery), enabling
+Pyventus integrates with Celery using the [`CeleryEventEmitter`](tutorials/emitters/celery/index.md), enabling
 event emissions to be executed on Celery worker nodes to improve task processing. To install Pyventus with Celery 
 support, use the following command:
 
@@ -72,7 +72,7 @@ pip install pyventus[celery] (1)
 ---
 <li markdown> 
 <a href="https://python-rq.org/" target="_blank">**Redis Queue (RQ)**</a> ─ 
-Pyventus integrates with Redis Queue (RQ) using the [`RQEventEmitter`](/pyventus/tutorials/emitters/rq/), allowing 
+Pyventus integrates with Redis Queue (RQ) using the [`RQEventEmitter`](tutorials/emitters/rq/index.md), allowing 
 event emissions to run as background jobs through RQ's asynchronous workers. To install Pyventus with RQ support,
 use the following command:
 
@@ -90,7 +90,7 @@ pip install pyventus[rq]
 
 <li class="annotate" markdown>
 <a href="https://fastapi.tiangolo.com/" target="_blank">**FastAPI**</a> ─ 
-Pyventus integrates with the FastAPI framework using the [`FastAPIEventEmitter`](/pyventus/tutorials/emitters/fastapi), 
+Pyventus integrates with the FastAPI framework using the [`FastAPIEventEmitter`](tutorials/emitters/fastapi/index.md), 
 enabling event-driven architectures to be built directly into FastAPI applications. The emitter leverages FastAPI's 
 background tasks to asynchronously process event emissions without blocking responses. To install Pyventus with 
 FastAPI integration, use the following command:

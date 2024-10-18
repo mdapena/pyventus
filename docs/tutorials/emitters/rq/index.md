@@ -29,7 +29,7 @@
 <ol style='text-align: justify;' markdown>
 
 <li style='text-align: justify;' markdown>**Event emission:**
-When an event is emitted, all associated event handlers are bundled into an [EventEmission](/pyventus/api/emitters/#pyventus.EventEmitter.EventEmission) 
+When an event is emitted, all associated event handlers are bundled into an [EventEmission](../../../api/emitters/index.md/#pyventus.EventEmitter.EventEmission) 
 object, which is then enqueued into the Redis Queue system.
 </li>
 
@@ -49,7 +49,7 @@ parallel execution.
 <ol style='text-align: justify;' markdown>
 
 <li style='text-align: justify;' markdown>**Install Python RQ:**
-Before proceeding, make sure you have installed the [Redis Queue (RQ) optional dependency](/pyventus/getting-started/#optional-dependencies).
+Before proceeding, make sure you have installed the [Redis Queue (RQ) optional dependency](../../../getting-started.md/#optional-dependencies).
 </li>
 
 <li style='text-align: justify;' markdown>**Python RQ worker configuration:**

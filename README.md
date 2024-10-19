@@ -116,7 +116,7 @@ pip install pyventus
 	&emsp;&emsp;Pyventus by default relies on the Python standard library and <b>requires Python 3.10 or higher</b> with no 
 	additional dependencies. However, this package also includes alternative integrations to access additional features 
 	such as Redis Queue, Celery, and FastAPI. For more information on this matter, please refer to the 
-	<a href="https://mdapena.github.io/pyventus/getting-started/#optional-dependencies" target="_blank">Optional Dependencies</a>
+	<a href="https://mdapena.github.io/pyventus/0.6/getting-started/#optional-dependencies" target="_blank">Optional Dependencies</a>
 	section.
 </p>
 
@@ -184,8 +184,7 @@ to the function <code>handle_greet_event()</code>, which will print <i>'Hello, W
 <li>
 <b>Instantiating an Event Emitter:</b> 
 After that, and in order to trigger our event, we needed to create an instance of the event emitter class. While 
-<code>AsyncIOEventEmitter</code> was utilized, any <a href="https://mdapena.github.io/pyventus/getting-started/#optional-dependencies"><i>built-in</i></a>
-or custom implementation could be employed.
+<code>AsyncIOEventEmitter</code> was utilized, any built-in or custom implementation could be employed.
 </li>
 
 <li>
@@ -200,8 +199,7 @@ Finally, by using the <code>emit()</code> method of the event emitter instance, 
     &emsp;&emsp;Having gained a clear understanding of the workflow showcased in the <code>Hello, World!</code> example,
 	you are now well-equipped to explore more intricate event-driven scenarios and fully harness the capabilities of 
 	Pyventus in your own projects. For a deep dive into the package's functionalities, you can refer to the 
-	Pyventus <a href="https://mdapena.github.io/pyventus/tutorials" target="_blank">Tutorials</a> or 
-	<a href="https://mdapena.github.io/pyventus/api" target="_blank">API</a>.
+	Pyventus Tutorials or API.
 </p>
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
@@ -390,10 +388,9 @@ async def async_function(event_emitter: EventEmitter):
 
 <p style='text-align: justify;'>
     &emsp;&emsp;At its core, Pyventus utilizes a modular event emitter design that allows you to switch seamlessly
-	between different <a href="https://mdapena.github.io/pyventus/getting-started/#optional-dependencies"><i>built-in</i></a>
-	or custom event emitter implementations on the fly. Whether you opt for official emitters or decide to create your 
-	custom ones, Pyventus allows you to tailor the behavior and capabilities of the event emitters to perfectly align 
-	with your unique requirements.
+	between different built-in or custom event emitter implementations on the fly. Whether you opt for official emitters
+	or decide to create your custom ones, Pyventus allows you to tailor the behavior and capabilities of the event 
+	emitters to perfectly align with your unique requirements.
 </p>
 
 ### Swapping Event Emitter Implementations at Runtime
@@ -453,7 +450,7 @@ class FastAPIEventEmitter(EventEmitter):
 
 <p style='text-align: justify;'>
     In case you're interested in integrating Pyventus with FastAPI, you can refer to the official Pyventus 
-	<a href="https://mdapena.github.io/pyventus/tutorials/emitters/fastapi/"><i>FastAPI Event Emitter</i></a> 
+	<a href="https://mdapena.github.io/pyventus/0.6/tutorials/emitters/fastapi/"><i>FastAPI Event Emitter</i></a> 
 	implementation.
 </p>
 
@@ -569,7 +566,7 @@ event_emitter.emit("DivisionEvent", a=1, b=2)  # Example: Valid division
 
 <p style='text-align: justify;'>
     &emsp;&emsp;Pyventus is an open source project that welcomes community involvement. If you wish to contribute
-	additional event emitters, improvements, or bug fixes, please check the <a href="https://mdapena.github.io/pyventus/contributing/" target="_blank">Contributing</a> 
+	additional event emitters, improvements, or bug fixes, please check the <a href="https://mdapena.github.io/pyventus/latest/contributing/" target="_blank">Contributing</a> 
 	section for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
 </p>
 

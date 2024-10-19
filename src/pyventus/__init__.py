@@ -1,6 +1,6 @@
 """A powerful Python package for event-driven programming; define, emit, and orchestrate events with ease."""
 
-__version__ = "0.5.0"
+__version__ = "0.6.0"
 
 from .core.exceptions import PyventusException
 from .emitters import EventEmitter, EmittableEventType

@@ -5,8 +5,7 @@ hide:
 ---
 
 <style>
-    .md-content .md-content__inner.md-typeset h1 { height: 0; margin: 0; color: transparent; display: none; }
-    .md-content .md-content__inner.md-typeset::before { height: 0; } 
+    .md-typeset h1 {margin: 0 0 -4rem 0; color: transparent;}
 
 	.terminal-command {
 		.go:before {
@@ -21,7 +20,7 @@ hide:
 
 
 <p align="center">
-   <img src="./images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="900px">
+   <img src="images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="900px">
 </p>
 
 <br>
@@ -48,8 +47,8 @@ hide:
     <img src="https://img.shields.io/pypi/pyversions/pyventus?color=0097a8" alt="Supported Python versions">
 </a>
 
-<a href="https://github.com/psf/black">
-	<img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black">
+<a href="https://pypi.org/project/pyventus">
+	<img src="https://img.shields.io/pypi/dm/pyventus.svg?color=0097a8" alt="Code style: black">
 </a>
 
 </p>
@@ -132,11 +131,11 @@ pip install pyventus
 ```
 </div>
 
-<p style='text-align: justify;'>
+<p style='text-align: justify;' markdown>
 	&emsp;&emsp;Pyventus by default relies on the Python standard library and <b>requires Python 3.10 or higher</b> with no 
 	additional dependencies. However, this package also includes alternative integrations to access additional features 
 	such as Redis Queue, Celery, and FastAPI. For more information on this matter, please refer to the 
-	<a href="https://mdapena.github.io/pyventus/getting-started/#optional-dependencies" target="_blank">Optional Dependencies</a>
+	[Optional Dependencies](getting-started.md/#optional-dependencies)
 	section.
 </p>
 
@@ -186,7 +185,7 @@ event_emitter.emit("GreetEvent")
 	workflow for defining and emitting events. Let's recap the essential steps involved:
 </p>
 
-<ol style='text-align: justify;'>
+<ol style='text-align: justify;' markdown>
 
 <li>
 <b>Importing Necessary Modules:</b> 
@@ -201,10 +200,10 @@ to the function <code>handle_greet_event()</code>, which will print <i>'Hello, W
 <code>GreetEvent</code> is emitted.
 </li>
 
-<li>
+<li markdown>
 <b>Instantiating an Event Emitter:</b> 
 After that, and in order to trigger our event, we needed to create an instance of the event emitter class. While 
-<code>AsyncIOEventEmitter</code> was utilized, any <a href="https://mdapena.github.io/pyventus/getting-started/#optional-dependencies"><i>built-in</i></a>
+<code>AsyncIOEventEmitter</code> was utilized, any [*built-in*](getting-started.md/#optional-dependencies)
 or custom implementation could be employed.
 </li>
 
@@ -216,12 +215,11 @@ Finally, by using the <code>emit()</code> method of the event emitter instance, 
 
 </ol>
 
-<p style='text-align: justify;'>
+<p style='text-align: justify;' markdown>
     &emsp;&emsp;Having gained a clear understanding of the workflow showcased in the <code>Hello, World!</code> example,
 	you are now well-equipped to explore more intricate event-driven scenarios and fully harness the capabilities of 
 	Pyventus in your own projects. For a deep dive into the package's functionalities, you can refer to the 
-	Pyventus <a href="https://mdapena.github.io/pyventus/tutorials" target="_blank">Tutorials</a> or 
-	<a href="https://mdapena.github.io/pyventus/api" target="_blank">API</a>.
+	Pyventus [Tutorials](tutorials/index.md) or [API](api/index.md).
 </p>
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
@@ -240,7 +238,7 @@ Finally, by using the <code>emit()</code> method of the event emitter instance, 
 <summary>Example ─ Monitoring Voltage Levels Across Devices (Context)</summary>
 
 <a style="text-align: center" href="https://unsplash.com/photos/macro-photography-of-black-circuit-board-FO7JIlwjOtU?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash" target="_blank">
-	<img src="./images/examples/practical-example-index.jpg" alt="Macro photography of black circuit board">
+	<img src="images/examples/practical-example-index.jpg" alt="Macro photography of black circuit board">
 </a>
 
 <p style='text-align: justify;'>
@@ -408,12 +406,12 @@ async def async_function(event_emitter: EventEmitter):
 
 ## Runtime Flexibility and Customization
 
-<p style='text-align: justify;'>
+<p style='text-align: justify;' markdown>
     &emsp;&emsp;At its core, Pyventus utilizes a modular event emitter design that allows you to switch seamlessly
-	between different <a href="https://mdapena.github.io/pyventus/getting-started/#optional-dependencies"><i>built-in</i></a>
-	or custom event emitter implementations on the fly. Whether you opt for official emitters or decide to create your 
-	custom ones, Pyventus allows you to tailor the behavior and capabilities of the event emitters to perfectly align 
-	with your unique requirements.
+	between different [*built-in*](getting-started.md/#optional-dependencies) or custom event emitter 
+	implementations on the fly. Whether you opt for official emitters or decide to create your custom ones, Pyventus 
+	allows you to tailor the behavior and capabilities of the event emitters to perfectly align with your unique 
+	requirements.
 </p>
 
 ### Swapping Event Emitter Implementations at Runtime
@@ -471,10 +469,9 @@ class FastAPIEventEmitter(EventEmitter):
 <details markdown="1" class="tip">
 <summary>Official <code>FastAPIEventEmitter</code> Integration.</summary>
 
-<p style='text-align: justify;'>
+<p style='text-align: justify;' markdown>
     In case you're interested in integrating Pyventus with FastAPI, you can refer to the official Pyventus 
-	<a href="https://mdapena.github.io/pyventus/tutorials/emitters/fastapi/"><i>FastAPI Event Emitter</i></a> 
-	implementation.
+	[*FastAPI Event Emitter*](tutorials/emitters/fastapi/index.md) implementation.
 </p>
 
 </details>
@@ -587,9 +584,9 @@ event_emitter.emit("DivisionEvent", a=1, b=2)  # Example: Valid division
 <details markdown="1" class="info" open>
 <summary>Driving Innovation Through Collaboration</summary>
 
-<p style='text-align: justify;'>
+<p style='text-align: justify;' markdown>
     &emsp;&emsp;Pyventus is an open source project that welcomes community involvement. If you wish to contribute
-	additional event emitters, improvements, or bug fixes, please check the <a href="/pyventus/contributing/">Contributing</a> 
+	additional event emitters, improvements, or bug fixes, please check the [Contributing](contributing.md) 
 	section for guidelines on collaborating. Together, we can further the possibilities of event-driven development.
 </p>
 

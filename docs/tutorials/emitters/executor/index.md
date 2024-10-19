@@ -1,8 +1,5 @@
 # Executor Event Emitter
 
-!!! warning "🏗️ Work in Progress"
-    This page is a work in progress.
-
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;The `ExecutorEventEmitter` leverages Python's `concurrent.futures` module to asynchronously execute
 	event emissions across threads or processes. This approach helps optimize performance for applications with

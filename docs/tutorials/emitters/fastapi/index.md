@@ -1,8 +1,5 @@
 # FastAPI Event Emitter
 
-!!! warning "🏗️ Work in Progress"
-    This page is a work in progress.
-
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;The `FastAPIEventEmitter` provides a powerful way to build reactive [FastAPI](https://fastapi.tiangolo.com/)
 	applications using an event-driven architecture. It leverages FastAPI's asynchronous [BackgroundTasks](https://fastapi.tiangolo.com/reference/background/)
@@ -33,7 +30,7 @@
 </p>
 
 1. **Install Dependencies:**
-    Ensure [FastAPI](https://fastapi.tiangolo.com/#installation) and [Pyventus](/pyventus/getting-started/#optional-dependencies) 
+    Ensure [FastAPI](https://fastapi.tiangolo.com/#installation) and [Pyventus](../../../getting-started.md/#optional-dependencies) 
     are installed.
 
 2. **Dependency injection and usage:**

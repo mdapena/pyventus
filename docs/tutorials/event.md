@@ -1,8 +1,5 @@
 # Exploring Event Types
 
-!!! warning "🏗️ Work in Progress"
-    This page is a work in progress.
-
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;In this first tutorial, you'll learn about defining and handling events in Pyventus. Whether you're new
 	to event-driven programming or just getting started with the package, this guide will explain the key concepts.
@@ -201,7 +198,7 @@ Event objects benefit from autocompletion integration provided by code editors a
 <p style='text-align: justify;' markdown>
     &emsp;&emsp;In addition to normal events, Pyventus allows exceptions to be treated as first-class events. This enables
 	propagating and handling errors in an event-driven manner. If you're interested in incorporating error handling
-	in event emission, you can check out [Success and Error Handling](/pyventus/tutorials/event-linker/#success-and-error-handling).
+	in event emission, you can check out [Success and Error Handling](../tutorials/event-linker.md/#success-and-error-handling).
 </p>
 
 ### Usage
@@ -294,7 +291,7 @@ event_emitter.emit("GreetEvent", name="Pyventus")
 
 	<p style='text-align: justify;' markdown>
 	    The `EventEmitter` and `EventLinker` used in the code examples can be easily replaced with any custom or
-		[*built-in*](/pyventus/getting-started/#optional-dependencies) Pyventus implementation of your choice. 
+		[*built-in*](../getting-started.md/#optional-dependencies) Pyventus implementation of your choice. 
 		For more information on available options, consult the official documentation.
 	</p>
 

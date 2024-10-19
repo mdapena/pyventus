@@ -45,7 +45,7 @@ hide:
 
 <li markdown>Fork the repository and create a new branch.</li>
 <li markdown>Implement your changes in the branch.</li>
-<li markdown>Ensure that [formatting, linting, and tests pass](/pyventus/contributing/#pre-submission-testing-and-validation).</li>
+<li markdown>Ensure that [formatting, linting, and tests pass](#pre-submission-testing-and-validation).</li>
 <li markdown>Whenever possible, include tests to cover the lines of code you added or modified.</li>
 <li markdown>Commit your changes and submit a pull request with a clear, detailed message.</li>
 
@@ -69,25 +69,25 @@ hide:
 	python -m venv venv
 	```
 
-2. Activate the virtual environment:
+2. Activate the environment with:
 
-	=== "Linux, macOS"
-	
-		```console
-		source ./venv/bin/activate
-		```
-	
-	=== "Windows PowerShell"
-	
-		```console
-		.\venv\Scripts\Activate.ps1
-		```
-	
-	=== "Windows Bash"
-	
-		```console
-		source ./venv/Scripts/activate
-		```
+    === ":material-apple: macOS"
+
+        ``` sh
+        . venv/bin/activate
+        ```
+
+    === ":fontawesome-brands-windows: Windows"
+
+        ``` sh
+        . venv/Scripts/activate
+        ```
+
+    === ":material-linux: Linux"
+
+        ``` sh
+        . venv/bin/activate
+        ```
 
 3. Install development dependencies:
 
@@ -283,6 +283,12 @@ hatch run tests:all
 
 		```console
 		hatch run +py=3.12 tests:all
+		```
+
+	=== "Python 3.13"
+
+		```console
+		hatch run +py=3.13 tests:all
 		```
 
 !!! warning "Troubleshooting Hatch Environment Errors"

@@ -12,6 +12,33 @@ hide:
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
+## [v0.6.0](https://github.com/mdapena/pyventus/releases/tag/0.6.0) <small>October 19, 2024</small> { id="0.6.0" }
+
+<hr class="divider">
+
+##### Added
+
+- Added support for Python `3.13`, ensuring compatibility with the latest features and improvements.
+- Added `mike` package integration to `mkdocs-material` for documentation versioning. This allows users to access
+  previous documentation alongside new changes, ensuring that legacy content remains intact for reference. Additionally,
+  a new `dev` documentation has been introduced to showcase the current development of the package, including unreleased
+  features and updates.
+
+##### Changed
+
+- Updated documentation links from absolute to relative paths to prevent broken links and avoid redirecting users to
+  incorrect documentation versions, ensuring consistent navigation throughout the docs.
+- Upgraded the `download-artifact` and `cache` actions to `v4` in the `publish-to-pypi.yml` workflow.
+- Updated the `deploy-docs.yml` workflow to deploy both `dev` and versioned documentation using `mike`'s CLI commands.
+
+##### Fixed
+
+- Fixed broken links to non-versioned documentation by adding a custom `404.html` page to `gh-pages`, which redirects
+  users to the first version of the documentation when no version is specified, or to a new custom 404 page with helpful
+  suggestions.
+
+[//]: # (--------------------------------------------------------------------------------------------------------------)
+
 ## [v0.5.0](https://github.com/mdapena/pyventus/releases/tag/0.5.0) <small>April 9, 2024</small> { id="0.5.0" }
 
 <hr class="divider">

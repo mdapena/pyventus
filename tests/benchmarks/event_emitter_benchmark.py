@@ -15,7 +15,7 @@ from tqdm.auto import tqdm
 try:
     from pyventus.events import AsyncIOEventEmitter, EventEmitter, EventLinker
 except ImportError:
-    from pyventus import AsyncIOEventEmitter, EventEmitter, EventLinker
+    from pyventus import AsyncIOEventEmitter, EventEmitter, EventLinker  # type: ignore[attr-defined, no-redef]
 
 
 class EventEmitterBenchmark:

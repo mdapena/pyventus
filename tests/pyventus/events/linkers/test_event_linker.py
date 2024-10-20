@@ -60,7 +60,7 @@ def populated() -> EventLinkerFixture:
     sub1 = EventLinker.subscribe(
         "A",
         "B",
-        event_callback=CallableMock.Random(),
+        event_callback=CallableMock.Sync(),
         success_callback=None,
         failure_callback=None,
         force_async=False,
@@ -68,7 +68,7 @@ def populated() -> EventLinkerFixture:
     )
     sub2 = EventLinker.subscribe(
         "D",
-        event_callback=CallableMock.Random(),
+        event_callback=CallableMock.Async(),
         success_callback=None,
         failure_callback=None,
         force_async=False,
@@ -77,7 +77,7 @@ def populated() -> EventLinkerFixture:
     sub3 = EventLinker.subscribe(
         "A",
         "C",
-        event_callback=CallableMock.Random(),
+        event_callback=CallableMock.Sync(),
         success_callback=None,
         failure_callback=None,
         force_async=False,
@@ -85,7 +85,7 @@ def populated() -> EventLinkerFixture:
     )
     sub4 = EventLinker.subscribe(
         "A",
-        event_callback=CallableMock.Random(),
+        event_callback=CallableMock.Async(),
         success_callback=None,
         failure_callback=None,
         force_async=False,
@@ -162,7 +162,7 @@ class TestEventLinker:
 
     def test_default_success_callback_with_valid_input(self) -> None:
         # Arrange
-        default_success_callback = CallableMock.Random()
+        default_success_callback = CallableMock.Sync()
 
         # Act
         class CustomEventLinker(EventLinker, default_success_callback=default_success_callback): ...
@@ -190,7 +190,7 @@ class TestEventLinker:
 
     def test_default_failure_callback_with_valid_input(self) -> None:
         # Arrange
-        default_failure_callback = CallableMock.Random()
+        default_failure_callback = CallableMock.Async()
 
         # Act
         class CustomEventLinker(EventLinker, default_failure_callback=default_failure_callback): ...
@@ -665,7 +665,7 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("A", "B"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Sync(),
                     success_callback=None,
                     failure_callback=None,
                     force_async=False,
@@ -677,8 +677,8 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("A", "B"),
-                    event_callback=CallableMock.Random(),
-                    success_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Async(),
+                    success_callback=CallableMock.Sync(),
                     failure_callback=None,
                     force_async=True,
                     once=False,
@@ -689,9 +689,9 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("A", "B"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Async(),
                     success_callback=None,
-                    failure_callback=CallableMock.Random(),
+                    failure_callback=CallableMock.Sync(),
                     force_async=False,
                     once=True,
                 ),
@@ -701,9 +701,9 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("A", "B"),
-                    event_callback=CallableMock.Random(),
-                    success_callback=CallableMock.Random(),
-                    failure_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Sync(),
+                    success_callback=CallableMock.Sync(),
+                    failure_callback=CallableMock.Async(),
                     force_async=True,
                     once=True,
                 ),
@@ -715,50 +715,50 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("A", "B"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Async(),
                     success_callback=None,
                     failure_callback=None,
                     force_async=False,
                     once=False,
                 ),
-                CallableMock.Random(),
-                CallableMock.Random(),
+                CallableMock.Sync(),
+                CallableMock.Async(),
             ),
             (
                 SubscribeTestCase(
                     events=("A", "B"),
-                    event_callback=CallableMock.Random(),
-                    success_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Sync(),
+                    success_callback=CallableMock.Async(),
                     failure_callback=None,
                     force_async=True,
                     once=False,
                 ),
-                CallableMock.Random(),
-                CallableMock.Random(),
+                CallableMock.Sync(),
+                CallableMock.Async(),
             ),
             (
                 SubscribeTestCase(
                     events=("A", "B"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Async(),
                     success_callback=None,
-                    failure_callback=CallableMock.Random(),
+                    failure_callback=CallableMock.Sync(),
                     force_async=False,
                     once=True,
                 ),
-                CallableMock.Random(),
-                CallableMock.Random(),
+                CallableMock.Async(),
+                CallableMock.Sync(),
             ),
             (
                 SubscribeTestCase(
                     events=("A", "B"),
-                    event_callback=CallableMock.Random(),
-                    success_callback=CallableMock.Random(),
-                    failure_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Sync(),
+                    success_callback=CallableMock.Async(),
+                    failure_callback=CallableMock.Sync(),
                     force_async=True,
                     once=True,
                 ),
-                CallableMock.Random(),
-                CallableMock.Random(),
+                CallableMock.Sync(),
+                CallableMock.Async(),
             ),
         ],
     )
@@ -824,10 +824,10 @@ class TestEventLinker:
         # Arrange
         class IsolatedEventLinker(EventLinker, max_subscribers=1): ...
 
-        IsolatedEventLinker.subscribe("B", event_callback=CallableMock.Random())
+        IsolatedEventLinker.subscribe("B", event_callback=CallableMock.Sync())
 
         # Act/Assert
-        assert IsolatedEventLinker.subscribe("A", "C", event_callback=CallableMock.Random())
+        assert IsolatedEventLinker.subscribe("A", "C", event_callback=CallableMock.Async())
 
     # =================================
 
@@ -835,11 +835,11 @@ class TestEventLinker:
         # Arrange
         class IsolatedEventLinker(EventLinker, max_subscribers=1): ...
 
-        IsolatedEventLinker.subscribe("B", event_callback=CallableMock.Random())
+        IsolatedEventLinker.subscribe("B", event_callback=CallableMock.Sync())
 
         # Act/Assert
         with pytest.raises(PyventusException):
-            IsolatedEventLinker.subscribe("A", "B", event_callback=CallableMock.Random())
+            IsolatedEventLinker.subscribe("A", "B", event_callback=CallableMock.Async())
 
     # =================================
 
@@ -849,7 +849,7 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("E", "E"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Async(),
                     success_callback=None,
                     failure_callback=None,
                     force_async=False,
@@ -861,7 +861,7 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("A", "B"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Sync(),
                     success_callback=None,
                     failure_callback=None,
                     force_async=False,
@@ -873,7 +873,7 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("D", "E"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Async(),
                     success_callback=None,
                     failure_callback=None,
                     force_async=False,
@@ -916,7 +916,7 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("E", "E"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Async(),
                     success_callback=None,
                     failure_callback=None,
                     force_async=False,
@@ -929,7 +929,7 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("A", "B"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Sync(),
                     success_callback=None,
                     failure_callback=None,
                     force_async=False,
@@ -942,7 +942,7 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("D", "E"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Async(),
                     success_callback=None,
                     failure_callback=None,
                     force_async=False,
@@ -955,7 +955,7 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("E", "E"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Sync(),
                     success_callback=None,
                     failure_callback=None,
                     force_async=False,
@@ -968,7 +968,7 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("A", "B"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Async(),
                     success_callback=None,
                     failure_callback=None,
                     force_async=False,
@@ -981,7 +981,7 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("D", "E"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Sync(),
                     success_callback=None,
                     failure_callback=None,
                     force_async=False,
@@ -1068,7 +1068,7 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("E", "E"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Sync(),
                     success_callback=None,
                     failure_callback=None,
                     force_async=False,
@@ -1081,8 +1081,8 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("A", "B"),
-                    event_callback=CallableMock.Random(),
-                    success_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Async(),
+                    success_callback=CallableMock.Sync(),
                     failure_callback=None,
                     force_async=False,
                     once=True,
@@ -1094,9 +1094,9 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("D", "E"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Sync(),
                     success_callback=None,
-                    failure_callback=CallableMock.Random(),
+                    failure_callback=CallableMock.Async(),
                     force_async=False,
                     once=True,
                 ),
@@ -1107,9 +1107,9 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("E", "F"),
-                    event_callback=CallableMock.Random(),
-                    success_callback=CallableMock.Random(),
-                    failure_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Sync(),
+                    success_callback=CallableMock.Async(),
+                    failure_callback=CallableMock.Sync(),
                     force_async=False,
                     once=True,
                 ),
@@ -1120,7 +1120,7 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("E", "E"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Async(),
                     success_callback=None,
                     failure_callback=None,
                     force_async=False,
@@ -1133,8 +1133,8 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("A", "B"),
-                    event_callback=CallableMock.Random(),
-                    success_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Sync(),
+                    success_callback=CallableMock.Async(),
                     failure_callback=None,
                     force_async=False,
                     once=False,
@@ -1146,9 +1146,9 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("D", "E"),
-                    event_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Async(),
                     success_callback=None,
-                    failure_callback=CallableMock.Random(),
+                    failure_callback=CallableMock.Sync(),
                     force_async=False,
                     once=False,
                 ),
@@ -1159,9 +1159,9 @@ class TestEventLinker:
             (
                 SubscribeTestCase(
                     events=("E", "F"),
-                    event_callback=CallableMock.Random(),
-                    success_callback=CallableMock.Random(),
-                    failure_callback=CallableMock.Random(),
+                    event_callback=CallableMock.Async(),
+                    success_callback=CallableMock.Sync(),
+                    failure_callback=CallableMock.Async(),
                     force_async=False,
                     once=False,
                 ),
@@ -1259,12 +1259,12 @@ class TestEventLinker:
         # Act/Assert
         with pytest.raises(PyventusException):
             with once_subctx as ctx1:
-                ctx1.on_event(CallableMock.Random())
+                ctx1.on_event(CallableMock.Async())
                 ctx1.unpack()
 
         with pytest.raises(PyventusException):
             with on_subctx as ctx2:
-                ctx2.on_event(CallableMock.Random())
+                ctx2.on_event(CallableMock.Sync())
                 ctx2.unpack()
 
     # =================================
@@ -1273,7 +1273,7 @@ class TestEventLinker:
 
     def test_subscribers_teardown_callback(self, empty: EventLinkerFixture) -> None:
         # Arrange
-        subscriber = empty.event_linker.subscribe("A", "B", "C", event_callback=CallableMock.Random())
+        subscriber = empty.event_linker.subscribe("A", "B", "C", event_callback=CallableMock.Async())
 
         # Act
         results = subscriber.unsubscribe()

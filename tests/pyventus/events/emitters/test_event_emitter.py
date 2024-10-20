@@ -372,27 +372,27 @@ class TestEventEmitter:
         # Arrange: Callbacks
         # =================================
 
-        cb_without_params: CallableMock.Base = CallableMock.Random()
-        cb_with_two_params: CallableMock.Base = CallableMock.Random()
+        cb_without_params: CallableMock.Base = CallableMock.Sync()
+        cb_with_two_params: CallableMock.Base = CallableMock.Async()
 
-        cb_with_args: CallableMock.Base = CallableMock.Random()
-        cb_with_kwargs: CallableMock.Base = CallableMock.Random()
-        cb_with_args_and_kwargs: CallableMock.Base = CallableMock.Random()
+        cb_with_args: CallableMock.Base = CallableMock.Sync()
+        cb_with_kwargs: CallableMock.Base = CallableMock.Async()
+        cb_with_args_and_kwargs: CallableMock.Base = CallableMock.Sync()
 
-        cb_with_dtc_immutable: CallableMock.Base = CallableMock.Random()
-        cb_with_dtc_mutable_and_extras: CallableMock.Base = CallableMock.Random()
-        cb_with_dtc_validated: CallableMock.Base = CallableMock.Random()
-        cb_with_dtc: CallableMock.Base = CallableMock.Random()
+        cb_with_dtc_immutable: CallableMock.Base = CallableMock.Async()
+        cb_with_dtc_mutable_and_extras: CallableMock.Base = CallableMock.Sync()
+        cb_with_dtc_validated: CallableMock.Base = CallableMock.Async()
+        cb_with_dtc: CallableMock.Base = CallableMock.Sync()
 
-        cb_with_custom_exc1: CallableMock.Base = CallableMock.Random()
-        cb_with_custom_exc2: CallableMock.Base = CallableMock.Random()
-        cb_with_exc: CallableMock.Base = CallableMock.Random()
+        cb_with_custom_exc1: CallableMock.Base = CallableMock.Async()
+        cb_with_custom_exc2: CallableMock.Base = CallableMock.Sync()
+        cb_with_exc: CallableMock.Base = CallableMock.Async()
 
-        cb_with_return_value: CallableMock.Base = CallableMock.Random(return_value=return_value)
-        cb_with_raise_exception: CallableMock.Base = CallableMock.Random(raise_exception=raise_exception)
+        cb_with_return_value: CallableMock.Base = CallableMock.Sync(return_value=return_value)
+        cb_with_raise_exception: CallableMock.Base = CallableMock.Async(raise_exception=raise_exception)
 
-        cb_success: CallableMock.Base = CallableMock.Random()
-        cb_failure: CallableMock.Base = CallableMock.Random()
+        cb_success: CallableMock.Base = CallableMock.Async()
+        cb_failure: CallableMock.Base = CallableMock.Sync()
 
         # =================================
         # Arrange: Create a dummy event linker
@@ -438,14 +438,14 @@ class TestEventEmitter:
 
         # Test Error Handling
         with event_linker.on("ErrorHandling") as ctx:
-            ctx.on_event(CallableMock.Random())
-            ctx.on_success(CallableMock.Random(raise_exception=EventFixtures.CustomExc()))
+            ctx.on_event(CallableMock.Async())
+            ctx.on_success(CallableMock.Sync(raise_exception=EventFixtures.CustomExc()))
             ctx.on_failure(cb_failure)
 
         with event_linker.on("ErrorHandling") as ctx:
-            ctx.on_event(CallableMock.Random(raise_exception=EventFixtures.CustomExc()))
+            ctx.on_event(CallableMock.Async(raise_exception=EventFixtures.CustomExc()))
             ctx.on_success(cb_success)
-            ctx.on_failure(CallableMock.Random(raise_exception=EventFixtures.CustomExc()))
+            ctx.on_failure(CallableMock.Sync(raise_exception=EventFixtures.CustomExc()))
 
         # Any Event
         event_linker.subscribe(..., event_callback=cb_with_args_and_kwargs)

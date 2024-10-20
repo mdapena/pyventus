@@ -1,10 +1,6 @@
-import random
 from abc import ABC, abstractmethod
 from collections.abc import AsyncGenerator, Awaitable, Callable, Generator
-from typing import (
-    Any,
-    Final,
-)
+from typing import Any, Final
 
 
 class CallableMock:
@@ -151,39 +147,6 @@ class CallableMock:
                 raise self._exception
 
             yield self._return_value
-
-    @classmethod
-    def Random(  # noqa: N802
-        cls, return_value: Any | None = None, raise_exception: Exception | None = None
-    ) -> Base:  # pragma: no cover
-        """Returns a random callable mock, which can be either synchronous or asynchronous."""
-        return (
-            cls.Sync(return_value=return_value, raise_exception=raise_exception)
-            if bool(random.getrandbits(1))
-            else cls.Async(return_value=return_value, raise_exception=raise_exception)
-        )
-
-    @classmethod
-    def RandomGenerator(  # noqa: N802
-        cls, return_value: Any | None = None, raise_exception: Exception | None = None
-    ) -> Base:  # pragma: no cover
-        """Returns a random generator callable mock, which can be either synchronous or asynchronous."""
-        return (
-            cls.SyncGenerator(return_value=return_value, raise_exception=raise_exception)
-            if bool(random.getrandbits(1))
-            else cls.AsyncGenerator(return_value=return_value, raise_exception=raise_exception)
-        )
-
-    @classmethod
-    def RandomAll(  # noqa: N802
-        cls, return_value: Any | None = None, raise_exception: Exception | None = None
-    ) -> Base:  # pragma: no cover
-        """Returns a random regular/generator callable mock, which can be either synchronous or asynchronous."""
-        return (
-            cls.Random(return_value=return_value, raise_exception=raise_exception)
-            if bool(random.getrandbits(1))
-            else cls.RandomGenerator(return_value=return_value, raise_exception=raise_exception)
-        )
 
 
 # =================================

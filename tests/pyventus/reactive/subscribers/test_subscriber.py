@@ -67,8 +67,8 @@ class TestSubscriber:
     async def test_next_method_execution(self, next_callback: CallableMock.Base | None) -> None:
         # Arrange
         value: Any = object()
-        error_callback: CallableMock.Base = CallableMock.Random()
-        complete_callback: CallableMock.Base = CallableMock.Random()
+        error_callback: CallableMock.Base = CallableMock.Sync()
+        complete_callback: CallableMock.Base = CallableMock.Async()
         subscriber = Subscriber[Any](
             teardown_callback=lambda sub: True,
             next_callback=next_callback,
@@ -103,8 +103,8 @@ class TestSubscriber:
     async def test_error_method_execution(self, error_callback: CallableMock.Base | None) -> None:
         # Arrange
         exception: Exception = ValueError()
-        next_callback: CallableMock.Base = CallableMock.Random()
-        complete_callback: CallableMock.Base = CallableMock.Random()
+        next_callback: CallableMock.Base = CallableMock.Async()
+        complete_callback: CallableMock.Base = CallableMock.Sync()
         subscriber = Subscriber[Any](
             teardown_callback=lambda sub: True,
             next_callback=next_callback,
@@ -138,8 +138,8 @@ class TestSubscriber:
     )
     async def test_complete_method_execution(self, complete_callback: CallableMock.Base | None) -> None:
         # Arrange
-        next_callback: CallableMock.Base = CallableMock.Random()
-        error_callback: CallableMock.Base = CallableMock.Random()
+        next_callback: CallableMock.Base = CallableMock.Async()
+        error_callback: CallableMock.Base = CallableMock.Sync()
         subscriber = Subscriber[Any](
             teardown_callback=lambda sub: True,
             next_callback=next_callback,
@@ -167,7 +167,7 @@ class TestSubscriber:
         # Arrange
         subscriber = Subscriber(
             teardown_callback=CallableMock.Sync(return_value=False),
-            next_callback=CallableMock.Random(),
+            next_callback=CallableMock.Sync(),
             error_callback=None,
             complete_callback=None,
             force_async=True,

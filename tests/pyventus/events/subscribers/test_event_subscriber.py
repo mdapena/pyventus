@@ -357,9 +357,9 @@ class TestEventSubscriber:
         # Arrange
         subscriber = EventSubscriber(
             teardown_callback=lambda sub: True,
-            event_callback=CallableMock.Random(return_value="str"),
-            success_callback=CallableMock.Random(raise_exception=ValueError()),
-            failure_callback=CallableMock.Random(),
+            event_callback=CallableMock.Async(return_value="str"),
+            success_callback=CallableMock.Sync(raise_exception=ValueError()),
+            failure_callback=CallableMock.Async(),
             force_async=False,
             once=False,
         )
@@ -374,9 +374,9 @@ class TestEventSubscriber:
         # Arrange
         subscriber = EventSubscriber(
             teardown_callback=lambda sub: True,
-            event_callback=CallableMock.Random(raise_exception=KeyError()),
-            success_callback=CallableMock.Random(),
-            failure_callback=CallableMock.Random(raise_exception=ValueError()),
+            event_callback=CallableMock.Async(raise_exception=KeyError()),
+            success_callback=CallableMock.Sync(),
+            failure_callback=CallableMock.Async(raise_exception=ValueError()),
             force_async=False,
             once=False,
         )
@@ -393,7 +393,7 @@ class TestEventSubscriber:
         # Arrange
         subscriber = EventSubscriber(
             teardown_callback=CallableMock.Sync(return_value=False),
-            event_callback=CallableMock.Random(),
+            event_callback=CallableMock.Sync(),
             success_callback=None,
             failure_callback=None,
             force_async=True,

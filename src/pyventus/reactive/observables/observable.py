@@ -216,7 +216,7 @@ class Observable(ABC, Generic[_OutT]):
         # Set up the logger with the appropriate debug mode.
         self.__logger: Logger = Logger(source=self, debug=debug if debug is not None else bool(gettrace() is not None))
 
-    def __repr__(self) -> str:  # pragma: no cover
+    def __repr__(self) -> str:
         """
         Retrieve a string representation of the instance.
 
@@ -264,7 +264,7 @@ class Observable(ABC, Generic[_OutT]):
         # Exit if there are no subscribers.
         if not subscribers:
             # Log a debug message if debug mode is enabled.
-            if self.__logger.debug_enabled:  # pragma: no cover
+            if self.__logger.debug_enabled:
                 self.__logger.debug(
                     action="Emitting Next Value:",
                     msg=f"No subscribers to notify of the next value: {value}",
@@ -272,7 +272,7 @@ class Observable(ABC, Generic[_OutT]):
             return
 
         # Log the emission of the next value if debug mode is enabled.
-        if self.__logger.debug_enabled:  # pragma: no cover
+        if self.__logger.debug_enabled:
             self.__logger.debug(
                 action="Emitting Next Value:",
                 msg=f"Notifying {len(subscribers)} subscribers of the next value: {value}",
@@ -299,7 +299,7 @@ class Observable(ABC, Generic[_OutT]):
         # Exit if there are no subscribers.
         if not subscribers:
             # Log a debug message if debug mode is enabled.
-            if self.__logger.debug_enabled:  # pragma: no cover
+            if self.__logger.debug_enabled:
                 self.__logger.debug(
                     action="Emitting Error:",
                     msg=f"No subscribers to notify of the error: {exception}.",
@@ -307,7 +307,7 @@ class Observable(ABC, Generic[_OutT]):
             return
 
         # Log the error emission if debug mode is enabled.
-        if self.__logger.debug_enabled:  # pragma: no cover
+        if self.__logger.debug_enabled:
             self.__logger.debug(
                 action="Emitting Error:",
                 msg=f"Notifying {len(subscribers)} subscribers of the error: {exception}",
@@ -336,7 +336,7 @@ class Observable(ABC, Generic[_OutT]):
         # Exit if there are no subscribers.
         if not subscribers:
             # Log a debug message if debug mode is enabled.
-            if self.__logger.debug_enabled:  # pragma: no cover
+            if self.__logger.debug_enabled:
                 self.__logger.debug(
                     action="Emitting Completion:",
                     msg="No subscribers to notify of completion.",
@@ -344,7 +344,7 @@ class Observable(ABC, Generic[_OutT]):
             return
 
         # Log the emission if debug is enabled.
-        if self.__logger.debug_enabled:  # pragma: no cover
+        if self.__logger.debug_enabled:
             self.__logger.debug(
                 action="Emitting Completion:",
                 msg=f"Notifying {len(subscribers)} subscribers of completion.",
@@ -454,7 +454,7 @@ class Observable(ABC, Generic[_OutT]):
                 self.__subscribers.add(subscriber)
 
             # Log the subscription if debug is enabled
-            if self.__logger.debug_enabled:  # pragma: no cover
+            if self.__logger.debug_enabled:
                 self.__logger.debug(action="Subscribed:", msg=f"{subscriber}")
 
             # Return the subscriber.
@@ -481,7 +481,7 @@ class Observable(ABC, Generic[_OutT]):
             self.__subscribers.remove(valid_subscriber)
 
         # Log the removal if the debug mode is enabled
-        if self.__logger.debug_enabled:  # pragma: no cover
+        if self.__logger.debug_enabled:
             self.__logger.debug(action="Removed:", msg=f"{valid_subscriber}")
 
         return True
@@ -502,7 +502,7 @@ class Observable(ABC, Generic[_OutT]):
             # Clear the observable
             self.__subscribers.clear()
 
-        if self.__logger.debug_enabled:  # pragma: no cover
+        if self.__logger.debug_enabled:
             self.__logger.debug(action="Removed:", msg="All subscribers.")
 
         return True

@@ -111,7 +111,7 @@ class Subscriber(Generic[_InT], Observer[_InT], Subscription):
             raise PyventusException("The 'complete_callback' cannot be a generator.")
 
     @override
-    def __repr__(self) -> str:  # pragma: no cover
+    def __repr__(self) -> str:
         return formatted_repr(
             instance=self,
             info=(

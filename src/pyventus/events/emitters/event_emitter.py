@@ -77,7 +77,7 @@ class EventEmitter:
             self.__timestamp: datetime = datetime.now()
             self.__debug: bool = debug
 
-        def __repr__(self) -> str:  # pragma: no cover
+        def __repr__(self) -> str:
             """
             Retrieve a string representation of the instance.
 
@@ -130,7 +130,7 @@ class EventEmitter:
             :return: None.
             """
             # Log the event execution if debug mode is enabled
-            if self.__debug:  # pragma: no cover
+            if self.__debug:
                 StdOutLogger.debug(source=summarized_repr(self), action="Executing:", msg=f"{self}")
 
             # Execute the subscribers concurrently
@@ -183,7 +183,7 @@ class EventEmitter:
         # Create and store logger.
         self.__logger: Logger = Logger(source=self, debug=debug if debug is not None else bool(gettrace() is not None))
 
-    def __repr__(self) -> str:  # pragma: no cover
+    def __repr__(self) -> str:
         """
         Retrieve a string representation of the instance.
 
@@ -238,7 +238,7 @@ class EventEmitter:
         # If there are no subscribers for the event, log a
         # debug message if debug mode is enabled and exit.
         if not subscribers:
-            if self.__logger.debug_enabled:  # pragma: no cover
+            if self.__logger.debug_enabled:
                 self.__logger.debug(action="Emitting:", msg=f"No subscribers registered for the event '{event_name}'.")
             return
 
@@ -252,7 +252,7 @@ class EventEmitter:
         )
 
         # Log the event emission if debug mode is enabled.
-        if self.__logger.debug_enabled:  # pragma: no cover
+        if self.__logger.debug_enabled:
             self.__logger.debug(action="Emitting:", msg=f"{event_emission}")
 
         # Delegate the event emission execution to the event processor.

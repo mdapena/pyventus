@@ -48,7 +48,7 @@ class MultiBidict(Generic[_KT, _VT]):
         self.__fwd_dict: dict[_KT, set[_VT]] = {}
         self.__inv_dict: dict[_VT, set[_KT]] = {}
 
-    def __repr__(self) -> str:  # pragma: no cover
+    def __repr__(self) -> str:
         """
         Retrieve a string representation of the instance.
 

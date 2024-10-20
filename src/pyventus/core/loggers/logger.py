@@ -32,7 +32,7 @@ class Logger:
         self.__source: str = source_name
         self.__debug = debug
 
-    def __repr__(self) -> str:  # pragma: no cover
+    def __repr__(self) -> str:
         """
         Retrieve a string representation of the instance.
 

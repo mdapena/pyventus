@@ -679,7 +679,7 @@ class EventLinker:
                 cls.__registry.insert(event, subscriber)
 
         # Log the subscription if debug is enabled
-        if cls.__logger.debug_enabled:  # pragma: no cover
+        if cls.__logger.debug_enabled:
             cls.__logger.debug(
                 action="Subscribed:", msg=f"{subscriber} {StdOutColors.PURPLE_TEXT('Events:')} {unique_events}"
             )
@@ -712,7 +712,7 @@ class EventLinker:
             cls.__registry.remove(valid_event, valid_subscriber)
 
         # Log the removal if the debug mode is enabled
-        if cls.__logger.debug_enabled:  # pragma: no cover
+        if cls.__logger.debug_enabled:
             cls.__logger.debug(
                 action="Removed:", msg=f"{valid_subscriber} {StdOutColors.PURPLE_TEXT('Event:')} '{valid_event}'"
             )
@@ -741,7 +741,7 @@ class EventLinker:
             cls.__registry.remove_key(valid_event)
 
         # Log the removal if the debug mode is enabled
-        if cls.__logger.debug_enabled:  # pragma: no cover
+        if cls.__logger.debug_enabled:
             cls.__logger.debug(action="Removed:", msg=f"Event: '{valid_event}'")
 
         return True
@@ -768,7 +768,7 @@ class EventLinker:
             cls.__registry.remove_value(valid_subscriber)
 
         # Log the removal if the debug mode is enabled
-        if cls.__logger.debug_enabled:  # pragma: no cover
+        if cls.__logger.debug_enabled:
             cls.__logger.debug(action="Removed:", msg=f"{valid_subscriber}")
 
         return True
@@ -790,7 +790,7 @@ class EventLinker:
             # Clear the registry
             cls.__registry.clear()
 
-        if cls.__logger.debug_enabled:  # pragma: no cover
+        if cls.__logger.debug_enabled:
             cls.__logger.debug(action="Removed:", msg="All events and subscribers.")
 
         return True

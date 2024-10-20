@@ -40,7 +40,7 @@ class FastAPIProcessingService(ProcessingService):
         # Store the BackgroundTasks instance.
         self.__background_tasks: BackgroundTasks = background_tasks
 
-    def __repr__(self) -> str:  # pragma: no cover
+    def __repr__(self) -> str:
         """
         Retrieve a string representation of the instance.
 

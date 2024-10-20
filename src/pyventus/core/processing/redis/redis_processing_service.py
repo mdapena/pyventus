@@ -49,7 +49,7 @@ class RedisProcessingService(ProcessingService):
         self.__queue: Queue = queue
         self.__options: dict[str, Any] = options if options else {}
 
-    def __repr__(self) -> str:  # pragma: no cover
+    def __repr__(self) -> str:
         """
         Retrieve a string representation of the instance.
 

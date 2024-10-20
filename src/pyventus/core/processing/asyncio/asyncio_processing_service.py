@@ -51,7 +51,7 @@ class AsyncIOProcessingService(ProcessingService):
         # Initialize the set of background tasks
         self.__background_tasks: set[Task[Any]] = set()
 
-    def __repr__(self) -> str:  # pragma: no cover
+    def __repr__(self) -> str:
         """
         Retrieve a string representation of the instance.
 

@@ -59,7 +59,7 @@ class SubscriptionContext(ABC, Generic[_SourceType, _SubscriberType]):
         self.__subscriber: _SubscriberType | None = None
         self.__is_stateful: bool = is_stateful
 
-    def __repr__(self) -> str:  # pragma: no cover
+    def __repr__(self) -> str:
         """
         Retrieve a string representation of the instance.
 

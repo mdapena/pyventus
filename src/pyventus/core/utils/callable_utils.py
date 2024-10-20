@@ -68,7 +68,7 @@ class CallableWrapper(Generic[_P, _R]):
         # Store the force_async flag.
         self.__force_async: bool = force_async
 
-    def __repr__(self) -> str:  # pragma: no cover
+    def __repr__(self) -> str:
         """
         Retrieve a string representation of the instance.
 

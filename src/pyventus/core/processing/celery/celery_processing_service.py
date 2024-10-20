@@ -130,7 +130,7 @@ class CeleryProcessingService(ProcessingService):
         self.__celery: Celery = celery
         self.__queue: str = queue if queue else self.__celery.conf.task_default_queue
 
-    def __repr__(self) -> str:  # pragma: no cover
+    def __repr__(self) -> str:
         """
         Retrieve a string representation of the instance.
 

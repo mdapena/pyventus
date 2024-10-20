@@ -106,7 +106,7 @@ class EventSubscriber(EventHandler, Subscription):
         self.__once: bool = once
 
     @override
-    def __repr__(self) -> str:  # pragma: no cover
+    def __repr__(self) -> str:
         return formatted_repr(
             instance=self,
             info=(

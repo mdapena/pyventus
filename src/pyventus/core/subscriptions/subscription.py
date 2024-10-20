@@ -38,7 +38,7 @@ class Subscription(Unsubscribable):
         self.__timestamp: datetime = datetime.now()
         self.__teardown_callback: Callable[[Self], bool] = teardown_callback
 
-    def __repr__(self) -> str:  # pragma: no cover
+    def __repr__(self) -> str:
         """
         Retrieve a string representation of the instance.
 

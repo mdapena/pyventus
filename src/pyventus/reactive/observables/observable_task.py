@@ -78,7 +78,7 @@ class ObservableTask(Generic[_OutT], Observable[_OutT]):
         self.__processing_service: AsyncIOProcessingService = AsyncIOProcessingService()
 
     @override
-    def __repr__(self) -> str:  # pragma: no cover
+    def __repr__(self) -> str:
         return formatted_repr(
             instance=self,
             info=(

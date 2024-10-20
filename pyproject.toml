@@ -198,14 +198,15 @@ asyncio_default_fixture_loop_scope = "function"
 [tool.coverage.run]
 source_pkgs = ["pyventus", "tests"]
 parallel = true
-
-[tool.coverage.paths]
-pyventus = ["pyventus"]
-tests = ["tests"]
+omit = [
+    "tests/benchmarks/*.py",
+]
 
 [tool.coverage.report]
 exclude_lines = [
     "no cov",
+    "def __repr__",
+    "if\\s+(self|cls)\\.(_*debug|([a-zA-Z_][a-zA-Z0-9_]*)\\.debug_enabled):",
     "if __name__ == .__main__.:",
     "if TYPE_CHECKING:",
     '@(abc\.)?abstractmethod',

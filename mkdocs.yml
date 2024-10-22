@@ -18,8 +18,8 @@ theme:
   name: material
   language: en
   custom_dir: docs/.overrides
-  logo: .images/logo/pyventus-logo-white.png
-  favicon: .images/favicon/pyventus-logo.ico
+  logo: images/logo/pyventus-logo-white.png
+  favicon: images/favicon/pyventus-logo.ico
   palette:
     - media: '(prefers-color-scheme: light)'
       scheme: default

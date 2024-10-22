@@ -5,6 +5,9 @@ hide:
 
 # Tutorials
 
+!!! warning "🏗️ Work in Progress"
+	The Tutorials section is currently being rebuilt.
+
 <p style='text-align: justify;' markdown>
 	&emsp;&emsp;Welcome to the Tutorials section, where you can learn the key concepts and features of Pyventus
 	through step-by-step examples. These tutorials are designed to be user-friendly, covering a range of topics

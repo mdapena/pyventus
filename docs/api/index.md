@@ -5,6 +5,9 @@ hide:
 
 # API Reference
 
+!!! warning "🏗️ Work in Progress"
+    The API section is currently being rebuilt.
+
 <p style='text-align: justify;'>
     &emsp;&emsp;Welcome to the Pyventus API Reference, a comprehensive guide that provides detailed information about
 	the classes, functions, parameters, attributes, and other components available in Pyventus.

@@ -535,7 +535,7 @@ hide:
 		 </tr>
 		 <tr>
 		  <td style="text-align: center" colspan="5">
-		   ![Image title](images/benchmarks/pyventus_eeb_chart_0.svg){ align=center }
+		   ![Bar chart displaying the results of the Event Emitter Benchmark 01, comparing the performance of Pyventus v0.6.0 and v0.7.0](images/benchmarks/pyventus_eeb_chart_0.svg){ align=center }
 		  </td>
 		 </tr>
 		 </tbody>
@@ -675,7 +675,7 @@ hide:
 		 </tr>
 		 <tr>
 		  <td style="text-align: center" colspan="5">
-		   ![Image title](images/benchmarks/pyventus_eeb_chart_1.svg){ align=center }
+		   ![Bar chart displaying the results of the Event Emitter Benchmark 02, comparing the performance of Pyventus v0.6.0 and v0.7.0](images/benchmarks/pyventus_eeb_chart_1.svg){ align=center }
 		  </td>
 		 </tr>
 		 </tbody>
@@ -815,7 +815,7 @@ hide:
 		 </tr>
 		 <tr>
 		  <td style="text-align: center" colspan="5">
-		   ![Image title](images/benchmarks/pyventus_eeb_chart_2.svg){ align=center }
+		   ![Bar chart displaying the results of the Event Emitter Benchmark 03, comparing the performance of Pyventus v0.6.0 and v0.7.0](images/benchmarks/pyventus_eeb_chart_2.svg){ align=center }
 		  </td>
 		 </tr>
 		 </tbody>
@@ -955,7 +955,7 @@ hide:
 		 </tr>
 		 <tr>
 		  <td style="text-align: center" colspan="5">
-		   ![Image title](images/benchmarks/pyventus_eeb_chart_3.svg){ align=center }
+		   ![Bar chart displaying the results of the Event Emitter Benchmark 04, comparing the performance of Pyventus v0.6.0 and v0.7.0](images/benchmarks/pyventus_eeb_chart_3.svg){ align=center }
 		  </td>
 		 </tr>
 		 </tbody>

@@ -972,23 +972,17 @@ hide:
 ##### Added { id="0.6.0-added" }
 
 - Added support for Python `3.13`, ensuring compatibility with the latest features and improvements.
-- Added `mike` package integration to `mkdocs-material` for documentation versioning. This allows users to access
-  previous documentation alongside new changes, ensuring that legacy content remains intact for reference. Additionally,
-  a new `dev` documentation has been introduced to showcase the current development of the package, including unreleased
-  features and updates.
+- Added `mike` package integration to `mkdocs-material` for documentation versioning. This allows users to access previous documentation alongside new changes, ensuring that legacy content remains intact for reference. Additionally, a new `dev` documentation has been introduced to showcase the current development of the package, including unreleased features and updates.
 
 ##### Changed { id="0.6.0-changed" }
 
-- Updated documentation links from absolute to relative paths to prevent broken links and avoid redirecting users to
-  incorrect documentation versions, ensuring consistent navigation throughout the docs.
+- Updated documentation links from absolute to relative paths to prevent broken links and avoid redirecting users to incorrect documentation versions, ensuring consistent navigation throughout the docs.
 - Upgraded the `download-artifact` and `cache` actions to `v4` in the `publish-to-pypi.yml` workflow.
 - Updated the `deploy-docs.yml` workflow to deploy both `dev` and versioned documentation using `mike`'s CLI commands.
 
 ##### Fixed { id="0.6.0-fixed" }
 
-- Fixed broken links to non-versioned documentation by adding a custom `404.html` page to `gh-pages`, which redirects
-  users to the first version of the documentation when no version is specified, or to a new custom 404 page with helpful
-  suggestions.
+- Fixed broken links to non-versioned documentation by adding a custom `404.html` page to `gh-pages`, which redirects users to the first version of the documentation when no version is specified, or to a new custom 404 page with helpful suggestions.
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 
@@ -1004,20 +998,15 @@ hide:
 - Renamed the `get_events_by_handler()` method of `EventLinker` to `get_events_by_event_handler()`.
 - Renamed the `get_handlers_by_events()` method of `EventLinker` to `get_event_handlers_by_events()`.
 - Renamed the protected method `_executor_callback()` of the `ExecutorEventEmitter` to `_callback()`.
-- Renamed the task name of `CeleryEventEmitter` from `_executor` to `pyventus_executor` to avoid collisions with other
-  task names.
+- Renamed the task name of `CeleryEventEmitter` from `_executor` to `pyventus_executor` to avoid collisions with other task names.
 
 ##### Added { id="0.5.0-added" }
 
 - Added `__slots__` to `EventLinkageWrapper` class for more efficient memory usage.
-- Extended support for subscription and emission of any `dataclass` object, removing the limitation of only `Event`
-  subclasses.
-- Added the `force_async` parameter to the `EventHandler` class and `EventLinker` subscription methods to be able to
-  optimize the execution of `sync` callbacks based on their workload.
-- Introduced a new event semantic where the Python `...` (Ellipsis) is now used to refer to all events on a
-  subscription, like the `onAny()` method but with a Pythonic syntax.
-- Added the `mkdocs-material social cards` plugin, which provides a preview of the documentation content when shared on
-  social media platforms.
+- Extended support for subscription and emission of any `dataclass` object, removing the limitation of only `Event` subclasses.
+- Added the `force_async` parameter to the `EventHandler` class and `EventLinker` subscription methods to be able to optimize the execution of `sync` callbacks based on their workload.
+- Introduced a new event semantic where the Python `...` (Ellipsis) is now used to refer to all events on a subscription, like the `onAny()` method but with a Pythonic syntax.
+- Added the `mkdocs-material social cards` plugin, which provides a preview of the documentation content when shared on social media platforms.
 
 ##### Changed { id="0.5.0-changed" }
 
@@ -1029,8 +1018,7 @@ hide:
 - Replaced the mkdocs `git-authors` plugin with the `git-committers` plugin.
 - Updated and improved the package description.
 - Updated the tutorial section to incorporate recent changes.
-- Enhanced the documentation index page and README file with new examples and better descriptions to showcase the unique
-  features of Pyventus.
+- Enhanced the documentation index page and README file with new examples and better descriptions to showcase the unique features of Pyventus.
 
 ##### Removed { id="0.5.0-removed" }
 
@@ -1049,13 +1037,10 @@ hide:
 
 ##### Changed { id="0.4.1-changed" }
 
-- Optimized the size of the source distribution (sdist) build by including only essential files and directories, such
-  as the `/src` and `/tests` directories, as well as the following files: `.gitignore`, `pyproject.toml`,
-  `CITATION.cff`, `README`, and `LICENSE`.
+- Optimized the size of the source distribution (sdist) build by including only essential files and directories, such as the `/src` and `/tests` directories, as well as the following files: `.gitignore`, `pyproject.toml`, `CITATION.cff`, `README`, and `LICENSE`.
 - Refactored documentation dependencies into an optional dependency called `docs`.
 - Updated the `deploy-docs.yml` GitHub workflow to leverage the new optional dependency `docs`.
-- Updated the `EventEmission` class with the `@final` decorator from the typing module, indicating that it is meant for
-  internal use only and should not be subclassed.
+- Updated the `EventEmission` class with the `@final` decorator from the typing module, indicating that it is meant for internal use only and should not be subclassed.
 
 ##### Fixed { id="0.4.1-fixed" }
 
@@ -1092,11 +1077,9 @@ hide:
 
 ##### Breaking Changes { id="0.3.0-breaking-changes" }
 
-- Introduced `EventEmission` object to encapsulate the processing of event emissions. This changes the `_execute()`
-  method of `EventEmitter` but provides a cleaner, more scalable, and efficient approach.
+- Introduced `EventEmission` object to encapsulate the processing of event emissions. This changes the `_execute()` method of `EventEmitter` but provides a cleaner, more scalable, and efficient approach.
 - Renamed all debug flags from `debug_mode` to `debug` for enhanced clarity and consistency.
-- Renamed EventEmitter's `_execute()` method to `_process()` to better reflect its purpose of processing event
-  emissions.
+- Renamed EventEmitter's `_execute()` method to `_process()` to better reflect its purpose of processing event emissions.
 
 ##### Added { id="0.3.0-added" }
 
@@ -1129,8 +1112,7 @@ hide:
 
 ##### Fixed { id="0.2.1-fixed" }
 
-- Resolved the issue where the `RQEventEmitter` class was automatically imported in the main package, requiring the
-  installation of its optional dependency to use any of the package's core functionalities. It is now fully optional.
+- Resolved the issue where the `RQEventEmitter` class was automatically imported in the main package, requiring the installation of its optional dependency to use any of the package's core functionalities. It is now fully optional.
 - Fixed issues with invalid links in the documentation.
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
@@ -1144,8 +1126,7 @@ hide:
 - Introduced the `publish to PyPI` workflow, automating the uploading of package builds when new releases are created.
 - Added the `mkdocs-git-authors` plugin to display git authors of a markdown page in the documentation.
 - Added badges to the main page of the documentation as well as the readme file.
-- Added a code of conduct for the project, using
-  the [Contributor Covenant v2.1](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
+- Added a code of conduct for the project, using the [Contributor Covenant v2.1](https://www.contributor-covenant.org/version/2/1/code_of_conduct/).
 - Included a `CITATION.cff` file to facilitate academic citations.
 
 ##### Changed { id="0.2.0-changed" }
@@ -1168,20 +1149,12 @@ hide:
 
 ##### Initial Implementation
 
-&emsp;&emsp;This release introduces Pyventus v0.1.0, a modern and robust Python package for event-driven programming.
-Pyventus provides developers with a comprehensive suite of tools and utilities to define, emit, and orchestrate events.
-It empowers developers to build scalable, extensible, and loosely-coupled event-driven applications.
+&emsp;&emsp;This release introduces Pyventus v0.1.0, a modern and robust Python package for event-driven programming. Pyventus provides developers with a comprehensive suite of tools and utilities to define, emit, and orchestrate events. It empowers developers to build scalable, extensible, and loosely-coupled event-driven applications.
 
-- **Implementation Details:** The first implementation includes all the core functionalities of the package,
-  encompassing events, event linkers, event emitters, event handlers, and more.
-- **Testing and Coverage:** This release includes a test suite that verifies the correctness of the package
-  implementation. It also integrates code coverage, achieving 100% test coverage. The tests are configured to run
-  automatically via GitHub Actions on both push and pull requests to the master branch.
-- **Formatter and Lint Configuration:** A formatter and lint configuration have been added to the project. This ensures
-  consistent code style, maintainability, and adherence to the established coding standards defined in the project
-  documentation.
-- **Documentation:** Additionally, this release includes comprehensive documentation for the package. The documentation
-  covers the main page, a detailed getting started guide, tutorials, API reference, and release notes.
+- **Implementation Details:** The first implementation includes all the core functionalities of the package, encompassing events, event linkers, event emitters, event handlers, and more.
+- **Testing and Coverage:** This release includes a test suite that verifies the correctness of the package implementation. It also integrates code coverage, achieving 100% test coverage. The tests are configured to run automatically via GitHub Actions on both push and pull requests to the master branch.
+- **Formatter and Lint Configuration:** A formatter and lint configuration have been added to the project. This ensures consistent code style, maintainability, and adherence to the established coding standards defined in the project documentation.
+- **Documentation:** Additionally, this release includes comprehensive documentation for the package. The documentation covers the main page, a detailed getting started guide, tutorials, API reference, and release notes.
 
 [//]: # (--------------------------------------------------------------------------------------------------------------)
 

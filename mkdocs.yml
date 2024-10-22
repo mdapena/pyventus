@@ -49,6 +49,7 @@ theme:
     - content.code.copy
     - content.tooltips
     - content.code.annotate
+    - announce.dismiss
 
 # Customization
 extra:

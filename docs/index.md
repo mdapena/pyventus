@@ -20,7 +20,7 @@ hide:
 
 
 <p align="center">
-   <img src="images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="900px">
+   <img src=".images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="900px">
 </p>
 
 <br>
@@ -238,7 +238,7 @@ Finally, by using the <code>emit()</code> method of the event emitter instance, 
 <summary>Example ─ Monitoring Voltage Levels Across Devices (Context)</summary>
 
 <a style="text-align: center" href="https://unsplash.com/photos/macro-photography-of-black-circuit-board-FO7JIlwjOtU?utm_content=creditShareLink&utm_medium=referral&utm_source=unsplash" target="_blank">
-	<img src="images/examples/practical-example-index.jpg" alt="Macro photography of black circuit board">
+	<img src=".images/examples/practical-example-index.jpg" alt="Macro photography of black circuit board">
 </a>
 
 <p style='text-align: justify;'>

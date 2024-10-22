@@ -272,7 +272,7 @@ event_emitter.emit("PasswordResetEvent", "example@email.com")
 </p>
 
 <p align="center">
-   <img src="../../images/examples/debug-mode-example.png" alt="Pyventus" width="900px">
+   <img src="../../.images/examples/debug-mode-example.png" alt="Pyventus" width="900px">
 </p>
 
 ### Instance Debug Flag

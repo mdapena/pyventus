@@ -539,7 +539,7 @@ async def handle_email_verified_event(email: str):
 </p>
 
 <p align="center">
-   <img src="../../images/examples/debug-mode-example.png" alt="EventLinker Global Debug Mode" width="900px">
+   <img src="../../.images/examples/debug-mode-example.png" alt="EventLinker Global Debug Mode" width="900px">
 </p>
 
 ### Namespace Debug Flag

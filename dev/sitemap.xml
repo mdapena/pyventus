@@ -21,71 +21,7 @@
          <lastmod>2024-10-22</lastmod>
     </url>
     <url>
-         <loc>https://mdapena.github.io/pyventus/latest/api/event-handler/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mdapena.github.io/pyventus/latest/api/event-linker/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mdapena.github.io/pyventus/latest/api/emitters/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mdapena.github.io/pyventus/latest/api/emitters/asyncio/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mdapena.github.io/pyventus/latest/api/emitters/celery/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mdapena.github.io/pyventus/latest/api/emitters/executor/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mdapena.github.io/pyventus/latest/api/emitters/fastapi/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mdapena.github.io/pyventus/latest/api/emitters/rq/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
          <loc>https://mdapena.github.io/pyventus/latest/tutorials/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mdapena.github.io/pyventus/latest/tutorials/event-linker/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mdapena.github.io/pyventus/latest/tutorials/event/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mdapena.github.io/pyventus/latest/tutorials/emitters/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mdapena.github.io/pyventus/latest/tutorials/emitters/asyncio/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mdapena.github.io/pyventus/latest/tutorials/emitters/celery/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mdapena.github.io/pyventus/latest/tutorials/emitters/executor/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mdapena.github.io/pyventus/latest/tutorials/emitters/fastapi/</loc>
-         <lastmod>2024-10-22</lastmod>
-    </url>
-    <url>
-         <loc>https://mdapena.github.io/pyventus/latest/tutorials/emitters/rq/</loc>
          <lastmod>2024-10-22</lastmod>
     </url>
 </urlset>

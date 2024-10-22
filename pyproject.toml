@@ -2,21 +2,27 @@
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-# ------------------------------------------------------------------
+# ==================================================================
 # | Project                                                        |
-# ------------------------------------------------------------------
+# ==================================================================
 
 [project]
 name = "pyventus"
 dynamic = ["version"]
-description = "A powerful Python package for event-driven programming; define, emit, and orchestrate events with ease."
+description = "A powerful Python library for event-driven and reactive programming."
 requires-python = ">=3.10"
 readme = "README.md"
 license = "MIT"
-authors = [
-    { name = "Manuel Da Pena", email = "dapensoft@gmail.com" },
+authors = [{ name = "Manuel Da Pena", email = "dapensoft@gmail.com" }]
+keywords = [
+    "events",
+    "event-emitters",
+    "event-dispatchers",
+    "event-handlers",
+    "event-linkers",
+    "event-driven",
+    "python",
 ]
-keywords = ["events", "event-emitters", "event-dispatchers", "event-handlers", "event-linkers", "event-driven", "python"]
 classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: MIT License",
@@ -33,22 +39,29 @@ classifiers = [
     "Topic :: Software Development",
     "Typing :: Typed",
 ]
+dependencies = [
+    "typing-extensions>=4.8.0",
+]
 
-# ------------------------------------------------------------------
+# ==================================================================
 # | Project URLs                                                   |
-# ------------------------------------------------------------------
+# ==================================================================
 
 [project.urls]
 Homepage = "https://github.com/mdapena/pyventus"
 Documentation = "https://mdapena.github.io/pyventus"
 Repository = "https://github.com/mdapena/pyventus"
-Changelog = "https://mdapena.github.io/pyventus/release-notes"
 
-# ------------------------------------------------------------------
-# | Project Optional dependencies                                  |
-# ------------------------------------------------------------------
+# ==================================================================
+# | Project Optional Dependencies                                  |
+# ==================================================================
 
 [project.optional-dependencies]
+
+# =================================
+# | Package dependencies
+# =================================
+
 rq = ["rq>=1.15.0"]
 celery = ["celery>=5.3.5"]
 fastapi = ["fastapi>=0.95.2"]
@@ -59,54 +72,55 @@ all = [
     "pyventus[fastapi]",
 ]
 
-# --------------------
+# =================================
 # | Docs dependencies
-# ----------
+# =================================
 
 docs = [
-    "mkdocs-material>=9.5.17",
-    "mkdocstrings[python]>=0.24.0",
-    "mkdocs-git-revision-date-localized-plugin>=1.2.1",
+    "mkdocs-material>=9.5.37",
+    "mkdocstrings[python]>=0.26.1",
+    "mkdocs-git-revision-date-localized-plugin>=1.2.9",
     "mkdocs-git-committers-plugin-2>=2.3.0",
     "mkdocs-material[imaging]",
     "mike>=2.1.3",
 ]
 
-# --------------------
+# =================================
 # | Tests dependencies
-# ----------
+# =================================
 
 tests = [
     "pyventus[all]",
-    "mypy>=1.7.1",
-    "black>=23.12.0",
-    "pytest>=7.4.0",
-    "coverage[toml]>=7.3.3",
-    "pytest-asyncio>=0.21.0",
-    "fakeredis>=2.20.0",
+    "mypy>=1.11.0",
+    "ruff>=0.6.8",
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.24.0",
+    "coverage[toml]>=7.6.1",
+    "fakeredis>=2.25.0",
     "httpx>=0.23.0",
+    "tqdm>=4.66.5",
 ]
 
-# --------------------
+# =================================
 # | Dev dependencies
-# ----------
+# =================================
 
 dev = [
     "pyventus[docs]",
     "pyventus[tests]",
-    "hatch>=1.8.1",
+    "hatch>=1.12.0",
 ]
 
-# ------------------------------------------------------------------
+# ==================================================================
 # | Project Version                                                |
-# ------------------------------------------------------------------
+# ==================================================================
 
 [tool.hatch.version]
 path = "src/pyventus/__init__.py"
 
-# ------------------------------------------------------------------
-# | Building Target                                                |
-# ------------------------------------------------------------------
+# ==================================================================
+# | Project Build Targets                                          |
+# ==================================================================
 
 [tool.hatch.build.targets.sdist]
 include = [
@@ -122,38 +136,29 @@ include = [
 [tool.hatch.build.targets.wheel]
 packages = ["src/pyventus"]
 
-# ------------------------------------------------------------------
-# | mypy configuration                                             |
-# ------------------------------------------------------------------
+# ==================================================================
+# | Hatch Environments                                             |
+# ==================================================================
 
-[tool.mypy]
-files = ["src/pyventus"]
-namespace_packages = false
-show_error_codes = true
-warn_no_return = true
-warn_unreachable = true
-warn_unused_ignores = true
-implicit_reexport = true
-ignore_missing_imports = true
-strict = true
-
-# ------------------------------------------------------------------
-# | Hatch tests environment                                         |
-# ------------------------------------------------------------------
+# =================================
+# | Tests environment
+# =================================
 
 [tool.hatch.envs.tests]
 dependencies = ["pyventus[tests]"]
 
 [tool.hatch.envs.tests.scripts]
 test = "pytest -v {args:tests}"
-style = "black --check --diff {args:.}"
+style = "ruff check {args:.} & ruff format --check {args:.}"
 typing = "mypy"
 cov = [
     "coverage run -m pytest -v {args:tests}",
     "- coverage combine",
     "coverage report",
     "coverage xml",
+    "coverage html",
 ]
+
 all = [
     "style",
     "typing",
@@ -163,9 +168,9 @@ all = [
 [[tool.hatch.envs.tests.matrix]]
 python = ["3.10", "3.11", "3.12", "3.13"]
 
-# ------------------------------------------------------------------
-# | Hatch docs environment                                         |
-# ------------------------------------------------------------------
+# =================================
+# | Docs environment
+# =================================
 
 [tool.hatch.envs.docs]
 dependencies = ["pyventus[docs]"]
@@ -174,33 +179,103 @@ dependencies = ["pyventus[docs]"]
 build = "mkdocs build --clean --strict"
 serve = "mkdocs serve --dev-addr localhost:8000"
 
-# ------------------------------------------------------------------
-# | Coverage                                                       |
-# ------------------------------------------------------------------
+# ==================================================================
+# | Configurations                                                 |
+# ==================================================================
+
+# =================================
+# | Pytest configuration
+# =================================
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+
+# =================================
+# | Coverage configuration
+# =================================
 
 [tool.coverage.run]
 source_pkgs = ["pyventus", "tests"]
 parallel = true
 omit = [
-    "tests/conftest.py",
+    "tests/benchmarks/*.py",
 ]
-
-[tool.coverage.paths]
-pyventus = ["pyventus"]
-tests = ["tests"]
 
 [tool.coverage.report]
 exclude_lines = [
     "no cov",
+    "def __repr__",
+    "if\\s+(self|cls)\\.(_*debug|([a-zA-Z_][a-zA-Z0-9_]*)\\.debug_enabled):",
     "if __name__ == .__main__.:",
     "if TYPE_CHECKING:",
     '@(abc\.)?abstractmethod',
 ]
 
-# ------------------------------------------------------------------
-# | Formatting                                                     |
-# ------------------------------------------------------------------
+# =================================
+# | mypy configuration
+# =================================
 
-[tool.black]
+[tool.mypy]
+files = ["src/pyventus", "tests"]
+namespace_packages = false
+show_error_codes = true
+warn_no_return = true
+warn_unreachable = true
+warn_unused_ignores = true
+implicit_reexport = true
+ignore_missing_imports = true
+strict = true
+
+# =================================
+# | Ruff configuration
+# =================================
+
+[tool.ruff]
+include = ["pyproject.toml", "src/pyventus/*.py", "tests/*.py"]
+target-version = "py310"
 line-length = 120
-target-version = ["py310"]
+
+[tool.ruff.format]
+quote-style = "double" # Like Black, use double quotes for strings.
+
+[tool.ruff.lint]
+select = [
+    "F",        # Pyflakes
+    "E",        # pycodestyle (Error)
+    "I",        # isort
+    "N",        # pep8-naming
+    "D",        # pydocstyle
+    "UP",       # pyupgrade
+    "B",        # flake8-bugbear
+    "C4",       # flake8-comprehensions
+    "T10",      # flake8-debugger
+    "T20",      # flake8-print
+    "PYI006",   # flake8-pyi (bad-version-info-comparison)
+    "RUF100",   # Ruff-specific rules (unused-noqa)
+]
+ignore = [
+    "E111",     # Ignore indentation-with-invalid-multiple rule; formatter enforces consistent indentation.
+    "E114",     # Ignore indentation-with-invalid-multiple-comment rule; formatter enforces consistent indentation.
+    "E117",     # Ignore over-indented rule; formatter enforces consistent indentation.
+    "N818",     # Ignore error-suffix-on-exception-name rule; pyventus uses Exception suffix.
+    "D100",     # Ignore undocumented-public-module rule; module names imply their content.
+    "D206",     # Ignore indent-with-spaces rule; formatter enforces consistent indentation.
+    "D300",     # Ignore triple-single-quotes rule; formatter enforces consistent quotes.
+]
+
+[tool.ruff.lint.isort]
+known-third-party = ["pyventus"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"] # Ignore unused imports for init files.
+"tests/*.py" = ["D"] # Ignore pydocstyle rules for test files.
+"tests/pyventus/core/utils/test_callable_utils.py" = ["B905", "C416"] # zip-without-explicit-strict/unnecessary-comprehension.
+"!src/pyventus/{core, events, reactive}/__init__.py" = ["D104"] # Apply undocumented-public-package rule.
+
+# ==================================================================
+# |                          end-of-file                           |
+# ==================================================================

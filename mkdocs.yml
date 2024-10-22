@@ -3,7 +3,7 @@ site_name: Pyventus
 site_url: https://mdapena.github.io/pyventus/
 site_author: Manuel Da Pena
 site_description: >-
-  A powerful Python package for event-driven programming; define, emit, and orchestrate events with ease.
+  A powerful Python library for event-driven and reactive programming.
 
 # Repository
 repo_name: mdapena/pyventus
@@ -130,32 +130,18 @@ markdown_extensions:
   - toc:
       permalink: true
 
+# Extra JavaScript for MathJax
+extra_javascript:
+  - .javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
 # Page tree
 nav:
   - Pyventus: index.md
   - Getting Started: getting-started.md
   - Tutorials:
       - tutorials/index.md
-      - Exploring Event Types: tutorials/event.md
-      - The EventLinker Registry: tutorials/event-linker.md
-      - Master the Event Emitter:
-          - tutorials/emitters/index.md
-          - AsyncIO Event Emitter: tutorials/emitters/asyncio/index.md
-          - Celery Event Emitter: tutorials/emitters/celery/index.md
-          - Executor Event Emitter: tutorials/emitters/executor/index.md
-          - FastAPI Event Emitter: tutorials/emitters/fastapi/index.md
-          - RQ Event Emitter: tutorials/emitters/rq/index.md
   - API Reference:
       - api/index.md
-      - Event Linker: api/event-linker.md
-      - Event Handler: api/event-handler.md
-      - Event Emitter:
-          - api/emitters/index.md
-          - AsyncIO Event Emitter: api/emitters/asyncio/index.md
-          - Celery Event Emitter: api/emitters/celery/index.md
-          - Executor Event Emitter: api/emitters/executor/index.md
-          - FastAPI Event Emitter: api/emitters/fastapi/index.md
-          - RQ Event Emitter: api/emitters/rq/index.md
-
   - Contributing: contributing.md
   - Release Notes: release-notes.md

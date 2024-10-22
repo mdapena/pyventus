@@ -1,0 +1,1 @@
+from .event_emitter_benchmark import EventEmitterBenchmark

@@ -100,11 +100,10 @@ hide:
 
 - Upgraded several development dependencies in the `pyproject.toml`, including `pytest-asyncio` from version `0.21.0` to `0.24.0`, to enable global configuration of the `asyncio_mode`.
 
+- Simplified the `EventCallbackType` type alias by removing the unnecessary `ParamSpec`.
+
 - Refactored the test suite to improve validation across all package features, ensuring correctness and achieving 100% code coverage.
 
-##### Removed { id="0.7.0-removed" }
-
-- Removed the unnecessary `ParamSpec` from the `EventCallbackType` type alias.
 
 ##### Optimized { id="0.7.0-optimized" }
 

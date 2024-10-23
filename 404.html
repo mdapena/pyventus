@@ -32,7 +32,7 @@
                 } else {
                     try {
                         // Fetch the available versions from the JSON file
-                        const response = await fetch("/versions.json");
+                        const response = await fetch("./versions.json");
 
                         // Check if the response is OK
                         if (!response.ok) {

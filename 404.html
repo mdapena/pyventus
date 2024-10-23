@@ -5,25 +5,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>404 Not Found</title>
     <script>
-        (function () {
+        (async function () {
+            // Default aliases and oldest version
+            const aliases = ["dev", "latest"];
+            const oldestVersion = "0.5";
+
             // Get the current URL pathname, search parameters, and hash fragment
-            const pathname = window.location.pathname;
-            const search = window.location.search;
-            const hash = window.location.hash;
+            const {pathname, search, hash} = window.location;
 
             // Extract the version from the pathname (second segment after the first slash)
-            const version = pathname.split('/')[2];
+            const extractedVersion = pathname.split('/')[2];
 
-            // Check if the extracted version is valid (either a version number or "dev/latest")
-            const hasVersion = version && /^(dev|latest|\d+\.\d+)$/.test(version);
+            // Check if the extracted version is valid (either a version number or one of the default aliases)
+            const hasVersion = extractedVersion && (new RegExp(`^(${aliases.join("|")}|\\d+\\.\\d+)$`).test(extractedVersion));
 
             // Redirect based on the presence of a version
             if (!hasVersion) {
-                // If no version is found, redirect to the oldest documentation version (0.5)
-                window.location.replace(pathname.replace("/pyventus", "/pyventus/0.5") + search + hash);
+                // If no valid version is found, redirect to the oldest documentation version (0.5)
+                window.location.replace(pathname.replace("/pyventus", `/pyventus/${oldestVersion}`) + search + hash);
             } else {
-                // If a version is found, redirect to the 404 page of the documentation for that version, including missing path
-                window.location.replace(`/pyventus/${version}/404?path=${encodeURIComponent(`/${pathname.split('/').slice(3).join('/')}`)}`);
+                let versionToRedirect = "latest"; // Default to "latest"
+
+                // Check if the extracted version is the oldest version or one of the aliases
+                if (extractedVersion === oldestVersion || aliases.includes(extractedVersion)) {
+                    versionToRedirect = extractedVersion; // Use the extracted version for redirection
+                } else {
+                    try {
+                        // Fetch the available versions from the JSON file
+                        const response = await fetch("versions.json");
+
+                        // Check if the response is OK
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok: ' + response.statusText);
+                        }
+
+                        // Parse the JSON response
+                        const availableVersions = await response.json(); // Await the JSON parsing
+
+                        // Check if the extracted version exists in the available versions
+                        if (availableVersions.some(data => data.version === extractedVersion)) {
+                            versionToRedirect = extractedVersion; // Set to the valid version found
+                        }
+                    } catch (error) {
+                        console.error('There was a problem with the fetch operation:', error);
+                    }
+                }
+
+                // Redirect to the 404 page of the documentation for the determined version
+                window.location.replace(`/pyventus/${versionToRedirect}/404?path=${encodeURIComponent(`/${pathname.split('/').slice(3).join('/')}`)}`);
             }
         })(); // Execute immediately
     </script>

@@ -1625,41 +1625,42 @@ featuring <strong>reactive programming</strong>, major <strong>optimizations</st
 <h5 id="0.7.0-optimized">Optimized<a class="headerlink" href="#0.7.0-optimized" title="Permanent link">&para;</a></h5>
 <ul>
 <li>
-<p>The time complexity of the <code>emit()</code> method in the <code>EventEmitter</code> class has been significantly optimized. It has been reduced from <span class="arithmatex">\(O(N \cdot T)\)</span> to <span class="arithmatex">\(O(N \cdot L_{avg})\)</span>, where:</p>
+<p>The time complexity of the <code>emit()</code> method in the <code>EventEmitter</code> class has been significantly optimized. It has been reduced from <span class="arithmatex">\(O(E \cdot S^2)\)</span> to <span class="arithmatex">\(O(E \cdot S)\)</span>, where:</p>
 <ul>
-<li><span class="arithmatex">\(N\)</span>: Represents the total number of subscribers involved in the event emission, including those registered to the global event and those specific to the event being emitted.</li>
-<li><span class="arithmatex">\(T\)</span>: Denotes the total number of elements in the event linker registry, encompassing all subscriber lists combined. In mathematical terms, <span class="arithmatex">\(T\)</span> is defined as <span class="arithmatex">\(\sum_{e}^{E} S_{e}\)</span>, where <span class="arithmatex">\(S_{e}\)</span> corresponds to the number of subscribers for the event <span class="arithmatex">\(e\)</span>, and <span class="arithmatex">\(E\)</span> encompasses all events.</li>
-<li><span class="arithmatex">\(L_{avg}\)</span>: Represents the average number of events linked to one-time subscribers during event emission.</li>
+<li><span class="arithmatex">\(E\)</span>: Denotes the total number of events in the event linker.</li>
+<li><span class="arithmatex">\(S\)</span>: Corresponds to the total number of subscribers in the event linker.</li>
 </ul>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This optimization results from the more efficient management of one-time subscribers by the event linker during event emission. Instead of traversing the entire event linker registry (<span class="arithmatex">\(T\)</span>) to remove each one-time subscriber involved in the event emission (<span class="arithmatex">\(N\)</span>), it now iterates solely through the linked events (<span class="arithmatex">\(L\)</span>). This improvement is particularly beneficial when all subscribers engaged in the event emission are one-time subscriptions. However, in scenarios without one-time subscribers during an event emission, both implementations have the same time complexity of <span class="arithmatex">\(O(N)\)</span>.</p>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This optimization results from the more efficient management of one-time subscribers by the event linker during event emission. Instead of traversing the entire event linker registry to remove each one-time subscriber involved in the event emission, it now iterates solely through the linked events.</p>
 </li>
 <li>
 <p>Major optimizations have been implemented for the <code>EventLinker</code> class through the integration of the <code>MultiBidict</code> data structure. This data structure is a multikeyed, multivalued bidirectional dictionary implementation that enables efficient lookups, updates, and deletions of events and their corresponding subscribers. Despite utilizing a bidirectional mapping structure, its memory footprint remains minimal due to the use of references between keys and values instead of duplication, which limits the impact to the additional dictionary and set data structures.</p>
 <ul>
 <li>
-<p>The time complexity of the method <code>get_subscribers()</code>, previously known as <code>get_event_handlers()</code>, has been significantly reduced from <span class="arithmatex">\(O(T)\)</span> to <span class="arithmatex">\(O(S)\)</span>, where:</p>
+<p>The time complexity of the method <code>get_subscribers()</code>, previously known as <code>get_event_handlers()</code>, has been reduced from <span class="arithmatex">\(O(E \cdot S)\)</span> to <span class="arithmatex">\(O(S)\)</span>, where:</p>
 <ul>
-<li><span class="arithmatex">\(T\)</span>: Denotes the total number of elements in the event linker registry, encompassing all subscriber lists combined.</li>
-<li><span class="arithmatex">\(S\)</span>: Corresponds to the total number of registered subscribers without duplications.</li>
+<li><span class="arithmatex">\(E\)</span>: Denotes the total number of events in the event linker.</li>
+<li><span class="arithmatex">\(S\)</span>: Corresponds to the total number of subscribers in the event linker.</li>
 </ul>
 </li>
 <li>
-<p>The time complexity of the <code>get_events_from_subscribers()</code>, previously known as <code>get_events_by_event_handler()</code>, has been reduced from <span class="arithmatex">\(O(T)\)</span> to <span class="arithmatex">\(O(L)\)</span>, where:</p>
+<p>The time complexity of the <code>get_events_from_subscribers()</code>, previously known as <code>get_events_by_event_handler()</code>, has been reduced from <span class="arithmatex">\(O(E \cdot S)\)</span> to <span class="arithmatex">\(O(E)\)</span>, where:</p>
 <ul>
-<li><span class="arithmatex">\(T\)</span>: Denotes the total number of elements in the event linker registry, encompassing all subscriber lists combined.</li>
-<li><span class="arithmatex">\(L\)</span>: Represents the total number of events linked to the given subscriber.</li>
-</ul>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is important to note that the new method of <code>get_events_from_subscribers()</code> can receive not only one subscriber as before but also multiple subscribers to retrieve the associated events. In cases where multiple subscribers are provided, the time complexity of the overall method would be <span class="arithmatex">\(O(N \cdot L_{avg})\)</span>, where <span class="arithmatex">\(N\)</span> corresponds to the number of distinct subscribers for which to query the linked events, and <span class="arithmatex">\(L_{avg}\)</span> represents the average number of events associated with each subscriber.</p>
-</li>
-<li>
-<p>The time complexity of the method <code>remove_subscriber()</code>, previously known as <code>remove_event_handler()</code>, has been significantly reduced from <span class="arithmatex">\(O(T)\)</span> to <span class="arithmatex">\(O(L)\)</span>, where:</p>
-<ul>
-<li><span class="arithmatex">\(T\)</span>: Denotes the total number of elements in the event linker registry, encompassing all subscriber lists combined.</li>
-<li><span class="arithmatex">\(L\)</span>: Represents the total number of events linked to the given subscriber.</li>
+<li><span class="arithmatex">\(E\)</span>: Denotes the total number of events in the event linker.</li>
+<li><span class="arithmatex">\(S\)</span>: Corresponds to the total number of subscribers in the event linker.</li>
 </ul>
 </li>
 <li>
-<p>The time complexity of the method <code>remove()</code>, previously known as <code>unsubscribe()</code>, has been enhanced from <span class="arithmatex">\(O(S)\)</span> to a constant time complexity of <span class="arithmatex">\(O(1)\)</span>, where <span class="arithmatex">\(S\)</span> represents the size of the subscriber list registered for the given event. It is important to note that while the previous comparison was made based on the <code>unsubscribe()</code> method handling just one event, under similar conditions to the <code>remove()</code> method, the previous implementation actually supported removing the subscriber from multiple events. The achievement of the new <span class="arithmatex">\(O(1)\)</span> time complexity is based on the efficiency of <code>set</code> operations in Python.</p>
+<p>The time complexity of the method <code>remove()</code>, previously known as <code>unsubscribe()</code>, has been enhanced from <span class="arithmatex">\(O(S)\)</span> to a constant time complexity of <span class="arithmatex">\(O(1)\)</span>, where:</p>
+<ul>
+<li><span class="arithmatex">\(S\)</span>: Corresponds to the total number of subscribers in the event linker.</li>
+</ul>
+</li>
+<li>
+<p>The time complexity of the method <code>remove_subscriber()</code>, previously known as <code>remove_event_handler()</code>, has been reduced from <span class="arithmatex">\(O(E \cdot S)\)</span> to <span class="arithmatex">\(O(E)\)</span>, where:</p>
+<ul>
+<li><span class="arithmatex">\(E\)</span>: Denotes the total number of events in the event linker.</li>
+<li><span class="arithmatex">\(S\)</span>: Corresponds to the total number of subscribers in the event linker.</li>
+</ul>
 </li>
 </ul>
 </li>

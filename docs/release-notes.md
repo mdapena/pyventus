@@ -107,31 +107,28 @@ hide:
 
 ##### Optimized { id="0.7.0-optimized" }
 
-- The time complexity of the `emit()` method in the `EventEmitter` class has been significantly optimized. It has been reduced from $O(N \cdot T)$ to $O(N \cdot L_{avg})$, where:
+- The time complexity of the `emit()` method in the `EventEmitter` class has been significantly optimized. It has been reduced from $O(E \cdot S^2)$ to $O(E \cdot S)$, where:
+	- $E$: Denotes the total number of events in the event linker.
+	- $S$: Corresponds to the total number of subscribers in the event linker.
 
-	- $N$: Represents the total number of subscribers involved in the event emission, including those registered to the global event and those specific to the event being emitted.
-	- $T$: Denotes the total number of elements in the event linker registry, encompassing all subscriber lists combined. In mathematical terms, $T$ is defined as $\sum_{e}^{E} S_{e}$, where $S_{e}$ corresponds to the number of subscribers for the event $e$, and $E$ encompasses all events.
- 	- $L_{avg}$: Represents the average number of events linked to one-time subscribers during event emission.
-
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This optimization results from the more efficient management of one-time subscribers by the event linker during event emission. Instead of traversing the entire event linker registry ($T$) to remove each one-time subscriber involved in the event emission ($N$), it now iterates solely through the linked events ($L$). This improvement is particularly beneficial when all subscribers engaged in the event emission are one-time subscriptions. However, in scenarios without one-time subscribers during an event emission, both implementations have the same time complexity of $O(N)$.
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;This optimization results from the more efficient management of one-time subscribers by the event linker during event emission. Instead of traversing the entire event linker registry to remove each one-time subscriber involved in the event emission, it now iterates solely through the linked events.
 
 - Major optimizations have been implemented for the `EventLinker` class through the integration of the `MultiBidict` data structure. This data structure is a multikeyed, multivalued bidirectional dictionary implementation that enables efficient lookups, updates, and deletions of events and their corresponding subscribers. Despite utilizing a bidirectional mapping structure, its memory footprint remains minimal due to the use of references between keys and values instead of duplication, which limits the impact to the additional dictionary and set data structures.
 
-	- The time complexity of the method `get_subscribers()`, previously known as `get_event_handlers()`, has been significantly reduced from $O(T)$ to $O(S)$, where:
-		- $T$: Denotes the total number of elements in the event linker registry, encompassing all subscriber lists combined.
-		- $S$: Corresponds to the total number of registered subscribers without duplications.
+	- The time complexity of the method `get_subscribers()`, previously known as `get_event_handlers()`, has been reduced from $O(E \cdot S)$ to $O(S)$, where:
+    	- $E$: Denotes the total number of events in the event linker.
+    	- $S$: Corresponds to the total number of subscribers in the event linker.
 
-	- The time complexity of the `get_events_from_subscribers()`, previously known as `get_events_by_event_handler()`, has been reduced from $O(T)$ to $O(L)$, where:
-		- $T$: Denotes the total number of elements in the event linker registry, encompassing all subscriber lists combined.
-		- $L$: Represents the total number of events linked to the given subscriber.
+	- The time complexity of the `get_events_from_subscribers()`, previously known as `get_events_by_event_handler()`, has been reduced from $O(E \cdot S)$ to $O(E)$, where:
+    	- $E$: Denotes the total number of events in the event linker.
+    	- $S$: Corresponds to the total number of subscribers in the event linker.
 
-          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;It is important to note that the new method of `get_events_from_subscribers()` can receive not only one subscriber as before but also multiple subscribers to retrieve the associated events. In cases where multiple subscribers are provided, the time complexity of the overall method would be $O(N \cdot L_{avg})$, where $N$ corresponds to the number of distinct subscribers for which to query the linked events, and $L_{avg}$ represents the average number of events associated with each subscriber.
+    - The time complexity of the method `remove()`, previously known as `unsubscribe()`, has been enhanced from $O(S)$ to a constant time complexity of $O(1)$, where:
+    	- $S$: Corresponds to the total number of subscribers in the event linker.
 
-	- The time complexity of the method `remove_subscriber()`, previously known as `remove_event_handler()`, has been significantly reduced from $O(T)$ to $O(L)$, where:
-		- $T$: Denotes the total number of elements in the event linker registry, encompassing all subscriber lists combined.
-		- $L$: Represents the total number of events linked to the given subscriber.
-
- 	- The time complexity of the method `remove()`, previously known as `unsubscribe()`, has been enhanced from $O(S)$ to a constant time complexity of $O(1)$, where $S$ represents the size of the subscriber list registered for the given event. It is important to note that while the previous comparison was made based on the `unsubscribe()` method handling just one event, under similar conditions to the `remove()` method, the previous implementation actually supported removing the subscriber from multiple events. The achievement of the new $O(1)$ time complexity is based on the efficiency of `set` operations in Python.
+	- The time complexity of the method `remove_subscriber()`, previously known as `remove_event_handler()`, has been reduced from $O(E \cdot S)$ to $O(E)$, where:
+    	- $E$: Denotes the total number of events in the event linker.
+    	- $S$: Corresponds to the total number of subscribers in the event linker.
 
 - Introduced `__slots__` in several classes to optimize memory usage and enhance attribute access speed.
 

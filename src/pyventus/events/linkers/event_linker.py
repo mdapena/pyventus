@@ -660,7 +660,7 @@ class EventLinker:
                 for event in unique_events:
                     if cls.__registry.get_value_count_from_key(event) >= cls.__max_subscribers:
                         raise PyventusException(
-                            f"The event '{event}' has exceeded the maximum number of subscribers allowed. "
+                            f"The event '{event}' has exceeded the maximum number of subscribers allowed."
                         )
 
             # Create a new event subscriber

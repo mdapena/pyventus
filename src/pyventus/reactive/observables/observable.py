@@ -9,7 +9,7 @@ from typing_extensions import Self, overload, override
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
 from ...core.subscriptions import SubscriptionContext
-from ...core.utils import attributes_repr
+from ...core.utils import attributes_repr, summarized_repr
 from ..subscribers import CompleteCallbackType, ErrorCallbackType, NextCallbackType, Subscriber
 
 _OutT = TypeVar("_OutT", covariant=True)
@@ -252,6 +252,16 @@ class Observable(ABC, Generic[_OutT]):
         """
         return self.__thread_lock
 
+    def _log_subscriber_exception(self, subscriber: Subscriber[_OutT], exception: Exception) -> None:
+        """
+        Log an unhandled exception that occurred during the execution of a subscriber's callback.
+
+        :param subscriber: The subscriber instance that encountered the exception.
+        :param exception: The exception instance to be logged.
+        :return: None.
+        """
+        self.__logger.error(action="Exception:", msg=f"{repr(exception)} at {summarized_repr(subscriber)}.")
+
     @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
     async def _emit_next(self, value: _OutT) -> None:  # type: ignore[misc]
         """
@@ -273,7 +283,7 @@ class Observable(ABC, Generic[_OutT]):
             if self.__logger.debug_enabled:
                 self.__logger.debug(
                     action="Emitting Next Value:",
-                    msg=f"No subscribers to notify of the next value: {value}",
+                    msg=f"No subscribers to notify of the next value: {value}.",
                 )
             return
 
@@ -281,11 +291,26 @@ class Observable(ABC, Generic[_OutT]):
         if self.__logger.debug_enabled:
             self.__logger.debug(
                 action="Emitting Next Value:",
-                msg=f"Notifying {len(subscribers)} subscribers of the next value: {value}",
+                msg=f"Notifying {len(subscribers)} subscribers of the next value: {value}.",
             )
 
-        # Notify all subscribers concurrently.
-        await gather(*[subscriber.next(value) for subscriber in subscribers], return_exceptions=True)
+        # If there is only one subscriber, handle it directly.
+        if len(subscribers) == 1:
+            try:
+                # Notify the subscriber and await its response.
+                subscriber: Subscriber[_OutT] = subscribers.pop()
+                await subscriber.next(value)
+            except Exception as e:
+                # Log any exceptions that occur during notification.
+                self._log_subscriber_exception(subscriber, e)
+        else:
+            # Notify all subscribers concurrently.
+            results = await gather(*[subscriber.next(value) for subscriber in subscribers], return_exceptions=True)
+
+            # Log any exceptions that occur during notification.
+            for subscriber, result in zip(subscribers, results, strict=True):
+                if isinstance(result, Exception):
+                    self._log_subscriber_exception(subscriber, result)
 
     @final
     async def _emit_error(self, exception: Exception) -> None:
@@ -316,11 +341,26 @@ class Observable(ABC, Generic[_OutT]):
         if self.__logger.debug_enabled:
             self.__logger.debug(
                 action="Emitting Error:",
-                msg=f"Notifying {len(subscribers)} subscribers of the error: {exception}",
+                msg=f"Notifying {len(subscribers)} subscribers of the error: {exception}.",
             )
 
-        # Notify all subscribers of the error concurrently.
-        await gather(*[subscriber.error(exception) for subscriber in subscribers], return_exceptions=True)
+        # If there is only one subscriber, handle it directly.
+        if len(subscribers) == 1:
+            try:
+                # Notify the subscriber and await its response.
+                subscriber: Subscriber[_OutT] = subscribers.pop()
+                await subscriber.error(exception)
+            except Exception as e:
+                # Log any exceptions that occur during notification.
+                self._log_subscriber_exception(subscriber, e)
+        else:
+            # Notify all subscribers concurrently.
+            results = await gather(*[subscriber.error(exception) for subscriber in subscribers], return_exceptions=True)
+
+            # Log any exceptions that occur during notification.
+            for subscriber, result in zip(subscribers, results, strict=True):
+                if isinstance(result, Exception):
+                    self._log_subscriber_exception(subscriber, result)
 
     @final
     async def _emit_complete(self) -> None:
@@ -356,8 +396,23 @@ class Observable(ABC, Generic[_OutT]):
                 msg=f"Notifying {len(subscribers)} subscribers of completion.",
             )
 
-        # Notify all subscribers of the completion concurrently.
-        await gather(*[subscriber.complete() for subscriber in subscribers], return_exceptions=True)
+        # If there is only one subscriber, handle it directly.
+        if len(subscribers) == 1:
+            try:
+                # Notify the subscriber and await its response.
+                subscriber: Subscriber[_OutT] = subscribers.pop()
+                await subscriber.complete()
+            except Exception as e:
+                # Log any exceptions that occur during notification.
+                self._log_subscriber_exception(subscriber, e)
+        else:
+            # Notify all subscribers concurrently.
+            results = await gather(*[subscriber.complete() for subscriber in subscribers], return_exceptions=True)
+
+            # Log any exceptions that occur during notification.
+            for subscriber, result in zip(subscribers, results, strict=True):
+                if isinstance(result, Exception):
+                    self._log_subscriber_exception(subscriber, result)
 
     def get_subscribers(self) -> set[Subscriber[_OutT]]:
         """

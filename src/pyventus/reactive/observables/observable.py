@@ -18,7 +18,7 @@ _OutT = TypeVar("_OutT", covariant=True)
 _SubCtxT = TypeVar("_SubCtxT", contravariant=True)
 """A generic type representing the value type for the Observable and Subscriber within the subscription context."""
 
-_SubCtxO = TypeVar("_SubCtxO", bound="Observable")
+_SubCtxO = TypeVar("_SubCtxO", bound="Observable")  # type: ignore[type-arg]
 """A generic type representing the observable type used in the subscription context."""
 
 

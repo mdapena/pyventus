@@ -4,7 +4,7 @@ from sys import gettrace
 from threading import Lock
 from typing import Generic, TypeVar, final
 
-from typing_extensions import overload, override
+from typing_extensions import Self, overload, override
 
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
@@ -17,6 +17,9 @@ _OutT = TypeVar("_OutT", covariant=True)
 
 _SubCtxT = TypeVar("_SubCtxT", contravariant=True)
 """A generic type representing the value type for the Observable and Subscriber within the subscription context."""
+
+_SubCtxO = TypeVar("_SubCtxO", bound="Observable")
+"""A generic type representing the observable type used in the subscription context."""
 
 
 class Observable(ABC, Generic[_OutT]):
@@ -44,7 +47,7 @@ class Observable(ABC, Generic[_OutT]):
     """
 
     @final
-    class ObservableSubCtx(Generic[_SubCtxT], SubscriptionContext["Observable[_SubCtxT]", Subscriber[_SubCtxT]]):
+    class ObservableSubCtx(Generic[_SubCtxO, _SubCtxT], SubscriptionContext[_SubCtxO, Subscriber[_SubCtxT]]):
         """
         A context manager for Observable subscriptions.
 
@@ -70,7 +73,7 @@ class Observable(ABC, Generic[_OutT]):
         # Attributes for the ObservableSubCtx
         __slots__ = ("__next_callback", "__error_callback", "__complete_callback", "__force_async")
 
-        def __init__(self, observable: "Observable[_SubCtxT]", force_async: bool, is_stateful: bool) -> None:
+        def __init__(self, observable: _SubCtxO, force_async: bool, is_stateful: bool) -> None:
             """
             Initialize an instance of `ObservableSubCtx`.
 
@@ -148,7 +151,10 @@ class Observable(ABC, Generic[_OutT]):
 
         def __call__(
             self, callback: NextCallbackType[_SubCtxT]
-        ) -> tuple[NextCallbackType[_SubCtxT], "Observable.ObservableSubCtx[_SubCtxT]"] | NextCallbackType[_SubCtxT]:
+        ) -> (
+            tuple[NextCallbackType[_SubCtxT], "Observable.ObservableSubCtx[_SubCtxO, _SubCtxT]"]
+            | NextCallbackType[_SubCtxT]
+        ):
             """
             Subscribe the decorated callback as the observer's `next` function for the specified observable.
 
@@ -385,7 +391,7 @@ class Observable(ABC, Generic[_OutT]):
     @overload
     def subscribe(
         self, *, force_async: bool = False, stateful_subctx: bool = False
-    ) -> "Observable.ObservableSubCtx[_OutT]": ...
+    ) -> "Observable.ObservableSubCtx[Self, _OutT]": ...
 
     @overload
     def subscribe(
@@ -405,7 +411,7 @@ class Observable(ABC, Generic[_OutT]):
         *,
         force_async: bool = False,
         stateful_subctx: bool = False,
-    ) -> Subscriber[_OutT] | "Observable.ObservableSubCtx[_OutT]":
+    ) -> Subscriber[_OutT] | "Observable.ObservableSubCtx[Self, _OutT]":
         """
         Subscribe the specified callbacks to the current `Observable`.
 
@@ -433,7 +439,7 @@ class Observable(ABC, Generic[_OutT]):
         """
         if next_callback is None and error_callback is None and complete_callback is None:
             # If no callbacks are provided, create a subscription context for progressive definition.
-            return Observable.ObservableSubCtx[_OutT](
+            return Observable.ObservableSubCtx[Self, _OutT](
                 observable=self,
                 force_async=force_async,
                 is_stateful=stateful_subctx,

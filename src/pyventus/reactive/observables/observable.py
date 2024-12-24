@@ -260,7 +260,7 @@ class Observable(ABC, Generic[_OutT]):
         :param exception: The exception instance to be logged.
         :return: None.
         """
-        self.__logger.error(action="Exception:", msg=f"{repr(exception)} at {summarized_repr(subscriber)}.")
+        self.__logger.error(action="Exception:", msg=f"{exception!r} at {summarized_repr(subscriber)}.")
 
     @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
     async def _emit_next(self, value: _OutT) -> None:  # type: ignore[misc]
@@ -274,8 +274,10 @@ class Observable(ABC, Generic[_OutT]):
         """
         # Acquire lock to ensure thread safety.
         with self.__thread_lock:
-            # Copy current subscribers to avoid modification during iteration.
-            subscribers: set[Subscriber[_OutT]] = self.__subscribers.copy()
+            # Get all subscribers and filter those with a next callback to optimize execution.
+            subscribers: list[Subscriber[_OutT]] = [
+                subscriber for subscriber in self.__subscribers if subscriber.has_next_callback
+            ]
 
         # Exit if there are no subscribers.
         if not subscribers:
@@ -283,7 +285,7 @@ class Observable(ABC, Generic[_OutT]):
             if self.__logger.debug_enabled:
                 self.__logger.debug(
                     action="Emitting Next Value:",
-                    msg=f"No subscribers to notify of the next value: {value}.",
+                    msg=f"No subscribers to notify of the next value: {value!r}.",
                 )
             return
 
@@ -291,7 +293,7 @@ class Observable(ABC, Generic[_OutT]):
         if self.__logger.debug_enabled:
             self.__logger.debug(
                 action="Emitting Next Value:",
-                msg=f"Notifying {len(subscribers)} subscribers of the next value: {value}.",
+                msg=f"Notifying {len(subscribers)} subscribers of the next value: {value!r}.",
             )
 
         # If there is only one subscriber, handle it directly.
@@ -324,24 +326,25 @@ class Observable(ABC, Generic[_OutT]):
         """
         # Acquire lock to ensure thread safety.
         with self.__thread_lock:
-            # Copy current subscribers to avoid modification during iteration.
-            subscribers: set[Subscriber[_OutT]] = self.__subscribers.copy()
+            # Get all subscribers and filter those with an error callback to optimize execution.
+            subscribers: list[Subscriber[_OutT]] = [
+                subscriber for subscriber in self.__subscribers if subscriber.has_error_callback
+            ]
 
         # Exit if there are no subscribers.
         if not subscribers:
-            # Log a debug message if debug mode is enabled.
-            if self.__logger.debug_enabled:
-                self.__logger.debug(
-                    action="Emitting Error:",
-                    msg=f"No subscribers to notify of the error: {exception}.",
-                )
+            # Log an error message
+            self.__logger.error(
+                action="Emitting Error:",
+                msg=f"No subscribers to notify of the error: {exception!r}.",
+            )
             return
 
         # Log the error emission if debug mode is enabled.
         if self.__logger.debug_enabled:
             self.__logger.debug(
                 action="Emitting Error:",
-                msg=f"Notifying {len(subscribers)} subscribers of the error: {exception}.",
+                msg=f"Notifying {len(subscribers)} subscribers of the error: {exception!r}.",
             )
 
         # If there is only one subscriber, handle it directly.
@@ -373,8 +376,10 @@ class Observable(ABC, Generic[_OutT]):
         """
         # Acquire lock to ensure thread safety.
         with self.__thread_lock:
-            # Copy current subscribers to avoid modification during iteration.
-            subscribers: set[Subscriber[_OutT]] = self.__subscribers.copy()
+            # Get all subscribers and filter those with a complete callback to optimize execution.
+            subscribers: list[Subscriber[_OutT]] = [
+                subscriber for subscriber in self.__subscribers if subscriber.has_complete_callback
+            ]
 
             # Unsubscribe all observers since the stream has completed.
             self.__subscribers.clear()

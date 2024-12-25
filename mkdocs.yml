@@ -63,6 +63,22 @@ extra:
       link: https://ve.linkedin.com/in/manuel-da-pena/en
     - icon: fontawesome/brands/github
       link: https://github.com/mdapena
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+    feedback:
+      title: Was this page helpful?
+      ratings:
+        - icon: material/thumb-up-outline
+          name: This page was helpful
+          data: 1
+          note: >-
+            Thanks for your feedback!
+        - icon: material/thumb-down-outline
+          name: This page could be improved
+          data: 0
+          note: >-
+            Thanks for your feedback!
 
 # Plugins
 plugins:

@@ -36,3 +36,21 @@ class TestObservableUtils:
         assert get_private_attr(observable_task_callback, "__callable") is callback
         assert get_private_attr(observable_task, "__args") == args
         assert get_private_attr(observable_task, "__kwargs") == kwargs
+
+    # =================================
+
+    @pytest.mark.parametrize(
+        ["debug"],
+        [(False,), (True,)],
+    )
+    def test_as_observable_task_decorator_with_parameters(self, debug: bool) -> None:
+        # Arrange
+        callback = CallableMock.Sync()
+        decorated_callback = as_observable_task(debug=debug)(callback)
+
+        # Act
+        observable_task = decorated_callback()
+
+        # Assert
+        assert isinstance(observable_task, ObservableTask)
+        assert getattr(observable_task, "_Observable__logger").debug_enabled is debug  # noqa: B009

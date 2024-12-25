@@ -21,7 +21,7 @@ def as_observable_task(
 
 @overload
 def as_observable_task(
-    *, debug: bool | None
+    *, debug: bool
 ) -> Callable[[Callable[_P, ObservableTaskCallbackReturnType[_OutT]]], Callable[_P, ObservableTask[_OutT]]]: ...
 
 

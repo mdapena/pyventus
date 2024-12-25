@@ -333,7 +333,7 @@ class Observable(ABC, Generic[_OutT]):
 
         # Exit if there are no subscribers.
         if not subscribers:
-            # Log an error message
+            # Log an error message.
             self.__logger.error(
                 action="Emitting Error:",
                 msg=f"No subscribers to notify of the error: {exception!r}.",

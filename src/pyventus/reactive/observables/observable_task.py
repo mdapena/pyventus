@@ -213,7 +213,7 @@ class ObservableTask(Generic[_OutT], Observable[_OutT]):
 
         -   The execution behavior within the AsyncIO processing service
             depends on whether an AsyncIO event loop is running. For more
-            information, refer to the :class:`AsyncIOProcessingService`.
+            information, refer to the `AsyncIOProcessingService`.
 
         :param executor: An optional thread-based executor instance for
             processing the `ObservableTask`'s execution.

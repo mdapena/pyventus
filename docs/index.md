@@ -237,7 +237,7 @@ async def simple_counter(stop: int):
 obs = simple_counter(stop=16)
 obs.subscribe(
     next_callback=lambda val: print(f"Received: {val}"),
-    complete_callback=lambda: print("Done!"),
+    complete_callback=lambda: print("All done!"),
 )
 obs()
 ```
@@ -906,7 +906,7 @@ main()
     </p>
 
     <p style="text-align: center;">
-        <img style="border-radius: 0.5rem;" src="images/examples/debug-mode-example.png" alt="...">
+        <img style="border-radius: 0.5rem;" src="images/examples/debug-mode-example.png">
     </p>
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"

@@ -593,7 +593,7 @@ class TestObservable:
     # Test Cases for _emit_next()
     # =================================
 
-    async def test_emit_next(self) -> None:
+    async def test_emit_next_multicast(self) -> None:
         # Arrange
         value = object()
         subject = Subject[Any]()
@@ -615,7 +615,7 @@ class TestObservable:
 
     # =================================
 
-    async def test_emit_next_single_subscriber(self) -> None:
+    async def test_emit_next_unicast(self) -> None:
         # Arrange
         value = object()
         subject = Subject[Any]()
@@ -634,7 +634,7 @@ class TestObservable:
 
     # =================================
 
-    async def test_emit_next_with_exceptions_and_different_values(self) -> None:
+    async def test_emit_next_with_exceptions_and_different_values_multicast(self) -> None:
         # Arrange
         value1 = object()
         value2 = object()
@@ -656,7 +656,7 @@ class TestObservable:
 
     # =================================
 
-    async def test_emit_next_with_exceptions_and_values_single_subscriber(self) -> None:
+    async def test_emit_next_with_exceptions_and_values_unicast(self) -> None:
         # Arrange
         value1 = object()
         value2 = object()
@@ -679,7 +679,7 @@ class TestObservable:
     # Test Cases for _emit_error()
     # =================================
 
-    async def test_emit_error(self) -> None:
+    async def test_emit_error_multicast(self) -> None:
         # Arrange
         exception = Exception()
         subject = Subject[Any]()
@@ -701,7 +701,7 @@ class TestObservable:
 
     # =================================
 
-    async def test_emit_error_single_subscriber(self) -> None:
+    async def test_emit_error_unicast(self) -> None:
         # Arrange
         exception = Exception()
         subject = Subject[Any]()
@@ -720,7 +720,7 @@ class TestObservable:
 
     # =================================
 
-    async def test_emit_error_with_exceptions_and_different_values(self) -> None:
+    async def test_emit_error_with_exceptions_and_different_values_multicast(self) -> None:
         # Arrange
         exception1 = Exception()
         exception2 = Exception()
@@ -742,7 +742,7 @@ class TestObservable:
 
     # =================================
 
-    async def test_emit_error_with_exceptions_and_different_values_single_subscriber(self) -> None:
+    async def test_emit_error_with_exceptions_and_different_values_unicast(self) -> None:
         # Arrange
         exception1 = Exception()
         exception2 = Exception()
@@ -765,7 +765,7 @@ class TestObservable:
     # Test Cases for _emit_complete()
     # =================================
 
-    async def test_emit_complete(self) -> None:
+    async def test_emit_complete_multicast(self) -> None:
         # Arrange
         subject = Subject[Any]()
         callback = CallableMock.Sync()
@@ -784,7 +784,7 @@ class TestObservable:
 
     # =================================
 
-    async def test_emit_complete_single_subscriber(self) -> None:
+    async def test_emit_complete_unicast(self) -> None:
         # Arrange
         subject = Subject[Any]()
         callback = CallableMock.Sync()
@@ -801,7 +801,7 @@ class TestObservable:
 
     # =================================
 
-    async def test_emit_complete_with_exceptions(self) -> None:
+    async def test_emit_complete_with_exceptions_multicast(self) -> None:
         # Arrange
         subject = Subject[Any]()
         callback = CallableMock.Sync(raise_exception=Exception())
@@ -819,7 +819,7 @@ class TestObservable:
 
     # =================================
 
-    async def test_emit_complete_with_exceptions_single_subscriber(self) -> None:
+    async def test_emit_complete_with_exceptions_unicast(self) -> None:
         # Arrange
         subject = Subject[Any]()
         callback = CallableMock.Sync(raise_exception=Exception())

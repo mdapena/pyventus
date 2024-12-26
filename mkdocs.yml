@@ -21,6 +21,12 @@ theme:
   logo: images/logo/pyventus-logo-white.png
   favicon: images/favicon/pyventus-logo.ico
   palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
     - media: '(prefers-color-scheme: light)'
       scheme: default
       primary: cyan
@@ -28,13 +34,14 @@ theme:
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
+    # Palette toggle for dark mode
     - media: '(prefers-color-scheme: dark)'
       scheme: slate
       primary: cyan
       accent: amber
       toggle:
         icon: material/weather-sunny
-        name: Switch to light mode
+        name: Switch to system preference
   features:
     - navigation.tabs
     - navigation.indexes

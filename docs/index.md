@@ -113,7 +113,7 @@ pip install pyventus
 </div>
 
 <p style="text-align: justify;">
-    &emsp;&emsp;Pyventus by default relies on the Python standard library and <b>requires Python 3.10 or higher</b> with no additional dependencies aside from <code>typing-extensions</code>, which is primarily used to support advanced typing features in older versions of Python. However, this package also includes alternative integrations to access additional features such as asynchronous processing with Redis Queue and Celery. For more information on this matter, please refer to the <a href="getting-started/#optional-dependencies">Optional Dependencies</a> section.
+    &emsp;&emsp;Pyventus by default relies on the Python standard library and <b>requires Python 3.10 or higher</b> with no additional dependencies aside from <a href="https://pypi.org/project/typing-extensions/" target="_blank"><code>typing-extensions</code></a>, which is primarily used to support advanced typing features in older versions of Python. However, this package also includes alternative integrations to access additional features such as asynchronous processing with Redis Queue and Celery. For more information on this matter, please refer to the <a href="getting-started/#optional-dependencies">Optional Dependencies</a> section.
 </p>
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"

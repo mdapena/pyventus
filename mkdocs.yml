@@ -167,7 +167,7 @@ nav:
           - PyventusException: api/core/exceptions/pyventus_exception.md
           - PyventusImportException: api/core/exceptions/pyventus_import_exception.md
         - Processing:
-          - ProcessingService: api/core/processing/processing_service.md
+          - api/core/processing/index.md
           - AsyncIOProcessingService: api/core/processing/asyncio_processing_service.md
           - CeleryProcessingService: api/core/processing/celery_processing_service.md
           - ExecutorProcessingService: api/core/processing/executor_processing_service.md
@@ -179,7 +179,7 @@ nav:
           - Unsubscribable: api/core/subscriptions/unsubscribable.md
       - Events:
         - api/events/index.md
-        - "EventEmitter":
+        - EventEmitter:
           - api/events/emitters/index.md
           - EventEmitter Utils: api/events/emitters/event_emitter_utils.md
         - EventHandler: api/events/handlers/event_handler.md

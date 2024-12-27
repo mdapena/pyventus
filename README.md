@@ -1,5 +1,6 @@
 [//]: # "--------------------------------------------------------------------------------------------------------------"
 
+<br>
 <p align="center">
    <img src="https://raw.githubusercontent.com/mdapena/pyventus/refs/heads/master/docs/images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="750px">
 </p>
@@ -882,7 +883,7 @@ main()
 [//]: # "--------------------------------------------------------------------------------------------------------------"
 
 -   <p style="text-align: justify;"><a href="#ah-debugging-utilities" name="ah-debugging-utilities" title="Permanent link">Debugging Utilities</a> ─
-        Debugging plays a crucial role in the development of asynchronous and event-driven applications, as it allows you to understand what’s going on under the hood and provides valuable insights when troubleshooting errors. For this reason, Pyventus offers a clear string representation of each component, along with a debug mode flag that lets you view the package's logs for a better understanding of the processes at work.
+        Debugging plays a crucial role in the development of asynchronous and event-driven applications, as it allows you to understand what’s going on under the hood and provides valuable insights when troubleshooting errors. For this reason, Pyventus offers a clear string representation of each component, along with a debug mode flag that lets you view the package's logs to better understand the processes at work.
     </p>
 
     <p style="text-align: center;">

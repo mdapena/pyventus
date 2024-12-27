@@ -142,7 +142,7 @@ hide:
 
 ##### Benchmarks { id="0.7.0-benchmarks" }
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finally, to provide a quick visualization of the overall improvements and illustrate the time complexity enhancements of this upcoming release, a series of benchmarks were conducted. These benchmarks were specifically designed for the event emission process, as it encompasses all event-driven features and provides a clear overview of the improvements. Following this, a detailed explanation of the benchmarks and their results is presented.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Finally, to provide a quick visualization of the overall improvements and illustrate the time complexity enhancements of this release, a series of benchmarks were conducted. These benchmarks were specifically designed for the event emission process, as it encompasses all event-driven features and provides a clear overview of the improvements. Following this, a detailed explanation of the benchmarks and their results is presented.
 
 -   **Methodology:** The benchmarks utilized a volume testing approach to assess how different subscription counts affect the event emission time.
 

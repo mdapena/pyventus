@@ -43,6 +43,9 @@ theme:
         icon: material/weather-sunny
         name: Switch to system preference
   features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
     - navigation.tabs
     - navigation.indexes
     - navigation.top

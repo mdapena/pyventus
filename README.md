@@ -3,6 +3,7 @@
 <p align="center">
    <img src="https://raw.githubusercontent.com/mdapena/pyventus/refs/heads/master/docs/images/logo/pyventus-logo-name-slogan.svg" alt="Pyventus" width="750px">
 </p>
+<br>
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"
 
@@ -69,12 +70,12 @@ Whether your code is synchronous or asynchronous, Pyventus allows you to seamles
 With Pyventus, you have full control over your asynchronous workflows, allowing you to customize how they are processed upon completion, whether they succeed or encounter errors.
 </li>
 
-<li><b>Intuitive & User-Friendly API</b> ─
-Pyventus provides a user-friendly API that simplifies the process of working with event-driven and reactive paradigms, enabling you to organize your code around discrete actions and their responses.
-</li>
-
 <li><b>Comprehensive Documentation</b> ─
 Pyventus offers a comprehensive documentation suite that includes API references, usage examples, and tutorials to effectively leverage all the features and capabilities of the library.
+</li>
+
+<li><b>Intuitive & User-Friendly API</b> ─
+Pyventus provides a user-friendly API that simplifies the process of working with event-driven and reactive paradigms, enabling you to organize your code around discrete actions and their responses.
 </li>
 
 </ul>
@@ -87,11 +88,9 @@ Pyventus offers a comprehensive documentation suite that includes API references
  &emsp;&emsp;Pyventus is published as a <a href="https://pypi.org/project/pyventus/" target="_blank">Python package</a> and can be installed using <code>pip</code>, ideally in a <a href="https://realpython.com/python-virtual-environments-a-primer/" target="_blank">virtual environment</a> for proper dependency isolation. To get started, open up a terminal and install Pyventus with the following command:
 </p>
 
-<div class="terminal-command">
 ```console
 pip install pyventus
 ```
-</div>
 
 <p style="text-align: justify;">
     &emsp;&emsp;Pyventus by default relies on the Python standard library and <b>requires Python 3.10 or higher</b> with no additional dependencies aside from <a href="https://pypi.org/project/typing-extensions/" target="_blank"><code>typing-extensions</code></a>, which is primarily used to support advanced typing features in older versions of Python. However, this package also includes alternative integrations to access additional features such as asynchronous processing with Redis Queue and Celery. For more information on this matter, please refer to the <a href="https://mdapena.github.io/pyventus/0.7/getting-started/#optional-dependencies">Optional Dependencies</a> section.

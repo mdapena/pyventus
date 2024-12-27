@@ -4,12 +4,12 @@ from sys import gettrace
 from threading import Lock
 from typing import Generic, TypeVar, final
 
-from typing_extensions import overload, override
+from typing_extensions import Self, overload, override
 
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
 from ...core.subscriptions import SubscriptionContext
-from ...core.utils import attributes_repr
+from ...core.utils import attributes_repr, summarized_repr
 from ..subscribers import CompleteCallbackType, ErrorCallbackType, NextCallbackType, Subscriber
 
 _OutT = TypeVar("_OutT", covariant=True)
@@ -17,6 +17,9 @@ _OutT = TypeVar("_OutT", covariant=True)
 
 _SubCtxT = TypeVar("_SubCtxT", contravariant=True)
 """A generic type representing the value type for the Observable and Subscriber within the subscription context."""
+
+_SubCtxO = TypeVar("_SubCtxO", bound="Observable")  # type: ignore[type-arg]
+"""A generic type representing the observable type used in the subscription context."""
 
 
 class Observable(ABC, Generic[_OutT]):
@@ -44,7 +47,7 @@ class Observable(ABC, Generic[_OutT]):
     """
 
     @final
-    class ObservableSubCtx(Generic[_SubCtxT], SubscriptionContext["Observable[_SubCtxT]", Subscriber[_SubCtxT]]):
+    class ObservableSubCtx(Generic[_SubCtxO, _SubCtxT], SubscriptionContext[_SubCtxO, Subscriber[_SubCtxT]]):
         """
         A context manager for Observable subscriptions.
 
@@ -70,7 +73,7 @@ class Observable(ABC, Generic[_OutT]):
         # Attributes for the ObservableSubCtx
         __slots__ = ("__next_callback", "__error_callback", "__complete_callback", "__force_async")
 
-        def __init__(self, observable: "Observable[_SubCtxT]", force_async: bool, is_stateful: bool) -> None:
+        def __init__(self, observable: _SubCtxO, force_async: bool, is_stateful: bool) -> None:
             """
             Initialize an instance of `ObservableSubCtx`.
 
@@ -148,7 +151,10 @@ class Observable(ABC, Generic[_OutT]):
 
         def __call__(
             self, callback: NextCallbackType[_SubCtxT]
-        ) -> tuple[NextCallbackType[_SubCtxT], "Observable.ObservableSubCtx[_SubCtxT]"] | NextCallbackType[_SubCtxT]:
+        ) -> (
+            tuple[NextCallbackType[_SubCtxT], "Observable.ObservableSubCtx[_SubCtxO, _SubCtxT]"]
+            | NextCallbackType[_SubCtxT]
+        ):
             """
             Subscribe the decorated callback as the observer's `next` function for the specified observable.
 
@@ -246,6 +252,16 @@ class Observable(ABC, Generic[_OutT]):
         """
         return self.__thread_lock
 
+    def _log_subscriber_exception(self, subscriber: Subscriber[_OutT], exception: Exception) -> None:
+        """
+        Log an unhandled exception that occurred during the execution of a subscriber's callback.
+
+        :param subscriber: The subscriber instance that encountered the exception.
+        :param exception: The exception instance to be logged.
+        :return: None.
+        """
+        self.__logger.error(action="Exception:", msg=f"{exception!r} at {summarized_repr(subscriber)}.")
+
     @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
     async def _emit_next(self, value: _OutT) -> None:  # type: ignore[misc]
         """
@@ -258,8 +274,10 @@ class Observable(ABC, Generic[_OutT]):
         """
         # Acquire lock to ensure thread safety.
         with self.__thread_lock:
-            # Copy current subscribers to avoid modification during iteration.
-            subscribers: set[Subscriber[_OutT]] = self.__subscribers.copy()
+            # Get all subscribers and filter those with a next callback to optimize execution.
+            subscribers: list[Subscriber[_OutT]] = [
+                subscriber for subscriber in self.__subscribers if subscriber.has_next_callback
+            ]
 
         # Exit if there are no subscribers.
         if not subscribers:
@@ -267,7 +285,7 @@ class Observable(ABC, Generic[_OutT]):
             if self.__logger.debug_enabled:
                 self.__logger.debug(
                     action="Emitting Next Value:",
-                    msg=f"No subscribers to notify of the next value: {value}",
+                    msg=f"No subscribers to notify of the next value: {value!r}.",
                 )
             return
 
@@ -275,11 +293,26 @@ class Observable(ABC, Generic[_OutT]):
         if self.__logger.debug_enabled:
             self.__logger.debug(
                 action="Emitting Next Value:",
-                msg=f"Notifying {len(subscribers)} subscribers of the next value: {value}",
+                msg=f"Notifying {len(subscribers)} subscribers of the next value: {value!r}.",
             )
 
-        # Notify all subscribers concurrently.
-        await gather(*[subscriber.next(value) for subscriber in subscribers], return_exceptions=True)
+        # If there is only one subscriber, handle it directly.
+        if len(subscribers) == 1:
+            try:
+                # Notify the subscriber and await its response.
+                subscriber: Subscriber[_OutT] = subscribers.pop()
+                await subscriber.next(value)
+            except Exception as e:
+                # Log any exceptions that occur during notification.
+                self._log_subscriber_exception(subscriber, e)
+        else:
+            # Notify all subscribers concurrently.
+            results = await gather(*[subscriber.next(value) for subscriber in subscribers], return_exceptions=True)
+
+            # Log any exceptions that occur during notification.
+            for subscriber, result in zip(subscribers, results, strict=True):
+                if isinstance(result, Exception):
+                    self._log_subscriber_exception(subscriber, result)
 
     @final
     async def _emit_error(self, exception: Exception) -> None:
@@ -293,28 +326,44 @@ class Observable(ABC, Generic[_OutT]):
         """
         # Acquire lock to ensure thread safety.
         with self.__thread_lock:
-            # Copy current subscribers to avoid modification during iteration.
-            subscribers: set[Subscriber[_OutT]] = self.__subscribers.copy()
+            # Get all subscribers and filter those with an error callback to optimize execution.
+            subscribers: list[Subscriber[_OutT]] = [
+                subscriber for subscriber in self.__subscribers if subscriber.has_error_callback
+            ]
 
         # Exit if there are no subscribers.
         if not subscribers:
-            # Log a debug message if debug mode is enabled.
-            if self.__logger.debug_enabled:
-                self.__logger.debug(
-                    action="Emitting Error:",
-                    msg=f"No subscribers to notify of the error: {exception}.",
-                )
+            # Log an error message.
+            self.__logger.error(
+                action="Emitting Error:",
+                msg=f"No subscribers to notify of the error: {exception!r}.",
+            )
             return
 
         # Log the error emission if debug mode is enabled.
         if self.__logger.debug_enabled:
             self.__logger.debug(
                 action="Emitting Error:",
-                msg=f"Notifying {len(subscribers)} subscribers of the error: {exception}",
+                msg=f"Notifying {len(subscribers)} subscribers of the error: {exception!r}.",
             )
 
-        # Notify all subscribers of the error concurrently.
-        await gather(*[subscriber.error(exception) for subscriber in subscribers], return_exceptions=True)
+        # If there is only one subscriber, handle it directly.
+        if len(subscribers) == 1:
+            try:
+                # Notify the subscriber and await its response.
+                subscriber: Subscriber[_OutT] = subscribers.pop()
+                await subscriber.error(exception)
+            except Exception as e:
+                # Log any exceptions that occur during notification.
+                self._log_subscriber_exception(subscriber, e)
+        else:
+            # Notify all subscribers concurrently.
+            results = await gather(*[subscriber.error(exception) for subscriber in subscribers], return_exceptions=True)
+
+            # Log any exceptions that occur during notification.
+            for subscriber, result in zip(subscribers, results, strict=True):
+                if isinstance(result, Exception):
+                    self._log_subscriber_exception(subscriber, result)
 
     @final
     async def _emit_complete(self) -> None:
@@ -327,8 +376,10 @@ class Observable(ABC, Generic[_OutT]):
         """
         # Acquire lock to ensure thread safety.
         with self.__thread_lock:
-            # Copy current subscribers to avoid modification during iteration.
-            subscribers: set[Subscriber[_OutT]] = self.__subscribers.copy()
+            # Get all subscribers and filter those with a complete callback to optimize execution.
+            subscribers: list[Subscriber[_OutT]] = [
+                subscriber for subscriber in self.__subscribers if subscriber.has_complete_callback
+            ]
 
             # Unsubscribe all observers since the stream has completed.
             self.__subscribers.clear()
@@ -350,8 +401,23 @@ class Observable(ABC, Generic[_OutT]):
                 msg=f"Notifying {len(subscribers)} subscribers of completion.",
             )
 
-        # Notify all subscribers of the completion concurrently.
-        await gather(*[subscriber.complete() for subscriber in subscribers], return_exceptions=True)
+        # If there is only one subscriber, handle it directly.
+        if len(subscribers) == 1:
+            try:
+                # Notify the subscriber and await its response.
+                subscriber: Subscriber[_OutT] = subscribers.pop()
+                await subscriber.complete()
+            except Exception as e:
+                # Log any exceptions that occur during notification.
+                self._log_subscriber_exception(subscriber, e)
+        else:
+            # Notify all subscribers concurrently.
+            results = await gather(*[subscriber.complete() for subscriber in subscribers], return_exceptions=True)
+
+            # Log any exceptions that occur during notification.
+            for subscriber, result in zip(subscribers, results, strict=True):
+                if isinstance(result, Exception):
+                    self._log_subscriber_exception(subscriber, result)
 
     def get_subscribers(self) -> set[Subscriber[_OutT]]:
         """
@@ -385,7 +451,7 @@ class Observable(ABC, Generic[_OutT]):
     @overload
     def subscribe(
         self, *, force_async: bool = False, stateful_subctx: bool = False
-    ) -> "Observable.ObservableSubCtx[_OutT]": ...
+    ) -> "Observable.ObservableSubCtx[Self, _OutT]": ...
 
     @overload
     def subscribe(
@@ -405,7 +471,7 @@ class Observable(ABC, Generic[_OutT]):
         *,
         force_async: bool = False,
         stateful_subctx: bool = False,
-    ) -> Subscriber[_OutT] | "Observable.ObservableSubCtx[_OutT]":
+    ) -> Subscriber[_OutT] | "Observable.ObservableSubCtx[Self, _OutT]":
         """
         Subscribe the specified callbacks to the current `Observable`.
 
@@ -433,7 +499,7 @@ class Observable(ABC, Generic[_OutT]):
         """
         if next_callback is None and error_callback is None and complete_callback is None:
             # If no callbacks are provided, create a subscription context for progressive definition.
-            return Observable.ObservableSubCtx[_OutT](
+            return Observable.ObservableSubCtx[Self, _OutT](
                 observable=self,
                 force_async=force_async,
                 is_stateful=stateful_subctx,

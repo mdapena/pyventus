@@ -124,6 +124,33 @@ class Subscriber(Generic[_InT], Observer[_InT], Subscription):
             ),
         )
 
+    @property
+    def has_next_callback(self) -> bool:
+        """
+        Determine whether the subscriber has a next callback assigned.
+
+        :return: `True` if the subscriber has a next callback assigned; otherwise, `False`.
+        """
+        return self.__next_callback is not None
+
+    @property
+    def has_error_callback(self) -> bool:
+        """
+        Determine whether the subscriber has an error callback assigned.
+
+        :return: `True` if the subscriber has an error callback assigned; otherwise, `False`.
+        """
+        return self.__error_callback is not None
+
+    @property
+    def has_complete_callback(self) -> bool:
+        """
+        Determine whether the subscriber has a complete callback assigned.
+
+        :return: `True` if the subscriber has a complete callback assigned; otherwise, `False`.
+        """
+        return self.__complete_callback is not None
+
     @override
     async def next(self, value: _InT) -> None:
         if self.__next_callback is None:

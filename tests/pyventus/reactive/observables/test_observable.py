@@ -593,7 +593,7 @@ class TestObservable:
     # Test Cases for _emit_next()
     # =================================
 
-    async def test_emit_next(self) -> None:
+    async def test_emit_next_multicast(self) -> None:
         # Arrange
         value = object()
         subject = Subject[Any]()
@@ -615,7 +615,26 @@ class TestObservable:
 
     # =================================
 
-    async def test_emit_next_with_exceptions_and_different_values(self) -> None:
+    async def test_emit_next_unicast(self) -> None:
+        # Arrange
+        value = object()
+        subject = Subject[Any]()
+        callback = CallableMock.Sync()
+        subject.subscribe(next_callback=callback, error_callback=callback, complete_callback=callback)
+
+        # Act
+        await subject.next(value)
+        subject.remove_all()
+        await subject.next(value)
+
+        # Assert
+        assert callback.call_count == 1
+        assert callback.last_args == (value,)
+        assert callback.last_kwargs == {}
+
+    # =================================
+
+    async def test_emit_next_with_exceptions_and_different_values_multicast(self) -> None:
         # Arrange
         value1 = object()
         value2 = object()
@@ -636,9 +655,31 @@ class TestObservable:
         assert callback.last_kwargs == {}
 
     # =================================
+
+    async def test_emit_next_with_exceptions_and_values_unicast(self) -> None:
+        # Arrange
+        value1 = object()
+        value2 = object()
+        subject = Subject[Any]()
+        callback = CallableMock.Sync(raise_exception=Exception())
+        subject.subscribe(next_callback=callback, error_callback=callback, complete_callback=callback)
+
+        # Act
+        await subject.next(value1)
+        await subject.next(value2)
+        subject.remove_all()
+        await subject.next(value1)
+
+        # Assert
+        assert callback.call_count == 2
+        assert callback.last_args == (value2,)
+        assert callback.last_kwargs == {}
+
+    # =================================
     # Test Cases for _emit_error()
     # =================================
-    async def test_emit_error(self) -> None:
+
+    async def test_emit_error_multicast(self) -> None:
         # Arrange
         exception = Exception()
         subject = Subject[Any]()
@@ -660,7 +701,26 @@ class TestObservable:
 
     # =================================
 
-    async def test_emit_error_with_exceptions_and_different_values(self) -> None:
+    async def test_emit_error_unicast(self) -> None:
+        # Arrange
+        exception = Exception()
+        subject = Subject[Any]()
+        callback = CallableMock.Sync()
+        subject.subscribe(next_callback=callback, error_callback=callback, complete_callback=callback)
+
+        # Act
+        await subject.error(exception)
+        subject.remove_all()
+        await subject.error(exception)
+
+        # Assert
+        assert callback.call_count == 1
+        assert callback.last_args == (exception,)
+        assert callback.last_kwargs == {}
+
+    # =================================
+
+    async def test_emit_error_with_exceptions_and_different_values_multicast(self) -> None:
         # Arrange
         exception1 = Exception()
         exception2 = Exception()
@@ -681,10 +741,31 @@ class TestObservable:
         assert callback.last_kwargs == {}
 
     # =================================
+
+    async def test_emit_error_with_exceptions_and_different_values_unicast(self) -> None:
+        # Arrange
+        exception1 = Exception()
+        exception2 = Exception()
+        subject = Subject[Any]()
+        callback = CallableMock.Sync(raise_exception=Exception())
+        subject.subscribe(next_callback=callback, error_callback=callback, complete_callback=callback)
+
+        # Act
+        await subject.error(exception1)
+        await subject.error(exception2)
+        subject.remove_all()
+        await subject.error(exception1)
+
+        # Assert
+        assert callback.call_count == 2
+        assert callback.last_args == (exception2,)
+        assert callback.last_kwargs == {}
+
+    # =================================
     # Test Cases for _emit_complete()
     # =================================
 
-    async def test_emit_complete(self) -> None:
+    async def test_emit_complete_multicast(self) -> None:
         # Arrange
         subject = Subject[Any]()
         callback = CallableMock.Sync()
@@ -703,7 +784,24 @@ class TestObservable:
 
     # =================================
 
-    async def test_emit_complete_with_exceptions(self) -> None:
+    async def test_emit_complete_unicast(self) -> None:
+        # Arrange
+        subject = Subject[Any]()
+        callback = CallableMock.Sync()
+        subject.subscribe(next_callback=callback, error_callback=callback, complete_callback=callback)
+
+        # Act
+        await subject.complete()
+        await subject.complete()  # Call again to verify that subscribers are removed after completion.
+
+        # Assert
+        assert callback.call_count == 1
+        assert callback.last_args == ()
+        assert callback.last_kwargs == {}
+
+    # =================================
+
+    async def test_emit_complete_with_exceptions_multicast(self) -> None:
         # Arrange
         subject = Subject[Any]()
         callback = CallableMock.Sync(raise_exception=Exception())
@@ -716,5 +814,22 @@ class TestObservable:
 
         # Assert
         assert callback.call_count == 2
+        assert callback.last_args == ()
+        assert callback.last_kwargs == {}
+
+    # =================================
+
+    async def test_emit_complete_with_exceptions_unicast(self) -> None:
+        # Arrange
+        subject = Subject[Any]()
+        callback = CallableMock.Sync(raise_exception=Exception())
+        subject.subscribe(next_callback=callback, error_callback=callback, complete_callback=callback)
+
+        # Act
+        await subject.complete()
+        await subject.complete()  # Call again to verify that subscribers are removed after completion.
+
+        # Assert
+        assert callback.call_count == 1
         assert callback.last_args == ()
         assert callback.last_kwargs == {}

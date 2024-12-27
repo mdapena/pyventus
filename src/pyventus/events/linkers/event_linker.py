@@ -2,9 +2,9 @@ from dataclasses import is_dataclass
 from sys import gettrace
 from threading import Lock
 from types import EllipsisType
-from typing import TypeAlias, final
+from typing import Generic, TypeAlias, TypeVar, final
 
-from typing_extensions import override
+from typing_extensions import Self, override
 
 from ...core.collections import MultiBidict
 from ...core.constants import StdOutColors
@@ -16,6 +16,9 @@ from ..subscribers import EventCallbackType, EventSubscriber, FailureCallbackTyp
 
 SubscribableEventType: TypeAlias = str | type[Exception] | type[object] | EllipsisType
 """A type alias representing the supported event types for subscription."""
+
+_SubCtxE = TypeVar("_SubCtxE", bound=type["EventLinker"])
+"""A generic type representing the event linker type used in the subscription context."""
 
 
 class EventLinker:
@@ -34,14 +37,10 @@ class EventLinker:
     -   The `EventLinker` is designed with *thread safety* in mind. All methods
         synchronize access to prevent race conditions when managing mutable
         properties across multiple threads.
-
-    ---
-    Read more in the
-    [Pyventus docs for Event Linker](https://mdapena.github.io/pyventus/tutorials/events/event-linker/).
     """
 
     @final
-    class EventLinkerSubCtx(SubscriptionContext[type["EventLinker"], EventSubscriber]):
+    class EventLinkerSubCtx(Generic[_SubCtxE], SubscriptionContext[_SubCtxE, EventSubscriber]):
         """
         A context manager for event linker subscriptions.
 
@@ -75,7 +74,7 @@ class EventLinker:
         def __init__(
             self,
             events: tuple[SubscribableEventType, ...],
-            event_linker: type["EventLinker"],
+            event_linker: _SubCtxE,
             force_async: bool,
             once: bool,
             is_stateful: bool,
@@ -166,7 +165,7 @@ class EventLinker:
 
         def __call__(
             self, callback: EventCallbackType
-        ) -> tuple[EventCallbackType, "EventLinker.EventLinkerSubCtx"] | EventCallbackType:
+        ) -> tuple[EventCallbackType, "EventLinker.EventLinkerSubCtx[_SubCtxE]"] | EventCallbackType:
             """
             Subscribe the decorated callback to the specified events.
 
@@ -572,7 +571,7 @@ class EventLinker:
     @classmethod
     def once(
         cls, *events: SubscribableEventType, force_async: bool = False, stateful_subctx: bool = False
-    ) -> EventLinkerSubCtx:
+    ) -> EventLinkerSubCtx[type[Self]]:
         """
         Subscribe callbacks to the specified events for a single invocation.
 
@@ -593,14 +592,14 @@ class EventLinker:
             block to prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.
         :return: A `EventLinkerSubCtx` instance.
         """
-        return EventLinker.EventLinkerSubCtx(
+        return EventLinker.EventLinkerSubCtx[type[Self]](
             events=events, event_linker=cls, force_async=force_async, once=True, is_stateful=stateful_subctx
         )
 
     @classmethod
     def on(
         cls, *events: SubscribableEventType, force_async: bool = False, stateful_subctx: bool = False
-    ) -> EventLinkerSubCtx:
+    ) -> EventLinkerSubCtx[type[Self]]:
         """
         Subscribe callbacks to the specified events.
 
@@ -621,7 +620,7 @@ class EventLinker:
             block to prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.
         :return: A `EventLinkerSubCtx` instance.
         """
-        return EventLinker.EventLinkerSubCtx(
+        return EventLinker.EventLinkerSubCtx[type[Self]](
             events=events, event_linker=cls, force_async=force_async, once=False, is_stateful=stateful_subctx
         )
 
@@ -661,7 +660,7 @@ class EventLinker:
                 for event in unique_events:
                     if cls.__registry.get_value_count_from_key(event) >= cls.__max_subscribers:
                         raise PyventusException(
-                            f"The event '{event}' has exceeded the maximum number of subscribers allowed. "
+                            f"The event '{event}' has exceeded the maximum number of subscribers allowed."
                         )
 
             # Create a new event subscriber

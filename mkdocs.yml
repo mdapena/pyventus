@@ -21,6 +21,12 @@ theme:
   logo: images/logo/pyventus-logo-white.png
   favicon: images/favicon/pyventus-logo.ico
   palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+    # Palette toggle for light mode
     - media: '(prefers-color-scheme: light)'
       scheme: default
       primary: cyan
@@ -28,18 +34,22 @@ theme:
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
+    # Palette toggle for dark mode
     - media: '(prefers-color-scheme: dark)'
       scheme: slate
       primary: cyan
       accent: amber
       toggle:
         icon: material/weather-sunny
-        name: Switch to light mode
+        name: Switch to system preference
   features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
     - navigation.tabs
     - navigation.indexes
     - navigation.top
-    - navigation.expand
+    - navigation.sections
     - navigation.footer
     - toc.follow
     - search.suggest
@@ -63,11 +73,28 @@ extra:
       link: https://ve.linkedin.com/in/manuel-da-pena/en
     - icon: fontawesome/brands/github
       link: https://github.com/mdapena
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+    feedback:
+      title: Was this page helpful?
+      ratings:
+        - icon: material/thumb-up-outline
+          name: This page was helpful
+          data: 1
+          note: >-
+            Thanks for your feedback!
+        - icon: material/thumb-down-outline
+          name: This page could be improved
+          data: 0
+          note: >-
+            Thanks for your feedback!
 
 # Plugins
 plugins:
   - search
   - git-committers:
+      enabled: !ENV [ CI, false ]
       repository: mdapena/pyventus
       branch: master
       exclude:
@@ -78,7 +105,7 @@ plugins:
       type: timeago
       enable_creation_date: true
       exclude:
-        - api/index.md
+        - api/*
         - tutorials/index.md
         - index.md
   - mkdocstrings:
@@ -91,7 +118,7 @@ plugins:
             members_order: source
             separate_signature: true
             unwrap_annotated: true
-            filters: [ "!^(_.*$)", "!^EventEmission$", "^(__init__|__init_subclass__|__call__|__enter__|__exit__)$" ]
+            filters: ["!^(_.*$)", "^(__init__|__init_subclass__|__call__|__enter__|__exit__)$"]
             docstring_section_style: spacy
             signature_crossrefs: true
             show_symbol_type_heading: true
@@ -143,5 +170,39 @@ nav:
       - tutorials/index.md
   - API Reference:
       - api/index.md
+      - Core:
+        - api/core/index.md
+        - Collections:
+          - MultiBidict: api/core/collections/multi_bidict.md
+        - Exceptions:
+          - PyventusException: api/core/exceptions/pyventus_exception.md
+          - PyventusImportException: api/core/exceptions/pyventus_import_exception.md
+        - Processing:
+          - api/core/processing/index.md
+          - AsyncIOProcessingService: api/core/processing/asyncio_processing_service.md
+          - CeleryProcessingService: api/core/processing/celery_processing_service.md
+          - ExecutorProcessingService: api/core/processing/executor_processing_service.md
+          - FastAPIProcessingService: api/core/processing/fastapi_processing_service.md
+          - RedisProcessingService: api/core/processing/redis_processing_service.md
+        - Subscriptions:
+          - SubscriptionContext: api/core/subscriptions/subscription_context.md
+          - Subscription: api/core/subscriptions/subscription.md
+          - Unsubscribable: api/core/subscriptions/unsubscribable.md
+      - Events:
+        - api/events/index.md
+        - EventEmitter:
+          - api/events/emitters/index.md
+          - EventEmitter Utils: api/events/emitters/event_emitter_utils.md
+        - EventHandler: api/events/handlers/event_handler.md
+        - EventLinker: api/events/linkers/event_linker.md
+        - EventSubscriber: api/events/subscribers/event_subscriber.md
+      - Reactive:
+        - api/reactive/index.md
+        - Observable:
+          - api/reactive/observables/index.md
+          - ObservableTask: api/reactive/observables/observable_task.md
+          - Observable Utils: api/reactive/observables/observable_utils.md
+        - Observer: api/reactive/observers/observer.md
+        - Subscriber: api/reactive/subscribers/subscriber.md
   - Contributing: contributing.md
   - Release Notes: release-notes.md

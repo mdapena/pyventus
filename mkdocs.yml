@@ -91,6 +91,7 @@ extra:
 plugins:
   - search
   - git-committers:
+      enabled: !ENV [ CI, false ]
       repository: mdapena/pyventus
       branch: master
       exclude:

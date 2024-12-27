@@ -32,16 +32,16 @@ hide:
     <a href="https://github.com/mdapena/pyventus/actions?query=workflow%3ADocs+event%3Apush+branch%3Amaster" target="_blank">
         <img src="https://github.com/mdapena/pyventus/actions/workflows/deploy-docs.yml/badge.svg?branch=master" alt="Docs">
     </a>
-    <a href='https://coveralls.io/github/mdapena/pyventus?branch=master'>
-        <img src='https://coveralls.io/repos/github/mdapena/pyventus/badge.svg?branch=master' alt='Coverage Status'/>
+    <a href="https://coveralls.io/github/mdapena/pyventus?branch=master" target="_blank">
+        <img src="https://coveralls.io/repos/github/mdapena/pyventus/badge.svg?branch=master" alt="Coverage Status"/>
     </a>
     <a href="https://pypi.org/project/pyventus" target="_blank">
-        <img src="https://img.shields.io/pypi/v/pyventus?color=0097a8" alt="Package version">
+        <img src="https://img.shields.io/pypi/v/pyventus?color=0097a8" alt="Package Version">
     </a>
     <a href="https://pypi.org/project/pyventus" target="_blank">
-        <img src="https://img.shields.io/pypi/pyversions/pyventus?color=0097a8" alt="Supported Python versions">
+        <img src="https://img.shields.io/pypi/pyversions/pyventus?color=0097a8" alt="Supported Python Versions">
     </a>
-    <a href="https://pypi.org/project/pyventus">
+    <a href="https://pypi.org/project/pyventus" target="_blank">
         <img src="https://img.shields.io/pypi/dm/pyventus.svg?color=0097a8" alt="Monthly Downloads">
     </a>
 </p>
@@ -178,7 +178,7 @@ We first imported the required components from the <code>events</code> module of
 Next, we used the <code>@EventLinker.on()</code> decorator to define and link the string event <code>GreetEvent</code> to the function <code>handle_greet_event()</code>, which will print <i>"Hello, World!"</i> to the console whenever the <code>GreetEvent</code> is emitted.
 </li>
 
-<li markdown>
+<li>
 <b>Instantiating an Event Emitter:</b>
 After that, and in order to trigger our event, we used the <code>AsyncIOEventEmitter</code> factory method to create an instance of the event emitter class, which in this case is preconfigured with the <code>AsyncIOProcessingService</code>.
 </li>
@@ -921,6 +921,6 @@ main()
 
 ## License
 
-<p style='text-align: justify;' markdown>
+<p style="text-align: justify;">
     &emsp;&emsp;Pyventus is distributed as open-source software and is released under the <a href="https://choosealicense.com/licenses/mit/" target="_blank">MIT License</a>. For a detailed view of the license, please refer to the <a href="https://github.com/mdapena/pyventus/blob/master/LICENSE" target="_blank"><code>LICENSE</code></a> file located in the Pyventus repository.
 </p>

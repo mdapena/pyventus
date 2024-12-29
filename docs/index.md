@@ -190,7 +190,7 @@ Finally, by using the <code>emit()</code> method of the event emitter instance, 
 </ol>
 
 <p style="text-align: justify;">
-    &emsp;&emsp;Having gained a clear understanding of the workflow showcased in the <code>Hello, World!</code> example, you are now well-equipped to explore more intricate event-driven scenarios and fully harness the capabilities of Pyventus in your own projects. For a deep dive into the package's functionalities, you can refer to the tutorials and API sections.
+    &emsp;&emsp;Having gained a clear understanding of the workflow showcased in the <code>Hello, World!</code> example, you are now well-equipped to explore more intricate event-driven scenarios and fully harness the capabilities of Pyventus in your own projects. For a deep dive into the package's functionalities, you can refer to the API and Learn sections.
 </p>
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"
@@ -276,7 +276,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 </ol>
 
 <p style="text-align: justify;">
-    &emsp;&emsp;With a clear understanding of the workflow showcased in the <code>Simple Counter</code> example, you are now well-equipped to explore more intricate reactive scenarios and fully harness the capabilities of Pyventus in your own projects. For a deep dive into the package's functionalities, you can refer to the tutorials and API sections.
+    &emsp;&emsp;With a clear understanding of the workflow showcased in the <code>Simple Counter</code> example, you are now well-equipped to explore more intricate reactive scenarios and fully harness the capabilities of Pyventus in your own projects. For a deep dive into the package's functionalities, you can refer to the API and Learn sections.
 </p>
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"

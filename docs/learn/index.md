@@ -6,11 +6,6 @@ hide:
 
 # Learn
 
-<details markdown="1" class="warning" open="">
-<summary>🏗️ Work in Progress</summary>
-This section is currently being rebuilt.
-</details>
-
 <p style="text-align: justify;">
 	&emsp;&emsp;Welcome to the Learning Zone of Pyventus! In this section, you will find a variety of educational resources that will not only help you grasp the key concepts and core abstractions of the library, but also show you how to effectively apply them within your projects.
 </p>

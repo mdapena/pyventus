@@ -166,8 +166,8 @@ extra_javascript:
 nav:
   - Pyventus: index.md
   - Getting Started: getting-started.md
-  - Tutorials:
-      - tutorials/index.md
+  - Learn:
+      - learn/index.md
   - API Reference:
       - api/index.md
       - Core:

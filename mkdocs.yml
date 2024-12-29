@@ -139,6 +139,9 @@ markdown_extensions:
       generic: true
   - pymdownx.highlight:
       anchor_linenums: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
   - pymdownx.inlinehilite
   - pymdownx.snippets:
       base_path:
@@ -168,6 +171,7 @@ nav:
   - Getting Started: getting-started.md
   - Learn:
       - learn/index.md
+      - Upgrade Guide: learn/upgrade_guide.md
   - API Reference:
       - api/index.md
       - Core:

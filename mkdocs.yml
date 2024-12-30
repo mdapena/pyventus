@@ -99,14 +99,14 @@ plugins:
       branch: master
       exclude:
         - api/*
-        - tutorials/index.md
+        - learn/index.md
         - index.md
   - git-revision-date-localized:
       type: timeago
       enable_creation_date: true
       exclude:
         - api/*
-        - tutorials/index.md
+        - learn/index.md
         - index.md
   - mkdocstrings:
       handlers:
@@ -139,6 +139,9 @@ markdown_extensions:
       generic: true
   - pymdownx.highlight:
       anchor_linenums: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
   - pymdownx.inlinehilite
   - pymdownx.snippets:
       base_path:
@@ -166,8 +169,19 @@ extra_javascript:
 nav:
   - Pyventus: index.md
   - Getting Started: getting-started.md
-  - Tutorials:
-      - tutorials/index.md
+  - Learn:
+      - learn/index.md
+      - Upgrade Guide: learn/upgrade_guide.md
+      - Events:
+        - Exploring Event Types: learn/events/event.md
+        - The EventLinker Registry: learn/events/event-linker.md
+        - Master the Event Emitter:
+            - learn/events/emitters/index.md
+            - AsyncIO Event Emitter: learn/events/emitters/asyncio/index.md
+            - Celery Event Emitter: learn/events/emitters/celery/index.md
+            - Executor Event Emitter: learn/events/emitters/executor/index.md
+            - FastAPI Event Emitter: learn/events/emitters/fastapi/index.md
+            - RQ Event Emitter: learn/events/emitters/rq/index.md
   - API Reference:
       - api/index.md
       - Core:

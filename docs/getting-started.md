@@ -13,7 +13,7 @@ hide:
 </style>
 
 <p style="text-align: justify;" markdown>
-    &emsp;&emsp;Welcome to the Getting Started section! In this guide, you will learn how to install Pyventus, as well as enable any of its optional dependencies. For more detailed information on how to use this library, you can refer to the Pyventus [Tutorials](tutorials/index.md) or [API Reference](api/index.md).
+    &emsp;&emsp;Welcome to the Getting Started section! In this guide, you will learn how to install Pyventus, as well as enable any of its optional dependencies. For more detailed information on how to use this library, you can refer to the [API](api/index.md) and [Learn](learn/index.md) sections.
 </p>
 
 ## Installation

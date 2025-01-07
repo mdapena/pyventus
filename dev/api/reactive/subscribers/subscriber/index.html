@@ -134,7 +134,7 @@
               </button>
             
             
-    ✨ <b><a href="../../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
+    🚀 <b><a href="../../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
 Don't miss the <b>latest updates</b>,
 featuring <b><a href="../../../../#a-simple-reactive-example">reactive programming</a></b>,
 major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a></b>, and more!
@@ -2525,7 +2525,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-200">200</a></span>
 <span class="normal"><a href="#__codelineno-0-201">201</a></span>
 <span class="normal"><a href="#__codelineno-0-202">202</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="nd">@final</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="k">class</span> <span class="nc">Subscriber</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">_InT</span><span class="p">],</span> <span class="n">Observer</span><span class="p">[</span><span class="n">_InT</span><span class="p">],</span> <span class="n">Subscription</span><span class="p">):</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="k">class</span><span class="w"> </span><span class="nc">Subscriber</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">_InT</span><span class="p">],</span> <span class="n">Observer</span><span class="p">[</span><span class="n">_InT</span><span class="p">],</span> <span class="n">Subscription</span><span class="p">):</span>
 <a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="sd">    A class that represents an `Observer` subscribed to an `Observable`.</span>
 <a id="__codelineno-0-28" name="__codelineno-0-28"></a>
@@ -2541,7 +2541,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-38" name="__codelineno-0-38"></a>    <span class="c1"># Attributes for the Subscriber</span>
 <a id="__codelineno-0-39" name="__codelineno-0-39"></a>    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;__next_callback&quot;</span><span class="p">,</span> <span class="s2">&quot;__error_callback&quot;</span><span class="p">,</span> <span class="s2">&quot;__complete_callback&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-40" name="__codelineno-0-40"></a>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 <a id="__codelineno-0-42" name="__codelineno-0-42"></a>        <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-43" name="__codelineno-0-43"></a>        <span class="n">teardown_callback</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Self</span><span class="p">],</span> <span class="nb">bool</span><span class="p">],</span>
 <a id="__codelineno-0-44" name="__codelineno-0-44"></a>        <span class="n">next_callback</span><span class="p">:</span> <span class="n">NextCallbackType</span><span class="p">[</span><span class="n">_InT</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
@@ -2614,7 +2614,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-111" name="__codelineno-0-111"></a>            <span class="k">raise</span> <span class="n">PyventusException</span><span class="p">(</span><span class="s2">&quot;The &#39;complete_callback&#39; cannot be a generator.&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-112" name="__codelineno-0-112"></a>
 <a id="__codelineno-0-113" name="__codelineno-0-113"></a>    <span class="nd">@override</span>
-<a id="__codelineno-0-114" name="__codelineno-0-114"></a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-114" name="__codelineno-0-114"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <a id="__codelineno-0-115" name="__codelineno-0-115"></a>        <span class="k">return</span> <span class="n">formatted_repr</span><span class="p">(</span>
 <a id="__codelineno-0-116" name="__codelineno-0-116"></a>            <span class="n">instance</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-117" name="__codelineno-0-117"></a>            <span class="n">info</span><span class="o">=</span><span class="p">(</span>
@@ -2628,7 +2628,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-125" name="__codelineno-0-125"></a>        <span class="p">)</span>
 <a id="__codelineno-0-126" name="__codelineno-0-126"></a>
 <a id="__codelineno-0-127" name="__codelineno-0-127"></a>    <span class="nd">@property</span>
-<a id="__codelineno-0-128" name="__codelineno-0-128"></a>    <span class="k">def</span> <span class="nf">has_next_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-128" name="__codelineno-0-128"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">has_next_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-129" name="__codelineno-0-129"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-130" name="__codelineno-0-130"></a><span class="sd">        Determine whether the subscriber has a next callback assigned.</span>
 <a id="__codelineno-0-131" name="__codelineno-0-131"></a>
@@ -2637,7 +2637,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-134" name="__codelineno-0-134"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next_callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 <a id="__codelineno-0-135" name="__codelineno-0-135"></a>
 <a id="__codelineno-0-136" name="__codelineno-0-136"></a>    <span class="nd">@property</span>
-<a id="__codelineno-0-137" name="__codelineno-0-137"></a>    <span class="k">def</span> <span class="nf">has_error_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-137" name="__codelineno-0-137"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">has_error_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-138" name="__codelineno-0-138"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-139" name="__codelineno-0-139"></a><span class="sd">        Determine whether the subscriber has an error callback assigned.</span>
 <a id="__codelineno-0-140" name="__codelineno-0-140"></a>
@@ -2646,7 +2646,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-143" name="__codelineno-0-143"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__error_callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 <a id="__codelineno-0-144" name="__codelineno-0-144"></a>
 <a id="__codelineno-0-145" name="__codelineno-0-145"></a>    <span class="nd">@property</span>
-<a id="__codelineno-0-146" name="__codelineno-0-146"></a>    <span class="k">def</span> <span class="nf">has_complete_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-146" name="__codelineno-0-146"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">has_complete_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-147" name="__codelineno-0-147"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-148" name="__codelineno-0-148"></a><span class="sd">        Determine whether the subscriber has a complete callback assigned.</span>
 <a id="__codelineno-0-149" name="__codelineno-0-149"></a>
@@ -2655,7 +2655,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-152" name="__codelineno-0-152"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__complete_callback</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
 <a id="__codelineno-0-153" name="__codelineno-0-153"></a>
 <a id="__codelineno-0-154" name="__codelineno-0-154"></a>    <span class="nd">@override</span>
-<a id="__codelineno-0-155" name="__codelineno-0-155"></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">_InT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-155" name="__codelineno-0-155"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">_InT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-156" name="__codelineno-0-156"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next_callback</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-157" name="__codelineno-0-157"></a>            <span class="c1"># If no next callback is set, exit early</span>
 <a id="__codelineno-0-158" name="__codelineno-0-158"></a>            <span class="k">return</span>
@@ -2664,7 +2664,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-161" name="__codelineno-0-161"></a>            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next_callback</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 <a id="__codelineno-0-162" name="__codelineno-0-162"></a>
 <a id="__codelineno-0-163" name="__codelineno-0-163"></a>    <span class="nd">@override</span>
-<a id="__codelineno-0-164" name="__codelineno-0-164"></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-164" name="__codelineno-0-164"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-165" name="__codelineno-0-165"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__error_callback</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-166" name="__codelineno-0-166"></a>            <span class="c1"># If no error callback is set, exit early</span>
 <a id="__codelineno-0-167" name="__codelineno-0-167"></a>            <span class="k">return</span>
@@ -2673,7 +2673,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-170" name="__codelineno-0-170"></a>            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__error_callback</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 <a id="__codelineno-0-171" name="__codelineno-0-171"></a>
 <a id="__codelineno-0-172" name="__codelineno-0-172"></a>    <span class="nd">@override</span>
-<a id="__codelineno-0-173" name="__codelineno-0-173"></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">complete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-173" name="__codelineno-0-173"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">complete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-174" name="__codelineno-0-174"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__complete_callback</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-175" name="__codelineno-0-175"></a>            <span class="c1"># If no complete callback is set, exit early</span>
 <a id="__codelineno-0-176" name="__codelineno-0-176"></a>            <span class="k">return</span>
@@ -2682,7 +2682,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-179" name="__codelineno-0-179"></a>            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__complete_callback</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
 <a id="__codelineno-0-180" name="__codelineno-0-180"></a>
 <a id="__codelineno-0-181" name="__codelineno-0-181"></a>    <span class="nd">@override</span>
-<a id="__codelineno-0-182" name="__codelineno-0-182"></a>    <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+<a id="__codelineno-0-182" name="__codelineno-0-182"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
 <a id="__codelineno-0-183" name="__codelineno-0-183"></a>        <span class="c1"># Retrieve the state of the base Subscription class</span>
 <a id="__codelineno-0-184" name="__codelineno-0-184"></a>        <span class="n">state</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__getstate__</span><span class="p">()</span>
 <a id="__codelineno-0-185" name="__codelineno-0-185"></a>
@@ -2695,7 +2695,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-192" name="__codelineno-0-192"></a>        <span class="k">return</span> <span class="n">state</span>
 <a id="__codelineno-0-193" name="__codelineno-0-193"></a>
 <a id="__codelineno-0-194" name="__codelineno-0-194"></a>    <span class="nd">@override</span>
-<a id="__codelineno-0-195" name="__codelineno-0-195"></a>    <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-195" name="__codelineno-0-195"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-196" name="__codelineno-0-196"></a>        <span class="c1"># Restore the state of the base Subscription class</span>
 <a id="__codelineno-0-197" name="__codelineno-0-197"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__setstate__</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
 <a id="__codelineno-0-198" name="__codelineno-0-198"></a>
@@ -2924,7 +2924,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
               <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-61">61</a></span>
 <span class="normal"><a href="#__codelineno-0-62">62</a></span>
 <span class="normal"><a href="#__codelineno-0-63">63</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-61" name="__codelineno-0-61"></a><span class="nd">@override</span>
-<a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="k">def</span> <span class="nf">unsubscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-62" name="__codelineno-0-62"></a><span class="k">def</span><span class="w"> </span><span class="nf">unsubscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-63" name="__codelineno-0-63"></a>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__teardown_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
@@ -3111,7 +3111,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-108">108</a></span>
 <span class="normal"><a href="#__codelineno-0-109">109</a></span>
 <span class="normal"><a href="#__codelineno-0-110">110</a></span>
-<span class="normal"><a href="#__codelineno-0-111">111</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal"><a href="#__codelineno-0-111">111</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-41" name="__codelineno-0-41"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 <a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="n">teardown_callback</span><span class="p">:</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">Self</span><span class="p">],</span> <span class="nb">bool</span><span class="p">],</span>
 <a id="__codelineno-0-44" name="__codelineno-0-44"></a>    <span class="n">next_callback</span><span class="p">:</span> <span class="n">NextCallbackType</span><span class="p">[</span><span class="n">_InT</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
@@ -3215,7 +3215,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-159">159</a></span>
 <span class="normal"><a href="#__codelineno-0-160">160</a></span>
 <span class="normal"><a href="#__codelineno-0-161">161</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-154" name="__codelineno-0-154"></a><span class="nd">@override</span>
-<a id="__codelineno-0-155" name="__codelineno-0-155"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">_InT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-155" name="__codelineno-0-155"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">_InT</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-156" name="__codelineno-0-156"></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__next_callback</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-157" name="__codelineno-0-157"></a>        <span class="c1"># If no next callback is set, exit early</span>
 <a id="__codelineno-0-158" name="__codelineno-0-158"></a>        <span class="k">return</span>
@@ -3255,7 +3255,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-168">168</a></span>
 <span class="normal"><a href="#__codelineno-0-169">169</a></span>
 <span class="normal"><a href="#__codelineno-0-170">170</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-163" name="__codelineno-0-163"></a><span class="nd">@override</span>
-<a id="__codelineno-0-164" name="__codelineno-0-164"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-164" name="__codelineno-0-164"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">error</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-165" name="__codelineno-0-165"></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__error_callback</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-166" name="__codelineno-0-166"></a>        <span class="c1"># If no error callback is set, exit early</span>
 <a id="__codelineno-0-167" name="__codelineno-0-167"></a>        <span class="k">return</span>
@@ -3295,7 +3295,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-177">177</a></span>
 <span class="normal"><a href="#__codelineno-0-178">178</a></span>
 <span class="normal"><a href="#__codelineno-0-179">179</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-172" name="__codelineno-0-172"></a><span class="nd">@override</span>
-<a id="__codelineno-0-173" name="__codelineno-0-173"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">complete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-173" name="__codelineno-0-173"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">complete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-174" name="__codelineno-0-174"></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__complete_callback</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-175" name="__codelineno-0-175"></a>        <span class="c1"># If no complete callback is set, exit early</span>
 <a id="__codelineno-0-176" name="__codelineno-0-176"></a>        <span class="k">return</span>
@@ -3437,7 +3437,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2025 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

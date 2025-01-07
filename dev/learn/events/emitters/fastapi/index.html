@@ -134,7 +134,7 @@
               </button>
             
             
-    ✨ <b><a href="../../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
+    🚀 <b><a href="../../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
 Don't miss the <b>latest updates</b>,
 featuring <b><a href="../../../../#a-simple-reactive-example">reactive programming</a></b>,
 major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a></b>, and more!
@@ -2243,17 +2243,17 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-53">53</a></span>
 <span class="normal"><a href="#__codelineno-0-54">54</a></span>
 <span class="normal"><a href="#__codelineno-0-55">55</a></span>
-<span class="normal"><a href="#__codelineno-0-56">56</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>    <span class="kn">import</span> <span class="nn">time</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2"></a>    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<span class="normal"><a href="#__codelineno-0-56">56</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a>    <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4"></a>    <span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Depends</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Depends</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5"></a>
-<a id="__codelineno-0-6" name="__codelineno-0-6"></a>    <span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7"></a>    <span class="kn">from</span> <span class="nn">pyventus.emitters.fastapi</span> <span class="kn">import</span> <span class="n">FastAPIEventEmitter</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">pyventus</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.emitters.fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPIEventEmitter</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8"></a>
 <a id="__codelineno-0-9" name="__codelineno-0-9"></a>
 <a id="__codelineno-0-10" name="__codelineno-0-10"></a>    <span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;SendEmail&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a>    <span class="k">def</span> <span class="nf">event_callback</span><span class="p">(</span><span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">event_callback</span><span class="p">(</span><span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sending email to: </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-13" name="__codelineno-0-13"></a>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Email sent successfully!&quot;</span><span class="p">)</span>
@@ -2262,7 +2262,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-17" name="__codelineno-0-17"></a>    <span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
 <a id="__codelineno-0-18" name="__codelineno-0-18"></a>
 <a id="__codelineno-0-19" name="__codelineno-0-19"></a>    <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">send_email</span><span class="p">(</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_email</span><span class="p">(</span>
 <a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="hll">        <span class="n">event_emitter</span><span class="p">:</span> <span class="n">FastAPIEventEmitter</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">FastAPIEventEmitter</span><span class="p">),</span>
 </span><a id="__codelineno-0-22" name="__codelineno-0-22"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <a id="__codelineno-0-23" name="__codelineno-0-23"></a>        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;SendEmail&quot;</span><span class="p">,</span> <span class="s2">&quot;email@pyventus.com&quot;</span><span class="p">)</span>
@@ -2273,17 +2273,17 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="o">===</span> <span class="s2">&quot;With options&quot;</span>
 <a id="__codelineno-0-29" name="__codelineno-0-29"></a>
 <a id="__codelineno-0-30" name="__codelineno-0-30"></a>    <span class="err">```</span><span class="n">Python</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;main.py&quot;</span> <span class="n">linenums</span><span class="o">=</span><span class="s2">&quot;1&quot;</span> <span class="n">hl_lines</span><span class="o">=</span><span class="s2">&quot;21&quot;</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="kn">import</span> <span class="nn">time</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+<a id="__codelineno-0-31" name="__codelineno-0-31"></a>    <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<a id="__codelineno-0-32" name="__codelineno-0-32"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dict</span>
 <a id="__codelineno-0-33" name="__codelineno-0-33"></a>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Depends</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPI</span><span class="p">,</span> <span class="n">Depends</span>
 <a id="__codelineno-0-35" name="__codelineno-0-35"></a>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="kn">from</span> <span class="nn">pyventus.emitters.fastapi</span> <span class="kn">import</span> <span class="n">FastAPIEventEmitter</span>
+<a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">pyventus</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
+<a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.emitters.fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">FastAPIEventEmitter</span>
 <a id="__codelineno-0-38" name="__codelineno-0-38"></a>
 <a id="__codelineno-0-39" name="__codelineno-0-39"></a>
 <a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;SendEmail&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="k">def</span> <span class="nf">event_callback</span><span class="p">(</span><span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">event_callback</span><span class="p">(</span><span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <a id="__codelineno-0-42" name="__codelineno-0-42"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sending email to: </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-43" name="__codelineno-0-43"></a>        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <a id="__codelineno-0-44" name="__codelineno-0-44"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Email sent successfully!&quot;</span><span class="p">)</span>
@@ -2292,7 +2292,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-47" name="__codelineno-0-47"></a>    <span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
 <a id="__codelineno-0-48" name="__codelineno-0-48"></a>
 <a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">send_email</span><span class="p">(</span>
+<a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_email</span><span class="p">(</span>
 <a id="__codelineno-0-51" name="__codelineno-0-51"></a>        <span class="n">event_emitter</span><span class="p">:</span> <span class="n">FastAPIEventEmitter</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">FastAPIEventEmitter</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)),</span>
 <a id="__codelineno-0-52" name="__codelineno-0-52"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
 <a id="__codelineno-0-53" name="__codelineno-0-53"></a>        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;SendEmail&quot;</span><span class="p">,</span> <span class="s2">&quot;email@pyventus.com&quot;</span><span class="p">)</span>
@@ -2476,7 +2476,7 @@ see the JSON response as:</p>
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2025 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

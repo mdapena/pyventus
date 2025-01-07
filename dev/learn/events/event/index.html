@@ -134,7 +134,7 @@
               </button>
             
             
-    ✨ <b><a href="../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
+    🚀 <b><a href="../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
 Don't miss the <b>latest updates</b>,
 featuring <b><a href="../../../#a-simple-reactive-example">reactive programming</a></b>,
 major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>, and more!
@@ -2400,7 +2400,7 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <span class="normal"><a href="#__codelineno-0-6">6</a></span>
 <span class="normal"><a href="#__codelineno-0-7">7</a></span>
 <span class="normal"><a href="#__codelineno-0-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="hll"><span class="k">def</span> <span class="nf">event_handler</span><span class="p">(</span><span class="n">param1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">param2</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">event_handler</span><span class="p">(</span><span class="n">param1</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">param2</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 </span><a id="__codelineno-0-3" name="__codelineno-0-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Parameters:&quot;</span><span class="p">,</span> <span class="n">param1</span><span class="p">,</span> <span class="n">param2</span><span class="p">)</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;**kwargs:&quot;</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5"></a>
@@ -2414,7 +2414,7 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
 <span class="normal"><a href="#__codelineno-1-2">2</a></span>
 <span class="normal"><a href="#__codelineno-1-3">3</a></span>
-<span class="normal"><a href="#__codelineno-1-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="hll"><span class="k">def</span> <span class="nf">event_handler</span><span class="p">():</span>
+<span class="normal"><a href="#__codelineno-1-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">event_handler</span><span class="p">():</span>
 </span><a id="__codelineno-1-2" name="__codelineno-1-2"></a>    <span class="k">pass</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">event_handler</span><span class="p">)</span>
@@ -2440,7 +2440,7 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <span class="normal"><a href="#__codelineno-2-2">2</a></span>
 <span class="normal"><a href="#__codelineno-2-3">3</a></span>
 <span class="normal"><a href="#__codelineno-2-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="hll"><span class="nd">@dataclass</span>
-</span><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="k">class</span> <span class="nc">OrderCreatedEvent</span><span class="p">:</span>
+</span><a id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">OrderCreatedEvent</span><span class="p">:</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="hll">    <span class="n">order_id</span><span class="p">:</span> <span class="nb">int</span>
 </span><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="hll">    <span class="n">payload</span><span class="p">:</span> <span class="nb">dict</span>
 </span></code></pre></div></td></tr></table></div>
@@ -2457,11 +2457,11 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <span class="normal"><a href="#__codelineno-3-6">6</a></span>
 <span class="normal"><a href="#__codelineno-3-7">7</a></span>
 <span class="normal"><a href="#__codelineno-3-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="nd">@dataclass</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="k">class</span> <span class="nc">OrderCreatedEvent</span><span class="p">:</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">OrderCreatedEvent</span><span class="p">:</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3"></a>    <span class="n">order_id</span><span class="p">:</span> <span class="nb">int</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4"></a>    <span class="n">payload</span><span class="p">:</span> <span class="nb">dict</span>
 <a id="__codelineno-3-5" name="__codelineno-3-5"></a>
-<a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="hll">    <span class="k">def</span> <span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="hll">        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">order_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
 </span><a id="__codelineno-3-8" name="__codelineno-3-8"></a><span class="hll">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Error: &#39;order_id&#39; must be a valid int number!&quot;</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
@@ -2489,13 +2489,13 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <span class="normal"><a href="#__codelineno-4-18">18</a></span>
 <span class="normal"><a href="#__codelineno-4-19">19</a></span>
 <span class="normal"><a href="#__codelineno-4-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="hll"><span class="nd">@dataclass</span>  <span class="c1"># Define a Python dataclass.</span>
-</span><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="hll"><span class="k">class</span> <span class="nc">OrderCreatedEvent</span><span class="p">:</span>
+</span><a id="__codelineno-4-2" name="__codelineno-4-2"></a><span class="hll"><span class="k">class</span><span class="w"> </span><span class="nc">OrderCreatedEvent</span><span class="p">:</span>
 </span><a id="__codelineno-4-3" name="__codelineno-4-3"></a>    <span class="n">order_id</span><span class="p">:</span> <span class="nb">int</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4"></a>    <span class="n">payload</span><span class="p">:</span> <span class="nb">dict</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5"></a>
 <a id="__codelineno-4-6" name="__codelineno-4-6"></a>
 <a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">OrderCreatedEvent</span><span class="p">)</span>  <span class="c1"># Subscribe event handlers to the event.</span>
-</span><a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="hll"><span class="k">def</span> <span class="nf">handle_order_created_event</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">OrderCreatedEvent</span><span class="p">):</span>
+</span><a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_order_created_event</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">OrderCreatedEvent</span><span class="p">):</span>
 </span><a id="__codelineno-4-9" name="__codelineno-4-9"></a>    <span class="c1"># Pyventus will automatically pass the Event Object</span>
 <a id="__codelineno-4-10" name="__codelineno-4-10"></a>    <span class="c1"># as the first positional argument.</span>
 <a id="__codelineno-4-11" name="__codelineno-4-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Event Object: </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -2587,7 +2587,7 @@ Event objects benefit from autocompletion integration provided by code editors a
 <span class="normal"><a href="#__codelineno-7-8"> 8</a></span>
 <span class="normal"><a href="#__codelineno-7-9"> 9</a></span>
 <span class="normal"><a href="#__codelineno-7-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span>
-</span><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="hll"><span class="k">def</span> <span class="nf">handle_validation_error</span><span class="p">(</span><span class="n">exc</span><span class="p">:</span> <span class="ne">ValueError</span><span class="p">):</span>
+</span><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_validation_error</span><span class="p">(</span><span class="n">exc</span><span class="p">:</span> <span class="ne">ValueError</span><span class="p">):</span>
 </span><a id="__codelineno-7-3" name="__codelineno-7-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Validation failed for; &#39;</span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 <a id="__codelineno-7-4" name="__codelineno-7-4"></a>
 <a id="__codelineno-7-5" name="__codelineno-7-5"></a>
@@ -2614,14 +2614,14 @@ Event objects benefit from autocompletion integration provided by code editors a
 <span class="normal"><a href="#__codelineno-8-13">13</a></span>
 <span class="normal"><a href="#__codelineno-8-14">14</a></span>
 <span class="normal"><a href="#__codelineno-8-15">15</a></span>
-<span class="normal"><a href="#__codelineno-8-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="hll"><span class="k">class</span> <span class="nc">UserValidationError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-</span><a id="__codelineno-8-2" name="__codelineno-8-2"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Validation Error&quot;</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-8-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="hll"><span class="k">class</span><span class="w"> </span><span class="nc">UserValidationError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+</span><a id="__codelineno-8-2" name="__codelineno-8-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Validation Error&quot;</span><span class="p">):</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
 <a id="__codelineno-8-4" name="__codelineno-8-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">error</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5"></a>
 <a id="__codelineno-8-6" name="__codelineno-8-6"></a>
 <a id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">UserValidationError</span><span class="p">)</span>
-</span><a id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="hll"><span class="k">def</span> <span class="nf">handle_validation_error</span><span class="p">(</span><span class="n">exc</span><span class="p">:</span> <span class="n">UserValidationError</span><span class="p">):</span>
+</span><a id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_validation_error</span><span class="p">(</span><span class="n">exc</span><span class="p">:</span> <span class="n">UserValidationError</span><span class="p">):</span>
 </span><a id="__codelineno-8-9" name="__codelineno-8-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Validation failed for; &#39;</span><span class="si">{</span><span class="n">exc</span><span class="o">.</span><span class="n">error</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
 <a id="__codelineno-8-10" name="__codelineno-8-10"></a>
 <a id="__codelineno-8-11" name="__codelineno-8-11"></a>
@@ -2654,7 +2654,7 @@ Event objects benefit from autocompletion integration provided by code editors a
 <span class="normal"><a href="#__codelineno-9-5">5</a></span>
 <span class="normal"><a href="#__codelineno-9-6">6</a></span>
 <span class="normal"><a href="#__codelineno-9-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-</span><a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="hll"><span class="k">def</span> <span class="nf">handle_any_event</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1">#(1)!</span>
+</span><a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_any_event</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1">#(1)!</span>
 </span><a id="__codelineno-9-3" name="__codelineno-9-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Perform logging...</span><span class="se">\n</span><span class="s2">Args: </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="se">\t</span><span class="s2">Kwargs: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <a id="__codelineno-9-4" name="__codelineno-9-4"></a>
 <a id="__codelineno-9-5" name="__codelineno-9-5"></a>
@@ -2822,7 +2822,7 @@ Event objects benefit from autocompletion integration provided by code editors a
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2025 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

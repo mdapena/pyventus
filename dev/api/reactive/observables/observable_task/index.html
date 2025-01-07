@@ -134,7 +134,7 @@
               </button>
             
             
-    ✨ <b><a href="../../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
+    🚀 <b><a href="../../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
 Don't miss the <b>latest updates</b>,
 featuring <b><a href="../../../../#a-simple-reactive-example">reactive programming</a></b>,
 major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a></b>, and more!
@@ -2599,7 +2599,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-228">228</a></span>
 <span class="normal"><a href="#__codelineno-0-229">229</a></span>
 <span class="normal"><a href="#__codelineno-0-230">230</a></span>
-<span class="normal"><a href="#__codelineno-0-231">231</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="k">class</span> <span class="nc">ObservableTask</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">_OutT</span><span class="p">],</span> <span class="n">Observable</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]):</span>
+<span class="normal"><a href="#__codelineno-0-231">231</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="k">class</span><span class="w"> </span><span class="nc">ObservableTask</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">_OutT</span><span class="p">],</span> <span class="n">Observable</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]):</span>
 <a id="__codelineno-0-27" name="__codelineno-0-27"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">    An observable subclass that encapsulates a unit of work and offers a mechanism for streaming its results reactively.</span>
 <a id="__codelineno-0-29" name="__codelineno-0-29"></a>
@@ -2618,7 +2618,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="c1"># Attributes for the ObservableTask</span>
 <a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;__callback&quot;</span><span class="p">,</span> <span class="s2">&quot;__args&quot;</span><span class="p">,</span> <span class="s2">&quot;__kwargs&quot;</span><span class="p">,</span> <span class="s2">&quot;__processing_service&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-44" name="__codelineno-0-44"></a>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<a id="__codelineno-0-45" name="__codelineno-0-45"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 <a id="__codelineno-0-46" name="__codelineno-0-46"></a>        <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-47" name="__codelineno-0-47"></a>        <span class="n">callback</span><span class="p">:</span> <span class="n">ObservableTaskCallbackType</span><span class="p">[</span><span class="n">_OutT</span><span class="p">],</span>
 <a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="n">args</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -2654,7 +2654,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-78" name="__codelineno-0-78"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__processing_service</span><span class="p">:</span> <span class="n">AsyncIOProcessingService</span> <span class="o">=</span> <span class="n">AsyncIOProcessingService</span><span class="p">()</span>
 <a id="__codelineno-0-79" name="__codelineno-0-79"></a>
 <a id="__codelineno-0-80" name="__codelineno-0-80"></a>    <span class="nd">@override</span>
-<a id="__codelineno-0-81" name="__codelineno-0-81"></a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-81" name="__codelineno-0-81"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <a id="__codelineno-0-82" name="__codelineno-0-82"></a>        <span class="k">return</span> <span class="n">formatted_repr</span><span class="p">(</span>
 <a id="__codelineno-0-83" name="__codelineno-0-83"></a>            <span class="n">instance</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-84" name="__codelineno-0-84"></a>            <span class="n">info</span><span class="o">=</span><span class="p">(</span>
@@ -2668,7 +2668,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-92" name="__codelineno-0-92"></a>            <span class="p">),</span>
 <a id="__codelineno-0-93" name="__codelineno-0-93"></a>        <span class="p">)</span>
 <a id="__codelineno-0-94" name="__codelineno-0-94"></a>
-<a id="__codelineno-0-95" name="__codelineno-0-95"></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">__execute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-95" name="__codelineno-0-95"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">__execute</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-96" name="__codelineno-0-96"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-97" name="__codelineno-0-97"></a><span class="sd">        Execute the main callback and emit results to subscribers.</span>
 <a id="__codelineno-0-98" name="__codelineno-0-98"></a>
@@ -2689,7 +2689,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-113" name="__codelineno-0-113"></a>                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_emit_next</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">r_value</span><span class="p">)</span>
 <a id="__codelineno-0-114" name="__codelineno-0-114"></a>
 <a id="__codelineno-0-115" name="__codelineno-0-115"></a>                <span class="c1"># Indicate that the callback execution is complete.</span>
-<a id="__codelineno-0-116" name="__codelineno-0-116"></a>                <span class="k">raise</span> <span class="n">Completed</span> <span class="kn">from</span> <span class="kc">None</span>
+<a id="__codelineno-0-116" name="__codelineno-0-116"></a>                <span class="k">raise</span> <span class="n">Completed</span> <span class="kn">from</span><span class="w"> </span><span class="kc">None</span>
 <a id="__codelineno-0-117" name="__codelineno-0-117"></a>        <span class="k">except</span> <span class="n">Observable</span><span class="o">.</span><span class="n">Completed</span><span class="p">:</span>
 <a id="__codelineno-0-118" name="__codelineno-0-118"></a>            <span class="c1"># Notify subscribers that the observable</span>
 <a id="__codelineno-0-119" name="__codelineno-0-119"></a>            <span class="c1"># has completed emitting values.</span>
@@ -2699,7 +2699,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-123" name="__codelineno-0-123"></a>            <span class="c1"># encountered during execution.</span>
 <a id="__codelineno-0-124" name="__codelineno-0-124"></a>            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_emit_error</span><span class="p">(</span><span class="n">exception</span><span class="p">)</span>
 <a id="__codelineno-0-125" name="__codelineno-0-125"></a>
-<a id="__codelineno-0-126" name="__codelineno-0-126"></a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">wait_for_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-126" name="__codelineno-0-126"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">wait_for_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-127" name="__codelineno-0-127"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-128" name="__codelineno-0-128"></a><span class="sd">        Wait for all background tasks associated with the `ObservableTask` to complete.</span>
 <a id="__codelineno-0-129" name="__codelineno-0-129"></a>
@@ -2711,7 +2711,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-135" name="__codelineno-0-135"></a>        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">__processing_service</span><span class="o">.</span><span class="n">wait_for_tasks</span><span class="p">()</span>
 <a id="__codelineno-0-136" name="__codelineno-0-136"></a>
 <a id="__codelineno-0-137" name="__codelineno-0-137"></a>    <span class="nd">@contextmanager</span>
-<a id="__codelineno-0-138" name="__codelineno-0-138"></a>    <span class="k">def</span> <span class="nf">to_thread</span><span class="p">(</span>
+<a id="__codelineno-0-138" name="__codelineno-0-138"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_thread</span><span class="p">(</span>
 <a id="__codelineno-0-139" name="__codelineno-0-139"></a>        <span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="p">:</span> <span class="n">ThreadPoolExecutor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">shutdown</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <a id="__codelineno-0-140" name="__codelineno-0-140"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Self</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <a id="__codelineno-0-141" name="__codelineno-0-141"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -2746,7 +2746,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-170" name="__codelineno-0-170"></a>            <span class="bp">self</span><span class="p">(</span><span class="n">executor</span><span class="o">=</span><span class="n">new_executor</span><span class="p">)</span>
 <a id="__codelineno-0-171" name="__codelineno-0-171"></a>            <span class="n">new_executor</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
 <a id="__codelineno-0-172" name="__codelineno-0-172"></a>
-<a id="__codelineno-0-173" name="__codelineno-0-173"></a>    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<a id="__codelineno-0-173" name="__codelineno-0-173"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <a id="__codelineno-0-174" name="__codelineno-0-174"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-175" name="__codelineno-0-175"></a><span class="sd">        Enter the execution context of the observable task.</span>
 <a id="__codelineno-0-176" name="__codelineno-0-176"></a>
@@ -2757,7 +2757,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-181" name="__codelineno-0-181"></a><span class="sd">        &quot;&quot;&quot;</span>
 <a id="__codelineno-0-182" name="__codelineno-0-182"></a>        <span class="k">return</span> <span class="bp">self</span>
 <a id="__codelineno-0-183" name="__codelineno-0-183"></a>
-<a id="__codelineno-0-184" name="__codelineno-0-184"></a>    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span>
+<a id="__codelineno-0-184" name="__codelineno-0-184"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span>
 <a id="__codelineno-0-185" name="__codelineno-0-185"></a>        <span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">:</span> <span class="n">TracebackType</span> <span class="o">|</span> <span class="kc">None</span>
 <a id="__codelineno-0-186" name="__codelineno-0-186"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-187" name="__codelineno-0-187"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -2774,7 +2774,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-198" name="__codelineno-0-198"></a>        <span class="c1"># Execute the observable task.</span>
 <a id="__codelineno-0-199" name="__codelineno-0-199"></a>        <span class="bp">self</span><span class="p">(</span><span class="n">executor</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 <a id="__codelineno-0-200" name="__codelineno-0-200"></a>
-<a id="__codelineno-0-201" name="__codelineno-0-201"></a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="p">:</span> <span class="n">ThreadPoolExecutor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-201" name="__codelineno-0-201"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="p">:</span> <span class="n">ThreadPoolExecutor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-202" name="__codelineno-0-202"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-203" name="__codelineno-0-203"></a><span class="sd">        Execute the current `ObservableTask`.</span>
 <a id="__codelineno-0-204" name="__codelineno-0-204"></a>
@@ -2930,7 +2930,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-198">198</a></span>
 <span class="normal"><a href="#__codelineno-0-199">199</a></span>
 <span class="normal"><a href="#__codelineno-0-200">200</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-188" name="__codelineno-0-188"></a><span class="nd">@staticmethod</span>
-<a id="__codelineno-0-189" name="__codelineno-0-189"></a><span class="k">def</span> <span class="nf">get_valid_subscriber</span><span class="p">(</span><span class="n">subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]:</span>
+<a id="__codelineno-0-189" name="__codelineno-0-189"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_valid_subscriber</span><span class="p">(</span><span class="n">subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]:</span>
 <a id="__codelineno-0-190" name="__codelineno-0-190"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-191" name="__codelineno-0-191"></a><span class="sd">    Validate and return the specified subscriber.</span>
 <a id="__codelineno-0-192" name="__codelineno-0-192"></a>
@@ -2996,7 +2996,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-426">426</a></span>
 <span class="normal"><a href="#__codelineno-0-427">427</a></span>
 <span class="normal"><a href="#__codelineno-0-428">428</a></span>
-<span class="normal"><a href="#__codelineno-0-429">429</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-422" name="__codelineno-0-422"></a><span class="k">def</span> <span class="nf">get_subscribers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]]:</span>
+<span class="normal"><a href="#__codelineno-0-429">429</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-422" name="__codelineno-0-422"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_subscribers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]]:</span>
 <a id="__codelineno-0-423" name="__codelineno-0-423"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-424" name="__codelineno-0-424"></a><span class="sd">    Retrieve all registered subscribers.</span>
 <a id="__codelineno-0-425" name="__codelineno-0-425"></a>
@@ -3058,7 +3058,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-435">435</a></span>
 <span class="normal"><a href="#__codelineno-0-436">436</a></span>
 <span class="normal"><a href="#__codelineno-0-437">437</a></span>
-<span class="normal"><a href="#__codelineno-0-438">438</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-431" name="__codelineno-0-431"></a><span class="k">def</span> <span class="nf">get_subscriber_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-438">438</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-431" name="__codelineno-0-431"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_subscriber_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <a id="__codelineno-0-432" name="__codelineno-0-432"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-433" name="__codelineno-0-433"></a><span class="sd">    Retrieve the number of registered subscribers.</span>
 <a id="__codelineno-0-434" name="__codelineno-0-434"></a>
@@ -3150,7 +3150,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-446">446</a></span>
 <span class="normal"><a href="#__codelineno-0-447">447</a></span>
 <span class="normal"><a href="#__codelineno-0-448">448</a></span>
-<span class="normal"><a href="#__codelineno-0-449">449</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-440" name="__codelineno-0-440"></a><span class="k">def</span> <span class="nf">contains_subscriber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-449">449</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-440" name="__codelineno-0-440"></a><span class="k">def</span><span class="w"> </span><span class="nf">contains_subscriber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-441" name="__codelineno-0-441"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-442" name="__codelineno-0-442"></a><span class="sd">    Determine if the specified subscriber is present in the observable.</span>
 <a id="__codelineno-0-443" name="__codelineno-0-443"></a>
@@ -3399,7 +3399,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-524">524</a></span>
 <span class="normal"><a href="#__codelineno-0-525">525</a></span>
 <span class="normal"><a href="#__codelineno-0-526">526</a></span>
-<span class="normal"><a href="#__codelineno-0-527">527</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-466" name="__codelineno-0-466"></a><span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span>
+<span class="normal"><a href="#__codelineno-0-527">527</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-466" name="__codelineno-0-466"></a><span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span>
 <a id="__codelineno-0-467" name="__codelineno-0-467"></a>    <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-468" name="__codelineno-0-468"></a>    <span class="n">next_callback</span><span class="p">:</span> <span class="n">NextCallbackType</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-469" name="__codelineno-0-469"></a>    <span class="n">error_callback</span><span class="p">:</span> <span class="n">ErrorCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -3560,7 +3560,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-550">550</a></span>
 <span class="normal"><a href="#__codelineno-0-551">551</a></span>
 <span class="normal"><a href="#__codelineno-0-552">552</a></span>
-<span class="normal"><a href="#__codelineno-0-553">553</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-529" name="__codelineno-0-529"></a><span class="k">def</span> <span class="nf">remove_subscriber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-553">553</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-529" name="__codelineno-0-529"></a><span class="k">def</span><span class="w"> </span><span class="nf">remove_subscriber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-530" name="__codelineno-0-530"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-531" name="__codelineno-0-531"></a><span class="sd">    Remove the specified subscriber from the observable.</span>
 <a id="__codelineno-0-532" name="__codelineno-0-532"></a>
@@ -3651,7 +3651,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-571">571</a></span>
 <span class="normal"><a href="#__codelineno-0-572">572</a></span>
 <span class="normal"><a href="#__codelineno-0-573">573</a></span>
-<span class="normal"><a href="#__codelineno-0-574">574</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-555" name="__codelineno-0-555"></a><span class="k">def</span> <span class="nf">remove_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-574">574</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-555" name="__codelineno-0-555"></a><span class="k">def</span><span class="w"> </span><span class="nf">remove_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-556" name="__codelineno-0-556"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-557" name="__codelineno-0-557"></a><span class="sd">    Remove all subscribers from the observable.</span>
 <a id="__codelineno-0-558" name="__codelineno-0-558"></a>
@@ -3815,7 +3815,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-75">75</a></span>
 <span class="normal"><a href="#__codelineno-0-76">76</a></span>
 <span class="normal"><a href="#__codelineno-0-77">77</a></span>
-<span class="normal"><a href="#__codelineno-0-78">78</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal"><a href="#__codelineno-0-78">78</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 <a id="__codelineno-0-46" name="__codelineno-0-46"></a>    <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-47" name="__codelineno-0-47"></a>    <span class="n">callback</span><span class="p">:</span> <span class="n">ObservableTaskCallbackType</span><span class="p">[</span><span class="n">_OutT</span><span class="p">],</span>
 <a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="n">args</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -3910,7 +3910,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-132">132</a></span>
 <span class="normal"><a href="#__codelineno-0-133">133</a></span>
 <span class="normal"><a href="#__codelineno-0-134">134</a></span>
-<span class="normal"><a href="#__codelineno-0-135">135</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-126" name="__codelineno-0-126"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">wait_for_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-135">135</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-126" name="__codelineno-0-126"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">wait_for_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-127" name="__codelineno-0-127"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-128" name="__codelineno-0-128"></a><span class="sd">    Wait for all background tasks associated with the `ObservableTask` to complete.</span>
 <a id="__codelineno-0-129" name="__codelineno-0-129"></a>
@@ -4056,7 +4056,7 @@ executor. Upon exiting the context, the observable task is executed within the p
 <span class="normal"><a href="#__codelineno-0-169">169</a></span>
 <span class="normal"><a href="#__codelineno-0-170">170</a></span>
 <span class="normal"><a href="#__codelineno-0-171">171</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-137" name="__codelineno-0-137"></a><span class="nd">@contextmanager</span>
-<a id="__codelineno-0-138" name="__codelineno-0-138"></a><span class="k">def</span> <span class="nf">to_thread</span><span class="p">(</span>
+<a id="__codelineno-0-138" name="__codelineno-0-138"></a><span class="k">def</span><span class="w"> </span><span class="nf">to_thread</span><span class="p">(</span>
 <a id="__codelineno-0-139" name="__codelineno-0-139"></a>    <span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="p">:</span> <span class="n">ThreadPoolExecutor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">shutdown</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <a id="__codelineno-0-140" name="__codelineno-0-140"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Self</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <a id="__codelineno-0-141" name="__codelineno-0-141"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -4148,7 +4148,7 @@ and ensures that the task is executed upon exiting the context block.</p>
 <span class="normal"><a href="#__codelineno-0-179">179</a></span>
 <span class="normal"><a href="#__codelineno-0-180">180</a></span>
 <span class="normal"><a href="#__codelineno-0-181">181</a></span>
-<span class="normal"><a href="#__codelineno-0-182">182</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-173" name="__codelineno-0-173"></a><span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-182">182</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-173" name="__codelineno-0-173"></a><span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <a id="__codelineno-0-174" name="__codelineno-0-174"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-175" name="__codelineno-0-175"></a><span class="sd">    Enter the execution context of the observable task.</span>
 <a id="__codelineno-0-176" name="__codelineno-0-176"></a>
@@ -4282,7 +4282,7 @@ upon exiting the context block.</p>
 <span class="normal"><a href="#__codelineno-0-196">196</a></span>
 <span class="normal"><a href="#__codelineno-0-197">197</a></span>
 <span class="normal"><a href="#__codelineno-0-198">198</a></span>
-<span class="normal"><a href="#__codelineno-0-199">199</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-184" name="__codelineno-0-184"></a><span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span>
+<span class="normal"><a href="#__codelineno-0-199">199</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-184" name="__codelineno-0-184"></a><span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span>
 <a id="__codelineno-0-185" name="__codelineno-0-185"></a>    <span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">:</span> <span class="n">TracebackType</span> <span class="o">|</span> <span class="kc">None</span>
 <a id="__codelineno-0-186" name="__codelineno-0-186"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-187" name="__codelineno-0-187"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -4424,7 +4424,7 @@ upon exiting the context block.</p>
 <span class="normal"><a href="#__codelineno-0-228">228</a></span>
 <span class="normal"><a href="#__codelineno-0-229">229</a></span>
 <span class="normal"><a href="#__codelineno-0-230">230</a></span>
-<span class="normal"><a href="#__codelineno-0-231">231</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-201" name="__codelineno-0-201"></a><span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="p">:</span> <span class="n">ThreadPoolExecutor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-231">231</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-201" name="__codelineno-0-201"></a><span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">executor</span><span class="p">:</span> <span class="n">ThreadPoolExecutor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-202" name="__codelineno-0-202"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-203" name="__codelineno-0-203"></a><span class="sd">    Execute the current `ObservableTask`.</span>
 <a id="__codelineno-0-204" name="__codelineno-0-204"></a>
@@ -4590,7 +4590,7 @@ upon exiting the context block.</p>
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2025 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

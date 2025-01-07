@@ -134,7 +134,7 @@
               </button>
             
             
-    ✨ <b><a href="../../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
+    🚀 <b><a href="../../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
 Don't miss the <b>latest updates</b>,
 featuring <b><a href="../../../../#a-simple-reactive-example">reactive programming</a></b>,
 major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a></b>, and more!
@@ -2207,21 +2207,21 @@ example, let's create a file called <code>event_handlers.py</code> and add the h
 <span class="normal"><a href="#__codelineno-0-15">15</a></span>
 <span class="normal"><a href="#__codelineno-0-16">16</a></span>
 <span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">import</span> <span class="nn">asyncio</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="kn">import</span> <span class="nn">time</span>
+<span class="normal"><a href="#__codelineno-0-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="kn">from</span> <span class="nn">pyventus.linkers</span> <span class="kn">import</span> <span class="n">EventLinker</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.linkers</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5"></a>
 <a id="__codelineno-0-6" name="__codelineno-0-6"></a>
 <a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="hll"><span class="k">async</span> <span class="k">def</span> <span class="nf">slow_async_event_callback</span><span class="p">():</span>
+</span><a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">slow_async_event_callback</span><span class="p">():</span>
 </span><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="hll">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Starting the async slow process...&quot;</span><span class="p">)</span>
 </span><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="hll">    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </span><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="hll">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finishing the async slow process!&quot;</span><span class="p">)</span>
 </span><a id="__codelineno-0-12" name="__codelineno-0-12"></a>
 <a id="__codelineno-0-13" name="__codelineno-0-13"></a>
 <a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;StringEvent&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="hll"><span class="k">def</span> <span class="nf">slow_sync_event_callback</span><span class="p">():</span>
+</span><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">slow_sync_event_callback</span><span class="p">():</span>
 </span><a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="hll">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Starting the sync slow process...&quot;</span><span class="p">)</span>
 </span><a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="hll">    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 </span><a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="hll">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Finishing the sync slow process!&quot;</span><span class="p">)</span>
@@ -2264,11 +2264,11 @@ custom serializer can be implemented if the default does not meet the specific n
 <span class="normal"><a href="#__codelineno-1-17">17</a></span>
 <span class="normal"><a href="#__codelineno-1-18">18</a></span>
 <span class="normal"><a href="#__codelineno-1-19">19</a></span>
-<span class="normal"><a href="#__codelineno-1-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">celery</span> <span class="kn">import</span> <span class="n">Celery</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="kn">from</span> <span class="nn">pyventus.emitters.celery</span> <span class="kn">import</span> <span class="n">CeleryEventEmitter</span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">celery</span><span class="w"> </span><span class="kn">import</span> <span class="n">Celery</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.emitters.celery</span><span class="w"> </span><span class="kn">import</span> <span class="n">CeleryEventEmitter</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="c1"># To ensure Python recognizes the existence of the event handlers, we need to import them.</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="kn">from</span> <span class="nn">event_handlers</span> <span class="kn">import</span> <span class="n">slow_sync_event_callback</span><span class="p">,</span> <span class="n">slow_async_event_callback</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">event_handlers</span><span class="w"> </span><span class="kn">import</span> <span class="n">slow_sync_event_callback</span><span class="p">,</span> <span class="n">slow_async_event_callback</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6"></a>
 <a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="hll"><span class="c1"># Using Redis as a broker for example purpose. For the Redis support &#39;pip install celery[redis]&#39;</span>
 </span><a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="hll"><span class="n">app</span><span class="p">:</span> <span class="n">Celery</span> <span class="o">=</span> <span class="n">Celery</span><span class="p">(</span><span class="s2">&quot;worker&quot;</span><span class="p">,</span> <span class="n">broker</span><span class="o">=</span><span class="s2">&quot;redis://default:redispw@localhost:6379&quot;</span><span class="p">)</span>
@@ -2322,10 +2322,10 @@ To emit events, we will create a <code>main.py</code> file where we instantiate 
 <span class="normal"><a href="#__codelineno-5-5">5</a></span>
 <span class="normal"><a href="#__codelineno-5-6">6</a></span>
 <span class="normal"><a href="#__codelineno-5-7">7</a></span>
-<span class="normal"><a href="#__codelineno-5-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventEmitter</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="kn">from</span> <span class="nn">pyventus.emitters.celery</span> <span class="kn">import</span> <span class="n">CeleryEventEmitter</span>
+<span class="normal"><a href="#__codelineno-5-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventEmitter</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.emitters.celery</span><span class="w"> </span><span class="kn">import</span> <span class="n">CeleryEventEmitter</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="kn">from</span> <span class="nn">worker</span> <span class="kn">import</span> <span class="n">celery_event_emitter_queue</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">worker</span><span class="w"> </span><span class="kn">import</span> <span class="n">celery_event_emitter_queue</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5"></a>
 <a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="hll"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
 </span><a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="hll">    <span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">CeleryEventEmitter</span><span class="p">(</span><span class="n">queue</span><span class="o">=</span><span class="n">celery_event_emitter_queue</span><span class="p">)</span>
@@ -2501,7 +2501,7 @@ This distributed approach provides scalable event handling under any workload.
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2025 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

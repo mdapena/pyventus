@@ -134,7 +134,7 @@
               </button>
             
             
-    ✨ <b><a href="../../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
+    🚀 <b><a href="../../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
 Don't miss the <b>latest updates</b>,
 featuring <b><a href="../../../../#a-simple-reactive-example">reactive programming</a></b>,
 major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a></b>, and more!
@@ -3631,7 +3631,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-792">792</a></span>
 <span class="normal"><a href="#__codelineno-0-793">793</a></span>
 <span class="normal"><a href="#__codelineno-0-794">794</a></span>
-<span class="normal"><a href="#__codelineno-0-795">795</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="k">class</span> <span class="nc">EventLinker</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-795">795</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="k">class</span><span class="w"> </span><span class="nc">EventLinker</span><span class="p">:</span>
 <a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">    A base class that orchestrates the linkage of events and their inherent logic.</span>
 <a id="__codelineno-0-27" name="__codelineno-0-27"></a>
@@ -3650,7 +3650,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-40" name="__codelineno-0-40"></a><span class="sd">    &quot;&quot;&quot;</span>
 <a id="__codelineno-0-41" name="__codelineno-0-41"></a>
 <a id="__codelineno-0-42" name="__codelineno-0-42"></a>    <span class="nd">@final</span>
-<a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="k">class</span> <span class="nc">EventLinkerSubCtx</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">_SubCtxE</span><span class="p">],</span> <span class="n">SubscriptionContext</span><span class="p">[</span><span class="n">_SubCtxE</span><span class="p">,</span> <span class="n">EventSubscriber</span><span class="p">]):</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="k">class</span><span class="w"> </span><span class="nc">EventLinkerSubCtx</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">_SubCtxE</span><span class="p">],</span> <span class="n">SubscriptionContext</span><span class="p">[</span><span class="n">_SubCtxE</span><span class="p">,</span> <span class="n">EventSubscriber</span><span class="p">]):</span>
 <a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        A context manager for event linker subscriptions.</span>
 <a id="__codelineno-0-46" name="__codelineno-0-46"></a>
@@ -3681,7 +3681,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-71" name="__codelineno-0-71"></a>            <span class="s2">&quot;__once&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-72" name="__codelineno-0-72"></a>        <span class="p">)</span>
 <a id="__codelineno-0-73" name="__codelineno-0-73"></a>
-<a id="__codelineno-0-74" name="__codelineno-0-74"></a>        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<a id="__codelineno-0-74" name="__codelineno-0-74"></a>        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 <a id="__codelineno-0-75" name="__codelineno-0-75"></a>            <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-76" name="__codelineno-0-76"></a>            <span class="n">events</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">SubscribableEventType</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
 <a id="__codelineno-0-77" name="__codelineno-0-77"></a>            <span class="n">event_linker</span><span class="p">:</span> <span class="n">_SubCtxE</span><span class="p">,</span>
@@ -3714,7 +3714,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-104" name="__codelineno-0-104"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">__once</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">once</span>
 <a id="__codelineno-0-105" name="__codelineno-0-105"></a>
 <a id="__codelineno-0-106" name="__codelineno-0-106"></a>        <span class="nd">@override</span>
-<a id="__codelineno-0-107" name="__codelineno-0-107"></a>        <span class="k">def</span> <span class="nf">_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventSubscriber</span><span class="p">:</span>
+<a id="__codelineno-0-107" name="__codelineno-0-107"></a>        <span class="k">def</span><span class="w"> </span><span class="nf">_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventSubscriber</span><span class="p">:</span>
 <a id="__codelineno-0-108" name="__codelineno-0-108"></a>            <span class="c1"># Ensure that the source is not None</span>
 <a id="__codelineno-0-109" name="__codelineno-0-109"></a>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-110" name="__codelineno-0-110"></a>                <span class="k">raise</span> <span class="n">PyventusException</span><span class="p">(</span><span class="s2">&quot;The subscription context is closed.&quot;</span><span class="p">)</span>
@@ -3743,7 +3743,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-133" name="__codelineno-0-133"></a>            <span class="c1"># Return the subscriber</span>
 <a id="__codelineno-0-134" name="__codelineno-0-134"></a>            <span class="k">return</span> <span class="n">subscriber</span>
 <a id="__codelineno-0-135" name="__codelineno-0-135"></a>
-<a id="__codelineno-0-136" name="__codelineno-0-136"></a>        <span class="k">def</span> <span class="nf">on_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>
+<a id="__codelineno-0-136" name="__codelineno-0-136"></a>        <span class="k">def</span><span class="w"> </span><span class="nf">on_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>
 <a id="__codelineno-0-137" name="__codelineno-0-137"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-138" name="__codelineno-0-138"></a><span class="sd">            Set the main callback for the event.</span>
 <a id="__codelineno-0-139" name="__codelineno-0-139"></a>
@@ -3753,7 +3753,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-143" name="__codelineno-0-143"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">__event_callback</span> <span class="o">=</span> <span class="n">callback</span>
 <a id="__codelineno-0-144" name="__codelineno-0-144"></a>            <span class="k">return</span> <span class="n">callback</span>
 <a id="__codelineno-0-145" name="__codelineno-0-145"></a>
-<a id="__codelineno-0-146" name="__codelineno-0-146"></a>        <span class="k">def</span> <span class="nf">on_success</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SuccessCallbackType</span><span class="p">:</span>
+<a id="__codelineno-0-146" name="__codelineno-0-146"></a>        <span class="k">def</span><span class="w"> </span><span class="nf">on_success</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SuccessCallbackType</span><span class="p">:</span>
 <a id="__codelineno-0-147" name="__codelineno-0-147"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-148" name="__codelineno-0-148"></a><span class="sd">            Set the success callback for the event.</span>
 <a id="__codelineno-0-149" name="__codelineno-0-149"></a>
@@ -3763,7 +3763,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-153" name="__codelineno-0-153"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">__success_callback</span> <span class="o">=</span> <span class="n">callback</span>
 <a id="__codelineno-0-154" name="__codelineno-0-154"></a>            <span class="k">return</span> <span class="n">callback</span>
 <a id="__codelineno-0-155" name="__codelineno-0-155"></a>
-<a id="__codelineno-0-156" name="__codelineno-0-156"></a>        <span class="k">def</span> <span class="nf">on_failure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FailureCallbackType</span><span class="p">:</span>
+<a id="__codelineno-0-156" name="__codelineno-0-156"></a>        <span class="k">def</span><span class="w"> </span><span class="nf">on_failure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FailureCallbackType</span><span class="p">:</span>
 <a id="__codelineno-0-157" name="__codelineno-0-157"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-158" name="__codelineno-0-158"></a><span class="sd">            Set the failure callback for the event.</span>
 <a id="__codelineno-0-159" name="__codelineno-0-159"></a>
@@ -3773,7 +3773,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-163" name="__codelineno-0-163"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">__failure_callback</span> <span class="o">=</span> <span class="n">callback</span>
 <a id="__codelineno-0-164" name="__codelineno-0-164"></a>            <span class="k">return</span> <span class="n">callback</span>
 <a id="__codelineno-0-165" name="__codelineno-0-165"></a>
-<a id="__codelineno-0-166" name="__codelineno-0-166"></a>        <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+<a id="__codelineno-0-166" name="__codelineno-0-166"></a>        <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
 <a id="__codelineno-0-167" name="__codelineno-0-167"></a>            <span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span>
 <a id="__codelineno-0-168" name="__codelineno-0-168"></a>        <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">EventCallbackType</span><span class="p">,</span> <span class="s2">&quot;EventLinker.EventLinkerSubCtx[_SubCtxE]&quot;</span><span class="p">]</span> <span class="o">|</span> <span class="n">EventCallbackType</span><span class="p">:</span>
 <a id="__codelineno-0-169" name="__codelineno-0-169"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
@@ -3840,7 +3840,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-230" name="__codelineno-0-230"></a><span class="sd">    function. The debug mode can also be influenced by subclassing and overridden in subclasses.</span>
 <a id="__codelineno-0-231" name="__codelineno-0-231"></a><span class="sd">    &quot;&quot;&quot;</span>
 <a id="__codelineno-0-232" name="__codelineno-0-232"></a>
-<a id="__codelineno-0-233" name="__codelineno-0-233"></a>    <span class="k">def</span> <span class="nf">__init_subclass__</span><span class="p">(</span>
+<a id="__codelineno-0-233" name="__codelineno-0-233"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">__init_subclass__</span><span class="p">(</span>
 <a id="__codelineno-0-234" name="__codelineno-0-234"></a>        <span class="bp">cls</span><span class="p">,</span>
 <a id="__codelineno-0-235" name="__codelineno-0-235"></a>        <span class="n">max_subscribers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-236" name="__codelineno-0-236"></a>        <span class="n">default_success_callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -3899,7 +3899,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-289" name="__codelineno-0-289"></a>        <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="bp">cls</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span> <span class="k">if</span> <span class="n">debug</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">bool</span><span class="p">(</span><span class="n">gettrace</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">))</span>
 <a id="__codelineno-0-290" name="__codelineno-0-290"></a>
 <a id="__codelineno-0-291" name="__codelineno-0-291"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-292" name="__codelineno-0-292"></a>    <span class="k">def</span> <span class="nf">_get_logger</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Logger</span><span class="p">:</span>
+<a id="__codelineno-0-292" name="__codelineno-0-292"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_get_logger</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Logger</span><span class="p">:</span>
 <a id="__codelineno-0-293" name="__codelineno-0-293"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-294" name="__codelineno-0-294"></a><span class="sd">        Retrieve the class-level logger instance.</span>
 <a id="__codelineno-0-295" name="__codelineno-0-295"></a>
@@ -3909,7 +3909,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-299" name="__codelineno-0-299"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__logger</span>
 <a id="__codelineno-0-300" name="__codelineno-0-300"></a>
 <a id="__codelineno-0-301" name="__codelineno-0-301"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-302" name="__codelineno-0-302"></a>    <span class="k">def</span> <span class="nf">_get_valid_and_unique_event_names</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">SubscribableEventType</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<a id="__codelineno-0-302" name="__codelineno-0-302"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_get_valid_and_unique_event_names</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">SubscribableEventType</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <a id="__codelineno-0-303" name="__codelineno-0-303"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-304" name="__codelineno-0-304"></a><span class="sd">        Validate and extract unique event names from the specified tuple of event objects.</span>
 <a id="__codelineno-0-305" name="__codelineno-0-305"></a>
@@ -3922,7 +3922,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-312" name="__codelineno-0-312"></a>        <span class="k">return</span> <span class="p">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">get_valid_event_name</span><span class="p">(</span><span class="n">event</span><span class="p">)</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">}</span>
 <a id="__codelineno-0-313" name="__codelineno-0-313"></a>
 <a id="__codelineno-0-314" name="__codelineno-0-314"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-315" name="__codelineno-0-315"></a>    <span class="k">def</span> <span class="nf">_get_valid_and_unique_subscribers</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscribers</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">]:</span>
+<a id="__codelineno-0-315" name="__codelineno-0-315"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_get_valid_and_unique_subscribers</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscribers</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">]:</span>
 <a id="__codelineno-0-316" name="__codelineno-0-316"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-317" name="__codelineno-0-317"></a><span class="sd">        Validate and extract unique subscribers from the specified tuple of subscribers.</span>
 <a id="__codelineno-0-318" name="__codelineno-0-318"></a>
@@ -3935,7 +3935,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-325" name="__codelineno-0-325"></a>        <span class="k">return</span> <span class="p">{</span><span class="bp">cls</span><span class="o">.</span><span class="n">get_valid_subscriber</span><span class="p">(</span><span class="n">subscriber</span><span class="p">)</span> <span class="k">for</span> <span class="n">subscriber</span> <span class="ow">in</span> <span class="n">subscribers</span><span class="p">}</span>
 <a id="__codelineno-0-326" name="__codelineno-0-326"></a>
 <a id="__codelineno-0-327" name="__codelineno-0-327"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-328" name="__codelineno-0-328"></a>    <span class="k">def</span> <span class="nf">get_valid_event_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-328" name="__codelineno-0-328"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_valid_event_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <a id="__codelineno-0-329" name="__codelineno-0-329"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-330" name="__codelineno-0-330"></a><span class="sd">        Determine the name of the event and performs validation.</span>
 <a id="__codelineno-0-331" name="__codelineno-0-331"></a>
@@ -3966,7 +3966,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-356" name="__codelineno-0-356"></a>            <span class="k">raise</span> <span class="n">PyventusException</span><span class="p">(</span><span class="s2">&quot;Unsupported event&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-357" name="__codelineno-0-357"></a>
 <a id="__codelineno-0-358" name="__codelineno-0-358"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-359" name="__codelineno-0-359"></a>    <span class="k">def</span> <span class="nf">get_valid_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventSubscriber</span><span class="p">:</span>
+<a id="__codelineno-0-359" name="__codelineno-0-359"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_valid_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventSubscriber</span><span class="p">:</span>
 <a id="__codelineno-0-360" name="__codelineno-0-360"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-361" name="__codelineno-0-361"></a><span class="sd">        Validate and return the specified subscriber.</span>
 <a id="__codelineno-0-362" name="__codelineno-0-362"></a>
@@ -3980,7 +3980,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-370" name="__codelineno-0-370"></a>        <span class="k">return</span> <span class="n">subscriber</span>
 <a id="__codelineno-0-371" name="__codelineno-0-371"></a>
 <a id="__codelineno-0-372" name="__codelineno-0-372"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-373" name="__codelineno-0-373"></a>    <span class="k">def</span> <span class="nf">get_max_subscribers</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-373" name="__codelineno-0-373"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_max_subscribers</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-374" name="__codelineno-0-374"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-375" name="__codelineno-0-375"></a><span class="sd">        Retrieve the maximum number of subscribers allowed per event.</span>
 <a id="__codelineno-0-376" name="__codelineno-0-376"></a>
@@ -3989,7 +3989,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-379" name="__codelineno-0-379"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__max_subscribers</span>
 <a id="__codelineno-0-380" name="__codelineno-0-380"></a>
 <a id="__codelineno-0-381" name="__codelineno-0-381"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-382" name="__codelineno-0-382"></a>    <span class="k">def</span> <span class="nf">get_default_success_callback</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-382" name="__codelineno-0-382"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_default_success_callback</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-383" name="__codelineno-0-383"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-384" name="__codelineno-0-384"></a><span class="sd">        Retrieve the default success callback to assign to subscribers when no specific callback is provided.</span>
 <a id="__codelineno-0-385" name="__codelineno-0-385"></a>
@@ -3998,7 +3998,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-388" name="__codelineno-0-388"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__default_success_callback</span>
 <a id="__codelineno-0-389" name="__codelineno-0-389"></a>
 <a id="__codelineno-0-390" name="__codelineno-0-390"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-391" name="__codelineno-0-391"></a>    <span class="k">def</span> <span class="nf">get_default_failure_callback</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-391" name="__codelineno-0-391"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_default_failure_callback</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-392" name="__codelineno-0-392"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-393" name="__codelineno-0-393"></a><span class="sd">        Retrieve the default failure callback to assign to subscribers when no specific callback is provided.</span>
 <a id="__codelineno-0-394" name="__codelineno-0-394"></a>
@@ -4007,7 +4007,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-397" name="__codelineno-0-397"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__default_failure_callback</span>
 <a id="__codelineno-0-398" name="__codelineno-0-398"></a>
 <a id="__codelineno-0-399" name="__codelineno-0-399"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-400" name="__codelineno-0-400"></a>    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-400" name="__codelineno-0-400"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">is_empty</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-401" name="__codelineno-0-401"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-402" name="__codelineno-0-402"></a><span class="sd">        Determine whether the main registry is empty.</span>
 <a id="__codelineno-0-403" name="__codelineno-0-403"></a>
@@ -4017,7 +4017,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-407" name="__codelineno-0-407"></a>            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__registry</span><span class="o">.</span><span class="n">is_empty</span>
 <a id="__codelineno-0-408" name="__codelineno-0-408"></a>
 <a id="__codelineno-0-409" name="__codelineno-0-409"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-410" name="__codelineno-0-410"></a>    <span class="k">def</span> <span class="nf">get_registry</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">]]:</span>
+<a id="__codelineno-0-410" name="__codelineno-0-410"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_registry</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">]]:</span>
 <a id="__codelineno-0-411" name="__codelineno-0-411"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-412" name="__codelineno-0-412"></a><span class="sd">        Retrieve a shallow copy of the main registry.</span>
 <a id="__codelineno-0-413" name="__codelineno-0-413"></a>
@@ -4028,7 +4028,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-418" name="__codelineno-0-418"></a>            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__registry</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
 <a id="__codelineno-0-419" name="__codelineno-0-419"></a>
 <a id="__codelineno-0-420" name="__codelineno-0-420"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-421" name="__codelineno-0-421"></a>    <span class="k">def</span> <span class="nf">get_events</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<a id="__codelineno-0-421" name="__codelineno-0-421"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_events</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <a id="__codelineno-0-422" name="__codelineno-0-422"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-423" name="__codelineno-0-423"></a><span class="sd">        Retrieve all registered events.</span>
 <a id="__codelineno-0-424" name="__codelineno-0-424"></a>
@@ -4038,7 +4038,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-428" name="__codelineno-0-428"></a>            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__registry</span><span class="o">.</span><span class="n">keys</span>
 <a id="__codelineno-0-429" name="__codelineno-0-429"></a>
 <a id="__codelineno-0-430" name="__codelineno-0-430"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-431" name="__codelineno-0-431"></a>    <span class="k">def</span> <span class="nf">get_subscribers</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">]:</span>
+<a id="__codelineno-0-431" name="__codelineno-0-431"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_subscribers</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">]:</span>
 <a id="__codelineno-0-432" name="__codelineno-0-432"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-433" name="__codelineno-0-433"></a><span class="sd">        Retrieve all registered subscribers.</span>
 <a id="__codelineno-0-434" name="__codelineno-0-434"></a>
@@ -4048,7 +4048,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-438" name="__codelineno-0-438"></a>            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__registry</span><span class="o">.</span><span class="n">values</span>
 <a id="__codelineno-0-439" name="__codelineno-0-439"></a>
 <a id="__codelineno-0-440" name="__codelineno-0-440"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-441" name="__codelineno-0-441"></a>    <span class="k">def</span> <span class="nf">get_event_count</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-0-441" name="__codelineno-0-441"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_event_count</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <a id="__codelineno-0-442" name="__codelineno-0-442"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-443" name="__codelineno-0-443"></a><span class="sd">        Retrieve the number of registered events.</span>
 <a id="__codelineno-0-444" name="__codelineno-0-444"></a>
@@ -4058,7 +4058,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-448" name="__codelineno-0-448"></a>            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__registry</span><span class="o">.</span><span class="n">key_count</span>
 <a id="__codelineno-0-449" name="__codelineno-0-449"></a>
 <a id="__codelineno-0-450" name="__codelineno-0-450"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-451" name="__codelineno-0-451"></a>    <span class="k">def</span> <span class="nf">get_subscriber_count</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-0-451" name="__codelineno-0-451"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_subscriber_count</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <a id="__codelineno-0-452" name="__codelineno-0-452"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-453" name="__codelineno-0-453"></a><span class="sd">        Retrieve the number of registered subscribers.</span>
 <a id="__codelineno-0-454" name="__codelineno-0-454"></a>
@@ -4068,7 +4068,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-458" name="__codelineno-0-458"></a>            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__registry</span><span class="o">.</span><span class="n">value_count</span>
 <a id="__codelineno-0-459" name="__codelineno-0-459"></a>
 <a id="__codelineno-0-460" name="__codelineno-0-460"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-461" name="__codelineno-0-461"></a>    <span class="k">def</span> <span class="nf">get_events_from_subscribers</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">subscribers</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<a id="__codelineno-0-461" name="__codelineno-0-461"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_events_from_subscribers</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">subscribers</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <a id="__codelineno-0-462" name="__codelineno-0-462"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-463" name="__codelineno-0-463"></a><span class="sd">        Retrieve a set of events associated with the specified subscribers.</span>
 <a id="__codelineno-0-464" name="__codelineno-0-464"></a>
@@ -4083,7 +4083,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-473" name="__codelineno-0-473"></a>            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__registry</span><span class="o">.</span><span class="n">get_keys_from_values</span><span class="p">(</span><span class="n">unique_subscribers</span><span class="p">)</span>
 <a id="__codelineno-0-474" name="__codelineno-0-474"></a>
 <a id="__codelineno-0-475" name="__codelineno-0-475"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-476" name="__codelineno-0-476"></a>    <span class="k">def</span> <span class="nf">get_subscribers_from_events</span><span class="p">(</span>
+<a id="__codelineno-0-476" name="__codelineno-0-476"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_subscribers_from_events</span><span class="p">(</span>
 <a id="__codelineno-0-477" name="__codelineno-0-477"></a>        <span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span> <span class="n">pop_onetime_subscribers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <a id="__codelineno-0-478" name="__codelineno-0-478"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">]:</span>
 <a id="__codelineno-0-479" name="__codelineno-0-479"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -4115,7 +4115,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-505" name="__codelineno-0-505"></a>        <span class="k">return</span> <span class="n">subscribers</span>
 <a id="__codelineno-0-506" name="__codelineno-0-506"></a>
 <a id="__codelineno-0-507" name="__codelineno-0-507"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-508" name="__codelineno-0-508"></a>    <span class="k">def</span> <span class="nf">get_event_count_from_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-0-508" name="__codelineno-0-508"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_event_count_from_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <a id="__codelineno-0-509" name="__codelineno-0-509"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-510" name="__codelineno-0-510"></a><span class="sd">        Retrieve the number of events associated with the given subscriber.</span>
 <a id="__codelineno-0-511" name="__codelineno-0-511"></a>
@@ -4128,7 +4128,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-518" name="__codelineno-0-518"></a>            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__registry</span><span class="o">.</span><span class="n">get_key_count_from_value</span><span class="p">(</span><span class="n">valid_subscriber</span><span class="p">)</span>
 <a id="__codelineno-0-519" name="__codelineno-0-519"></a>
 <a id="__codelineno-0-520" name="__codelineno-0-520"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-521" name="__codelineno-0-521"></a>    <span class="k">def</span> <span class="nf">get_subscriber_count_from_event</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-0-521" name="__codelineno-0-521"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_subscriber_count_from_event</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <a id="__codelineno-0-522" name="__codelineno-0-522"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-523" name="__codelineno-0-523"></a><span class="sd">        Retrieve the number of subscribers associated with a given event.</span>
 <a id="__codelineno-0-524" name="__codelineno-0-524"></a>
@@ -4141,7 +4141,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-531" name="__codelineno-0-531"></a>            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__registry</span><span class="o">.</span><span class="n">get_value_count_from_key</span><span class="p">(</span><span class="n">valid_event</span><span class="p">)</span>
 <a id="__codelineno-0-532" name="__codelineno-0-532"></a>
 <a id="__codelineno-0-533" name="__codelineno-0-533"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-534" name="__codelineno-0-534"></a>    <span class="k">def</span> <span class="nf">contains_event</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-534" name="__codelineno-0-534"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">contains_event</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-535" name="__codelineno-0-535"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-536" name="__codelineno-0-536"></a><span class="sd">        Determine if the specified event is present in the registry.</span>
 <a id="__codelineno-0-537" name="__codelineno-0-537"></a>
@@ -4153,7 +4153,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-543" name="__codelineno-0-543"></a>            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__registry</span><span class="o">.</span><span class="n">contains_key</span><span class="p">(</span><span class="n">valid_event</span><span class="p">)</span>
 <a id="__codelineno-0-544" name="__codelineno-0-544"></a>
 <a id="__codelineno-0-545" name="__codelineno-0-545"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-546" name="__codelineno-0-546"></a>    <span class="k">def</span> <span class="nf">contains_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-546" name="__codelineno-0-546"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">contains_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-547" name="__codelineno-0-547"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-548" name="__codelineno-0-548"></a><span class="sd">        Determine if the specified subscriber is present in the registry.</span>
 <a id="__codelineno-0-549" name="__codelineno-0-549"></a>
@@ -4165,7 +4165,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-555" name="__codelineno-0-555"></a>            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__registry</span><span class="o">.</span><span class="n">contains_value</span><span class="p">(</span><span class="n">valid_subscriber</span><span class="p">)</span>
 <a id="__codelineno-0-556" name="__codelineno-0-556"></a>
 <a id="__codelineno-0-557" name="__codelineno-0-557"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-558" name="__codelineno-0-558"></a>    <span class="k">def</span> <span class="nf">are_linked</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-558" name="__codelineno-0-558"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">are_linked</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-559" name="__codelineno-0-559"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-560" name="__codelineno-0-560"></a><span class="sd">        Determine whether the given event is linked with the specified subscriber.</span>
 <a id="__codelineno-0-561" name="__codelineno-0-561"></a>
@@ -4179,7 +4179,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-569" name="__codelineno-0-569"></a>            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__registry</span><span class="o">.</span><span class="n">are_associated</span><span class="p">(</span><span class="n">valid_event</span><span class="p">,</span> <span class="n">valid_subscriber</span><span class="p">)</span>
 <a id="__codelineno-0-570" name="__codelineno-0-570"></a>
 <a id="__codelineno-0-571" name="__codelineno-0-571"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-572" name="__codelineno-0-572"></a>    <span class="k">def</span> <span class="nf">once</span><span class="p">(</span>
+<a id="__codelineno-0-572" name="__codelineno-0-572"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">once</span><span class="p">(</span>
 <a id="__codelineno-0-573" name="__codelineno-0-573"></a>        <span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span> <span class="n">force_async</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">stateful_subctx</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <a id="__codelineno-0-574" name="__codelineno-0-574"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventLinkerSubCtx</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Self</span><span class="p">]]:</span>
 <a id="__codelineno-0-575" name="__codelineno-0-575"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -4207,7 +4207,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-597" name="__codelineno-0-597"></a>        <span class="p">)</span>
 <a id="__codelineno-0-598" name="__codelineno-0-598"></a>
 <a id="__codelineno-0-599" name="__codelineno-0-599"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-600" name="__codelineno-0-600"></a>    <span class="k">def</span> <span class="nf">on</span><span class="p">(</span>
+<a id="__codelineno-0-600" name="__codelineno-0-600"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">on</span><span class="p">(</span>
 <a id="__codelineno-0-601" name="__codelineno-0-601"></a>        <span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span> <span class="n">force_async</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">stateful_subctx</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <a id="__codelineno-0-602" name="__codelineno-0-602"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventLinkerSubCtx</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Self</span><span class="p">]]:</span>
 <a id="__codelineno-0-603" name="__codelineno-0-603"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -4235,7 +4235,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-625" name="__codelineno-0-625"></a>        <span class="p">)</span>
 <a id="__codelineno-0-626" name="__codelineno-0-626"></a>
 <a id="__codelineno-0-627" name="__codelineno-0-627"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-628" name="__codelineno-0-628"></a>    <span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span>
+<a id="__codelineno-0-628" name="__codelineno-0-628"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span>
 <a id="__codelineno-0-629" name="__codelineno-0-629"></a>        <span class="bp">cls</span><span class="p">,</span>
 <a id="__codelineno-0-630" name="__codelineno-0-630"></a>        <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span>
 <a id="__codelineno-0-631" name="__codelineno-0-631"></a>        <span class="n">event_callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">,</span>
@@ -4297,7 +4297,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-687" name="__codelineno-0-687"></a>        <span class="k">return</span> <span class="n">subscriber</span>
 <a id="__codelineno-0-688" name="__codelineno-0-688"></a>
 <a id="__codelineno-0-689" name="__codelineno-0-689"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-690" name="__codelineno-0-690"></a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-690" name="__codelineno-0-690"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-691" name="__codelineno-0-691"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-692" name="__codelineno-0-692"></a><span class="sd">        Remove the specified subscriber from the given event.</span>
 <a id="__codelineno-0-693" name="__codelineno-0-693"></a>
@@ -4329,7 +4329,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-719" name="__codelineno-0-719"></a>        <span class="k">return</span> <span class="kc">True</span>
 <a id="__codelineno-0-720" name="__codelineno-0-720"></a>
 <a id="__codelineno-0-721" name="__codelineno-0-721"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-722" name="__codelineno-0-722"></a>    <span class="k">def</span> <span class="nf">remove_event</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-722" name="__codelineno-0-722"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">remove_event</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-723" name="__codelineno-0-723"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-724" name="__codelineno-0-724"></a><span class="sd">        Remove the specified event from the registry.</span>
 <a id="__codelineno-0-725" name="__codelineno-0-725"></a>
@@ -4356,7 +4356,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-746" name="__codelineno-0-746"></a>        <span class="k">return</span> <span class="kc">True</span>
 <a id="__codelineno-0-747" name="__codelineno-0-747"></a>
 <a id="__codelineno-0-748" name="__codelineno-0-748"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-749" name="__codelineno-0-749"></a>    <span class="k">def</span> <span class="nf">remove_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-749" name="__codelineno-0-749"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">remove_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-750" name="__codelineno-0-750"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-751" name="__codelineno-0-751"></a><span class="sd">        Remove the specified subscriber from the registry.</span>
 <a id="__codelineno-0-752" name="__codelineno-0-752"></a>
@@ -4383,7 +4383,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-773" name="__codelineno-0-773"></a>        <span class="k">return</span> <span class="kc">True</span>
 <a id="__codelineno-0-774" name="__codelineno-0-774"></a>
 <a id="__codelineno-0-775" name="__codelineno-0-775"></a>    <span class="nd">@classmethod</span>
-<a id="__codelineno-0-776" name="__codelineno-0-776"></a>    <span class="k">def</span> <span class="nf">remove_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-776" name="__codelineno-0-776"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">remove_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-777" name="__codelineno-0-777"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-778" name="__codelineno-0-778"></a><span class="sd">        Remove all events and subscribers from the registry.</span>
 <a id="__codelineno-0-779" name="__codelineno-0-779"></a>
@@ -4615,7 +4615,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-191">191</a></span>
 <span class="normal"><a href="#__codelineno-0-192">192</a></span>
 <span class="normal"><a href="#__codelineno-0-193">193</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-42" name="__codelineno-0-42"></a><span class="nd">@final</span>
-<a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="k">class</span> <span class="nc">EventLinkerSubCtx</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">_SubCtxE</span><span class="p">],</span> <span class="n">SubscriptionContext</span><span class="p">[</span><span class="n">_SubCtxE</span><span class="p">,</span> <span class="n">EventSubscriber</span><span class="p">]):</span>
+<a id="__codelineno-0-43" name="__codelineno-0-43"></a><span class="k">class</span><span class="w"> </span><span class="nc">EventLinkerSubCtx</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">_SubCtxE</span><span class="p">],</span> <span class="n">SubscriptionContext</span><span class="p">[</span><span class="n">_SubCtxE</span><span class="p">,</span> <span class="n">EventSubscriber</span><span class="p">]):</span>
 <a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">    A context manager for event linker subscriptions.</span>
 <a id="__codelineno-0-46" name="__codelineno-0-46"></a>
@@ -4646,7 +4646,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-71" name="__codelineno-0-71"></a>        <span class="s2">&quot;__once&quot;</span><span class="p">,</span>
 <a id="__codelineno-0-72" name="__codelineno-0-72"></a>    <span class="p">)</span>
 <a id="__codelineno-0-73" name="__codelineno-0-73"></a>
-<a id="__codelineno-0-74" name="__codelineno-0-74"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<a id="__codelineno-0-74" name="__codelineno-0-74"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 <a id="__codelineno-0-75" name="__codelineno-0-75"></a>        <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-76" name="__codelineno-0-76"></a>        <span class="n">events</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">SubscribableEventType</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
 <a id="__codelineno-0-77" name="__codelineno-0-77"></a>        <span class="n">event_linker</span><span class="p">:</span> <span class="n">_SubCtxE</span><span class="p">,</span>
@@ -4679,7 +4679,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-104" name="__codelineno-0-104"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__once</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">once</span>
 <a id="__codelineno-0-105" name="__codelineno-0-105"></a>
 <a id="__codelineno-0-106" name="__codelineno-0-106"></a>    <span class="nd">@override</span>
-<a id="__codelineno-0-107" name="__codelineno-0-107"></a>    <span class="k">def</span> <span class="nf">_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventSubscriber</span><span class="p">:</span>
+<a id="__codelineno-0-107" name="__codelineno-0-107"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_exit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventSubscriber</span><span class="p">:</span>
 <a id="__codelineno-0-108" name="__codelineno-0-108"></a>        <span class="c1"># Ensure that the source is not None</span>
 <a id="__codelineno-0-109" name="__codelineno-0-109"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-110" name="__codelineno-0-110"></a>            <span class="k">raise</span> <span class="n">PyventusException</span><span class="p">(</span><span class="s2">&quot;The subscription context is closed.&quot;</span><span class="p">)</span>
@@ -4708,7 +4708,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-133" name="__codelineno-0-133"></a>        <span class="c1"># Return the subscriber</span>
 <a id="__codelineno-0-134" name="__codelineno-0-134"></a>        <span class="k">return</span> <span class="n">subscriber</span>
 <a id="__codelineno-0-135" name="__codelineno-0-135"></a>
-<a id="__codelineno-0-136" name="__codelineno-0-136"></a>    <span class="k">def</span> <span class="nf">on_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>
+<a id="__codelineno-0-136" name="__codelineno-0-136"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">on_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>
 <a id="__codelineno-0-137" name="__codelineno-0-137"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-138" name="__codelineno-0-138"></a><span class="sd">        Set the main callback for the event.</span>
 <a id="__codelineno-0-139" name="__codelineno-0-139"></a>
@@ -4718,7 +4718,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-143" name="__codelineno-0-143"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__event_callback</span> <span class="o">=</span> <span class="n">callback</span>
 <a id="__codelineno-0-144" name="__codelineno-0-144"></a>        <span class="k">return</span> <span class="n">callback</span>
 <a id="__codelineno-0-145" name="__codelineno-0-145"></a>
-<a id="__codelineno-0-146" name="__codelineno-0-146"></a>    <span class="k">def</span> <span class="nf">on_success</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SuccessCallbackType</span><span class="p">:</span>
+<a id="__codelineno-0-146" name="__codelineno-0-146"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">on_success</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SuccessCallbackType</span><span class="p">:</span>
 <a id="__codelineno-0-147" name="__codelineno-0-147"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-148" name="__codelineno-0-148"></a><span class="sd">        Set the success callback for the event.</span>
 <a id="__codelineno-0-149" name="__codelineno-0-149"></a>
@@ -4728,7 +4728,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-153" name="__codelineno-0-153"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__success_callback</span> <span class="o">=</span> <span class="n">callback</span>
 <a id="__codelineno-0-154" name="__codelineno-0-154"></a>        <span class="k">return</span> <span class="n">callback</span>
 <a id="__codelineno-0-155" name="__codelineno-0-155"></a>
-<a id="__codelineno-0-156" name="__codelineno-0-156"></a>    <span class="k">def</span> <span class="nf">on_failure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FailureCallbackType</span><span class="p">:</span>
+<a id="__codelineno-0-156" name="__codelineno-0-156"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">on_failure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FailureCallbackType</span><span class="p">:</span>
 <a id="__codelineno-0-157" name="__codelineno-0-157"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-158" name="__codelineno-0-158"></a><span class="sd">        Set the failure callback for the event.</span>
 <a id="__codelineno-0-159" name="__codelineno-0-159"></a>
@@ -4738,7 +4738,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-163" name="__codelineno-0-163"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__failure_callback</span> <span class="o">=</span> <span class="n">callback</span>
 <a id="__codelineno-0-164" name="__codelineno-0-164"></a>        <span class="k">return</span> <span class="n">callback</span>
 <a id="__codelineno-0-165" name="__codelineno-0-165"></a>
-<a id="__codelineno-0-166" name="__codelineno-0-166"></a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+<a id="__codelineno-0-166" name="__codelineno-0-166"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
 <a id="__codelineno-0-167" name="__codelineno-0-167"></a>        <span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span>
 <a id="__codelineno-0-168" name="__codelineno-0-168"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">EventCallbackType</span><span class="p">,</span> <span class="s2">&quot;EventLinker.EventLinkerSubCtx[_SubCtxE]&quot;</span><span class="p">]</span> <span class="o">|</span> <span class="n">EventCallbackType</span><span class="p">:</span>
 <a id="__codelineno-0-169" name="__codelineno-0-169"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -4873,7 +4873,7 @@ subscriber to ensure they are no longer retained.</p>
 <span class="normal"><a href="#__codelineno-0-149">149</a></span>
 <span class="normal"><a href="#__codelineno-0-150">150</a></span>
 <span class="normal"><a href="#__codelineno-0-151">151</a></span>
-<span class="normal"><a href="#__codelineno-0-152">152</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-129" name="__codelineno-0-129"></a><span class="k">def</span> <span class="nf">unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">_SourceType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">_SubscriberType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="normal"><a href="#__codelineno-0-152">152</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-129" name="__codelineno-0-129"></a><span class="k">def</span><span class="w"> </span><span class="nf">unpack</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">_SourceType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">_SubscriberType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
 <a id="__codelineno-0-130" name="__codelineno-0-130"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-131" name="__codelineno-0-131"></a><span class="sd">    Unpack and retrieve the source object and its associated subscriber.</span>
 <a id="__codelineno-0-132" name="__codelineno-0-132"></a>
@@ -4955,7 +4955,7 @@ object that will later be subscribed to the specified source.</p>
 <span class="normal"><a href="#__codelineno-0-160">160</a></span>
 <span class="normal"><a href="#__codelineno-0-161">161</a></span>
 <span class="normal"><a href="#__codelineno-0-162">162</a></span>
-<span class="normal"><a href="#__codelineno-0-163">163</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-154" name="__codelineno-0-154"></a><span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-163">163</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-154" name="__codelineno-0-154"></a><span class="k">def</span><span class="w"> </span><span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">:</span> <span class="n">Self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Self</span><span class="p">:</span>
 <a id="__codelineno-0-155" name="__codelineno-0-155"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-156" name="__codelineno-0-156"></a><span class="sd">    Enter the subscription context block.</span>
 <a id="__codelineno-0-157" name="__codelineno-0-157"></a>
@@ -5107,7 +5107,7 @@ specified source, and performs any necessary cleanup.</p>
 <span class="normal"><a href="#__codelineno-0-195">195</a></span>
 <span class="normal"><a href="#__codelineno-0-196">196</a></span>
 <span class="normal"><a href="#__codelineno-0-197">197</a></span>
-<span class="normal"><a href="#__codelineno-0-198">198</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-165" name="__codelineno-0-165"></a><span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span>
+<span class="normal"><a href="#__codelineno-0-198">198</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-165" name="__codelineno-0-165"></a><span class="k">def</span><span class="w"> </span><span class="fm">__exit__</span><span class="p">(</span>
 <a id="__codelineno-0-166" name="__codelineno-0-166"></a>    <span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">:</span> <span class="ne">BaseException</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">:</span> <span class="n">TracebackType</span> <span class="o">|</span> <span class="kc">None</span>
 <a id="__codelineno-0-167" name="__codelineno-0-167"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-168" name="__codelineno-0-168"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -5286,7 +5286,7 @@ specified source, and performs any necessary cleanup.</p>
 <span class="normal"><a href="#__codelineno-0-101">101</a></span>
 <span class="normal"><a href="#__codelineno-0-102">102</a></span>
 <span class="normal"><a href="#__codelineno-0-103">103</a></span>
-<span class="normal"><a href="#__codelineno-0-104">104</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal"><a href="#__codelineno-0-104">104</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-74" name="__codelineno-0-74"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 <a id="__codelineno-0-75" name="__codelineno-0-75"></a>    <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-76" name="__codelineno-0-76"></a>    <span class="n">events</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">SubscribableEventType</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
 <a id="__codelineno-0-77" name="__codelineno-0-77"></a>    <span class="n">event_linker</span><span class="p">:</span> <span class="n">_SubCtxE</span><span class="p">,</span>
@@ -5400,7 +5400,7 @@ specified source, and performs any necessary cleanup.</p>
 <span class="normal"><a href="#__codelineno-0-141">141</a></span>
 <span class="normal"><a href="#__codelineno-0-142">142</a></span>
 <span class="normal"><a href="#__codelineno-0-143">143</a></span>
-<span class="normal"><a href="#__codelineno-0-144">144</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-136" name="__codelineno-0-136"></a><span class="k">def</span> <span class="nf">on_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-144">144</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-136" name="__codelineno-0-136"></a><span class="k">def</span><span class="w"> </span><span class="nf">on_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventCallbackType</span><span class="p">:</span>
 <a id="__codelineno-0-137" name="__codelineno-0-137"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-138" name="__codelineno-0-138"></a><span class="sd">    Set the main callback for the event.</span>
 <a id="__codelineno-0-139" name="__codelineno-0-139"></a>
@@ -5492,7 +5492,7 @@ specified source, and performs any necessary cleanup.</p>
 <span class="normal"><a href="#__codelineno-0-151">151</a></span>
 <span class="normal"><a href="#__codelineno-0-152">152</a></span>
 <span class="normal"><a href="#__codelineno-0-153">153</a></span>
-<span class="normal"><a href="#__codelineno-0-154">154</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-146" name="__codelineno-0-146"></a><span class="k">def</span> <span class="nf">on_success</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SuccessCallbackType</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-154">154</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-146" name="__codelineno-0-146"></a><span class="k">def</span><span class="w"> </span><span class="nf">on_success</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SuccessCallbackType</span><span class="p">:</span>
 <a id="__codelineno-0-147" name="__codelineno-0-147"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-148" name="__codelineno-0-148"></a><span class="sd">    Set the success callback for the event.</span>
 <a id="__codelineno-0-149" name="__codelineno-0-149"></a>
@@ -5584,7 +5584,7 @@ specified source, and performs any necessary cleanup.</p>
 <span class="normal"><a href="#__codelineno-0-161">161</a></span>
 <span class="normal"><a href="#__codelineno-0-162">162</a></span>
 <span class="normal"><a href="#__codelineno-0-163">163</a></span>
-<span class="normal"><a href="#__codelineno-0-164">164</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-156" name="__codelineno-0-156"></a><span class="k">def</span> <span class="nf">on_failure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FailureCallbackType</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-164">164</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-156" name="__codelineno-0-156"></a><span class="k">def</span><span class="w"> </span><span class="nf">on_failure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">FailureCallbackType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FailureCallbackType</span><span class="p">:</span>
 <a id="__codelineno-0-157" name="__codelineno-0-157"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-158" name="__codelineno-0-158"></a><span class="sd">    Set the failure callback for the event.</span>
 <a id="__codelineno-0-159" name="__codelineno-0-159"></a>
@@ -5695,7 +5695,7 @@ specified source, and performs any necessary cleanup.</p>
 <span class="normal"><a href="#__codelineno-0-190">190</a></span>
 <span class="normal"><a href="#__codelineno-0-191">191</a></span>
 <span class="normal"><a href="#__codelineno-0-192">192</a></span>
-<span class="normal"><a href="#__codelineno-0-193">193</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-166" name="__codelineno-0-166"></a><span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span>
+<span class="normal"><a href="#__codelineno-0-193">193</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-166" name="__codelineno-0-166"></a><span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
 <a id="__codelineno-0-167" name="__codelineno-0-167"></a>    <span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">EventCallbackType</span>
 <a id="__codelineno-0-168" name="__codelineno-0-168"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">EventCallbackType</span><span class="p">,</span> <span class="s2">&quot;EventLinker.EventLinkerSubCtx[_SubCtxE]&quot;</span><span class="p">]</span> <span class="o">|</span> <span class="n">EventCallbackType</span><span class="p">:</span>
 <a id="__codelineno-0-169" name="__codelineno-0-169"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -5953,7 +5953,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-286">286</a></span>
 <span class="normal"><a href="#__codelineno-0-287">287</a></span>
 <span class="normal"><a href="#__codelineno-0-288">288</a></span>
-<span class="normal"><a href="#__codelineno-0-289">289</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-233" name="__codelineno-0-233"></a><span class="k">def</span> <span class="nf">__init_subclass__</span><span class="p">(</span>
+<span class="normal"><a href="#__codelineno-0-289">289</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-233" name="__codelineno-0-233"></a><span class="k">def</span><span class="w"> </span><span class="nf">__init_subclass__</span><span class="p">(</span>
 <a id="__codelineno-0-234" name="__codelineno-0-234"></a>    <span class="bp">cls</span><span class="p">,</span>
 <a id="__codelineno-0-235" name="__codelineno-0-235"></a>    <span class="n">max_subscribers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <a id="__codelineno-0-236" name="__codelineno-0-236"></a>    <span class="n">default_success_callback</span><span class="p">:</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -6143,7 +6143,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-354">354</a></span>
 <span class="normal"><a href="#__codelineno-0-355">355</a></span>
 <span class="normal"><a href="#__codelineno-0-356">356</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-327" name="__codelineno-0-327"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-328" name="__codelineno-0-328"></a><span class="k">def</span> <span class="nf">get_valid_event_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-328" name="__codelineno-0-328"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_valid_event_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <a id="__codelineno-0-329" name="__codelineno-0-329"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-330" name="__codelineno-0-330"></a><span class="sd">    Determine the name of the event and performs validation.</span>
 <a id="__codelineno-0-331" name="__codelineno-0-331"></a>
@@ -6288,7 +6288,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-368">368</a></span>
 <span class="normal"><a href="#__codelineno-0-369">369</a></span>
 <span class="normal"><a href="#__codelineno-0-370">370</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-358" name="__codelineno-0-358"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-359" name="__codelineno-0-359"></a><span class="k">def</span> <span class="nf">get_valid_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventSubscriber</span><span class="p">:</span>
+<a id="__codelineno-0-359" name="__codelineno-0-359"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_valid_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventSubscriber</span><span class="p">:</span>
 <a id="__codelineno-0-360" name="__codelineno-0-360"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-361" name="__codelineno-0-361"></a><span class="sd">    Validate and return the specified subscriber.</span>
 <a id="__codelineno-0-362" name="__codelineno-0-362"></a>
@@ -6359,7 +6359,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-377">377</a></span>
 <span class="normal"><a href="#__codelineno-0-378">378</a></span>
 <span class="normal"><a href="#__codelineno-0-379">379</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-372" name="__codelineno-0-372"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-373" name="__codelineno-0-373"></a><span class="k">def</span> <span class="nf">get_max_subscribers</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-373" name="__codelineno-0-373"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_max_subscribers</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-374" name="__codelineno-0-374"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-375" name="__codelineno-0-375"></a><span class="sd">    Retrieve the maximum number of subscribers allowed per event.</span>
 <a id="__codelineno-0-376" name="__codelineno-0-376"></a>
@@ -6425,7 +6425,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-386">386</a></span>
 <span class="normal"><a href="#__codelineno-0-387">387</a></span>
 <span class="normal"><a href="#__codelineno-0-388">388</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-381" name="__codelineno-0-381"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-382" name="__codelineno-0-382"></a><span class="k">def</span> <span class="nf">get_default_success_callback</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-382" name="__codelineno-0-382"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_default_success_callback</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SuccessCallbackType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-383" name="__codelineno-0-383"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-384" name="__codelineno-0-384"></a><span class="sd">    Retrieve the default success callback to assign to subscribers when no specific callback is provided.</span>
 <a id="__codelineno-0-385" name="__codelineno-0-385"></a>
@@ -6491,7 +6491,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-395">395</a></span>
 <span class="normal"><a href="#__codelineno-0-396">396</a></span>
 <span class="normal"><a href="#__codelineno-0-397">397</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-390" name="__codelineno-0-390"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-391" name="__codelineno-0-391"></a><span class="k">def</span> <span class="nf">get_default_failure_callback</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-391" name="__codelineno-0-391"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_default_failure_callback</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FailureCallbackType</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-392" name="__codelineno-0-392"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-393" name="__codelineno-0-393"></a><span class="sd">    Retrieve the default failure callback to assign to subscribers when no specific callback is provided.</span>
 <a id="__codelineno-0-394" name="__codelineno-0-394"></a>
@@ -6558,7 +6558,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-405">405</a></span>
 <span class="normal"><a href="#__codelineno-0-406">406</a></span>
 <span class="normal"><a href="#__codelineno-0-407">407</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-399" name="__codelineno-0-399"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-400" name="__codelineno-0-400"></a><span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-400" name="__codelineno-0-400"></a><span class="k">def</span><span class="w"> </span><span class="nf">is_empty</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-401" name="__codelineno-0-401"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-402" name="__codelineno-0-402"></a><span class="sd">    Determine whether the main registry is empty.</span>
 <a id="__codelineno-0-403" name="__codelineno-0-403"></a>
@@ -6627,7 +6627,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-416">416</a></span>
 <span class="normal"><a href="#__codelineno-0-417">417</a></span>
 <span class="normal"><a href="#__codelineno-0-418">418</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-409" name="__codelineno-0-409"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-410" name="__codelineno-0-410"></a><span class="k">def</span> <span class="nf">get_registry</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">]]:</span>
+<a id="__codelineno-0-410" name="__codelineno-0-410"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_registry</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">set</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">]]:</span>
 <a id="__codelineno-0-411" name="__codelineno-0-411"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-412" name="__codelineno-0-412"></a><span class="sd">    Retrieve a shallow copy of the main registry.</span>
 <a id="__codelineno-0-413" name="__codelineno-0-413"></a>
@@ -6696,7 +6696,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-426">426</a></span>
 <span class="normal"><a href="#__codelineno-0-427">427</a></span>
 <span class="normal"><a href="#__codelineno-0-428">428</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-420" name="__codelineno-0-420"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-421" name="__codelineno-0-421"></a><span class="k">def</span> <span class="nf">get_events</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<a id="__codelineno-0-421" name="__codelineno-0-421"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_events</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <a id="__codelineno-0-422" name="__codelineno-0-422"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-423" name="__codelineno-0-423"></a><span class="sd">    Retrieve all registered events.</span>
 <a id="__codelineno-0-424" name="__codelineno-0-424"></a>
@@ -6764,7 +6764,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-436">436</a></span>
 <span class="normal"><a href="#__codelineno-0-437">437</a></span>
 <span class="normal"><a href="#__codelineno-0-438">438</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-430" name="__codelineno-0-430"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-431" name="__codelineno-0-431"></a><span class="k">def</span> <span class="nf">get_subscribers</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">]:</span>
+<a id="__codelineno-0-431" name="__codelineno-0-431"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_subscribers</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">]:</span>
 <a id="__codelineno-0-432" name="__codelineno-0-432"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-433" name="__codelineno-0-433"></a><span class="sd">    Retrieve all registered subscribers.</span>
 <a id="__codelineno-0-434" name="__codelineno-0-434"></a>
@@ -6832,7 +6832,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-446">446</a></span>
 <span class="normal"><a href="#__codelineno-0-447">447</a></span>
 <span class="normal"><a href="#__codelineno-0-448">448</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-440" name="__codelineno-0-440"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-441" name="__codelineno-0-441"></a><span class="k">def</span> <span class="nf">get_event_count</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-0-441" name="__codelineno-0-441"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_event_count</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <a id="__codelineno-0-442" name="__codelineno-0-442"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-443" name="__codelineno-0-443"></a><span class="sd">    Retrieve the number of registered events.</span>
 <a id="__codelineno-0-444" name="__codelineno-0-444"></a>
@@ -6900,7 +6900,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-456">456</a></span>
 <span class="normal"><a href="#__codelineno-0-457">457</a></span>
 <span class="normal"><a href="#__codelineno-0-458">458</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-450" name="__codelineno-0-450"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-451" name="__codelineno-0-451"></a><span class="k">def</span> <span class="nf">get_subscriber_count</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-0-451" name="__codelineno-0-451"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_subscriber_count</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <a id="__codelineno-0-452" name="__codelineno-0-452"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-453" name="__codelineno-0-453"></a><span class="sd">    Retrieve the number of registered subscribers.</span>
 <a id="__codelineno-0-454" name="__codelineno-0-454"></a>
@@ -7005,7 +7005,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-471">471</a></span>
 <span class="normal"><a href="#__codelineno-0-472">472</a></span>
 <span class="normal"><a href="#__codelineno-0-473">473</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-460" name="__codelineno-0-460"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-461" name="__codelineno-0-461"></a><span class="k">def</span> <span class="nf">get_events_from_subscribers</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">subscribers</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<a id="__codelineno-0-461" name="__codelineno-0-461"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_events_from_subscribers</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">subscribers</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <a id="__codelineno-0-462" name="__codelineno-0-462"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-463" name="__codelineno-0-463"></a><span class="sd">    Retrieve a set of events associated with the specified subscribers.</span>
 <a id="__codelineno-0-464" name="__codelineno-0-464"></a>
@@ -7152,7 +7152,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-503">503</a></span>
 <span class="normal"><a href="#__codelineno-0-504">504</a></span>
 <span class="normal"><a href="#__codelineno-0-505">505</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-475" name="__codelineno-0-475"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-476" name="__codelineno-0-476"></a><span class="k">def</span> <span class="nf">get_subscribers_from_events</span><span class="p">(</span>
+<a id="__codelineno-0-476" name="__codelineno-0-476"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_subscribers_from_events</span><span class="p">(</span>
 <a id="__codelineno-0-477" name="__codelineno-0-477"></a>    <span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span> <span class="n">pop_onetime_subscribers</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <a id="__codelineno-0-478" name="__codelineno-0-478"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">]:</span>
 <a id="__codelineno-0-479" name="__codelineno-0-479"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -7273,7 +7273,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-516">516</a></span>
 <span class="normal"><a href="#__codelineno-0-517">517</a></span>
 <span class="normal"><a href="#__codelineno-0-518">518</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-507" name="__codelineno-0-507"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-508" name="__codelineno-0-508"></a><span class="k">def</span> <span class="nf">get_event_count_from_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-0-508" name="__codelineno-0-508"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_event_count_from_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <a id="__codelineno-0-509" name="__codelineno-0-509"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-510" name="__codelineno-0-510"></a><span class="sd">    Retrieve the number of events associated with the given subscriber.</span>
 <a id="__codelineno-0-511" name="__codelineno-0-511"></a>
@@ -7375,7 +7375,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-529">529</a></span>
 <span class="normal"><a href="#__codelineno-0-530">530</a></span>
 <span class="normal"><a href="#__codelineno-0-531">531</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-520" name="__codelineno-0-520"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-521" name="__codelineno-0-521"></a><span class="k">def</span> <span class="nf">get_subscriber_count_from_event</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-0-521" name="__codelineno-0-521"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_subscriber_count_from_event</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
 <a id="__codelineno-0-522" name="__codelineno-0-522"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-523" name="__codelineno-0-523"></a><span class="sd">    Retrieve the number of subscribers associated with a given event.</span>
 <a id="__codelineno-0-524" name="__codelineno-0-524"></a>
@@ -7476,7 +7476,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-541">541</a></span>
 <span class="normal"><a href="#__codelineno-0-542">542</a></span>
 <span class="normal"><a href="#__codelineno-0-543">543</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-533" name="__codelineno-0-533"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-534" name="__codelineno-0-534"></a><span class="k">def</span> <span class="nf">contains_event</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-534" name="__codelineno-0-534"></a><span class="k">def</span><span class="w"> </span><span class="nf">contains_event</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-535" name="__codelineno-0-535"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-536" name="__codelineno-0-536"></a><span class="sd">    Determine if the specified event is present in the registry.</span>
 <a id="__codelineno-0-537" name="__codelineno-0-537"></a>
@@ -7576,7 +7576,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-553">553</a></span>
 <span class="normal"><a href="#__codelineno-0-554">554</a></span>
 <span class="normal"><a href="#__codelineno-0-555">555</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-545" name="__codelineno-0-545"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-546" name="__codelineno-0-546"></a><span class="k">def</span> <span class="nf">contains_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-546" name="__codelineno-0-546"></a><span class="k">def</span><span class="w"> </span><span class="nf">contains_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-547" name="__codelineno-0-547"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-548" name="__codelineno-0-548"></a><span class="sd">    Determine if the specified subscriber is present in the registry.</span>
 <a id="__codelineno-0-549" name="__codelineno-0-549"></a>
@@ -7694,7 +7694,7 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
 <span class="normal"><a href="#__codelineno-0-567">567</a></span>
 <span class="normal"><a href="#__codelineno-0-568">568</a></span>
 <span class="normal"><a href="#__codelineno-0-569">569</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-557" name="__codelineno-0-557"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-558" name="__codelineno-0-558"></a><span class="k">def</span> <span class="nf">are_linked</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-558" name="__codelineno-0-558"></a><span class="k">def</span><span class="w"> </span><span class="nf">are_linked</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-559" name="__codelineno-0-559"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-560" name="__codelineno-0-560"></a><span class="sd">    Determine whether the given event is linked with the specified subscriber.</span>
 <a id="__codelineno-0-561" name="__codelineno-0-561"></a>
@@ -7860,7 +7860,7 @@ to be associated with the provided events within the context block.</p>
 <span class="normal"><a href="#__codelineno-0-595">595</a></span>
 <span class="normal"><a href="#__codelineno-0-596">596</a></span>
 <span class="normal"><a href="#__codelineno-0-597">597</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-571" name="__codelineno-0-571"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-572" name="__codelineno-0-572"></a><span class="k">def</span> <span class="nf">once</span><span class="p">(</span>
+<a id="__codelineno-0-572" name="__codelineno-0-572"></a><span class="k">def</span><span class="w"> </span><span class="nf">once</span><span class="p">(</span>
 <a id="__codelineno-0-573" name="__codelineno-0-573"></a>    <span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span> <span class="n">force_async</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">stateful_subctx</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <a id="__codelineno-0-574" name="__codelineno-0-574"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventLinkerSubCtx</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Self</span><span class="p">]]:</span>
 <a id="__codelineno-0-575" name="__codelineno-0-575"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -8040,7 +8040,7 @@ to be associated with the provided events within the context block.</p>
 <span class="normal"><a href="#__codelineno-0-623">623</a></span>
 <span class="normal"><a href="#__codelineno-0-624">624</a></span>
 <span class="normal"><a href="#__codelineno-0-625">625</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-599" name="__codelineno-0-599"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-600" name="__codelineno-0-600"></a><span class="k">def</span> <span class="nf">on</span><span class="p">(</span>
+<a id="__codelineno-0-600" name="__codelineno-0-600"></a><span class="k">def</span><span class="w"> </span><span class="nf">on</span><span class="p">(</span>
 <a id="__codelineno-0-601" name="__codelineno-0-601"></a>    <span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span> <span class="n">force_async</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">stateful_subctx</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 <a id="__codelineno-0-602" name="__codelineno-0-602"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EventLinkerSubCtx</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">Self</span><span class="p">]]:</span>
 <a id="__codelineno-0-603" name="__codelineno-0-603"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -8306,7 +8306,7 @@ to be associated with the provided events within the context block.</p>
 <span class="normal"><a href="#__codelineno-0-685">685</a></span>
 <span class="normal"><a href="#__codelineno-0-686">686</a></span>
 <span class="normal"><a href="#__codelineno-0-687">687</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-627" name="__codelineno-0-627"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-628" name="__codelineno-0-628"></a><span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span>
+<a id="__codelineno-0-628" name="__codelineno-0-628"></a><span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span>
 <a id="__codelineno-0-629" name="__codelineno-0-629"></a>    <span class="bp">cls</span><span class="p">,</span>
 <a id="__codelineno-0-630" name="__codelineno-0-630"></a>    <span class="o">*</span><span class="n">events</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span>
 <a id="__codelineno-0-631" name="__codelineno-0-631"></a>    <span class="n">event_callback</span><span class="p">:</span> <span class="n">EventCallbackType</span><span class="p">,</span>
@@ -8492,7 +8492,7 @@ to be associated with the provided events within the context block.</p>
 <span class="normal"><a href="#__codelineno-0-717">717</a></span>
 <span class="normal"><a href="#__codelineno-0-718">718</a></span>
 <span class="normal"><a href="#__codelineno-0-719">719</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-689" name="__codelineno-0-689"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-690" name="__codelineno-0-690"></a><span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-690" name="__codelineno-0-690"></a><span class="k">def</span><span class="w"> </span><span class="nf">remove</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-691" name="__codelineno-0-691"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-692" name="__codelineno-0-692"></a><span class="sd">    Remove the specified subscriber from the given event.</span>
 <a id="__codelineno-0-693" name="__codelineno-0-693"></a>
@@ -8627,7 +8627,7 @@ to be associated with the provided events within the context block.</p>
 <span class="normal"><a href="#__codelineno-0-744">744</a></span>
 <span class="normal"><a href="#__codelineno-0-745">745</a></span>
 <span class="normal"><a href="#__codelineno-0-746">746</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-721" name="__codelineno-0-721"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-722" name="__codelineno-0-722"></a><span class="k">def</span> <span class="nf">remove_event</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-722" name="__codelineno-0-722"></a><span class="k">def</span><span class="w"> </span><span class="nf">remove_event</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">SubscribableEventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-723" name="__codelineno-0-723"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-724" name="__codelineno-0-724"></a><span class="sd">    Remove the specified event from the registry.</span>
 <a id="__codelineno-0-725" name="__codelineno-0-725"></a>
@@ -8757,7 +8757,7 @@ to be associated with the provided events within the context block.</p>
 <span class="normal"><a href="#__codelineno-0-771">771</a></span>
 <span class="normal"><a href="#__codelineno-0-772">772</a></span>
 <span class="normal"><a href="#__codelineno-0-773">773</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-748" name="__codelineno-0-748"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-749" name="__codelineno-0-749"></a><span class="k">def</span> <span class="nf">remove_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-749" name="__codelineno-0-749"></a><span class="k">def</span><span class="w"> </span><span class="nf">remove_subscriber</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-750" name="__codelineno-0-750"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-751" name="__codelineno-0-751"></a><span class="sd">    Remove the specified subscriber from the registry.</span>
 <a id="__codelineno-0-752" name="__codelineno-0-752"></a>
@@ -8854,7 +8854,7 @@ to be associated with the provided events within the context block.</p>
 <span class="normal"><a href="#__codelineno-0-793">793</a></span>
 <span class="normal"><a href="#__codelineno-0-794">794</a></span>
 <span class="normal"><a href="#__codelineno-0-795">795</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-775" name="__codelineno-0-775"></a><span class="nd">@classmethod</span>
-<a id="__codelineno-0-776" name="__codelineno-0-776"></a><span class="k">def</span> <span class="nf">remove_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-776" name="__codelineno-0-776"></a><span class="k">def</span><span class="w"> </span><span class="nf">remove_all</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <a id="__codelineno-0-777" name="__codelineno-0-777"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-778" name="__codelineno-0-778"></a><span class="sd">    Remove all events and subscribers from the registry.</span>
 <a id="__codelineno-0-779" name="__codelineno-0-779"></a>
@@ -9009,7 +9009,7 @@ to be associated with the provided events within the context block.</p>
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2025 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

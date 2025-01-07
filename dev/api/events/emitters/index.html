@@ -134,7 +134,7 @@
               </button>
             
             
-    ✨ <b><a href="../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
+    🚀 <b><a href="../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
 Don't miss the <b>latest updates</b>,
 featuring <b><a href="../../../#a-simple-reactive-example">reactive programming</a></b>,
 major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>, and more!
@@ -2455,7 +2455,7 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <span class="normal"><a href="#__codelineno-0-256">256</a></span>
 <span class="normal"><a href="#__codelineno-0-257">257</a></span>
 <span class="normal"><a href="#__codelineno-0-258">258</a></span>
-<span class="normal"><a href="#__codelineno-0-259">259</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="k">class</span> <span class="nc">EventEmitter</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-259">259</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="k">class</span><span class="w"> </span><span class="nc">EventEmitter</span><span class="p">:</span>
 <a id="__codelineno-0-20" name="__codelineno-0-20"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">    A class that orchestrates the emission of events.</span>
 <a id="__codelineno-0-22" name="__codelineno-0-22"></a>
@@ -2471,7 +2471,7 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">    &quot;&quot;&quot;</span>
 <a id="__codelineno-0-33" name="__codelineno-0-33"></a>
 <a id="__codelineno-0-34" name="__codelineno-0-34"></a>    <span class="nd">@final</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="k">class</span> <span class="nc">EventEmission</span><span class="p">:</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="k">class</span><span class="w"> </span><span class="nc">EventEmission</span><span class="p">:</span>
 <a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">        Represents an event emission that has been triggered but whose propagation is not yet complete.</span>
 <a id="__codelineno-0-38" name="__codelineno-0-38"></a>
@@ -2484,7 +2484,7 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <a id="__codelineno-0-45" name="__codelineno-0-45"></a>        <span class="c1"># Attributes for the EventEmission</span>
 <a id="__codelineno-0-46" name="__codelineno-0-46"></a>        <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;__id&quot;</span><span class="p">,</span> <span class="s2">&quot;__event&quot;</span><span class="p">,</span> <span class="s2">&quot;__subscribers&quot;</span><span class="p">,</span> <span class="s2">&quot;__args&quot;</span><span class="p">,</span> <span class="s2">&quot;__kwargs&quot;</span><span class="p">,</span> <span class="s2">&quot;__timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;__debug&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-47" name="__codelineno-0-47"></a>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a>        <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 <a id="__codelineno-0-49" name="__codelineno-0-49"></a>            <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-50" name="__codelineno-0-50"></a>            <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <a id="__codelineno-0-51" name="__codelineno-0-51"></a>            <span class="n">subscribers</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">],</span>
@@ -2516,7 +2516,7 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <a id="__codelineno-0-77" name="__codelineno-0-77"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">__timestamp</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 <a id="__codelineno-0-78" name="__codelineno-0-78"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">__debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">debug</span>
 <a id="__codelineno-0-79" name="__codelineno-0-79"></a>
-<a id="__codelineno-0-80" name="__codelineno-0-80"></a>        <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-80" name="__codelineno-0-80"></a>        <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="sd">            Retrieve a string representation of the instance.</span>
 <a id="__codelineno-0-83" name="__codelineno-0-83"></a>
@@ -2536,7 +2536,7 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <a id="__codelineno-0-97" name="__codelineno-0-97"></a>            <span class="p">)</span>
 <a id="__codelineno-0-98" name="__codelineno-0-98"></a>
 <a id="__codelineno-0-99" name="__codelineno-0-99"></a>        <span class="nd">@property</span>
-<a id="__codelineno-0-100" name="__codelineno-0-100"></a>        <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<a id="__codelineno-0-100" name="__codelineno-0-100"></a>        <span class="k">def</span><span class="w"> </span><span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-101" name="__codelineno-0-101"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-102" name="__codelineno-0-102"></a><span class="sd">            Retrieve the unique identifier of the event emission.</span>
 <a id="__codelineno-0-103" name="__codelineno-0-103"></a>
@@ -2545,7 +2545,7 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <a id="__codelineno-0-106" name="__codelineno-0-106"></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__id</span>
 <a id="__codelineno-0-107" name="__codelineno-0-107"></a>
 <a id="__codelineno-0-108" name="__codelineno-0-108"></a>        <span class="nd">@property</span>
-<a id="__codelineno-0-109" name="__codelineno-0-109"></a>        <span class="k">def</span> <span class="nf">event</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<a id="__codelineno-0-109" name="__codelineno-0-109"></a>        <span class="k">def</span><span class="w"> </span><span class="nf">event</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-110" name="__codelineno-0-110"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-111" name="__codelineno-0-111"></a><span class="sd">            Retrieve the name of the emitted event.</span>
 <a id="__codelineno-0-112" name="__codelineno-0-112"></a>
@@ -2554,7 +2554,7 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <a id="__codelineno-0-115" name="__codelineno-0-115"></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__event</span>
 <a id="__codelineno-0-116" name="__codelineno-0-116"></a>
 <a id="__codelineno-0-117" name="__codelineno-0-117"></a>        <span class="nd">@property</span>
-<a id="__codelineno-0-118" name="__codelineno-0-118"></a>        <span class="k">def</span> <span class="nf">timestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<a id="__codelineno-0-118" name="__codelineno-0-118"></a>        <span class="k">def</span><span class="w"> </span><span class="nf">timestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-119" name="__codelineno-0-119"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-120" name="__codelineno-0-120"></a><span class="sd">            Retrieve the timestamp when the event emission was created.</span>
 <a id="__codelineno-0-121" name="__codelineno-0-121"></a>
@@ -2562,7 +2562,7 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <a id="__codelineno-0-123" name="__codelineno-0-123"></a><span class="sd">            &quot;&quot;&quot;</span>
 <a id="__codelineno-0-124" name="__codelineno-0-124"></a>            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__timestamp</span>
 <a id="__codelineno-0-125" name="__codelineno-0-125"></a>
-<a id="__codelineno-0-126" name="__codelineno-0-126"></a>        <span class="k">async</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-126" name="__codelineno-0-126"></a>        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-127" name="__codelineno-0-127"></a><span class="w">            </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-128" name="__codelineno-0-128"></a><span class="sd">            Execute the subscribers concurrently.</span>
 <a id="__codelineno-0-129" name="__codelineno-0-129"></a>
@@ -2584,7 +2584,7 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <a id="__codelineno-0-145" name="__codelineno-0-145"></a>    <span class="c1"># Attributes for the EventEmitter.</span>
 <a id="__codelineno-0-146" name="__codelineno-0-146"></a>    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;__event_processor&quot;</span><span class="p">,</span> <span class="s2">&quot;__event_linker&quot;</span><span class="p">,</span> <span class="s2">&quot;__logger&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-147" name="__codelineno-0-147"></a>
-<a id="__codelineno-0-148" name="__codelineno-0-148"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<a id="__codelineno-0-148" name="__codelineno-0-148"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 <a id="__codelineno-0-149" name="__codelineno-0-149"></a>        <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-150" name="__codelineno-0-150"></a>        <span class="n">event_processor</span><span class="p">:</span> <span class="n">ProcessingService</span><span class="p">,</span>
 <a id="__codelineno-0-151" name="__codelineno-0-151"></a>        <span class="n">event_linker</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">EventLinker</span><span class="p">]</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="p">,</span>
@@ -2622,7 +2622,7 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <a id="__codelineno-0-183" name="__codelineno-0-183"></a>        <span class="c1"># Create and store logger.</span>
 <a id="__codelineno-0-184" name="__codelineno-0-184"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="p">:</span> <span class="n">Logger</span> <span class="o">=</span> <span class="n">Logger</span><span class="p">(</span><span class="n">source</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="n">debug</span> <span class="k">if</span> <span class="n">debug</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="nb">bool</span><span class="p">(</span><span class="n">gettrace</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">))</span>
 <a id="__codelineno-0-185" name="__codelineno-0-185"></a>
-<a id="__codelineno-0-186" name="__codelineno-0-186"></a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-186" name="__codelineno-0-186"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <a id="__codelineno-0-187" name="__codelineno-0-187"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-188" name="__codelineno-0-188"></a><span class="sd">        Retrieve a string representation of the instance.</span>
 <a id="__codelineno-0-189" name="__codelineno-0-189"></a>
@@ -2637,7 +2637,7 @@ major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>
 <a id="__codelineno-0-198" name="__codelineno-0-198"></a>            <span class="p">),</span>
 <a id="__codelineno-0-199" name="__codelineno-0-199"></a>        <span class="p">)</span>
 <a id="__codelineno-0-200" name="__codelineno-0-200"></a>
-<a id="__codelineno-0-201" name="__codelineno-0-201"></a>    <span class="k">def</span> <span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">EmittableEventType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-201" name="__codelineno-0-201"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">EmittableEventType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-202" name="__codelineno-0-202"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-203" name="__codelineno-0-203"></a><span class="sd">        Emit an event and notifies all registered subscribers.</span>
 <a id="__codelineno-0-204" name="__codelineno-0-204"></a>
@@ -2847,7 +2847,7 @@ instance, which is then processed by the event processor to handle the event pro
 <span class="normal"><a href="#__codelineno-0-141">141</a></span>
 <span class="normal"><a href="#__codelineno-0-142">142</a></span>
 <span class="normal"><a href="#__codelineno-0-143">143</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="nd">@final</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="k">class</span> <span class="nc">EventEmission</span><span class="p">:</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="k">class</span><span class="w"> </span><span class="nc">EventEmission</span><span class="p">:</span>
 <a id="__codelineno-0-36" name="__codelineno-0-36"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-37" name="__codelineno-0-37"></a><span class="sd">    Represents an event emission that has been triggered but whose propagation is not yet complete.</span>
 <a id="__codelineno-0-38" name="__codelineno-0-38"></a>
@@ -2860,7 +2860,7 @@ instance, which is then processed by the event processor to handle the event pro
 <a id="__codelineno-0-45" name="__codelineno-0-45"></a>    <span class="c1"># Attributes for the EventEmission</span>
 <a id="__codelineno-0-46" name="__codelineno-0-46"></a>    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;__id&quot;</span><span class="p">,</span> <span class="s2">&quot;__event&quot;</span><span class="p">,</span> <span class="s2">&quot;__subscribers&quot;</span><span class="p">,</span> <span class="s2">&quot;__args&quot;</span><span class="p">,</span> <span class="s2">&quot;__kwargs&quot;</span><span class="p">,</span> <span class="s2">&quot;__timestamp&quot;</span><span class="p">,</span> <span class="s2">&quot;__debug&quot;</span><span class="p">)</span>
 <a id="__codelineno-0-47" name="__codelineno-0-47"></a>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<a id="__codelineno-0-48" name="__codelineno-0-48"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 <a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-50" name="__codelineno-0-50"></a>        <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <a id="__codelineno-0-51" name="__codelineno-0-51"></a>        <span class="n">subscribers</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">],</span>
@@ -2892,7 +2892,7 @@ instance, which is then processed by the event processor to handle the event pro
 <a id="__codelineno-0-77" name="__codelineno-0-77"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__timestamp</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
 <a id="__codelineno-0-78" name="__codelineno-0-78"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="n">debug</span>
 <a id="__codelineno-0-79" name="__codelineno-0-79"></a>
-<a id="__codelineno-0-80" name="__codelineno-0-80"></a>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-0-80" name="__codelineno-0-80"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <a id="__codelineno-0-81" name="__codelineno-0-81"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-82" name="__codelineno-0-82"></a><span class="sd">        Retrieve a string representation of the instance.</span>
 <a id="__codelineno-0-83" name="__codelineno-0-83"></a>
@@ -2912,7 +2912,7 @@ instance, which is then processed by the event processor to handle the event pro
 <a id="__codelineno-0-97" name="__codelineno-0-97"></a>        <span class="p">)</span>
 <a id="__codelineno-0-98" name="__codelineno-0-98"></a>
 <a id="__codelineno-0-99" name="__codelineno-0-99"></a>    <span class="nd">@property</span>
-<a id="__codelineno-0-100" name="__codelineno-0-100"></a>    <span class="k">def</span> <span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<a id="__codelineno-0-100" name="__codelineno-0-100"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-101" name="__codelineno-0-101"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-102" name="__codelineno-0-102"></a><span class="sd">        Retrieve the unique identifier of the event emission.</span>
 <a id="__codelineno-0-103" name="__codelineno-0-103"></a>
@@ -2921,7 +2921,7 @@ instance, which is then processed by the event processor to handle the event pro
 <a id="__codelineno-0-106" name="__codelineno-0-106"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__id</span>
 <a id="__codelineno-0-107" name="__codelineno-0-107"></a>
 <a id="__codelineno-0-108" name="__codelineno-0-108"></a>    <span class="nd">@property</span>
-<a id="__codelineno-0-109" name="__codelineno-0-109"></a>    <span class="k">def</span> <span class="nf">event</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<a id="__codelineno-0-109" name="__codelineno-0-109"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">event</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-110" name="__codelineno-0-110"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-111" name="__codelineno-0-111"></a><span class="sd">        Retrieve the name of the emitted event.</span>
 <a id="__codelineno-0-112" name="__codelineno-0-112"></a>
@@ -2930,7 +2930,7 @@ instance, which is then processed by the event processor to handle the event pro
 <a id="__codelineno-0-115" name="__codelineno-0-115"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__event</span>
 <a id="__codelineno-0-116" name="__codelineno-0-116"></a>
 <a id="__codelineno-0-117" name="__codelineno-0-117"></a>    <span class="nd">@property</span>
-<a id="__codelineno-0-118" name="__codelineno-0-118"></a>    <span class="k">def</span> <span class="nf">timestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+<a id="__codelineno-0-118" name="__codelineno-0-118"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">timestamp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">datetime</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
 <a id="__codelineno-0-119" name="__codelineno-0-119"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-120" name="__codelineno-0-120"></a><span class="sd">        Retrieve the timestamp when the event emission was created.</span>
 <a id="__codelineno-0-121" name="__codelineno-0-121"></a>
@@ -2938,7 +2938,7 @@ instance, which is then processed by the event processor to handle the event pro
 <a id="__codelineno-0-123" name="__codelineno-0-123"></a><span class="sd">        &quot;&quot;&quot;</span>
 <a id="__codelineno-0-124" name="__codelineno-0-124"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__timestamp</span>
 <a id="__codelineno-0-125" name="__codelineno-0-125"></a>
-<a id="__codelineno-0-126" name="__codelineno-0-126"></a>    <span class="k">async</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-126" name="__codelineno-0-126"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-127" name="__codelineno-0-127"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-128" name="__codelineno-0-128"></a><span class="sd">        Execute the subscribers concurrently.</span>
 <a id="__codelineno-0-129" name="__codelineno-0-129"></a>
@@ -3251,7 +3251,7 @@ instance, which is then processed by the event processor to handle the event pro
 <span class="normal"><a href="#__codelineno-0-75">75</a></span>
 <span class="normal"><a href="#__codelineno-0-76">76</a></span>
 <span class="normal"><a href="#__codelineno-0-77">77</a></span>
-<span class="normal"><a href="#__codelineno-0-78">78</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal"><a href="#__codelineno-0-78">78</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 <a id="__codelineno-0-49" name="__codelineno-0-49"></a>    <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-50" name="__codelineno-0-50"></a>    <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <a id="__codelineno-0-51" name="__codelineno-0-51"></a>    <span class="n">subscribers</span><span class="p">:</span> <span class="nb">set</span><span class="p">[</span><span class="n">EventSubscriber</span><span class="p">],</span>
@@ -3350,7 +3350,7 @@ instance, which is then processed by the event processor to handle the event pro
 <span class="normal"><a href="#__codelineno-0-140">140</a></span>
 <span class="normal"><a href="#__codelineno-0-141">141</a></span>
 <span class="normal"><a href="#__codelineno-0-142">142</a></span>
-<span class="normal"><a href="#__codelineno-0-143">143</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-126" name="__codelineno-0-126"></a><span class="k">async</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-143">143</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-126" name="__codelineno-0-126"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-127" name="__codelineno-0-127"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-128" name="__codelineno-0-128"></a><span class="sd">    Execute the subscribers concurrently.</span>
 <a id="__codelineno-0-129" name="__codelineno-0-129"></a>
@@ -3528,7 +3528,7 @@ instance, which is then processed by the event processor to handle the event pro
 <span class="normal"><a href="#__codelineno-0-181">181</a></span>
 <span class="normal"><a href="#__codelineno-0-182">182</a></span>
 <span class="normal"><a href="#__codelineno-0-183">183</a></span>
-<span class="normal"><a href="#__codelineno-0-184">184</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-148" name="__codelineno-0-148"></a><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+<span class="normal"><a href="#__codelineno-0-184">184</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-148" name="__codelineno-0-148"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
 <a id="__codelineno-0-149" name="__codelineno-0-149"></a>    <span class="bp">self</span><span class="p">,</span>
 <a id="__codelineno-0-150" name="__codelineno-0-150"></a>    <span class="n">event_processor</span><span class="p">:</span> <span class="n">ProcessingService</span><span class="p">,</span>
 <a id="__codelineno-0-151" name="__codelineno-0-151"></a>    <span class="n">event_linker</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">EventLinker</span><span class="p">]</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="p">,</span>
@@ -3750,7 +3750,7 @@ instance, which is then processed by the event processor to handle the event pro
 <span class="normal"><a href="#__codelineno-0-256">256</a></span>
 <span class="normal"><a href="#__codelineno-0-257">257</a></span>
 <span class="normal"><a href="#__codelineno-0-258">258</a></span>
-<span class="normal"><a href="#__codelineno-0-259">259</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-201" name="__codelineno-0-201"></a><span class="k">def</span> <span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">EmittableEventType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="normal"><a href="#__codelineno-0-259">259</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-201" name="__codelineno-0-201"></a><span class="k">def</span><span class="w"> </span><span class="nf">emit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">EmittableEventType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-0-202" name="__codelineno-0-202"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <a id="__codelineno-0-203" name="__codelineno-0-203"></a><span class="sd">    Emit an event and notifies all registered subscribers.</span>
 <a id="__codelineno-0-204" name="__codelineno-0-204"></a>
@@ -3944,7 +3944,7 @@ instance, which is then processed by the event processor to handle the event pro
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2025 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

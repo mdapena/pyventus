@@ -132,7 +132,7 @@
               </button>
             
             
-    ✨ <b><a href="./release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
+    🚀 <b><a href="./release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
 Don't miss the <b>latest updates</b>,
 featuring <b><a href="./#a-simple-reactive-example">reactive programming</a></b>,
 major <b><a href="./release-notes/#0.7.0-optimized">optimizations</a></b>, and more!
@@ -2406,11 +2406,11 @@ Pyventus offers a comprehensive documentation suite that includes API references
 <span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
 <span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
 <span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-1-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kn">from</span> <span class="nn">pyventus.events</span> <span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3"></a>
 <a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;GreetEvent&quot;</span><span class="p">)</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="k">def</span> <span class="nf">handle_greet_event</span><span class="p">():</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_greet_event</span><span class="p">():</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello, World!&quot;</span><span class="p">)</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7"></a>
 <a id="__codelineno-1-8" name="__codelineno-1-8"></a>
@@ -2428,11 +2428,11 @@ Pyventus offers a comprehensive documentation suite that includes API references
 <span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
 <span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
 <span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-2-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="kn">from</span> <span class="nn">pyventus.events</span> <span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2"></a>
 <a id="__codelineno-2-3" name="__codelineno-2-3"></a>
 <a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;GreetEvent&quot;</span><span class="p">)</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="hll"><span class="k">async</span> <span class="k">def</span> <span class="nf">handle_greet_event</span><span class="p">():</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_greet_event</span><span class="p">():</span>
 </span><a id="__codelineno-2-6" name="__codelineno-2-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello, World!&quot;</span><span class="p">)</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7"></a>
 <a id="__codelineno-2-8" name="__codelineno-2-8"></a>
@@ -2490,11 +2490,11 @@ Finally, by using the <code>emit()</code> method of the event emitter instance, 
 <span class="normal"><a href="#__codelineno-3-13">13</a></span>
 <span class="normal"><a href="#__codelineno-3-14">14</a></span>
 <span class="normal"><a href="#__codelineno-3-15">15</a></span>
-<span class="normal"><a href="#__codelineno-3-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="kn">from</span> <span class="nn">pyventus.reactive</span> <span class="kn">import</span> <span class="n">as_observable_task</span><span class="p">,</span> <span class="n">Completed</span>
+<span class="normal"><a href="#__codelineno-3-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.reactive</span><span class="w"> </span><span class="kn">import</span> <span class="n">as_observable_task</span><span class="p">,</span> <span class="n">Completed</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2"></a>
 <a id="__codelineno-3-3" name="__codelineno-3-3"></a>
 <a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="nd">@as_observable_task</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="k">def</span> <span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <a id="__codelineno-3-6" name="__codelineno-3-6"></a>    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
 <a id="__codelineno-3-7" name="__codelineno-3-7"></a>        <span class="k">yield</span> <span class="n">count</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8"></a>    <span class="k">raise</span> <span class="n">Completed</span>
@@ -2524,11 +2524,11 @@ Finally, by using the <code>emit()</code> method of the event emitter instance, 
 <span class="normal"><a href="#__codelineno-4-13">13</a></span>
 <span class="normal"><a href="#__codelineno-4-14">14</a></span>
 <span class="normal"><a href="#__codelineno-4-15">15</a></span>
-<span class="normal"><a href="#__codelineno-4-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="kn">from</span> <span class="nn">pyventus.reactive</span> <span class="kn">import</span> <span class="n">as_observable_task</span><span class="p">,</span> <span class="n">Completed</span>
+<span class="normal"><a href="#__codelineno-4-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.reactive</span><span class="w"> </span><span class="kn">import</span> <span class="n">as_observable_task</span><span class="p">,</span> <span class="n">Completed</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2"></a>
 <a id="__codelineno-4-3" name="__codelineno-4-3"></a>
 <a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="nd">@as_observable_task</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="hll"><span class="k">async</span> <span class="k">def</span> <span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 </span><a id="__codelineno-4-6" name="__codelineno-4-6"></a>    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
 <a id="__codelineno-4-7" name="__codelineno-4-7"></a>        <span class="k">yield</span> <span class="n">count</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8"></a>    <span class="k">raise</span> <span class="n">Completed</span>
@@ -2658,22 +2658,22 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-5-56">56</a></span>
 <span class="normal"><a href="#__codelineno-5-57">57</a></span>
 <span class="normal"><a href="#__codelineno-5-58">58</a></span>
-<span class="normal"><a href="#__codelineno-5-59">59</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kn">import</span> <span class="nn">asyncio</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="kn">import</span> <span class="nn">random</span>
+<span class="normal"><a href="#__codelineno-5-59">59</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">random</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3"></a>
-<a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="hll"><span class="kn">from</span> <span class="nn">pyventus.events</span> <span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="hll"><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span>
 </span><a id="__codelineno-5-5" name="__codelineno-5-5"></a>
 <a id="__codelineno-5-6" name="__codelineno-5-6"></a>
-<a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="k">class</span> <span class="nc">VoltageSensor</span><span class="p">:</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="k">class</span><span class="w"> </span><span class="nc">VoltageSensor</span><span class="p">:</span>
 <a id="__codelineno-5-8" name="__codelineno-5-8"></a>
-<a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="hll">    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">low</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">high</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">low</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">high</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><a id="__codelineno-5-10" name="__codelineno-5-10"></a>        <span class="c1"># Initialize the VoltageSensor object with the provided parameters</span>
 <a id="__codelineno-5-11" name="__codelineno-5-11"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">name</span>
 <a id="__codelineno-5-12" name="__codelineno-5-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_low</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">low</span>
 <a id="__codelineno-5-13" name="__codelineno-5-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_high</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">high</span>
 <a id="__codelineno-5-14" name="__codelineno-5-14"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">event_emitter</span>
 </span><a id="__codelineno-5-15" name="__codelineno-5-15"></a>
-<a id="__codelineno-5-16" name="__codelineno-5-16"></a>    <span class="k">async</span> <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16"></a>    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-5-17" name="__codelineno-5-17"></a>        <span class="c1"># Start voltage readings for the sensor</span>
 <a id="__codelineno-5-18" name="__codelineno-5-18"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Starting voltage readings for: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <a id="__codelineno-5-19" name="__codelineno-5-19"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Low: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_low</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">v | High: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_high</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">v</span><span class="se">\n</span><span class="s2">-----------</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -2693,24 +2693,24 @@ Finally, and in order to initiate the execution of the observable, we called its
 <a id="__codelineno-5-33" name="__codelineno-5-33"></a>
 <a id="__codelineno-5-34" name="__codelineno-5-34"></a>
 <a id="__codelineno-5-35" name="__codelineno-5-35"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;LowVoltageEvent&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-5-36" name="__codelineno-5-36"></a><span class="hll"><span class="k">def</span> <span class="nf">handle_low_voltage_event</span><span class="p">(</span><span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">voltage</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+</span><a id="__codelineno-5-36" name="__codelineno-5-36"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_low_voltage_event</span><span class="p">(</span><span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">voltage</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 </span><a id="__codelineno-5-37" name="__codelineno-5-37"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🪫 Starting low-voltage protection for &#39;</span><span class="si">{</span><span class="n">sensor</span><span class="si">}</span><span class="s2">&#39;. (</span><span class="si">{</span><span class="n">voltage</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">v)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 <a id="__codelineno-5-38" name="__codelineno-5-38"></a>    <span class="c1"># Perform action for low voltage...</span>
 <a id="__codelineno-5-39" name="__codelineno-5-39"></a>
 <a id="__codelineno-5-40" name="__codelineno-5-40"></a>
 <a id="__codelineno-5-41" name="__codelineno-5-41"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;HighVoltageEvent&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-5-42" name="__codelineno-5-42"></a><span class="hll"><span class="k">def</span> <span class="nf">handle_high_voltage_event</span><span class="p">(</span><span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">voltage</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+</span><a id="__codelineno-5-42" name="__codelineno-5-42"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_high_voltage_event</span><span class="p">(</span><span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">voltage</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 </span><a id="__codelineno-5-43" name="__codelineno-5-43"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;⚡ Starting high-voltage protection for &#39;</span><span class="si">{</span><span class="n">sensor</span><span class="si">}</span><span class="s2">&#39;. (</span><span class="si">{</span><span class="n">voltage</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">v)</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 <a id="__codelineno-5-44" name="__codelineno-5-44"></a>    <span class="c1"># Perform action for high voltage...</span>
 <a id="__codelineno-5-45" name="__codelineno-5-45"></a>
 <a id="__codelineno-5-46" name="__codelineno-5-46"></a>
 <a id="__codelineno-5-47" name="__codelineno-5-47"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;LowVoltageEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;HighVoltageEvent&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-5-48" name="__codelineno-5-48"></a><span class="hll"><span class="k">async</span> <span class="k">def</span> <span class="nf">handle_voltage_event</span><span class="p">(</span><span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">voltage</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+</span><a id="__codelineno-5-48" name="__codelineno-5-48"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_voltage_event</span><span class="p">(</span><span class="n">sensor</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">voltage</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
 </span><a id="__codelineno-5-49" name="__codelineno-5-49"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\033</span><span class="s2">[31m</span><span class="se">\n</span><span class="s2">Sensor &#39;</span><span class="si">{</span><span class="n">sensor</span><span class="si">}</span><span class="s2">&#39; out of range.</span><span class="se">\033</span><span class="s2">[0m (Voltage: </span><span class="si">{</span><span class="n">voltage</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 <a id="__codelineno-5-50" name="__codelineno-5-50"></a>    <span class="c1"># Perform notification for out of range voltage...</span>
 <a id="__codelineno-5-51" name="__codelineno-5-51"></a>
 <a id="__codelineno-5-52" name="__codelineno-5-52"></a>
-<a id="__codelineno-5-53" name="__codelineno-5-53"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<a id="__codelineno-5-53" name="__codelineno-5-53"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
 <a id="__codelineno-5-54" name="__codelineno-5-54"></a>    <span class="c1"># Initialize the sensor and run the sensor readings</span>
 <a id="__codelineno-5-55" name="__codelineno-5-55"></a><span class="hll">    <span class="n">sensor</span> <span class="o">=</span> <span class="n">VoltageSensor</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;CarSensor&quot;</span><span class="p">,</span> <span class="n">low</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">3.9</span><span class="p">,</span> <span class="n">event_emitter</span><span class="o">=</span><span class="n">AsyncIOEventEmitter</span><span class="p">())</span>
 </span><a id="__codelineno-5-56" name="__codelineno-5-56"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">sensor</span><span class="p">(),</span> <span class="p">)</span>  <span class="c1"># Add new sensors inside the &#39;gather&#39; for multi-device monitoring</span>
@@ -2817,15 +2817,15 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-6-78">78</a></span>
 <span class="normal"><a href="#__codelineno-6-79">79</a></span>
 <span class="normal"><a href="#__codelineno-6-80">80</a></span>
-<span class="normal"><a href="#__codelineno-6-81">81</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="kn">from</span> <span class="nn">http.client</span> <span class="kn">import</span> <span class="n">HTTPConnection</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">HTTPResponse</span><span class="p">,</span> <span class="n">HTTPSConnection</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">ParseResult</span><span class="p">,</span> <span class="n">urlparse</span>
+<span class="normal"><a href="#__codelineno-6-81">81</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">http.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPConnection</span><span class="p">,</span> <span class="n">HTTPException</span><span class="p">,</span> <span class="n">HTTPResponse</span><span class="p">,</span> <span class="n">HTTPSConnection</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">urllib.parse</span><span class="w"> </span><span class="kn">import</span> <span class="n">ParseResult</span><span class="p">,</span> <span class="n">urlparse</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4"></a>
-<a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="hll"><span class="kn">from</span> <span class="nn">pyventus.reactive</span> <span class="kn">import</span> <span class="n">as_observable_task</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="hll"><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.reactive</span><span class="w"> </span><span class="kn">import</span> <span class="n">as_observable_task</span>
 </span><a id="__codelineno-6-6" name="__codelineno-6-6"></a>
 <a id="__codelineno-6-7" name="__codelineno-6-7"></a>
 <a id="__codelineno-6-8" name="__codelineno-6-8"></a><span class="hll"><span class="nd">@as_observable_task</span>
-</span><a id="__codelineno-6-9" name="__codelineno-6-9"></a><span class="hll"><span class="k">def</span> <span class="nf">http_get</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><a id="__codelineno-6-9" name="__codelineno-6-9"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">http_get</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 </span><a id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform an HTTP GET request and return the response data.&quot;&quot;&quot;</span>
 <a id="__codelineno-6-11" name="__codelineno-6-11"></a>    <span class="n">parsed_url</span><span class="p">:</span> <span class="n">ParseResult</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>  <span class="c1"># Parse the URL</span>
 <a id="__codelineno-6-12" name="__codelineno-6-12"></a>
@@ -2847,7 +2847,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 <a id="__codelineno-6-28" name="__codelineno-6-28"></a>    <span class="k">return</span> <span class="n">data</span>
 <a id="__codelineno-6-29" name="__codelineno-6-29"></a>
 <a id="__codelineno-6-30" name="__codelineno-6-30"></a>
-<a id="__codelineno-6-31" name="__codelineno-6-31"></a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+<a id="__codelineno-6-31" name="__codelineno-6-31"></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
 <a id="__codelineno-6-32" name="__codelineno-6-32"></a>    <span class="nb">print</span><span class="p">(</span>
 <a id="__codelineno-6-33" name="__codelineno-6-33"></a>        <span class="s2">&quot;🌐  Welcome to the Reactive HTTP Fetcher!</span><span class="se">\n\n</span><span class="s2">💡  Try searching for:</span><span class="se">\n</span><span class="s2">&quot;</span>
 <a id="__codelineno-6-34" name="__codelineno-6-34"></a>        <span class="s2">&quot;    1. - https://httpbin.org/get</span><span class="se">\n</span><span class="s2">&quot;</span>
@@ -2873,12 +2873,12 @@ Finally, and in order to initiate the execution of the observable, we called its
 <a id="__codelineno-6-54" name="__codelineno-6-54"></a><span class="hll">        <span class="k">with</span> <span class="n">obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">()</span> <span class="k">as</span> <span class="n">subctx</span><span class="p">:</span>
 </span><a id="__codelineno-6-55" name="__codelineno-6-55"></a>
 <a id="__codelineno-6-56" name="__codelineno-6-56"></a><span class="hll">            <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_next</span>
-</span><a id="__codelineno-6-57" name="__codelineno-6-57"></a><span class="hll">            <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><a id="__codelineno-6-57" name="__codelineno-6-57"></a><span class="hll">            <span class="k">def</span><span class="w"> </span><span class="nf">next</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><a id="__codelineno-6-58" name="__codelineno-6-58"></a>                <span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;success_count&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Increment success count</span>
 <a id="__codelineno-6-59" name="__codelineno-6-59"></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\r</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span><span class="si">}</span><span class="se">\r</span><span class="s2">✅  HTTPResponse: </span><span class="si">{</span><span class="n">result</span><span class="si">!r}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prompt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <a id="__codelineno-6-60" name="__codelineno-6-60"></a>
 <a id="__codelineno-6-61" name="__codelineno-6-61"></a><span class="hll">            <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_error</span>
-</span><a id="__codelineno-6-62" name="__codelineno-6-62"></a><span class="hll">            <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><a id="__codelineno-6-62" name="__codelineno-6-62"></a><span class="hll">            <span class="k">def</span><span class="w"> </span><span class="nf">error</span><span class="p">(</span><span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><a id="__codelineno-6-63" name="__codelineno-6-63"></a>                <span class="n">metrics</span><span class="p">[</span><span class="s2">&quot;error_count&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>  <span class="c1"># Increment error count</span>
 <a id="__codelineno-6-64" name="__codelineno-6-64"></a>                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\r</span><span class="si">{</span><span class="s1">&#39; &#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span><span class="si">}</span><span class="se">\r</span><span class="s2">⚠️   HTTPException: </span><span class="si">{</span><span class="n">error</span><span class="si">!r}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">prompt</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <a id="__codelineno-6-65" name="__codelineno-6-65"></a>
@@ -2929,13 +2929,13 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-7-18">18</a></span>
 <span class="normal"><a href="#__codelineno-7-19">19</a></span>
 <span class="normal"><a href="#__codelineno-7-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="hll"><span class="nd">@dataclass</span>  <span class="c1"># Define a Python dataclass to represent an event and its payload.</span>
-</span><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="hll"><span class="k">class</span> <span class="nc">OrderCreatedEvent</span><span class="p">:</span>
+</span><a id="__codelineno-7-2" name="__codelineno-7-2"></a><span class="hll"><span class="k">class</span><span class="w"> </span><span class="nc">OrderCreatedEvent</span><span class="p">:</span>
 </span><a id="__codelineno-7-3" name="__codelineno-7-3"></a>    <span class="n">order_id</span><span class="p">:</span> <span class="nb">int</span>
 <a id="__codelineno-7-4" name="__codelineno-7-4"></a>    <span class="n">payload</span><span class="p">:</span> <span class="nb">dict</span>
 <a id="__codelineno-7-5" name="__codelineno-7-5"></a>
 <a id="__codelineno-7-6" name="__codelineno-7-6"></a>
 <a id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">OrderCreatedEvent</span><span class="p">)</span>  <span class="c1"># Use the event class to attach subscribers.</span>
-</span><a id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="hll"><span class="k">def</span> <span class="nf">handle_order_created_event</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">OrderCreatedEvent</span><span class="p">):</span>
+</span><a id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_order_created_event</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">OrderCreatedEvent</span><span class="p">):</span>
 </span><a id="__codelineno-7-9" name="__codelineno-7-9"></a>    <span class="c1"># The event instance is automatically passed as the first argument.</span>
 <a id="__codelineno-7-10" name="__codelineno-7-10"></a>    <span class="c1"># In methods with self or cls, the event is passed after those arguments.</span>
 <a id="__codelineno-7-11" name="__codelineno-7-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Event Object: </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -2961,7 +2961,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-8-5">5</a></span>
 <span class="normal"><a href="#__codelineno-8-6">6</a></span>
 <span class="normal"><a href="#__codelineno-8-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
-</span><a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="hll"><span class="k">def</span> <span class="nf">logging</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+</span><a id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">logging</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 </span><a id="__codelineno-8-3" name="__codelineno-8-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Logging:</span><span class="se">\n</span><span class="s2">- Args: </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="se">\n</span><span class="s2">- Kwargs: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <a id="__codelineno-8-4" name="__codelineno-8-4"></a>
 <a id="__codelineno-8-5" name="__codelineno-8-5"></a>
@@ -2993,21 +2993,21 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-9-18">18</a></span>
 <span class="normal"><a href="#__codelineno-9-19">19</a></span>
 <span class="normal"><a href="#__codelineno-9-20">20</a></span>
-<span class="normal"><a href="#__codelineno-9-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="kn">from</span> <span class="nn">pyventus.events</span> <span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span>
+<span class="normal"><a href="#__codelineno-9-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2"></a>
 <a id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="c1"># Create a subscription context for the &quot;DivisionEvent&quot; event</span>
 <a id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="hll"><span class="k">with</span> <span class="n">EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;DivisionEvent&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">subctx</span><span class="p">:</span>
 </span><a id="__codelineno-9-5" name="__codelineno-9-5"></a>
 <a id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="hll">    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_event</span>
-</span><a id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="hll">    <span class="k">def</span> <span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><a id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
 </span><a id="__codelineno-9-8" name="__codelineno-9-8"></a>        <span class="k">return</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span>
 <a id="__codelineno-9-9" name="__codelineno-9-9"></a>
 <a id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="hll">    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_success</span>
-</span><a id="__codelineno-9-11" name="__codelineno-9-11"></a><span class="hll">    <span class="k">def</span> <span class="nf">handle_success</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><a id="__codelineno-9-11" name="__codelineno-9-11"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">handle_success</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><a id="__codelineno-9-12" name="__codelineno-9-12"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Division result: </span><span class="si">{</span><span class="n">result</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <a id="__codelineno-9-13" name="__codelineno-9-13"></a>
 <a id="__codelineno-9-14" name="__codelineno-9-14"></a><span class="hll">    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_failure</span>
-</span><a id="__codelineno-9-15" name="__codelineno-9-15"></a><span class="hll">    <span class="k">def</span> <span class="nf">handle_failure</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><a id="__codelineno-9-15" name="__codelineno-9-15"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">handle_failure</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><a id="__codelineno-9-16" name="__codelineno-9-16"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Oops, something went wrong: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <a id="__codelineno-9-17" name="__codelineno-9-17"></a>
 <a id="__codelineno-9-18" name="__codelineno-9-18"></a>
@@ -3031,7 +3031,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-10-9"> 9</a></span>
 <span class="normal"><a href="#__codelineno-10-10">10</a></span>
 <span class="normal"><a href="#__codelineno-10-11">11</a></span>
-<span class="normal"><a href="#__codelineno-10-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="kn">from</span> <span class="nn">pyventus.events</span> <span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span>
+<span class="normal"><a href="#__codelineno-10-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2"></a>
 <a id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
 </span><a id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="hll">    <span class="s2">&quot;DivisionEvent&quot;</span><span class="p">,</span>
@@ -3058,12 +3058,12 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-11-6">6</a></span>
 <span class="normal"><a href="#__codelineno-11-7">7</a></span>
 <span class="normal"><a href="#__codelineno-11-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="hll"><span class="k">def</span> <span class="nf">sync_event_callback</span><span class="p">():</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">sync_event_callback</span><span class="p">():</span>
 </span><a id="__codelineno-11-3" name="__codelineno-11-3"></a>    <span class="k">pass</span>  <span class="c1"># Synchronous event handling</span>
 <a id="__codelineno-11-4" name="__codelineno-11-4"></a>
 <a id="__codelineno-11-5" name="__codelineno-11-5"></a>
 <a id="__codelineno-11-6" name="__codelineno-11-6"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
-<a id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="hll"><span class="k">async</span> <span class="k">def</span> <span class="nf">async_event_callback</span><span class="p">():</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">async_event_callback</span><span class="p">():</span>
 </span><a id="__codelineno-11-8" name="__codelineno-11-8"></a>    <span class="k">pass</span>  <span class="c1"># Asynchronous event handling</span>
 </code></pre></div></td></tr></table></div>
 <p><details markdown="1" class="tip">
@@ -3078,7 +3078,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-12-5">5</a></span>
 <span class="normal"><a href="#__codelineno-12-6">6</a></span>
 <span class="normal"><a href="#__codelineno-12-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;BlockingIO&quot;</span><span class="p">,</span> <span class="n">force_async</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><a id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="k">def</span> <span class="nf">blocking_io</span><span class="p">():</span>
+</span><a id="__codelineno-12-2" name="__codelineno-12-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">blocking_io</span><span class="p">():</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;start blocking_io at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%X</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <a id="__codelineno-12-4" name="__codelineno-12-4"></a>    <span class="c1"># Note that time.sleep() can be replaced with any blocking</span>
 <a id="__codelineno-12-5" name="__codelineno-12-5"></a>    <span class="c1"># IO-bound operation, such as file operations.</span>
@@ -3093,12 +3093,12 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-13-5">5</a></span>
 <span class="normal"><a href="#__codelineno-13-6">6</a></span>
 <span class="normal"><a href="#__codelineno-13-7">7</a></span>
-<span class="normal"><a href="#__codelineno-13-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="k">def</span> <span class="nf">sync_function</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="p">):</span>
+<span class="normal"><a href="#__codelineno-13-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">sync_function</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="p">):</span>
 <a id="__codelineno-13-2" name="__codelineno-13-2"></a>    <span class="c1"># Emitting events from sync functions</span>
 <a id="__codelineno-13-3" name="__codelineno-13-3"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
 </span><a id="__codelineno-13-4" name="__codelineno-13-4"></a>
 <a id="__codelineno-13-5" name="__codelineno-13-5"></a>
-<a id="__codelineno-13-6" name="__codelineno-13-6"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">async_function</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="p">):</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">async_function</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="p">):</span>
 <a id="__codelineno-13-7" name="__codelineno-13-7"></a>    <span class="c1"># Emitting events from async functions</span>
 <a id="__codelineno-13-8" name="__codelineno-13-8"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
@@ -3131,17 +3131,17 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-14-16">16</a></span>
 <span class="normal"><a href="#__codelineno-14-17">17</a></span>
 <span class="normal"><a href="#__codelineno-14-18">18</a></span>
-<span class="normal"><a href="#__codelineno-14-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+<span class="normal"><a href="#__codelineno-14-19">19</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2"></a>
-<a id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="kn">from</span> <span class="nn">pyventus.events</span> <span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">ExecutorEventEmitter</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">ExecutorEventEmitter</span>
 <a id="__codelineno-14-4" name="__codelineno-14-4"></a>
 <a id="__codelineno-14-5" name="__codelineno-14-5"></a>
 <a id="__codelineno-14-6" name="__codelineno-14-6"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;Event&quot;</span><span class="p">)</span>
-<a id="__codelineno-14-7" name="__codelineno-14-7"></a><span class="k">def</span> <span class="nf">handle_event</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_event</span><span class="p">(</span><span class="n">msg</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <a id="__codelineno-14-8" name="__codelineno-14-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
 <a id="__codelineno-14-9" name="__codelineno-14-9"></a>
 <a id="__codelineno-14-10" name="__codelineno-14-10"></a>
-<a id="__codelineno-14-11" name="__codelineno-14-11"></a><span class="hll"><span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><a id="__codelineno-14-12" name="__codelineno-14-12"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;Event&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">event_emitter</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </span><a id="__codelineno-14-13" name="__codelineno-14-13"></a>
 <a id="__codelineno-14-14" name="__codelineno-14-14"></a>
@@ -3171,7 +3171,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-15-5">5</a></span>
 <span class="normal"><a href="#__codelineno-15-6">6</a></span>
 <span class="normal"><a href="#__codelineno-15-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="hll"><span class="nd">@as_observable_task</span>
-</span><a id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="hll"><span class="k">def</span> <span class="nf">compute_square</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+</span><a id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">compute_square</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
 </span><a id="__codelineno-15-3" name="__codelineno-15-3"></a>    <span class="k">return</span> <span class="n">n</span> <span class="o">*</span> <span class="n">n</span>
 <a id="__codelineno-15-4" name="__codelineno-15-4"></a>
 <a id="__codelineno-15-5" name="__codelineno-15-5"></a><span class="hll"><span class="n">obs</span> <span class="o">=</span> <span class="n">compute_square</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -3188,7 +3188,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-16-6">6</a></span>
 <span class="normal"><a href="#__codelineno-16-7">7</a></span>
 <span class="normal"><a href="#__codelineno-16-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1"></a><span class="hll"><span class="nd">@as_observable_task</span>
-</span><a id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="hll"><span class="k">async</span> <span class="k">def</span> <span class="nf">fetch_data</span><span class="p">():</span>
+</span><a id="__codelineno-16-2" name="__codelineno-16-2"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fetch_data</span><span class="p">():</span>
 </span><a id="__codelineno-16-3" name="__codelineno-16-3"></a>    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <a id="__codelineno-16-4" name="__codelineno-16-4"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;data&quot;</span><span class="p">:</span> <span class="s2">&quot;Sample Data&quot;</span><span class="p">}</span>
 <a id="__codelineno-16-5" name="__codelineno-16-5"></a>
@@ -3207,7 +3207,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-17-8"> 8</a></span>
 <span class="normal"><a href="#__codelineno-17-9"> 9</a></span>
 <span class="normal"><a href="#__codelineno-17-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1"></a><span class="hll"><span class="nd">@as_observable_task</span>
-</span><a id="__codelineno-17-2" name="__codelineno-17-2"></a><span class="hll"><span class="k">def</span> <span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><a id="__codelineno-17-2" name="__codelineno-17-2"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 </span><a id="__codelineno-17-3" name="__codelineno-17-3"></a>    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
 <a id="__codelineno-17-4" name="__codelineno-17-4"></a><span class="hll">        <span class="k">yield</span> <span class="n">count</span>
 </span><a id="__codelineno-17-5" name="__codelineno-17-5"></a>    <span class="k">raise</span> <span class="n">Completed</span>
@@ -3229,7 +3229,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-18-8"> 8</a></span>
 <span class="normal"><a href="#__codelineno-18-9"> 9</a></span>
 <span class="normal"><a href="#__codelineno-18-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1"></a><span class="hll"><span class="nd">@as_observable_task</span>
-</span><a id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="hll"><span class="k">async</span> <span class="k">def</span> <span class="nf">async_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+</span><a id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">async_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 </span><a id="__codelineno-18-3" name="__codelineno-18-3"></a>    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
 <a id="__codelineno-18-4" name="__codelineno-18-4"></a>        <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
 <a id="__codelineno-18-5" name="__codelineno-18-5"></a><span class="hll">        <span class="k">yield</span> <span class="n">count</span>
@@ -3257,7 +3257,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-19-10">10</a></span>
 <span class="normal"><a href="#__codelineno-19-11">11</a></span>
 <span class="normal"><a href="#__codelineno-19-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="nd">@as_observable_task</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="k">def</span> <span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <a id="__codelineno-19-3" name="__codelineno-19-3"></a>    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
 <a id="__codelineno-19-4" name="__codelineno-19-4"></a>        <span class="k">yield</span> <span class="n">count</span>
 <a id="__codelineno-19-5" name="__codelineno-19-5"></a>    <span class="k">raise</span> <span class="n">Completed</span>
@@ -3289,7 +3289,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-20-13">13</a></span>
 <span class="normal"><a href="#__codelineno-20-14">14</a></span>
 <span class="normal"><a href="#__codelineno-20-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="nd">@as_observable_task</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">interactive_counter</span><span class="p">():</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">interactive_counter</span><span class="p">():</span>
 <a id="__codelineno-20-3" name="__codelineno-20-3"></a>    <span class="n">stop</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter a number to count up to: &quot;</span><span class="p">))</span>  <span class="c1"># Can raise ValueError</span>
 <a id="__codelineno-20-4" name="__codelineno-20-4"></a>    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
 <a id="__codelineno-20-5" name="__codelineno-20-5"></a>        <span class="k">yield</span> <span class="n">count</span>
@@ -3324,15 +3324,15 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-21-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="hll"><span class="k">with</span> <span class="n">obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">()</span> <span class="k">as</span> <span class="n">subctx</span><span class="p">:</span>
 </span><a id="__codelineno-21-2" name="__codelineno-21-2"></a>
 <a id="__codelineno-21-3" name="__codelineno-21-3"></a><span class="hll">    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_next</span>
-</span><a id="__codelineno-21-4" name="__codelineno-21-4"></a><span class="hll">    <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><a id="__codelineno-21-4" name="__codelineno-21-4"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">next</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><a id="__codelineno-21-5" name="__codelineno-21-5"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <a id="__codelineno-21-6" name="__codelineno-21-6"></a>
 <a id="__codelineno-21-7" name="__codelineno-21-7"></a><span class="hll">    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_error</span>
-</span><a id="__codelineno-21-8" name="__codelineno-21-8"></a><span class="hll">    <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><a id="__codelineno-21-8" name="__codelineno-21-8"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">error</span><span class="p">(</span><span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><a id="__codelineno-21-9" name="__codelineno-21-9"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <a id="__codelineno-21-10" name="__codelineno-21-10"></a>
 <a id="__codelineno-21-11" name="__codelineno-21-11"></a><span class="hll">    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_complete</span>
-</span><a id="__codelineno-21-12" name="__codelineno-21-12"></a><span class="hll">    <span class="k">def</span> <span class="nf">complete</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><a id="__codelineno-21-12" name="__codelineno-21-12"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">complete</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><a id="__codelineno-21-13" name="__codelineno-21-13"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All done!&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <p><details markdown="1" class="tip">
@@ -3343,7 +3343,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span>
 <span class="normal"><a href="#__codelineno-22-2">2</a></span>
 <span class="normal"><a href="#__codelineno-22-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="hll"><span class="nd">@obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">()</span>
-</span><a id="__codelineno-22-2" name="__codelineno-22-2"></a><span class="hll"><span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><a id="__codelineno-22-2" name="__codelineno-22-2"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">next</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><a id="__codelineno-22-3" name="__codelineno-22-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </details>
@@ -3361,7 +3361,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-23-7">7</a></span>
 <span class="normal"><a href="#__codelineno-23-8">8</a></span>
 <span class="normal"><a href="#__codelineno-23-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="nd">@as_observable_task</span>
-<a id="__codelineno-23-2" name="__codelineno-23-2"></a><span class="k">def</span> <span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <a id="__codelineno-23-3" name="__codelineno-23-3"></a>    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
 <a id="__codelineno-23-4" name="__codelineno-23-4"></a>        <span class="k">yield</span> <span class="n">count</span>
 <a id="__codelineno-23-5" name="__codelineno-23-5"></a>    <span class="k">raise</span> <span class="n">Completed</span>
@@ -3394,11 +3394,11 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-24-17">17</a></span>
 <span class="normal"><a href="#__codelineno-24-18">18</a></span>
 <span class="normal"><a href="#__codelineno-24-19">19</a></span>
-<span class="normal"><a href="#__codelineno-24-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="hll"><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
-</span><a id="__codelineno-24-2" name="__codelineno-24-2"></a><span class="kn">from</span> <span class="nn">pyventus.reactive</span> <span class="kn">import</span> <span class="n">as_observable_task</span><span class="p">,</span> <span class="n">Completed</span>
+<span class="normal"><a href="#__codelineno-24-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="hll"><span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+</span><a id="__codelineno-24-2" name="__codelineno-24-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.reactive</span><span class="w"> </span><span class="kn">import</span> <span class="n">as_observable_task</span><span class="p">,</span> <span class="n">Completed</span>
 <a id="__codelineno-24-3" name="__codelineno-24-3"></a>
 <a id="__codelineno-24-4" name="__codelineno-24-4"></a><span class="nd">@as_observable_task</span>
-<a id="__codelineno-24-5" name="__codelineno-24-5"></a><span class="k">def</span> <span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <a id="__codelineno-24-6" name="__codelineno-24-6"></a>    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
 <a id="__codelineno-24-7" name="__codelineno-24-7"></a>        <span class="k">yield</span> <span class="n">count</span>
 <a id="__codelineno-24-8" name="__codelineno-24-8"></a>    <span class="k">raise</span> <span class="n">Completed</span>
@@ -3434,11 +3434,11 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-25-15">15</a></span>
 <span class="normal"><a href="#__codelineno-25-16">16</a></span>
 <span class="normal"><a href="#__codelineno-25-17">17</a></span>
-<span class="normal"><a href="#__codelineno-25-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
-<a id="__codelineno-25-2" name="__codelineno-25-2"></a><span class="kn">from</span> <span class="nn">pyventus.reactive</span> <span class="kn">import</span> <span class="n">as_observable_task</span><span class="p">,</span> <span class="n">Completed</span>
+<span class="normal"><a href="#__codelineno-25-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.reactive</span><span class="w"> </span><span class="kn">import</span> <span class="n">as_observable_task</span><span class="p">,</span> <span class="n">Completed</span>
 <a id="__codelineno-25-3" name="__codelineno-25-3"></a>
 <a id="__codelineno-25-4" name="__codelineno-25-4"></a><span class="nd">@as_observable_task</span>
-<a id="__codelineno-25-5" name="__codelineno-25-5"></a><span class="k">def</span> <span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <a id="__codelineno-25-6" name="__codelineno-25-6"></a>    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
 <a id="__codelineno-25-7" name="__codelineno-25-7"></a>        <span class="k">yield</span> <span class="n">count</span>
 <a id="__codelineno-25-8" name="__codelineno-25-8"></a>    <span class="k">raise</span> <span class="n">Completed</span>
@@ -3593,7 +3593,7 @@ Finally, and in order to initiate the execution of the observable, we called its
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2025 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

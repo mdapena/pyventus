@@ -134,7 +134,7 @@
               </button>
             
             
-    ✨ <b><a href="../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
+    🚀 <b><a href="../../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
 Don't miss the <b>latest updates</b>,
 featuring <b><a href="../../../#a-simple-reactive-example">reactive programming</a></b>,
 major <b><a href="../../../release-notes/#0.7.0-optimized">optimizations</a></b>, and more!
@@ -2259,19 +2259,19 @@ guidelines on collaborating. Together, we can further the possibilities of event
 <span class="normal"><a href="#__codelineno-0-11">11</a></span>
 <span class="normal"><a href="#__codelineno-0-12">12</a></span>
 <span class="normal"><a href="#__codelineno-0-13">13</a></span>
-<span class="normal"><a href="#__codelineno-0-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">from</span> <span class="nn">fastapi</span> <span class="kn">import</span> <span class="n">BackgroundTasks</span>
+<span class="normal"><a href="#__codelineno-0-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">fastapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">BackgroundTasks</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4"></a>
 <a id="__codelineno-0-5" name="__codelineno-0-5"></a>
-<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="hll"><span class="k">class</span> <span class="nc">FastAPIEventEmitter</span><span class="p">(</span><span class="n">EventEmitter</span><span class="p">):</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a><span class="hll"><span class="k">class</span><span class="w"> </span><span class="nc">FastAPIEventEmitter</span><span class="p">(</span><span class="n">EventEmitter</span><span class="p">):</span>
 </span><a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;A custom event emitter that uses the FastAPI background tasks.&quot;&quot;&quot;</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8"></a>
-<a id="__codelineno-0-9" name="__codelineno-0-9"></a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">):</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">):</span>
 <a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="hll">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">event_linker</span><span class="o">=</span><span class="n">EventLinker</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </span><a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_background_tasks</span> <span class="o">=</span> <span class="n">background_tasks</span>  <span class="c1"># (1)!</span>
 </span><a id="__codelineno-0-12" name="__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="hll">    <span class="k">def</span> <span class="nf">_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_emission</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="o">.</span><span class="n">EventEmission</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event_emission</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="o">.</span><span class="n">EventEmission</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="hll">        <span class="bp">self</span><span class="o">.</span><span class="n">_background_tasks</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="n">event_emission</span><span class="p">)</span>  <span class="c1"># (2)!</span>
 </span></code></pre></div></td></tr></table></div>
 <ol>
@@ -2304,7 +2304,7 @@ guidelines on collaborating. Together, we can further the possibilities of event
 <span class="normal"><a href="#__codelineno-1-35">35</a></span>
 <span class="normal"><a href="#__codelineno-1-36">36</a></span>
 <span class="normal"><a href="#__codelineno-1-37">37</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-15" name="__codelineno-1-15"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;ConsolePrintEvent&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">handle_console_print_event</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_console_print_event</span><span class="p">(</span><span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <a id="__codelineno-1-17" name="__codelineno-1-17"></a>    <span class="k">await</span> <span class="n">sleep</span><span class="p">(</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>  <span class="c1"># (1)!</span>
 <a id="__codelineno-1-18" name="__codelineno-1-18"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
 <a id="__codelineno-1-19" name="__codelineno-1-19"></a>
@@ -2313,10 +2313,10 @@ guidelines on collaborating. Together, we can further the possibilities of event
 <a id="__codelineno-1-22" name="__codelineno-1-22"></a>
 <a id="__codelineno-1-23" name="__codelineno-1-23"></a>
 <a id="__codelineno-1-24" name="__codelineno-1-24"></a><span class="hll"><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/print&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-1-25" name="__codelineno-1-25"></a><span class="hll"><span class="k">async</span> <span class="k">def</span> <span class="nf">console_print_endpoint</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">):</span>
+</span><a id="__codelineno-1-25" name="__codelineno-1-25"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">console_print_endpoint</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">):</span>
 </span><a id="__codelineno-1-26" name="__codelineno-1-26"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; FastAPI endpoint that triggers the console_print event. &quot;&quot;&quot;</span>
 <a id="__codelineno-1-27" name="__codelineno-1-27"></a>
-<a id="__codelineno-1-28" name="__codelineno-1-28"></a>    <span class="k">def</span> <span class="nf">app_service</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">app_service</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <a id="__codelineno-1-29" name="__codelineno-1-29"></a><span class="hll">        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span>
 </span><a id="__codelineno-1-30" name="__codelineno-1-30"></a><span class="hll">            <span class="n">event</span><span class="o">=</span><span class="s2">&quot;ConsolePrintEvent&quot;</span><span class="p">,</span>
 </span><a id="__codelineno-1-31" name="__codelineno-1-31"></a><span class="hll">            <span class="n">message</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
@@ -2386,16 +2386,16 @@ In case you're interested in integrating Pyventus with FastAPI, you can refer to
 <span class="normal"><a href="#__codelineno-5-13">13</a></span>
 <span class="normal"><a href="#__codelineno-5-14">14</a></span>
 <span class="normal"><a href="#__codelineno-5-15">15</a></span>
-<span class="normal"><a href="#__codelineno-5-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">ExecutorEventEmitter</span>
+<span class="normal"><a href="#__codelineno-5-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">ExecutorEventEmitter</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2"></a>
 <a id="__codelineno-5-3" name="__codelineno-5-3"></a>
 <a id="__codelineno-5-4" name="__codelineno-5-4"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;GreetEvent&quot;</span><span class="p">)</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="k">def</span> <span class="nf">handle_greet_event</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;World&quot;</span><span class="p">):</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_greet_event</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;World&quot;</span><span class="p">):</span>
 <a id="__codelineno-5-6" name="__codelineno-5-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
 <a id="__codelineno-5-7" name="__codelineno-5-7"></a>
 <a id="__codelineno-5-8" name="__codelineno-5-8"></a>
 <a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="hll">    <span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><a id="__codelineno-5-11" name="__codelineno-5-11"></a><span class="hll">        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;GreetEvent&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="nb">type</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
 </span><a id="__codelineno-5-12" name="__codelineno-5-12"></a>
 <a id="__codelineno-5-13" name="__codelineno-5-13"></a>
@@ -2434,21 +2434,21 @@ In case you're interested in integrating Pyventus with FastAPI, you can refer to
 <span class="normal"><a href="#__codelineno-6-17">17</a></span>
 <span class="normal"><a href="#__codelineno-6-18">18</a></span>
 <span class="normal"><a href="#__codelineno-6-19">19</a></span>
-<span class="normal"><a href="#__codelineno-6-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="kn">from</span> <span class="nn">pyventus</span> <span class="kn">import</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span>
+<span class="normal"><a href="#__codelineno-6-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">AsyncIOEventEmitter</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2"></a>
 <a id="__codelineno-6-3" name="__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="hll"><span class="k">class</span> <span class="nc">UserEventLinker</span><span class="p">(</span><span class="n">EventLinker</span><span class="p">,</span> <span class="n">max_event_handlers</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="hll"><span class="k">class</span><span class="w"> </span><span class="nc">UserEventLinker</span><span class="p">(</span><span class="n">EventLinker</span><span class="p">,</span> <span class="n">max_event_handlers</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
 </span><a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot; EventLinker for User&#39;s events only &quot;&quot;&quot;</span>
 <a id="__codelineno-6-6" name="__codelineno-6-6"></a>    <span class="k">pass</span>  <span class="c1"># Additional logic can be added here if needed...</span>
 <a id="__codelineno-6-7" name="__codelineno-6-7"></a>
 <a id="__codelineno-6-8" name="__codelineno-6-8"></a>
 <a id="__codelineno-6-9" name="__codelineno-6-9"></a><span class="hll"><span class="nd">@UserEventLinker</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="s2">&quot;PasswordResetEvent&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">handle_users_password_reset_event</span><span class="p">(</span><span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><a id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_users_password_reset_event</span><span class="p">(</span><span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <a id="__codelineno-6-11" name="__codelineno-6-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;User&#39;s PasswordResetEvent received!&quot;</span><span class="p">)</span>
 <a id="__codelineno-6-12" name="__codelineno-6-12"></a>
 <a id="__codelineno-6-13" name="__codelineno-6-13"></a>
 <a id="__codelineno-6-14" name="__codelineno-6-14"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="s2">&quot;PasswordResetEvent&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-6-15" name="__codelineno-6-15"></a><span class="k">async</span> <span class="k">def</span> <span class="nf">handle_any_password_reset_event</span><span class="p">(</span><span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><a id="__codelineno-6-15" name="__codelineno-6-15"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_any_password_reset_event</span><span class="p">(</span><span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
 <a id="__codelineno-6-16" name="__codelineno-6-16"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Any PasswordResetEvent received!&quot;</span><span class="p">)</span>
 <a id="__codelineno-6-17" name="__codelineno-6-17"></a>
 <a id="__codelineno-6-18" name="__codelineno-6-18"></a>
@@ -2662,7 +2662,7 @@ In case you're interested in integrating Pyventus with FastAPI, you can refer to
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2025 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

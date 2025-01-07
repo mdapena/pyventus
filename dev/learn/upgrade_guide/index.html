@@ -134,7 +134,7 @@
               </button>
             
             
-    ✨ <b><a href="../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
+    🚀 <b><a href="../../release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
 Don't miss the <b>latest updates</b>,
 featuring <b><a href="../../#a-simple-reactive-example">reactive programming</a></b>,
 major <b><a href="../../release-notes/#0.7.0-optimized">optimizations</a></b>, and more!
@@ -2168,7 +2168,7 @@ major <b><a href="../../release-notes/#0.7.0-optimized">optimizations</a></b>, a
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> The <code>EventLinker</code> has experienced some method renames and return type modifications to align with the new redesigned codebase:<ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> <code>remove_event_handler()</code> → <code>remove_subscriber()</code>.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> <code>get_event_handlers()</code> → <code>get_subscribers()</code>: Now returns a <code>set</code> instead of a <code>list</code>.</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> <code>get_events_by_event_handler()</code> → <code>get_events_from_subscribers()</code>: Now returns a <code>set</code> instead of a <code>list</code> and includes a new flag <code>pop_onetime_subscribers</code>.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> <code>get_events_by_event_handler()</code> → <code>get_events_from_subscribers()</code>: Now returns a <code>set</code> instead of a <code>list</code> and supports retrieving events for multiple subscribers.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> <code>get_event_handlers_by_events()</code> → <code>get_subscribers_from_events()</code>: Now returns a <code>set</code> instead of a <code>list</code> and includes a new flag <code>pop_onetime_subscribers</code>.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> <code>unsubscribe()</code> → <code>remove()</code>: Now removes one event from a subscriber at a time.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Parameters named <code>event_handler</code> have been renamed to <code>subscriber</code> in all methods.</li>
@@ -2176,9 +2176,9 @@ major <b><a href="../../release-notes/#0.7.0-optimized">optimizations</a></b>, a
 </ul>
 </li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> The <code>RQEventEmitter</code> has been renamed to <code>RedisEventEmitter</code>.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> The <code>CeleryEventEmitter.Queue</code> has been removed, and the <code>CeleryEventEmitter</code> now requires a <code>Celery</code> instance. Security aspects have been delegated to the <code>Celery</code> app.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> Dependency injection for the <code>FastAPIEventEmitter</code> through FastAPI's <code>Depends()</code> function has been simplified; use <code>Depends(FastAPIEventEmitter())</code> for all scenarios.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> The <code>ExecutorEventEmitter</code> can no longer be used as a context manager; for this purpose, use the new <code>ExecutorEventEmitterCtx</code>.</li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox"/><span class="task-list-indicator"></span></label> The <code>CeleryEventEmitter.Queue</code> has been removed, and the <code>CeleryEventEmitter</code> now requires a <code>Celery</code> instance. Security aspects have been delegated to the <code>Celery</code> app configuration.</li>
 </ul>
 <h2 id="questions-and-issues">Questions and Issues<a class="headerlink" href="#questions-and-issues" title="Permanent link">&para;</a></h2>
 <p>If you have any questions or run into issues during the upgrade process, please feel free to open a <a href="https://github.com/mdapena/pyventus/issues/new/choose" target="_blank">new issue or start a discussion</a>. Before doing so, it is recommended to check for existing inquiries to avoid duplicates.</p>
@@ -2205,7 +2205,7 @@ major <b><a href="../../release-notes/#0.7.0-optimized">optimizations</a></b>, a
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-12-30T01:51:02+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-12-30</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-07T03:55:05+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-07</span>
   </span>
 
     
@@ -2362,7 +2362,7 @@ major <b><a href="../../release-notes/#0.7.0-optimized">optimizations</a></b>, a
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023-2024 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2025 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

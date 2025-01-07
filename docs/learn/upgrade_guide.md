@@ -55,15 +55,15 @@ Please review the following breaking changes and apply the necessary actions to 
 -   [ ] The `EventLinker` has experienced some method renames and return type modifications to align with the new redesigned codebase:
     -   [ ] `remove_event_handler()` → `remove_subscriber()`.
     -   [ ] `get_event_handlers()` → `get_subscribers()`: Now returns a `set` instead of a `list`.
-    -   [ ] `get_events_by_event_handler()` → `get_events_from_subscribers()`: Now returns a `set` instead of a `list` and includes a new flag `pop_onetime_subscribers`.
+    -   [ ] `get_events_by_event_handler()` → `get_events_from_subscribers()`: Now returns a `set` instead of a `list` and supports retrieving events for multiple subscribers.
     -   [ ] `get_event_handlers_by_events()` → `get_subscribers_from_events()`: Now returns a `set` instead of a `list` and includes a new flag `pop_onetime_subscribers`.
     -   [ ] `unsubscribe()` → `remove()`: Now removes one event from a subscriber at a time.
     -   [ ] Parameters named `event_handler` have been renamed to `subscriber` in all methods.
     -   [ ] `get_events()`: Now returns a `set` instead of a `list` with non-duplicates.
 -   [ ] The `RQEventEmitter` has been renamed to `RedisEventEmitter`.
+-   [ ] The `CeleryEventEmitter.Queue` has been removed, and the `CeleryEventEmitter` now requires a `Celery` instance. Security aspects have been delegated to the `Celery` app.
 -   [ ] Dependency injection for the `FastAPIEventEmitter` through FastAPI's `Depends()` function has been simplified; use `Depends(FastAPIEventEmitter())` for all scenarios.
 -   [ ] The `ExecutorEventEmitter` can no longer be used as a context manager; for this purpose, use the new `ExecutorEventEmitterCtx`.
--   [ ] The `CeleryEventEmitter.Queue` has been removed, and the `CeleryEventEmitter` now requires a `Celery` instance. Security aspects have been delegated to the `Celery` app configuration.
 
 ## Questions and Issues
 

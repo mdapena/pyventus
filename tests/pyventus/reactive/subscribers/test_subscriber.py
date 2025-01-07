@@ -14,19 +14,35 @@ class TestSubscriber:
     # Test Cases for creation
     # =================================
 
-    def test_creation_with_valid_input(self) -> None:
+    @pytest.mark.parametrize(
+        ["next_callback", "error_callback", "complete_callback"],
+        [
+            (CallableMock.Sync(), None, None),
+            (None, CallableMock.Async(), None),
+            (None, None, CallableMock.Async()),
+            (CallableMock.Async(), None, CallableMock.Sync()),
+            (CallableMock.Async(), CallableMock.Sync(), None),
+            (None, CallableMock.Sync(), CallableMock.Async()),
+        ],
+    )
+    def test_creation_with_valid_input(
+        self, next_callback: CallableMock.Base, error_callback: CallableMock.Base, complete_callback: CallableMock.Base
+    ) -> None:
         # Arrange/Act
         subscriber = Subscriber[Any](
             teardown_callback=lambda sub: True,
-            next_callback=lambda val: None,
-            error_callback=None,
-            complete_callback=None,
+            next_callback=next_callback,
+            error_callback=error_callback,
+            complete_callback=complete_callback,
             force_async=False,
         )
 
         # Assert
         assert subscriber is not None
         assert isinstance(subscriber, Subscriber)
+        assert subscriber.has_next_callback is bool(next_callback is not None)
+        assert subscriber.has_error_callback is bool(error_callback is not None)
+        assert subscriber.has_complete_callback is bool(complete_callback is not None)
 
     # =================================
 

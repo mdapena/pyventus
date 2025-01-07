@@ -15,13 +15,26 @@ readme = "README.md"
 license = "MIT"
 authors = [{ name = "Manuel Da Pena", email = "dapensoft@gmail.com" }]
 keywords = [
+    "event",
     "events",
-    "event-emitters",
-    "event-dispatchers",
-    "event-handlers",
-    "event-linkers",
+    "event driven",
     "event-driven",
-    "python",
+    "event driven programming",
+    "event-driven programming",
+    "EventEmitter",
+    "event emitter",
+    "event emitters",
+    "reactive",
+    "reactive programming",
+    "reactive-programming",
+    "observer pattern",
+    "observable",
+    "observables",
+    "observer",
+    "observers",
+    "asynchronous",
+    "asynchronous programming",
+    "asynchronous-programming",
 ]
 classifiers = [
     "Intended Audience :: Developers",

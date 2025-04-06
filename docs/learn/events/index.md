@@ -1,7 +1,6 @@
 ---
 hide:
   - toc
-  - feedback
 ---
 
 # Event-Driven Programming

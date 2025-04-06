@@ -174,7 +174,7 @@ nav:
       - Upgrade Guide: learn/upgrade_guide.md
       - Events:
         - learn/events/index.md
-        - Exploring Event Types: learn/events/event.md
+        - Event Types: learn/events/types.md
         - The EventLinker Registry: learn/events/event-linker.md
         - Master the Event Emitter:
             - learn/events/emitters/index.md

@@ -70,7 +70,7 @@ extra:
       - dev
   social:
     - icon: fontawesome/brands/linkedin
-      link: https://ve.linkedin.com/in/manuel-da-pena/en
+      link: https://linkedin.com/in/manuel-da-pena
     - icon: fontawesome/brands/github
       link: https://github.com/mdapena
   analytics:
@@ -175,7 +175,7 @@ nav:
       - Events:
         - learn/events/index.md
         - Event Types: learn/events/types.md
-        - The EventLinker Registry: learn/events/event-linker.md
+        - Event Linkers: learn/events/linkers.md
         - Master the Event Emitter:
             - learn/events/emitters/index.md
             - AsyncIO Event Emitter: learn/events/emitters/asyncio/index.md

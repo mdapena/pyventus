@@ -18,7 +18,7 @@
   	The Event Handler is an abstract base class that defines the workflow and essential protocols for event handling.
   </p>
 - <p style="text-align: justify;"><b>Event Subscriber:</b>
-  	Represents an Event Handler that is or was subscribed to an Event Linker. It combines the Event Handler interface with the Subscription base class, providing a convenient way to handle events and manage the subscription lifecycle.
+  	Represents an Event Handler that is or was subscribed to an event(s). It combines the Event Handler interface with the Subscription base class, providing a convenient way to handle events and manage the subscription lifecycle.
   </p>
 
 <p style="text-align: justify;">
@@ -44,7 +44,7 @@
 
 
     @EventLinker.on("MyEvent")
-    def handle_my_event():  # (1)!
+    def handle_my_event() -> None:  # (1)!
     	print("Handling 'MyEvent'!")
     ```
 
@@ -52,7 +52,7 @@
 
     	```Python linenums="1" hl_lines="2"
     	@EventLinker.on("MyEvent")
-    	async def handle_my_event():
+    	async def handle_my_event() -> None:
     		print("Handling 'MyEvent'!")
     	```
 
@@ -61,7 +61,7 @@
     ```Python linenums="1" hl_lines="3 6"
     from pyventus.events import EventLinker
 
-    def handle_my_event():  # (1)!
+    def handle_my_event() -> None:  # (1)!
     	print("Handling 'MyEvent'!")
 
     EventLinker.subscribe("MyEvent", event_callback=handle_my_event)
@@ -70,7 +70,7 @@
     1.  You can also work with `async` functions:
 
     	```Python linenums="1" hl_lines="1"
-    	async def handle_my_event():
+    	async def handle_my_event() -> None:
     		print("Handling 'MyEvent'!")
 
     	EventLinker.subscribe("MyEvent", event_callback=handle_my_event)
@@ -89,7 +89,7 @@
 
 
     @EventLinker.once("MyEvent")
-    def handle_my_event_once():  # (1)!
+    def handle_my_event_once() -> None:  # (1)!
     	print("Handling 'MyEvent' once!")
     ```
 
@@ -97,7 +97,7 @@
 
     	```Python linenums="1" hl_lines="2"
     	@EventLinker.once("MyEvent")
-    	async def handle_my_event_once():
+    	async def handle_my_event_once() -> None:
     		print("Handling 'MyEvent' once!")
     	```
 
@@ -106,7 +106,7 @@
     ```Python linenums="1" hl_lines="3 6"
     from pyventus.events import EventLinker
 
-    def handle_my_event_once():  # (1)!
+    def handle_my_event_once() -> None:  # (1)!
     	print("Handling 'MyEvent' once!")
 
     EventLinker.subscribe("MyEvent", event_callback=handle_my_event_once, once=True)
@@ -115,7 +115,7 @@
     1.  You can also work with `async` functions:
 
     	```Python linenums="1" hl_lines="1"
-    	async def handle_my_event_once():
+    	async def handle_my_event_once() -> None:
     		print("Handling 'MyEvent' once!")
 
     	EventLinker.subscribe("MyEvent", event_callback=handle_my_event_once, once=True)
@@ -134,12 +134,12 @@
 
 
     @EventLinker.on("FirstEvent", "SecondEvent")
-    def handle_events():  # (1)!
+    def handle_events() -> None:  # (1)!
     	print("Handling multiple events!")
 
 
     @EventLinker.once("FirstEvent", "SecondEvent")
-    def handle_events_once():  # (2)!
+    def handle_events_once() -> None:  # (2)!
     	print("Handling multiple events once!")
     ```
 
@@ -147,7 +147,7 @@
 
     	```Python linenums="1" hl_lines="2"
     	@EventLinker.on("FirstEvent", "SecondEvent")
-    	async def handle_events():
+    	async def handle_events() -> None:
     		print("Handling multiple events!")
     	```
 
@@ -155,7 +155,7 @@
 
     	```Python linenums="1" hl_lines="2"
     	@EventLinker.once("FirstEvent", "SecondEvent")
-    	async def handle_events_once():
+    	async def handle_events_once() -> None:
     		print("Handling multiple events once!")
     	```
 
@@ -165,10 +165,10 @@
     from pyventus.events import EventLinker
 
 
-    def handle_events():  # (1)!
+    def handle_events() -> None:  # (1)!
     	print("Handling multiple events!")
 
-    def handle_events_once():  # (2)!
+    def handle_events_once() -> None:  # (2)!
     	print("Handling multiple events once!")
 
     EventLinker.subscribe("FirstEvent", "SecondEvent", event_callback=handle_events)
@@ -178,7 +178,7 @@
     1.  You can also work with `async` functions:
 
     	```Python linenums="1" hl_lines="1"
-    	async def handle_events():
+    	async def handle_events() -> None:
     		print("Handling multiple events!")
 
     	EventLinker.subscribe("FirstEvent", "SecondEvent", event_callback=handle_events)
@@ -187,7 +187,7 @@
     2.  You can also work with `async` functions:
 
     	```Python linenums="1" hl_lines="1"
-    	async def handle_events_once():
+    	async def handle_events_once() -> None:
     		print("Handling multiple events once!")
 
     	EventLinker.subscribe("FirstEvent", "SecondEvent", event_callback=handle_events_once, once=True)
@@ -213,16 +213,16 @@
     # Create a subscription context for the "DivisionEvent" event
     with EventLinker.on("DivisionEvent") as subctx:  # (1)!
 
-        @subctx.on_event
-        def divide(a: float, b: float) -> float:  # (2)!
+        @subctx.on_event  # (2)!
+        def divide(a: float, b: float) -> float:  # (3)!
             return a / b
 
-        @subctx.on_success
-        def handle_success(result: float) -> None:  # (3)!
+        @subctx.on_success  # (4)!
+        def handle_success(result: float) -> None:  # (5)!
             print(f"Division result: {result:.3g}")
 
-        @subctx.on_failure
-        def handle_failure(e: Exception) -> None:  # (4)!
+        @subctx.on_failure  # (6)!
+        def handle_failure(e: Exception) -> None:  # (7)!
             print(f"Oops, something went wrong: {e}")
     ```
 
@@ -246,9 +246,31 @@
                 print(f"Oops, something went wrong: {e}")
         ```
 
-    2.  This callback will be executed when the event occurs.
-    3.  This callback will be executed when the event response completes successfully.
-    4.  This callback will be executed when the event response fails.
+    2.  This decorator will wrap the callback that will be executed when the event occurs.
+    3.  You can also work with `async` functions:
+
+        ```Python linenums="1" hl_lines="1"
+        async def divide(a: float, b: float) -> float:
+            pass
+        ```
+
+    4.  This decorator will wrap the callback that will be executed when the event response is completed successfully.
+
+    5.  You can also work with `async` functions:
+
+        ```Python linenums="1" hl_lines="1"
+        async def handle_success(result: float) -> None:
+            pass
+        ```
+
+    6.  This decorator will wrap the callback that will be executed if the event response fails.
+
+    7.  You can also work with `async` functions:
+
+        ```Python linenums="1" hl_lines="1"
+        async def handle_failure(e: Exception) -> None:
+            pass
+        ```
 
 === "Using `subscribe()`"
 
@@ -295,7 +317,7 @@
 
 
     @EventLinker.on("BlockingIO", force_async=True)  # (1)!
-    def blocking_io():
+    def blocking_io() -> None:
         print(f"start blocking_io at {time.strftime('%X')}")
         # Note that time.sleep() can be replaced with any blocking
         # IO-bound operation, such as file operations.
@@ -311,7 +333,7 @@
 
 
         @EventLinker.once("BlockingIO", force_async=True)
-        def blocking_io():
+        def blocking_io() -> None:
             print(f"start blocking_io at {time.strftime('%X')}")
             # Note that time.sleep() can be replaced with any blocking
             # IO-bound operation, such as file operations.
@@ -326,7 +348,7 @@
     from pyventus.events import EventLinker
 
 
-    def blocking_io():
+    def blocking_io() -> None:
         print(f"start blocking_io at {time.strftime('%X')}")
         # Note that time.sleep() can be replaced with any blocking
         # IO-bound operation, such as file operations.
@@ -348,7 +370,7 @@
         from pyventus.events import EventLinker
 
 
-        def blocking_io():
+        def blocking_io() -> None:
             print(f"start blocking_io at {time.strftime('%X')}")
             # Note that time.sleep() can be replaced with any blocking
             # IO-bound operation, such as file operations.
@@ -377,7 +399,7 @@
 
 
     @EventLinker.on("MyEvent", stateful_subctx=True)  # (1)!
-    def handle_my_event():
+    def handle_my_event() -> None:
         print("Handling 'MyEvent'!")
 
 
@@ -385,7 +407,7 @@
     event_linker, event_subscriber = subctx.unpack()
     ```
 
-    1.  Setting `stateful_subctx` to `True` will not only make the subscription context object accessible, but it will also preserve its state, allowing us to access the subscriber and the source to which it was subscribed through the `unpack()` method.
+    1.  Setting `stateful_subctx` to `True` will not only make the subscription context object accessible, but it will also preserve its state, allowing you to access both the subscriber and the source to which it was subscribed through the `unpack()` method.
 
 === "Using `subscribe()`"
 
@@ -397,6 +419,31 @@
         "MyEvent", event_callback=lambda: print("Handling 'MyEvent'!")
     )
     ```
+
+=== "Using Subscription Context"
+
+    ```Python linenums="1"  hl_lines="4 18"
+    from pyventus.events import EventLinker
+
+    # Create a subscription context for the "DivisionEvent" event
+    with EventLinker.on("DivisionEvent", stateful_subctx=True) as subctx:  # (1)!
+
+        @subctx.on_event
+        def divide(a: float, b: float) -> float:
+            return a / b
+
+        @subctx.on_success
+        def handle_success(result: float) -> None:
+            print(f"Division result: {result:.3g}")
+
+        @subctx.on_failure
+        def handle_failure(e: Exception) -> None:
+            print(f"Oops, something went wrong: {e}")
+
+    event_linker, event_subscriber = subctx.unpack()
+    ```
+
+    1.  Setting `stateful_subctx` to `True` will cause the subscription context object to preserve its state, allowing you to access both the subscriber and the source to which it was subscribed through the `unpack()` method.
 
 ## Unsubscribing
 
@@ -516,12 +563,12 @@ class UserEventLinker(EventLinker, max_subscribers=1):  # (1)!
 
 
 @UserEventLinker.on("PasswordResetEvent")
-async def handle_password_reset_event(email: str):
+async def handle_password_reset_event(email: str) -> None:
     print("PasswordResetEvent received!")
 
 
 @UserEventLinker.on("EmailVerifiedEvent")
-async def handle_email_verified_event(email: str):
+async def handle_email_verified_event(email: str) -> None:
     print("EmailVerifiedEvent received!")
 ```
 

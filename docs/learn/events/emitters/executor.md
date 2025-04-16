@@ -57,17 +57,11 @@
 	&emsp;&emsp;By utilizing the Executor Processing Service, the execution of each event emission will be handled by the given Thread/Process executor.
 </p>
 
-!!! tip "Executor Management"
+## Executor Management
 
-    <p style="text-align: justify;" markdown>
-        &emsp;&emsp;It is important to properly manage the underlying Executor when using the Executor Processing Service. Once you have finished emitting events, call the `shutdown()` method to signal the executor to free any resources associated with pending futures. Alternatively, you can use the `with` statement, which will automatically shut down the Executor when the block is exited.
-    </p>
-
-??? warning "Picklable Objects Required for `ProcessPoolExecutor`"
-
-    <p style="text-align: justify;" markdown>
-        &emsp;&emsp;When working with the `ProcessPoolExecutor`, it is essential to ensure that all objects involved in the event emission are picklable.
-    </p>
+<p style="text-align: justify;" markdown>
+    &emsp;&emsp;It is important to properly manage the underlying Executor when using the Executor Processing Service. Once you've finished emitting events, call the `shutdown()` method to signal the executor to free any resources associated with pending futures, or use the `with` statement, which will automatically shut down the Executor.
+</p>
 
 ## Practical Example
 
@@ -127,3 +121,9 @@
 
         print("Closing...")
     ```
+
+    !!! warning "Picklable Objects Required for `ProcessPoolExecutor`"
+
+        <p style="text-align: justify;" markdown>
+            &emsp;&emsp;When working with the `ProcessPoolExecutor`, it is essential to ensure that all objects involved in the event emission are picklable.
+        </p>

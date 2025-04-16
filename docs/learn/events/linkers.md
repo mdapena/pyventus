@@ -37,7 +37,7 @@
 	&emsp;&emsp;Regular subscriptions enable the event workflow to be triggered by the subscribed event(s) any number of times until they are explicitly unsubscribed.
 </p>
 
-=== "Using Decorators"
+=== ":simple-maildotru: Using Decorators"
 
     ```Python linenums="1" hl_lines="4-5"
     from pyventus.events import EventLinker
@@ -56,7 +56,7 @@
     		print("Handling 'MyEvent'!")
     	```
 
-=== "Using `subscribe()`"
+=== ":material-tag-outline: Using `subscribe()`"
 
     ```Python linenums="1" hl_lines="3 6"
     from pyventus.events import EventLinker
@@ -82,7 +82,7 @@
 	&emsp;&emsp;One-time subscriptions enable the event workflow to be triggered by the subscribed event(s) only once, after which it automatically unsubscribes.
 </p>
 
-=== "Using Decorators"
+=== ":simple-maildotru: Using Decorators"
 
     ```Python linenums="1" hl_lines="4-5"
     from pyventus.events import EventLinker
@@ -101,7 +101,7 @@
     		print("Handling 'MyEvent' once!")
     	```
 
-=== "Using `subscribe()`"
+=== ":material-tag-outline: Using `subscribe()`"
 
     ```Python linenums="1" hl_lines="3 6"
     from pyventus.events import EventLinker
@@ -127,7 +127,7 @@
 	&emsp;&emsp;The previous subscription methods also allow you to subscribe the event workflow to multiple events at once. Simply add more events after the first one, and that’s it! You can even combine different event types together.
 </p>
 
-=== "Using Decorators"
+=== ":simple-maildotru: Using Decorators"
 
     ```Python linenums="1" hl_lines="4 9"
     from pyventus.events import EventLinker
@@ -159,7 +159,7 @@
     		print("Handling multiple events once!")
     	```
 
-=== "Using `subscribe()`"
+=== ":material-tag-outline: Using `subscribe()`"
 
     ```Python linenums="1" hl_lines="10-11"
     from pyventus.events import EventLinker
@@ -205,7 +205,7 @@
     &emsp;&emsp;With Pyventus, you can define the overall workflow for an event, from its initial response to its completion, whether it succeeds or encounters errors. This definition is established during the subscription process and includes three main callbacks: `event_callback`, `success_callback`, and `failure_callback`.
 </p>
 
-=== "Using Decorators"
+=== ":simple-maildotru: Using Decorators"
 
     ```Python linenums="1"  hl_lines="4 6-7 10-11 14-15"
     from pyventus.events import EventLinker
@@ -272,7 +272,7 @@
             pass
         ```
 
-=== "Using `subscribe()`"
+=== ":material-tag-outline: Using `subscribe()`"
 
     ```Python linenums="1"  hl_lines="3-8"
     from pyventus.events import EventLinker
@@ -309,7 +309,7 @@
     &emsp;&emsp;By default, event subscribers in Pyventus are executed concurrently during an event emission[^1], running their `sync` and `async` callbacks as defined. However, if you have a `sync` callback that involves I/O or non-CPU bound operations, you can enable the `force_async` parameter to offload it to a thread pool, ensuring optimal performance and responsiveness. The offloading process is handled by the <a href="https://docs.python.org/3/library/asyncio-task.html#running-in-threads" target="_blank">`asyncio.to_thread()`</a> function.
 </p>
 
-=== "Using Decorators"
+=== ":simple-maildotru: Using Decorators"
 
     ```Python linenums="1"  hl_lines="5"
     import time
@@ -341,7 +341,7 @@
             print(f"blocking_io complete at {time.strftime('%X')}")
         ```
 
-=== "Using `subscribe()`"
+=== ":material-tag-outline: Using `subscribe()`"
 
     ```Python linenums="1"  hl_lines="16"
     import time
@@ -392,7 +392,7 @@
     &emsp;&emsp;As we discussed earlier, each subscription generates its own instance of an Event Subscriber, and you can always access it whenever necessary.
 </p>
 
-=== "Using Decorators"
+=== ":simple-maildotru: Using Decorators"
 
     ```Python linenums="1"  hl_lines="4 9 10"
     from pyventus.events import EventLinker
@@ -409,7 +409,7 @@
 
     1.  Setting `stateful_subctx` to `True` will not only make the subscription context object accessible, but it will also preserve its state, allowing you to access both the subscriber and the source to which it was subscribed through the `unpack()` method.
 
-=== "Using `subscribe()`"
+=== ":material-tag-outline: Using `subscribe()`"
 
     ```Python linenums="1"  hl_lines="4"
     from pyventus.events import EventLinker, EventSubscriber
@@ -420,7 +420,7 @@
     )
     ```
 
-=== "Using Subscription Context"
+=== ":material-code-block-tags: Using Subscription Context"
 
     ```Python linenums="1"  hl_lines="4 18"
     from pyventus.events import EventLinker
@@ -453,7 +453,7 @@
 
 ### Removing Subscribers
 
-=== "Using `unsubscribe()`"
+=== ":material-tag-plus-outline: Using `unsubscribe()`"
 
     ```Python linenums="1" hl_lines="9"
     from pyventus.events import EventLinker, EventSubscriber
@@ -469,7 +469,7 @@
 
     1.  This will remove the event subscriber from both the `FirstEvent` and `SecondEvent`.
 
-=== "Using `remove_subscriber()`"
+=== ":material-tag-outline: Using `remove_subscriber()`"
 
     ```Python linenums="1" hl_lines="9"
     from pyventus.events import EventLinker, EventSubscriber
@@ -582,12 +582,12 @@ async def handle_email_verified_event(email: str) -> None:
 
 ### Global Debug Mode
 
-<p style="text-align: justify;">
-	&emsp;&emsp;By default, Pyventus leverages the Python's global debug tracing feature. Simply run your code in an IDE's debugger mode to activate the global debug mode tracing.
+<p style="text-align: justify;" markdown>
+	&emsp;&emsp;By default, Pyventus leverages Python's global debug tracing feature to determine whether the code is running in debug mode or not. When this mode is enabled, all local debug flags are set to `True` unless they are already configured. To activate global debug mode, simply run your code in a debugger like [pdb](https://docs.python.org/3/library/pdb.html).
 </p>
 
 <p align="center">
-   <img style="border-radius: 0.5rem;" src="../../../images/examples/event-linker-debug-mode-example.png" alt="EventLinker Global Debug Mode" width="900px">
+   <img style="border-radius: 0.5rem;" src="../../../images/examples/events-debug-mode-example.png" alt="EventLinker Global Debug Mode" width="900px">
 </p>
 
 ### Namespace Debug Mode

@@ -176,7 +176,7 @@ nav:
         - learn/events/index.md
         - Event Types: learn/events/types.md
         - Event Linkers: learn/events/linkers.md
-        - Master the Event Emitter:
+        - Event Emitters:
             - learn/events/emitters/index.md
             - AsyncIO Event Emitter: learn/events/emitters/asyncio/index.md
             - Celery Event Emitter: learn/events/emitters/celery/index.md

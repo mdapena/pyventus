@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../../../images/favicon/pyventus-logo.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.6f8fc17f.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.2afb09e1.min.css">
       
         
         <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
@@ -55,6 +55,8 @@
       <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
     
       <link rel="stylesheet" href="../../../../css/timeago.css">
+    
+      <link rel="stylesheet" href="../../../../stylesheets/announcement.css">
     
     <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -138,16 +140,15 @@
 Don't miss the <b>latest updates</b>,
 featuring <b><a href="../../../../#a-simple-reactive-example">reactive programming</a></b>,
 major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a></b>, and more!
-<div>
-    <small>
-        <b>
-            <i>
-                Upgrading an existing app? Check out the
-                <a href="../../../../learn/upgrade_guide/">Upgrade Guide</a>
-                for essential changes from Pyventus v0.6!
-            </i>
-        </b>
-    </small>
+<div class="announcement-subtitle-container">
+	<span class="announcement-subtitle active">
+		Upgrading an existing app? Check out the <a href="../../../../learn/upgrade_guide/">Upgrade Guide</a>
+        for essential changes from Pyventus v0.6!
+	</span>
+	<span class="announcement-subtitle">
+		Ready to master event-driven programming in Pyventus? Check out the new
+		<a href="../../../../learn/events/">Events</a> learning section!
+	</span>
 </div>
 
           </div>
@@ -169,7 +170,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 </a>
 
             </div>
-            <script>var el=document.querySelector("[data-md-component=outdated]"),outdated=__md_get("__outdated",sessionStorage);!0===outdated&&el&&(el.hidden=!1)</script>
+            <script>var el=document.querySelector("[data-md-component=outdated]"),base=new URL("../../../.."),outdated=__md_get("__outdated",sessionStorage,base);!0===outdated&&el&&(el.hidden=!1)</script>
           </aside>
         
       </div>
@@ -246,11 +247,13 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
     
     
     
-      <label class="md-header__button md-icon" for="__search">
-        
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
-      </label>
-      <div class="md-search" data-md-component="search" role="dialog">
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
   <label class="md-search__overlay" for="__search"></label>
   <div class="md-search__inner" role="search">
     <form class="md-search__form" name="search">
@@ -284,13 +287,14 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
     </div>
   </div>
 </div>
+      
     
     
       <div class="md-header__source">
         <a href="https://github.com/mdapena/pyventus" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
   </div>
   <div class="md-source__repository">
     mdapena/pyventus
@@ -316,9 +320,11 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
   
   
   
+  
     <li class="md-tabs__item">
       <a href="../../../.." class="md-tabs__link">
         
+  
   
     
   
@@ -333,9 +339,11 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
   
   
   
+  
     <li class="md-tabs__item">
       <a href="../../../../getting-started/" class="md-tabs__link">
         
+  
   
     
   
@@ -350,11 +358,13 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
   
   
   
+  
     
     
       <li class="md-tabs__item">
         <a href="../../../../learn/" class="md-tabs__link">
           
+  
   
     
   
@@ -369,6 +379,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
         
   
   
+  
     
   
   
@@ -377,6 +388,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <li class="md-tabs__item md-tabs__item--active">
         <a href="../../../" class="md-tabs__link">
           
+  
   
     
   
@@ -392,9 +404,11 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
   
   
   
+  
     <li class="md-tabs__item">
       <a href="../../../../contributing/" class="md-tabs__link">
         
+  
   
     
   
@@ -409,9 +423,11 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
   
   
   
+  
     <li class="md-tabs__item">
       <a href="../../../../release-notes/" class="md-tabs__link">
         
+  
   
     
   
@@ -456,7 +472,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="https://github.com/mdapena/pyventus" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
   </div>
   <div class="md-source__repository">
     mdapena/pyventus
@@ -476,8 +492,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../.." class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Pyventus
+    
   </span>
   
 
@@ -496,8 +514,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../../getting-started/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Getting Started
+    
   </span>
   
 
@@ -523,6 +543,9 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       
         
       
+        
+      
+    
     
     
       
@@ -538,13 +561,14 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../../../../learn/" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     Learn
+    
   </span>
   
 
@@ -576,8 +600,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../../learn/upgrade_guide/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Upgrade Guide
+    
   </span>
   
 
@@ -597,11 +623,16 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
     
       
         
+          
+        
+      
+        
       
         
       
         
       
+    
     
     
       
@@ -617,16 +648,25 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
         
           
-          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
-            
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../learn/events/" class="md-nav__link ">
+              
+  
   
   <span class="md-ellipsis">
     Events
+    
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3_3">
@@ -636,17 +676,21 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+            
+              
                 
   
   
   
   
     <li class="md-nav__item">
-      <a href="../../../../learn/events/event/" class="md-nav__link">
+      <a href="../../../../learn/events/types/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
-    Exploring Event Types
+    Event Types
+    
   </span>
   
 
@@ -663,11 +707,13 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
   
   
     <li class="md-nav__item">
-      <a href="../../../../learn/events/event-linker/" class="md-nav__link">
+      <a href="../../../../learn/events/linkers/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
-    The EventLinker Registry
+    Event Linkers
+    
   </span>
   
 
@@ -691,25 +737,16 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
         
       
         
-          
+      
         
       
         
-          
+      
         
       
         
-          
-        
       
-        
-          
-        
-      
-        
-          
-        
-      
+    
     
     
       
@@ -722,32 +759,33 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_4" >
         
-          
           
           <div class="md-nav__link md-nav__container">
             <a href="../../../../learn/events/emitters/" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
-    Master the Event Emitter
+    Event Emitters
+    
   </span>
   
 
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3_3_3" id="__nav_3_3_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3_3_4" id="__nav_3_3_4_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_3_3_3">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_4">
             <span class="md-nav__icon md-icon"></span>
-            Master the Event Emitter
+            Event Emitters
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -763,8 +801,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../../learn/events/emitters/asyncio/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     AsyncIO Event Emitter
+    
   </span>
   
 
@@ -784,8 +824,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../../learn/events/emitters/celery/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Celery Event Emitter
+    
   </span>
   
 
@@ -805,8 +847,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../../learn/events/emitters/executor/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Executor Event Emitter
+    
   </span>
   
 
@@ -826,8 +870,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../../learn/events/emitters/fastapi/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     FastAPI Event Emitter
+    
   </span>
   
 
@@ -844,11 +890,13 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
   
   
     <li class="md-nav__item">
-      <a href="../../../../learn/events/emitters/rq/" class="md-nav__link">
+      <a href="../../../../learn/events/emitters/redis/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
-    RQ Event Emitter
+    Redis Event Emitter
+    
   </span>
   
 
@@ -864,6 +912,67 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../learn/reactive/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    Reactive
+    
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Reactive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
             
           </ul>
@@ -902,6 +1011,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       
         
       
+    
     
     
       
@@ -920,13 +1030,14 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../../../" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     API Reference
+    
   </span>
   
 
@@ -971,6 +1082,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       
     
     
+    
       
       
         
@@ -987,13 +1099,14 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../../../core/" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     Core
+    
   </span>
   
 
@@ -1028,6 +1141,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       
     
     
+    
       
       
         
@@ -1044,8 +1158,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
           <label class="md-nav__link" for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
     Collections
+    
   </span>
   
 
@@ -1069,8 +1185,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../core/collections/multi_bidict/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     MultiBidict
+    
   </span>
   
 
@@ -1103,6 +1221,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       
     
     
+    
       
       
         
@@ -1119,8 +1238,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
           <label class="md-nav__link" for="__nav_4_2_3" id="__nav_4_2_3_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
     Exceptions
+    
   </span>
   
 
@@ -1144,8 +1265,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../core/exceptions/pyventus_exception/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     PyventusException
+    
   </span>
   
 
@@ -1165,8 +1288,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../core/exceptions/pyventus_import_exception/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     PyventusImportException
+    
   </span>
   
 
@@ -1209,6 +1334,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       
     
     
+    
       
       
         
@@ -1222,13 +1348,14 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_4" >
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../../../core/processing/" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     Processing
+    
   </span>
   
 
@@ -1260,8 +1387,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../core/processing/asyncio_processing_service/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     AsyncIOProcessingService
+    
   </span>
   
 
@@ -1281,8 +1410,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../core/processing/celery_processing_service/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     CeleryProcessingService
+    
   </span>
   
 
@@ -1302,8 +1433,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../core/processing/executor_processing_service/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     ExecutorProcessingService
+    
   </span>
   
 
@@ -1323,8 +1456,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../core/processing/fastapi_processing_service/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     FastAPIProcessingService
+    
   </span>
   
 
@@ -1344,8 +1479,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../core/processing/redis_processing_service/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     RedisProcessingService
+    
   </span>
   
 
@@ -1380,6 +1517,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       
     
     
+    
       
       
         
@@ -1396,8 +1534,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
           <label class="md-nav__link" for="__nav_4_2_5" id="__nav_4_2_5_label" tabindex="0">
             
   
+  
   <span class="md-ellipsis">
     Subscriptions
+    
   </span>
   
 
@@ -1421,8 +1561,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../core/subscriptions/subscription_context/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     SubscriptionContext
+    
   </span>
   
 
@@ -1442,8 +1584,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../core/subscriptions/subscription/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Subscription
+    
   </span>
   
 
@@ -1463,8 +1607,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../core/subscriptions/unsubscribable/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Unsubscribable
+    
   </span>
   
 
@@ -1515,6 +1661,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       
     
     
+    
       
       
         
@@ -1531,13 +1678,14 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" checked>
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../../" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     Events
+    
   </span>
   
 
@@ -1578,6 +1726,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       
     
     
+    
       
       
         
@@ -1591,13 +1740,14 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3_2" checked>
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     EventEmitter
+    
   </span>
   
 
@@ -1636,8 +1786,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
         <label class="md-nav__link md-nav__link--active" for="__toc">
           
   
+  
   <span class="md-ellipsis">
     EventEmitter Utils
+    
   </span>
   
 
@@ -1647,8 +1799,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
+  
   <span class="md-ellipsis">
     EventEmitter Utils
+    
   </span>
   
 
@@ -1763,8 +1917,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../handlers/event_handler/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     EventHandler
+    
   </span>
   
 
@@ -1784,8 +1940,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../linkers/event_linker/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     EventLinker
+    
   </span>
   
 
@@ -1805,8 +1963,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../subscribers/event_subscriber/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     EventSubscriber
+    
   </span>
   
 
@@ -1845,6 +2005,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       
     
     
+    
       
       
         
@@ -1861,13 +2022,14 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../../../reactive/" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     Reactive
+    
   </span>
   
 
@@ -1908,6 +2070,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       
     
     
+    
       
       
         
@@ -1921,13 +2084,14 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4_2" >
         
           
-          
           <div class="md-nav__link md-nav__container">
             <a href="../../../reactive/observables/" class="md-nav__link ">
               
   
+  
   <span class="md-ellipsis">
     Observable
+    
   </span>
   
 
@@ -1959,8 +2123,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../reactive/observables/observable_task/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     ObservableTask
+    
   </span>
   
 
@@ -1980,8 +2146,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../reactive/observables/observable_utils/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Observable Utils
+    
   </span>
   
 
@@ -2009,8 +2177,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../reactive/observers/observer/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Observer
+    
   </span>
   
 
@@ -2030,8 +2200,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../reactive/subscribers/subscriber/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Subscriber
+    
   </span>
   
 
@@ -2066,8 +2238,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../../contributing/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Contributing
+    
   </span>
   
 
@@ -2086,8 +2260,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
       <a href="../../../../release-notes/" class="md-nav__link">
         
   
+  
   <span class="md-ellipsis">
     Release Notes
+    
   </span>
   
 
@@ -2203,6 +2379,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
                 
                   
 
+
   
   
 
@@ -2215,6 +2392,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 
 
     <div class="doc doc-contents first">
+
 
 
 
@@ -2241,7 +2419,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 
 
 <a href="#pyventus.events.emitters.event_emitter_utils.AsyncIOEventEmitter" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">AsyncIOEventEmitter</span><span class="p">(</span><span class="n">event_linker</span><span class="p">:</span> <span class="n">type</span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="n">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.emitters.event_emitter.EventEmitter" href="../#pyventus.events.EventEmitter">EventEmitter</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">AsyncIOEventEmitter</span><span class="p">(</span><span class="n">event_linker</span><span class="p">:</span> <span class="n"><span title="type">type</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.emitters.event_emitter.EventEmitter&lt;/code&gt;" href="../#pyventus.events.EventEmitter">EventEmitter</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2268,11 +2446,11 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code>type[<a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a>]</code>
+                      <code><span title="type">type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a>]</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
-                      <code><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></code>
+                      <code><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></code>
                   </span>
               </p>
             </td>
@@ -2288,7 +2466,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code>bool | None</code>
+                      <code><span title="bool">bool</span> | None</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -2312,7 +2490,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
           <tr class="doc-section-item">
             <td>
                 <span class="doc-returns-annotation">
-                    <code><a class="autorefs autorefs-internal" title="pyventus.events.emitters.event_emitter.EventEmitter" href="../#pyventus.events.EventEmitter">EventEmitter</a></code>
+                    <code><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.emitters.event_emitter.EventEmitter&lt;/code&gt;" href="../#pyventus.events.EventEmitter">EventEmitter</a></code>
                 </span>
             </td>
             <td class="doc-returns-details">
@@ -2323,6 +2501,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
           </tr>
       </tbody>
     </table>
+
 
             <details class="quote">
               <summary>Source code in <code>pyventus/events/emitters/event_emitter_utils.py</code></summary>
@@ -2383,7 +2562,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 
 
 <a href="#pyventus.events.emitters.event_emitter_utils.CeleryEventEmitter" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">CeleryEventEmitter</span><span class="p">(</span><span class="n">celery</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">,</span> <span class="n">queue</span><span class="p">:</span> <span class="n">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">event_linker</span><span class="p">:</span> <span class="n">type</span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="n">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.emitters.event_emitter.EventEmitter" href="../#pyventus.events.EventEmitter">EventEmitter</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">CeleryEventEmitter</span><span class="p">(</span><span class="n">celery</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">,</span> <span class="n">queue</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">event_linker</span><span class="p">:</span> <span class="n"><span title="type">type</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.emitters.event_emitter.EventEmitter&lt;/code&gt;" href="../#pyventus.events.EventEmitter">EventEmitter</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2426,7 +2605,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code>str | None</code>
+                      <code><span title="str">str</span> | None</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -2446,11 +2625,11 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code>type[<a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a>]</code>
+                      <code><span title="type">type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a>]</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
-                      <code><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></code>
+                      <code><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></code>
                   </span>
               </p>
             </td>
@@ -2466,7 +2645,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code>bool | None</code>
+                      <code><span title="bool">bool</span> | None</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -2490,7 +2669,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
           <tr class="doc-section-item">
             <td>
                 <span class="doc-returns-annotation">
-                    <code><a class="autorefs autorefs-internal" title="pyventus.events.emitters.event_emitter.EventEmitter" href="../#pyventus.events.EventEmitter">EventEmitter</a></code>
+                    <code><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.emitters.event_emitter.EventEmitter&lt;/code&gt;" href="../#pyventus.events.EventEmitter">EventEmitter</a></code>
                 </span>
             </td>
             <td class="doc-returns-details">
@@ -2501,6 +2680,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
           </tr>
       </tbody>
     </table>
+
 
             <details class="quote">
               <summary>Source code in <code>pyventus/events/emitters/event_emitter_utils.py</code></summary>
@@ -2571,7 +2751,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 
 
 <a href="#pyventus.events.emitters.event_emitter_utils.ExecutorEventEmitter" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">ExecutorEventEmitter</span><span class="p">(</span><span class="n">executor</span><span class="p">:</span> <span class="n"><span title="concurrent.futures.Executor">Executor</span></span><span class="p">,</span> <span class="n">event_linker</span><span class="p">:</span> <span class="n">type</span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="n">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.emitters.event_emitter.EventEmitter" href="../#pyventus.events.EventEmitter">EventEmitter</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">ExecutorEventEmitter</span><span class="p">(</span><span class="n">executor</span><span class="p">:</span> <span class="n"><span title="concurrent.futures.Executor">Executor</span></span><span class="p">,</span> <span class="n">event_linker</span><span class="p">:</span> <span class="n"><span title="type">type</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.emitters.event_emitter.EventEmitter&lt;/code&gt;" href="../#pyventus.events.EventEmitter">EventEmitter</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2614,11 +2794,11 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code>type[<a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a>]</code>
+                      <code><span title="type">type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a>]</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
-                      <code><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></code>
+                      <code><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></code>
                   </span>
               </p>
             </td>
@@ -2634,7 +2814,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code>bool | None</code>
+                      <code><span title="bool">bool</span> | None</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -2658,7 +2838,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
           <tr class="doc-section-item">
             <td>
                 <span class="doc-returns-annotation">
-                    <code><a class="autorefs autorefs-internal" title="pyventus.events.emitters.event_emitter.EventEmitter" href="../#pyventus.events.EventEmitter">EventEmitter</a></code>
+                    <code><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.emitters.event_emitter.EventEmitter&lt;/code&gt;" href="../#pyventus.events.EventEmitter">EventEmitter</a></code>
                 </span>
             </td>
             <td class="doc-returns-details">
@@ -2669,6 +2849,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
           </tr>
       </tbody>
     </table>
+
 
             <details class="quote">
               <summary>Source code in <code>pyventus/events/emitters/event_emitter_utils.py</code></summary>
@@ -2733,7 +2914,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 
 
 <a href="#pyventus.events.emitters.event_emitter_utils.ExecutorEventEmitterCtx" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">ExecutorEventEmitterCtx</span><span class="p">(</span><span class="n">executor</span><span class="p">:</span> <span class="n"><span title="concurrent.futures.Executor">Executor</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">event_linker</span><span class="p">:</span> <span class="n">type</span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="n">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Generator">Generator</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.emitters.event_emitter.EventEmitter" href="../#pyventus.events.EventEmitter">EventEmitter</a></span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">ExecutorEventEmitterCtx</span><span class="p">(</span><span class="n">executor</span><span class="p">:</span> <span class="n"><span title="concurrent.futures.Executor">Executor</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">event_linker</span><span class="p">:</span> <span class="n"><span title="type">type</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Generator">Generator</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.emitters.event_emitter.EventEmitter&lt;/code&gt;" href="../#pyventus.events.EventEmitter">EventEmitter</a></span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2782,11 +2963,11 @@ Upon exiting the context, the processing service is properly shut down.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code>type[<a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a>]</code>
+                      <code><span title="type">type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a>]</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
-                      <code><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></code>
+                      <code><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></code>
                   </span>
               </p>
             </td>
@@ -2802,7 +2983,7 @@ Upon exiting the context, the processing service is properly shut down.</p>
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code>bool | None</code>
+                      <code><span title="bool">bool</span> | None</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -2826,7 +3007,7 @@ Upon exiting the context, the processing service is properly shut down.</p>
           <tr class="doc-section-item">
             <td>
                 <span class="doc-returns-annotation">
-                    <code><span title="collections.abc.Generator">Generator</span>[<a class="autorefs autorefs-internal" title="pyventus.events.emitters.event_emitter.EventEmitter" href="../#pyventus.events.EventEmitter">EventEmitter</a>, None, None]</code>
+                    <code><span title="collections.abc.Generator">Generator</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.emitters.event_emitter.EventEmitter&lt;/code&gt;" href="../#pyventus.events.EventEmitter">EventEmitter</a>, None, None]</code>
                 </span>
             </td>
             <td class="doc-returns-details">
@@ -2837,6 +3018,7 @@ Upon exiting the context, the processing service is properly shut down.</p>
           </tr>
       </tbody>
     </table>
+
 
             <details class="quote">
               <summary>Source code in <code>pyventus/events/emitters/event_emitter_utils.py</code></summary>
@@ -2915,7 +3097,7 @@ Upon exiting the context, the processing service is properly shut down.</p>
 
 
 <a href="#pyventus.events.emitters.event_emitter_utils.FastAPIEventEmitter" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">FastAPIEventEmitter</span><span class="p">(</span><span class="n">event_linker</span><span class="p">:</span> <span class="n">type</span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="n">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[[</span><span class="n"><span title="typing.Any">Any</span></span><span class="p">],</span> <span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.emitters.event_emitter.EventEmitter" href="../#pyventus.events.EventEmitter">EventEmitter</a></span><span class="p">]</span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">FastAPIEventEmitter</span><span class="p">(</span><span class="n">event_linker</span><span class="p">:</span> <span class="n"><span title="type">type</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="collections.abc.Callable">Callable</span></span><span class="p">[[</span><span class="n"><span title="typing.Any">Any</span></span><span class="p">],</span> <span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.emitters.event_emitter.EventEmitter&lt;/code&gt;" href="../#pyventus.events.EventEmitter">EventEmitter</a></span><span class="p">]</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2944,11 +3126,11 @@ used with the <code>Depends</code> method to automatically provide the <code>Bac
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code>type[<a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a>]</code>
+                      <code><span title="type">type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a>]</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
-                      <code><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></code>
+                      <code><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></code>
                   </span>
               </p>
             </td>
@@ -2964,7 +3146,7 @@ used with the <code>Depends</code> method to automatically provide the <code>Bac
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code>bool | None</code>
+                      <code><span title="bool">bool</span> | None</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -2988,7 +3170,7 @@ used with the <code>Depends</code> method to automatically provide the <code>Bac
           <tr class="doc-section-item">
             <td>
                 <span class="doc-returns-annotation">
-                    <code><span title="collections.abc.Callable">Callable</span>[[<span title="typing.Any">Any</span>], <a class="autorefs autorefs-internal" title="pyventus.events.emitters.event_emitter.EventEmitter" href="../#pyventus.events.EventEmitter">EventEmitter</a>]</code>
+                    <code><span title="collections.abc.Callable">Callable</span>[[<span title="typing.Any">Any</span>], <a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.emitters.event_emitter.EventEmitter&lt;/code&gt;" href="../#pyventus.events.EventEmitter">EventEmitter</a>]</code>
                 </span>
             </td>
             <td class="doc-returns-details">
@@ -2999,6 +3181,7 @@ used with the <code>Depends</code> method to automatically provide the <code>Bac
           </tr>
       </tbody>
     </table>
+
 
             <details class="quote">
               <summary>Source code in <code>pyventus/events/emitters/event_emitter_utils.py</code></summary>
@@ -3087,7 +3270,7 @@ used with the <code>Depends</code> method to automatically provide the <code>Bac
 
 
 <a href="#pyventus.events.emitters.event_emitter_utils.RedisEventEmitter" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">RedisEventEmitter</span><span class="p">(</span><span class="n">queue</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n">dict</span><span class="p">[</span><span class="n">str</span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">event_linker</span><span class="p">:</span> <span class="n">type</span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="n">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="pyventus.events.emitters.event_emitter.EventEmitter" href="../#pyventus.events.EventEmitter">EventEmitter</a></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">RedisEventEmitter</span><span class="p">(</span><span class="n">queue</span><span class="p">:</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">,</span> <span class="n">options</span><span class="p">:</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><span title="typing.Any">Any</span></span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">event_linker</span><span class="p">:</span> <span class="n"><span title="type">type</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.emitters.event_emitter.EventEmitter&lt;/code&gt;" href="../#pyventus.events.EventEmitter">EventEmitter</a></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -3130,7 +3313,7 @@ used with the <code>Depends</code> method to automatically provide the <code>Bac
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code>dict[str, <span title="typing.Any">Any</span>] | None</code>
+                      <code><span title="dict">dict</span>[<span title="str">str</span>, <span title="typing.Any">Any</span>] | None</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -3150,11 +3333,11 @@ used with the <code>Depends</code> method to automatically provide the <code>Bac
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code>type[<a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a>]</code>
+                      <code><span title="type">type</span>[<a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a>]</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
-                      <code><a class="autorefs autorefs-internal" title="pyventus.events.linkers.EventLinker" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></code>
+                      <code><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.linkers.EventLinker&lt;/code&gt;" href="../../linkers/event_linker/#pyventus.events.EventLinker">EventLinker</a></code>
                   </span>
               </p>
             </td>
@@ -3170,7 +3353,7 @@ used with the <code>Depends</code> method to automatically provide the <code>Bac
               <p>
                   <span class="doc-param-annotation">
                     <b>TYPE:</b>
-                      <code>bool | None</code>
+                      <code><span title="bool">bool</span> | None</code>
                   </span>
                   <span class="doc-param-default">
                     <b>DEFAULT:</b>
@@ -3194,7 +3377,7 @@ used with the <code>Depends</code> method to automatically provide the <code>Bac
           <tr class="doc-section-item">
             <td>
                 <span class="doc-returns-annotation">
-                    <code><a class="autorefs autorefs-internal" title="pyventus.events.emitters.event_emitter.EventEmitter" href="../#pyventus.events.EventEmitter">EventEmitter</a></code>
+                    <code><a class="autorefs autorefs-internal" title="&lt;code&gt;pyventus.events.emitters.event_emitter.EventEmitter&lt;/code&gt;" href="../#pyventus.events.EventEmitter">EventEmitter</a></code>
                 </span>
             </td>
             <td class="doc-returns-details">
@@ -3205,6 +3388,7 @@ used with the <code>Depends</code> method to automatically provide the <code>Bac
           </tr>
       </tbody>
     </table>
+
 
             <details class="quote">
               <summary>Source code in <code>pyventus/events/emitters/event_emitter_utils.py</code></summary>
@@ -3312,12 +3496,22 @@ used with the <code>Depends</code> method to automatically provide the <code>Bac
               
                 
               
+              
+              
+                
+                
+              
               Thanks for your feedback!
             </div>
           
             <div data-md-value="0" hidden>
               
               
+                
+              
+              
+              
+                
                 
               
               Thanks for your feedback!
@@ -3415,8 +3609,8 @@ used with the <code>Depends</code> method to automatically provide the <code>Bac
       
       
     
-    <a href="https://ve.linkedin.com/in/manuel-da-pena/en" target="_blank" rel="noopener" title="ve.linkedin.com" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5m282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
+    <a href="https://linkedin.com/in/manuel-da-pena" target="_blank" rel="noopener" title="linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3M135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5m282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9z"/></svg>
     </a>
   
     
@@ -3427,7 +3621,7 @@ used with the <code>Depends</code> method to automatically provide the <code>Bac
       
     
     <a href="https://github.com/mdapena" target="_blank" rel="noopener" title="github.com" class="md-social__link">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
     </a>
   
 </div>
@@ -3444,16 +3638,20 @@ used with the <code>Depends</code> method to automatically provide the <code>Bac
       <div class="md-progress" data-md-component="progress" role="progressbar"></div>
     
     
-    <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
+    
+      
+      <script id="__config" type="application/json">{"base": "../../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.c8b220af.min.js"></script>
       
         <script src="../../../../js/timeago.min.js"></script>
       
         <script src="../../../../js/timeago_mkdocs_material.js"></script>
       
         <script src="../../../../javascripts/mathjax.js"></script>
+      
+        <script src="../../../../javascripts/announcement.js"></script>
       
         <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
       

@@ -160,9 +160,14 @@ markdown_extensions:
   - toc:
       permalink: true
 
+# Extra Stylesheets
+extra_css:
+  - stylesheets/announcement.css
+
 # Extra JavaScript for MathJax
 extra_javascript:
   - javascripts/mathjax.js
+  - javascripts/announcement.js
   - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
 
 # Page tree

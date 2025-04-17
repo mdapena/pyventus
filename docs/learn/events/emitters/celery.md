@@ -125,7 +125,7 @@
     	With the previous configuration in place, we can now launch the Celery worker. There are a few differences depending on your operating system:
     </p>
 
-    === ":material-apple: macOS"
+    === ":material-apple: macOS / :material-linux: Linux"
 
         <div class="terminal-command annotate" markdown>
         ```console
@@ -140,16 +140,6 @@
         <div class="terminal-command annotate" markdown>
         ```console
         celery -A worker worker -l INFO --pool=solo (1)
-        ```
-        </div>
-
-        1.  For more information on configuring and using Celery workers, please refer to the [Celery Workers Guide](https://docs.celeryq.dev/en/stable/userguide/workers.html).
-
-    === ":material-linux: Linux"
-
-        <div class="terminal-command annotate" markdown>
-        ```console
-        celery -A worker worker -l INFO (1)
         ```
         </div>
 

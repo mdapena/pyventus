@@ -1,0 +1,33 @@
+.announcement-subtitle-container {
+	position: relative;
+	overflow: hidden;
+	height: 18px;
+}
+
+.announcement-subtitle {
+	position: absolute;
+	width: 100%;
+	opacity: 0; /* Start hidden */
+	transition: opacity 1s ease; /* Smooth transition for opacity */
+	pointer-events: none; /* Allow clicks to pass through */
+	font-style: italic;
+	font-weight: bold;
+	font-size: 80%;
+}
+
+.announcement-subtitle.active {
+	opacity: 0.75; /* Fully visible when active */
+	pointer-events: auto; /* Allow clicks on active text */
+}
+
+@keyframes announcementSubtitleAnimation {
+	0% {
+		opacity: 0; /* Start hidden */
+	}
+	50% {
+		opacity: 0.75; /* Fully visible */
+	}
+	100% {
+		opacity: 0; /* Fade out */
+	}
+}

@@ -8,7 +8,7 @@
 	position: absolute;
 	width: 100%;
 	opacity: 0; /* Start hidden */
-	transition: opacity 0.75s ease; /* Smooth transition for opacity */
+	transition: opacity 1s ease; /* Smooth transition for opacity */
 	pointer-events: none; /* Allow clicks to pass through */
 	font-style: italic;
 	font-weight: bold;

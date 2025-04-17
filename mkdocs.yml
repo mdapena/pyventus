@@ -181,7 +181,7 @@ nav:
             - AsyncIO Event Emitter: learn/events/emitters/asyncio.md
             - Celery Event Emitter: learn/events/emitters/celery.md
             - Executor Event Emitter: learn/events/emitters/executor.md
-            - FastAPI Event Emitter: learn/events/emitters/fastapi/index.md
+            - FastAPI Event Emitter: learn/events/emitters/fastapi.md
             - Redis Event Emitter: learn/events/emitters/redis.md
   - API Reference:
       - api/index.md

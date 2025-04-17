@@ -122,7 +122,7 @@
     4.  Start the Celery worker only if this script is run directly.
 
     <p style="text-align: justify;">
-    	With the previous configuration in place, we can now launch the Celery worker. There are a few differences depending on your operating system:
+    	With the previous configuration in place, you can now launch the Celery worker. There are a few differences depending on your operating system:
     </p>
 
     === ":material-apple: macOS / :material-linux: Linux"

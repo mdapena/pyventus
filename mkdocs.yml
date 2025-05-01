@@ -163,6 +163,8 @@ markdown_extensions:
 # Extra Stylesheets
 extra_css:
   - stylesheets/announcement.css
+  - stylesheets/header.css
+  - stylesheets/search-bar.css
 
 # Extra JavaScript for MathJax
 extra_javascript:

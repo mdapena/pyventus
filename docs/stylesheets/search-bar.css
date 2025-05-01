@@ -1,0 +1,24 @@
+.md-search__form {
+	border-radius: 1rem;
+}
+
+.md-search__form {
+	border-top-right-radius: 1rem !important;
+	border-top-left-radius: 1rem !important;
+}
+
+.md-search__output {
+	border-bottom-left-radius: 1rem !important;
+	border-bottom-right-radius: 1rem !important;
+}
+
+@media screen and (max-width: 59.9844em) {
+	.md-search__form {
+		border-top-right-radius: inherit !important;
+		border-top-left-radius: inherit !important;
+	}
+	.md-search__output {
+		border-bottom-left-radius: inherit !important;
+		border-bottom-right-radius: inherit !important;
+	}
+}

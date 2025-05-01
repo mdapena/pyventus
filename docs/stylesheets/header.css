@@ -1,0 +1,7 @@
+.md-header {
+	background: linear-gradient(177deg, rgba(255, 170, 0, 1) 0%, rgba(0, 189, 214, 1) 40%);
+}
+
+.md-nav__title {
+	background: linear-gradient(170deg, rgba(255, 170, 0, 1) 0%, rgba(0, 189, 214, 1) 70%);
+}

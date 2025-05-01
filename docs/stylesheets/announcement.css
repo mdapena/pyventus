@@ -1,12 +1,15 @@
 .announcement-subtitle-container {
-	position: relative;
-	overflow: hidden;
-	height: 18px;
+	display: grid;
+	justify-items: start;
+	align-items: start;
+}
+
+.announcement-subtitle-container > * {
+	grid-column-start: 1;
+	grid-row-start: 1;
 }
 
 .announcement-subtitle {
-	position: absolute;
-	width: 100%;
 	opacity: 0; /* Start hidden */
 	transition: opacity 1s ease; /* Smooth transition for opacity */
 	pointer-events: none; /* Allow clicks to pass through */

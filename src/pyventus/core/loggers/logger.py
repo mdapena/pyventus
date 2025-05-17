@@ -55,6 +55,16 @@ class Logger:
         """
         return self.__debug
 
+    def critical(self, msg: str, action: str | None = None) -> None:
+        """
+        Log a CRITICAL level message.
+
+        :param msg: The message to be logged.
+        :param action: The action or method associated with the log. Defaults to None.
+        :return: None.
+        """
+        StdOutLogger.critical(msg=msg, source=self.__source, action=action)
+
     def error(self, msg: str, action: str | None = None) -> None:
         """
         Log an ERROR level message.

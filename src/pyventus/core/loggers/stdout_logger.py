@@ -103,7 +103,7 @@ class StdOutLogger:
         return (
             f"{'[' + (source if source else 'StdOutLogger(ClassReference)') + ']'} {levelcolor}"
             f"{(action if action[-1] == ' ' else action + ' ') if action else 'Message: '}"
-            f"{StdOutColors.DEFAULT}{msg}"
+            f"{StdOutColors.DEFAULT}{msg % {cls.LOG_LEVELCOLOR_KEY: levelcolor}}"
         )
 
     @classmethod

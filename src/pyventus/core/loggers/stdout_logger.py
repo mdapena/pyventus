@@ -11,8 +11,16 @@ from logging import (
     getLogger,
 )
 from sys import stdout
+from types import TracebackType
+from typing import TypeAlias
 
 from ...core.constants import StdOutColors
+
+_SysExcInfoType: TypeAlias = tuple[type[BaseException], BaseException, TracebackType | None] | tuple[None, None, None]
+"""A type alias representing the supported types of exception information that can be returned by `sys.exc_info()`."""
+
+ExcInfoType: TypeAlias = None | bool | _SysExcInfoType | BaseException
+"""A type alias representing the supported types of exception information that can be used in logging methods."""
 
 
 class StdOutLogger:
@@ -99,13 +107,16 @@ class StdOutLogger:
         )
 
     @classmethod
-    def critical(cls, msg: str, source: str | None = None, action: str | None = None) -> None:
+    def critical(
+        cls, msg: str, source: str | None = None, action: str | None = None, exc_info: ExcInfoType = None
+    ) -> None:
         """
         Log a CRITICAL level message.
 
         :param msg: The message to be logged.
         :param source: The source of the log message. Defaults to None.
         :param action: The action or method associated with the log. Defaults to None.
+        :param exc_info: Exception information to be logged. Defaults to None.
         :return: None.
         """
         cls.LOGGER.critical(
@@ -118,16 +129,20 @@ class StdOutLogger:
             extra={
                 cls.LOG_LEVELCOLOR_KEY: cls.LOG_COLORS[CRITICAL],
             },
+            exc_info=exc_info,
         )
 
     @classmethod
-    def error(cls, msg: str, source: str | None = None, action: str | None = None) -> None:
+    def error(
+        cls, msg: str, source: str | None = None, action: str | None = None, exc_info: ExcInfoType = None
+    ) -> None:
         """
         Log an ERROR level message.
 
         :param msg: The message to be logged.
         :param source: The source of the log message. Defaults to None.
         :param action: The action or method associated with the log. Defaults to None.
+        :param exc_info: Exception information to be logged. Defaults to None.
         :return: None.
         """
         cls.LOGGER.error(
@@ -140,6 +155,7 @@ class StdOutLogger:
             extra={
                 cls.LOG_LEVELCOLOR_KEY: cls.LOG_COLORS[ERROR],
             },
+            exc_info=exc_info,
         )
 
     @classmethod

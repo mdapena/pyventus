@@ -680,7 +680,7 @@ class EventLinker:
         # Log the subscription if debug is enabled
         if cls.__logger.debug_enabled:
             cls.__logger.debug(
-                action="Subscribed:", msg=f"{subscriber} {StdOutColors.PURPLE_TEXT('Events:')} {unique_events}"
+                action="Subscribed:", msg=f"{subscriber} %(levelcolor)sEvents:{StdOutColors.DEFAULT} {unique_events}"
             )
 
         # Return the new event subscriber
@@ -713,7 +713,7 @@ class EventLinker:
         # Log the removal if the debug mode is enabled
         if cls.__logger.debug_enabled:
             cls.__logger.debug(
-                action="Removed:", msg=f"{valid_subscriber} {StdOutColors.PURPLE_TEXT('Event:')} '{valid_event}'"
+                action="Removed:", msg=f"{valid_subscriber} %(levelcolor)sEvent:{StdOutColors.DEFAULT} '{valid_event}'"
             )
 
         return True

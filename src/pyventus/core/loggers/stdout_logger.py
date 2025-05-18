@@ -16,28 +16,36 @@ from ...core.constants import StdOutColors
 
 
 class StdOutLogger:
-    """A simple logging interface for writing log messages to standard output."""
+    """
+    A simple interface for logging messages to the standard output in the Pyventus library.
+
+    **Notes:**
+
+    -   This interface manages the logger setup and ensures that log messages are consistent.
+    """
 
     LOGGER: Logger = getLogger(name="Pyventus")
-    """The logger instance for the Pyventus library."""
+    """The logger instance of the Pyventus library."""
 
     LOG_LEVELCOLOR_KEY: str = "levelcolor"
     """The key used to store the color associated with the log level in the log records' extra attributes."""
 
     LOG_COLORS: dict[int, str] = {
         NOTSET: StdOutColors.DEFAULT,
+        CRITICAL: StdOutColors.RED,
+        ERROR: StdOutColors.RED,
+        WARNING: StdOutColors.YELLOW,
         INFO: StdOutColors.GREEN,
         DEBUG: StdOutColors.PURPLE,
-        WARNING: StdOutColors.YELLOW,
-        ERROR: StdOutColors.RED,
-        CRITICAL: StdOutColors.RED,
     }
     """A mapping of log levels to their corresponding color codes for console output."""
 
     @classmethod
     def config(cls, level: int = DEBUG) -> None:
         """
-        Configure the logger with the specified log level.
+        Configure the Pyventus logger with the specified log level and a standard output stream handler.
+
+        The stream handler is configured only once to prevent duplicate handlers.
 
         :param level: The logging level to set for the logger. Defaults to DEBUG.
         :return: None.
@@ -76,7 +84,7 @@ class StdOutLogger:
         levelcolor: str = LOG_COLORS[NOTSET],
     ) -> str:
         """
-        Build a log message string with the specified log level, message, source, and action.
+        Build a log message string with the specified message, source, action, and levelcolor.
 
         :param msg: The log message.
         :param source: The source of the log message. Defaults to None.
@@ -84,7 +92,6 @@ class StdOutLogger:
         :param levelcolor: The color associated with the log level. Defaults to NOTSET.
         :return: The formatted log message string.
         """
-        # Build the log message string.
         return (
             f"{'[' + (source if source else 'StdOutLogger(ClassReference)') + ']'} {levelcolor}"
             f"{(action if action[-1] == ' ' else action + ' ') if action else 'Message: '}"
@@ -92,12 +99,7 @@ class StdOutLogger:
         )
 
     @classmethod
-    def critical(
-        cls,
-        msg: str,
-        source: str | None = None,
-        action: str | None = None,
-    ) -> None:
+    def critical(cls, msg: str, source: str | None = None, action: str | None = None) -> None:
         """
         Log a CRITICAL level message.
 
@@ -106,7 +108,7 @@ class StdOutLogger:
         :param action: The action or method associated with the log. Defaults to None.
         :return: None.
         """
-        cls.LOGGER.error(
+        cls.LOGGER.critical(
             msg=cls.build_msg(
                 msg=msg,
                 source=source,
@@ -119,12 +121,7 @@ class StdOutLogger:
         )
 
     @classmethod
-    def error(
-        cls,
-        msg: str,
-        source: str | None = None,
-        action: str | None = None,
-    ) -> None:
+    def error(cls, msg: str, source: str | None = None, action: str | None = None) -> None:
         """
         Log an ERROR level message.
 

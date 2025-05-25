@@ -17,8 +17,24 @@ abstract: >-
   A powerful Python library for event-driven and 
   reactive programming.
 keywords:
+  - event
   - events
-  - event-emitter
-  - event-handler
-  - event-linker
+  - event driven
+  - event-driven
+  - event driven programming
+  - event-driven programming
+  - EventEmitter
+  - event emitter
+  - event emitters
+  - reactive
+  - reactive programming
+  - reactive-programming
+  - observer pattern
+  - observable
+  - observables
+  - observer
+  - observers
+  - asynchronous
+  - asynchronous programming
+  - asynchronous-programming
 license: MIT

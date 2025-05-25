@@ -12,6 +12,26 @@ hide:
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"
 
+## [v0.7.1](https://github.com/mdapena/pyventus/releases/tag/0.7.1) <small>May 25, 2025</small> { id="0.7.1" }
+
+<hr class="divider">
+
+##### Changed { id="0.7.1-changed" }
+
+-   Refactored the `StdOutLogger` to improve usability, configuration, and standardization of logging messages.
+
+-   Enabled a `config()` method in the `StdOutLogger` for straightforward configuration of the Pyventus logger.
+
+-   Introduced a `critical()` method in both the `StdOutLogger` and `Logger` classes for logging critical-level messages.
+
+-   Updated the `error()` method in both the `StdOutLogger` and `Logger` classes to include the `exc_info` parameter, allowing exception information to be logged for better insights during debugging.
+
+-   Enhanced the `execute()` method of the Event Handler to include exception information in error logs, improving debugging when errors occur.
+
+-   Improved error logging in the `Observable` class by including exception information in error logs for better debugging when errors occur.
+
+[//]: # "--------------------------------------------------------------------------------------------------------------"
+
 ## [v0.7.0](https://github.com/mdapena/pyventus/releases/tag/0.7.0) <small>January 7, 2025</small> { id="0.7.0" }
 
 <hr class="divider">

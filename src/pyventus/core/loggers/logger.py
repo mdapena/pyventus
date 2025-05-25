@@ -1,5 +1,5 @@
 from ..utils import attributes_repr, formatted_repr, summarized_repr
-from .stdout_logger import StdOutLogger
+from .stdout_logger import ExcInfoType, StdOutLogger
 
 
 class Logger:
@@ -55,15 +55,27 @@ class Logger:
         """
         return self.__debug
 
-    def error(self, msg: str, action: str | None = None) -> None:
+    def critical(self, msg: str, action: str | None = None, exc_info: ExcInfoType = None) -> None:
+        """
+        Log a CRITICAL level message.
+
+        :param msg: The message to be logged.
+        :param action: The action or method associated with the log. Defaults to None.
+        :param exc_info: Exception information to be logged. Defaults to None.
+        :return: None.
+        """
+        StdOutLogger.critical(msg=msg, source=self.__source, action=action, exc_info=exc_info)
+
+    def error(self, msg: str, action: str | None = None, exc_info: ExcInfoType = None) -> None:
         """
         Log an ERROR level message.
 
         :param msg: The message to be logged.
         :param action: The action or method associated with the log. Defaults to None.
+        :param exc_info: Exception information to be logged. Defaults to None.
         :return: None.
         """
-        StdOutLogger.error(msg=msg, source=self.__source, action=action)
+        StdOutLogger.error(msg=msg, source=self.__source, action=action, exc_info=exc_info)
 
     def warning(self, msg: str, action: str | None = None) -> None:
         """

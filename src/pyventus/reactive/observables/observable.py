@@ -260,7 +260,11 @@ class Observable(ABC, Generic[_OutT]):
         :param exception: The exception instance to be logged.
         :return: None.
         """
-        self.__logger.error(action="Exception:", msg=f"{exception!r} at {summarized_repr(subscriber)}.")
+        self.__logger.error(
+            action="Exception:",
+            msg=f"{exception!r} %(levelcolor)sFrom:%(defaultcolor)s {summarized_repr(subscriber)}.",
+            exc_info=exception,
+        )
 
     @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
     async def _emit_next(self, value: _OutT) -> None:  # type: ignore[misc]

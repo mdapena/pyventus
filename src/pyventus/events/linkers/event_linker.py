@@ -7,7 +7,6 @@ from typing import Generic, TypeAlias, TypeVar, final
 from typing_extensions import Self, override
 
 from ...core.collections import MultiBidict
-from ...core.constants import StdOutColors
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
 from ...core.subscriptions import SubscriptionContext
@@ -680,7 +679,7 @@ class EventLinker:
         # Log the subscription if debug is enabled
         if cls.__logger.debug_enabled:
             cls.__logger.debug(
-                action="Subscribed:", msg=f"{subscriber} %(levelcolor)sEvents:{StdOutColors.DEFAULT} {unique_events}"
+                action="Subscribed:", msg=f"{subscriber} %(levelcolor)sEvents:%(defaultcolor)s {unique_events}"
             )
 
         # Return the new event subscriber
@@ -713,7 +712,7 @@ class EventLinker:
         # Log the removal if the debug mode is enabled
         if cls.__logger.debug_enabled:
             cls.__logger.debug(
-                action="Removed:", msg=f"{valid_subscriber} %(levelcolor)sEvent:{StdOutColors.DEFAULT} '{valid_event}'"
+                action="Removed:", msg=f"{valid_subscriber} %(levelcolor)sEvent:%(defaultcolor)s '{valid_event}'"
             )
 
         return True

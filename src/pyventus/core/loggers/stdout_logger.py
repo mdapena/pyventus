@@ -12,7 +12,7 @@ from logging import (
 )
 from sys import stdout
 from types import TracebackType
-from typing import TypeAlias
+from typing import Final, TypeAlias
 
 from ...core.constants import StdOutColors
 
@@ -32,13 +32,13 @@ class StdOutLogger:
     -   This interface manages the logger setup and ensures that log messages are consistent.
     """
 
-    LOGGER: Logger = getLogger(name="Pyventus")
-    """The logger instance of the Pyventus library."""
+    _LOG_DEFAULTCOLOR_KEY: Final[str] = "defaultcolor"
+    """The key used to store the default color for log records in the log records' extra attributes."""
 
-    LOG_LEVELCOLOR_KEY: str = "levelcolor"
+    _LOG_LEVELCOLOR_KEY: Final[str] = "levelcolor"
     """The key used to store the color associated with the log level in the log records' extra attributes."""
 
-    LOG_COLORS: dict[int, str] = {
+    _LOG_COLORS: dict[int, str] = {
         NOTSET: StdOutColors.DEFAULT,
         CRITICAL: StdOutColors.RED,
         ERROR: StdOutColors.RED,
@@ -47,6 +47,9 @@ class StdOutLogger:
         DEBUG: StdOutColors.PURPLE,
     }
     """A mapping of log levels to their corresponding color codes for console output."""
+
+    LOGGER: Final[Logger] = getLogger(name="Pyventus")
+    """The logger instance of the Pyventus library."""
 
     @classmethod
     def config(cls, level: int = DEBUG) -> None:
@@ -71,11 +74,12 @@ class StdOutLogger:
             fmt=Formatter(
                 datefmt="%Y-%m-%d %I:%M:%S %p",
                 fmt=(
-                    f"%(levelcolor)s[%(name)s] {StdOutColors.DEFAULT}%(process)05d (%(thread)05d) %(levelcolor)s• "
-                    f"{StdOutColors.DEFAULT}%(asctime)s %(levelcolor)s%(levelname)8s {StdOutColors.DEFAULT}%(message)s"
+                    "%(levelcolor)s[%(name)s]%(defaultcolor)s %(process)05d (%(thread)05d) %(levelcolor)s•"
+                    "%(defaultcolor)s %(asctime)s %(levelcolor)s%(levelname)9s%(defaultcolor)s %(message)s"
                 ),
                 defaults={
-                    cls.LOG_LEVELCOLOR_KEY: cls.LOG_COLORS[NOTSET],
+                    cls._LOG_LEVELCOLOR_KEY: cls._LOG_COLORS[NOTSET],
+                    cls._LOG_DEFAULTCOLOR_KEY: cls._LOG_COLORS[NOTSET],
                 },
             )
         )
@@ -89,7 +93,7 @@ class StdOutLogger:
         msg: str,
         source: str | None = None,
         action: str | None = None,
-        levelcolor: str = LOG_COLORS[NOTSET],
+        levelcolor: str = _LOG_COLORS[NOTSET],
     ) -> str:
         """
         Build a log message string with the specified message, source, action, and levelcolor.
@@ -102,8 +106,9 @@ class StdOutLogger:
         """
         return (
             f"{'[' + (source if source else 'StdOutLogger(ClassReference)') + ']'} {levelcolor}"
-            f"{(action if action[-1] == ' ' else action + ' ') if action else 'Message: '}"
-            f"{StdOutColors.DEFAULT}{msg % {cls.LOG_LEVELCOLOR_KEY: levelcolor}}{StdOutColors.DEFAULT}"
+            f"{(action if action[-1] == ' ' else action + ' ') if action else 'Message: '}{StdOutColors.DEFAULT}"
+            f"{msg % {cls._LOG_LEVELCOLOR_KEY: levelcolor, cls._LOG_DEFAULTCOLOR_KEY: cls._LOG_COLORS[NOTSET]}}"
+            f"{StdOutColors.DEFAULT}"
         )
 
     @classmethod
@@ -124,10 +129,10 @@ class StdOutLogger:
                 msg=msg,
                 source=source,
                 action=action,
-                levelcolor=cls.LOG_COLORS[CRITICAL],
+                levelcolor=cls._LOG_COLORS[CRITICAL],
             ),
             extra={
-                cls.LOG_LEVELCOLOR_KEY: cls.LOG_COLORS[CRITICAL],
+                cls._LOG_LEVELCOLOR_KEY: cls._LOG_COLORS[CRITICAL],
             },
             exc_info=exc_info,
         )
@@ -150,10 +155,10 @@ class StdOutLogger:
                 msg=msg,
                 source=source,
                 action=action,
-                levelcolor=cls.LOG_COLORS[ERROR],
+                levelcolor=cls._LOG_COLORS[ERROR],
             ),
             extra={
-                cls.LOG_LEVELCOLOR_KEY: cls.LOG_COLORS[ERROR],
+                cls._LOG_LEVELCOLOR_KEY: cls._LOG_COLORS[ERROR],
             },
             exc_info=exc_info,
         )
@@ -173,10 +178,10 @@ class StdOutLogger:
                 msg=msg,
                 source=source,
                 action=action,
-                levelcolor=cls.LOG_COLORS[WARNING],
+                levelcolor=cls._LOG_COLORS[WARNING],
             ),
             extra={
-                cls.LOG_LEVELCOLOR_KEY: cls.LOG_COLORS[WARNING],
+                cls._LOG_LEVELCOLOR_KEY: cls._LOG_COLORS[WARNING],
             },
         )
 
@@ -195,10 +200,10 @@ class StdOutLogger:
                 msg=msg,
                 source=source,
                 action=action,
-                levelcolor=cls.LOG_COLORS[INFO],
+                levelcolor=cls._LOG_COLORS[INFO],
             ),
             extra={
-                cls.LOG_LEVELCOLOR_KEY: cls.LOG_COLORS[INFO],
+                cls._LOG_LEVELCOLOR_KEY: cls._LOG_COLORS[INFO],
             },
         )
 
@@ -217,10 +222,10 @@ class StdOutLogger:
                 msg=msg,
                 source=source,
                 action=action,
-                levelcolor=cls.LOG_COLORS[DEBUG],
+                levelcolor=cls._LOG_COLORS[DEBUG],
             ),
             extra={
-                cls.LOG_LEVELCOLOR_KEY: cls.LOG_COLORS[DEBUG],
+                cls._LOG_LEVELCOLOR_KEY: cls._LOG_COLORS[DEBUG],
             },
         )
 

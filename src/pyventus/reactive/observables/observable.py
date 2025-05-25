@@ -6,7 +6,6 @@ from typing import Generic, TypeVar, final
 
 from typing_extensions import Self, overload, override
 
-from ...core.constants import StdOutColors
 from ...core.exceptions import PyventusException
 from ...core.loggers import Logger
 from ...core.subscriptions import SubscriptionContext
@@ -263,7 +262,7 @@ class Observable(ABC, Generic[_OutT]):
         """
         self.__logger.error(
             action="Exception:",
-            msg=f"{exception!r} %(levelcolor)sFrom:{StdOutColors.DEFAULT} {summarized_repr(subscriber)}.",
+            msg=f"{exception!r} %(levelcolor)sFrom:%(defaultcolor)s {summarized_repr(subscriber)}.",
             exc_info=exception,
         )
 

@@ -26,8 +26,8 @@ class TestLogger:
 
         # Assert
         assert logger and logger.debug_enabled
-        logger.critical(action="Action", msg="Critical%(levelcolor)scolor")
-        logger.error(action="Action", msg="Error %(levelcolor)s color")
-        logger.warning(action="Action", msg="Warning %(levelcolor)scolor")
-        logger.info(action="Action", msg="Info%(levelcolor)s color")
-        logger.debug(action="Action", msg=f"Debug %(levelcolor)scolor ({'Extra'}).")
+        logger.critical(action="Action:", msg="Critical %(levelcolor)slevel%(defaultcolor)s message.")
+        logger.error(action="Action:", msg="Error %(levelcolor)slevel%(defaultcolor)s message.")
+        logger.warning(action="Action:", msg="Warning %(levelcolor)slevel%(defaultcolor)s message.")
+        logger.info(action="Action:", msg="Info %(levelcolor)slevel%(defaultcolor)s message.")
+        logger.debug(action="Action:", msg="Debug %(levelcolor)slevel%(defaultcolor)s message.")

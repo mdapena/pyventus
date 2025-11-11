@@ -335,6 +335,14 @@ hatch run tests:all
     	```
     	</div>
 
+    === ":material-language-python: Python 3.14"
+
+    	<div class="terminal-command">
+    	```console
+    	hatch run +py=3.14 tests:all
+    	```
+    	</div>
+
 !!! warning "Troubleshooting Hatch Environment Errors"
 
     <p style="text-align: justify;">

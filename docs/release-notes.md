@@ -12,6 +12,24 @@ hide:
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"
 
+## [v0.7.2](https://github.com/mdapena/pyventus/releases/tag/0.7.2) <small>Nov 11, 2025</small> { id="0.7.2" }
+
+<hr class="divider">
+
+##### Changed { id="0.7.2-changed" }
+
+-   Added support for Python `3.14`, ensuring compatibility with the latest features and improvements.
+
+-   Bumped the `upload-artifact` action to `v5` in the `publish-to-pypi.yml` workflow.
+
+-   Bumped the `download-artifact` action to `v6` in the `publish-to-pypi.yml` workflow.
+
+-   Bumped the `setup-python` action to `v6` in the `deploy-docs.yml`, `publish-to-pypi.yml`, and `run-tests.yml` workflows.
+
+-   Bumped the `checkout` action to `v5` in the `deploy-docs.yml`, `publish-to-pypi.yml`, and `run-tests.yml` workflows.
+
+[//]: # "--------------------------------------------------------------------------------------------------------------"
+
 ## [v0.7.1](https://github.com/mdapena/pyventus/releases/tag/0.7.1) <small>May 25, 2025</small> { id="0.7.1" }
 
 <hr class="divider">

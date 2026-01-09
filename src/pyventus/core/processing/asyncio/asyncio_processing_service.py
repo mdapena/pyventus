@@ -28,6 +28,13 @@ class AsyncIOProcessingService(ProcessingService):
     -   When the provided callback is an asynchronous call and is submitted in a context where no event loop is
         active, a new event loop is started and subsequently closed by the `asyncio.run()` method. Within this
         loop, the callback is executed, and the loop waits for all scheduled tasks to finish before closing.
+
+    -   When `enforce_submission_order` is `True`, new submissions are managed by a queue and processed
+        sequentially within an asyncio loop. If there is no active asyncio loop available, a new loop is
+        generated specifically to handle the queue processing. This newly created loop will remain open until
+        all callbacks have been executed and the queue is empty, at which point it will be automatically closed.
+        Synchronous callbacks are enqueued and executed directly in a blocking manner, while asynchronous callbacks
+        are also queued, executed immediately, and awaited to preserve the correct order of execution.
     """
 
     class _AsyncIOSubmission(NamedTuple):

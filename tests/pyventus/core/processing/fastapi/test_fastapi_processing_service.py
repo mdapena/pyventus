@@ -1,3 +1,4 @@
+import asyncio
 from typing import Any
 
 import pytest
@@ -8,7 +9,6 @@ from pyventus.core.processing.fastapi import FastAPIProcessingService
 from starlette.status import HTTP_200_OK
 from typing_extensions import override
 
-from .....fixtures import CallableMock
 from ..processing_service_test import ProcessingServiceTest
 
 
@@ -32,7 +32,7 @@ class TestFastAPIProcessingService(ProcessingServiceTest):
         client = TestClient(FastAPI())
 
         # Act/Assert
-        @client.app.get("/")  # type: ignore[attr-defined, misc]
+        @client.app.get("/")  # type: ignore[attr-defined,untyped-decorator]
         def api(
             processing_service: FastAPIProcessingService = Depends(FastAPIProcessingService),  # noqa: B008
         ) -> None:
@@ -63,39 +63,29 @@ class TestFastAPIProcessingService(ProcessingServiceTest):
     # =================================
 
     @override
-    def handle_submission_in_sync_context(
-        self, callback: CallableMock.Base, args: tuple[Any, ...], kwargs: dict[str, Any]
-    ) -> None:
-        # Arrange
+    def run_submission_test_case_in_sync_ctx(self, test_case: ProcessingServiceTest.SubmissionTestCase) -> None:
         client = TestClient(FastAPI())
 
-        @client.app.get("/")  # type: ignore[attr-defined, misc]
+        @client.app.get("/")  # type: ignore[attr-defined,untyped-decorator]
         def api(background_tasks: BackgroundTasks) -> None:
             processing_service = FastAPIProcessingService(background_tasks=background_tasks)
-            processing_service.submit(callback, *args, **kwargs)
+            with test_case.execute(processing_service):
+                asyncio.run(background_tasks())
 
-        # Act
         res = client.get("/")
-
-        # Assert
         assert res.status_code == HTTP_200_OK
 
     # =================================
 
     @override
-    async def handle_submission_in_async_context(
-        self, callback: CallableMock.Base, args: tuple[Any, ...], kwargs: dict[str, Any]
-    ) -> None:
-        # Arrange
+    async def run_submission_test_case_in_async_ctx(self, test_case: ProcessingServiceTest.SubmissionTestCase) -> None:
         client = TestClient(FastAPI())
 
-        @client.app.get("/")  # type: ignore[attr-defined, misc]
+        @client.app.get("/")  # type: ignore[attr-defined,untyped-decorator]
         async def api(background_tasks: BackgroundTasks) -> None:
             processing_service = FastAPIProcessingService(background_tasks=background_tasks)
-            processing_service.submit(callback, *args, **kwargs)
+            with test_case.execute(processing_service):
+                await background_tasks()
 
-        # Act
         res = client.get("/")
-
-        # Assert
         assert res.status_code == HTTP_200_OK

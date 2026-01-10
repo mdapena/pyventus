@@ -7,7 +7,6 @@ from celery import Celery
 from pyventus import PyventusException
 from typing_extensions import override
 
-from .....fixtures import CallableMock
 from ..processing_service_test import ProcessingServiceTest
 
 
@@ -91,9 +90,7 @@ class TestCeleryProcessingService(ProcessingServiceTest):
     # =================================
 
     @override
-    def handle_submission_in_sync_context(
-        self, callback: CallableMock.Base, args: tuple[Any, ...], kwargs: dict[str, Any]
-    ) -> None:
+    def run_submission_test_case_in_sync_ctx(self, test_case: ProcessingServiceTest.SubmissionTestCase) -> None:
         # Use patching to override the behavior of pickle.dumps and pickle.loads.
         # This ensures that objects are not serialized or deserialized during testing,
         # allowing access to callback metrics for assertions such as call count and others.
@@ -103,19 +100,16 @@ class TestCeleryProcessingService(ProcessingServiceTest):
         ):
             from pyventus.core.processing.celery import CeleryProcessingService
 
-            # Arrange: Register the service task and create a new Celery processing service.
             CeleryProcessingService.register()
             processing_service = CeleryProcessingService(celery=CeleryMock())
 
-            # Act: Submit the callback to the processing service with the provided arguments.
-            processing_service.submit(callback, *args, **kwargs)
+            with test_case.execute(processing_service):
+                pass
 
     # =================================
 
     @override
-    async def handle_submission_in_async_context(
-        self, callback: CallableMock.Base, args: tuple[Any, ...], kwargs: dict[str, Any]
-    ) -> None:
+    async def run_submission_test_case_in_async_ctx(self, test_case: ProcessingServiceTest.SubmissionTestCase) -> None:
         # Use patching to override the behavior of pickle.dumps and pickle.loads.
         # This ensures that objects are not serialized or deserialized during testing,
         # allowing access to callback metrics for assertions such as call count and others.
@@ -125,9 +119,8 @@ class TestCeleryProcessingService(ProcessingServiceTest):
         ):
             from pyventus.core.processing.celery import CeleryProcessingService
 
-            # Arrange: Register the service task and create a new Celery processing service.
             CeleryProcessingService.register()
             processing_service = CeleryProcessingService(celery=CeleryMock())
 
-            # Submit the callback to the processing service with the provided arguments.
-            processing_service.submit(callback, *args, **kwargs)
+            with test_case.execute(processing_service):
+                pass

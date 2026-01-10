@@ -6,7 +6,6 @@ from pyventus import PyventusException
 from pyventus.core.processing.executor import ExecutorProcessingService
 from typing_extensions import override
 
-from .....fixtures import CallableMock
 from ..processing_service_test import ProcessingServiceTest
 
 
@@ -81,17 +80,15 @@ class TestExecutorProcessingService(ProcessingServiceTest):
     # =================================
 
     @override
-    def handle_submission_in_sync_context(
-        self, callback: CallableMock.Base, args: tuple[Any, ...], kwargs: dict[str, Any]
-    ) -> None:
-        with ExecutorProcessingService(executor=ThreadPoolExecutor()) as processing_service:
-            processing_service.submit(callback, *args, **kwargs)
+    def run_submission_test_case_in_sync_ctx(self, test_case: ProcessingServiceTest.SubmissionTestCase) -> None:
+        processing_service = ExecutorProcessingService(executor=ThreadPoolExecutor())
+        with test_case.execute(processing_service):
+            processing_service.shutdown()
 
     # =================================
 
     @override
-    async def handle_submission_in_async_context(
-        self, callback: CallableMock.Base, args: tuple[Any, ...], kwargs: dict[str, Any]
-    ) -> None:
-        with ExecutorProcessingService(executor=ThreadPoolExecutor()) as processing_service:
-            processing_service.submit(callback, *args, **kwargs)
+    async def run_submission_test_case_in_async_ctx(self, test_case: ProcessingServiceTest.SubmissionTestCase) -> None:
+        processing_service = ExecutorProcessingService(executor=ThreadPoolExecutor())
+        with test_case.execute(processing_service):
+            processing_service.shutdown()

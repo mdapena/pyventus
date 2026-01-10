@@ -1,9 +1,15 @@
+import asyncio
+import time
+from collections.abc import Awaitable, Callable, Generator
+from contextlib import contextmanager
+from threading import Lock
 from typing import Any
 
+import pytest
+from pyventus.core.exceptions.pyventus_exception import PyventusException
 from pyventus.core.processing.asyncio import AsyncIOProcessingService
 from typing_extensions import override
 
-from .....fixtures import CallableMock
 from ..processing_service_test import ProcessingServiceTest
 
 
@@ -12,13 +18,44 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
     # Test Cases for creation
     # =================================
 
-    def test_creation(self) -> None:
+    @pytest.mark.parametrize(
+        ["enforce_submission_order"],
+        [
+            (None,),
+            (True,),
+            (False,),
+        ],
+    )
+    def test_creation_with_valid_input(self, enforce_submission_order: bool | None) -> None:
         # Arrange/Act
-        processing_service = AsyncIOProcessingService()
+        processing_service = (
+            AsyncIOProcessingService()
+            if enforce_submission_order is None
+            else AsyncIOProcessingService(enforce_submission_order=enforce_submission_order)
+        )
 
         # Assert
         assert processing_service is not None
         assert isinstance(processing_service, AsyncIOProcessingService)
+        assert (
+            processing_service._submission_queue is not None
+            if enforce_submission_order
+            else processing_service._submission_queue is None
+        )
+
+    # =================================
+
+    @pytest.mark.parametrize(
+        ["enforce_submission_order", "exception"],
+        [
+            (None, PyventusException),
+            ("True", PyventusException),
+        ],
+    )
+    def test_creation_with_invalid_input(self, enforce_submission_order: Any, exception: type[Exception]) -> None:
+        # Arrange/Act/Assert
+        with pytest.raises(exception):
+            AsyncIOProcessingService(enforce_submission_order=enforce_submission_order)
 
     # =================================
     # Test Cases for is_loop_running
@@ -41,24 +78,137 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
     # =================================
 
     @override
-    def handle_submission_in_sync_context(
-        self, callback: CallableMock.Base, args: tuple[Any, ...], kwargs: dict[str, Any]
-    ) -> None:
-        # Arrange
-        processing_service = AsyncIOProcessingService()
+    def run_submission_test_case_in_sync_ctx(self, test_case: ProcessingServiceTest.SubmissionTestCase) -> None:
+        processing_service: AsyncIOProcessingService | None = None
 
-        # Act
-        processing_service.submit(callback, *args, **kwargs)
+        processing_service = AsyncIOProcessingService()
+        with test_case.execute(processing_service):
+            pass
+
+        processing_service = AsyncIOProcessingService(enforce_submission_order=False)
+        with test_case.execute(processing_service):
+            pass
+
+        processing_service = AsyncIOProcessingService(enforce_submission_order=True)
+        with test_case.execute(processing_service):
+            pass
 
     # =================================
 
     @override
-    async def handle_submission_in_async_context(
-        self, callback: CallableMock.Base, args: tuple[Any, ...], kwargs: dict[str, Any]
-    ) -> None:
-        # Arrange
+    async def run_submission_test_case_in_async_ctx(self, test_case: ProcessingServiceTest.SubmissionTestCase) -> None:
+        processing_service: AsyncIOProcessingService | None = None
+
         processing_service = AsyncIOProcessingService()
+        with test_case.execute(processing_service):
+            await processing_service.wait_for_tasks()
+
+        processing_service = AsyncIOProcessingService(enforce_submission_order=False)
+        with test_case.execute(processing_service):
+            await processing_service.wait_for_tasks()
+
+        processing_service = AsyncIOProcessingService(enforce_submission_order=True)
+        with test_case.execute(processing_service):
+            await processing_service.wait_for_tasks()
+
+    # =================================
+    # Test Cases for ordered submissions
+    # =================================
+
+    @contextmanager
+    def run_ordered_submission_tests(
+        self, enforce_submission_order: bool
+    ) -> Generator[AsyncIOProcessingService, None, None]:
+        # Arrange
+        class ExecutionOrderTracker:
+            def __init__(self) -> None:
+                self._thread_lock: Lock = Lock()
+                self._compile_time_ids: list[int] = []
+                self._runtime_ids: list[int] = []
+
+            def create_synchronous_callback(self, delay: float = 0) -> Callable[[], None]:
+                with self._thread_lock:
+                    callback_id: int = len(self._compile_time_ids)
+                    self._compile_time_ids.append(callback_id)
+
+                def _synchronous_callback() -> None:
+                    time.sleep(delay)
+                    with self._thread_lock:
+                        self._runtime_ids.append(callback_id)
+
+                return _synchronous_callback
+
+            def create_asynchronous_callback(self, delay: float = 0) -> Callable[[], Awaitable[None]]:
+                with self._thread_lock:
+                    callback_id: int = len(self._compile_time_ids)
+                    self._compile_time_ids.append(callback_id)
+
+                async def _asynchronous_callback() -> None:
+                    await asyncio.sleep(delay)
+                    with self._thread_lock:
+                        self._runtime_ids.append(callback_id)
+
+                return _asynchronous_callback
+
+        tracker = ExecutionOrderTracker()
+        callbacks: list[Callable[[], None | Awaitable[None]]] = [
+            tracker.create_asynchronous_callback(delay=0.0025),
+            tracker.create_synchronous_callback(delay=0.0025),
+            tracker.create_asynchronous_callback(delay=0.0015),
+            tracker.create_synchronous_callback(delay=0.0015),
+            tracker.create_asynchronous_callback(delay=0.0005),
+            tracker.create_synchronous_callback(delay=0.0005),
+        ]
+        processing_service = (
+            AsyncIOProcessingService()
+            if enforce_submission_order is None
+            else AsyncIOProcessingService(enforce_submission_order=enforce_submission_order)
+        )
 
         # Act
-        processing_service.submit(callback, *args, **kwargs)
-        await processing_service.wait_for_tasks()
+        for callback in callbacks:
+            processing_service.submit(callback)
+        yield processing_service
+
+        # Asserts
+        unique_compile_time_ids: set[int] = set(tracker._compile_time_ids)
+        unique_runtime_ids: set[int] = set(tracker._runtime_ids)
+
+        # Ensure there are no background tasks pending.
+        assert len(processing_service._background_tasks) == 0, "No background tasks expected."
+
+        # Check that the number of unique IDs.
+        assert len(unique_compile_time_ids) == len(unique_runtime_ids), "Unique ID count mismatch."
+
+        # Verify that the sets of IDs are equal.
+        assert unique_compile_time_ids == unique_runtime_ids, "Compile-time IDs differ from runtime IDs."
+
+        # Submission order enforcement.
+        if enforce_submission_order:
+            assert tracker._compile_time_ids == tracker._runtime_ids, "Submission order not guaranteed."
+
+    @pytest.mark.parametrize(
+        ["enforce_submission_order"],
+        [
+            (None,),
+            (False,),
+            (True,),
+        ],
+    )
+    def test_ordered_submissions_in_sync_context(self, enforce_submission_order: bool) -> None:
+        with self.run_ordered_submission_tests(enforce_submission_order):
+            pass
+
+    # =================================
+
+    @pytest.mark.parametrize(
+        ["enforce_submission_order"],
+        [
+            (None,),
+            (False,),
+            (True,),
+        ],
+    )
+    async def test_ordered_submissions_in_async_context(self, enforce_submission_order: bool) -> None:
+        with self.run_ordered_submission_tests(enforce_submission_order) as procesing_service:
+            await procesing_service.wait_for_tasks()

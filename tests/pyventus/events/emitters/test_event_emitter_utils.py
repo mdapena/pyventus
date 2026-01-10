@@ -138,7 +138,7 @@ class TestEventEmitterUtils:
         client = TestClient(FastAPI())
 
         # Act
-        @client.app.get("/")  # type: ignore[attr-defined, misc]
+        @client.app.get("/")  # type: ignore[attr-defined,untyped-decorator]
         def api(
             background_tasks: BackgroundTasks,
             event_emitter: EventEmitter = Depends(FastAPIEventEmitter(IsolatedEventLinker, True)),  # noqa: B008

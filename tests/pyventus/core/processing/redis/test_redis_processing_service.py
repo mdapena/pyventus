@@ -4,7 +4,6 @@ import pytest
 from fakeredis import FakeStrictRedis
 from pyventus import PyventusException
 from pyventus.core.processing.redis import RedisProcessingService
-from pyventus.core.utils import is_callable_async
 from rq import Queue
 from typing_extensions import override
 
@@ -53,28 +52,20 @@ class TestRedisProcessingService(ProcessingServiceTest):
     # =================================
 
     @override
-    def handle_submission_in_sync_context(
-        self, callback: CallableMock.Base, args: tuple[Any, ...], kwargs: dict[str, Any]
-    ) -> None:
-        # Arrange
+    def run_submission_test_case_in_sync_ctx(self, test_case: ProcessingServiceTest.SubmissionTestCase) -> None:
         processing_service = RedisProcessingService(queue=Queue(connection=FakeStrictRedis(), is_async=False))
-
-        # Act
-        processing_service.submit(callback, *args, **kwargs)
+        with test_case.execute(processing_service):
+            pass
 
     # =================================
 
     @override
-    async def handle_submission_in_async_context(
-        self, callback: CallableMock.Base, args: tuple[Any, ...], kwargs: dict[str, Any]
-    ) -> None:
+    async def run_submission_test_case_in_async_ctx(self, test_case: ProcessingServiceTest.SubmissionTestCase) -> None:
         # Skip the test if the callback is async, as RQ cannot
         # execute async callbacks in an async context during testing.
-        if is_callable_async(callback):
+        if test_case.callback_type == CallableMock.Async:
             pytest.skip("During testing, the RQ package cannot execute async callbacks in an async context.")
 
-        # Arrange
         processing_service = RedisProcessingService(queue=Queue(connection=FakeStrictRedis(), is_async=False))
-
-        # Act
-        processing_service.submit(callback, *args, **kwargs)
+        with test_case.execute(processing_service):
+            pass

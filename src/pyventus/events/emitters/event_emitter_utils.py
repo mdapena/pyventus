@@ -22,7 +22,7 @@ def AsyncIOEventEmitter(  # noqa: N802
     """
     from ...core.processing.asyncio import AsyncIOProcessingService
 
-    processing_service = AsyncIOProcessingService()
+    processing_service = AsyncIOProcessingService(force_async=False, enforce_submission_order=False)
 
     return EventEmitter(
         event_processor=processing_service,

@@ -1,4 +1,4 @@
-from asyncio import Task, create_task, gather, get_running_loop, run
+from asyncio import Task, create_task, gather, get_running_loop, run, to_thread
 from collections import deque
 from collections.abc import Coroutine
 from threading import Lock
@@ -17,24 +17,24 @@ class AsyncIOProcessingService(ProcessingService):
 
     **Notes:**
 
-    -   When the provided callback is a synchronous call, it will be executed in a blocking manner, regardless
-        of whether an event loop is active. However, if the synchronous callback involves I/O or non-CPU-bound
-        operations, it can be offloaded to a thread pool using `asyncio.to_thread()` from the `AsyncIO` framework.
+    -   Synchronous callbacks are executed in a blocking manner if there is no active asyncio loop or
+        if `force_async` is set to `False`. If `force_async` is set to `True` and an asyncio loop is
+        active, these synchronous callbacks are converted to asynchronous using the `asyncio.to_thread()`
+        function and are processed as background tasks within the existing asyncio loop.
 
-    -   When the provided callback is an asynchronous call and is submitted in a context where an event loop is
-        already running, the callback is scheduled and processed on that existing loop. If the event loop exits
-        before all calls are completed, any remaining scheduled calls will be canceled.
+    -   Asynchronous callbacks operate independently of the `force_async` parameter, as they are
+        inherently asynchronous. However, their execution depends on the presence of an active asyncio
+        loop. If a running asyncio loop exists, callbacks are scheduled and executed as background tasks
+        within that loop. If no loop is active, a new asyncio loop is created and automatically closed
+        once the callback is complete.
 
-    -   When the provided callback is an asynchronous call and is submitted in a context where no event loop is
-        active, a new event loop is started and subsequently closed by the `asyncio.run()` method. Within this
-        loop, the callback is executed, and the loop waits for all scheduled tasks to finish before closing.
-
-    -   When `enforce_submission_order` is `True`, new submissions are managed by a queue and processed
-        sequentially within an asyncio loop. If there is no active asyncio loop available, a new loop is
-        generated specifically to handle the queue processing. This newly created loop will remain open until
-        all callbacks have been executed and the queue is empty, at which point it will be automatically closed.
-        Synchronous callbacks are enqueued and executed directly in a blocking manner, while asynchronous callbacks
-        are also queued, executed immediately, and awaited to preserve the correct order of execution.
+    -   When `enforce_submission_order` is set to `True`, new submissions are managed by a queue and
+        processed sequentially within an asyncio loop. If no active asyncio loop is present, a new loop
+        is initiated to handle the queue processing, and it remains open until all callbacks have been
+        executed and the queue is empty, at which point it will be closed automatically. During queue
+        processing, callbacks are executed as before, with the difference that they are always run
+        within an existing asyncio loop and awaited (for async callbacks) instead of being run as
+        background tasks.
     """
 
     class _AsyncIOSubmission(NamedTuple):
@@ -58,31 +58,44 @@ class AsyncIOProcessingService(ProcessingService):
             return False
 
     # Attributes for the AsyncIOProcessingService
-    __slots__ = ("_thread_lock", "_background_tasks", "_is_submission_queue_busy", "_submission_queue")
+    __slots__ = (
+        "__thread_lock",
+        "__background_tasks",
+        "__force_async",
+        "__is_submission_queue_busy",
+        "__submission_queue",
+    )
 
-    def __init__(self, enforce_submission_order: bool = False) -> None:
+    def __init__(self, force_async: bool = False, enforce_submission_order: bool = False) -> None:
         """
         Initialize an instance of `AsyncIOProcessingService`.
 
+        :param force_async: A boolean flag that determines whether to force all submitted
+            callbacks to run asynchronously.
         :param force_submission_order: A boolean flag that determines whether to enforce the order
             of execution for submissions based on their arrival (FIFO: First In, First Out).
         :return: None
         """
-        # Ensure the 'enforce_submission_order' parameter is a boolean
+        # Ensure that the 'force_async' and 'enforce_submission_order' parameters are of boolean type.
+        if not isinstance(force_async, bool):
+            raise PyventusException("The 'force_async' argument must be a boolean value.")
         if not isinstance(enforce_submission_order, bool):
             raise PyventusException("The 'enforce_submission_order' argument must be a boolean value.")
 
         # Create a thread lock to manage concurrent access to shared resources.
-        self._thread_lock: Lock = Lock()
+        self.__thread_lock: Lock = Lock()
 
         # Initialize a set to keep track of active background tasks.
-        self._background_tasks: set[Task[Any]] = set()
+        self.__background_tasks: set[Task[Any]] = set()
+
+        # Store the value of the force_async parameter.
+        self.__force_async: bool = force_async
 
         # Define a flag to indicate whether the submission queue is currently being processed.
-        self._is_submission_queue_busy: bool = False
+        self.__is_submission_queue_busy: bool = False
 
-        # Create a FIFO queue to maintain the order of submissions if execution order is enforced.
-        self._submission_queue: deque[AsyncIOProcessingService._AsyncIOSubmission] | None = (
+        # Create a FIFO queue to maintain the order of submissions if execution order is required.
+        self.__submission_queue: deque[AsyncIOProcessingService._AsyncIOSubmission] | None = (
             deque[AsyncIOProcessingService._AsyncIOSubmission]() if enforce_submission_order else None
         )
 
@@ -95,12 +108,78 @@ class AsyncIOProcessingService(ProcessingService):
         return formatted_repr(
             instance=self,
             info=attributes_repr(
-                thread_lock=self._thread_lock,
-                background_tasks=self._background_tasks,
-                is_submission_queue_busy=self._is_submission_queue_busy,
-                submission_queue=self._submission_queue,
+                thread_lock=self.__thread_lock,
+                background_tasks=self.__background_tasks,
+                force_async=self.__force_async,
+                is_submission_queue_busy=self.__is_submission_queue_busy,
+                submission_queue=self.__submission_queue,
             ),
         )
+
+    @property
+    def _thread_lock(self) -> Lock:
+        """
+        Retrieve the thread lock instance.
+
+        :return: The thread lock instance used to ensure thread-safe operations.
+        """
+        return self.__thread_lock
+
+    @property
+    def _background_tasks(self) -> set[Task[Any]]:
+        """
+        Retrieve the set of currently active background tasks.
+
+        :return: A set containing the active background tasks.
+        """
+        return self.__background_tasks
+
+    @property
+    def _is_submission_queue_busy(self) -> bool:
+        """
+        Determine whether the submission queue is busy.
+
+        :return: `True` if the submission queue is busy; otherwise, `False`.
+        """
+        return self.__is_submission_queue_busy
+
+    @property
+    def _submission_queue(self) -> deque[_AsyncIOSubmission] | None:
+        """
+        Retrieve the submission queue used for enforcing submission order.
+
+        :return: The submission queue used for enforcing submission order,
+            or None if submission order enforcement is not enabled.
+        """
+        return self.__submission_queue
+
+    @property
+    def background_task_count(self) -> int:
+        """
+        Retrieve the count of currently active background tasks.
+
+        :return: The number of active background tasks.
+        """
+        with self.__thread_lock:
+            return len(self.__background_tasks)
+
+    @property
+    def force_async(self) -> bool:
+        """
+        Determine whether all submitted callbacks are forced to run asynchronously.
+
+        :return: `True` if all submitted callbacks are forced to run asynchronously; otherwise, `False`.
+        """
+        return self.__force_async
+
+    @property
+    def enforce_submission_order(self) -> bool:
+        """
+        Determine whether submission order enforcement is enabled.
+
+        :return: `True` if submission order enforcement is enabled; otherwise, `False`.
+        """
+        return self.__submission_queue is not None
 
     def _remove_background_task(self, task: Task[Any]) -> None:
         """
@@ -109,8 +188,8 @@ class AsyncIOProcessingService(ProcessingService):
         :param task: The background task to remove from the set.
         :return: None.
         """
-        with self._thread_lock:
-            self._background_tasks.discard(task)
+        with self.__thread_lock:
+            self.__background_tasks.discard(task)
 
     def _schedule_background_task(self, coroutine: Coroutine[Any, Any, Any]) -> None:
         """
@@ -128,8 +207,8 @@ class AsyncIOProcessingService(ProcessingService):
 
         # Add the Task to the set of active background
         # tasks under lock for thread-safety.
-        with self._thread_lock:
-            self._background_tasks.add(task)
+        with self.__thread_lock:
+            self.__background_tasks.add(task)
 
     async def _process_submission_queue(self) -> None:
         """
@@ -143,17 +222,19 @@ class AsyncIOProcessingService(ProcessingService):
         # Pop and process submissions with thread
         # safety until the queue is empty.
         while True:
-            with self._thread_lock:
-                if not self._submission_queue:
-                    self._is_submission_queue_busy = False  # Mark processing as complete.
+            with self.__thread_lock:
+                if not self.__submission_queue:
+                    self.__is_submission_queue_busy = False  # Mark processing as complete.
                     break
 
                 # Retrieve the next submission from the front of the queue.
-                submission = self._submission_queue.popleft()
+                submission = self.__submission_queue.popleft()
 
             # Execute the submission's callback accordingly.
             if is_callable_async(submission.callback):
                 await submission.callback(*submission.args, **submission.kwargs)
+            elif self.__force_async:
+                await to_thread(submission.callback, *submission.args, **submission.kwargs)
             else:
                 submission.callback(*submission.args, **submission.kwargs)
 
@@ -162,25 +243,27 @@ class AsyncIOProcessingService(ProcessingService):
         # Check if there is an active asyncio event loop.
         is_loop_running: bool = AsyncIOProcessingService.is_loop_running()
 
-        # Process the callback based on whether a submission queue exists,
-        # which determines if the order of execution should be enforced.
-        if self._submission_queue is None:
-            # If enforcing the order of execution is not required, process the
+        # Process the callback based on whether
+        # submission order enforcement is enabled.
+        if not self.enforce_submission_order:
+            # If submission order enforcement is not required, execute the
             # callback according to its definition and the current context.
             if is_callable_async(callback):
                 if is_loop_running:
                     self._schedule_background_task(callback(*args, **kwargs))
                 else:
                     run(callback(*args, **kwargs))
+            elif self.__force_async and is_loop_running:
+                self._schedule_background_task(to_thread(callback, *args, **kwargs))
             else:
                 callback(*args, **kwargs)
         else:
-            # If the order of execution should be enforced, use the submission
-            # queue to manage the submission order and its processing.
-            with self._thread_lock:
-                was_submission_queue_busy: bool = self._is_submission_queue_busy
-                self._is_submission_queue_busy = True
-                self._submission_queue.append(
+            # If submission order enforcement is enabled, manage
+            # the callback using the submission queue.
+            with self.__thread_lock:
+                was_submission_queue_busy: bool = self.__is_submission_queue_busy
+                self.__is_submission_queue_busy = True
+                self.__submission_queue.append(  # type: ignore[union-attr]
                     AsyncIOProcessingService._AsyncIOSubmission(
                         callback=callback,
                         args=args,
@@ -204,9 +287,9 @@ class AsyncIOProcessingService(ProcessingService):
         :return: None.
         """
         # Retrieve the current set of background tasks and clear the registry.
-        with self._thread_lock:
-            tasks: set[Task[Any]] = self._background_tasks.copy()
-            self._background_tasks.clear()
+        with self.__thread_lock:
+            tasks: set[Task[Any]] = self.__background_tasks.copy()
+            self.__background_tasks.clear()
 
         # Await the completion of all background tasks.
         await gather(*tasks)

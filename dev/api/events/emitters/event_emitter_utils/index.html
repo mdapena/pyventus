@@ -2853,7 +2853,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">    &quot;&quot;&quot;</span>
 <a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">...core.processing.asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncIOProcessingService</span>
 <a id="__codelineno-0-24" name="__codelineno-0-24"></a>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="n">processing_service</span> <span class="o">=</span> <span class="n">AsyncIOProcessingService</span><span class="p">()</span>
+<a id="__codelineno-0-25" name="__codelineno-0-25"></a>    <span class="n">processing_service</span> <span class="o">=</span> <span class="n">AsyncIOProcessingService</span><span class="p">(</span><span class="n">force_async</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">enforce_submission_order</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <a id="__codelineno-0-26" name="__codelineno-0-26"></a>
 <a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="k">return</span> <span class="n">EventEmitter</span><span class="p">(</span>
 <a id="__codelineno-0-28" name="__codelineno-0-28"></a>        <span class="n">event_processor</span><span class="o">=</span><span class="n">processing_service</span><span class="p">,</span>

@@ -58,13 +58,7 @@ class AsyncIOProcessingService(ProcessingService):
             return False
 
     # Attributes for the AsyncIOProcessingService
-    __slots__ = (
-        "__thread_lock",
-        "__background_tasks",
-        "__force_async",
-        "__is_submission_queue_busy",
-        "__submission_queue",
-    )
+    __slots__ = ("__thread_lock", "__tasks", "__force_async", "__is_submission_queue_busy", "__submission_queue")
 
     def __init__(self, force_async: bool = False, enforce_submission_order: bool = False) -> None:
         """
@@ -72,7 +66,7 @@ class AsyncIOProcessingService(ProcessingService):
 
         :param force_async: A boolean flag that determines whether to force all submitted
             callbacks to run asynchronously.
-        :param force_submission_order: A boolean flag that determines whether to enforce the order
+        :param enforce_submission_order: A boolean flag that determines whether to enforce the order
             of execution for submissions based on their arrival (FIFO: First In, First Out).
         :return: None
         """
@@ -86,7 +80,7 @@ class AsyncIOProcessingService(ProcessingService):
         self.__thread_lock: Lock = Lock()
 
         # Initialize a set to keep track of active background tasks.
-        self.__background_tasks: set[Task[Any]] = set()
+        self.__tasks: set[Task[Any]] = set()
 
         # Store the value of the force_async parameter.
         self.__force_async: bool = force_async
@@ -109,7 +103,7 @@ class AsyncIOProcessingService(ProcessingService):
             instance=self,
             info=attributes_repr(
                 thread_lock=self.__thread_lock,
-                background_tasks=self.__background_tasks,
+                tasks=self.__tasks,
                 force_async=self.__force_async,
                 is_submission_queue_busy=self.__is_submission_queue_busy,
                 submission_queue=self.__submission_queue,
@@ -126,13 +120,13 @@ class AsyncIOProcessingService(ProcessingService):
         return self.__thread_lock
 
     @property
-    def _background_tasks(self) -> set[Task[Any]]:
+    def _tasks(self) -> set[Task[Any]]:
         """
         Retrieve the set of currently active background tasks.
 
         :return: A set containing the active background tasks.
         """
-        return self.__background_tasks
+        return self.__tasks
 
     @property
     def _is_submission_queue_busy(self) -> bool:
@@ -154,14 +148,14 @@ class AsyncIOProcessingService(ProcessingService):
         return self.__submission_queue
 
     @property
-    def background_task_count(self) -> int:
+    def task_count(self) -> int:
         """
         Retrieve the count of currently active background tasks.
 
         :return: The number of active background tasks.
         """
         with self.__thread_lock:
-            return len(self.__background_tasks)
+            return len(self.__tasks)
 
     @property
     def force_async(self) -> bool:
@@ -181,7 +175,7 @@ class AsyncIOProcessingService(ProcessingService):
         """
         return self.__submission_queue is not None
 
-    def _remove_background_task(self, task: Task[Any]) -> None:
+    def _remove_task(self, task: Task[Any]) -> None:
         """
         Remove a background task from the tracking set.
 
@@ -189,13 +183,13 @@ class AsyncIOProcessingService(ProcessingService):
         :return: None.
         """
         with self.__thread_lock:
-            self.__background_tasks.discard(task)
+            self.__tasks.discard(task)
 
-    def _schedule_background_task(self, coroutine: Coroutine[Any, Any, Any]) -> None:
+    def _schedule_task(self, coroutine: Coroutine[Any, Any, Any]) -> None:
         """
-        Schedule a coroutine as a background `Task` and track its execution until completion.
+        Schedule a coroutine as a background task and track its execution until completion.
 
-        :param coroutine: The coroutine to be scheduled as a background Task.
+        :param coroutine: The coroutine to be scheduled as a background task.
         :return: None.
         """
         # Create and schedule the coroutine as a background Task.
@@ -203,12 +197,12 @@ class AsyncIOProcessingService(ProcessingService):
 
         # Register the cleanup callback to remove the Task
         # from the set of background tasks upon completion.
-        task.add_done_callback(self._remove_background_task)
+        task.add_done_callback(self._remove_task)
 
         # Add the Task to the set of active background
         # tasks under lock for thread-safety.
         with self.__thread_lock:
-            self.__background_tasks.add(task)
+            self.__tasks.add(task)
 
     async def _process_submission_queue(self) -> None:
         """
@@ -250,11 +244,11 @@ class AsyncIOProcessingService(ProcessingService):
             # callback according to its definition and the current context.
             if is_callable_async(callback):
                 if is_loop_running:
-                    self._schedule_background_task(callback(*args, **kwargs))
+                    self._schedule_task(callback(*args, **kwargs))
                 else:
                     run(callback(*args, **kwargs))
             elif self.__force_async and is_loop_running:
-                self._schedule_background_task(to_thread(callback, *args, **kwargs))
+                self._schedule_task(to_thread(callback, *args, **kwargs))
             else:
                 callback(*args, **kwargs)
         else:
@@ -274,7 +268,7 @@ class AsyncIOProcessingService(ProcessingService):
             # Start processing the queue if it wasn't already active.
             if not was_submission_queue_busy:
                 if is_loop_running:
-                    self._schedule_background_task(self._process_submission_queue())
+                    self._schedule_task(self._process_submission_queue())
                 else:
                     run(self._process_submission_queue())
 
@@ -288,8 +282,8 @@ class AsyncIOProcessingService(ProcessingService):
         """
         # Retrieve the current set of background tasks and clear the registry.
         with self.__thread_lock:
-            tasks: set[Task[Any]] = self.__background_tasks.copy()
-            self.__background_tasks.clear()
+            tasks: set[Task[Any]] = self.__tasks.copy()
+            self.__tasks.clear()
 
         # Await the completion of all background tasks.
         await gather(*tasks)

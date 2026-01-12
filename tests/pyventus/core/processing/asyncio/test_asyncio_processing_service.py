@@ -58,8 +58,8 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
         assert processing_service is not None
         assert isinstance(processing_service, AsyncIOProcessingService)
         assert processing_service._thread_lock is not None
-        assert isinstance(processing_service._background_tasks, set)
-        assert len(processing_service._background_tasks) == 0
+        assert isinstance(processing_service._tasks, set)
+        assert len(processing_service._tasks) == 0
 
         if not force_async:
             assert processing_service.force_async is False
@@ -183,7 +183,7 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
         processing_service.submit(assertion2)
 
         # Act/Assert
-        assert processing_service.background_task_count == 0
+        assert processing_service.task_count == 0
 
     # =================================
 
@@ -197,7 +197,7 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
         processing_service.submit(assertion)
 
         # Act/Assert
-        assert processing_service.background_task_count == 0
+        assert processing_service.task_count == 0
 
     # =================================
 
@@ -211,7 +211,7 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
         processing_service.submit(assertion)
 
         # Act/Assert
-        assert processing_service.background_task_count == 1
+        assert processing_service.task_count == 1
         await processing_service.wait_for_tasks()
 
     # =================================
@@ -234,7 +234,7 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
         processing_service.submit(assertion)
 
         # Assert
-        assert processing_service.background_task_count == 1
+        assert processing_service.task_count == 1
         await processing_service.wait_for_tasks()
 
     # =================================
@@ -303,7 +303,7 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
         unique_runtime_ids: set[int] = set(tracker._runtime_ids)
 
         # Ensure there are no background tasks pending.
-        assert processing_service.background_task_count == 0, "No background tasks expected."
+        assert processing_service.task_count == 0, "No background tasks expected."
 
         # Check that the number of unique IDs.
         assert len(unique_compile_time_ids) == len(unique_runtime_ids), "Unique ID count mismatch."

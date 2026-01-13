@@ -914,7 +914,7 @@ class TestObservable:
         sub1_s2 = subject1.subscribe(next_callback=callback1, error_callback=callback1, complete_callback=callback1)
 
         subject2 = Subject[Any]()
-        sub2_s1 = subject2.subscribe(next_callback=callback2, error_callback=callback2, complete_callback=callback2)
+        subject2.subscribe(next_callback=callback2, error_callback=callback2, complete_callback=callback2)
 
         # Act
         await subject1.complete(selected_subscribers={sub1_s1})

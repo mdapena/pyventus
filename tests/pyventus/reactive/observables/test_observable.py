@@ -698,7 +698,7 @@ class TestObservable:
 
         await subject2.next(value, selected_subscribers={sub1_s1, sub1_s2})
         await subject2.next(value, selected_subscribers={sub1_s1, sub2_s1})
-        await subject2.next(value, selected_subscribers={})
+        await subject2.next(value, selected_subscribers=set())
 
         # Assert
         assert callback1.call_count == 7
@@ -818,7 +818,7 @@ class TestObservable:
 
         await subject2.error(exception, selected_subscribers={sub1_s1, sub1_s2})
         await subject2.error(exception, selected_subscribers={sub1_s1, sub2_s1})
-        await subject2.error(exception, selected_subscribers={})
+        await subject2.error(exception, selected_subscribers=set())
 
         # Assert
         assert callback1.call_count == 7

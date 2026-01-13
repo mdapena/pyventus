@@ -200,7 +200,7 @@ class Observable(ABC, Generic[_OutT]):
         return subscriber
 
     # Attributes for the Observable
-    __slots__ = ("__subscribers", "__thread_lock", "__logger")
+    __slots__ = ("__thread_lock", "__subscribers", "__logger")
 
     def __init__(self, debug: bool | None = None) -> None:
         """
@@ -209,11 +209,11 @@ class Observable(ABC, Generic[_OutT]):
         :param debug: Specifies the debug mode for the logger. If `None`,
             the mode is determined based on the execution environment.
         """
+        # Create a thread lock to manage concurrent access to shared resources.
+        self.__thread_lock: Lock = Lock()
+
         # Initialize the set of subscribers.
         self.__subscribers: set[Subscriber[_OutT]] = set()
-
-        # Create a lock object for thread synchronization.
-        self.__thread_lock: Lock = Lock()
 
         # Validate the debug argument.
         if debug is not None and not isinstance(debug, bool):
@@ -229,8 +229,8 @@ class Observable(ABC, Generic[_OutT]):
         :return: A string representation of the instance.
         """
         return attributes_repr(
-            subscribers=self.__subscribers,
             thread_lock=self.__thread_lock,
+            subscribers=self.__subscribers,
             debug=self.__logger.debug_enabled,
         )
 
@@ -267,21 +267,31 @@ class Observable(ABC, Generic[_OutT]):
         )
 
     @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
-    async def _emit_next(self, value: _OutT) -> None:  # type: ignore[misc]
+    async def _emit_next(self, value: _OutT, selected_subscribers: set[Subscriber[_OutT]] | None = None) -> None:  # type: ignore[misc]
         """
-        Emit the next value to all subscribers.
+        Emit the next value to all subscribers or to the specified ones if provided.
 
-        This method notifies all subscribers of the next value in the stream.
+        This method notifies all subscribers of the next value in the stream. If specific subscribers
+        are provided, only those will receive the notification; unregistered subscribers will be ignored.
 
-        :param value: The value to be emitted to all subscribers.
-        :return: None.
+        :param value: The value to be emitted to the subscribers.
+        :param selected_subscribers: A set of specific subscribers to notify. If None, all current subscribers
+            will be notified; unregistered subscribers will be ignored.
+        :return: None
         """
         # Acquire lock to ensure thread safety.
         with self.__thread_lock:
-            # Get all subscribers and filter those with a next callback to optimize execution.
-            subscribers: list[Subscriber[_OutT]] = [
-                subscriber for subscriber in self.__subscribers if subscriber.has_next_callback
-            ]
+            # Determine the subscribers to notify: all or the specified ones.
+            current_subscribers: set[Subscriber[_OutT]] = (
+                self.__subscribers.copy()
+                if selected_subscribers is None
+                else self.__subscribers.intersection(selected_subscribers)
+            )
+
+        # Filter to include only those that have a next callback for efficiency.
+        subscribers: list[Subscriber[_OutT]] = [
+            subscriber for subscriber in current_subscribers if subscriber.has_next_callback
+        ]
 
         # Exit if there are no subscribers.
         if not subscribers:
@@ -319,21 +329,33 @@ class Observable(ABC, Generic[_OutT]):
                     self._log_subscriber_exception(subscriber, result)
 
     @final
-    async def _emit_error(self, exception: Exception) -> None:
+    async def _emit_error(
+        self, exception: Exception, selected_subscribers: set[Subscriber[_OutT]] | None = None
+    ) -> None:
         """
-        Emit the error that occurred to all subscribers.
+        Emit the error that occurred to all subscribers or to the specified ones if provided.
 
-        This method notifies all subscribers of the error that occurred.
+        This method notifies all subscribers of the error that occurred. If specific subscribers are
+        provided, only those will receive the notification; unregistered subscribers will be ignored.
 
         :param exception: The exception to be emitted to all subscribers.
+        :param selected_subscribers: A set of specific subscribers to notify. If None, all current subscribers
+            will be notified; unregistered subscribers will be ignored.
         :return: None.
         """
         # Acquire lock to ensure thread safety.
         with self.__thread_lock:
-            # Get all subscribers and filter those with an error callback to optimize execution.
-            subscribers: list[Subscriber[_OutT]] = [
-                subscriber for subscriber in self.__subscribers if subscriber.has_error_callback
-            ]
+            # Determine the subscribers to notify: all or the specified ones.
+            current_subscribers: set[Subscriber[_OutT]] = (
+                self.__subscribers.copy()
+                if selected_subscribers is None
+                else self.__subscribers.intersection(selected_subscribers)
+            )
+
+        # Filter to include only those that have an error callback for efficiency.
+        subscribers: list[Subscriber[_OutT]] = [
+            subscriber for subscriber in current_subscribers if subscriber.has_error_callback
+        ]
 
         # Exit if there are no subscribers.
         if not subscribers:
@@ -370,23 +392,34 @@ class Observable(ABC, Generic[_OutT]):
                     self._log_subscriber_exception(subscriber, result)
 
     @final
-    async def _emit_complete(self) -> None:
+    async def _emit_complete(self, selected_subscribers: set[Subscriber[_OutT]] | None = None) -> None:
         """
-        Emit the completion signal to all subscribers.
+        Emit the completion signal to all subscribers or to the specified ones if provided.
 
-        This method notifies all subscribers that the stream has completed.
+        This method notifies all subscribers that the stream has completed. If specific subscribers
+        are provided, only those will receive the notification; unregistered subscribers will be ignored.
+        Once the notification is sent, all subscribers will be removed since the stream has completed.
 
+        :param selected_subscribers: A set of specific subscribers to notify. If None, all current subscribers
+            will be notified; unregistered subscribers will be ignored.
         :return: None.
         """
         # Acquire lock to ensure thread safety.
         with self.__thread_lock:
-            # Get all subscribers and filter those with a complete callback to optimize execution.
-            subscribers: list[Subscriber[_OutT]] = [
-                subscriber for subscriber in self.__subscribers if subscriber.has_complete_callback
-            ]
+            # Determine the subscribers to notify: all or the specified ones.
+            current_subscribers: set[Subscriber[_OutT]] = (
+                self.__subscribers.copy()
+                if selected_subscribers is None
+                else self.__subscribers.intersection(selected_subscribers)
+            )
 
             # Unsubscribe all observers since the stream has completed.
             self.__subscribers.clear()
+
+        # Filter to include only those that have a complete callback for efficiency.
+        subscribers: list[Subscriber[_OutT]] = [
+            subscriber for subscriber in current_subscribers if subscriber.has_complete_callback
+        ]
 
         # Exit if there are no subscribers.
         if not subscribers:

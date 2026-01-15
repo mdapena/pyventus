@@ -423,8 +423,8 @@ class Observable(ABC, Generic[_OutT]):
 
         Notifications are sent to subscribers that meet the criteria defined by the `subscriber_condition`,
         if provided. This condition applies to all subscribers, or to the specified `selected_subscribers`.
-        Unregistered subscribers will be ignored. Once the notification is sent, all subscribers will be
-        removed since the stream has completed.
+        Unregistered subscribers will be ignored. Once the notification is sent, all notified subscribers
+        will be removed, as the stream has completed for them.
 
         :param selected_subscribers: A set of specific subscribers to notify. If None, all current subscribers
             will be notified; unregistered subscribers will be ignored.
@@ -441,16 +441,21 @@ class Observable(ABC, Generic[_OutT]):
                 else self.__subscribers.intersection(selected_subscribers)
             )
 
-            # Unsubscribe all observers since the stream has completed.
-            self.__subscribers.clear()
+            if subscriber_condition is None and selected_subscribers is None:
+                # Clear all subscribers if there is no condition and all are selected.
+                self.__subscribers.clear()
+            else:
+                # Filter and remove current subscribers based on the
+                # condition, if provided, as they will be notified.
+                current_subscribers = (
+                    current_subscribers
+                    if subscriber_condition is None
+                    else {sub for sub in current_subscribers if subscriber_condition(sub)}
+                )
+                self.__subscribers.difference_update(current_subscribers)
 
-        # Filter to include only those that have a complete
-        # callback and meet the subscriber condition, if given.
-        subscribers: list[Subscriber[_OutT]] = [
-            subscriber
-            for subscriber in current_subscribers
-            if subscriber.has_complete_callback and (subscriber_condition is None or subscriber_condition(subscriber))
-        ]
+        # Filter to include only those that have a complete callback.
+        subscribers: list[Subscriber[_OutT]] = [sub for sub in current_subscribers if sub.has_complete_callback]
 
         # Exit if there are no subscribers.
         if not subscribers:

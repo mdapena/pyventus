@@ -1,7 +1,9 @@
+from asyncio import gather
 from collections.abc import Awaitable, Callable
-from typing import Generic, Literal, TypeAlias, TypeVar, final
+from datetime import datetime
+from typing import Generic, TypeAlias, TypeVar, final, overload
 
-from typing_extensions import overload, override
+from typing_extensions import override
 
 from ...core.exceptions import PyventusException
 from ...core.processing.asyncio.asyncio_processing_service import AsyncIOProcessingService
@@ -96,7 +98,7 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
         )
 
     @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
-    async def _set_value(self, value: _OutT) -> None:  # type: ignore[misc]
+    async def _set_value(self, value: _OutT, performed_at: datetime) -> None:  # type: ignore[misc]
         """
         Update the current value to the specified one.
 
@@ -105,6 +107,7 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
         it is stored alongside the raised exception, and an error notification is issued.
 
         :param value: The value to set as the current value.
+        :param performed_at: The timestamp when the set operation was performed.
         :return: None.
         """
         try:
@@ -119,8 +122,9 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
                 self.__value = value
                 self.__exception = None
 
-            # Notify subscribers of the new valid value.
-            await self._emit_next(value)
+            # Notify subscribers who were subscribed before the clear operation. This ensures
+            # that only relevant subscribers are notified, excluding those who subscribed afterward.
+            await self._emit_next(value, subscriber_condition=lambda subscriber: subscriber.timestamp <= performed_at)
         except Exception as exception:
             # Acquire lock to ensure thread safety.
             # Store the current value and the raised exception.
@@ -128,34 +132,47 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
                 self.__value = value
                 self.__exception = exception
 
-            # Notify subscribers of the error encountered.
-            await self._emit_error(exception)
+            # Notify subscribers who were subscribed before the clear operation. This ensures
+            # that only relevant subscribers are notified, excluding those who subscribed afterward.
+            await self._emit_error(
+                exception, subscriber_condition=lambda subscriber: subscriber.timestamp <= performed_at
+            )
 
-    async def _clear_value(self) -> None:
+    async def _clear_value(self, performed_at: datetime) -> None:
         """
         Clear the current value and reset it to its initial state.
 
         This operation will trigger the completion notification and the removal of all current subscribers.
 
+        :param performed_at: The timestamp when the clear operation was performed.
         :return: None
         """
         # Acquire a lock to ensure thread safety.
-        # Reset the value to the initial state and clear any exceptions.
         with self._thread_lock:
             self.__value = self.__seed
             self.__exception = None
 
-        # Notify subscribers that the value has been cleared and reset.
-        await self._emit_complete()
+        # Notify subscribers who were subscribed before the clear operation. This ensures
+        # that only relevant subscribers are notified, excluding those who subscribed afterward.
+        await self._emit_complete(subscriber_condition=lambda subscriber: subscriber.timestamp <= performed_at)
 
-    @property
-    def value(self) -> _OutT:
+    async def _prime_subscribers(self, subscribers: set[Subscriber[_OutT]]) -> None:
         """
-        Retrieve the current value.
+        Prime the specified subscribers with the current value or error.
 
-        :return: The current value.
+        :param subscribers: The set of subscribers to be primed.
+        :return: None.
         """
-        return self.get_value()
+        # Acquire a lock to ensure thread safety.
+        with self._thread_lock:
+            value: _OutT = self.__value
+            exception: Exception | None = self.__exception
+
+        # Notify the subscribers accordingly.
+        if exception is None:
+            await gather(*[subscriber.next(value) for subscriber in subscribers if subscriber.has_next_callback])
+        else:
+            await gather(*[subscriber.error(exception) for subscriber in subscribers if subscriber.has_error_callback])
 
     @property
     def error(self) -> Exception | None:
@@ -167,6 +184,30 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
         with self._thread_lock:
             return self.__exception
 
+    @property
+    def value(self) -> _OutT:
+        """
+        Retrieve the current value.
+
+        :return: The current value.
+        """
+        return self.get_value()
+
+    @value.setter
+    @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
+    def value(self, value: _OutT) -> None:  # type: ignore[misc]
+        """
+        Update the current value to the specified one.
+
+        The provided value is validated against the defined validators. If it is deemed valid, it is stored,
+        and the next notification is triggered. If the value is considered invalid by any of the validators,
+        it is stored alongside the raised exception, and an error notification is issued.
+
+        :param value: The value to set as the current value.
+        :return: None.
+        """
+        self.set_value(value)
+
     def get_value(self) -> _OutT:
         """
         Retrieve the current value.
@@ -176,17 +217,8 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
         with self._thread_lock:
             return self.__value
 
-    @overload
-    def set_value(self, value: _OutT) -> None: ...  # type: ignore[misc]
-
-    @overload
-    def set_value(self, value: _OutT, wait: Literal[False]) -> None: ...  # type: ignore[misc]
-
-    @overload
-    def set_value(self, value: _OutT, wait: Literal[True]) -> Awaitable[None]: ...  # type: ignore[misc]
-
     @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
-    def set_value(self, value: _OutT, wait: bool = False) -> Awaitable[None] | None:  # type: ignore[misc,return]
+    def set_value(self, value: _OutT) -> None:  # type: ignore[misc]
         """
         Update the current value to the specified one.
 
@@ -195,106 +227,46 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
         it is stored alongside the raised exception, and an error notification is issued.
 
         :param value: The value to set as the current value.
-        :param wait: If set to `True`, the awaitable of the operation is returned, so it can be awaited as
-            needed before proceeding. If set to `False` (default), the operation runs as a background task,
-            and no value is returned.
-        :return: None, or an awaitable if `wait` is set to `True`.
+        :return: None.
         """
-        # Ensure that the 'wait' parameter is of boolean type.
-        if not isinstance(wait, bool):
-            raise PyventusException("The 'wait' argument must be a boolean value.")
+        self.__processing_service.submit(self._set_value, value, performed_at=datetime.now())
 
-        if wait:
-            # Return the operation's awaitable for the caller.
-            return self._set_value(value)
-        else:
-            # Submit the operation to the AsyncIO processor.
-            self.__processing_service.submit(self._set_value, value)
-
-    @overload
-    def clear_value(self) -> None: ...
-
-    @overload
-    def clear_value(self, wait: Literal[False]) -> None: ...
-
-    @overload
-    def clear_value(self, wait: Literal[True]) -> Awaitable[None]: ...
-
-    def clear_value(self, wait: bool = False) -> Awaitable[None] | None:  # type: ignore[return]
+    def clear_value(self) -> None:
         """
         Clear the current value and reset it to its initial state.
 
         This operation will trigger the completion notification and the removal of all current subscribers.
 
-        :param wait: If set to `True`, the awaitable of the operation is returned, so it can be awaited as
-            needed before proceeding. If set to `False` (default), the operation runs as a background task,
-            and no value is returned.
-        :return: None, or an awaitable if `wait` is set to `True`.
+        :return: None.
         """
-        # Ensure that the 'wait' parameter is of boolean type.
-        if not isinstance(wait, bool):
-            raise PyventusException("The 'wait' argument must be a boolean value.")
-
-        if wait:
-            # Return the operation's awaitable for the caller.
-            return self._clear_value()
-        else:
-            # Submit the operation to the AsyncIO processor.
-            self.__processing_service.submit(self._clear_value)
+        self.__processing_service.submit(self._clear_value, performed_at=datetime.now())
 
     @overload
-    def prime_subscribers(self, subscribers: set[Subscriber[_OutT]]) -> None: ...
+    def prime_subscribers(self, subscribers: Subscriber[_OutT]) -> Subscriber[_OutT]: ...
 
     @overload
-    def prime_subscribers(self, subscribers: set[Subscriber[_OutT]], wait: Literal[False]) -> None: ...
+    def prime_subscribers(self, subscribers: list[Subscriber[_OutT]]) -> list[Subscriber[_OutT]]: ...
 
-    @overload
-    def prime_subscribers(self, subscribers: set[Subscriber[_OutT]], wait: Literal[True]) -> Awaitable[None]: ...
-
-    def prime_subscribers(self, subscribers: set[Subscriber[_OutT]], wait: bool = False) -> Awaitable[None] | None:  # type: ignore[return]
+    def prime_subscribers(
+        self, subscribers: Subscriber[_OutT] | list[Subscriber[_OutT]]
+    ) -> Subscriber[_OutT] | list[Subscriber[_OutT]]:
         """
         Prime the specified subscribers with the current value or error.
 
         :param subscribers: The set of subscribers to be primed.
-        :param wait: If set to `True`, the awaitable of the operation is returned, so it can be awaited as
-            needed before proceeding. If set to `False` (default), the operation runs as a background task,
-            and no value is returned.
-        :return: None, or an awaitable if `wait` is set to `True`.
+        :return: The same subscriber or list of subscribers, depending on input.
         """
-        # Ensure that the 'wait' parameter is of boolean type.
-        if not isinstance(wait, bool):
-            raise PyventusException("The 'wait' argument must be a boolean value.")
-
-        # Validate the given subscribers.
-        valid_subscribers: set[Subscriber[_OutT]] = {
-            self.get_valid_subscriber(subscriber) for subscriber in subscribers
-        }
-
-        # Acquire lock to ensure thread safety.
-        with self._thread_lock:
-            value: _OutT = self.__value
-            exception: Exception | None = self.__exception
-
-        # Notify the subscribers accordingly.
-        if wait:
-            # Return the operation's awaitable for the caller.
-            if exception is None:
-                return self._emit_next(value=value, selected_subscribers=valid_subscribers)
-            return self._emit_error(exception=exception, selected_subscribers=valid_subscribers)
+        if isinstance(subscribers, list):
+            self.__processing_service.submit(
+                self._prime_subscribers,
+                {self.get_valid_subscriber(subscriber) for subscriber in subscribers},
+            )
         else:
-            # Submit the notification operation to the AsyncIO processor.
-            if exception is None:
-                self.__processing_service.submit(
-                    self._emit_next,
-                    value=value,
-                    selected_subscribers=valid_subscribers,
-                )
-            else:
-                self.__processing_service.submit(
-                    self._emit_error,
-                    exception=exception,
-                    selected_subscribers=valid_subscribers,
-                )
+            self.__processing_service.submit(
+                self._prime_subscribers,
+                {self.get_valid_subscriber(subscribers)},
+            )
+        return subscribers
 
     async def wait_for_tasks(self) -> None:
         """
@@ -304,5 +276,4 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
 
         :return: None.
         """
-        # Await the completion of all background tasks.
         await self.__processing_service.wait_for_tasks()

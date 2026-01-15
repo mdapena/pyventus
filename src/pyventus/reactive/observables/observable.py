@@ -3,7 +3,7 @@ from asyncio import gather
 from collections.abc import Callable
 from sys import gettrace
 from threading import Lock
-from typing import Generic, TypeVar, final
+from typing import Generic, Iterable, Sequence, TypeVar, cast, final
 
 from typing_extensions import Self, overload, override
 
@@ -268,42 +268,29 @@ class Observable(ABC, Generic[_OutT]):
         )
 
     @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
-    async def _emit_next(
-        self,
-        value: _OutT,  # type: ignore[misc]
-        selected_subscribers: set[Subscriber[_OutT]] | None = None,
-        subscriber_condition: Callable[[Subscriber[_OutT]], bool] | None = None,
-    ) -> None:
+    async def _emit_next(self, value: _OutT, subscribers: Iterable[Subscriber[_OutT]] | None = None) -> None:  # type: ignore[misc]
         """
         Emit the next value to all subscribers or to the specified ones if provided.
 
-        Notifications are sent to subscribers that meet the criteria defined by the `subscriber_condition`,
-        if provided. This condition applies to all subscribers, or to the specified `selected_subscribers`.
-        Unregistered subscribers will be ignored.
-
         :param value: The value to be emitted to the subscribers.
-        :param selected_subscribers: A set of specific subscribers to notify. If None, all current subscribers
-            will be notified; unregistered subscribers will be ignored.
-        :param subscriber_condition: A callable used to filter which subscribers should receive the notification
-            based on a condition. If None, all subscribers or the selected ones will be notified.
+        :param subscribers: The collection of subscribers to be used for the notification.
+            If None, all active subscribers will be used instead.
         :return: None.
         """
-        # Acquire lock to ensure thread safety.
-        with self.__thread_lock:
-            # Determine the subscribers to notify: all or the specified ones.
-            current_subscribers: set[Subscriber[_OutT]] = (
-                self.__subscribers.copy()
-                if selected_subscribers is None
-                else self.__subscribers.intersection(selected_subscribers)
-            )
+        if subscribers is None:
+            # Use all active subscribers if none
+            # are specified; ensure thread safety.
+            with self.__thread_lock:
+                subscribers = self.__subscribers.copy()
+        elif not isinstance(subscribers, Iterable):
+            # Raise an exception if 'subscribers' is not an iterable type.
+            raise PyventusException("The 'subscribers' argument must be an iterable.")
 
-        # Filter to include only those that have a next
-        # callback and meet the subscriber condition, if given.
-        subscribers: list[Subscriber[_OutT]] = [
-            subscriber
-            for subscriber in current_subscribers
-            if subscriber.has_next_callback and (subscriber_condition is None or subscriber_condition(subscriber))
-        ]
+        # Filter to include only those that have a next callback.
+        subscribers = cast(
+            list[Subscriber[_OutT]],
+            [subscriber for subscriber in subscribers if subscriber.has_next_callback],
+        )
 
         # Exit if there are no subscribers.
         if not subscribers:
@@ -341,42 +328,29 @@ class Observable(ABC, Generic[_OutT]):
                     self._log_subscriber_exception(subscriber, result)
 
     @final
-    async def _emit_error(
-        self,
-        exception: Exception,
-        selected_subscribers: set[Subscriber[_OutT]] | None = None,
-        subscriber_condition: Callable[[Subscriber[_OutT]], bool] | None = None,
-    ) -> None:
+    async def _emit_error(self, exception: Exception, subscribers: Iterable[Subscriber[_OutT]] | None = None) -> None:
         """
         Emit the error that occurred to all subscribers or to the specified ones if provided.
 
-        Notifications are sent to subscribers that meet the criteria defined by the `subscriber_condition`,
-        if provided. This condition applies to all subscribers, or to the specified `selected_subscribers`.
-        Unregistered subscribers will be ignored.
-
         :param exception: The exception to be emitted to all subscribers.
-        :param selected_subscribers: A set of specific subscribers to notify. If None, all current subscribers
-            will be notified; unregistered subscribers will be ignored.
-        :param subscriber_condition: A callable used to filter which subscribers should receive the notification
-            based on a condition. If None, all subscribers or the selected ones will be notified.
+        :param subscribers: The collection of subscribers to be used for the notification.
+            If None, all active subscribers will be used instead.
         :return: None.
         """
-        # Acquire lock to ensure thread safety.
-        with self.__thread_lock:
-            # Determine the subscribers to notify: all or the specified ones.
-            current_subscribers: set[Subscriber[_OutT]] = (
-                self.__subscribers.copy()
-                if selected_subscribers is None
-                else self.__subscribers.intersection(selected_subscribers)
-            )
+        if subscribers is None:
+            # Use all active subscribers if none
+            # are specified; ensure thread safety.
+            with self.__thread_lock:
+                subscribers = self.__subscribers.copy()
+        elif not isinstance(subscribers, Iterable):
+            # Raise an exception if 'subscribers' is not an iterable type.
+            raise PyventusException("The 'subscribers' argument must be an iterable.")
 
-        # Filter to include only those that have an error
-        # callback and meet the subscriber condition, if given.
-        subscribers: list[Subscriber[_OutT]] = [
-            subscriber
-            for subscriber in current_subscribers
-            if subscriber.has_error_callback and (subscriber_condition is None or subscriber_condition(subscriber))
-        ]
+        # Filter to include only those that have a error callback.
+        subscribers = cast(
+            list[Subscriber[_OutT]],
+            [subscriber for subscriber in subscribers if subscriber.has_error_callback],
+        )
 
         # Exit if there are no subscribers.
         if not subscribers:
@@ -413,49 +387,34 @@ class Observable(ABC, Generic[_OutT]):
                     self._log_subscriber_exception(subscriber, result)
 
     @final
-    async def _emit_complete(
-        self,
-        selected_subscribers: set[Subscriber[_OutT]] | None = None,
-        subscriber_condition: Callable[[Subscriber[_OutT]], bool] | None = None,
-    ) -> None:
+    async def _emit_complete(self, subscribers: Iterable[Subscriber[_OutT]] | None = None) -> None:
         """
         Emit the completion signal to all subscribers or to the specified ones if provided.
 
-        Notifications are sent to subscribers that meet the criteria defined by the `subscriber_condition`,
-        if provided. This condition applies to all subscribers, or to the specified `selected_subscribers`.
-        Unregistered subscribers will be ignored. Once the notification is sent, all notified subscribers
-        will be removed, as the stream has completed for them.
+        Once the notification is sent, all notified subscribers will be removed.
 
-        :param selected_subscribers: A set of specific subscribers to notify. If None, all current subscribers
-            will be notified; unregistered subscribers will be ignored.
-        :param subscriber_condition: A callable used to filter which subscribers should receive the notification
-            based on a condition. If None, all subscribers or the selected ones will be notified.
+        :param subscribers: The collection of subscribers to be used for the notification.
+            If None, all active subscribers will be used instead.
         :return: None.
         """
         # Acquire lock to ensure thread safety.
         with self.__thread_lock:
-            # Determine the subscribers to notify: all or the specified ones.
-            current_subscribers: set[Subscriber[_OutT]] = (
-                self.__subscribers.copy()
-                if selected_subscribers is None
-                else self.__subscribers.intersection(selected_subscribers)
-            )
-
-            if subscriber_condition is None and selected_subscribers is None:
-                # Clear all subscribers if there is no condition and all are selected.
+            if subscribers is None:
+                # If no subscribers are specified, get and clear all active subscribers.
+                subscribers = self.__subscribers.copy()
                 self.__subscribers.clear()
+            elif not isinstance(subscribers, Iterable):
+                # Raise an exception if 'subscribers' is not an iterable type.
+                raise PyventusException("The 'subscribers' argument must be an iterable.")
             else:
-                # Filter and remove current subscribers based on the
-                # condition, if provided, as they will be notified.
-                current_subscribers = (
-                    current_subscribers
-                    if subscriber_condition is None
-                    else {sub for sub in current_subscribers if subscriber_condition(sub)}
-                )
-                self.__subscribers.difference_update(current_subscribers)
+                # Remove only the specified subscribers from the active set.
+                self.__subscribers.difference_update(subscribers)
 
         # Filter to include only those that have a complete callback.
-        subscribers: list[Subscriber[_OutT]] = [sub for sub in current_subscribers if sub.has_complete_callback]
+        subscribers = cast(
+            list[Subscriber[_OutT]],
+            [subscriber for subscriber in subscribers if subscriber.has_complete_callback],
+        )
 
         # Exit if there are no subscribers.
         if not subscribers:

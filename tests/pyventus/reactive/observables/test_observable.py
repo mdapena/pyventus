@@ -1,3 +1,4 @@
+from collections.abc import Callable
 from dataclasses import dataclass
 from sys import gettrace
 from typing import Any, Generic, TypeVar
@@ -20,17 +21,31 @@ _T = TypeVar("_T")
 class Subject(Generic[_T], Observable[_T]):
     """An observable subclass designed for testing the Observable interface."""
 
-    async def next(self, value: _T, selected_subscribers: set[Subscriber[_T]] | None = None) -> None:
+    async def next(
+        self,
+        value: _T,
+        selected_subscribers: set[Subscriber[_T]] | None = None,
+        subscriber_condition: Callable[[Subscriber[_T]], bool] | None = None,
+    ) -> None:
         """Emit the next value to all subscribers or to the specified ones if provided."""
-        await self._emit_next(value, selected_subscribers)
+        await self._emit_next(value, selected_subscribers, subscriber_condition=subscriber_condition)
 
-    async def error(self, exception: Exception, selected_subscribers: set[Subscriber[_T]] | None = None) -> None:
+    async def error(
+        self,
+        exception: Exception,
+        selected_subscribers: set[Subscriber[_T]] | None = None,
+        subscriber_condition: Callable[[Subscriber[_T]], bool] | None = None,
+    ) -> None:
         """Emit the error that occurred to all subscribers or to the specified ones if provided."""
-        await self._emit_error(exception, selected_subscribers)
+        await self._emit_error(exception, selected_subscribers, subscriber_condition=subscriber_condition)
 
-    async def complete(self, selected_subscribers: set[Subscriber[_T]] | None = None) -> None:
+    async def complete(
+        self,
+        selected_subscribers: set[Subscriber[_T]] | None = None,
+        subscriber_condition: Callable[[Subscriber[_T]], bool] | None = None,
+    ) -> None:
         """Emit the completion signal to all subscribers or to the specified ones if provided."""
-        await self._emit_complete(selected_subscribers)
+        await self._emit_complete(selected_subscribers, subscriber_condition=subscriber_condition)
 
 
 # =================================
@@ -710,6 +725,64 @@ class TestObservable:
         assert callback2.last_kwargs == {}
 
     # =================================
+
+    async def test_emit_next_with_subscriber_condition(self) -> None:
+        # Arrange
+        value = object()
+        callback1 = CallableMock.Sync()
+        callback2 = CallableMock.Async()
+
+        subject1 = Subject[Any]()
+        sub1_s1 = subject1.subscribe(next_callback=callback1, error_callback=callback1, complete_callback=callback1)
+        sub1_s2 = subject1.subscribe(next_callback=callback1, error_callback=callback1, complete_callback=callback1)
+
+        subject2 = Subject[Any]()
+        sub2_s1 = subject2.subscribe(next_callback=callback2, error_callback=callback2, complete_callback=callback2)
+
+        # Act
+        await subject1.next(
+            value,
+        )
+        await subject1.next(
+            value,
+            subscriber_condition=lambda subscriber: subscriber is sub2_s1,
+        )
+        await subject1.next(
+            value,
+            subscriber_condition=lambda subscriber: subscriber is sub1_s2,
+        )
+        await subject1.next(
+            value,
+            selected_subscribers={sub1_s1},
+            subscriber_condition=lambda subscriber: subscriber is sub1_s2,
+        )
+
+        await subject2.next(
+            value,
+            selected_subscribers={sub1_s1, sub1_s2},
+            subscriber_condition=lambda subscriber: subscriber is sub2_s1,
+        )
+        await subject2.next(
+            value,
+            selected_subscribers={sub1_s1, sub2_s1},
+            subscriber_condition=lambda subscriber: subscriber is sub2_s1,
+        )
+        await subject2.next(
+            value,
+            selected_subscribers=set(),
+            subscriber_condition=lambda subscriber: subscriber is sub2_s1,
+        )
+
+        # Assert
+        assert callback1.call_count == 3
+        assert callback1.last_args == (value,)
+        assert callback1.last_kwargs == {}
+
+        assert callback2.call_count == 1
+        assert callback2.last_args == (value,)
+        assert callback2.last_kwargs == {}
+
+    # =================================
     # Test Cases for _emit_error()
     # =================================
 
@@ -830,6 +903,64 @@ class TestObservable:
         assert callback2.last_kwargs == {}
 
     # =================================
+
+    async def test_emit_error_with_subscriber_condition(self) -> None:
+        # Arrange
+        exception = Exception()
+        callback1 = CallableMock.Sync()
+        callback2 = CallableMock.Async()
+
+        subject1 = Subject[Any]()
+        sub1_s1 = subject1.subscribe(next_callback=callback1, error_callback=callback1, complete_callback=callback1)
+        sub1_s2 = subject1.subscribe(next_callback=callback1, error_callback=callback1, complete_callback=callback1)
+
+        subject2 = Subject[Any]()
+        sub2_s1 = subject2.subscribe(next_callback=callback2, error_callback=callback2, complete_callback=callback2)
+
+        # Act
+        await subject1.error(
+            exception,
+        )
+        await subject1.error(
+            exception,
+            subscriber_condition=lambda subscriber: subscriber is sub2_s1,
+        )
+        await subject1.error(
+            exception,
+            subscriber_condition=lambda subscriber: subscriber is sub1_s2,
+        )
+        await subject1.error(
+            exception,
+            selected_subscribers={sub1_s1},
+            subscriber_condition=lambda subscriber: subscriber is sub1_s2,
+        )
+
+        await subject2.error(
+            exception,
+            selected_subscribers={sub1_s1, sub1_s2},
+            subscriber_condition=lambda subscriber: subscriber is sub2_s1,
+        )
+        await subject2.error(
+            exception,
+            selected_subscribers={sub1_s1, sub2_s1},
+            subscriber_condition=lambda subscriber: subscriber is sub2_s1,
+        )
+        await subject2.error(
+            exception,
+            selected_subscribers=set(),
+            subscriber_condition=lambda subscriber: subscriber is sub2_s1,
+        )
+
+        # Assert
+        assert callback1.call_count == 3
+        assert callback1.last_args == (exception,)
+        assert callback1.last_kwargs == {}
+
+        assert callback2.call_count == 1
+        assert callback2.last_args == (exception,)
+        assert callback2.last_kwargs == {}
+
+    # =================================
     # Test Cases for _emit_complete()
     # =================================
 
@@ -919,6 +1050,7 @@ class TestObservable:
         # Act
         await subject1.complete(selected_subscribers={sub1_s1})
         await subject2.complete(selected_subscribers={sub1_s2})
+        await subject2.complete(selected_subscribers=set())
 
         # Assert
         assert callback1.call_count == 1
@@ -928,3 +1060,42 @@ class TestObservable:
         assert callback2.call_count == 0
         assert callback2.last_args == ()
         assert callback2.last_kwargs == {}
+        assert subject2.get_subscriber_count() == 1
+
+    # =================================
+
+    async def test_emit_complete_with_subscriber_condition(self) -> None:
+        # Arrange
+        callback1 = CallableMock.Sync()
+        callback2 = CallableMock.Async()
+
+        subject1 = Subject[Any]()
+        sub1_s1 = subject1.subscribe(next_callback=callback1, error_callback=callback1, complete_callback=callback1)
+        sub1_s2 = subject1.subscribe(next_callback=callback1, error_callback=callback1, complete_callback=callback1)
+
+        subject2 = Subject[Any]()
+        sub2_s1 = subject2.subscribe(next_callback=callback2, error_callback=callback2, complete_callback=callback2)
+
+        # Act
+        await subject1.complete(subscriber_condition=lambda subscriber: subscriber is sub2_s1)
+        await subject1.complete(subscriber_condition=lambda subscriber: subscriber is sub1_s2)
+        await subject1.complete()
+
+        await subject2.complete(
+            selected_subscribers={sub1_s1, sub1_s2},
+            subscriber_condition=lambda subscriber: subscriber is sub2_s1,
+        )
+        await subject2.complete(
+            selected_subscribers=set(),
+            subscriber_condition=lambda subscriber: subscriber is sub2_s1,
+        )
+
+        # Assert
+        assert callback1.call_count == 2
+        assert callback1.last_args == ()
+        assert callback1.last_kwargs == {}
+
+        assert callback2.call_count == 0
+        assert callback2.last_args == ()
+        assert callback2.last_kwargs == {}
+        assert subject2.get_subscriber_count() == 1

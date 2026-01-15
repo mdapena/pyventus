@@ -7,6 +7,7 @@ from .observables import (
     ObservableTaskCallbackReturnType,
     ObservableTaskCallbackType,
     ObservableValue,
+    ObservableValueValidatorType,
     as_observable_task,
 )
 from .observers import Observer
@@ -24,6 +25,7 @@ __all__ = [
     "ObservableTaskCallbackReturnType",
     "ObservableTaskCallbackType",
     "ObservableValue",
+    "ObservableValueValidatorType",
     "as_observable_task",
     "Observer",
     "CompleteCallbackType",

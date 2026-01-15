@@ -280,10 +280,16 @@ class AsyncIOProcessingService(ProcessingService):
 
         :return: None.
         """
-        # Retrieve the current set of background tasks and clear the registry.
-        with self.__thread_lock:
-            tasks: set[Task[Any]] = self.__tasks.copy()
-            self.__tasks.clear()
+        # Process all active background tasks until none remain.
+        while True:
+            with self.__thread_lock:
+                # Exit if there are no active tasks.
+                if not self.__tasks:
+                    break
 
-        # Await the completion of all background tasks.
-        await gather(*tasks)
+                # Copy current tasks and clear the registry.
+                tasks: set[Task[Any]] = self.__tasks.copy()
+                self.__tasks.clear()
+
+            # Await the completion of all tasks.
+            await gather(*tasks)

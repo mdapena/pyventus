@@ -132,8 +132,7 @@ class ObservableTask(Generic[_OutT], Observable[_OutT]):
         :return: None.
         """
         # Await the completion of all background tasks.
-        while self.__processing_service.task_count:
-            await self.__processing_service.wait_for_tasks()
+        await self.__processing_service.wait_for_tasks()
 
     @contextmanager
     def to_thread(

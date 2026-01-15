@@ -1,9 +1,9 @@
 from abc import ABC
 from asyncio import gather
-from collections.abc import Callable
+from collections.abc import Iterable
 from sys import gettrace
 from threading import Lock
-from typing import Generic, Iterable, Sequence, TypeVar, cast, final
+from typing import Generic, TypeVar, cast, final
 
 from typing_extensions import Self, overload, override
 

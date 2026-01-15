@@ -1,4 +1,3 @@
-from collections.abc import Callable
 from dataclasses import dataclass
 from sys import gettrace
 from typing import Any, Generic, TypeVar
@@ -692,7 +691,7 @@ class TestObservable:
         await subject1.next(value)
         await subject1.next(value, subscribers=[sub1_s1])
         await subject1.next(value, subscribers={sub1_s1, sub1_s2})
-        await subject1.next(value, subscribers=tuple())
+        await subject1.next(value, subscribers=())
 
         with pytest.raises(PyventusException):
             await subject1.next(value, subscribers=True)
@@ -808,7 +807,7 @@ class TestObservable:
         await subject1.error(exception)
         await subject1.error(exception, subscribers=[sub1_s1])
         await subject1.error(exception, subscribers={sub1_s1, sub1_s2})
-        await subject1.error(exception, subscribers=tuple())
+        await subject1.error(exception, subscribers=())
 
         with pytest.raises(PyventusException):
             await subject1.error(exception, subscribers=True)
@@ -910,7 +909,7 @@ class TestObservable:
         subject2.subscribe(next_callback=callback2, error_callback=callback2, complete_callback=callback2)
 
         # Act
-        await subject1.complete(subscribers=tuple())
+        await subject1.complete(subscribers=())
         await subject1.complete(subscribers=[sub1_s1])
 
         await subject2.complete()

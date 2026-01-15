@@ -1,5 +1,6 @@
 from abc import ABC
 from asyncio import gather
+from collections.abc import Callable
 from sys import gettrace
 from threading import Lock
 from typing import Generic, TypeVar, final
@@ -267,17 +268,25 @@ class Observable(ABC, Generic[_OutT]):
         )
 
     @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
-    async def _emit_next(self, value: _OutT, selected_subscribers: set[Subscriber[_OutT]] | None = None) -> None:  # type: ignore[misc]
+    async def _emit_next(
+        self,
+        value: _OutT,  # type: ignore[misc]
+        selected_subscribers: set[Subscriber[_OutT]] | None = None,
+        subscriber_condition: Callable[[Subscriber[_OutT]], bool] | None = None,
+    ) -> None:
         """
         Emit the next value to all subscribers or to the specified ones if provided.
 
-        This method notifies all subscribers of the next value in the stream. If specific subscribers
-        are provided, only those will receive the notification; unregistered subscribers will be ignored.
+        Notifications are sent to subscribers that meet the criteria defined by the `subscriber_condition`,
+        if provided. This condition applies to all subscribers, or to the specified `selected_subscribers`.
+        Unregistered subscribers will be ignored.
 
         :param value: The value to be emitted to the subscribers.
         :param selected_subscribers: A set of specific subscribers to notify. If None, all current subscribers
             will be notified; unregistered subscribers will be ignored.
-        :return: None
+        :param subscriber_condition: A callable used to filter which subscribers should receive the notification
+            based on a condition. If None, all subscribers or the selected ones will be notified.
+        :return: None.
         """
         # Acquire lock to ensure thread safety.
         with self.__thread_lock:
@@ -288,9 +297,12 @@ class Observable(ABC, Generic[_OutT]):
                 else self.__subscribers.intersection(selected_subscribers)
             )
 
-        # Filter to include only those that have a next callback for efficiency.
+        # Filter to include only those that have a next
+        # callback and meet the subscriber condition, if given.
         subscribers: list[Subscriber[_OutT]] = [
-            subscriber for subscriber in current_subscribers if subscriber.has_next_callback
+            subscriber
+            for subscriber in current_subscribers
+            if subscriber.has_next_callback and (subscriber_condition is None or subscriber_condition(subscriber))
         ]
 
         # Exit if there are no subscribers.
@@ -330,17 +342,23 @@ class Observable(ABC, Generic[_OutT]):
 
     @final
     async def _emit_error(
-        self, exception: Exception, selected_subscribers: set[Subscriber[_OutT]] | None = None
+        self,
+        exception: Exception,
+        selected_subscribers: set[Subscriber[_OutT]] | None = None,
+        subscriber_condition: Callable[[Subscriber[_OutT]], bool] | None = None,
     ) -> None:
         """
         Emit the error that occurred to all subscribers or to the specified ones if provided.
 
-        This method notifies all subscribers of the error that occurred. If specific subscribers are
-        provided, only those will receive the notification; unregistered subscribers will be ignored.
+        Notifications are sent to subscribers that meet the criteria defined by the `subscriber_condition`,
+        if provided. This condition applies to all subscribers, or to the specified `selected_subscribers`.
+        Unregistered subscribers will be ignored.
 
         :param exception: The exception to be emitted to all subscribers.
         :param selected_subscribers: A set of specific subscribers to notify. If None, all current subscribers
             will be notified; unregistered subscribers will be ignored.
+        :param subscriber_condition: A callable used to filter which subscribers should receive the notification
+            based on a condition. If None, all subscribers or the selected ones will be notified.
         :return: None.
         """
         # Acquire lock to ensure thread safety.
@@ -352,9 +370,12 @@ class Observable(ABC, Generic[_OutT]):
                 else self.__subscribers.intersection(selected_subscribers)
             )
 
-        # Filter to include only those that have an error callback for efficiency.
+        # Filter to include only those that have an error
+        # callback and meet the subscriber condition, if given.
         subscribers: list[Subscriber[_OutT]] = [
-            subscriber for subscriber in current_subscribers if subscriber.has_error_callback
+            subscriber
+            for subscriber in current_subscribers
+            if subscriber.has_error_callback and (subscriber_condition is None or subscriber_condition(subscriber))
         ]
 
         # Exit if there are no subscribers.
@@ -392,16 +413,23 @@ class Observable(ABC, Generic[_OutT]):
                     self._log_subscriber_exception(subscriber, result)
 
     @final
-    async def _emit_complete(self, selected_subscribers: set[Subscriber[_OutT]] | None = None) -> None:
+    async def _emit_complete(
+        self,
+        selected_subscribers: set[Subscriber[_OutT]] | None = None,
+        subscriber_condition: Callable[[Subscriber[_OutT]], bool] | None = None,
+    ) -> None:
         """
         Emit the completion signal to all subscribers or to the specified ones if provided.
 
-        This method notifies all subscribers that the stream has completed. If specific subscribers
-        are provided, only those will receive the notification; unregistered subscribers will be ignored.
-        Once the notification is sent, all subscribers will be removed since the stream has completed.
+        Notifications are sent to subscribers that meet the criteria defined by the `subscriber_condition`,
+        if provided. This condition applies to all subscribers, or to the specified `selected_subscribers`.
+        Unregistered subscribers will be ignored. Once the notification is sent, all subscribers will be
+        removed since the stream has completed.
 
         :param selected_subscribers: A set of specific subscribers to notify. If None, all current subscribers
             will be notified; unregistered subscribers will be ignored.
+        :param subscriber_condition: A callable used to filter which subscribers should receive the notification
+            based on a condition. If None, all subscribers or the selected ones will be notified.
         :return: None.
         """
         # Acquire lock to ensure thread safety.
@@ -416,9 +444,12 @@ class Observable(ABC, Generic[_OutT]):
             # Unsubscribe all observers since the stream has completed.
             self.__subscribers.clear()
 
-        # Filter to include only those that have a complete callback for efficiency.
+        # Filter to include only those that have a complete
+        # callback and meet the subscriber condition, if given.
         subscribers: list[Subscriber[_OutT]] = [
-            subscriber for subscriber in current_subscribers if subscriber.has_complete_callback
+            subscriber
+            for subscriber in current_subscribers
+            if subscriber.has_complete_callback and (subscriber_condition is None or subscriber_condition(subscriber))
         ]
 
         # Exit if there are no subscribers.

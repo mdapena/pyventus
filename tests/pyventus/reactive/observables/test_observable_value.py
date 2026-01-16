@@ -1,5 +1,5 @@
 import asyncio
-from collections.abc import Callable, Generator, Sized
+from collections.abc import Callable, Generator
 from contextlib import contextmanager
 from typing import Any
 
@@ -22,29 +22,7 @@ class Validators:
     @staticmethod
     async def delay(seconds: float) -> None:
         """Introduce a delay for a specified time in seconds."""
-        if seconds < 0:
-            raise ValueError("Delay must be non-negative.")
         await asyncio.sleep(seconds)
-
-    @staticmethod
-    def min_length(min_length: int) -> Callable[[Sized], None]:
-        """Validate that the length of the value is at least min_length."""
-
-        def validator(value: Sized) -> None:
-            if value is not None and len(value) < min_length:
-                raise ValueError(f"Minimum length is {min_length}. Current size: {len(value)}.")
-
-        return validator
-
-    @staticmethod
-    def max_length(max_length: int) -> Callable[[Sized], None]:
-        """Validate that the length of the value is at most max_length."""
-
-        def validator(value: Sized) -> None:
-            if value is not None and len(value) > max_length:
-                raise ValueError(f"Maximum length is {max_length}. Current size: {len(value)}.")
-
-        return validator
 
     @staticmethod
     def choices(valid_choices: list[Any]) -> Callable[[Any], None]:
@@ -401,11 +379,12 @@ class TestObservableValue:
         )
         for s in subs:
             s.unsubscribe()
+        sub = obsv.prime_subscribers(sub)
 
         yield obsv  # Yield control for any additional processing.
 
         # Assert
-        assert next_callback.call_count == 7
+        assert next_callback.call_count == 8
         assert next_callback.last_args == (0.0005,)
         assert next_callback.last_kwargs == {}
         assert error_callback.call_count == 2
@@ -516,12 +495,13 @@ class TestObservableValue:
             complete_callback=complete_callback,
         )
         obsv.set_value(0.0015)
-        obsv.subscribe(
+        sub = obsv.subscribe(
             next_callback=next_callback,
             error_callback=error_callback,
             complete_callback=complete_callback,
         )
         obsv.value = 0.0005
+        sub.unsubscribe()
         obsv.value = 0.0001
         obsv.clear_value()
         obsv.subscribe(
@@ -529,7 +509,7 @@ class TestObservableValue:
             error_callback=error_callback,
             complete_callback=complete_callback,
         )
-        obsv.value = 0.0010
+        obsv.value = 0.001
         obsv.clear_value()
 
         yield obsv  # Yield control for any additional processing.
@@ -537,13 +517,13 @@ class TestObservableValue:
         # Assert
         assert obsv.value == 0.0
         assert obsv.error is None
-        assert next_callback.call_count == 11
+        assert next_callback.call_count == 10
         assert next_callback.last_args == (0.001,)
         assert next_callback.last_kwargs == {}
         assert error_callback.call_count == 1
         assert isinstance(error_callback.last_args[0], AttributeError)
         assert error_callback.last_kwargs == {}
-        assert complete_callback.call_count == 4
+        assert complete_callback.call_count == 3
         assert complete_callback.last_args == ()
         assert complete_callback.last_kwargs == {}
 

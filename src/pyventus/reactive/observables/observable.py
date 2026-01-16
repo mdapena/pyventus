@@ -253,6 +253,15 @@ class Observable(ABC, Generic[_OutT]):
         """
         return self.__thread_lock
 
+    @property
+    def _subscribers(self) -> set[Subscriber[_OutT]]:
+        """
+        Retrieve all registered subscribers.
+
+        :return: A set of all registered subscribers.
+        """
+        return self.__subscribers
+
     def _log_subscriber_exception(self, subscriber: Subscriber[_OutT], exception: Exception) -> None:
         """
         Log an unhandled exception that occurred during the execution of a subscriber's callback.

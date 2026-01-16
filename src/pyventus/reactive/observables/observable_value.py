@@ -1,6 +1,4 @@
-from asyncio import gather
 from collections.abc import Awaitable, Callable
-from datetime import datetime
 from typing import Generic, TypeAlias, TypeVar, final, overload
 
 from typing_extensions import override
@@ -98,7 +96,7 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
         )
 
     @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
-    async def _set_value(self, value: _OutT, performed_at: datetime) -> None:  # type: ignore[misc]
+    async def _set_value(self, value: _OutT, subscribers: tuple[Subscriber[_OutT], ...]) -> None:  # type: ignore[misc]
         """
         Update the current value to the specified one.
 
@@ -107,7 +105,7 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
         it is stored alongside the raised exception, and an error notification is issued.
 
         :param value: The value to set as the current value.
-        :param performed_at: The timestamp when the set operation was performed.
+        :param subscribers: The collection of subscribers to be notified of the value update.
         :return: None.
         """
         try:
@@ -122,9 +120,8 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
                 self.__value = value
                 self.__exception = None
 
-            # Notify subscribers who were subscribed before the clear operation. This ensures
-            # that only relevant subscribers are notified, excluding those who subscribed afterward.
-            await self._emit_next(value, subscriber_condition=lambda subscriber: subscriber.timestamp <= performed_at)
+            # Notify subscribers of the new valid value.
+            await self._emit_next(value, subscribers)
         except Exception as exception:
             # Acquire lock to ensure thread safety.
             # Store the current value and the raised exception.
@@ -132,29 +129,25 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
                 self.__value = value
                 self.__exception = exception
 
-            # Notify subscribers who were subscribed before the clear operation. This ensures
-            # that only relevant subscribers are notified, excluding those who subscribed afterward.
-            await self._emit_error(
-                exception, subscriber_condition=lambda subscriber: subscriber.timestamp <= performed_at
-            )
+            # Notify subscribers of the error encountered.
+            await self._emit_error(exception, subscribers)
 
-    async def _clear_value(self, performed_at: datetime) -> None:
+    async def _clear_value(self, subscribers: tuple[Subscriber[_OutT], ...]) -> None:
         """
         Clear the current value and reset it to its initial state.
 
-        This operation will trigger the completion notification and the removal of all current subscribers.
+        This operation will trigger the completion notification and remove the specified subscribers.
 
-        :param performed_at: The timestamp when the clear operation was performed.
-        :return: None
+        :param subscribers: The collection of subscribers to be notified of the value reset.
+        :return: None.
         """
         # Acquire a lock to ensure thread safety.
         with self._thread_lock:
             self.__value = self.__seed
             self.__exception = None
 
-        # Notify subscribers who were subscribed before the clear operation. This ensures
-        # that only relevant subscribers are notified, excluding those who subscribed afterward.
-        await self._emit_complete(subscriber_condition=lambda subscriber: subscriber.timestamp <= performed_at)
+        # Notify subscribers that the value has been cleared and reset.
+        await self._emit_complete(subscribers)
 
     async def _prime_subscribers(self, subscribers: set[Subscriber[_OutT]]) -> None:
         """
@@ -170,9 +163,9 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
 
         # Notify the subscribers accordingly.
         if exception is None:
-            await gather(*[subscriber.next(value) for subscriber in subscribers if subscriber.has_next_callback])
+            await self._emit_next(value, subscribers)
         else:
-            await gather(*[subscriber.error(exception) for subscriber in subscribers if subscriber.has_error_callback])
+            await self._emit_error(exception, subscribers)
 
     @property
     def error(self) -> Exception | None:
@@ -229,7 +222,9 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
         :param value: The value to set as the current value.
         :return: None.
         """
-        self.__processing_service.submit(self._set_value, value, performed_at=datetime.now())
+        with self._thread_lock:
+            subscribers: tuple[Subscriber[_OutT], ...] = tuple(self._subscribers)
+        self.__processing_service.submit(self._set_value, value, subscribers)
 
     def clear_value(self) -> None:
         """
@@ -239,7 +234,10 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
 
         :return: None.
         """
-        self.__processing_service.submit(self._clear_value, performed_at=datetime.now())
+        with self._thread_lock:
+            subscribers: tuple[Subscriber[_OutT], ...] = tuple(self._subscribers)
+            self._subscribers.clear()
+        self.__processing_service.submit(self._clear_value, subscribers)
 
     @overload
     def prime_subscribers(self, subscribers: Subscriber[_OutT]) -> Subscriber[_OutT]: ...

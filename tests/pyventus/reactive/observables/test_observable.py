@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from dataclasses import dataclass
 from sys import gettrace
 from typing import Any, Generic, TypeVar
@@ -20,15 +21,15 @@ _T = TypeVar("_T")
 class Subject(Generic[_T], Observable[_T]):
     """An observable subclass designed for testing the Observable interface."""
 
-    async def next(self, value: _T, subscribers: set[Subscriber[_T]] | None = None) -> None:
+    async def next(self, value: _T, subscribers: Iterable[Subscriber[_T]] | None = None) -> None:
         """Emit the next value to all subscribers or to the specified ones if provided."""
         await self._emit_next(value, subscribers)
 
-    async def error(self, exception: Exception, subscribers: set[Subscriber[_T]] | None = None) -> None:
+    async def error(self, exception: Exception, subscribers: Iterable[Subscriber[_T]] | None = None) -> None:
         """Emit the error that occurred to all subscribers or to the specified ones if provided."""
         await self._emit_error(exception, subscribers)
 
-    async def complete(self, subscribers: set[Subscriber[_T]] | None = None) -> None:
+    async def complete(self, subscribers: Iterable[Subscriber[_T]] | None = None) -> None:
         """Emit the completion signal to all subscribers or to the specified ones if provided."""
         await self._emit_complete(subscribers)
 
@@ -103,6 +104,7 @@ class TestObservable:
         assert isinstance(subject, Observable)
         assert subject._logger.debug_enabled is (bool(gettrace() is not None) if debug is None else debug)
         assert subject._thread_lock is not None
+        assert subject._subscribers == set()
 
     # =================================
 
@@ -152,13 +154,13 @@ class TestObservable:
 
     def test_get_subscribers_when_empty(self, empty: ObservableFixture) -> None:
         # Arrange/Act/Assert
-        assert empty.observable.get_subscribers() == empty.subscribers
+        assert empty.observable.get_subscribers() == empty.observable._subscribers == empty.subscribers
 
     # =================================
 
     def test_get_subscribers_when_populated(self, populated: ObservableFixture) -> None:
         # Arrange/Act/Assert
-        assert populated.observable.get_subscribers() == populated.subscribers
+        assert populated.observable.get_subscribers() == populated.observable._subscribers == populated.subscribers
 
     # =================================
     # Test Cases for get_subscriber_count()
@@ -694,7 +696,7 @@ class TestObservable:
         await subject1.next(value, subscribers=())
 
         with pytest.raises(PyventusException):
-            await subject1.next(value, subscribers=True)
+            await subject1.next(value, subscribers=True)  # type: ignore[arg-type]
 
         # Assert
         assert callback1.call_count == 3
@@ -810,7 +812,7 @@ class TestObservable:
         await subject1.error(exception, subscribers=())
 
         with pytest.raises(PyventusException):
-            await subject1.error(exception, subscribers=True)
+            await subject1.error(exception, subscribers=True)  # type: ignore[arg-type]
 
         # Assert
         assert callback1.call_count == 3

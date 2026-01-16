@@ -916,6 +916,9 @@ class TestObservable:
 
         await subject2.complete()
 
+        with pytest.raises(PyventusException):
+            await subject1.complete(subscribers=True)  # type: ignore[arg-type]
+
         # Assert
         assert callback1.call_count == 1
         assert callback1.last_args == ()

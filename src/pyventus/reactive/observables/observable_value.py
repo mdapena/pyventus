@@ -31,8 +31,8 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
         invalid, it is stored alongside the raised exception, ensuring that both remain accessible until a new
         change is made.
 
-    -   Updates to the encapsulated value are managed through a queue, preserving the order of changes and
-        preventing inconsistent states and notifications.
+    -   Update and retrieval operations are managed through a queue, ensuring that their order is preserved and
+        no inconsistent states or notifications are generated during execution.
 
     -   Changes to the value are delivered to subscribers in a lazy manner, allowing them to receive incremental
         notifications as they occur.
@@ -94,6 +94,28 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
                 + f", {super().__repr__()}"
             ),
         )
+
+    async def _get_error(self, callback: CallableWrapper[[Exception | None], None]) -> None:
+        """
+        Retrieve the current error, if any, through the specified callback.
+
+        :param callback: The callback that receives the current error, if any.
+        :return: None.
+        """
+        with self._thread_lock:
+            exception: Exception | None = self.__exception
+        await callback.execute(exception)
+
+    async def _get_value(self, callback: CallableWrapper[[_OutT], None]) -> None:
+        """
+        Retrieve the current value through the specified callback.
+
+        :param callback: The callback that receives the current value.
+        :return: None.
+        """
+        with self._thread_lock:
+            value: _OutT = self.__value
+        await callback.execute(value)
 
     @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
     async def _set_value(self, value: _OutT, subscribers: tuple[Subscriber[_OutT], ...]) -> None:  # type: ignore[misc]
@@ -167,48 +189,59 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
         else:
             await self._emit_error(exception, subscribers)
 
-    @property
-    def error(self) -> Exception | None:
+    def get_error(
+        self, callback: Callable[[Exception | None], None | Awaitable[None]], force_async: bool = False
+    ) -> None:
         """
-        Retrieve the current error, or None if no error exists.
+        Retrieve the current error, if any.
 
-        :return: The current error, or None if no error exists.
-        """
-        with self._thread_lock:
-            return self.__exception
+        The current error will be received through the parameters of the provided callback, and its execution will be
+        enqueued with the other operations to ensure that the received error corresponds to the correct state at the
+        time the current method was invoked, preventing any inconsistencies.
 
-    @property
-    def value(self) -> _OutT:
-        """
-        Retrieve the current value.
-
-        :return: The current value.
-        """
-        return self.get_value()
-
-    @value.setter
-    @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
-    def value(self, value: _OutT) -> None:  # type: ignore[misc]
-        """
-        Update the current value to the specified one.
-
-        The provided value is validated against the defined validators. If it is deemed valid, it is stored,
-        and the next notification is triggered. If the value is considered invalid by any of the validators,
-        it is stored alongside the raised exception, and an error notification is issued.
-
-        :param value: The value to set as the current value.
+        :param callback: The callback to be invoked with the current error, if any.
+        :param force_async: Determines whether to force the callback to run asynchronously. If `True`, the synchronous
+            callback will be converted to run asynchronously in a thread pool using the `asyncio.to_thread` function.
+            If `False`, the callback will run synchronously or asynchronously as defined.
         :return: None.
+        :raises PyventusException: If the provided callback is a generator.
         """
-        self.set_value(value)
+        # Wrap the callback to ensure a consistent interface for invocation.
+        valid_callback: CallableWrapper[[Exception | None], None] = CallableWrapper(callback, force_async=force_async)
 
-    def get_value(self) -> _OutT:
+        # Verify that the provided callback is not a generator.
+        if valid_callback.is_generator:
+            raise PyventusException("The 'callback' argument cannot be a generator.")
+
+        # Schedule the processing of the error retrieval with the provided callback, ensuring that the received error
+        # corresponds to the state at the time the `get_error` method was invoked, preventing any inconsistencies.
+        self.__processing_service.submit(self._get_error, valid_callback)
+
+    def get_value(self, callback: Callable[[_OutT], None | Awaitable[None]], force_async: bool = False) -> None:
         """
         Retrieve the current value.
 
-        :return: The current value.
+        The current value will be received through the parameters of the provided callback, and its execution will be
+        enqueued with the other operations to ensure that the received value corresponds to the correct state at the
+        time the current method was invoked, preventing any inconsistencies.
+
+        :param callback: The callback to be invoked with the current value.
+        :param force_async: Determines whether to force the callback to run asynchronously. If `True`, the synchronous
+            callback will be converted to run asynchronously in a thread pool using the `asyncio.to_thread` function.
+            If `False`, the callback will run synchronously or asynchronously as defined.
+        :return: None.
+        :raises PyventusException: If the provided callback is a generator.
         """
-        with self._thread_lock:
-            return self.__value
+        # Wrap the callback to ensure a consistent interface for invocation.
+        valid_callback: CallableWrapper[[_OutT], None] = CallableWrapper(callback, force_async=force_async)
+
+        # Verify that the provided callback is not a generator.
+        if valid_callback.is_generator:
+            raise PyventusException("The 'callback' argument cannot be a generator.")
+
+        # Schedule the processing of the value retrieval with the provided callback, ensuring that the received value
+        # corresponds to the state at the time the `get_value` method was invoked, preventing any inconsistencies.
+        self.__processing_service.submit(self._get_value, valid_callback)
 
     @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
     def set_value(self, value: _OutT) -> None:  # type: ignore[misc]
@@ -240,31 +273,34 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
         self.__processing_service.submit(self._clear_value, subscribers)
 
     @overload
-    def prime_subscribers(self, subscribers: Subscriber[_OutT]) -> Subscriber[_OutT]: ...
+    def prime_subscribers(self, subscriber: Subscriber[_OutT], /) -> Subscriber[_OutT]: ...
 
     @overload
-    def prime_subscribers(self, subscribers: list[Subscriber[_OutT]]) -> list[Subscriber[_OutT]]: ...
+    def prime_subscribers(self, *subscribers: Subscriber[_OutT]) -> tuple[Subscriber[_OutT], ...]: ...
 
-    def prime_subscribers(
-        self, subscribers: Subscriber[_OutT] | list[Subscriber[_OutT]]
-    ) -> Subscriber[_OutT] | list[Subscriber[_OutT]]:
+    def prime_subscribers(self, *subscribers: Subscriber[_OutT]) -> Subscriber[_OutT] | tuple[Subscriber[_OutT], ...]:
         """
         Prime the specified subscribers with the current value or error.
 
-        :param subscribers: The set of subscribers to be primed.
-        :return: The same subscriber or list of subscribers, depending on input.
+        :param subscribers: One or more subscribers to be primed.
+        :return: The same subscribers as input.
+        :raises PyventusException: If no subscribers are given.
         """
-        if isinstance(subscribers, list):
+        if not subscribers:
+            raise PyventusException("At least one subscriber must be provided.")
+
+        if len(subscribers) == 1:
+            self.__processing_service.submit(
+                self._prime_subscribers,
+                {self.get_valid_subscriber(subscribers[0])},
+            )
+            return subscribers[0]
+        else:
             self.__processing_service.submit(
                 self._prime_subscribers,
                 {self.get_valid_subscriber(subscriber) for subscriber in subscribers},
             )
-        else:
-            self.__processing_service.submit(
-                self._prime_subscribers,
-                {self.get_valid_subscriber(subscribers)},
-            )
-        return subscribers
+            return subscribers
 
     async def wait_for_tasks(self) -> None:
         """

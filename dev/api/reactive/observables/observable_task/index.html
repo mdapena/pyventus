@@ -3441,8 +3441,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>pyventus/reactive/observables/observable.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-188">188</a></span>
-<span class="normal"><a href="#__codelineno-0-189">189</a></span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-189">189</a></span>
 <span class="normal"><a href="#__codelineno-0-190">190</a></span>
 <span class="normal"><a href="#__codelineno-0-191">191</a></span>
 <span class="normal"><a href="#__codelineno-0-192">192</a></span>
@@ -3453,19 +3452,20 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-197">197</a></span>
 <span class="normal"><a href="#__codelineno-0-198">198</a></span>
 <span class="normal"><a href="#__codelineno-0-199">199</a></span>
-<span class="normal"><a href="#__codelineno-0-200">200</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-188" name="__codelineno-0-188"></a><span class="nd">@staticmethod</span>
-<a id="__codelineno-0-189" name="__codelineno-0-189"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_valid_subscriber</span><span class="p">(</span><span class="n">subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]:</span>
-<a id="__codelineno-0-190" name="__codelineno-0-190"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-191" name="__codelineno-0-191"></a><span class="sd">    Validate and return the specified subscriber.</span>
-<a id="__codelineno-0-192" name="__codelineno-0-192"></a>
-<a id="__codelineno-0-193" name="__codelineno-0-193"></a><span class="sd">    :param subscriber: The subscriber to validate.</span>
-<a id="__codelineno-0-194" name="__codelineno-0-194"></a><span class="sd">    :return: The validated subscriber.</span>
-<a id="__codelineno-0-195" name="__codelineno-0-195"></a><span class="sd">    :raises PyventusException: If the subscriber is not an instance of `Subscriber`.</span>
-<a id="__codelineno-0-196" name="__codelineno-0-196"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-197" name="__codelineno-0-197"></a>    <span class="c1"># Validate that the subscriber is an instance of Subscriber.</span>
-<a id="__codelineno-0-198" name="__codelineno-0-198"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subscriber</span><span class="p">,</span> <span class="n">Subscriber</span><span class="p">):</span>
-<a id="__codelineno-0-199" name="__codelineno-0-199"></a>        <span class="k">raise</span> <span class="n">PyventusException</span><span class="p">(</span><span class="s2">&quot;The &#39;subscriber&#39; argument must be an instance of Subscriber.&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-200" name="__codelineno-0-200"></a>    <span class="k">return</span> <span class="n">subscriber</span>
+<span class="normal"><a href="#__codelineno-0-200">200</a></span>
+<span class="normal"><a href="#__codelineno-0-201">201</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-189" name="__codelineno-0-189"></a><span class="nd">@staticmethod</span>
+<a id="__codelineno-0-190" name="__codelineno-0-190"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_valid_subscriber</span><span class="p">(</span><span class="n">subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]:</span>
+<a id="__codelineno-0-191" name="__codelineno-0-191"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-192" name="__codelineno-0-192"></a><span class="sd">    Validate and return the specified subscriber.</span>
+<a id="__codelineno-0-193" name="__codelineno-0-193"></a>
+<a id="__codelineno-0-194" name="__codelineno-0-194"></a><span class="sd">    :param subscriber: The subscriber to validate.</span>
+<a id="__codelineno-0-195" name="__codelineno-0-195"></a><span class="sd">    :return: The validated subscriber.</span>
+<a id="__codelineno-0-196" name="__codelineno-0-196"></a><span class="sd">    :raises PyventusException: If the subscriber is not an instance of `Subscriber`.</span>
+<a id="__codelineno-0-197" name="__codelineno-0-197"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-198" name="__codelineno-0-198"></a>    <span class="c1"># Validate that the subscriber is an instance of Subscriber.</span>
+<a id="__codelineno-0-199" name="__codelineno-0-199"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">subscriber</span><span class="p">,</span> <span class="n">Subscriber</span><span class="p">):</span>
+<a id="__codelineno-0-200" name="__codelineno-0-200"></a>        <span class="k">raise</span> <span class="n">PyventusException</span><span class="p">(</span><span class="s2">&quot;The &#39;subscriber&#39; argument must be an instance of Subscriber.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-201" name="__codelineno-0-201"></a>    <span class="k">return</span> <span class="n">subscriber</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -3514,21 +3514,21 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>pyventus/reactive/observables/observable.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-426">426</a></span>
-<span class="normal"><a href="#__codelineno-0-427">427</a></span>
-<span class="normal"><a href="#__codelineno-0-428">428</a></span>
-<span class="normal"><a href="#__codelineno-0-429">429</a></span>
-<span class="normal"><a href="#__codelineno-0-430">430</a></span>
-<span class="normal"><a href="#__codelineno-0-431">431</a></span>
-<span class="normal"><a href="#__codelineno-0-432">432</a></span>
-<span class="normal"><a href="#__codelineno-0-433">433</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-426" name="__codelineno-0-426"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_subscribers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]]:</span>
-<a id="__codelineno-0-427" name="__codelineno-0-427"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-428" name="__codelineno-0-428"></a><span class="sd">    Retrieve all registered subscribers.</span>
-<a id="__codelineno-0-429" name="__codelineno-0-429"></a>
-<a id="__codelineno-0-430" name="__codelineno-0-430"></a><span class="sd">    :return: A set of all registered subscribers.</span>
-<a id="__codelineno-0-431" name="__codelineno-0-431"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-432" name="__codelineno-0-432"></a>    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__thread_lock</span><span class="p">:</span>
-<a id="__codelineno-0-433" name="__codelineno-0-433"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-463">463</a></span>
+<span class="normal"><a href="#__codelineno-0-464">464</a></span>
+<span class="normal"><a href="#__codelineno-0-465">465</a></span>
+<span class="normal"><a href="#__codelineno-0-466">466</a></span>
+<span class="normal"><a href="#__codelineno-0-467">467</a></span>
+<span class="normal"><a href="#__codelineno-0-468">468</a></span>
+<span class="normal"><a href="#__codelineno-0-469">469</a></span>
+<span class="normal"><a href="#__codelineno-0-470">470</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-463" name="__codelineno-0-463"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_subscribers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]]:</span>
+<a id="__codelineno-0-464" name="__codelineno-0-464"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-465" name="__codelineno-0-465"></a><span class="sd">    Retrieve all registered subscribers.</span>
+<a id="__codelineno-0-466" name="__codelineno-0-466"></a>
+<a id="__codelineno-0-467" name="__codelineno-0-467"></a><span class="sd">    :return: A set of all registered subscribers.</span>
+<a id="__codelineno-0-468" name="__codelineno-0-468"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-469" name="__codelineno-0-469"></a>    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__thread_lock</span><span class="p">:</span>
+<a id="__codelineno-0-470" name="__codelineno-0-470"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -3577,21 +3577,21 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>pyventus/reactive/observables/observable.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-435">435</a></span>
-<span class="normal"><a href="#__codelineno-0-436">436</a></span>
-<span class="normal"><a href="#__codelineno-0-437">437</a></span>
-<span class="normal"><a href="#__codelineno-0-438">438</a></span>
-<span class="normal"><a href="#__codelineno-0-439">439</a></span>
-<span class="normal"><a href="#__codelineno-0-440">440</a></span>
-<span class="normal"><a href="#__codelineno-0-441">441</a></span>
-<span class="normal"><a href="#__codelineno-0-442">442</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-435" name="__codelineno-0-435"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_subscriber_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-<a id="__codelineno-0-436" name="__codelineno-0-436"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-437" name="__codelineno-0-437"></a><span class="sd">    Retrieve the number of registered subscribers.</span>
-<a id="__codelineno-0-438" name="__codelineno-0-438"></a>
-<a id="__codelineno-0-439" name="__codelineno-0-439"></a><span class="sd">    :return: The total count of subscribers in the observable.</span>
-<a id="__codelineno-0-440" name="__codelineno-0-440"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-441" name="__codelineno-0-441"></a>    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__thread_lock</span><span class="p">:</span>
-<a id="__codelineno-0-442" name="__codelineno-0-442"></a>        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-472">472</a></span>
+<span class="normal"><a href="#__codelineno-0-473">473</a></span>
+<span class="normal"><a href="#__codelineno-0-474">474</a></span>
+<span class="normal"><a href="#__codelineno-0-475">475</a></span>
+<span class="normal"><a href="#__codelineno-0-476">476</a></span>
+<span class="normal"><a href="#__codelineno-0-477">477</a></span>
+<span class="normal"><a href="#__codelineno-0-478">478</a></span>
+<span class="normal"><a href="#__codelineno-0-479">479</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-472" name="__codelineno-0-472"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_subscriber_count</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-0-473" name="__codelineno-0-473"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-474" name="__codelineno-0-474"></a><span class="sd">    Retrieve the number of registered subscribers.</span>
+<a id="__codelineno-0-475" name="__codelineno-0-475"></a>
+<a id="__codelineno-0-476" name="__codelineno-0-476"></a><span class="sd">    :return: The total count of subscribers in the observable.</span>
+<a id="__codelineno-0-477" name="__codelineno-0-477"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-478" name="__codelineno-0-478"></a>    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__thread_lock</span><span class="p">:</span>
+<a id="__codelineno-0-479" name="__codelineno-0-479"></a>        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -3668,25 +3668,25 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>pyventus/reactive/observables/observable.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-444">444</a></span>
-<span class="normal"><a href="#__codelineno-0-445">445</a></span>
-<span class="normal"><a href="#__codelineno-0-446">446</a></span>
-<span class="normal"><a href="#__codelineno-0-447">447</a></span>
-<span class="normal"><a href="#__codelineno-0-448">448</a></span>
-<span class="normal"><a href="#__codelineno-0-449">449</a></span>
-<span class="normal"><a href="#__codelineno-0-450">450</a></span>
-<span class="normal"><a href="#__codelineno-0-451">451</a></span>
-<span class="normal"><a href="#__codelineno-0-452">452</a></span>
-<span class="normal"><a href="#__codelineno-0-453">453</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-444" name="__codelineno-0-444"></a><span class="k">def</span><span class="w"> </span><span class="nf">contains_subscriber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<a id="__codelineno-0-445" name="__codelineno-0-445"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-446" name="__codelineno-0-446"></a><span class="sd">    Determine if the specified subscriber is present in the observable.</span>
-<a id="__codelineno-0-447" name="__codelineno-0-447"></a>
-<a id="__codelineno-0-448" name="__codelineno-0-448"></a><span class="sd">    :param subscriber: The subscriber to be checked.</span>
-<a id="__codelineno-0-449" name="__codelineno-0-449"></a><span class="sd">    :return: `True` if the subscriber is found; `False` otherwise.</span>
-<a id="__codelineno-0-450" name="__codelineno-0-450"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-451" name="__codelineno-0-451"></a>    <span class="n">valid_subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_valid_subscriber</span><span class="p">(</span><span class="n">subscriber</span><span class="p">)</span>
-<a id="__codelineno-0-452" name="__codelineno-0-452"></a>    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__thread_lock</span><span class="p">:</span>
-<a id="__codelineno-0-453" name="__codelineno-0-453"></a>        <span class="k">return</span> <span class="n">valid_subscriber</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-481">481</a></span>
+<span class="normal"><a href="#__codelineno-0-482">482</a></span>
+<span class="normal"><a href="#__codelineno-0-483">483</a></span>
+<span class="normal"><a href="#__codelineno-0-484">484</a></span>
+<span class="normal"><a href="#__codelineno-0-485">485</a></span>
+<span class="normal"><a href="#__codelineno-0-486">486</a></span>
+<span class="normal"><a href="#__codelineno-0-487">487</a></span>
+<span class="normal"><a href="#__codelineno-0-488">488</a></span>
+<span class="normal"><a href="#__codelineno-0-489">489</a></span>
+<span class="normal"><a href="#__codelineno-0-490">490</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-481" name="__codelineno-0-481"></a><span class="k">def</span><span class="w"> </span><span class="nf">contains_subscriber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-482" name="__codelineno-0-482"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-483" name="__codelineno-0-483"></a><span class="sd">    Determine if the specified subscriber is present in the observable.</span>
+<a id="__codelineno-0-484" name="__codelineno-0-484"></a>
+<a id="__codelineno-0-485" name="__codelineno-0-485"></a><span class="sd">    :param subscriber: The subscriber to be checked.</span>
+<a id="__codelineno-0-486" name="__codelineno-0-486"></a><span class="sd">    :return: `True` if the subscriber is found; `False` otherwise.</span>
+<a id="__codelineno-0-487" name="__codelineno-0-487"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-488" name="__codelineno-0-488"></a>    <span class="n">valid_subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_valid_subscriber</span><span class="p">(</span><span class="n">subscriber</span><span class="p">)</span>
+<a id="__codelineno-0-489" name="__codelineno-0-489"></a>    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__thread_lock</span><span class="p">:</span>
+<a id="__codelineno-0-490" name="__codelineno-0-490"></a>        <span class="k">return</span> <span class="n">valid_subscriber</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -3866,44 +3866,7 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>pyventus/reactive/observables/observable.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-470">470</a></span>
-<span class="normal"><a href="#__codelineno-0-471">471</a></span>
-<span class="normal"><a href="#__codelineno-0-472">472</a></span>
-<span class="normal"><a href="#__codelineno-0-473">473</a></span>
-<span class="normal"><a href="#__codelineno-0-474">474</a></span>
-<span class="normal"><a href="#__codelineno-0-475">475</a></span>
-<span class="normal"><a href="#__codelineno-0-476">476</a></span>
-<span class="normal"><a href="#__codelineno-0-477">477</a></span>
-<span class="normal"><a href="#__codelineno-0-478">478</a></span>
-<span class="normal"><a href="#__codelineno-0-479">479</a></span>
-<span class="normal"><a href="#__codelineno-0-480">480</a></span>
-<span class="normal"><a href="#__codelineno-0-481">481</a></span>
-<span class="normal"><a href="#__codelineno-0-482">482</a></span>
-<span class="normal"><a href="#__codelineno-0-483">483</a></span>
-<span class="normal"><a href="#__codelineno-0-484">484</a></span>
-<span class="normal"><a href="#__codelineno-0-485">485</a></span>
-<span class="normal"><a href="#__codelineno-0-486">486</a></span>
-<span class="normal"><a href="#__codelineno-0-487">487</a></span>
-<span class="normal"><a href="#__codelineno-0-488">488</a></span>
-<span class="normal"><a href="#__codelineno-0-489">489</a></span>
-<span class="normal"><a href="#__codelineno-0-490">490</a></span>
-<span class="normal"><a href="#__codelineno-0-491">491</a></span>
-<span class="normal"><a href="#__codelineno-0-492">492</a></span>
-<span class="normal"><a href="#__codelineno-0-493">493</a></span>
-<span class="normal"><a href="#__codelineno-0-494">494</a></span>
-<span class="normal"><a href="#__codelineno-0-495">495</a></span>
-<span class="normal"><a href="#__codelineno-0-496">496</a></span>
-<span class="normal"><a href="#__codelineno-0-497">497</a></span>
-<span class="normal"><a href="#__codelineno-0-498">498</a></span>
-<span class="normal"><a href="#__codelineno-0-499">499</a></span>
-<span class="normal"><a href="#__codelineno-0-500">500</a></span>
-<span class="normal"><a href="#__codelineno-0-501">501</a></span>
-<span class="normal"><a href="#__codelineno-0-502">502</a></span>
-<span class="normal"><a href="#__codelineno-0-503">503</a></span>
-<span class="normal"><a href="#__codelineno-0-504">504</a></span>
-<span class="normal"><a href="#__codelineno-0-505">505</a></span>
-<span class="normal"><a href="#__codelineno-0-506">506</a></span>
-<span class="normal"><a href="#__codelineno-0-507">507</a></span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-507">507</a></span>
 <span class="normal"><a href="#__codelineno-0-508">508</a></span>
 <span class="normal"><a href="#__codelineno-0-509">509</a></span>
 <span class="normal"><a href="#__codelineno-0-510">510</a></span>
@@ -3927,68 +3890,105 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 <span class="normal"><a href="#__codelineno-0-528">528</a></span>
 <span class="normal"><a href="#__codelineno-0-529">529</a></span>
 <span class="normal"><a href="#__codelineno-0-530">530</a></span>
-<span class="normal"><a href="#__codelineno-0-531">531</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-470" name="__codelineno-0-470"></a><span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span>
-<a id="__codelineno-0-471" name="__codelineno-0-471"></a>    <span class="bp">self</span><span class="p">,</span>
-<a id="__codelineno-0-472" name="__codelineno-0-472"></a>    <span class="n">next_callback</span><span class="p">:</span> <span class="n">NextCallbackType</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-473" name="__codelineno-0-473"></a>    <span class="n">error_callback</span><span class="p">:</span> <span class="n">ErrorCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-474" name="__codelineno-0-474"></a>    <span class="n">complete_callback</span><span class="p">:</span> <span class="n">CompleteCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-<a id="__codelineno-0-475" name="__codelineno-0-475"></a>    <span class="o">*</span><span class="p">,</span>
-<a id="__codelineno-0-476" name="__codelineno-0-476"></a>    <span class="n">force_async</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<a id="__codelineno-0-477" name="__codelineno-0-477"></a>    <span class="n">stateful_subctx</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-<a id="__codelineno-0-478" name="__codelineno-0-478"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]</span> <span class="o">|</span> <span class="s2">&quot;Observable.ObservableSubCtx[Self, _OutT]&quot;</span><span class="p">:</span>
-<a id="__codelineno-0-479" name="__codelineno-0-479"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-480" name="__codelineno-0-480"></a><span class="sd">    Subscribe the specified callbacks to the current `Observable`.</span>
-<a id="__codelineno-0-481" name="__codelineno-0-481"></a>
-<a id="__codelineno-0-482" name="__codelineno-0-482"></a><span class="sd">    This method can be utilized in three ways:</span>
-<a id="__codelineno-0-483" name="__codelineno-0-483"></a>
-<a id="__codelineno-0-484" name="__codelineno-0-484"></a><span class="sd">    -   **As a regular function:** Automatically creates and subscribes an observer</span>
-<a id="__codelineno-0-485" name="__codelineno-0-485"></a><span class="sd">        with the specified callbacks.</span>
-<a id="__codelineno-0-486" name="__codelineno-0-486"></a>
-<a id="__codelineno-0-487" name="__codelineno-0-487"></a><span class="sd">    -   **As a decorator:** Creates and subscribes an observer, using the decorated</span>
-<a id="__codelineno-0-488" name="__codelineno-0-488"></a><span class="sd">        callback as the next callback.</span>
-<a id="__codelineno-0-489" name="__codelineno-0-489"></a>
-<a id="__codelineno-0-490" name="__codelineno-0-490"></a><span class="sd">    -   **As a context manager:** Enables a step-by-step definition of the observer&#39;s</span>
-<a id="__codelineno-0-491" name="__codelineno-0-491"></a><span class="sd">        callbacks prior to subscription, which occurs immediately after exiting the context.</span>
-<a id="__codelineno-0-492" name="__codelineno-0-492"></a>
-<a id="__codelineno-0-493" name="__codelineno-0-493"></a><span class="sd">    :param next_callback: The callback to be executed when the observable emits a new value.</span>
-<a id="__codelineno-0-494" name="__codelineno-0-494"></a><span class="sd">    :param error_callback: The callback to be executed when the observable encounters an error.</span>
-<a id="__codelineno-0-495" name="__codelineno-0-495"></a><span class="sd">    :param complete_callback: The callback that will be executed when the observable has completed emitting values.</span>
-<a id="__codelineno-0-496" name="__codelineno-0-496"></a><span class="sd">    :param force_async: Determines whether to force all callbacks to run asynchronously.</span>
-<a id="__codelineno-0-497" name="__codelineno-0-497"></a><span class="sd">    :param stateful_subctx: A flag indicating whether the subscription context preserves its state (`stateful`)</span>
-<a id="__codelineno-0-498" name="__codelineno-0-498"></a><span class="sd">        or not (`stateless`) after exiting the subscription block. If `True`, the context retains its state,</span>
-<a id="__codelineno-0-499" name="__codelineno-0-499"></a><span class="sd">        allowing access to stored objects, including the `observable` and the `subscriber` object. If `False`,</span>
-<a id="__codelineno-0-500" name="__codelineno-0-500"></a><span class="sd">        the context is stateless, and the stored state is cleared upon exiting the subscription block to</span>
-<a id="__codelineno-0-501" name="__codelineno-0-501"></a><span class="sd">        prevent memory leaks. The term &#39;subctx&#39; refers to &#39;Subscription Context&#39;.</span>
-<a id="__codelineno-0-502" name="__codelineno-0-502"></a><span class="sd">    :return: A `Subscriber` if callbacks are provided; otherwise, an `ObservableSubCtx`.</span>
-<a id="__codelineno-0-503" name="__codelineno-0-503"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-504" name="__codelineno-0-504"></a>    <span class="k">if</span> <span class="n">next_callback</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">error_callback</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">complete_callback</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-505" name="__codelineno-0-505"></a>        <span class="c1"># If no callbacks are provided, create a subscription context for progressive definition.</span>
-<a id="__codelineno-0-506" name="__codelineno-0-506"></a>        <span class="k">return</span> <span class="n">Observable</span><span class="o">.</span><span class="n">ObservableSubCtx</span><span class="p">[</span><span class="n">Self</span><span class="p">,</span> <span class="n">_OutT</span><span class="p">](</span>
-<a id="__codelineno-0-507" name="__codelineno-0-507"></a>            <span class="n">observable</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
-<a id="__codelineno-0-508" name="__codelineno-0-508"></a>            <span class="n">force_async</span><span class="o">=</span><span class="n">force_async</span><span class="p">,</span>
-<a id="__codelineno-0-509" name="__codelineno-0-509"></a>            <span class="n">is_stateful</span><span class="o">=</span><span class="n">stateful_subctx</span><span class="p">,</span>
-<a id="__codelineno-0-510" name="__codelineno-0-510"></a>        <span class="p">)</span>
-<a id="__codelineno-0-511" name="__codelineno-0-511"></a>    <span class="k">else</span><span class="p">:</span>
-<a id="__codelineno-0-512" name="__codelineno-0-512"></a>        <span class="c1"># Create a subscriber with the provided callbacks.</span>
-<a id="__codelineno-0-513" name="__codelineno-0-513"></a>        <span class="n">subscriber</span> <span class="o">=</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">](</span>
-<a id="__codelineno-0-514" name="__codelineno-0-514"></a>            <span class="n">teardown_callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">remove_subscriber</span><span class="p">,</span>
-<a id="__codelineno-0-515" name="__codelineno-0-515"></a>            <span class="n">next_callback</span><span class="o">=</span><span class="n">next_callback</span><span class="p">,</span>
-<a id="__codelineno-0-516" name="__codelineno-0-516"></a>            <span class="n">error_callback</span><span class="o">=</span><span class="n">error_callback</span><span class="p">,</span>
-<a id="__codelineno-0-517" name="__codelineno-0-517"></a>            <span class="n">complete_callback</span><span class="o">=</span><span class="n">complete_callback</span><span class="p">,</span>
-<a id="__codelineno-0-518" name="__codelineno-0-518"></a>            <span class="n">force_async</span><span class="o">=</span><span class="n">force_async</span><span class="p">,</span>
-<a id="__codelineno-0-519" name="__codelineno-0-519"></a>        <span class="p">)</span>
+<span class="normal"><a href="#__codelineno-0-531">531</a></span>
+<span class="normal"><a href="#__codelineno-0-532">532</a></span>
+<span class="normal"><a href="#__codelineno-0-533">533</a></span>
+<span class="normal"><a href="#__codelineno-0-534">534</a></span>
+<span class="normal"><a href="#__codelineno-0-535">535</a></span>
+<span class="normal"><a href="#__codelineno-0-536">536</a></span>
+<span class="normal"><a href="#__codelineno-0-537">537</a></span>
+<span class="normal"><a href="#__codelineno-0-538">538</a></span>
+<span class="normal"><a href="#__codelineno-0-539">539</a></span>
+<span class="normal"><a href="#__codelineno-0-540">540</a></span>
+<span class="normal"><a href="#__codelineno-0-541">541</a></span>
+<span class="normal"><a href="#__codelineno-0-542">542</a></span>
+<span class="normal"><a href="#__codelineno-0-543">543</a></span>
+<span class="normal"><a href="#__codelineno-0-544">544</a></span>
+<span class="normal"><a href="#__codelineno-0-545">545</a></span>
+<span class="normal"><a href="#__codelineno-0-546">546</a></span>
+<span class="normal"><a href="#__codelineno-0-547">547</a></span>
+<span class="normal"><a href="#__codelineno-0-548">548</a></span>
+<span class="normal"><a href="#__codelineno-0-549">549</a></span>
+<span class="normal"><a href="#__codelineno-0-550">550</a></span>
+<span class="normal"><a href="#__codelineno-0-551">551</a></span>
+<span class="normal"><a href="#__codelineno-0-552">552</a></span>
+<span class="normal"><a href="#__codelineno-0-553">553</a></span>
+<span class="normal"><a href="#__codelineno-0-554">554</a></span>
+<span class="normal"><a href="#__codelineno-0-555">555</a></span>
+<span class="normal"><a href="#__codelineno-0-556">556</a></span>
+<span class="normal"><a href="#__codelineno-0-557">557</a></span>
+<span class="normal"><a href="#__codelineno-0-558">558</a></span>
+<span class="normal"><a href="#__codelineno-0-559">559</a></span>
+<span class="normal"><a href="#__codelineno-0-560">560</a></span>
+<span class="normal"><a href="#__codelineno-0-561">561</a></span>
+<span class="normal"><a href="#__codelineno-0-562">562</a></span>
+<span class="normal"><a href="#__codelineno-0-563">563</a></span>
+<span class="normal"><a href="#__codelineno-0-564">564</a></span>
+<span class="normal"><a href="#__codelineno-0-565">565</a></span>
+<span class="normal"><a href="#__codelineno-0-566">566</a></span>
+<span class="normal"><a href="#__codelineno-0-567">567</a></span>
+<span class="normal"><a href="#__codelineno-0-568">568</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-507" name="__codelineno-0-507"></a><span class="k">def</span><span class="w"> </span><span class="nf">subscribe</span><span class="p">(</span>
+<a id="__codelineno-0-508" name="__codelineno-0-508"></a>    <span class="bp">self</span><span class="p">,</span>
+<a id="__codelineno-0-509" name="__codelineno-0-509"></a>    <span class="n">next_callback</span><span class="p">:</span> <span class="n">NextCallbackType</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-510" name="__codelineno-0-510"></a>    <span class="n">error_callback</span><span class="p">:</span> <span class="n">ErrorCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-511" name="__codelineno-0-511"></a>    <span class="n">complete_callback</span><span class="p">:</span> <span class="n">CompleteCallbackType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<a id="__codelineno-0-512" name="__codelineno-0-512"></a>    <span class="o">*</span><span class="p">,</span>
+<a id="__codelineno-0-513" name="__codelineno-0-513"></a>    <span class="n">force_async</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-0-514" name="__codelineno-0-514"></a>    <span class="n">stateful_subctx</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+<a id="__codelineno-0-515" name="__codelineno-0-515"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]</span> <span class="o">|</span> <span class="s2">&quot;Observable.ObservableSubCtx[Self, _OutT]&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-516" name="__codelineno-0-516"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-517" name="__codelineno-0-517"></a><span class="sd">    Subscribe the specified callbacks to the current `Observable`.</span>
+<a id="__codelineno-0-518" name="__codelineno-0-518"></a>
+<a id="__codelineno-0-519" name="__codelineno-0-519"></a><span class="sd">    This method can be utilized in three ways:</span>
 <a id="__codelineno-0-520" name="__codelineno-0-520"></a>
-<a id="__codelineno-0-521" name="__codelineno-0-521"></a>        <span class="c1"># Acquire lock to ensure thread safety.</span>
-<a id="__codelineno-0-522" name="__codelineno-0-522"></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__thread_lock</span><span class="p">:</span>
-<a id="__codelineno-0-523" name="__codelineno-0-523"></a>            <span class="c1"># Add the subscriber to the observable.</span>
-<a id="__codelineno-0-524" name="__codelineno-0-524"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">subscriber</span><span class="p">)</span>
-<a id="__codelineno-0-525" name="__codelineno-0-525"></a>
-<a id="__codelineno-0-526" name="__codelineno-0-526"></a>        <span class="c1"># Log the subscription if debug is enabled</span>
-<a id="__codelineno-0-527" name="__codelineno-0-527"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>
-<a id="__codelineno-0-528" name="__codelineno-0-528"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;Subscribed:&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subscriber</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-521" name="__codelineno-0-521"></a><span class="sd">    -   **As a regular function:** Automatically creates and subscribes an observer</span>
+<a id="__codelineno-0-522" name="__codelineno-0-522"></a><span class="sd">        with the specified callbacks.</span>
+<a id="__codelineno-0-523" name="__codelineno-0-523"></a>
+<a id="__codelineno-0-524" name="__codelineno-0-524"></a><span class="sd">    -   **As a decorator:** Creates and subscribes an observer, using the decorated</span>
+<a id="__codelineno-0-525" name="__codelineno-0-525"></a><span class="sd">        callback as the next callback.</span>
+<a id="__codelineno-0-526" name="__codelineno-0-526"></a>
+<a id="__codelineno-0-527" name="__codelineno-0-527"></a><span class="sd">    -   **As a context manager:** Enables a step-by-step definition of the observer&#39;s</span>
+<a id="__codelineno-0-528" name="__codelineno-0-528"></a><span class="sd">        callbacks prior to subscription, which occurs immediately after exiting the context.</span>
 <a id="__codelineno-0-529" name="__codelineno-0-529"></a>
-<a id="__codelineno-0-530" name="__codelineno-0-530"></a>        <span class="c1"># Return the subscriber.</span>
-<a id="__codelineno-0-531" name="__codelineno-0-531"></a>        <span class="k">return</span> <span class="n">subscriber</span>
+<a id="__codelineno-0-530" name="__codelineno-0-530"></a><span class="sd">    :param next_callback: The callback to be executed when the observable emits a new value.</span>
+<a id="__codelineno-0-531" name="__codelineno-0-531"></a><span class="sd">    :param error_callback: The callback to be executed when the observable encounters an error.</span>
+<a id="__codelineno-0-532" name="__codelineno-0-532"></a><span class="sd">    :param complete_callback: The callback that will be executed when the observable has completed emitting values.</span>
+<a id="__codelineno-0-533" name="__codelineno-0-533"></a><span class="sd">    :param force_async: Determines whether to force all callbacks to run asynchronously.</span>
+<a id="__codelineno-0-534" name="__codelineno-0-534"></a><span class="sd">    :param stateful_subctx: A flag indicating whether the subscription context preserves its state (`stateful`)</span>
+<a id="__codelineno-0-535" name="__codelineno-0-535"></a><span class="sd">        or not (`stateless`) after exiting the subscription block. If `True`, the context retains its state,</span>
+<a id="__codelineno-0-536" name="__codelineno-0-536"></a><span class="sd">        allowing access to stored objects, including the `observable` and the `subscriber` object. If `False`,</span>
+<a id="__codelineno-0-537" name="__codelineno-0-537"></a><span class="sd">        the context is stateless, and the stored state is cleared upon exiting the subscription block to</span>
+<a id="__codelineno-0-538" name="__codelineno-0-538"></a><span class="sd">        prevent memory leaks. The term &#39;subctx&#39; refers to &#39;Subscription Context&#39;.</span>
+<a id="__codelineno-0-539" name="__codelineno-0-539"></a><span class="sd">    :return: A `Subscriber` if callbacks are provided; otherwise, an `ObservableSubCtx`.</span>
+<a id="__codelineno-0-540" name="__codelineno-0-540"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-541" name="__codelineno-0-541"></a>    <span class="k">if</span> <span class="n">next_callback</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">error_callback</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">complete_callback</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-0-542" name="__codelineno-0-542"></a>        <span class="c1"># If no callbacks are provided, create a subscription context for progressive definition.</span>
+<a id="__codelineno-0-543" name="__codelineno-0-543"></a>        <span class="k">return</span> <span class="n">Observable</span><span class="o">.</span><span class="n">ObservableSubCtx</span><span class="p">[</span><span class="n">Self</span><span class="p">,</span> <span class="n">_OutT</span><span class="p">](</span>
+<a id="__codelineno-0-544" name="__codelineno-0-544"></a>            <span class="n">observable</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+<a id="__codelineno-0-545" name="__codelineno-0-545"></a>            <span class="n">force_async</span><span class="o">=</span><span class="n">force_async</span><span class="p">,</span>
+<a id="__codelineno-0-546" name="__codelineno-0-546"></a>            <span class="n">is_stateful</span><span class="o">=</span><span class="n">stateful_subctx</span><span class="p">,</span>
+<a id="__codelineno-0-547" name="__codelineno-0-547"></a>        <span class="p">)</span>
+<a id="__codelineno-0-548" name="__codelineno-0-548"></a>    <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-549" name="__codelineno-0-549"></a>        <span class="c1"># Create a subscriber with the provided callbacks.</span>
+<a id="__codelineno-0-550" name="__codelineno-0-550"></a>        <span class="n">subscriber</span> <span class="o">=</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">](</span>
+<a id="__codelineno-0-551" name="__codelineno-0-551"></a>            <span class="n">teardown_callback</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">remove_subscriber</span><span class="p">,</span>
+<a id="__codelineno-0-552" name="__codelineno-0-552"></a>            <span class="n">next_callback</span><span class="o">=</span><span class="n">next_callback</span><span class="p">,</span>
+<a id="__codelineno-0-553" name="__codelineno-0-553"></a>            <span class="n">error_callback</span><span class="o">=</span><span class="n">error_callback</span><span class="p">,</span>
+<a id="__codelineno-0-554" name="__codelineno-0-554"></a>            <span class="n">complete_callback</span><span class="o">=</span><span class="n">complete_callback</span><span class="p">,</span>
+<a id="__codelineno-0-555" name="__codelineno-0-555"></a>            <span class="n">force_async</span><span class="o">=</span><span class="n">force_async</span><span class="p">,</span>
+<a id="__codelineno-0-556" name="__codelineno-0-556"></a>        <span class="p">)</span>
+<a id="__codelineno-0-557" name="__codelineno-0-557"></a>
+<a id="__codelineno-0-558" name="__codelineno-0-558"></a>        <span class="c1"># Acquire lock to ensure thread safety.</span>
+<a id="__codelineno-0-559" name="__codelineno-0-559"></a>        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__thread_lock</span><span class="p">:</span>
+<a id="__codelineno-0-560" name="__codelineno-0-560"></a>            <span class="c1"># Add the subscriber to the observable.</span>
+<a id="__codelineno-0-561" name="__codelineno-0-561"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">subscriber</span><span class="p">)</span>
+<a id="__codelineno-0-562" name="__codelineno-0-562"></a>
+<a id="__codelineno-0-563" name="__codelineno-0-563"></a>        <span class="c1"># Log the subscription if debug is enabled</span>
+<a id="__codelineno-0-564" name="__codelineno-0-564"></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>
+<a id="__codelineno-0-565" name="__codelineno-0-565"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;Subscribed:&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">subscriber</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-566" name="__codelineno-0-566"></a>
+<a id="__codelineno-0-567" name="__codelineno-0-567"></a>        <span class="c1"># Return the subscriber.</span>
+<a id="__codelineno-0-568" name="__codelineno-0-568"></a>        <span class="k">return</span> <span class="n">subscriber</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -4065,55 +4065,55 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>pyventus/reactive/observables/observable.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-533">533</a></span>
-<span class="normal"><a href="#__codelineno-0-534">534</a></span>
-<span class="normal"><a href="#__codelineno-0-535">535</a></span>
-<span class="normal"><a href="#__codelineno-0-536">536</a></span>
-<span class="normal"><a href="#__codelineno-0-537">537</a></span>
-<span class="normal"><a href="#__codelineno-0-538">538</a></span>
-<span class="normal"><a href="#__codelineno-0-539">539</a></span>
-<span class="normal"><a href="#__codelineno-0-540">540</a></span>
-<span class="normal"><a href="#__codelineno-0-541">541</a></span>
-<span class="normal"><a href="#__codelineno-0-542">542</a></span>
-<span class="normal"><a href="#__codelineno-0-543">543</a></span>
-<span class="normal"><a href="#__codelineno-0-544">544</a></span>
-<span class="normal"><a href="#__codelineno-0-545">545</a></span>
-<span class="normal"><a href="#__codelineno-0-546">546</a></span>
-<span class="normal"><a href="#__codelineno-0-547">547</a></span>
-<span class="normal"><a href="#__codelineno-0-548">548</a></span>
-<span class="normal"><a href="#__codelineno-0-549">549</a></span>
-<span class="normal"><a href="#__codelineno-0-550">550</a></span>
-<span class="normal"><a href="#__codelineno-0-551">551</a></span>
-<span class="normal"><a href="#__codelineno-0-552">552</a></span>
-<span class="normal"><a href="#__codelineno-0-553">553</a></span>
-<span class="normal"><a href="#__codelineno-0-554">554</a></span>
-<span class="normal"><a href="#__codelineno-0-555">555</a></span>
-<span class="normal"><a href="#__codelineno-0-556">556</a></span>
-<span class="normal"><a href="#__codelineno-0-557">557</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-533" name="__codelineno-0-533"></a><span class="k">def</span><span class="w"> </span><span class="nf">remove_subscriber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<a id="__codelineno-0-534" name="__codelineno-0-534"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-535" name="__codelineno-0-535"></a><span class="sd">    Remove the specified subscriber from the observable.</span>
-<a id="__codelineno-0-536" name="__codelineno-0-536"></a>
-<a id="__codelineno-0-537" name="__codelineno-0-537"></a><span class="sd">    :param subscriber: The subscriber to be removed from the observable.</span>
-<a id="__codelineno-0-538" name="__codelineno-0-538"></a><span class="sd">    :return: `True` if the subscriber was successfully removed; `False` if</span>
-<a id="__codelineno-0-539" name="__codelineno-0-539"></a><span class="sd">        the subscriber was not found in the observable.</span>
-<a id="__codelineno-0-540" name="__codelineno-0-540"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-541" name="__codelineno-0-541"></a>    <span class="c1"># Get the valid subscriber instance.</span>
-<a id="__codelineno-0-542" name="__codelineno-0-542"></a>    <span class="n">valid_subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_valid_subscriber</span><span class="p">(</span><span class="n">subscriber</span><span class="p">)</span>
-<a id="__codelineno-0-543" name="__codelineno-0-543"></a>
-<a id="__codelineno-0-544" name="__codelineno-0-544"></a>    <span class="c1"># Acquire lock to ensure thread safety.</span>
-<a id="__codelineno-0-545" name="__codelineno-0-545"></a>    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__thread_lock</span><span class="p">:</span>
-<a id="__codelineno-0-546" name="__codelineno-0-546"></a>        <span class="c1"># Check if the subscriber is registered; return False if not.</span>
-<a id="__codelineno-0-547" name="__codelineno-0-547"></a>        <span class="k">if</span> <span class="n">valid_subscriber</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span><span class="p">:</span>
-<a id="__codelineno-0-548" name="__codelineno-0-548"></a>            <span class="k">return</span> <span class="kc">False</span>
-<a id="__codelineno-0-549" name="__codelineno-0-549"></a>
-<a id="__codelineno-0-550" name="__codelineno-0-550"></a>        <span class="c1"># Remove the subscriber from the observable.</span>
-<a id="__codelineno-0-551" name="__codelineno-0-551"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">valid_subscriber</span><span class="p">)</span>
-<a id="__codelineno-0-552" name="__codelineno-0-552"></a>
-<a id="__codelineno-0-553" name="__codelineno-0-553"></a>    <span class="c1"># Log the removal if the debug mode is enabled</span>
-<a id="__codelineno-0-554" name="__codelineno-0-554"></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>
-<a id="__codelineno-0-555" name="__codelineno-0-555"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;Removed:&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">valid_subscriber</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-556" name="__codelineno-0-556"></a>
-<a id="__codelineno-0-557" name="__codelineno-0-557"></a>    <span class="k">return</span> <span class="kc">True</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-570">570</a></span>
+<span class="normal"><a href="#__codelineno-0-571">571</a></span>
+<span class="normal"><a href="#__codelineno-0-572">572</a></span>
+<span class="normal"><a href="#__codelineno-0-573">573</a></span>
+<span class="normal"><a href="#__codelineno-0-574">574</a></span>
+<span class="normal"><a href="#__codelineno-0-575">575</a></span>
+<span class="normal"><a href="#__codelineno-0-576">576</a></span>
+<span class="normal"><a href="#__codelineno-0-577">577</a></span>
+<span class="normal"><a href="#__codelineno-0-578">578</a></span>
+<span class="normal"><a href="#__codelineno-0-579">579</a></span>
+<span class="normal"><a href="#__codelineno-0-580">580</a></span>
+<span class="normal"><a href="#__codelineno-0-581">581</a></span>
+<span class="normal"><a href="#__codelineno-0-582">582</a></span>
+<span class="normal"><a href="#__codelineno-0-583">583</a></span>
+<span class="normal"><a href="#__codelineno-0-584">584</a></span>
+<span class="normal"><a href="#__codelineno-0-585">585</a></span>
+<span class="normal"><a href="#__codelineno-0-586">586</a></span>
+<span class="normal"><a href="#__codelineno-0-587">587</a></span>
+<span class="normal"><a href="#__codelineno-0-588">588</a></span>
+<span class="normal"><a href="#__codelineno-0-589">589</a></span>
+<span class="normal"><a href="#__codelineno-0-590">590</a></span>
+<span class="normal"><a href="#__codelineno-0-591">591</a></span>
+<span class="normal"><a href="#__codelineno-0-592">592</a></span>
+<span class="normal"><a href="#__codelineno-0-593">593</a></span>
+<span class="normal"><a href="#__codelineno-0-594">594</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-570" name="__codelineno-0-570"></a><span class="k">def</span><span class="w"> </span><span class="nf">remove_subscriber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-571" name="__codelineno-0-571"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-572" name="__codelineno-0-572"></a><span class="sd">    Remove the specified subscriber from the observable.</span>
+<a id="__codelineno-0-573" name="__codelineno-0-573"></a>
+<a id="__codelineno-0-574" name="__codelineno-0-574"></a><span class="sd">    :param subscriber: The subscriber to be removed from the observable.</span>
+<a id="__codelineno-0-575" name="__codelineno-0-575"></a><span class="sd">    :return: `True` if the subscriber was successfully removed; `False` if</span>
+<a id="__codelineno-0-576" name="__codelineno-0-576"></a><span class="sd">        the subscriber was not found in the observable.</span>
+<a id="__codelineno-0-577" name="__codelineno-0-577"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-578" name="__codelineno-0-578"></a>    <span class="c1"># Get the valid subscriber instance.</span>
+<a id="__codelineno-0-579" name="__codelineno-0-579"></a>    <span class="n">valid_subscriber</span><span class="p">:</span> <span class="n">Subscriber</span><span class="p">[</span><span class="n">_OutT</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_valid_subscriber</span><span class="p">(</span><span class="n">subscriber</span><span class="p">)</span>
+<a id="__codelineno-0-580" name="__codelineno-0-580"></a>
+<a id="__codelineno-0-581" name="__codelineno-0-581"></a>    <span class="c1"># Acquire lock to ensure thread safety.</span>
+<a id="__codelineno-0-582" name="__codelineno-0-582"></a>    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__thread_lock</span><span class="p">:</span>
+<a id="__codelineno-0-583" name="__codelineno-0-583"></a>        <span class="c1"># Check if the subscriber is registered; return False if not.</span>
+<a id="__codelineno-0-584" name="__codelineno-0-584"></a>        <span class="k">if</span> <span class="n">valid_subscriber</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span><span class="p">:</span>
+<a id="__codelineno-0-585" name="__codelineno-0-585"></a>            <span class="k">return</span> <span class="kc">False</span>
+<a id="__codelineno-0-586" name="__codelineno-0-586"></a>
+<a id="__codelineno-0-587" name="__codelineno-0-587"></a>        <span class="c1"># Remove the subscriber from the observable.</span>
+<a id="__codelineno-0-588" name="__codelineno-0-588"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">valid_subscriber</span><span class="p">)</span>
+<a id="__codelineno-0-589" name="__codelineno-0-589"></a>
+<a id="__codelineno-0-590" name="__codelineno-0-590"></a>    <span class="c1"># Log the removal if the debug mode is enabled</span>
+<a id="__codelineno-0-591" name="__codelineno-0-591"></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>
+<a id="__codelineno-0-592" name="__codelineno-0-592"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;Removed:&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">valid_subscriber</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-593" name="__codelineno-0-593"></a>
+<a id="__codelineno-0-594" name="__codelineno-0-594"></a>    <span class="k">return</span> <span class="kc">True</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -4162,45 +4162,45 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>pyventus/reactive/observables/observable.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-559">559</a></span>
-<span class="normal"><a href="#__codelineno-0-560">560</a></span>
-<span class="normal"><a href="#__codelineno-0-561">561</a></span>
-<span class="normal"><a href="#__codelineno-0-562">562</a></span>
-<span class="normal"><a href="#__codelineno-0-563">563</a></span>
-<span class="normal"><a href="#__codelineno-0-564">564</a></span>
-<span class="normal"><a href="#__codelineno-0-565">565</a></span>
-<span class="normal"><a href="#__codelineno-0-566">566</a></span>
-<span class="normal"><a href="#__codelineno-0-567">567</a></span>
-<span class="normal"><a href="#__codelineno-0-568">568</a></span>
-<span class="normal"><a href="#__codelineno-0-569">569</a></span>
-<span class="normal"><a href="#__codelineno-0-570">570</a></span>
-<span class="normal"><a href="#__codelineno-0-571">571</a></span>
-<span class="normal"><a href="#__codelineno-0-572">572</a></span>
-<span class="normal"><a href="#__codelineno-0-573">573</a></span>
-<span class="normal"><a href="#__codelineno-0-574">574</a></span>
-<span class="normal"><a href="#__codelineno-0-575">575</a></span>
-<span class="normal"><a href="#__codelineno-0-576">576</a></span>
-<span class="normal"><a href="#__codelineno-0-577">577</a></span>
-<span class="normal"><a href="#__codelineno-0-578">578</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-559" name="__codelineno-0-559"></a><span class="k">def</span><span class="w"> </span><span class="nf">remove_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<a id="__codelineno-0-560" name="__codelineno-0-560"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-561" name="__codelineno-0-561"></a><span class="sd">    Remove all subscribers from the observable.</span>
-<a id="__codelineno-0-562" name="__codelineno-0-562"></a>
-<a id="__codelineno-0-563" name="__codelineno-0-563"></a><span class="sd">    :return: `True` if the observable was successfully cleared; `False`</span>
-<a id="__codelineno-0-564" name="__codelineno-0-564"></a><span class="sd">        if the observable was already empty.</span>
-<a id="__codelineno-0-565" name="__codelineno-0-565"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-566" name="__codelineno-0-566"></a>    <span class="c1"># Acquire lock to ensure thread safety</span>
-<a id="__codelineno-0-567" name="__codelineno-0-567"></a>    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__thread_lock</span><span class="p">:</span>
-<a id="__codelineno-0-568" name="__codelineno-0-568"></a>        <span class="c1"># Check if the observable is already empty</span>
-<a id="__codelineno-0-569" name="__codelineno-0-569"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span><span class="p">:</span>
-<a id="__codelineno-0-570" name="__codelineno-0-570"></a>            <span class="k">return</span> <span class="kc">False</span>
-<a id="__codelineno-0-571" name="__codelineno-0-571"></a>
-<a id="__codelineno-0-572" name="__codelineno-0-572"></a>        <span class="c1"># Clear the observable</span>
-<a id="__codelineno-0-573" name="__codelineno-0-573"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-<a id="__codelineno-0-574" name="__codelineno-0-574"></a>
-<a id="__codelineno-0-575" name="__codelineno-0-575"></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>
-<a id="__codelineno-0-576" name="__codelineno-0-576"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;Removed:&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;All subscribers.&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-577" name="__codelineno-0-577"></a>
-<a id="__codelineno-0-578" name="__codelineno-0-578"></a>    <span class="k">return</span> <span class="kc">True</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-596">596</a></span>
+<span class="normal"><a href="#__codelineno-0-597">597</a></span>
+<span class="normal"><a href="#__codelineno-0-598">598</a></span>
+<span class="normal"><a href="#__codelineno-0-599">599</a></span>
+<span class="normal"><a href="#__codelineno-0-600">600</a></span>
+<span class="normal"><a href="#__codelineno-0-601">601</a></span>
+<span class="normal"><a href="#__codelineno-0-602">602</a></span>
+<span class="normal"><a href="#__codelineno-0-603">603</a></span>
+<span class="normal"><a href="#__codelineno-0-604">604</a></span>
+<span class="normal"><a href="#__codelineno-0-605">605</a></span>
+<span class="normal"><a href="#__codelineno-0-606">606</a></span>
+<span class="normal"><a href="#__codelineno-0-607">607</a></span>
+<span class="normal"><a href="#__codelineno-0-608">608</a></span>
+<span class="normal"><a href="#__codelineno-0-609">609</a></span>
+<span class="normal"><a href="#__codelineno-0-610">610</a></span>
+<span class="normal"><a href="#__codelineno-0-611">611</a></span>
+<span class="normal"><a href="#__codelineno-0-612">612</a></span>
+<span class="normal"><a href="#__codelineno-0-613">613</a></span>
+<span class="normal"><a href="#__codelineno-0-614">614</a></span>
+<span class="normal"><a href="#__codelineno-0-615">615</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-596" name="__codelineno-0-596"></a><span class="k">def</span><span class="w"> </span><span class="nf">remove_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<a id="__codelineno-0-597" name="__codelineno-0-597"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-0-598" name="__codelineno-0-598"></a><span class="sd">    Remove all subscribers from the observable.</span>
+<a id="__codelineno-0-599" name="__codelineno-0-599"></a>
+<a id="__codelineno-0-600" name="__codelineno-0-600"></a><span class="sd">    :return: `True` if the observable was successfully cleared; `False`</span>
+<a id="__codelineno-0-601" name="__codelineno-0-601"></a><span class="sd">        if the observable was already empty.</span>
+<a id="__codelineno-0-602" name="__codelineno-0-602"></a><span class="sd">    &quot;&quot;&quot;</span>
+<a id="__codelineno-0-603" name="__codelineno-0-603"></a>    <span class="c1"># Acquire lock to ensure thread safety</span>
+<a id="__codelineno-0-604" name="__codelineno-0-604"></a>    <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">__thread_lock</span><span class="p">:</span>
+<a id="__codelineno-0-605" name="__codelineno-0-605"></a>        <span class="c1"># Check if the observable is already empty</span>
+<a id="__codelineno-0-606" name="__codelineno-0-606"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span><span class="p">:</span>
+<a id="__codelineno-0-607" name="__codelineno-0-607"></a>            <span class="k">return</span> <span class="kc">False</span>
+<a id="__codelineno-0-608" name="__codelineno-0-608"></a>
+<a id="__codelineno-0-609" name="__codelineno-0-609"></a>        <span class="c1"># Clear the observable</span>
+<a id="__codelineno-0-610" name="__codelineno-0-610"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__subscribers</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+<a id="__codelineno-0-611" name="__codelineno-0-611"></a>
+<a id="__codelineno-0-612" name="__codelineno-0-612"></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug_enabled</span><span class="p">:</span>
+<a id="__codelineno-0-613" name="__codelineno-0-613"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">action</span><span class="o">=</span><span class="s2">&quot;Removed:&quot;</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="s2">&quot;All subscribers.&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-614" name="__codelineno-0-614"></a>
+<a id="__codelineno-0-615" name="__codelineno-0-615"></a>    <span class="k">return</span> <span class="kc">True</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>

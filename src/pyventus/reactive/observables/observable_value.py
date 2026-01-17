@@ -1,7 +1,7 @@
 from collections.abc import Awaitable, Callable
-from typing import Generic, TypeAlias, TypeVar, final, overload
+from typing import Generic, TypeAlias, TypeVar, final
 
-from typing_extensions import override
+from typing_extensions import overload, override
 
 from ...core.exceptions import PyventusException
 from ...core.processing.asyncio.asyncio_processing_service import AsyncIOProcessingService

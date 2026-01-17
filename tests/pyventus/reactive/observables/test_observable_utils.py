@@ -1,6 +1,7 @@
+from typing import Any
+
 import pytest
 from pyventus.reactive import ObservableTask, as_observable_task
-from typing_extensions import Any
 
 from ....fixtures import CallableMock
 from ....utils import get_private_attr

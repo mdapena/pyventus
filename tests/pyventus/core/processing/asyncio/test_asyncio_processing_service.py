@@ -346,5 +346,48 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
     async def test_ordered_submissions_in_async_ctx(
         self, force_async: bool | None, enforce_submission_order: bool | None
     ) -> None:
-        with self.run_ordered_submission_tests(force_async, enforce_submission_order) as procesing_service:
-            await procesing_service.wait_for_tasks()
+        with self.run_ordered_submission_tests(force_async, enforce_submission_order) as processing_service:
+            await processing_service.wait_for_tasks()
+
+    # =================================
+    # Test Cases for all_tasks method
+    # =================================
+
+    async def test_all_tasks_method(self) -> None:
+        # Arrange
+        tasks_lock: Lock = Lock()
+
+        def simulate_task() -> None:
+            with tasks_lock:
+                time.sleep(0.0005)
+
+        processing_service1: AsyncIOProcessingService = AsyncIOProcessingService(force_async=True)
+        processing_service2: AsyncIOProcessingService = AsyncIOProcessingService(force_async=True)
+        processing_service3: AsyncIOProcessingService = AsyncIOProcessingService(force_async=True)
+
+        # Act/Assert
+        assert processing_service1.task_count == processing_service2.task_count == processing_service3.task_count == 0
+        assert len(AsyncIOProcessingService.all_tasks()) == 0
+
+        # Act/Assert
+        processing_service1.submit(simulate_task)
+        assert processing_service1.task_count == 1
+        assert processing_service2.task_count == processing_service3.task_count == 0
+        assert len(AsyncIOProcessingService.all_tasks()) == 1
+
+        # Act/Assert
+        processing_service2.submit(simulate_task)
+        processing_service3.submit(simulate_task)
+        assert processing_service1.task_count == processing_service2.task_count == processing_service3.task_count == 1
+        assert len(AsyncIOProcessingService.all_tasks()) == 3
+
+        # Act/Assert
+        await processing_service1.wait_for_tasks()
+        assert processing_service1.task_count == 0
+        assert processing_service2.task_count == processing_service3.task_count == 1
+        assert len(AsyncIOProcessingService.all_tasks()) == 2
+
+        # Act/Assert
+        await asyncio.gather(*AsyncIOProcessingService.all_tasks())
+        assert processing_service1.task_count == processing_service2.task_count == processing_service3.task_count == 0
+        assert len(AsyncIOProcessingService.all_tasks()) == 0

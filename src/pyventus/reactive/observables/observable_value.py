@@ -137,8 +137,19 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
                     await validator.execute(value)
 
             # Acquire lock to ensure thread safety.
-            # Update the current value and reset the exception.
             with self._thread_lock:
+                # Log value changes if debug mode is enabled.
+                if self._logger.debug_enabled:
+                    self._logger.debug(
+                        action="Updating Value:",
+                        msg=f"{self.__value!r} %(levelcolor)s➝ %(defaultcolor)s {value!r}.",
+                    )
+                    self._logger.debug(
+                        action="Updating Error:",
+                        msg=f"{self.__exception!r} %(levelcolor)s➝ %(defaultcolor)s None.",
+                    )
+
+                # Update the current value and reset the exception.
                 self.__value = value
                 self.__exception = None
 
@@ -146,8 +157,19 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
             await self._emit_next(value, subscribers)
         except Exception as exception:
             # Acquire lock to ensure thread safety.
-            # Store the current value and the raised exception.
             with self._thread_lock:
+                # Log value changes if debug mode is enabled.
+                if self._logger.debug_enabled:
+                    self._logger.debug(
+                        action="Updating Value:",
+                        msg=f"{self.__value!r} %(levelcolor)s➝ %(defaultcolor)s {value!r}.",
+                    )
+                    self._logger.debug(
+                        action="Updating Error:",
+                        msg=f"{self.__exception!r} %(levelcolor)s➝ %(defaultcolor)s {exception!r}.",
+                    )
+
+                # Store the current value and the raised exception.
                 self.__value = value
                 self.__exception = exception
 
@@ -163,8 +185,20 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
         :param subscribers: The collection of subscribers to be notified of the value reset.
         :return: None.
         """
-        # Acquire a lock to ensure thread safety.
+        # Acquire lock to ensure thread safety.
         with self._thread_lock:
+            # Log value changes if debug mode is enabled.
+            if self._logger.debug_enabled:
+                self._logger.debug(
+                    action="Clearing Value:",
+                    msg=f"{self.__value!r} %(levelcolor)s➝ %(defaultcolor)s {self.__seed!r}.",
+                )
+                self._logger.debug(
+                    action="Clearing Error:",
+                    msg=f"{self.__exception!r} %(levelcolor)s➝ %(defaultcolor)s None.",
+                )
+
+            # Reset the value and exception to their initial state.
             self.__value = self.__seed
             self.__exception = None
 
@@ -182,6 +216,10 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
         with self._thread_lock:
             value: _OutT = self.__value
             exception: Exception | None = self.__exception
+
+        # Log the number of subscribers to prime if debug mode is enabled.
+        if self._logger.debug_enabled:
+            self._logger.debug(action="Priming Subscribers:", msg=f"{len(subscribers)} total.")
 
         # Notify the subscribers accordingly.
         if exception is None:

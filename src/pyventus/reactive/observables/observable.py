@@ -1,8 +1,9 @@
 from abc import ABC
 from asyncio import gather
+from collections.abc import Iterable
 from sys import gettrace
 from threading import Lock
-from typing import Generic, TypeVar, final
+from typing import Generic, TypeVar, cast, final
 
 from typing_extensions import Self, overload, override
 
@@ -200,7 +201,7 @@ class Observable(ABC, Generic[_OutT]):
         return subscriber
 
     # Attributes for the Observable
-    __slots__ = ("__subscribers", "__thread_lock", "__logger")
+    __slots__ = ("__thread_lock", "__subscribers", "__logger")
 
     def __init__(self, debug: bool | None = None) -> None:
         """
@@ -209,11 +210,11 @@ class Observable(ABC, Generic[_OutT]):
         :param debug: Specifies the debug mode for the logger. If `None`,
             the mode is determined based on the execution environment.
         """
+        # Create a thread lock to manage concurrent access to shared resources.
+        self.__thread_lock: Lock = Lock()
+
         # Initialize the set of subscribers.
         self.__subscribers: set[Subscriber[_OutT]] = set()
-
-        # Create a lock object for thread synchronization.
-        self.__thread_lock: Lock = Lock()
 
         # Validate the debug argument.
         if debug is not None and not isinstance(debug, bool):
@@ -229,8 +230,8 @@ class Observable(ABC, Generic[_OutT]):
         :return: A string representation of the instance.
         """
         return attributes_repr(
-            subscribers=self.__subscribers,
             thread_lock=self.__thread_lock,
+            subscribers=self.__subscribers,
             debug=self.__logger.debug_enabled,
         )
 
@@ -252,6 +253,15 @@ class Observable(ABC, Generic[_OutT]):
         """
         return self.__thread_lock
 
+    @property
+    def _subscribers(self) -> set[Subscriber[_OutT]]:
+        """
+        Retrieve all registered subscribers.
+
+        :return: A set of all registered subscribers.
+        """
+        return self.__subscribers
+
     def _log_subscriber_exception(self, subscriber: Subscriber[_OutT], exception: Exception) -> None:
         """
         Log an unhandled exception that occurred during the execution of a subscriber's callback.
@@ -267,28 +277,36 @@ class Observable(ABC, Generic[_OutT]):
         )
 
     @final  # Prevent overriding in subclasses to maintain the integrity of the _OutT type.
-    async def _emit_next(self, value: _OutT) -> None:  # type: ignore[misc]
+    async def _emit_next(self, value: _OutT, subscribers: Iterable[Subscriber[_OutT]] | None = None) -> None:  # type: ignore[misc]
         """
-        Emit the next value to all subscribers.
+        Emit the next value to all subscribers or to the specified ones if provided.
 
-        This method notifies all subscribers of the next value in the stream.
-
-        :param value: The value to be emitted to all subscribers.
+        :param value: The value to be emitted to the subscribers.
+        :param subscribers: The collection of subscribers to be used for the notification.
+            If None, all active subscribers will be used instead.
         :return: None.
         """
-        # Acquire lock to ensure thread safety.
-        with self.__thread_lock:
-            # Get all subscribers and filter those with a next callback to optimize execution.
-            subscribers: list[Subscriber[_OutT]] = [
-                subscriber for subscriber in self.__subscribers if subscriber.has_next_callback
-            ]
+        if subscribers is None:
+            # Use all active subscribers if none
+            # are specified; ensure thread safety.
+            with self.__thread_lock:
+                subscribers = self.__subscribers.copy()
+        elif not isinstance(subscribers, Iterable):
+            # Raise an exception if 'subscribers' is not an iterable type.
+            raise PyventusException("The 'subscribers' argument must be an iterable.")
+
+        # Filter to include only those that have a next callback.
+        subscribers = cast(
+            list[Subscriber[_OutT]],
+            [subscriber for subscriber in subscribers if subscriber.has_next_callback],
+        )
 
         # Exit if there are no subscribers.
         if not subscribers:
             # Log a debug message if debug mode is enabled.
             if self.__logger.debug_enabled:
                 self.__logger.debug(
-                    action="Emitting Next Value:",
+                    action="Emitting Value:",
                     msg=f"No subscribers to notify of the next value: {value!r}.",
                 )
             return
@@ -296,7 +314,7 @@ class Observable(ABC, Generic[_OutT]):
         # Log the emission of the next value if debug mode is enabled.
         if self.__logger.debug_enabled:
             self.__logger.debug(
-                action="Emitting Next Value:",
+                action="Emitting Value:",
                 msg=f"Notifying {len(subscribers)} subscribers of the next value: {value!r}.",
             )
 
@@ -319,21 +337,29 @@ class Observable(ABC, Generic[_OutT]):
                     self._log_subscriber_exception(subscriber, result)
 
     @final
-    async def _emit_error(self, exception: Exception) -> None:
+    async def _emit_error(self, exception: Exception, subscribers: Iterable[Subscriber[_OutT]] | None = None) -> None:
         """
-        Emit the error that occurred to all subscribers.
-
-        This method notifies all subscribers of the error that occurred.
+        Emit the error that occurred to all subscribers or to the specified ones if provided.
 
         :param exception: The exception to be emitted to all subscribers.
+        :param subscribers: The collection of subscribers to be used for the notification.
+            If None, all active subscribers will be used instead.
         :return: None.
         """
-        # Acquire lock to ensure thread safety.
-        with self.__thread_lock:
-            # Get all subscribers and filter those with an error callback to optimize execution.
-            subscribers: list[Subscriber[_OutT]] = [
-                subscriber for subscriber in self.__subscribers if subscriber.has_error_callback
-            ]
+        if subscribers is None:
+            # Use all active subscribers if none
+            # are specified; ensure thread safety.
+            with self.__thread_lock:
+                subscribers = self.__subscribers.copy()
+        elif not isinstance(subscribers, Iterable):
+            # Raise an exception if 'subscribers' is not an iterable type.
+            raise PyventusException("The 'subscribers' argument must be an iterable.")
+
+        # Filter to include only those that have a error callback.
+        subscribers = cast(
+            list[Subscriber[_OutT]],
+            [subscriber for subscriber in subscribers if subscriber.has_error_callback],
+        )
 
         # Exit if there are no subscribers.
         if not subscribers:
@@ -370,23 +396,34 @@ class Observable(ABC, Generic[_OutT]):
                     self._log_subscriber_exception(subscriber, result)
 
     @final
-    async def _emit_complete(self) -> None:
+    async def _emit_complete(self, subscribers: Iterable[Subscriber[_OutT]] | None = None) -> None:
         """
-        Emit the completion signal to all subscribers.
+        Emit the completion signal to all subscribers or to the specified ones if provided.
 
-        This method notifies all subscribers that the stream has completed.
+        Once the notification is sent, all notified subscribers will be removed.
 
+        :param subscribers: The collection of subscribers to be used for the notification.
+            If None, all active subscribers will be used instead.
         :return: None.
         """
         # Acquire lock to ensure thread safety.
         with self.__thread_lock:
-            # Get all subscribers and filter those with a complete callback to optimize execution.
-            subscribers: list[Subscriber[_OutT]] = [
-                subscriber for subscriber in self.__subscribers if subscriber.has_complete_callback
-            ]
+            if subscribers is None:
+                # If no subscribers are specified, get and clear all active subscribers.
+                subscribers = self.__subscribers.copy()
+                self.__subscribers.clear()
+            elif not isinstance(subscribers, Iterable):
+                # Raise an exception if 'subscribers' is not an iterable type.
+                raise PyventusException("The 'subscribers' argument must be an iterable.")
+            else:
+                # Remove only the specified subscribers from the active set.
+                self.__subscribers.difference_update(subscribers)
 
-            # Unsubscribe all observers since the stream has completed.
-            self.__subscribers.clear()
+        # Filter to include only those that have a complete callback.
+        subscribers = cast(
+            list[Subscriber[_OutT]],
+            [subscriber for subscriber in subscribers if subscriber.has_complete_callback],
+        )
 
         # Exit if there are no subscribers.
         if not subscribers:

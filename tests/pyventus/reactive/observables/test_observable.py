@@ -1,3 +1,4 @@
+from collections.abc import Iterable
 from dataclasses import dataclass
 from sys import gettrace
 from typing import Any, Generic, TypeVar
@@ -20,23 +21,23 @@ _T = TypeVar("_T")
 class Subject(Generic[_T], Observable[_T]):
     """An observable subclass designed for testing the Observable interface."""
 
-    async def next(self, value: _T) -> None:
-        """Emit the next value to all subscribers."""
-        await self._emit_next(value)
+    async def next(self, value: _T, subscribers: Iterable[Subscriber[_T]] | None = None) -> None:
+        """Emit the next value to all subscribers or to the specified ones if provided."""
+        await self._emit_next(value, subscribers)
 
-    async def error(self, exception: Exception) -> None:
-        """Notify all subscribers of an error."""
-        await self._emit_error(exception)
+    async def error(self, exception: Exception, subscribers: Iterable[Subscriber[_T]] | None = None) -> None:
+        """Emit the error that occurred to all subscribers or to the specified ones if provided."""
+        await self._emit_error(exception, subscribers)
 
-    async def complete(self) -> None:
-        """Notify all subscribers that the Observable has completed."""
-        await self._emit_complete()
+    async def complete(self, subscribers: Iterable[Subscriber[_T]] | None = None) -> None:
+        """Emit the completion signal to all subscribers or to the specified ones if provided."""
+        await self._emit_complete(subscribers)
 
 
 # =================================
 
 
-@dataclass  # Define a named tuple for better readability of event linker fixture
+@dataclass  # Define a named tuple for better readability of observable fixture
 class ObservableFixture:
     observable: Observable[Any]
     subscribers: set[Subscriber[Any]]
@@ -103,6 +104,7 @@ class TestObservable:
         assert isinstance(subject, Observable)
         assert subject._logger.debug_enabled is (bool(gettrace() is not None) if debug is None else debug)
         assert subject._thread_lock is not None
+        assert subject._subscribers == set()
 
     # =================================
 
@@ -152,13 +154,13 @@ class TestObservable:
 
     def test_get_subscribers_when_empty(self, empty: ObservableFixture) -> None:
         # Arrange/Act/Assert
-        assert empty.observable.get_subscribers() == empty.subscribers
+        assert empty.observable.get_subscribers() == empty.observable._subscribers == empty.subscribers
 
     # =================================
 
     def test_get_subscribers_when_populated(self, populated: ObservableFixture) -> None:
         # Arrange/Act/Assert
-        assert populated.observable.get_subscribers() == populated.subscribers
+        assert populated.observable.get_subscribers() == populated.observable._subscribers == populated.subscribers
 
     # =================================
     # Test Cases for get_subscriber_count()
@@ -676,6 +678,36 @@ class TestObservable:
         assert callback.last_kwargs == {}
 
     # =================================
+
+    async def test_emit_next_with_subscribers(self) -> None:
+        # Arrange
+        value = object()
+        callback1 = CallableMock.Sync()
+        callback2 = CallableMock.Async()
+
+        subject1 = Subject[Any]()
+        sub1_s1 = subject1.subscribe(next_callback=callback1, error_callback=callback1, complete_callback=callback1)
+        sub1_s2 = subject1.subscribe(next_callback=callback2, error_callback=callback2, complete_callback=callback2)
+
+        # Act
+        await subject1.next(value)
+        await subject1.next(value, subscribers=[sub1_s1])
+        await subject1.next(value, subscribers={sub1_s1, sub1_s2})
+        await subject1.next(value, subscribers=())
+
+        with pytest.raises(PyventusException):
+            await subject1.next(value, subscribers=True)  # type: ignore[arg-type]
+
+        # Assert
+        assert callback1.call_count == 3
+        assert callback1.last_args == (value,)
+        assert callback1.last_kwargs == {}
+
+        assert callback2.call_count == 2
+        assert callback2.last_args == (value,)
+        assert callback2.last_kwargs == {}
+
+    # =================================
     # Test Cases for _emit_error()
     # =================================
 
@@ -762,6 +794,36 @@ class TestObservable:
         assert callback.last_kwargs == {}
 
     # =================================
+
+    async def test_emit_error_with_subscribers(self) -> None:
+        # Arrange
+        exception = Exception()
+        callback1 = CallableMock.Sync()
+        callback2 = CallableMock.Async()
+
+        subject1 = Subject[Any]()
+        sub1_s1 = subject1.subscribe(next_callback=callback1, error_callback=callback1, complete_callback=callback1)
+        sub1_s2 = subject1.subscribe(next_callback=callback2, error_callback=callback2, complete_callback=callback2)
+
+        # Act
+        await subject1.error(exception)
+        await subject1.error(exception, subscribers=[sub1_s1])
+        await subject1.error(exception, subscribers={sub1_s1, sub1_s2})
+        await subject1.error(exception, subscribers=())
+
+        with pytest.raises(PyventusException):
+            await subject1.error(exception, subscribers=True)  # type: ignore[arg-type]
+
+        # Assert
+        assert callback1.call_count == 3
+        assert callback1.last_args == (exception,)
+        assert callback1.last_kwargs == {}
+
+        assert callback2.call_count == 2
+        assert callback2.last_args == (exception,)
+        assert callback2.last_kwargs == {}
+
+    # =================================
     # Test Cases for _emit_complete()
     # =================================
 
@@ -833,3 +895,38 @@ class TestObservable:
         assert callback.call_count == 1
         assert callback.last_args == ()
         assert callback.last_kwargs == {}
+
+    # =================================
+
+    async def test_emit_complete_with_subscribers(self) -> None:
+        # Arrange
+        callback1 = CallableMock.Sync()
+        callback2 = CallableMock.Async()
+
+        subject1 = Subject[Any]()
+        sub1_s1 = subject1.subscribe(next_callback=callback1, error_callback=callback1, complete_callback=callback1)
+        subject1.subscribe(next_callback=callback1, error_callback=callback1, complete_callback=callback1)
+
+        subject2 = Subject[Any]()
+        subject2.subscribe(next_callback=callback2, error_callback=callback2, complete_callback=callback2)
+
+        # Act
+        await subject1.complete(subscribers=())
+        await subject1.complete(subscribers=[sub1_s1])
+
+        await subject2.complete()
+
+        with pytest.raises(PyventusException):
+            await subject1.complete(subscribers=True)  # type: ignore[arg-type]
+
+        # Assert
+        assert callback1.call_count == 1
+        assert callback1.last_args == ()
+        assert callback1.last_kwargs == {}
+
+        assert callback2.call_count == 1
+        assert callback2.last_args == ()
+        assert callback2.last_kwargs == {}
+
+        assert subject1.get_subscriber_count() == 1
+        assert subject2.get_subscriber_count() == 0

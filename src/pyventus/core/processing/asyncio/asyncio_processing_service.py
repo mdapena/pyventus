@@ -35,6 +35,8 @@ class AsyncIOProcessingService(ProcessingService):
         processing, callbacks are executed as before, with the difference that they are always run
         within an existing asyncio loop and awaited (for async callbacks) instead of being run as
         background tasks.
+
+    -   All active tasks from all instances can be retrieved through the `all_tasks()` method.
     """
 
     class _AsyncIOSubmission(NamedTuple):
@@ -43,6 +45,12 @@ class AsyncIOProcessingService(ProcessingService):
         callback: ProcessingServiceCallbackType
         args: tuple[Any, ...]
         kwargs: dict[str, Any]
+
+    __global_thread_lock: Lock = Lock()
+    """A global lock for synchronizing access to shared class-level resources."""
+
+    __all_tasks: set[Task[Any]] = set()
+    """A set of active background tasks managed across all instances."""
 
     @staticmethod
     def is_loop_running() -> bool:
@@ -56,6 +64,16 @@ class AsyncIOProcessingService(ProcessingService):
             return True
         except RuntimeError:
             return False
+
+    @classmethod
+    def all_tasks(cls) -> set[Task[Any]]:
+        """
+        Retrieve all active tasks from all instances.
+
+        :return: A set of currently active tasks across all instances.
+        """
+        with cls.__global_thread_lock:
+            return cls.__all_tasks.copy()
 
     # Attributes for the AsyncIOProcessingService
     __slots__ = ("__thread_lock", "__tasks", "__force_async", "__is_submission_queue_busy", "__submission_queue")
@@ -177,13 +195,33 @@ class AsyncIOProcessingService(ProcessingService):
 
     def _remove_task(self, task: Task[Any]) -> None:
         """
-        Remove a background task from the tracking set.
+        Remove a background task from the local and global tracking sets.
 
-        :param task: The background task to remove from the set.
+        :param task: The background task to be removed from the local and global sets.
         :return: None.
         """
-        with self.__thread_lock:
+        # Get the class type to access class-level variables.
+        cls: type[AsyncIOProcessingService] = type(self)
+
+        # Acquire locks for thread safety and remove the task.
+        with self.__thread_lock, cls.__global_thread_lock:
+            cls.__all_tasks.discard(task)
             self.__tasks.discard(task)
+
+    def _add_task(self, task: Task[Any]) -> None:
+        """
+        Add a background task to the local and global tracking sets.
+
+        :param task: The background task to be added to the local and global sets.
+        :return: None.
+        """
+        # Get the class type to access class-level variables.
+        cls: type[AsyncIOProcessingService] = type(self)
+
+        # Acquire locks for thread safety and add the task.
+        with self.__thread_lock, cls.__global_thread_lock:
+            cls.__all_tasks.add(task)
+            self.__tasks.add(task)
 
     def _schedule_task(self, coroutine: Coroutine[Any, Any, Any]) -> None:
         """
@@ -195,14 +233,12 @@ class AsyncIOProcessingService(ProcessingService):
         # Create and schedule the coroutine as a background Task.
         task: Task[Any] = create_task(coroutine)
 
-        # Register the cleanup callback to remove the Task
-        # from the set of background tasks upon completion.
+        # Register the cleanup callback to remove the task
+        # from the local and global tracking sets upon completion.
         task.add_done_callback(self._remove_task)
 
-        # Add the Task to the set of active background
-        # tasks under lock for thread-safety.
-        with self.__thread_lock:
-            self.__tasks.add(task)
+        # Add the task to both the local and global tracking sets.
+        self._add_task(task)
 
     async def _process_submission_queue(self) -> None:
         """

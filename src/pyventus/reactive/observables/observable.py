@@ -306,7 +306,7 @@ class Observable(ABC, Generic[_OutT]):
             # Log a debug message if debug mode is enabled.
             if self.__logger.debug_enabled:
                 self.__logger.debug(
-                    action="Emitting Next Value:",
+                    action="Emitting Value:",
                     msg=f"No subscribers to notify of the next value: {value!r}.",
                 )
             return
@@ -314,7 +314,7 @@ class Observable(ABC, Generic[_OutT]):
         # Log the emission of the next value if debug mode is enabled.
         if self.__logger.debug_enabled:
             self.__logger.debug(
-                action="Emitting Next Value:",
+                action="Emitting Value:",
                 msg=f"Notifying {len(subscribers)} subscribers of the next value: {value!r}.",
             )
 

@@ -1,14 +1,20 @@
 from asyncio import Task, create_task, gather, get_running_loop, run, to_thread
 from collections import deque
-from collections.abc import Coroutine
+from collections.abc import Callable, Coroutine
 from threading import Lock
-from typing import Any, NamedTuple
+from typing import Any, NamedTuple, ParamSpec, TypeVar
 
 from typing_extensions import override
 
 from ...exceptions import PyventusException
-from ...utils import attributes_repr, formatted_repr, is_callable_async
+from ...utils import attributes_repr, formatted_repr, is_callable_async, is_callable_generator
 from ..processing_service import ProcessingService, ProcessingServiceCallbackType
+
+# Generic types for the guard decorator.
+_GuardP = ParamSpec("_GuardP")
+"""A generic type representing the names and types of the parameters of the callback provided in the guard decorator."""
+_GuardR = TypeVar("_GuardR")
+"""A generic type representing the return value of the callback provided in the guard decorator."""
 
 
 class AsyncIOProcessingService(ProcessingService):
@@ -74,6 +80,53 @@ class AsyncIOProcessingService(ProcessingService):
         """
         with cls.__global_thread_lock:
             return cls.__all_tasks.copy()
+
+    @classmethod
+    def guard(
+        cls, cb: Callable[_GuardP, Coroutine[Any, Any, _GuardR]]
+    ) -> Callable[_GuardP, Coroutine[Any, Any, _GuardR]]:
+        """
+        Ensure all active tasks are completed before resuming.
+
+        This decorator prevents unfinished tasks from any instance of this class or its subclasses
+        from remaining active when the function returns.
+
+        :param cb: The coroutine callback to be guarded.
+        :return: A wrapped function that waits for all active tasks to finish before returning control.
+        :raises PyventusException: If the provided callback is not an async callable or is a generator.
+        """
+
+        async def wrapper(*args: _GuardP.args, **kwargs: _GuardP.kwargs) -> _GuardR:
+            """
+            Execute the callback and waits for all active tasks to finish before returning control.
+
+            :param args: Positional arguments for the callback.
+            :param kwargs: Keyword arguments for the callback.
+            :return: The result of the callback after all tasks are complete.
+            """
+            result = await cb(*args, **kwargs)
+
+            # Wait for all active tasks to complete.
+            tasks: set[Task[Any]] = set()
+            while True:
+                with cls.__global_thread_lock:
+                    if not cls.__all_tasks:
+                        break
+
+                    tasks = cls.__all_tasks.copy()
+                    cls.__all_tasks.clear()
+
+                await gather(*tasks)
+
+            return result
+
+        # Validate that the callback is an async function and not a generator
+        if not is_callable_async(cb):
+            raise PyventusException("The provided callback must be an async callable.")
+        if is_callable_generator(cb):
+            raise PyventusException("The provided callback cannot be a generator.")
+
+        return wrapper
 
     # Attributes for the AsyncIOProcessingService
     __slots__ = ("__thread_lock", "__tasks", "__force_async", "__is_submission_queue_busy", "__submission_queue")
@@ -270,43 +323,55 @@ class AsyncIOProcessingService(ProcessingService):
 
     @override
     def submit(self, callback: ProcessingServiceCallbackType, *args: Any, **kwargs: Any) -> None:
-        # Check if there is an active asyncio event loop.
-        is_loop_running: bool = AsyncIOProcessingService.is_loop_running()
+        # Get the class type to access class-level methods.
+        cls: type[AsyncIOProcessingService] = type(self)
 
-        # Process the callback based on whether
-        # submission order enforcement is enabled.
+        # Check if there is an active asyncio event loop.
+        is_loop_running: bool = cls.is_loop_running()
+
         if not self.enforce_submission_order:
-            # If submission order enforcement is not required, execute the
-            # callback according to its definition and the current context.
+            # If submission order is not required, execute the callback
+            # according to its definition and the current context (sync/async).
             if is_callable_async(callback):
                 if is_loop_running:
                     self._schedule_task(callback(*args, **kwargs))
                 else:
-                    run(callback(*args, **kwargs))
+                    run(cls.guard(callback)(*args, **kwargs))  # Use guard to prevent unfinished tasks.
             elif self.__force_async and is_loop_running:
                 self._schedule_task(to_thread(callback, *args, **kwargs))
             else:
                 callback(*args, **kwargs)
         else:
-            # If submission order enforcement is enabled, manage
-            # the callback using the submission queue.
+            # If submission order must be enforced, manage the callback execution
+            # based on the current context (sync/async) and the state of the queue.
             with self.__thread_lock:
                 was_submission_queue_busy: bool = self.__is_submission_queue_busy
-                self.__is_submission_queue_busy = True
-                self.__submission_queue.append(  # type: ignore[union-attr]
-                    AsyncIOProcessingService._AsyncIOSubmission(
-                        callback=callback,
-                        args=args,
-                        kwargs=kwargs,
-                    )
-                )
 
-            # Start processing the queue if it wasn't already active.
+                # Add the current callback to the queue if there is a previous async execution (indicated by a
+                # processing queue) or if the current context is async (indicated by an active asyncio loop), to
+                # ensure the execution order is preserved. If there is no indication of previous or current async
+                # execution, the context is synchronous, and the order of execution is inherently guaranteed.
+                if was_submission_queue_busy or is_loop_running:
+                    self.__is_submission_queue_busy = True
+                    self.__submission_queue.append(  # type: ignore[union-attr]
+                        AsyncIOProcessingService._AsyncIOSubmission(
+                            callback=callback,
+                            args=args,
+                            kwargs=kwargs,
+                        )
+                    )
+
             if not was_submission_queue_busy:
                 if is_loop_running:
+                    # Start processing the queue if it isn't already active and an event loop is running.
                     self._schedule_task(self._process_submission_queue())
                 else:
-                    run(self._process_submission_queue())
+                    # In a synchronous context, where there is no active queue or event loop, execute the callback
+                    # in a blocking manner according to its type, as the order of execution is guaranteed.
+                    if is_callable_async(callback):
+                        run(cls.guard(callback)(*args, **kwargs))  # Use guard to prevent unfinished tasks.
+                    else:
+                        callback(*args, **kwargs)
 
     async def wait_for_tasks(self) -> None:
         """

@@ -1,4 +1,4 @@
-from asyncio import Task, create_task, gather, get_running_loop, run, to_thread
+from asyncio import Task, create_task, current_task, gather, get_running_loop, run, to_thread
 from collections import deque
 from collections.abc import Callable, Coroutine
 from threading import Lock
@@ -219,6 +219,15 @@ class AsyncIOProcessingService(ProcessingService):
         return self.__submission_queue
 
     @property
+    def task_name(self) -> str:
+        """
+        Return the name used for all background tasks created by this instance.
+
+        :return: A task name as a string.
+        """
+        return f"{self.__class__.__name__}_{id(self)}_task"
+
+    @property
     def task_count(self) -> int:
         """
         Retrieve the count of currently active background tasks.
@@ -284,7 +293,7 @@ class AsyncIOProcessingService(ProcessingService):
         :return: None.
         """
         # Create and schedule the coroutine as a background Task.
-        task: Task[Any] = create_task(coroutine)
+        task: Task[Any] = create_task(coroutine, name=self.task_name)
 
         # Register the cleanup callback to remove the task
         # from the local and global tracking sets upon completion.
@@ -353,13 +362,28 @@ class AsyncIOProcessingService(ProcessingService):
                 # execution, the context is synchronous, and the order of execution is inherently guaranteed.
                 if was_submission_queue_busy or is_loop_running:
                     self.__is_submission_queue_busy = True
-                    self.__submission_queue.append(  # type: ignore[union-attr]
-                        AsyncIOProcessingService._AsyncIOSubmission(
-                            callback=callback,
-                            args=args,
-                            kwargs=kwargs,
+
+                    # Checks if the current task's name matches the task_name of this instance. If they
+                    # match, the submission originates from an inner callback execution. To maintain the
+                    # execution order, it should be prepended, as it forms part of the current item being
+                    # processed in the queue and must run before subsequent submissions.
+                    cur_task: Task[Any] | None = current_task()
+                    if cur_task is not None and cur_task.get_name() == self.task_name:
+                        self.__submission_queue.appendleft(  # type: ignore[union-attr]
+                            AsyncIOProcessingService._AsyncIOSubmission(
+                                callback=callback,
+                                args=args,
+                                kwargs=kwargs,
+                            )
                         )
-                    )
+                    else:
+                        self.__submission_queue.append(  # type: ignore[union-attr]
+                            AsyncIOProcessingService._AsyncIOSubmission(
+                                callback=callback,
+                                args=args,
+                                kwargs=kwargs,
+                            )
+                        )
 
             if not was_submission_queue_busy:
                 if is_loop_running:

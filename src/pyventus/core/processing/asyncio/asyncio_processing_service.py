@@ -1,7 +1,7 @@
 from asyncio import Task, create_task, current_task, gather, get_running_loop, run, to_thread
 from collections import deque
 from collections.abc import Callable, Coroutine
-from threading import Lock
+from threading import Lock, local
 from typing import Any, NamedTuple, ParamSpec, TypeVar
 
 from typing_extensions import override
@@ -51,6 +51,14 @@ class AsyncIOProcessingService(ProcessingService):
         callback: ProcessingServiceCallbackType
         args: tuple[Any, ...]
         kwargs: dict[str, Any]
+
+    class _AsyncIOThreadLocalCtx(local):
+        """A thread-local subclass for managing AsyncIO-specific context information across different threads."""
+
+        current_task: Task[Any] | None = None
+
+    __thread_local_ctx: _AsyncIOThreadLocalCtx = _AsyncIOThreadLocalCtx()
+    """A thread-local storage for managing AsyncIO-specific context information across different threads."""
 
     __global_thread_lock: Lock = Lock()
     """A global lock for synchronizing access to shared class-level resources."""
@@ -225,7 +233,7 @@ class AsyncIOProcessingService(ProcessingService):
 
         :return: A task name as a string.
         """
-        return f"{self.__class__.__name__}_{id(self)}_task"
+        return f"{self.__class__.__name__}_task_{id(self)}"
 
     @property
     def task_count(self) -> int:
@@ -254,6 +262,35 @@ class AsyncIOProcessingService(ProcessingService):
         :return: `True` if submission order enforcement is enabled; otherwise, `False`.
         """
         return self.__submission_queue is not None
+
+    def _with_thread_local_ctx(self, main: Callable[[], None]) -> Callable[[], None]:
+        """
+        Wrap the specified function to run in a thread-local AsyncIO context.
+
+        :param main: The main function to be executed within the thread-local AsyncIO context.
+        :return: A wrapper function that executes the main function in the thread-local AsyncIO
+            context, handling initialization and cleanup.
+        """
+        # Get the class type to access class-level variables.
+        cls: type[AsyncIOProcessingService] = type(self)
+
+        # Get the current task for the thread context.
+        cur_task: Task[Any] | None = current_task()
+
+        def wrapper() -> None:
+            try:
+                # Set the thread-local context variables.
+                cls.__thread_local_ctx.current_task = cur_task
+
+                # Execute the main function.
+                main()
+            finally:
+                # Clear the thread-local context variables
+                # in case the current thread is reused.
+                cls.__thread_local_ctx.current_task = None
+
+        # Return the wrapped function.
+        return wrapper
 
     def _remove_task(self, task: Task[Any]) -> None:
         """
@@ -326,7 +363,11 @@ class AsyncIOProcessingService(ProcessingService):
             if is_callable_async(submission.callback):
                 await submission.callback(*submission.args, **submission.kwargs)
             elif self.__force_async:
-                await to_thread(submission.callback, *submission.args, **submission.kwargs)
+                await to_thread(
+                    self._with_thread_local_ctx(
+                        main=lambda: submission.callback(*submission.args, **submission.kwargs),  # noqa: B023
+                    )
+                )
             else:
                 submission.callback(*submission.args, **submission.kwargs)
 
@@ -362,12 +403,16 @@ class AsyncIOProcessingService(ProcessingService):
                 # execution, the context is synchronous, and the order of execution is inherently guaranteed.
                 if was_submission_queue_busy or is_loop_running:
                     self.__is_submission_queue_busy = True
+                    cur_task: Task[Any] | None = (
+                        current_task()  # From running loop if active.
+                        if is_loop_running  # Determine the current task based on execution context.
+                        else cls.__thread_local_ctx.current_task  # Fallback to thread-local context if no loop.
+                    )
 
                     # Checks if the current task's name matches the task_name of this instance. If they
                     # match, the submission originates from an inner callback execution. To maintain the
                     # execution order, it should be prepended, as it forms part of the current item being
                     # processed in the queue and must run before subsequent submissions.
-                    cur_task: Task[Any] | None = current_task()
                     if cur_task is not None and cur_task.get_name() == self.task_name:
                         self.__submission_queue.appendleft(  # type: ignore[union-attr]
                             AsyncIOProcessingService._AsyncIOSubmission(

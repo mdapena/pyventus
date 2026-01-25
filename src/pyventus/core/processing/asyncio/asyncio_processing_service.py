@@ -1,4 +1,4 @@
-from asyncio import Task, create_task, current_task, gather, get_running_loop, run, to_thread
+from asyncio import AbstractEventLoop, Task, create_task, current_task, gather, get_running_loop, run, to_thread
 from collections import deque
 from collections.abc import Callable, Coroutine
 from threading import Lock, local
@@ -94,7 +94,7 @@ class AsyncIOProcessingService(ProcessingService):
         cls, cb: Callable[_GuardP, Coroutine[Any, Any, _GuardR]]
     ) -> Callable[_GuardP, Coroutine[Any, Any, _GuardR]]:
         """
-        Ensure all active tasks are completed before resuming.
+        Ensure all active tasks in the current event loop are completed before continuing.
 
         This decorator prevents unfinished tasks from any instance of this class or its subclasses
         from remaining active when the function returns.
@@ -106,26 +106,37 @@ class AsyncIOProcessingService(ProcessingService):
 
         async def wrapper(*args: _GuardP.args, **kwargs: _GuardP.kwargs) -> _GuardR:
             """
-            Execute the callback and waits for all active tasks to finish before returning control.
+            Execute the callback and wait for all active tasks in the current loop to finish before returning control.
 
             :param args: Positional arguments for the callback.
             :param kwargs: Keyword arguments for the callback.
             :return: The result of the callback after all tasks are complete.
             """
+            # Execute the callback and store the result.
             result = await cb(*args, **kwargs)
 
-            # Wait for all active tasks to complete.
+            # Initialize a set for the tasks to be processed.
             tasks: set[Task[Any]] = set()
+
+            # Retrieve the currently running loop to filter tasks.
+            running_loop: AbstractEventLoop = get_running_loop()
+
             while True:
                 with cls.__global_thread_lock:
-                    if not cls.__all_tasks:
+                    # Select tasks belonging to the currently running loop.
+                    tasks = {task for task in cls.__all_tasks if task.get_loop() is running_loop}
+
+                    # Exit the loop if no active tasks remain.
+                    if not tasks:
                         break
 
-                    tasks = cls.__all_tasks.copy()
-                    cls.__all_tasks.clear()
+                    # Remove the tasks that will be processed.
+                    cls.__all_tasks.difference_update(tasks)
 
+                # Wait for the tasks to complete concurrently.
                 await gather(*tasks)
 
+            # Return the result obtained from the callback.
             return result
 
         # Validate that the callback is an async function and not a generator

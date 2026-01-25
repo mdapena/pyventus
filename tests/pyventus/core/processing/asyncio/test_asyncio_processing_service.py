@@ -252,39 +252,83 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
                 self._compile_time_ids: list[int] = []
                 self._runtime_ids: list[int] = []
 
-            def create_synchronous_callback(self, delay: float = 0) -> Callable[[], None]:
+            def register_callback(self) -> int:
                 with self._thread_lock:
                     callback_id: int = len(self._compile_time_ids)
                     self._compile_time_ids.append(callback_id)
+                return callback_id
 
-                def _synchronous_callback() -> None:
+            def create_single_sync_callback(self, delay: float = 0) -> Callable[[], None]:
+                callback_id: int = self.register_callback()
+
+                def _main() -> None:
                     time.sleep(delay)
                     with self._thread_lock:
                         self._runtime_ids.append(callback_id)
 
-                return _synchronous_callback
+                return _main
 
-            def create_asynchronous_callback(self, delay: float = 0) -> Callable[[], Awaitable[None]]:
-                with self._thread_lock:
-                    callback_id: int = len(self._compile_time_ids)
-                    self._compile_time_ids.append(callback_id)
+            def create_composed_sync_callback(
+                self, service: AsyncIOProcessingService, delay: float = 0
+            ) -> Callable[[], None]:
+                callback_id1: int = self.register_callback()
+                callback_id2: int = self.register_callback()
+                callback_id3: int = self.register_callback()
 
-                async def _asynchronous_callback() -> None:
+                def _sync_callback() -> None:
+                    time.sleep(delay)
+                    with self._thread_lock:
+                        self._runtime_ids.append(callback_id3)
+
+                async def _async_callback() -> None:
+                    await asyncio.sleep(delay)
+                    with self._thread_lock:
+                        self._runtime_ids.append(callback_id2)
+                    service.submit(_sync_callback)
+
+                def _main() -> None:
+                    time.sleep(delay)
+                    with self._thread_lock:
+                        self._runtime_ids.append(callback_id1)
+                    service.submit(_async_callback)
+
+                return _main
+
+            def create_single_async_callback(self, delay: float = 0) -> Callable[[], Awaitable[None]]:
+                callback_id: int = self.register_callback()
+
+                async def _amain() -> None:
                     await asyncio.sleep(delay)
                     with self._thread_lock:
                         self._runtime_ids.append(callback_id)
 
-                return _asynchronous_callback
+                return _amain
 
-        tracker = ExecutionOrderTracker()
-        callbacks: list[Callable[[], None | Awaitable[None]]] = [
-            tracker.create_asynchronous_callback(delay=0.0025),
-            tracker.create_synchronous_callback(delay=0.0025),
-            tracker.create_asynchronous_callback(delay=0.0015),
-            tracker.create_synchronous_callback(delay=0.0015),
-            tracker.create_asynchronous_callback(delay=0.0005),
-            tracker.create_synchronous_callback(delay=0.0005),
-        ]
+            def create_composed_async_callback(
+                self, service: AsyncIOProcessingService, delay: float = 0
+            ) -> Callable[[], Awaitable[None]]:
+                callback_id1: int = self.register_callback()
+                callback_id2: int = self.register_callback()
+                callback_id3: int = self.register_callback()
+
+                async def _async_callback() -> None:
+                    await asyncio.sleep(delay)
+                    with self._thread_lock:
+                        self._runtime_ids.append(callback_id3)
+
+                def _sync_callback() -> None:
+                    time.sleep(delay)
+                    with self._thread_lock:
+                        self._runtime_ids.append(callback_id2)
+                    service.submit(_async_callback)
+
+                async def _amain() -> None:
+                    await asyncio.sleep(delay)
+                    with self._thread_lock:
+                        self._runtime_ids.append(callback_id1)
+                    service.submit(_sync_callback)
+
+                return _amain
 
         kwargs: dict[str, Any] = {}
         if force_async is not None:
@@ -292,6 +336,22 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
         if enforce_submission_order is not None:
             kwargs["enforce_submission_order"] = enforce_submission_order
         processing_service = AsyncIOProcessingService(**kwargs)
+
+        tracker = ExecutionOrderTracker()
+        callbacks: list[Callable[[], None | Awaitable[None]]] = [
+            tracker.create_composed_async_callback(delay=0.0035, service=processing_service),
+            tracker.create_single_async_callback(delay=0.0035),
+            tracker.create_composed_sync_callback(delay=0.0025, service=processing_service),
+            tracker.create_single_sync_callback(delay=0.0025),
+            tracker.create_composed_async_callback(delay=0.0015, service=processing_service),
+            tracker.create_single_async_callback(delay=0.0015),
+            tracker.create_composed_sync_callback(delay=0.0005, service=processing_service),
+            tracker.create_single_sync_callback(delay=0.0005),
+            tracker.create_composed_async_callback(delay=0.0001, service=processing_service),
+            tracker.create_single_async_callback(delay=0.0001),
+            tracker.create_composed_sync_callback(delay=0, service=processing_service),
+            tracker.create_single_sync_callback(delay=0),
+        ]
 
         # Act
         for callback in callbacks:
@@ -314,6 +374,8 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
         # Submission order enforcement.
         if enforce_submission_order:
             assert tracker._compile_time_ids == tracker._runtime_ids, "Submission order not guaranteed."
+
+    # =================================
 
     @pytest.mark.parametrize(
         ["force_async", "enforce_submission_order"],

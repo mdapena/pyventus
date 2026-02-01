@@ -455,22 +455,27 @@ class AsyncIOProcessingService(ProcessingService):
 
     async def wait_for_tasks(self) -> None:
         """
-        Wait for all background tasks associated with the current service to complete.
-
-        This method ensures that any ongoing tasks are finished before proceeding.
+        Wait for all background tasks in the current asyncio loop associated with this service to complete.
 
         :return: None.
         """
-        # Process all active background tasks until none remain.
+        # Retrieve the currently running loop to filter tasks.
+        running_loop: AbstractEventLoop = get_running_loop()
+
+        # Initialize a set for the tasks to be processed.
+        tasks: set[Task[Any]] = set()
+
         while True:
             with self.__thread_lock:
-                # Exit if there are no active tasks.
-                if not self.__tasks:
+                # Select tasks belonging to the currently running loop.
+                tasks = {task for task in self.__tasks if task.get_loop() is running_loop}
+
+                # Exit the loop if no active tasks remain.
+                if not tasks:
                     break
 
-                # Copy current tasks and clear the registry.
-                tasks: set[Task[Any]] = self.__tasks.copy()
-                self.__tasks.clear()
+                # Remove the tasks that will be processed.
+                self.__tasks.difference_update(tasks)
 
-            # Await the completion of all tasks.
+            # Wait for the tasks to complete.
             await gather(*tasks)

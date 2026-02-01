@@ -34,13 +34,13 @@ class AsyncIOProcessingService(ProcessingService):
         within that loop. If no loop is active, a new asyncio loop is created and automatically closed
         once the callback is complete.
 
-    -   When `enforce_submission_order` is set to `True`, new submissions are managed by a queue and
-        processed sequentially within an asyncio loop. If no active asyncio loop is present, a new loop
-        is initiated to handle the queue processing, and it remains open until all callbacks have been
-        executed and the queue is empty, at which point it will be closed automatically. During queue
-        processing, callbacks are executed as before, with the difference that they are always run
-        within an existing asyncio loop and awaited (for async callbacks) instead of being run as
-        background tasks.
+    -   When `enforce_submission_order` is set to `True`, submissions are processed in the order they are
+        received. In the presence of a previous async context, indicated by an existing processing queue,
+        or a current async context, denoted by an active asyncio loop, callbacks are added to a queue and
+        executed through it, ensuring that the order of execution is preserved. On the other hand, if there
+        is no indication of prior or current async execution, the context is synchronous, and the order of
+        execution is inherently guaranteed; thus, callbacks are executed directly and based on their
+        definition in a blocking manner.
 
     -   All active tasks from all instances can be retrieved through the `all_tasks()` method.
     """

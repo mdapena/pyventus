@@ -12,7 +12,7 @@ from pyventus.core.exceptions.pyventus_exception import PyventusException
 from pyventus.core.processing.asyncio import AsyncIOProcessingService
 from typing_extensions import override
 
-from tests.fixtures.callable_fixtures import CallableMock
+from tests.fixtures.callable_fixtures import CallableMock, DummyCallable
 
 from ..processing_service_test import ProcessingServiceTest
 
@@ -497,6 +497,27 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
 
     # =================================
     # Test Cases for guard decorator
+    # =================================
+
+    @pytest.mark.parametrize(
+        ["callback", "exception"],
+        [
+            (0, PyventusException),
+            (..., PyventusException),
+            (None, PyventusException),
+            (True, PyventusException),
+            ("True", PyventusException),
+            (DummyCallable.Invalid(), PyventusException),
+            *[(cb, PyventusException) for cb in DummyCallable.Sync().ALL],
+            *[(cb, PyventusException) for cb in DummyCallable.Sync.Generator().ALL],
+            *[(cb, PyventusException) for cb in DummyCallable.Async.Generator().ALL],
+        ],
+    )
+    def test_guard_decorator_with_invalid_input(self, callback: Any, exception: type[Exception]) -> None:
+        # Arrange/Act/Assert
+        with pytest.raises(exception):
+            AsyncIOProcessingService.guard(callback)
+
     # =================================
 
     def test_guard_decorator(self) -> None:

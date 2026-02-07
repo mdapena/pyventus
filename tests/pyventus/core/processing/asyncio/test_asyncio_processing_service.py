@@ -2,6 +2,7 @@ import asyncio
 import time
 from collections import deque
 from collections.abc import Awaitable, Callable, Generator
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 from threading import Lock, current_thread, main_thread
 from typing import Any
@@ -10,6 +11,8 @@ import pytest
 from pyventus.core.exceptions.pyventus_exception import PyventusException
 from pyventus.core.processing.asyncio import AsyncIOProcessingService
 from typing_extensions import override
+
+from tests.fixtures.callable_fixtures import CallableMock
 
 from ..processing_service_test import ProcessingServiceTest
 
@@ -412,10 +415,48 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
             await processing_service.wait_for_tasks()
 
     # =================================
-    # Test Cases for all_tasks method
+    # Test Cases for wait_for_tasks
     # =================================
 
-    async def test_all_tasks_method(self) -> None:
+    async def test_wait_for_tasks(self) -> None:
+        # Arrange
+        callback: CallableMock.Base = CallableMock.Async()
+        processing_service = AsyncIOProcessingService()
+
+        async def main_callback() -> None:
+            await asyncio.sleep(0.0025)
+            processing_service.submit(callback)
+
+        # Act
+        processing_service.submit(main_callback)
+
+        with ThreadPoolExecutor() as executor:
+
+            async def amain() -> None:
+                # Arrange
+                processing_service.submit(main_callback)
+
+                # Act: Wait for all tasks in the thread's asyncio loop (1 task in thread, 1 in main).
+                await processing_service.wait_for_tasks()
+
+                # Assert
+                assert callback.call_count == 1
+                assert processing_service.task_count == 1
+
+            executor.submit(asyncio.run, amain()).result()
+
+        # Act: Wait for all tasks in the main asyncio loop (0 tasks in thread, 1 in main).
+        await processing_service.wait_for_tasks()
+
+        # Assert
+        assert callback.call_count == 2
+        assert processing_service.task_count == 0
+
+    # =================================
+    # Test Cases for all_tasks
+    # =================================
+
+    async def test_all_tasks(self) -> None:
         # Arrange
         tasks_lock: Lock = Lock()
 
@@ -453,3 +494,54 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
         await asyncio.gather(*AsyncIOProcessingService.all_tasks())
         assert processing_service1.task_count == processing_service2.task_count == processing_service3.task_count == 0
         assert len(AsyncIOProcessingService.all_tasks()) == 0
+
+    # =================================
+    # Test Cases for guard decorator
+    # =================================
+
+    def test_guard_decorator(self) -> None:
+        # Arrange
+        callback: CallableMock.Base = CallableMock.Async()
+        processing_service1: AsyncIOProcessingService = AsyncIOProcessingService()
+        processing_service2: AsyncIOProcessingService = AsyncIOProcessingService(force_async=True)
+
+        def sync_callback() -> None:
+            time.sleep(0.0025)
+            processing_service2.submit(callback)
+
+        async def async_callback() -> None:
+            await asyncio.sleep(0.0025)
+            processing_service1.submit(callback)
+            processing_service2.submit(sync_callback)
+
+        # Act
+        @AsyncIOProcessingService.guard
+        async def amain() -> None:
+            # Submit tasks before threading.
+            processing_service2.submit(callback)
+            processing_service1.submit(async_callback)
+
+            # Test guard within a threaded context.
+            with ThreadPoolExecutor() as executor:
+
+                @AsyncIOProcessingService.guard
+                async def threaded_amain() -> None:
+                    processing_service2.submit(callback)
+                    processing_service1.submit(async_callback)
+
+                executor.submit(asyncio.run, threaded_amain()).result()
+
+            # Submit tasks after threading.
+            processing_service2.submit(sync_callback)
+
+            # Assert: Verify thread assertions.
+            assert callback.call_count == 3
+            assert processing_service1.task_count == 1
+            assert processing_service2.task_count == 2
+
+        # Run the main function with the guard.
+        asyncio.run(amain())
+
+        # Assert: Verify final counts.
+        assert callback.call_count == 7
+        assert processing_service1.task_count == processing_service2.task_count == 0

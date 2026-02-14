@@ -12,8 +12,7 @@ from pyventus.core.exceptions.pyventus_exception import PyventusException
 from pyventus.core.processing.asyncio import AsyncIOProcessingService
 from typing_extensions import override
 
-from tests.fixtures.callable_fixtures import CallableMock, DummyCallable
-
+from .....fixtures import CallableMock, DummyCallable
 from ..processing_service_test import ProcessingServiceTest
 
 
@@ -241,11 +240,11 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
         await processing_service.wait_for_tasks()
 
     # =================================
-    # Test Cases for ordered submissions
+    # Test Cases for submission order
     # =================================
 
     @contextmanager
-    def run_ordered_submission_tests(
+    def run_submission_order_tests(
         self, force_async: bool | None, enforce_submission_order: bool | None
     ) -> Generator[AsyncIOProcessingService, None, None]:
         # Arrange
@@ -390,10 +389,10 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
             (True, True),
         ],
     )
-    def test_ordered_submissions_in_sync_ctx(
+    def test_submission_order_in_sync_ctx(
         self, force_async: bool | None, enforce_submission_order: bool | None
     ) -> None:
-        with self.run_ordered_submission_tests(force_async, enforce_submission_order):
+        with self.run_submission_order_tests(force_async, enforce_submission_order):
             pass
 
     # =================================
@@ -408,10 +407,10 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
             (True, True),
         ],
     )
-    async def test_ordered_submissions_in_async_ctx(
+    async def test_submission_order_in_async_ctx(
         self, force_async: bool | None, enforce_submission_order: bool | None
     ) -> None:
-        with self.run_ordered_submission_tests(force_async, enforce_submission_order) as processing_service:
+        with self.run_submission_order_tests(force_async, enforce_submission_order) as processing_service:
             await processing_service.wait_for_tasks()
 
     # =================================

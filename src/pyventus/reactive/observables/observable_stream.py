@@ -13,18 +13,18 @@ _OutT = TypeVar("_OutT", covariant=True)
 
 class ObservableStream(Generic[_OutT], Observable[_OutT]):
     """
-    An observable subclass that encapsulates a data flow and offers a mechanism for streaming its entries reactively.
+    An observable subclass that encapsulates a flow of data and offers a mechanism for streaming its entries reactively.
 
     **Notes:**
 
-    -   The `ObservableStream` class is a data flow-centric observable that focuses solely on the stream of its entries
-        over time and in a reactive manner.
+    -   The `ObservableStream` class is a data flow-centric observable that focuses exclusively on the stream of its
+        entries over time and in a reactive manner.
 
-    -   Data streaming is managed through a queue, ensuring that the order of entries is preserved and no inconsistent
-        notifications are generated.
+    -   Data streaming is managed through a queue, ensuring that the order of entries is preserved and that no
+        inconsistent notifications are generated.
 
-    -   Data is streamed to subscribers in a lazy manner, allowing them to receive incremental notifications as they
-        occur.
+    -   Data is streamed to subscribers in a lazy manner, allowing them to receive incremental notifications
+        as they occur.
     """
 
     # Attributes for the ObservableStream.
@@ -67,9 +67,9 @@ class ObservableStream(Generic[_OutT], Observable[_OutT]):
     @final  # Prevent overriding in subclasses to maintain the integrity of the `_OutT` type.
     def next(self, value: _OutT) -> None:  # type: ignore[misc]
         """
-        Send a value entry to the stream and notify all subscribers.
+        Push a value entry to the stream and notify all subscribers.
 
-        :param value: The value entry to be sent to the stream.
+        :param value: The value entry to be pushed to the stream.
         :return: None.
         """
         with self._thread_lock:
@@ -78,9 +78,9 @@ class ObservableStream(Generic[_OutT], Observable[_OutT]):
 
     def error(self, exception: Exception) -> None:
         """
-        Send an error entry to the stream and notify all subscribers.
+        Push an error entry to the stream and notify all subscribers.
 
-        :param exception: The error entry to be sent to the stream.
+        :param exception: The error entry to be pushed to the stream.
         :return: None.
         """
         with self._thread_lock:
@@ -89,7 +89,7 @@ class ObservableStream(Generic[_OutT], Observable[_OutT]):
 
     def complete(self) -> None:
         """
-        Send a completion entry to the stream and notify all subscribers.
+        Push a completion entry to the stream and notify all subscribers.
 
         Once the notification is sent, all notified subscribers will be removed.
 

@@ -83,6 +83,7 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
     @pytest.mark.parametrize(
         ["force_async", "enforce_submission_order", "exception"],
         [
+            (True, 0, PyventusException),
             (None, False, PyventusException),
             (False, None, PyventusException),
             ("True", True, PyventusException),

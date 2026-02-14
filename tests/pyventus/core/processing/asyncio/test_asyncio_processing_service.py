@@ -2,6 +2,7 @@ import asyncio
 import time
 from collections import deque
 from collections.abc import Awaitable, Callable, Generator
+from concurrent.futures import ThreadPoolExecutor
 from contextlib import contextmanager
 from threading import Lock, current_thread, main_thread
 from typing import Any
@@ -11,6 +12,7 @@ from pyventus.core.exceptions.pyventus_exception import PyventusException
 from pyventus.core.processing.asyncio import AsyncIOProcessingService
 from typing_extensions import override
 
+from .....fixtures import CallableMock, DummyCallable
 from ..processing_service_test import ProcessingServiceTest
 
 
@@ -81,6 +83,7 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
     @pytest.mark.parametrize(
         ["force_async", "enforce_submission_order", "exception"],
         [
+            (True, 0, PyventusException),
             (None, False, PyventusException),
             (False, None, PyventusException),
             ("True", True, PyventusException),
@@ -238,11 +241,11 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
         await processing_service.wait_for_tasks()
 
     # =================================
-    # Test Cases for ordered submissions
+    # Test Cases for submission order
     # =================================
 
     @contextmanager
-    def run_ordered_submission_tests(
+    def run_submission_order_tests(
         self, force_async: bool | None, enforce_submission_order: bool | None
     ) -> Generator[AsyncIOProcessingService, None, None]:
         # Arrange
@@ -252,39 +255,83 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
                 self._compile_time_ids: list[int] = []
                 self._runtime_ids: list[int] = []
 
-            def create_synchronous_callback(self, delay: float = 0) -> Callable[[], None]:
+            def register_callback(self) -> int:
                 with self._thread_lock:
                     callback_id: int = len(self._compile_time_ids)
                     self._compile_time_ids.append(callback_id)
+                return callback_id
 
-                def _synchronous_callback() -> None:
+            def create_single_sync_callback(self, delay: float = 0) -> Callable[[], None]:
+                callback_id: int = self.register_callback()
+
+                def _main() -> None:
                     time.sleep(delay)
                     with self._thread_lock:
                         self._runtime_ids.append(callback_id)
 
-                return _synchronous_callback
+                return _main
 
-            def create_asynchronous_callback(self, delay: float = 0) -> Callable[[], Awaitable[None]]:
-                with self._thread_lock:
-                    callback_id: int = len(self._compile_time_ids)
-                    self._compile_time_ids.append(callback_id)
+            def create_composed_sync_callback(
+                self, service: AsyncIOProcessingService, delay: float = 0
+            ) -> Callable[[], None]:
+                callback_id1: int = self.register_callback()
+                callback_id2: int = self.register_callback()
+                callback_id3: int = self.register_callback()
 
-                async def _asynchronous_callback() -> None:
+                def _sync_callback() -> None:
+                    time.sleep(delay)
+                    with self._thread_lock:
+                        self._runtime_ids.append(callback_id3)
+
+                async def _async_callback() -> None:
+                    await asyncio.sleep(delay)
+                    with self._thread_lock:
+                        self._runtime_ids.append(callback_id2)
+                    service.submit(_sync_callback)
+
+                def _main() -> None:
+                    time.sleep(delay)
+                    with self._thread_lock:
+                        self._runtime_ids.append(callback_id1)
+                    service.submit(_async_callback)
+
+                return _main
+
+            def create_single_async_callback(self, delay: float = 0) -> Callable[[], Awaitable[None]]:
+                callback_id: int = self.register_callback()
+
+                async def _amain() -> None:
                     await asyncio.sleep(delay)
                     with self._thread_lock:
                         self._runtime_ids.append(callback_id)
 
-                return _asynchronous_callback
+                return _amain
 
-        tracker = ExecutionOrderTracker()
-        callbacks: list[Callable[[], None | Awaitable[None]]] = [
-            tracker.create_asynchronous_callback(delay=0.0025),
-            tracker.create_synchronous_callback(delay=0.0025),
-            tracker.create_asynchronous_callback(delay=0.0015),
-            tracker.create_synchronous_callback(delay=0.0015),
-            tracker.create_asynchronous_callback(delay=0.0005),
-            tracker.create_synchronous_callback(delay=0.0005),
-        ]
+            def create_composed_async_callback(
+                self, service: AsyncIOProcessingService, delay: float = 0
+            ) -> Callable[[], Awaitable[None]]:
+                callback_id1: int = self.register_callback()
+                callback_id2: int = self.register_callback()
+                callback_id3: int = self.register_callback()
+
+                async def _async_callback() -> None:
+                    await asyncio.sleep(delay)
+                    with self._thread_lock:
+                        self._runtime_ids.append(callback_id3)
+
+                def _sync_callback() -> None:
+                    time.sleep(delay)
+                    with self._thread_lock:
+                        self._runtime_ids.append(callback_id2)
+                    service.submit(_async_callback)
+
+                async def _amain() -> None:
+                    await asyncio.sleep(delay)
+                    with self._thread_lock:
+                        self._runtime_ids.append(callback_id1)
+                    service.submit(_sync_callback)
+
+                return _amain
 
         kwargs: dict[str, Any] = {}
         if force_async is not None:
@@ -292,6 +339,22 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
         if enforce_submission_order is not None:
             kwargs["enforce_submission_order"] = enforce_submission_order
         processing_service = AsyncIOProcessingService(**kwargs)
+
+        tracker = ExecutionOrderTracker()
+        callbacks: list[Callable[[], None | Awaitable[None]]] = [
+            tracker.create_composed_async_callback(delay=0.0035, service=processing_service),
+            tracker.create_single_async_callback(delay=0.0035),
+            tracker.create_composed_sync_callback(delay=0.0025, service=processing_service),
+            tracker.create_single_sync_callback(delay=0.0025),
+            tracker.create_composed_async_callback(delay=0.0015, service=processing_service),
+            tracker.create_single_async_callback(delay=0.0015),
+            tracker.create_composed_sync_callback(delay=0.0005, service=processing_service),
+            tracker.create_single_sync_callback(delay=0.0005),
+            tracker.create_composed_async_callback(delay=0.0001, service=processing_service),
+            tracker.create_single_async_callback(delay=0.0001),
+            tracker.create_composed_sync_callback(delay=0, service=processing_service),
+            tracker.create_single_sync_callback(delay=0),
+        ]
 
         # Act
         for callback in callbacks:
@@ -315,6 +378,8 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
         if enforce_submission_order:
             assert tracker._compile_time_ids == tracker._runtime_ids, "Submission order not guaranteed."
 
+    # =================================
+
     @pytest.mark.parametrize(
         ["force_async", "enforce_submission_order"],
         [
@@ -325,10 +390,10 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
             (True, True),
         ],
     )
-    def test_ordered_submissions_in_sync_ctx(
+    def test_submission_order_in_sync_ctx(
         self, force_async: bool | None, enforce_submission_order: bool | None
     ) -> None:
-        with self.run_ordered_submission_tests(force_async, enforce_submission_order):
+        with self.run_submission_order_tests(force_async, enforce_submission_order):
             pass
 
     # =================================
@@ -343,17 +408,55 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
             (True, True),
         ],
     )
-    async def test_ordered_submissions_in_async_ctx(
+    async def test_submission_order_in_async_ctx(
         self, force_async: bool | None, enforce_submission_order: bool | None
     ) -> None:
-        with self.run_ordered_submission_tests(force_async, enforce_submission_order) as processing_service:
+        with self.run_submission_order_tests(force_async, enforce_submission_order) as processing_service:
             await processing_service.wait_for_tasks()
 
     # =================================
-    # Test Cases for all_tasks method
+    # Test Cases for wait_for_tasks
     # =================================
 
-    async def test_all_tasks_method(self) -> None:
+    async def test_wait_for_tasks(self) -> None:
+        # Arrange
+        callback: CallableMock.Base = CallableMock.Async()
+        processing_service = AsyncIOProcessingService()
+
+        async def main_callback() -> None:
+            await asyncio.sleep(0.0025)
+            processing_service.submit(callback)
+
+        # Act
+        processing_service.submit(main_callback)
+
+        with ThreadPoolExecutor() as executor:
+
+            async def amain() -> None:
+                # Arrange
+                processing_service.submit(main_callback)
+
+                # Act: Wait for all tasks in the thread's asyncio loop (1 task in thread, 1 in main).
+                await processing_service.wait_for_tasks()
+
+                # Assert
+                assert callback.call_count == 1
+                assert processing_service.task_count == 1
+
+            executor.submit(asyncio.run, amain()).result()
+
+        # Act: Wait for all tasks in the main asyncio loop (0 tasks in thread, 1 in main).
+        await processing_service.wait_for_tasks()
+
+        # Assert
+        assert callback.call_count == 2
+        assert processing_service.task_count == 0
+
+    # =================================
+    # Test Cases for all_tasks
+    # =================================
+
+    async def test_all_tasks(self) -> None:
         # Arrange
         tasks_lock: Lock = Lock()
 
@@ -391,3 +494,75 @@ class TestAsyncIOProcessingService(ProcessingServiceTest):
         await asyncio.gather(*AsyncIOProcessingService.all_tasks())
         assert processing_service1.task_count == processing_service2.task_count == processing_service3.task_count == 0
         assert len(AsyncIOProcessingService.all_tasks()) == 0
+
+    # =================================
+    # Test Cases for guard decorator
+    # =================================
+
+    @pytest.mark.parametrize(
+        ["callback", "exception"],
+        [
+            (0, PyventusException),
+            (..., PyventusException),
+            (None, PyventusException),
+            (True, PyventusException),
+            ("True", PyventusException),
+            (DummyCallable.Invalid(), PyventusException),
+            *[(cb, PyventusException) for cb in DummyCallable.Sync().ALL],
+            *[(cb, PyventusException) for cb in DummyCallable.Sync.Generator().ALL],
+            *[(cb, PyventusException) for cb in DummyCallable.Async.Generator().ALL],
+        ],
+    )
+    def test_guard_decorator_with_invalid_input(self, callback: Any, exception: type[Exception]) -> None:
+        # Arrange/Act/Assert
+        with pytest.raises(exception):
+            AsyncIOProcessingService.guard(callback)
+
+    # =================================
+
+    def test_guard_decorator(self) -> None:
+        # Arrange
+        callback: CallableMock.Base = CallableMock.Async()
+        processing_service1: AsyncIOProcessingService = AsyncIOProcessingService()
+        processing_service2: AsyncIOProcessingService = AsyncIOProcessingService(force_async=True)
+
+        def sync_callback() -> None:
+            time.sleep(0.0025)
+            processing_service2.submit(callback)
+
+        async def async_callback() -> None:
+            await asyncio.sleep(0.0025)
+            processing_service1.submit(callback)
+            processing_service2.submit(sync_callback)
+
+        # Act
+        @AsyncIOProcessingService.guard
+        async def amain() -> None:
+            # Submit tasks before threading.
+            processing_service2.submit(callback)
+            processing_service1.submit(async_callback)
+
+            # Test guard within a threaded context.
+            with ThreadPoolExecutor() as executor:
+
+                @AsyncIOProcessingService.guard
+                async def threaded_amain() -> None:
+                    processing_service2.submit(callback)
+                    processing_service1.submit(async_callback)
+
+                executor.submit(asyncio.run, threaded_amain()).result()
+
+            # Submit tasks after threading.
+            processing_service2.submit(sync_callback)
+
+            # Assert: Verify thread assertions.
+            assert callback.call_count == 3
+            assert processing_service1.task_count == 1
+            assert processing_service2.task_count == 2
+
+        # Run the main function with the guard.
+        asyncio.run(amain())
+
+        # Assert: Verify final counts.
+        assert callback.call_count == 7
+        assert processing_service1.task_count == processing_service2.task_count == 0

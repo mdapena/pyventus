@@ -227,6 +227,14 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
         else:
             await self._emit_error(exception, subscribers)
 
+    async def wait_for_tasks(self) -> None:
+        """
+        Wait for all background tasks in the current asyncio loop associated with the `ObservableValue` to complete.
+
+        :return: None.
+        """
+        await self.__processing_service.wait_for_tasks()
+
     def get_error(
         self, callback: Callable[[Exception | None], None | Awaitable[None]], force_async: bool = False
     ) -> None:
@@ -339,13 +347,3 @@ class ObservableValue(Generic[_OutT], Observable[_OutT]):
                 {self.get_valid_subscriber(subscriber) for subscriber in subscribers},
             )
             return subscribers
-
-    async def wait_for_tasks(self) -> None:
-        """
-        Wait for all background tasks associated with the `ObservableValue` to complete.
-
-        It ensures that any ongoing tasks are finished before proceeding.
-
-        :return: None.
-        """
-        await self.__processing_service.wait_for_tasks()

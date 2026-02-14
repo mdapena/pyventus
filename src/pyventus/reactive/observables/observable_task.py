@@ -125,13 +125,10 @@ class ObservableTask(Generic[_OutT], Observable[_OutT]):
 
     async def wait_for_tasks(self) -> None:
         """
-        Wait for all background tasks associated with the `ObservableTask` to complete.
-
-        It ensures that any ongoing tasks are finished before proceeding.
+        Wait for all background tasks in the current asyncio loop associated with the `ObservableTask` to complete.
 
         :return: None.
         """
-        # Await the completion of all background tasks.
         await self.__processing_service.wait_for_tasks()
 
     @contextmanager

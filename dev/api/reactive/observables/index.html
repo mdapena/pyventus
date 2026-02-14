@@ -4366,7 +4366,8 @@ subscriber to ensure they are no longer retained.</p>
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p>A tuple of the form (source, subscriber). Both may be <code>None</code> if the subscription context has either unpacked the state previously or is stateless.</p>
+                <p>A tuple of the form (source, subscriber). Both may be <code>None</code> if the
+subscription context has either unpacked the state previously or is stateless.</p>
               </div>
             </td>
           </tr>
@@ -4390,7 +4391,8 @@ subscriber to ensure they are no longer retained.</p>
             </td>
             <td class="doc-raises-details">
               <div class="doc-md-description">
-                <p>If this method is called before or during the subscription context, indicating that the resources are not yet available for unpacking.</p>
+                <p>If this method is called before or during the subscription
+context, indicating that the resources are not yet available for unpacking.</p>
               </div>
             </td>
           </tr>
@@ -4761,7 +4763,11 @@ specified source, and performs any necessary cleanup.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>A flag indicating whether the context preserves its state (<code>stateful</code>) or not (<code>stateless</code>) after exiting the subscription context. If <code>True</code>, the context retains its state, allowing access to stored objects, including the <code>observable</code> and the <code>subscriber</code> object. If <code>False</code>, the context is stateless, and the stored state is cleared upon exiting the subscription context to prevent memory leaks.</p>
+                <p>A flag indicating whether the context preserves its state (<code>stateful</code>) or
+not (<code>stateless</code>) after exiting the subscription context. If <code>True</code>, the context retains its
+state, allowing access to stored objects, including the <code>observable</code> and the <code>subscriber</code>
+object. If <code>False</code>, the context is stateless, and the stored state is cleared upon
+exiting the subscription context to prevent memory leaks.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -5161,7 +5167,8 @@ specified source, and performs any necessary cleanup.</p>
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p>A tuple containing the decorated callback and its subscription context if the context is <code>stateful</code>; otherwise, returns the decorated callback alone.</p>
+                <p>A tuple containing the decorated callback and its subscription context
+if the context is <code>stateful</code>; otherwise, returns the decorated callback alone.</p>
               </div>
             </td>
           </tr>
@@ -5446,7 +5453,8 @@ specified source, and performs any necessary cleanup.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>Specifies the debug mode for the logger. If <code>None</code>, the mode is determined based on the execution environment.</p>
+                <p>Specifies the debug mode for the logger. If <code>None</code>,
+the mode is determined based on the execution environment.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -5859,7 +5867,11 @@ specified source, and performs any necessary cleanup.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>A flag indicating whether the subscription context preserves its state (<code>stateful</code>) or not (<code>stateless</code>) after exiting the subscription block. If <code>True</code>, the context retains its state, allowing access to stored objects, including the <code>observable</code> and the <code>subscriber</code> object. If <code>False</code>, the context is stateless, and the stored state is cleared upon exiting the subscription block to prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.</p>
+                <p>A flag indicating whether the subscription context preserves its state (<code>stateful</code>)
+or not (<code>stateless</code>) after exiting the subscription block. If <code>True</code>, the context retains its state,
+allowing access to stored objects, including the <code>observable</code> and the <code>subscriber</code> object. If <code>False</code>,
+the context is stateless, and the stored state is cleared upon exiting the subscription block to
+prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -6092,7 +6104,8 @@ specified source, and performs any necessary cleanup.</p>
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p><code>True</code> if the subscriber was successfully removed; <code>False</code> if the subscriber was not found in the observable.</p>
+                <p><code>True</code> if the subscriber was successfully removed; <code>False</code> if
+the subscriber was not found in the observable.</p>
               </div>
             </td>
           </tr>
@@ -6189,7 +6202,8 @@ specified source, and performs any necessary cleanup.</p>
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p><code>True</code> if the observable was successfully cleared; <code>False</code> if the observable was already empty.</p>
+                <p><code>True</code> if the observable was successfully cleared; <code>False</code>
+if the observable was already empty.</p>
               </div>
             </td>
           </tr>

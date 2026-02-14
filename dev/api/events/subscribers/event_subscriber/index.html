@@ -3189,7 +3189,8 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p>A boolean value indicating if the event subscriber is a one-time subscription.</p>
+                <p>A boolean value indicating if the event subscriber
+is a one-time subscription.</p>
               </div>
             </td>
           </tr>
@@ -3413,7 +3414,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>A callback function invoked during the unsubscription process to perform cleanup or teardown operations associated with the subscription. It should return <code>True</code> if the cleanup was successful, or <code>False</code> if the teardown has already been executed and the subscription is no longer active.</p>
+                <p>A callback function invoked during the unsubscription process to perform
+cleanup or teardown operations associated with the subscription. It should return <code>True</code> if the
+cleanup was successful, or <code>False</code> if the teardown has already been executed and the subscription
+is no longer active.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -3477,7 +3481,10 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>Determines whether to force all callbacks to run asynchronously. If <code>True</code>, synchronous callbacks will be converted to run asynchronously in a thread pool, using the <code>asyncio.to_thread</code> function. If <code>False</code>, callbacks will run synchronously or asynchronously as defined.</p>
+                <p>Determines whether to force all callbacks to run asynchronously.
+If <code>True</code>, synchronous callbacks will be converted to run asynchronously in a
+thread pool, using the <code>asyncio.to_thread</code> function. If <code>False</code>, callbacks
+will run synchronously or asynchronously as defined.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">

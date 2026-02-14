@@ -5440,7 +5440,8 @@ subscriber to ensure they are no longer retained.</p>
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p>A tuple of the form (source, subscriber). Both may be <code>None</code> if the subscription context has either unpacked the state previously or is stateless.</p>
+                <p>A tuple of the form (source, subscriber). Both may be <code>None</code> if the
+subscription context has either unpacked the state previously or is stateless.</p>
               </div>
             </td>
           </tr>
@@ -5464,7 +5465,8 @@ subscriber to ensure they are no longer retained.</p>
             </td>
             <td class="doc-raises-details">
               <div class="doc-md-description">
-                <p>If this method is called before or during the subscription context, indicating that the resources are not yet available for unpacking.</p>
+                <p>If this method is called before or during the subscription
+context, indicating that the resources are not yet available for unpacking.</p>
               </div>
             </td>
           </tr>
@@ -5867,7 +5869,11 @@ specified source, and performs any necessary cleanup.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>A flag indicating whether the context preserves its state (stateful) or not (stateless) after exiting the subscription context. If <code>True</code>, the context retains its state, allowing access to stored objects, including the <code>event linker</code> and the <code>subscriber</code> object. If <code>False</code>, the context is stateless, and the stored state is cleared upon exiting the subscription context to prevent memory leaks.</p>
+                <p>A flag indicating whether the context preserves its state (stateful) or
+not (stateless) after exiting the subscription context. If <code>True</code>, the context retains its
+state, allowing access to stored objects, including the <code>event linker</code> and the <code>subscriber</code>
+object. If <code>False</code>, the context is stateless, and the stored state is cleared upon exiting
+the subscription context to prevent memory leaks.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -6289,7 +6295,8 @@ specified source, and performs any necessary cleanup.</p>
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p>A tuple containing the decorated callback and its subscription context if the context is stateful; otherwise, returns the decorated callback alone.</p>
+                <p>A tuple containing the decorated callback and its subscription context
+if the context is stateful; otherwise, returns the decorated callback alone.</p>
               </div>
             </td>
           </tr>
@@ -6421,7 +6428,8 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The default callback to assign as the success callback in the subscribers when no specific success callback is provided.</p>
+                <p>The default callback to assign as the success callback in the subscribers
+when no specific success callback is provided.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -6441,7 +6449,8 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>The default callback to assign as the failure callback in the subscribers when no specific failure callback is provided.</p>
+                <p>The default callback to assign as the failure callback in the subscribers
+when no specific failure callback is provided.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -6461,7 +6470,8 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>Specifies the debug mode for the subclass logger. If <code>None</code>, it is determined based on the execution environment.</p>
+                <p>Specifies the debug mode for the subclass logger. If <code>None</code>, it is determined based
+on the execution environment.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -6519,7 +6529,8 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
             </td>
             <td class="doc-raises-details">
               <div class="doc-md-description">
-                <p>If <code>max_subscribers</code> is less than 1 or if the provided callbacks are invalid.</p>
+                <p>If <code>max_subscribers</code> is less than 1 or if the provided
+callbacks are invalid.</p>
               </div>
             </td>
           </tr>
@@ -6736,7 +6747,8 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
             </td>
             <td class="doc-raises-details">
               <div class="doc-md-description">
-                <p>If the <code>event</code> argument is invalid or if the event is not supported.</p>
+                <p>If the <code>event</code> argument is invalid
+or if the event is not supported.</p>
               </div>
             </td>
           </tr>
@@ -7246,7 +7258,8 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p>A shallow copy of the main registry, where each event is mapped to a set of its linked subscribers.</p>
+                <p>A shallow copy of the main registry, where each
+event is mapped to a set of its linked subscribers.</p>
               </div>
             </td>
           </tr>
@@ -7722,7 +7735,8 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>If <code>True</code>, removes one-time subscribers (those with the property <code>once</code> set to True) from the registry.</p>
+                <p>If <code>True</code>, removes one-time subscribers (those
+with the property <code>once</code> set to True) from the registry.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -7897,7 +7911,8 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p>The count of events associated with the specified subscriber, or 0 if the subscriber is not found.</p>
+                <p>The count of events associated with the specified subscriber,
+or 0 if the subscriber is not found.</p>
               </div>
             </td>
           </tr>
@@ -8000,7 +8015,8 @@ it can also be used to configure specific settings of the <code>EventLinker</cod
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p>The count of subscribers associated with the specified event, or 0 if the event is not found.</p>
+                <p>The count of subscribers associated with the specified event,
+or 0 if the event is not found.</p>
               </div>
             </td>
           </tr>
@@ -8420,7 +8436,10 @@ to be associated with the provided events within the context block.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>Determines whether to force all callbacks to run asynchronously. If <code>True</code>, synchronous callbacks will be converted to run asynchronously in a thread pool, using the <code>asyncio.to_thread</code> function. If <code>False</code>, callbacks will run synchronously or asynchronously as defined.</p>
+                <p>Determines whether to force all callbacks to run asynchronously.
+If <code>True</code>, synchronous callbacks will be converted to run asynchronously in a
+thread pool, using the <code>asyncio.to_thread</code> function. If <code>False</code>, callbacks
+will run synchronously or asynchronously as defined.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -8440,7 +8459,11 @@ to be associated with the provided events within the context block.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>A flag indicating whether the subscription context preserves its state (<code>stateful</code>) or not (<code>stateless</code>) after exiting the subscription block. If <code>True</code>, the context retains its state, allowing access to stored objects, including the <code>event linker</code> and the <code>subscriber</code> object. If <code>False</code>, the context is stateless, and the stored state is cleared upon exiting the subscription block to prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.</p>
+                <p>A flag indicating whether the subscription context preserves its state
+(<code>stateful</code>) or not (<code>stateless</code>) after exiting the subscription block. If <code>True</code>, the context retains
+its state, allowing access to stored objects, including the <code>event linker</code> and the <code>subscriber</code> object.
+If <code>False</code>, the context is stateless, and the stored state is cleared upon exiting the subscription
+block to prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -8601,7 +8624,10 @@ to be associated with the provided events within the context block.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>Determines whether to force all callbacks to run asynchronously. If <code>True</code>, synchronous callbacks will be converted to run asynchronously in a thread pool, using the <code>asyncio.to_thread</code> function. If <code>False</code>, callbacks will run synchronously or asynchronously as defined.</p>
+                <p>Determines whether to force all callbacks to run asynchronously.
+If <code>True</code>, synchronous callbacks will be converted to run asynchronously in a
+thread pool, using the <code>asyncio.to_thread</code> function. If <code>False</code>, callbacks
+will run synchronously or asynchronously as defined.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -8621,7 +8647,11 @@ to be associated with the provided events within the context block.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>A flag indicating whether the subscription context preserves its state (<code>stateful</code>) or not (<code>stateless</code>) after exiting the subscription block. If <code>True</code>, the context retains its state, allowing access to stored objects, including the <code>event linker</code> and the <code>subscriber</code> object. If <code>False</code>, the context is stateless, and the stored state is cleared upon exiting the subscription block to prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.</p>
+                <p>A flag indicating whether the subscription context preserves its state
+(<code>stateful</code>) or not (<code>stateless</code>) after exiting the subscription block. If <code>True</code>, the context retains
+its state, allowing access to stored objects, including the <code>event linker</code> and the <code>subscriber</code> object.
+If <code>False</code>, the context is stateless, and the stored state is cleared upon exiting the subscription
+block to prevent memory leaks. The term 'subctx' refers to 'Subscription Context'.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -8834,7 +8864,10 @@ to be associated with the provided events within the context block.</p>
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>Determines whether to force all callbacks to run asynchronously. If <code>True</code>, synchronous callbacks will be converted to run asynchronously in a thread pool, using the <code>asyncio.to_thread</code> function. If <code>False</code>, callbacks will run synchronously or asynchronously as defined.</p>
+                <p>Determines whether to force all callbacks to run asynchronously.
+If <code>True</code>, synchronous callbacks will be converted to run asynchronously in a
+thread pool, using the <code>asyncio.to_thread</code> function. If <code>False</code>, callbacks
+will run synchronously or asynchronously as defined.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -9105,7 +9138,9 @@ to be associated with the provided events within the context block.</p>
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p><code>True</code> if the subscriber was successfully removed; <code>False</code> if no removal occurred due to the event or subscriber not being registered, or if they are not linked.</p>
+                <p><code>True</code> if the subscriber was successfully removed; <code>False</code> if
+no removal occurred due to the event or subscriber not being registered,
+or if they are not linked.</p>
               </div>
             </td>
           </tr>
@@ -9246,7 +9281,8 @@ to be associated with the provided events within the context block.</p>
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p><code>True</code> if the event was successfully removed; <code>False</code> if the event was not found in the registry.</p>
+                <p><code>True</code> if the event was successfully removed; <code>False</code>
+if the event was not found in the registry.</p>
               </div>
             </td>
           </tr>
@@ -9377,7 +9413,8 @@ to be associated with the provided events within the context block.</p>
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p><code>True</code> if the subscriber was successfully removed; <code>False</code> if the subscriber was not found in the registry.</p>
+                <p><code>True</code> if the subscriber was successfully removed; <code>False</code> if
+the subscriber was not found in the registry.</p>
               </div>
             </td>
           </tr>
@@ -9480,7 +9517,8 @@ to be associated with the provided events within the context block.</p>
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p><code>True</code> if the registry was successfully cleared; <code>False</code> if the registry was already empty.</p>
+                <p><code>True</code> if the registry was successfully cleared; <code>False</code>
+if the registry was already empty.</p>
               </div>
             </td>
           </tr>

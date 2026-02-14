@@ -3145,7 +3145,11 @@ major <b><a href="../../../../release-notes/#0.7.0-optimized">optimizations</a><
             </td>
             <td class="doc-param-details">
               <div class="doc-md-description">
-                <p>A flag indicating whether the context preserves its state (stateful) or not (stateless) after exiting the subscription context. If <code>True</code>, the context retains its state, allowing access to stored objects, including the <code>source</code> object and the <code>subscriber</code> object. If <code>False</code>, the context is stateless, and the stored state is cleared upon exiting the subscription context to prevent memory leaks.</p>
+                <p>A flag indicating whether the context preserves its state (stateful) or
+not (stateless) after exiting the subscription context. If <code>True</code>, the context retains its
+state, allowing access to stored objects, including the <code>source</code> object and the <code>subscriber</code>
+object. If <code>False</code>, the context is stateless, and the stored state is cleared upon exiting
+the subscription context to prevent memory leaks.</p>
               </div>
               <p>
                   <span class="doc-param-annotation">
@@ -3244,7 +3248,8 @@ subscriber to ensure they are no longer retained.</p>
             </td>
             <td class="doc-returns-details">
               <div class="doc-md-description">
-                <p>A tuple of the form (source, subscriber). Both may be <code>None</code> if the subscription context has either unpacked the state previously or is stateless.</p>
+                <p>A tuple of the form (source, subscriber). Both may be <code>None</code> if the
+subscription context has either unpacked the state previously or is stateless.</p>
               </div>
             </td>
           </tr>
@@ -3268,7 +3273,8 @@ subscriber to ensure they are no longer retained.</p>
             </td>
             <td class="doc-raises-details">
               <div class="doc-md-description">
-                <p>If this method is called before or during the subscription context, indicating that the resources are not yet available for unpacking.</p>
+                <p>If this method is called before or during the subscription
+context, indicating that the resources are not yet available for unpacking.</p>
               </div>
             </td>
           </tr>

@@ -3,7 +3,7 @@ site_name: Pyventus
 site_url: https://mdapena.github.io/pyventus/
 site_author: Manuel Da Pena
 site_description: >-
-  A powerful Python library for event-driven and reactive programming.
+  A Python library for event-driven and reactive programming.
 
 # Repository
 repo_name: mdapena/pyventus
@@ -11,7 +11,7 @@ repo_url: https://github.com/mdapena/pyventus
 
 # Copyright
 copyright: |
-  Copyright &copy; 2023-2025 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+  Copyright &copy; 2023-2026 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
 # Configuration
 theme:

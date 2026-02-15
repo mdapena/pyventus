@@ -113,7 +113,7 @@ event_emitter.emit("MyEvent", "Hello, World!")
 ```
 
 1.  Implement this method to define the processing strategy. See the example below.
-2.  The given `callback` can be either a synchronous or an asynchronous Python function. For typing, you can refer to the base [submit()](../../../api/core/processing/#pyventus.core.processing.ProcessingService.submit) method.
+2.  The given `callback` can be either a synchronous or an asynchronous Python function. For typing, you can refer to the base [submit()](../../../api/core/processing/index.md#pyventus.core.processing.ProcessingService.submit) method.
 
 ## Runtime Flexibility
 

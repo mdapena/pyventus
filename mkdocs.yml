@@ -224,6 +224,8 @@ nav:
         - Observable:
           - api/reactive/observables/index.md
           - ObservableTask: api/reactive/observables/observable_task.md
+          - ObservableValue: api/reactive/observables/observable_value.md
+          - ObservableStream: api/reactive/observables/observable_stream.md
           - Observable Utils: api/reactive/observables/observable_utils.md
         - Observer: api/reactive/observers/observer.md
         - Subscriber: api/reactive/subscribers/subscriber.md

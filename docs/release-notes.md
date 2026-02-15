@@ -12,6 +12,44 @@ hide:
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"
 
+## [v0.8.0](https://github.com/mdapena/pyventus/releases/tag/0.8.0) <small>Unreleased</small> { id="0.8.0" }
+
+<hr class="divider">
+
+##### Added { id="0.8.0-added" }
+
+-   Added a new optional constructor parameter to the `AsyncIOProcessingService` called `enforce_submission_order`. When `True`, submissions are processed in the same order as they were received, including nested/inner submissions and across threads. Default: `False`.
+
+-   Added a new optional constructor parameter to the `AsyncIOProcessingService` called `force_async`. When `True`, synchronous callbacks submitted to the processing service will be forced to run asynchronously through the `asyncio.to_thread()` function. Default: `False`.
+
+-   Added a new property to the `AsyncIOProcessingService` called `task_name`, which returns the name used for all tasks created by a processing service instance.
+
+-   Added a new property to the `AsyncIOProcessingService` called `task_count`, which returns the number of tasks that are currently active within an `AsyncIOProcessingService` instance.
+
+-   Added a new class method to the `AsyncIOProcessingService` called `all_tasks()`, which returns all currently active tasks across all instances.
+
+-   Added a new class method to the `AsyncIOProcessingService` called `guard()`, which is a decorator for `async` callables that ensures all active tasks across all instances in the current event loop are completed before the decorated coroutine continues.
+
+-   Added a new `Observable` subclass called `ObservableValue`, a value-centric observable that focuses on a single value and its changes over time.
+
+-   Added a new `Observable` subclass called `ObservableStream`, a data flow-centric observable that focuses exclusively on the stream of its entries over time.
+
+##### Changed { id="0.8.0-changed" }
+
+-   Updated internal methods of the `AsyncIOProcessingService` for standardized naming.
+
+-   Updated the `wait_for_tasks()` method of the `AsyncIOProcessingService` to wait for all tasks in the current asyncio loop, including new and nested tasks. Previously, only active tasks were awaited.
+
+-   Updated the `submit()` method of the `AsyncIOProcessingService` to handle task submissions based on the `enforce_submission_order` and `force_async` configurations.
+
+-   Updated the `_emit_next()` method of the `Observable` base class to incorporate a new optional parameter called `subscribers`, which corresponds to the collection of subscribers to be used for the notification.
+
+-   Updated the `_emit_error()` method of the `Observable` base class to incorporate a new optional parameter called `subscribers`, which corresponds to the collection of subscribers to be used for the notification.
+
+-   Updated the `_emit_complete()` method of the `Observable` base class to incorporate a new optional parameter called `subscribers`, which corresponds to the collection of subscribers to be used for the notification.
+
+[//]: # "--------------------------------------------------------------------------------------------------------------"
+
 ## [v0.7.2](https://github.com/mdapena/pyventus/releases/tag/0.7.2) <small>Nov 11, 2025</small> { id="0.7.2" }
 
 <hr class="divider">

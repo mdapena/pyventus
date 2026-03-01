@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="A powerful Python library for event-driven and reactive programming.">
+        <meta name="description" content="A Python library for event-driven and reactive programming.">
       
       
         <meta name="author" content="Manuel Da Pena">
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="images/favicon/pyventus-logo.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
     
     
       
@@ -80,7 +80,7 @@
   
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Pyventus" />
-<meta property="og:description" content="A powerful Python library for event-driven and reactive programming." />
+<meta property="og:description" content="A Python library for event-driven and reactive programming." />
 <meta property="og:image" content="https://mdapena.github.io/pyventus/latest/assets/images/social/index.png" />
 <meta property="og:image:type" content="image/png" />
 <meta property="og:image:width" content="1200" />
@@ -88,7 +88,7 @@
 <meta property="og:url" content="https://mdapena.github.io/pyventus/latest/" />
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:title" content="Pyventus" />
-<meta property="twitter:description" content="A powerful Python library for event-driven and reactive programming." />
+<meta property="twitter:description" content="A Python library for event-driven and reactive programming." />
 <meta property="twitter:image" content="https://mdapena.github.io/pyventus/latest/assets/images/social/index.png" />
 </head>
   
@@ -125,18 +125,12 @@
               </button>
             
             
-    🚀 <b><a href="./release-notes/#0.7.0">Pyventus v0.7</a> is now live!</b> —
-Don't miss the <b>latest updates</b>,
-featuring <b><a href="./#a-simple-reactive-example">reactive programming</a></b>,
-major <b><a href="./release-notes/#0.7.0-optimized">optimizations</a></b>, and more!
+    🐍 <b><a href="./release-notes/#0.8.0">Pyventus v0.8</a> is now live!</b> —
+Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>enhanced AsyncIO processing</b>, and more!
 <div class="announcement-subtitle-container">
 	<span class="announcement-subtitle active">
 		Working with Python 3.14? Pyventus is now <a href="./release-notes/#0.7.2">officially compatible</a>, 
 		so you can enjoy the latest features and improvements!
-	</span>
-	<span class="announcement-subtitle">
-		Upgrading an existing app? Check out the <a href="./learn/upgrade_guide/">Upgrade Guide</a>
-        for essential changes from Pyventus v0.6!
 	</span>
 	<span class="announcement-subtitle">
 		Ready to master event-driven programming in Pyventus? Check out the new
@@ -2367,6 +2361,10 @@ major <b><a href="./release-notes/#0.7.0-optimized">optimizations</a></b>, and m
       
         
       
+        
+      
+        
+      
     
     
     
@@ -2436,6 +2434,62 @@ major <b><a href="./release-notes/#0.7.0-optimized">optimizations</a></b>, and m
     
   
     ObservableTask
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/reactive/observables/observable_value/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ObservableValue
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="api/reactive/observables/observable_stream/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ObservableStream
   
 
     
@@ -2846,7 +2900,7 @@ major <b><a href="./release-notes/#0.7.0-optimized">optimizations</a></b>, and m
 <p><strong>Source Code</strong>: <a href="https://github.com/mdapena/pyventus" target="_blank">https://github.com/mdapena/pyventus</a></p>
 <hr />
 <p style="text-align: justify;">
-    &emsp;&emsp;Pyventus is a powerful Python library for event-driven and reactive programming, designed to simplify the development of asynchronous and event-based applications in Python.
+    &emsp;&emsp;Pyventus is a Python library for event-driven and reactive programming, designed to simplify the development of asynchronous and event-based applications in Python.
 </p>
 
 <h2 id="key-features">Key Features<a class="headerlink" href="#key-features" title="Permanent link">&para;</a></h2>
@@ -3415,7 +3469,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 
 <ul>
 <li>
-<p><p style="text-align: justify;"><a href="#ep-event-objects" name="ep-event-objects" title="Permanent link">Event Objects</a> ─ 
+<p><p style="text-align: justify;"><a href="#ep-event-objects" name="ep-event-objects" title="Permanent link">Event Objects</a> ─
         Besides supporting string-based events, as we've seen in previous examples, Pyventus also supports Event Objects, which provide a structured way to define events and encapsulate relevant data payloads.
     </p></p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1"> 1</a></span>
@@ -3460,7 +3514,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 </code></pre></div></td></tr></table></div>
 </li>
 <li>
-<p><p style="text-align: justify;"><a href="#ep-global-events" name="ep-global-events" title="Permanent link">Global Events</a> ─ 
+<p><p style="text-align: justify;"><a href="#ep-global-events" name="ep-global-events" title="Permanent link">Global Events</a> ─
         In addition to Event Objects and string-based events, Pyventus also provides support for global events, which are particularly useful for implementing cross-cutting concerns such as logging, monitoring, and analytics. By subscribing event callbacks to <code>...</code>, you can capture all events that may occur within that specific <code>EventLinker</code> context.
     </p></p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-8-1">1</a></span>
@@ -3479,7 +3533,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 </code></pre></div></td></tr></table></div>
 </li>
 <li>
-<p><p style="text-align: justify;"><a href="#ep-success-and-error-handling" name="ep-success-and-error-handling" title="Permanent link">Success and Error Handling</a> ─ 
+<p><p style="text-align: justify;"><a href="#ep-success-and-error-handling" name="ep-success-and-error-handling" title="Permanent link">Success and Error Handling</a> ─
         With Pyventus, you can customize how events are handled upon completion, whether they succeed or encounter errors. This customization is achieved through the configuration of the success and failure callbacks in the event workflow definition, which is done during the subscription process.
     </p></p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1"> 1</a></span>
@@ -3556,7 +3610,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 </details>
 </li>
 <li>
-<p><p style="text-align: justify;"><a href="#ep-sync-and-async-support" name="ep-sync-and-async-support" title="Permanent link">Sync and Async Support</a> ─ 
+<p><p style="text-align: justify;"><a href="#ep-sync-and-async-support" name="ep-sync-and-async-support" title="Permanent link">Sync and Async Support</a> ─
         Pyventus is designed from the ground up to seamlessly support both synchronous and asynchronous programming models. Its unified sync/async API allows you to define event callbacks as either <code>sync</code> or <code>async</code> callables, as well as emit events from both contexts.
     </p></p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-11-1">1</a></span>
@@ -3619,7 +3673,7 @@ Finally, and in order to initiate the execution of the observable, we called its
 </details></p>
 </li>
 <li>
-<p><p style="text-align: justify;"><a href="#ep-runtime-flexibility" name="ep-runtime-flexibility" title="Permanent link">Runtime Flexibility</a> ─ 
+<p><p style="text-align: justify;"><a href="#ep-runtime-flexibility" name="ep-runtime-flexibility" title="Permanent link">Runtime Flexibility</a> ─
         At its core, Pyventus utilizes a modular event emitter design that, along with the <code>EventLinker</code>, allows you to change the event emitter at runtime without needing to reconfigure all subscriptions or apply complex logic.
     </p></p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-14-1"> 1</a></span>
@@ -3751,38 +3805,25 @@ Finally, and in order to initiate the execution of the observable, we called its
 </details>
 </li>
 <li>
-<p><p style="text-align: justify;"><a href="#rp-multicast-support" name="rp-multicast-support" title="Permanent link">Multicast Support</a> ─
-        Observables in Pyventus are designed from the ground up to efficiently support both unicast and multicast scenarios. So, it doesn't matter if you need to work with either single or multiple subscribers; Pyventus allows you to utilize these notification models and even optimizes the processing of each to ensure optimal performance.
+<p><p style="text-align: justify;"><a href="#rp-observe-any-python-value-and-its-changes-over-time" name="rp-observe-any-python-value-and-its-changes-over-time" title="Permanent link">Observe Any Python Value and Its Changes Over Time</a> ─
+        Any Python value can be easily transformed into an observable using the Pyventus' <code>ObservableValue</code> class. This type of observable lets you wrap a value and stream its changes reactively.
     </p></p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-19-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-19-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-19-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-19-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-19-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-19-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-19-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-19-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-19-10">10</a></span>
-<span class="normal"><a href="#__codelineno-19-11">11</a></span>
-<span class="normal"><a href="#__codelineno-19-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="nd">@as_observable_task</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<a id="__codelineno-19-3" name="__codelineno-19-3"></a>    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-<a id="__codelineno-19-4" name="__codelineno-19-4"></a>        <span class="k">yield</span> <span class="n">count</span>
-<a id="__codelineno-19-5" name="__codelineno-19-5"></a>    <span class="k">raise</span> <span class="n">Completed</span>
-<a id="__codelineno-19-6" name="__codelineno-19-6"></a>
-<a id="__codelineno-19-7" name="__codelineno-19-7"></a>
-<a id="__codelineno-19-8" name="__codelineno-19-8"></a><span class="n">obs</span> <span class="o">=</span> <span class="n">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
-<a id="__codelineno-19-9" name="__codelineno-19-9"></a><span class="hll"><span class="n">obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">next_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subscriber 1 - Received: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
-</span><a id="__codelineno-19-10" name="__codelineno-19-10"></a><span class="hll"><span class="n">obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">next_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subscriber 2 - Received: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
-</span><a id="__codelineno-19-11" name="__codelineno-19-11"></a><span class="hll"><span class="n">obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">next_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subscriber 3 - Received: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
-</span><a id="__codelineno-19-12" name="__codelineno-19-12"></a><span class="n">obs</span><span class="p">()</span>
-</code></pre></div></td></tr></table></div>
-</li>
-<li>
-<p><p style="text-align: justify;"><a href="#rp-success-and-error-handling" name="rp-success-and-error-handling" title="Permanent link">Success and Error Handling</a> ─
-    With Pyventus, you can customize how data streams are handled upon completion, whether they succeed or encounter errors. This customization is achieved through the configuration of the complete and error callbacks in the observer definition, which is done during the subscription process.
-    </p></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-19-1">1</a></span>
+<span class="normal"><a href="#__codelineno-19-2">2</a></span>
+<span class="normal"><a href="#__codelineno-19-3">3</a></span>
+<span class="normal"><a href="#__codelineno-19-4">4</a></span>
+<span class="normal"><a href="#__codelineno-19-5">5</a></span>
+<span class="normal"><a href="#__codelineno-19-6">6</a></span>
+<span class="normal"><a href="#__codelineno-19-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="hll"><span class="n">obsv</span> <span class="o">=</span> <span class="n">ObservableValue</span><span class="p">[</span><span class="nb">int</span><span class="p">](</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><a id="__codelineno-19-2" name="__codelineno-19-2"></a>
+<a id="__codelineno-19-3" name="__codelineno-19-3"></a><span class="n">obsv</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="nb">print</span><span class="p">)</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4"></a>
+<a id="__codelineno-19-5" name="__codelineno-19-5"></a><span class="hll"><span class="n">obsv</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><a id="__codelineno-19-6" name="__codelineno-19-6"></a><span class="hll"><span class="n">obsv</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</span><a id="__codelineno-19-7" name="__codelineno-19-7"></a><span class="hll"><span class="n">obsv</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+<p><details markdown="1" class="tip">
+<summary>You can also validate changes and notify subscribers accordingly...</summary></p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-20-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-20-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-20-3"> 3</a></span>
@@ -3796,28 +3837,22 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-20-11">11</a></span>
 <span class="normal"><a href="#__codelineno-20-12">12</a></span>
 <span class="normal"><a href="#__codelineno-20-13">13</a></span>
-<span class="normal"><a href="#__codelineno-20-14">14</a></span>
-<span class="normal"><a href="#__codelineno-20-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="nd">@as_observable_task</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">interactive_counter</span><span class="p">():</span>
-<a id="__codelineno-20-3" name="__codelineno-20-3"></a>    <span class="n">stop</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter a number to count up to: &quot;</span><span class="p">))</span>  <span class="c1"># Can raise ValueError</span>
-<a id="__codelineno-20-4" name="__codelineno-20-4"></a>    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-<a id="__codelineno-20-5" name="__codelineno-20-5"></a>        <span class="k">yield</span> <span class="n">count</span>
-<a id="__codelineno-20-6" name="__codelineno-20-6"></a>    <span class="k">raise</span> <span class="n">Completed</span>
-<a id="__codelineno-20-7" name="__codelineno-20-7"></a>
-<a id="__codelineno-20-8" name="__codelineno-20-8"></a>
-<a id="__codelineno-20-9" name="__codelineno-20-9"></a><span class="n">obs</span> <span class="o">=</span> <span class="n">interactive_counter</span><span class="p">()</span>
-<a id="__codelineno-20-10" name="__codelineno-20-10"></a><span class="n">obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
-<a id="__codelineno-20-11" name="__codelineno-20-11"></a><span class="hll">    <span class="n">next_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
-</span><a id="__codelineno-20-12" name="__codelineno-20-12"></a><span class="hll">    <span class="n">error_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">err</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
-</span><a id="__codelineno-20-13" name="__codelineno-20-13"></a><span class="hll">    <span class="n">complete_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All done!&quot;</span><span class="p">),</span>
-</span><a id="__codelineno-20-14" name="__codelineno-20-14"></a><span class="p">)</span>
-<a id="__codelineno-20-15" name="__codelineno-20-15"></a><span class="n">obs</span><span class="p">()</span>
-</code></pre></div></td></tr></table></div>
-</li>
-<li>
-<p><p style="text-align: justify;"><a href="#rp-declarative-subscription-model" name="rp-declarative-subscription-model" title="Permanent link">Declarative Subscription Model</a> ─
-        Alongside standard subscription models, such as using lambda functions or predefined callbacks, Pyventus also provides a declarative subscription model that allows you to not only define the observer's callbacks inline and in a step-by-step manner but also to do so right before the subscription takes place.
-    </p></p>
+<span class="normal"><a href="#__codelineno-20-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">natural_number</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><a id="__codelineno-20-2" name="__codelineno-20-2"></a><span class="hll">    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="n">value</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2"> is not a natural number.&quot;</span>
+</span><a id="__codelineno-20-3" name="__codelineno-20-3"></a>
+<a id="__codelineno-20-4" name="__codelineno-20-4"></a>
+<a id="__codelineno-20-5" name="__codelineno-20-5"></a><span class="hll"><span class="n">obsv</span> <span class="o">=</span> <span class="n">ObservableValue</span><span class="p">[</span><span class="nb">int</span><span class="p">](</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">natural_number</span><span class="p">])</span>
+</span><a id="__codelineno-20-6" name="__codelineno-20-6"></a><span class="n">obsv</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7"></a><span class="hll">    <span class="n">next_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Next: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+</span><a id="__codelineno-20-8" name="__codelineno-20-8"></a><span class="hll">    <span class="n">error_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">err</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+</span><a id="__codelineno-20-9" name="__codelineno-20-9"></a><span class="hll">    <span class="n">complete_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Completed!&quot;</span><span class="p">),</span>
+</span><a id="__codelineno-20-10" name="__codelineno-20-10"></a><span class="p">)</span>
+<a id="__codelineno-20-11" name="__codelineno-20-11"></a>
+<a id="__codelineno-20-12" name="__codelineno-20-12"></a><span class="hll"><span class="n">obsv</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><a id="__codelineno-20-13" name="__codelineno-20-13"></a><span class="hll"><span class="n">obsv</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+</span><a id="__codelineno-20-14" name="__codelineno-20-14"></a><span class="hll"><span class="n">obsv</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
+<p>Validators can also be <strong>asynchronous</strong>.</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-21-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-21-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-21-3"> 3</a></span>
@@ -3830,59 +3865,85 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-21-10">10</a></span>
 <span class="normal"><a href="#__codelineno-21-11">11</a></span>
 <span class="normal"><a href="#__codelineno-21-12">12</a></span>
-<span class="normal"><a href="#__codelineno-21-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="hll"><span class="k">with</span> <span class="n">obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">()</span> <span class="k">as</span> <span class="n">subctx</span><span class="p">:</span>
-</span><a id="__codelineno-21-2" name="__codelineno-21-2"></a>
-<a id="__codelineno-21-3" name="__codelineno-21-3"></a><span class="hll">    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_next</span>
-</span><a id="__codelineno-21-4" name="__codelineno-21-4"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">next</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><a id="__codelineno-21-5" name="__codelineno-21-5"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-21-6" name="__codelineno-21-6"></a>
-<a id="__codelineno-21-7" name="__codelineno-21-7"></a><span class="hll">    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_error</span>
-</span><a id="__codelineno-21-8" name="__codelineno-21-8"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">error</span><span class="p">(</span><span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><a id="__codelineno-21-9" name="__codelineno-21-9"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<a id="__codelineno-21-10" name="__codelineno-21-10"></a>
-<a id="__codelineno-21-11" name="__codelineno-21-11"></a><span class="hll">    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_complete</span>
-</span><a id="__codelineno-21-12" name="__codelineno-21-12"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">complete</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><a id="__codelineno-21-13" name="__codelineno-21-13"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All done!&quot;</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
-<p><details markdown="1" class="tip">
-<summary>You can also use the <code>subscribe()</code> method as a decorator...</summary></p>
-<p><p style="text-align: justify;">
-    &emsp;&emsp;The <code>subscribe()</code> method, besides being used as a regular function and a context manager, can also be utilized as a decorator. When used this way, it creates and subscribes an observer, using the decorated function as its next callback.
-</p></p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1">1</a></span>
-<span class="normal"><a href="#__codelineno-22-2">2</a></span>
-<span class="normal"><a href="#__codelineno-22-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="hll"><span class="nd">@obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">()</span>
-</span><a id="__codelineno-22-2" name="__codelineno-22-2"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">next</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><a id="__codelineno-22-3" name="__codelineno-22-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</code></pre></div></td></tr></table></div>
+<span class="normal"><a href="#__codelineno-21-13">13</a></span>
+<span class="normal"><a href="#__codelineno-21-14">14</a></span>
+<span class="normal"><a href="#__codelineno-21-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">username_unique</span><span class="p">(</span><span class="n">username</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><a id="__codelineno-21-2" name="__codelineno-21-2"></a><span class="hll">    <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>  <span class="c1"># Simulate I/O operation.</span>
+</span><a id="__codelineno-21-3" name="__codelineno-21-3"></a><span class="hll">    <span class="k">assert</span> <span class="n">username</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;username1&quot;</span><span class="p">,</span> <span class="s2">&quot;username2&quot;</span><span class="p">},</span> <span class="s2">&quot;Username already taken.&quot;</span>
+</span><a id="__codelineno-21-4" name="__codelineno-21-4"></a>
+<a id="__codelineno-21-5" name="__codelineno-21-5"></a>
+<a id="__codelineno-21-6" name="__codelineno-21-6"></a><span class="hll"><span class="n">obsv</span> <span class="o">=</span> <span class="n">ObservableValue</span><span class="p">[</span><span class="nb">str</span><span class="p">](</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">username_unique</span><span class="p">])</span>
+</span><a id="__codelineno-21-7" name="__codelineno-21-7"></a><span class="n">obsv</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8"></a><span class="hll">    <span class="n">next_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Next: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+</span><a id="__codelineno-21-9" name="__codelineno-21-9"></a><span class="hll">    <span class="n">error_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">err</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+</span><a id="__codelineno-21-10" name="__codelineno-21-10"></a><span class="hll">    <span class="n">complete_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Completed!&quot;</span><span class="p">),</span>
+</span><a id="__codelineno-21-11" name="__codelineno-21-11"></a><span class="p">)</span>
+<a id="__codelineno-21-12" name="__codelineno-21-12"></a>
+<a id="__codelineno-21-13" name="__codelineno-21-13"></a><span class="hll"><span class="n">obsv</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="s2">&quot;MyUserName&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-21-14" name="__codelineno-21-14"></a><span class="hll"><span class="n">obsv</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="s2">&quot; userName2 &quot;</span><span class="p">)</span>
+</span><a id="__codelineno-21-15" name="__codelineno-21-15"></a><span class="hll"><span class="n">obsv</span><span class="o">.</span><span class="n">set_value</span><span class="p">(</span><span class="s2">&quot;New Username&quot;</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div>
 </details>
 </li>
 <li>
-<p><p style="text-align: justify;"><a href="#rp-simplified-execution-for-observable-tasks" name="rp-simplified-execution-for-observable-tasks" title="Permanent link">Simplified Execution for Observable Tasks</a> ─
-        Having to explicitly call each observable task to initiate their execution can be tedious and easily overlooked, especially when working with multiple observables at the same time. However, by using observable tasks within a <code>with</code> statement block, you can avoid this manual work and enable what is known as their execution context, which will allow you to work with them as usual while ensuring that they are called upon exiting the context block.
+<p><p style="text-align: justify;"><a href="#rp-observable-data-flows" name="rp-observable-data-flows" title="Permanent link">Observable Data Flows</a> ─
+    With Pyventus, you can easily define observable streams using the <code>ObservableStream</code> class. This type of observable encapsulates a flow of data and provides a mechanism for streaming its entries reactively.
     </p></p>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1">1</a></span>
-<span class="normal"><a href="#__codelineno-23-2">2</a></span>
-<span class="normal"><a href="#__codelineno-23-3">3</a></span>
-<span class="normal"><a href="#__codelineno-23-4">4</a></span>
-<span class="normal"><a href="#__codelineno-23-5">5</a></span>
-<span class="normal"><a href="#__codelineno-23-6">6</a></span>
-<span class="normal"><a href="#__codelineno-23-7">7</a></span>
-<span class="normal"><a href="#__codelineno-23-8">8</a></span>
-<span class="normal"><a href="#__codelineno-23-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="nd">@as_observable_task</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-22-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-22-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-22-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-22-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-22-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-22-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-22-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-22-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-22-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-22-10">10</a></span>
+<span class="normal"><a href="#__codelineno-22-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1"></a><span class="hll"><span class="n">obss</span> <span class="o">=</span> <span class="n">ObservableStream</span><span class="p">[</span><span class="nb">int</span><span class="p">]()</span>
+</span><a id="__codelineno-22-2" name="__codelineno-22-2"></a>
+<a id="__codelineno-22-3" name="__codelineno-22-3"></a><span class="n">obss</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4"></a>    <span class="n">next_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Next: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5"></a>    <span class="n">error_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">err</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6"></a>    <span class="n">complete_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Completed!&quot;</span><span class="p">),</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7"></a><span class="p">)</span>
+<a id="__codelineno-22-8" name="__codelineno-22-8"></a>
+<a id="__codelineno-22-9" name="__codelineno-22-9"></a><span class="hll"><span class="n">obss</span><span class="o">.</span><span class="n">next</span><span class="p">(</span><span class="mi">12345</span><span class="p">)</span>
+</span><a id="__codelineno-22-10" name="__codelineno-22-10"></a><span class="hll"><span class="n">obss</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Exception&quot;</span><span class="p">))</span>
+</span><a id="__codelineno-22-11" name="__codelineno-22-11"></a><span class="hll"><span class="n">obss</span><span class="o">.</span><span class="n">complete</span><span class="p">()</span>
+</span></code></pre></div></td></tr></table></div>
+</li>
+<li>
+<p><p style="text-align: justify;"><a href="#rp-multicast-support" name="rp-multicast-support" title="Permanent link">Multicast Support</a> ─
+        Observables in Pyventus are designed from the ground up to efficiently support both unicast and multicast scenarios. So, it doesn't matter if you need to work with either single or multiple subscribers; Pyventus allows you to utilize these notification models and even optimizes the processing of each to ensure optimal performance.
+    </p></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-23-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-23-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-23-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-23-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-23-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-23-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-23-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-23-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-23-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-23-10">10</a></span>
+<span class="normal"><a href="#__codelineno-23-11">11</a></span>
+<span class="normal"><a href="#__codelineno-23-12">12</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1"></a><span class="nd">@as_observable_task</span>
 <a id="__codelineno-23-2" name="__codelineno-23-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
 <a id="__codelineno-23-3" name="__codelineno-23-3"></a>    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
 <a id="__codelineno-23-4" name="__codelineno-23-4"></a>        <span class="k">yield</span> <span class="n">count</span>
 <a id="__codelineno-23-5" name="__codelineno-23-5"></a>    <span class="k">raise</span> <span class="n">Completed</span>
 <a id="__codelineno-23-6" name="__codelineno-23-6"></a>
-<a id="__codelineno-23-7" name="__codelineno-23-7"></a><span class="hll"><span class="k">with</span> <span class="n">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span> <span class="k">as</span> <span class="n">obs</span><span class="p">:</span>
-</span><a id="__codelineno-23-8" name="__codelineno-23-8"></a>    <span class="n">obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subscriber 1 - Received: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
-<a id="__codelineno-23-9" name="__codelineno-23-9"></a>    <span class="n">obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subscriber 2 - Received: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+<a id="__codelineno-23-7" name="__codelineno-23-7"></a>
+<a id="__codelineno-23-8" name="__codelineno-23-8"></a><span class="n">obs</span> <span class="o">=</span> <span class="n">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<a id="__codelineno-23-9" name="__codelineno-23-9"></a><span class="hll"><span class="n">obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">next_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subscriber 1 - Received: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+</span><a id="__codelineno-23-10" name="__codelineno-23-10"></a><span class="hll"><span class="n">obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">next_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subscriber 2 - Received: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+</span><a id="__codelineno-23-11" name="__codelineno-23-11"></a><span class="hll"><span class="n">obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">next_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Subscriber 3 - Received: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+</span><a id="__codelineno-23-12" name="__codelineno-23-12"></a><span class="n">obs</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
 </li>
 <li>
-<p><p style="text-align: justify;"><a href="#rp-thread-offloading-for-observable-tasks" name="rp-thread-offloading-for-observable-tasks" title="Permanent link">Thread Offloading for Observable Tasks</a> ─
-        By default, the processing of each observable task is handled by the AsyncIO framework, either synchronously or asynchronously depending on the context. However, for multithreaded environments, Pyventus also provides support for running these observable tasks in separate threads.<br />
+<p><p style="text-align: justify;"><a href="#rp-success-and-error-handling" name="rp-success-and-error-handling" title="Permanent link">Success and Error Handling</a> ─
+    With Pyventus, you can customize how data streams are handled upon completion, whether they succeed or encounter errors. This customization is achieved through the configuration of the complete and error callbacks in the observer definition, which is done during the subscription process.
     </p></p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-24-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-24-2"> 2</a></span>
@@ -3898,34 +3959,27 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-24-12">12</a></span>
 <span class="normal"><a href="#__codelineno-24-13">13</a></span>
 <span class="normal"><a href="#__codelineno-24-14">14</a></span>
-<span class="normal"><a href="#__codelineno-24-15">15</a></span>
-<span class="normal"><a href="#__codelineno-24-16">16</a></span>
-<span class="normal"><a href="#__codelineno-24-17">17</a></span>
-<span class="normal"><a href="#__codelineno-24-18">18</a></span>
-<span class="normal"><a href="#__codelineno-24-19">19</a></span>
-<span class="normal"><a href="#__codelineno-24-20">20</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="hll"><span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
-</span><a id="__codelineno-24-2" name="__codelineno-24-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.reactive</span><span class="w"> </span><span class="kn">import</span> <span class="n">as_observable_task</span><span class="p">,</span> <span class="n">Completed</span>
-<a id="__codelineno-24-3" name="__codelineno-24-3"></a>
-<a id="__codelineno-24-4" name="__codelineno-24-4"></a><span class="nd">@as_observable_task</span>
-<a id="__codelineno-24-5" name="__codelineno-24-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<a id="__codelineno-24-6" name="__codelineno-24-6"></a>    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-<a id="__codelineno-24-7" name="__codelineno-24-7"></a>        <span class="k">yield</span> <span class="n">count</span>
-<a id="__codelineno-24-8" name="__codelineno-24-8"></a>    <span class="k">raise</span> <span class="n">Completed</span>
-<a id="__codelineno-24-9" name="__codelineno-24-9"></a>
-<a id="__codelineno-24-10" name="__codelineno-24-10"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-<a id="__codelineno-24-11" name="__codelineno-24-11"></a>
-<a id="__codelineno-24-12" name="__codelineno-24-12"></a><span class="hll">    <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
-</span><a id="__codelineno-24-13" name="__codelineno-24-13"></a>
-<a id="__codelineno-24-14" name="__codelineno-24-14"></a>        <span class="n">obs1</span> <span class="o">=</span> <span class="n">simple_counter</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
-<a id="__codelineno-24-15" name="__codelineno-24-15"></a>        <span class="n">obs1</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="nb">print</span><span class="p">)</span>
-<a id="__codelineno-24-16" name="__codelineno-24-16"></a><span class="hll">        <span class="n">obs1</span><span class="p">(</span><span class="n">executor</span><span class="p">)</span>
-</span><a id="__codelineno-24-17" name="__codelineno-24-17"></a>
-<a id="__codelineno-24-18" name="__codelineno-24-18"></a>        <span class="n">obs2</span> <span class="o">=</span> <span class="n">simple_counter</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
-<a id="__codelineno-24-19" name="__codelineno-24-19"></a>        <span class="n">obs2</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="nb">print</span><span class="p">)</span>
-<a id="__codelineno-24-20" name="__codelineno-24-20"></a><span class="hll">        <span class="n">obs2</span><span class="p">(</span><span class="n">executor</span><span class="p">)</span>
-</span></code></pre></div></td></tr></table></div>
-<p><details markdown="1" class="tip">
-<summary>Thread offloading is also available for the execution context of observable tasks...</summary></p>
+<span class="normal"><a href="#__codelineno-24-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1"></a><span class="nd">@as_observable_task</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">interactive_counter</span><span class="p">():</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3"></a>    <span class="n">stop</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">(</span><span class="s2">&quot;Please enter a number to count up to: &quot;</span><span class="p">))</span>  <span class="c1"># Can raise ValueError</span>
+<a id="__codelineno-24-4" name="__codelineno-24-4"></a>    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5"></a>        <span class="k">yield</span> <span class="n">count</span>
+<a id="__codelineno-24-6" name="__codelineno-24-6"></a>    <span class="k">raise</span> <span class="n">Completed</span>
+<a id="__codelineno-24-7" name="__codelineno-24-7"></a>
+<a id="__codelineno-24-8" name="__codelineno-24-8"></a>
+<a id="__codelineno-24-9" name="__codelineno-24-9"></a><span class="n">obs</span> <span class="o">=</span> <span class="n">interactive_counter</span><span class="p">()</span>
+<a id="__codelineno-24-10" name="__codelineno-24-10"></a><span class="n">obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
+<a id="__codelineno-24-11" name="__codelineno-24-11"></a><span class="hll">    <span class="n">next_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">val</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received: </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+</span><a id="__codelineno-24-12" name="__codelineno-24-12"></a><span class="hll">    <span class="n">error_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">err</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+</span><a id="__codelineno-24-13" name="__codelineno-24-13"></a><span class="hll">    <span class="n">complete_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All done!&quot;</span><span class="p">),</span>
+</span><a id="__codelineno-24-14" name="__codelineno-24-14"></a><span class="p">)</span>
+<a id="__codelineno-24-15" name="__codelineno-24-15"></a><span class="n">obs</span><span class="p">()</span>
+</code></pre></div></td></tr></table></div>
+</li>
+<li>
+<p><p style="text-align: justify;"><a href="#rp-declarative-subscription-model" name="rp-declarative-subscription-model" title="Permanent link">Declarative Subscription Model</a> ─
+        Alongside standard subscription models, such as using lambda functions or predefined callbacks, Pyventus also provides a declarative subscription model that allows you to not only define the observer's callbacks inline and in a step-by-step manner but also to do so right before the subscription takes place.
+    </p></p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-25-1"> 1</a></span>
 <span class="normal"><a href="#__codelineno-25-2"> 2</a></span>
 <span class="normal"><a href="#__codelineno-25-3"> 3</a></span>
@@ -3938,29 +3992,30 @@ Finally, and in order to initiate the execution of the observable, we called its
 <span class="normal"><a href="#__codelineno-25-10">10</a></span>
 <span class="normal"><a href="#__codelineno-25-11">11</a></span>
 <span class="normal"><a href="#__codelineno-25-12">12</a></span>
-<span class="normal"><a href="#__codelineno-25-13">13</a></span>
-<span class="normal"><a href="#__codelineno-25-14">14</a></span>
-<span class="normal"><a href="#__codelineno-25-15">15</a></span>
-<span class="normal"><a href="#__codelineno-25-16">16</a></span>
-<span class="normal"><a href="#__codelineno-25-17">17</a></span>
-<span class="normal"><a href="#__codelineno-25-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
-<a id="__codelineno-25-2" name="__codelineno-25-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.reactive</span><span class="w"> </span><span class="kn">import</span> <span class="n">as_observable_task</span><span class="p">,</span> <span class="n">Completed</span>
-<a id="__codelineno-25-3" name="__codelineno-25-3"></a>
-<a id="__codelineno-25-4" name="__codelineno-25-4"></a><span class="nd">@as_observable_task</span>
-<a id="__codelineno-25-5" name="__codelineno-25-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">simple_counter</span><span class="p">(</span><span class="n">stop</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-<a id="__codelineno-25-6" name="__codelineno-25-6"></a>    <span class="k">for</span> <span class="n">count</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">stop</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-<a id="__codelineno-25-7" name="__codelineno-25-7"></a>        <span class="k">yield</span> <span class="n">count</span>
-<a id="__codelineno-25-8" name="__codelineno-25-8"></a>    <span class="k">raise</span> <span class="n">Completed</span>
-<a id="__codelineno-25-9" name="__codelineno-25-9"></a>
-<a id="__codelineno-25-10" name="__codelineno-25-10"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-<a id="__codelineno-25-11" name="__codelineno-25-11"></a>
-<a id="__codelineno-25-12" name="__codelineno-25-12"></a>    <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
-<a id="__codelineno-25-13" name="__codelineno-25-13"></a>
-<a id="__codelineno-25-14" name="__codelineno-25-14"></a><span class="hll">        <span class="k">with</span> <span class="n">simple_counter</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span><span class="n">executor</span><span class="p">)</span> <span class="k">as</span> <span class="n">obs1</span><span class="p">:</span>
-</span><a id="__codelineno-25-15" name="__codelineno-25-15"></a>            <span class="n">obs1</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="nb">print</span><span class="p">)</span>
-<a id="__codelineno-25-16" name="__codelineno-25-16"></a>
-<a id="__codelineno-25-17" name="__codelineno-25-17"></a><span class="hll">        <span class="k">with</span> <span class="n">simple_counter</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span><span class="o">.</span><span class="n">to_thread</span><span class="p">(</span><span class="n">executor</span><span class="p">)</span> <span class="k">as</span> <span class="n">obs2</span><span class="p">:</span>
-</span><a id="__codelineno-25-18" name="__codelineno-25-18"></a>            <span class="n">obs2</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="nb">print</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-25-13">13</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="hll"><span class="k">with</span> <span class="n">obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">()</span> <span class="k">as</span> <span class="n">subctx</span><span class="p">:</span>
+</span><a id="__codelineno-25-2" name="__codelineno-25-2"></a>
+<a id="__codelineno-25-3" name="__codelineno-25-3"></a><span class="hll">    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_next</span>
+</span><a id="__codelineno-25-4" name="__codelineno-25-4"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">next</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><a id="__codelineno-25-5" name="__codelineno-25-5"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6"></a>
+<a id="__codelineno-25-7" name="__codelineno-25-7"></a><span class="hll">    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_error</span>
+</span><a id="__codelineno-25-8" name="__codelineno-25-8"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">error</span><span class="p">(</span><span class="n">error</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><a id="__codelineno-25-9" name="__codelineno-25-9"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-25-10" name="__codelineno-25-10"></a>
+<a id="__codelineno-25-11" name="__codelineno-25-11"></a><span class="hll">    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_complete</span>
+</span><a id="__codelineno-25-12" name="__codelineno-25-12"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">complete</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><a id="__codelineno-25-13" name="__codelineno-25-13"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;All done!&quot;</span><span class="p">)</span>
+</code></pre></div></td></tr></table></div>
+<p><details markdown="1" class="tip">
+<summary>You can also use the <code>subscribe()</code> method as a decorator...</summary></p>
+<p><p style="text-align: justify;">
+    &emsp;&emsp;The <code>subscribe()</code> method, besides being used as a regular function and a context manager, can also be utilized as a decorator. When used this way, it creates and subscribes an observer, using the decorated function as its next callback.
+</p></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-26-1">1</a></span>
+<span class="normal"><a href="#__codelineno-26-2">2</a></span>
+<span class="normal"><a href="#__codelineno-26-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1"></a><span class="hll"><span class="nd">@obs</span><span class="o">.</span><span class="n">subscribe</span><span class="p">()</span>
+</span><a id="__codelineno-26-2" name="__codelineno-26-2"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">next</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><a id="__codelineno-26-3" name="__codelineno-26-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Received: </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </details>
 <p><p style="margin-top: -1rem;"></p></p>
@@ -4112,7 +4167,7 @@ Finally, and in order to initiate the execution of the observable, we called its
       <div class="md-copyright">
   
     <div class="md-copyright__highlight">
-      Copyright &copy; 2023-2025 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+      Copyright &copy; 2023-2026 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
 
     </div>
   

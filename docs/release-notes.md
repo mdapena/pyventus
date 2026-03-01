@@ -12,7 +12,7 @@ hide:
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"
 
-## [v0.8.0](https://github.com/mdapena/pyventus/releases/tag/0.8.0) <small>Unreleased</small> { id="0.8.0" }
+## [v0.8.0](https://github.com/mdapena/pyventus/releases/tag/0.8.0) <small>March 1, 2026</small> { id="0.8.0" }
 
 <hr class="divider">
 

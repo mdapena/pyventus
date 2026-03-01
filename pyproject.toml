@@ -76,7 +76,7 @@ Repository = "https://github.com/mdapena/pyventus"
 # | Package dependencies
 # =================================
 
-rq = ["rq>=1.15.0"]
+rq = ["rq>=1.15.0,!=2.7.0"]
 celery = ["celery>=5.3.5"]
 fastapi = ["fastapi>=0.95.2"]
 

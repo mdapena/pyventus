@@ -9,7 +9,7 @@ build-backend = "hatchling.build"
 [project]
 name = "pyventus"
 dynamic = ["version"]
-description = "A powerful Python library for event-driven and reactive programming."
+description = "A Python library for event-driven and reactive programming."
 requires-python = ">=3.10"
 readme = "README.md"
 license = "MIT"
@@ -76,7 +76,7 @@ Repository = "https://github.com/mdapena/pyventus"
 # | Package dependencies
 # =================================
 
-rq = ["rq>=1.15.0"]
+rq = ["rq>=1.15.0,!=2.7.0"]
 celery = ["celery>=5.3.5"]
 fastapi = ["fastapi>=0.95.2"]
 

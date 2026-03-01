@@ -18,7 +18,7 @@ class ObservableStream(Generic[_OutT], Observable[_OutT]):
     **Notes:**
 
     -   The `ObservableStream` class is a data flow-centric observable that focuses exclusively on the stream of its
-        entries over time and in a reactive manner.
+        entries over time.
 
     -   Data streaming is managed through a queue, ensuring that the order of entries is preserved and that no
         inconsistent notifications are generated.

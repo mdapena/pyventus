@@ -14,7 +14,7 @@ authors:
 repository-code: 'https://github.com/mdapena/pyventus'
 url: 'https://mdapena.github.io/pyventus/'
 abstract: >-
-  A powerful Python library for event-driven and 
+  A Python library for event-driven and 
   reactive programming.
 keywords:
   - event

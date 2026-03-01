@@ -6,5 +6,5 @@ if (texts.length > 1) {
 		texts[currentIndex].classList.remove("active"); // Hide current text
 		currentIndex = (currentIndex + 1) % texts.length; // Move to the next text
 		texts[currentIndex].classList.add("active"); // Show next text
-	}, 5000); // Change text every 5 seconds
+	}, 7000); // Change text every 7 seconds
 }

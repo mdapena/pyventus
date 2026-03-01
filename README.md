@@ -42,7 +42,7 @@
 [//]: # "--------------------------------------------------------------------------------------------------------------"
 
 <p style="text-align: justify;">
-    &emsp;&emsp;Pyventus is a powerful Python library for event-driven and reactive programming, designed to simplify the development of asynchronous and event-based applications in Python.
+    &emsp;&emsp;Pyventus is a Python library for event-driven and reactive programming, designed to simplify the development of asynchronous and event-based applications in Python.
 </p>
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"
@@ -94,7 +94,7 @@ pip install pyventus
 ```
 
 <p style="text-align: justify;">
-    &emsp;&emsp;Pyventus by default relies on the Python standard library and <b>requires Python 3.10 or higher</b> with no additional dependencies aside from <a href="https://pypi.org/project/typing-extensions/" target="_blank"><code>typing-extensions</code></a>, which is primarily used to support advanced typing features in older versions of Python. However, this package also includes alternative integrations to access additional features such as asynchronous processing with Redis Queue and Celery. For more information on this matter, please refer to the <a href="https://mdapena.github.io/pyventus/0.7/getting-started/#optional-dependencies">Optional Dependencies</a> section.
+    &emsp;&emsp;Pyventus by default relies on the Python standard library and <b>requires Python 3.10 or higher</b> with no additional dependencies aside from <a href="https://pypi.org/project/typing-extensions/" target="_blank"><code>typing-extensions</code></a>, which is primarily used to support advanced typing features in older versions of Python. However, this package also includes alternative integrations to access additional features such as asynchronous processing with Redis Queue and Celery. For more information on this matter, please refer to the <a href="https://mdapena.github.io/pyventus/0.8/getting-started/#optional-dependencies">Optional Dependencies</a> section.
 </p>
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"
@@ -465,7 +465,7 @@ main()
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"
 
--   <p style="text-align: justify;"><a href="#ep-event-objects" name="ep-event-objects" title="Permanent link">Event Objects</a> ─ 
+-   <p style="text-align: justify;"><a href="#ep-event-objects" name="ep-event-objects" title="Permanent link">Event Objects</a> ─
         Besides supporting string-based events, as we've seen in previous examples, Pyventus also supports Event Objects, which provide a structured way to define events and encapsulate relevant data payloads.
     </p>
 
@@ -494,7 +494,7 @@ main()
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"
 
--   <p style="text-align: justify;"><a href="#ep-global-events" name="ep-global-events" title="Permanent link">Global Events</a> ─ 
+-   <p style="text-align: justify;"><a href="#ep-global-events" name="ep-global-events" title="Permanent link">Global Events</a> ─
         In addition to Event Objects and string-based events, Pyventus also provides support for global events, which are particularly useful for implementing cross-cutting concerns such as logging, monitoring, and analytics. By subscribing event callbacks to <code>...</code>, you can capture all events that may occur within that specific <code>EventLinker</code> context.
     </p>
 
@@ -510,7 +510,7 @@ main()
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"
 
--   <p style="text-align: justify;"><a href="#ep-success-and-error-handling" name="ep-success-and-error-handling" title="Permanent link">Success and Error Handling</a> ─ 
+-   <p style="text-align: justify;"><a href="#ep-success-and-error-handling" name="ep-success-and-error-handling" title="Permanent link">Success and Error Handling</a> ─
         With Pyventus, you can customize how events are handled upon completion, whether they succeed or encounter errors. This customization is achieved through the configuration of the success and failure callbacks in the event workflow definition, which is done during the subscription process.
     </p>
 
@@ -564,7 +564,7 @@ main()
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"
 
--   <p style="text-align: justify;"><a href="#ep-sync-and-async-support" name="ep-sync-and-async-support" title="Permanent link">Sync and Async Support</a> ─ 
+-   <p style="text-align: justify;"><a href="#ep-sync-and-async-support" name="ep-sync-and-async-support" title="Permanent link">Sync and Async Support</a> ─
         Pyventus is designed from the ground up to seamlessly support both synchronous and asynchronous programming models. Its unified sync/async API allows you to define event callbacks as either <code>sync</code> or <code>async</code> callables, as well as emit events from both contexts.
     </p>
 
@@ -618,7 +618,7 @@ main()
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"
 
--   <p style="text-align: justify;"><a href="#ep-runtime-flexibility" name="ep-runtime-flexibility" title="Permanent link">Runtime Flexibility</a> ─ 
+-   <p style="text-align: justify;"><a href="#ep-runtime-flexibility" name="ep-runtime-flexibility" title="Permanent link">Runtime Flexibility</a> ─
         At its core, Pyventus utilizes a modular event emitter design that, along with the <code>EventLinker</code>, allows you to change the event emitter at runtime without needing to reconfigure all subscriptions or apply complex logic.
     </p>
 
@@ -719,6 +719,84 @@ main()
 
 [//]: # "--------------------------------------------------------------------------------------------------------------"
 
+-   <p style="text-align: justify;"><a href="#rp-observe-any-python-value-and-its-changes-over-time" name="rp-observe-any-python-value-and-its-changes-over-time" title="Permanent link">Observe Any Python Value and Its Changes Over Time</a> ─
+        Any Python value can be easily transformed into an observable using the Pyventus' `ObservableValue` class. This type of observable lets you wrap a value and stream its changes reactively.
+    </p>
+
+    ```Python linenums="1" hl_lines="1 5-7"
+    obsv = ObservableValue[int](seed=0)
+
+    obsv.subscribe(print)
+
+    obsv.set_value(1)
+    obsv.set_value(2)
+    obsv.set_value(3)
+    ```
+
+    <details markdown="1" class="tip">
+    <summary>You can also validate changes and notify subscribers accordingly...</summary>
+
+    ```Python linenums="1" hl_lines="1-2 5 7-9 12-14"
+    def natural_number(value: Any) -> None:
+        assert isinstance(value, int) and value >= 0, f"{value} is not a natural number."
+
+
+    obsv = ObservableValue[int](seed=0, validators=[natural_number])
+    obsv.subscribe(
+        next_callback=lambda val: print(f"Next: {val}"),
+        error_callback=lambda err: print(f"Error: {err}"),
+        complete_callback=lambda: print(f"Completed!"),
+    )
+
+    obsv.set_value(0)
+    obsv.set_value(-1)
+    obsv.set_value(1)
+    ```
+
+    Validators can also be **asynchronous**.
+
+    ```Python linenums="1" hl_lines="1-3 6 8-10 13-15"
+    async def username_unique(username: str):
+        await asyncio.sleep(0.1)  # Simulate I/O operation.
+        assert username.strip().lower() not in {"username1", "username2"}, "Username already taken."
+
+
+    obsv = ObservableValue[str](seed=0, validators=[username_unique])
+    obsv.subscribe(
+        next_callback=lambda val: print(f"Next: {val}"),
+        error_callback=lambda err: print(f"Error: {err}"),
+        complete_callback=lambda: print(f"Completed!"),
+    )
+
+    obsv.set_value("MyUserName")
+    obsv.set_value(" userName2 ")
+    obsv.set_value("New Username")
+    ```
+
+    </details>
+
+[//]: # "--------------------------------------------------------------------------------------------------------------"
+
+-   <p style="text-align: justify;"><a href="#rp-observable-data-flows" name="rp-observable-data-flows" title="Permanent link">Observable Data Flows</a> ─
+    With Pyventus, you can easily define observable streams using the `ObservableStream` class. This type of observable encapsulates a flow of data and provides a mechanism for streaming its entries reactively.
+    </p>
+
+    ```Python linenums="1" hl_lines="1 9-11"
+    obss = ObservableStream[int]()
+
+    obss.subscribe(
+        next_callback=lambda val: print(f"Next: {val}"),
+        error_callback=lambda err: print(f"Error: {err}"),
+        complete_callback=lambda: print(f"Completed!"),
+    )
+
+    obss.next(12345)
+    obss.error(Exception("Exception"))
+    obss.complete()
+    ```
+
+[//]: # "--------------------------------------------------------------------------------------------------------------"
+
 -   <p style="text-align: justify;"><a href="#rp-multicast-support" name="rp-multicast-support" title="Permanent link">Multicast Support</a> ─
         Observables in Pyventus are designed from the ground up to efficiently support both unicast and multicast scenarios. So, it doesn't matter if you need to work with either single or multiple subscribers; Pyventus allows you to utilize these notification models and even optimizes the processing of each to ensure optimal performance.
     </p>
@@ -795,77 +873,6 @@ main()
     @obs.subscribe()
     def next(value: int) -> None:
         print(f"Received: {value}")
-    ```
-
-    </details>
-
-[//]: # "--------------------------------------------------------------------------------------------------------------"
-
--   <p style="text-align: justify;"><a href="#rp-simplified-execution-for-observable-tasks" name="rp-simplified-execution-for-observable-tasks" title="Permanent link">Simplified Execution for Observable Tasks</a> ─
-        Having to explicitly call each observable task to initiate their execution can be tedious and easily overlooked, especially when working with multiple observables at the same time. However, by using observable tasks within a <code>with</code> statement block, you can avoid this manual work and enable what is known as their execution context, which will allow you to work with them as usual while ensuring that they are called upon exiting the context block.
-    </p>
-
-    ```Python linenums="1"  hl_lines="7"
-    @as_observable_task
-    def simple_counter(stop: int):
-        for count in range(1, stop + 1):
-            yield count
-        raise Completed
-
-    with simple_counter(stop=16) as obs:
-        obs.subscribe(lambda val: print(f"Subscriber 1 - Received: {val}"))
-        obs.subscribe(lambda val: print(f"Subscriber 2 - Received: {val}"))
-    ```
-
--   <p style="text-align: justify;"><a href="#rp-thread-offloading-for-observable-tasks" name="rp-thread-offloading-for-observable-tasks" title="Permanent link">Thread Offloading for Observable Tasks</a> ─
-        By default, the processing of each observable task is handled by the AsyncIO framework, either synchronously or asynchronously depending on the context. However, for multithreaded environments, Pyventus also provides support for running these observable tasks in separate threads.  
-    </p>
-
-    ```Python linenums="1" hl_lines="1 12 16 20"
-    from concurrent.futures import ThreadPoolExecutor
-    from pyventus.reactive import as_observable_task, Completed
-
-    @as_observable_task
-    def simple_counter(stop: int):
-        for count in range(1, stop + 1):
-            yield count
-        raise Completed
-
-    if __name__ == "__main__":
-
-        with ThreadPoolExecutor() as executor:
-
-            obs1 = simple_counter(16)
-            obs1.subscribe(print)
-            obs1(executor)
-
-            obs2 = simple_counter(16)
-            obs2.subscribe(print)
-            obs2(executor)
-    ```
-
-    <details markdown="1" class="tip">
-    <summary>Thread offloading is also available for the execution context of observable tasks...</summary>
-
-    ```Python linenums="1" hl_lines="14 17"
-    from concurrent.futures import ThreadPoolExecutor
-    from pyventus.reactive import as_observable_task, Completed
-
-    @as_observable_task
-    def simple_counter(stop: int):
-        for count in range(1, stop + 1):
-            yield count
-        raise Completed
-
-    if __name__ == "__main__":
-
-        with ThreadPoolExecutor() as executor:
-
-            with simple_counter(16).to_thread(executor) as obs1:
-                obs1.subscribe(print)
-
-            with simple_counter(16).to_thread(executor) as obs2:
-                obs2.subscribe(print)
     ```
 
     </details>

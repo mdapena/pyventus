@@ -1,10 +1,15 @@
-.md-search__form {
-	border-radius: 1rem;
+.md-search__input {
+	font-weight: bold;
 }
 
 .md-search__form {
+	border-radius: 1rem;
 	border-top-right-radius: 1rem !important;
 	border-top-left-radius: 1rem !important;
+
+	&:hover {
+		background-color: var(--md-default-fg-color--lighter);
+	}
 }
 
 .md-search__output {
@@ -17,6 +22,7 @@
 		border-top-right-radius: inherit !important;
 		border-top-left-radius: inherit !important;
 	}
+
 	.md-search__output {
 		border-bottom-left-radius: inherit !important;
 		border-bottom-right-radius: inherit !important;

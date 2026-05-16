@@ -1,0 +1,11 @@
+.md-typeset .task-list-indicator::before {
+    background-color: var(--md-default-fg-color--lighter);
+}
+
+.md-typeset [type="checkbox"]:checked+.task-list-indicator::before {
+    background-color: var(--md-primary-fg-color--dark);
+}
+
+.md-typeset .task-list-item {
+    padding-left: 0.25rem;
+}

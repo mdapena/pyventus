@@ -11,7 +11,8 @@ repo_url: https://github.com/mdapena/pyventus
 
 # Copyright
 copyright: |
-  Copyright &copy; 2023-2026 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a>
+  Copyright &copy; 2023-2026 <a href="https://github.com/mdapena" target="_blank" rel="mdapena">Manuel Da Pena</a> –
+  <a style="font-weight: bold;" href="#__consent">Change Cookie Settings</a>
 
 # Configuration
 theme:
@@ -89,6 +90,13 @@ extra:
           data: 0
           note: >-
             Thanks for your feedback!
+  consent:
+    title: <img src="https://www.svgrepo.com/show/401340/cookie.svg" alt="Cookie"><span>Cookie Consent</span>
+    description: >- 
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.
 
 # Plugins
 plugins:

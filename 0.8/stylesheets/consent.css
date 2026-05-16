@@ -1,0 +1,49 @@
+.md-consent__overlay {
+    pointer-events: none;
+    background-color: inherit;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+}
+
+.md-consent__inner {
+    background-color: color-mix(in srgb, var(--md-default-bg-color) 75%, transparent);
+    -webkit-backdrop-filter: blur(0.7rem);
+    backdrop-filter: blur(0.7rem);
+    border-radius: 0;
+
+    h4 {
+        display: flex;
+        align-items: center;
+    }
+
+    img {
+        width: 1.5rem;
+        height: 1.5rem;
+        margin-right: 0.5rem;
+    }
+
+    .md-button {
+        border-radius: 1rem;
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+        background-color: color-mix(in srgb, var(--md-primary-fg-color) 7%, transparent);
+        z-index: 0;
+        inset: 0;
+    }
+}
+
+.md-consent__controls {
+    .md-button {
+        border-color: var(--md-primary-fg-color--dark);
+        color: var(--md-primary-fg-color--dark);
+    }
+
+    .md-button--primary {
+        background-color: var(--md-primary-fg-color--dark);
+        color: var(--md-primary-bg-color);
+    }
+}

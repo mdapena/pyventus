@@ -1,0 +1,25 @@
+.md-tabs {
+    font-weight: bold;
+    box-shadow: 0 0 .1rem #0000001a, 0 .1rem .2rem #0003;
+    background-color: color-mix(in srgb, var(--md-primary-fg-color) 53%, transparent);
+    -webkit-backdrop-filter: blur(0.5rem);
+    backdrop-filter: blur(0.5rem);
+    border-radius: 0;
+
+    &::before {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+        background-color: color-mix(in srgb, var(--md-primary-fg-color--dark) 57%, transparent);
+        z-index: 0;
+        inset: 0;
+    }
+}
+
+.md-tabs__item--active {
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--md-primary-bg-color) 70%, transparent);
+    text-decoration-thickness: 0.25rem;
+    text-decoration-skip-ink: auto;
+    text-underline-offset: 0.375rem;
+}

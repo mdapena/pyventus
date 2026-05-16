@@ -1,0 +1,20 @@
+.md-header {
+    font-weight: bold;
+    background-color: color-mix(in srgb, var(--md-primary-fg-color) 53%, transparent);
+    -webkit-backdrop-filter: blur(0.5rem);
+    backdrop-filter: blur(0.5rem);
+    border-radius: 0;
+
+    &::before {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+        background-color: color-mix(in srgb, var(--md-primary-fg-color--dark) 57%, transparent);
+        z-index: 0;
+        inset: 0;
+    }
+}
+
+.md-header__source {
+    z-index: 0;
+}

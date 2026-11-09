@@ -11,7 +11,7 @@
 ## Key Features
 
 <p style="text-align: justify;" markdown>
-  The `Observable` base class provides the following functionality:
+  The `Observable` base class provides the following features:
 </p>
 
 - <p style="text-align: justify;" markdown><b>Subscription Management:</b>

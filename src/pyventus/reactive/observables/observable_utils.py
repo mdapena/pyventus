@@ -21,12 +21,16 @@ def as_observable_task(
 
 @overload
 def as_observable_task(
-    *, debug: bool
+    *, auto_complete: bool = True, debug: bool = False
 ) -> Callable[[Callable[_P, ObservableTaskCallbackReturnType[_OutT]]], Callable[_P, ObservableTask[_OutT]]]: ...
 
 
 def as_observable_task(
-    callback: Callable[_P, ObservableTaskCallbackReturnType[_OutT]] | None = None, /, *, debug: bool | None = None
+    callback: Callable[_P, ObservableTaskCallbackReturnType[_OutT]] | None = None,
+    /,
+    *,
+    auto_complete: bool = True,
+    debug: bool | None = None,
 ) -> (
     Callable[_P, ObservableTask[_OutT]]
     | Callable[[Callable[_P, ObservableTaskCallbackReturnType[_OutT]]], Callable[_P, ObservableTask[_OutT]]]
@@ -43,6 +47,9 @@ def as_observable_task(
         function, but rather when the `ObservableTask` produced by the output function is executed.
 
     :param callback: The callback to be encapsulated and made observable.
+    :param auto_complete: Specifies whether to automatically emit the complete signal
+        once the wrapped callable finishes executing. When `False`, `Completed` must
+        be raised manually inside the callable to emit the signal.
     :param debug: Specifies the debug mode for the logger. If `None`,
         the mode is determined based on the execution environment.
     :return: A function that, upon invocation, generates an `ObservableTask`.
@@ -51,10 +58,16 @@ def as_observable_task(
     def decorator(
         _callback: Callable[_P, ObservableTaskCallbackReturnType[_OutT]],
     ) -> Callable[_P, ObservableTask[_OutT]]:
+
         @wraps(_callback)
         def helper(*args: _P.args, **kwargs: _P.kwargs) -> ObservableTask[_OutT]:
-            # Create an ObservableTask instance based on the provided callback.
-            return ObservableTask[_OutT](callback=_callback, args=args, kwargs=kwargs, debug=debug)
+            return ObservableTask[_OutT](
+                callback=_callback,
+                args=args,
+                kwargs=kwargs,
+                auto_complete=auto_complete,
+                debug=debug,
+            )
 
         return helper
 

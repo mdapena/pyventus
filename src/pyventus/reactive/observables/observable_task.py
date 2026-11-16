@@ -40,13 +40,14 @@ class ObservableTask(Generic[_OutT], Observable[_OutT]):
     """
 
     # Attributes for the ObservableTask
-    __slots__ = ("__callback", "__args", "__kwargs", "__processing_service")
+    __slots__ = ("__callback", "__args", "__kwargs", "__auto_complete", "__processing_service")
 
     def __init__(
         self,
         callback: ObservableTaskCallbackType[_OutT],
         args: tuple[Any, ...] | None = None,
         kwargs: dict[str, Any] | None = None,
+        auto_complete: bool = True,
         debug: bool | None = None,
     ) -> None:
         """
@@ -55,6 +56,9 @@ class ObservableTask(Generic[_OutT], Observable[_OutT]):
         :param callback: The callback to be encapsulated and made observable.
         :param args: Positional arguments to be passed to the callback.
         :param kwargs: Keyword arguments to be passed to the callback.
+        :param auto_complete: Specifies whether to automatically emit the complete signal
+            once the wrapped callable finishes executing. When `False`, `Completed` must
+            be raised manually inside the callable to emit the signal.
         :param debug: Specifies the debug mode for the logger. If `None`,
             the mode is determined based on the execution environment.
         """
@@ -69,10 +73,17 @@ class ObservableTask(Generic[_OutT], Observable[_OutT]):
         if kwargs and not isinstance(kwargs, dict):
             raise PyventusException("The 'kwargs' argument must be a dictionary.")
 
+        # Validate the auto_complete argument.
+        if not isinstance(auto_complete, bool):
+            raise PyventusException("The 'auto_complete' argument must be a boolean value.")
+
         # Wrap and set the callback along with its arguments.
         self.__callback = CallableWrapper[..., _OutT](callback, force_async=False)
         self.__args: tuple[Any, ...] = args if args else ()
         self.__kwargs: dict[str, Any] = kwargs if kwargs else {}
+
+        # Store the auto_complete setting.
+        self.__auto_complete: bool = auto_complete
 
         # Set up an AsyncIO processing service for handling the callback execution.
         self.__processing_service: AsyncIOProcessingService = AsyncIOProcessingService()
@@ -86,6 +97,7 @@ class ObservableTask(Generic[_OutT], Observable[_OutT]):
                     callback=self.__callback,
                     args=self.__args,
                     kwargs=self.__kwargs,
+                    auto_complete=self.__auto_complete,
                     processing_service=self.__processing_service,
                 )
                 + f", {super().__repr__()}"
@@ -112,7 +124,8 @@ class ObservableTask(Generic[_OutT], Observable[_OutT]):
                 r_value: _OutT = await self.__callback.execute(*self.__args, **self.__kwargs)
                 await self._emit_next(value=r_value)
 
-                # Indicate that the callback execution is complete.
+            # Raise Completed when auto_complete is enabled.
+            if self.__auto_complete:
                 raise Completed from None
         except Observable.Completed:
             # Notify subscribers that the observable

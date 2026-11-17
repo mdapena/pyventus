@@ -21,8 +21,11 @@ def as_observable_task(
 
 @overload
 def as_observable_task(
-    *, auto_complete: bool = True, debug: bool = False
-) -> Callable[[Callable[_P, ObservableTaskCallbackReturnType[_OutT]]], Callable[_P, ObservableTask[_OutT]]]: ...
+    *, auto_complete: bool = True, debug: bool | None = None
+) -> Callable[
+    [Callable[_P, ObservableTaskCallbackReturnType[_OutT]]],
+    Callable[_P, ObservableTask[_OutT]],
+]: ...
 
 
 def as_observable_task(
@@ -33,7 +36,10 @@ def as_observable_task(
     debug: bool | None = None,
 ) -> (
     Callable[_P, ObservableTask[_OutT]]
-    | Callable[[Callable[_P, ObservableTaskCallbackReturnType[_OutT]]], Callable[_P, ObservableTask[_OutT]]]
+    | Callable[
+        [Callable[_P, ObservableTaskCallbackReturnType[_OutT]]],
+        Callable[_P, ObservableTask[_OutT]],
+    ]
 ):
     """
     Convert a given callback into an observable task.
@@ -58,7 +64,6 @@ def as_observable_task(
     def decorator(
         _callback: Callable[_P, ObservableTaskCallbackReturnType[_OutT]],
     ) -> Callable[_P, ObservableTask[_OutT]]:
-
         @wraps(_callback)
         def helper(*args: _P.args, **kwargs: _P.kwargs) -> ObservableTask[_OutT]:
             return ObservableTask[_OutT](

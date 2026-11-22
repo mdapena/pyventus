@@ -90,9 +90,9 @@ class TestObservable:
     @pytest.mark.parametrize(
         ["debug"],
         [
-            (None,),
-            (True,),
-            (False,),
+            pytest.param(None),
+            pytest.param(True),
+            pytest.param(False),
         ],
     )
     def test_creation_with_valid_input(self, debug: bool | None) -> None:
@@ -111,8 +111,8 @@ class TestObservable:
     @pytest.mark.parametrize(
         ["debug", "exception"],
         [
-            (bool, PyventusException),
-            ("True", PyventusException),
+            pytest.param(bool, PyventusException),
+            pytest.param("True", PyventusException),
         ],
     )
     def test_creation_with_invalid_input(self, debug: Any, exception: type[Exception]) -> None:
@@ -136,11 +136,11 @@ class TestObservable:
     @pytest.mark.parametrize(
         ["subscriber", "exception"],
         [
-            (None, PyventusException),
-            (True, PyventusException),
-            ("", PyventusException),
-            (Subscriber, PyventusException),
-            (object(), PyventusException),
+            pytest.param(None, PyventusException),
+            pytest.param(True, PyventusException),
+            pytest.param("", PyventusException),
+            pytest.param(Subscriber, PyventusException),
+            pytest.param(object(), PyventusException),
         ],
     )
     def test_get_valid_subscriber_with_invalid_input(self, subscriber: Any, exception: type[Exception]) -> None:
@@ -207,7 +207,7 @@ class TestObservable:
     @pytest.mark.parametrize(
         ["tc"],
         [
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=CallableMock.Sync(),
                     error_callback=None,
@@ -215,7 +215,7 @@ class TestObservable:
                     force_async=False,
                 ),
             ),
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=None,
                     error_callback=CallableMock.Async(),
@@ -223,7 +223,7 @@ class TestObservable:
                     force_async=True,
                 ),
             ),
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=None,
                     error_callback=None,
@@ -231,7 +231,7 @@ class TestObservable:
                     force_async=False,
                 ),
             ),
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=CallableMock.Async(),
                     error_callback=CallableMock.Sync(),
@@ -239,7 +239,7 @@ class TestObservable:
                     force_async=True,
                 ),
             ),
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=CallableMock.Sync(),
                     error_callback=None,
@@ -247,7 +247,7 @@ class TestObservable:
                     force_async=False,
                 ),
             ),
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=None,
                     error_callback=CallableMock.Async(),
@@ -255,7 +255,7 @@ class TestObservable:
                     force_async=True,
                 ),
             ),
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=CallableMock.Async(),
                     error_callback=CallableMock.Sync(),
@@ -322,7 +322,7 @@ class TestObservable:
     @pytest.mark.parametrize(
         ["tc", "stateful_subctx"],
         [
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=CallableMock.Sync(),
                     error_callback=None,
@@ -331,7 +331,7 @@ class TestObservable:
                 ),
                 True,
             ),
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=CallableMock.Sync(),
                     error_callback=None,
@@ -394,7 +394,7 @@ class TestObservable:
     @pytest.mark.parametrize(
         ["tc", "stateful_subctx"],
         [
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=CallableMock.Sync(),
                     error_callback=None,
@@ -403,7 +403,7 @@ class TestObservable:
                 ),
                 True,
             ),
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=None,
                     error_callback=CallableMock.Async(),
@@ -412,7 +412,7 @@ class TestObservable:
                 ),
                 False,
             ),
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=None,
                     error_callback=None,
@@ -421,7 +421,7 @@ class TestObservable:
                 ),
                 True,
             ),
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=CallableMock.Async(),
                     error_callback=CallableMock.Sync(),
@@ -430,7 +430,7 @@ class TestObservable:
                 ),
                 False,
             ),
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=CallableMock.Sync(),
                     error_callback=None,
@@ -439,7 +439,7 @@ class TestObservable:
                 ),
                 True,
             ),
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=None,
                     error_callback=CallableMock.Async(),
@@ -448,7 +448,7 @@ class TestObservable:
                 ),
                 False,
             ),
-            (
+            pytest.param(
                 SubscribeTestCase(
                     next_callback=CallableMock.Async(),
                     error_callback=CallableMock.Sync(),

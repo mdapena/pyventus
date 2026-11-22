@@ -22,11 +22,11 @@ class TestObservableStream:
         assert isinstance(obss, ObservableStream)
 
     # =================================
-    # Test Cases for value entry
+    # Test Cases for next signal
     # =================================
 
     @contextmanager
-    def run_value_entry_tests(self) -> Generator[ObservableStream[Any], None, None]:
+    def run_next_test_case(self) -> Generator[ObservableStream[Any], None, None]:
         # Arrange
         value1: Any = object()
         value2: Any = object()
@@ -65,22 +65,22 @@ class TestObservableStream:
 
     # =================================
 
-    def test_value_entry_in_sync_context(self) -> None:
-        with self.run_value_entry_tests():
+    def test_next_in_sync_context(self) -> None:
+        with self.run_next_test_case():
             pass
 
     # =================================
 
-    async def test_value_entry_in_async_context(self) -> None:
-        with self.run_value_entry_tests() as obss:
+    async def test_next_in_async_context(self) -> None:
+        with self.run_next_test_case() as obss:
             await obss.wait_for_tasks()
 
     # =================================
-    # Test Cases for error entry
+    # Test Cases for error signal
     # =================================
 
     @contextmanager
-    def run_error_entry_tests(self) -> Generator[ObservableStream[Any], None, None]:
+    def run_error_test_case(self) -> Generator[ObservableStream[Any], None, None]:
         # Arrange
         error1: Exception = Exception("Exception message")
         error2: Exception = Exception("Exception message")
@@ -119,22 +119,22 @@ class TestObservableStream:
 
     # =================================
 
-    def test_error_entry_in_sync_context(self) -> None:
-        with self.run_error_entry_tests():
+    def test_error_in_sync_context(self) -> None:
+        with self.run_error_test_case():
             pass
 
     # =================================
 
-    async def test_error_entry_in_async_context(self) -> None:
-        with self.run_error_entry_tests() as obss:
+    async def test_error_in_async_context(self) -> None:
+        with self.run_error_test_case() as obss:
             await obss.wait_for_tasks()
 
     # =================================
-    # Test Cases for completion entry
+    # Test Cases for complete signal
     # =================================
 
     @contextmanager
-    def run_completion_entry_tests(self) -> Generator[ObservableStream[Any], None, None]:
+    def run_complete_test_case(self) -> Generator[ObservableStream[Any], None, None]:
         # Arrange
         callback1: CallableMock.Base = CallableMock.Sync()
         callback2: CallableMock.Base = CallableMock.Async()
@@ -169,14 +169,14 @@ class TestObservableStream:
 
     # =================================
 
-    def test_completion_entry_in_sync_context(self) -> None:
-        with self.run_completion_entry_tests():
+    def test_complete_in_sync_context(self) -> None:
+        with self.run_complete_test_case():
             pass
 
     # =================================
 
-    async def test_completion_entry_in_async_context(self) -> None:
-        with self.run_completion_entry_tests() as obss:
+    async def test_complete_in_async_context(self) -> None:
+        with self.run_complete_test_case() as obss:
             await obss.wait_for_tasks()
 
     # =================================
@@ -184,7 +184,7 @@ class TestObservableStream:
     # =================================
 
     @contextmanager
-    def run_notification_order_tests(self) -> Generator[ObservableStream[float], None, None]:
+    def run_notification_order_test_case(self) -> Generator[ObservableStream[float], None, None]:
         # Arrange
         error1 = Exception("Error 1")
         error2 = Exception("Error 2")
@@ -248,11 +248,11 @@ class TestObservableStream:
     # =================================
 
     def test_notification_order_in_sync_context(self) -> None:
-        with self.run_notification_order_tests():
+        with self.run_notification_order_test_case():
             pass
 
     # =================================
 
     async def test_notification_order_in_async_context(self) -> None:
-        with self.run_notification_order_tests() as obss:
+        with self.run_notification_order_test_case() as obss:
             await obss.wait_for_tasks()

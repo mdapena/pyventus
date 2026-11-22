@@ -66,11 +66,11 @@ class ObservableTask(Generic[_OutT], Observable[_OutT]):
         super().__init__(debug=debug)
 
         # Validate the args argument.
-        if args and not isinstance(args, tuple):
+        if args is not None and not isinstance(args, tuple):
             raise PyventusException("The 'args' argument must be a tuple.")
 
         # Validate the kwargs argument.
-        if kwargs and not isinstance(kwargs, dict):
+        if kwargs is not None and not isinstance(kwargs, dict):
             raise PyventusException("The 'kwargs' argument must be a dictionary.")
 
         # Validate the auto_complete argument.

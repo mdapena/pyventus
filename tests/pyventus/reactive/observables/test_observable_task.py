@@ -1,7 +1,8 @@
-from collections.abc import Generator
+from collections.abc import Generator, Iterator
 from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 from contextlib import contextmanager
 from dataclasses import dataclass
+from itertools import chain, product
 from typing import Any
 
 import pytest
@@ -19,10 +20,10 @@ class TestObservableTask:
     @pytest.mark.parametrize(
         ["callback"],
         [
-            (CallableMock.Sync(),),
-            (CallableMock.SyncGenerator(),),
-            (CallableMock.Async(),),
-            (CallableMock.AsyncGenerator(),),
+            pytest.param(CallableMock.Sync()),
+            pytest.param(CallableMock.SyncGenerator()),
+            pytest.param(CallableMock.Async()),
+            pytest.param(CallableMock.AsyncGenerator()),
         ],
     )
     def test_creation_with_valid_input(self, callback: ObservableTaskCallbackType[Any]) -> None:
@@ -36,496 +37,152 @@ class TestObservableTask:
     # =================================
 
     @pytest.mark.parametrize(
-        ["callback", "args", "kwargs", "exception"],
+        ["callback", "args", "kwargs", "auto_complete", "exception"],
         [
-            (None, None, None, PyventusException),
-            (True, None, None, PyventusException),
-            (object, None, None, PyventusException),
-            (object(), None, None, PyventusException),
-            (CallableMock.Sync(), True, None, PyventusException),
-            (CallableMock.Sync(), object(), None, PyventusException),
-            (CallableMock.Sync(), None, True, PyventusException),
-            (CallableMock.Sync(), None, object(), PyventusException),
+            pytest.param(None, None, None, True, PyventusException),
+            pytest.param(True, None, None, True, PyventusException),
+            pytest.param(object, None, None, True, PyventusException),
+            pytest.param(object(), None, None, True, PyventusException),
+            pytest.param(CallableMock.Sync(), {}, None, True, PyventusException),
+            pytest.param(CallableMock.Sync(), True, None, True, PyventusException),
+            pytest.param(CallableMock.Sync(), object(), None, True, PyventusException),
+            pytest.param(CallableMock.Sync(), None, [], True, PyventusException),
+            pytest.param(CallableMock.Sync(), None, True, True, PyventusException),
+            pytest.param(CallableMock.Sync(), None, object(), True, PyventusException),
+            pytest.param(CallableMock.Sync(), None, None, None, PyventusException),
+            pytest.param(CallableMock.Sync(), None, None, [], PyventusException),
+            pytest.param(CallableMock.Sync(), None, None, 0, PyventusException),
         ],
     )
     def test_creation_with_invalid_input(
-        self, callback: Any, args: Any, kwargs: Any, exception: type[Exception]
+        self, callback: Any, args: Any, kwargs: Any, auto_complete: Any, exception: type[Exception]
     ) -> None:
         # Arrange/Act/Assert
         with pytest.raises(exception):
-            ObservableTask(callback=callback, args=args, kwargs=kwargs)
+            ObservableTask(callback=callback, args=args, kwargs=kwargs, auto_complete=auto_complete)
 
     # =================================
     # Test Cases for execution
     # =================================
 
-    # Define a dataclass for better readability of test cases
     @dataclass
     class ExecutionTestCase:
-        callback: type[CallableMock.Base]
+        id: str
+        callback: CallableMock.Base
         args: tuple[Any, ...] | None
         kwargs: dict[str, Any] | None
-        return_value: Any
-        raise_exception: Exception | None
-        # =============================
+        auto_complete: bool
         run_in_executor: bool
         use_execution_context: bool
 
-    # =================================
+        # =================================
+        # Test Cases for next signal
+        # =================================
 
-    EXECUTION_TEST_CASES = [
-        # Test cases with Sync callback
+        @classmethod
+        def next_test_cases(cls) -> Iterator["TestObservableTask.ExecutionTestCase"]:
+            for callback, args, kwargs, return_value, auto_complete, run_in_executor, use_execution_context in product(
+                (CallableMock.Sync, CallableMock.SyncGenerator, CallableMock.Async, CallableMock.AsyncGenerator),
+                (None, ("pi", 3.14, [object()])),
+                (None, {"ellipsis": ...}),
+                (None, object()),
+                (False, True),
+                (False, True),
+                (False, True),
+            ):
+                yield cls(
+                    id=(
+                        f"next-{callback.__name__.lower()}-"
+                        f"{'no_args' if args is None else 'with_args'}-"
+                        f"{'no_kwargs' if kwargs is None else 'with_kwargs'}-"
+                        f"{'no_return_value' if return_value is None else 'with_return_value'}-"
+                        f"{'auto_complete' if auto_complete else 'no_auto_complete'}-"
+                        f"{'executor' if run_in_executor else 'no_executor'}-"
+                        f"{'exec_ctx' if use_execution_context else 'no_exec_ctx'}"
+                    ),
+                    callback=callback(  # type: ignore[abstract]
+                        return_value=return_value,
+                        raise_exception=None,
+                    ),
+                    args=args,
+                    kwargs=kwargs,
+                    auto_complete=auto_complete,
+                    run_in_executor=run_in_executor,
+                    use_execution_context=use_execution_context,
+                )
+
         # =================================
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Sync,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=None,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Sync,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=Completed,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Sync,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=Exception(),
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Sync,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=None,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Sync,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=Completed,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Sync,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=Exception(),
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        # Test cases with Sync Generator
+        # Test Cases for error signal
         # =================================
-        (
-            ExecutionTestCase(
-                callback=CallableMock.SyncGenerator,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=None,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.SyncGenerator,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=Completed,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.SyncGenerator,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=Exception(),
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.SyncGenerator,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=None,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.SyncGenerator,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=Completed,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.SyncGenerator,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=Exception(),
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        # Test cases with Async callback
+
+        @classmethod
+        def error_test_cases(cls) -> Iterator["TestObservableTask.ExecutionTestCase"]:
+            for callback, args, kwargs, auto_complete, run_in_executor, use_execution_context in product(
+                (CallableMock.Sync, CallableMock.SyncGenerator, CallableMock.Async, CallableMock.AsyncGenerator),
+                (None, ("pi", 3.14, [object()])),
+                (None, {"ellipsis": ...}),
+                (False, True),
+                (False, True),
+                (False, True),
+            ):
+                yield cls(
+                    id=(
+                        f"error-{callback.__name__.lower()}-"
+                        f"{'no_args' if args is None else 'with_args'}-"
+                        f"{'no_kwargs' if kwargs is None else 'with_kwargs'}-with_return_value"
+                        f"{'auto_complete' if auto_complete else 'no_auto_complete'}-"
+                        f"{'executor' if run_in_executor else 'no_executor'}-"
+                        f"{'exec_ctx' if use_execution_context else 'no_exec_ctx'}"
+                    ),
+                    callback=callback(  # type: ignore[abstract]
+                        return_value=object(),
+                        raise_exception=Exception(),
+                    ),
+                    args=args,
+                    kwargs=kwargs,
+                    auto_complete=auto_complete,
+                    run_in_executor=run_in_executor,
+                    use_execution_context=use_execution_context,
+                )
+
         # =================================
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Async,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=None,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Async,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=Completed,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Async,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=Exception(),
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Async,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=None,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Async,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=Completed,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Async,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=Exception(),
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        # Test cases with Async Generator
+        # Test Cases for complete signal
         # =================================
-        (
-            ExecutionTestCase(
-                callback=CallableMock.AsyncGenerator,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=None,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.AsyncGenerator,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=Completed,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.AsyncGenerator,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=Exception(),
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.AsyncGenerator,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=None,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.AsyncGenerator,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=Completed,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.AsyncGenerator,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=Exception(),
-                # =========================
-                run_in_executor=False,
-                use_execution_context=False,
-            ),
-        ),
-        # Test cases with Executor
-        # =================================
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Sync,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=None,
-                # =========================
-                run_in_executor=True,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.SyncGenerator,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=None,
-                # =========================
-                run_in_executor=True,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Async,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=Completed,
-                # =========================
-                run_in_executor=True,
-                use_execution_context=False,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.AsyncGenerator,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=Exception(),
-                # =========================
-                run_in_executor=True,
-                use_execution_context=False,
-            ),
-        ),
-        # Test cases with ExecutionContext
-        # =================================
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Sync,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=None,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=True,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.SyncGenerator,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=None,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=True,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Async,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=Completed,
-                # =========================
-                run_in_executor=False,
-                use_execution_context=True,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.AsyncGenerator,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=Exception(),
-                # =========================
-                run_in_executor=False,
-                use_execution_context=True,
-            ),
-        ),
-        # Test cases with Executor & ExecutionContext
-        # =================================
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Sync,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=None,
-                # =========================
-                run_in_executor=True,
-                use_execution_context=True,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.SyncGenerator,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=None,
-                # =========================
-                run_in_executor=True,
-                use_execution_context=True,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.Async,
-                args=("str", 0, [object()]),
-                kwargs={"ellipsis": ...},
-                return_value=object(),
-                raise_exception=Completed,
-                # =========================
-                run_in_executor=True,
-                use_execution_context=True,
-            ),
-        ),
-        (
-            ExecutionTestCase(
-                callback=CallableMock.AsyncGenerator,
-                args=None,
-                kwargs=None,
-                return_value=object(),
-                raise_exception=Exception(),
-                # =========================
-                run_in_executor=True,
-                use_execution_context=True,
-            ),
-        ),
-    ]
+
+        @classmethod
+        def complete_test_cases(cls) -> Iterator["TestObservableTask.ExecutionTestCase"]:
+            for callback, args, kwargs, auto_complete, run_in_executor, use_execution_context in product(
+                (CallableMock.Sync, CallableMock.SyncGenerator, CallableMock.Async, CallableMock.AsyncGenerator),
+                (None, ("pi", 3.14, [object()])),
+                (None, {"ellipsis": ...}),
+                (False, True),
+                (False, True),
+                (False, True),
+            ):
+                yield cls(
+                    id=(
+                        f"complete-{callback.__name__.lower()}-"
+                        f"{'no_args' if args is None else 'with_args'}-"
+                        f"{'no_kwargs' if kwargs is None else 'with_kwargs'}-with_return_value"
+                        f"{'auto_complete' if auto_complete else 'no_auto_complete'}-"
+                        f"{'executor' if run_in_executor else 'no_executor'}-"
+                        f"{'exec_ctx' if use_execution_context else 'no_exec_ctx'}"
+                    ),
+                    callback=callback(  # type: ignore[abstract]
+                        return_value=object(),
+                        raise_exception=Completed,
+                    ),
+                    args=args,
+                    kwargs=kwargs,
+                    auto_complete=auto_complete,
+                    run_in_executor=run_in_executor,
+                    use_execution_context=use_execution_context,
+                )
 
     # =================================
 
     @contextmanager
-    def execution_test(self, tc: ExecutionTestCase) -> Generator[ObservableTask[Any], None, None]:
+    def run_execution_test_case(self, tc: ExecutionTestCase) -> Generator[ObservableTask[Any], None, None]:
         """
         Context manager for testing the execution of an observable task.
 
@@ -542,10 +199,11 @@ class TestObservableTask:
         next_callback = CallableMock.Async()
         error_callback = CallableMock.Async()
         complete_callback = CallableMock.Sync()
-        main_callback = tc.callback(return_value=tc.return_value, raise_exception=tc.raise_exception)
 
         # Arrange: Create an instance of ObservableTask with the specified callback and arguments.
-        observable_task = ObservableTask[Any](callback=main_callback, args=tc.args, kwargs=tc.kwargs)
+        observable_task = ObservableTask[Any](
+            callback=tc.callback, args=tc.args, kwargs=tc.kwargs, auto_complete=tc.auto_complete
+        )
 
         # Act: Subscribe to the observable task and
         # execute it based on the test configuration.
@@ -589,15 +247,15 @@ class TestObservableTask:
         yield observable_task
 
         # Assert: Verify that the main callback was executed correctly.
-        assert main_callback.call_count == 1
-        assert main_callback.last_args == (tc.args if tc.args else ())
-        assert main_callback.last_kwargs == (tc.kwargs if tc.kwargs else {})
+        assert tc.callback.call_count == 1
+        assert tc.callback.last_args == (tc.args if tc.args else ())
+        assert tc.callback.last_kwargs == (tc.kwargs if tc.kwargs else {})
 
         # Assert: Verify subscriber notifications.
-        if tc.raise_exception is not None:
+        if tc.callback.exception is not None:
             assert next_callback.call_count == 0
 
-            if isinstance(tc.raise_exception, Observable.Completed):
+            if isinstance(tc.callback.exception, Observable.Completed):
                 assert error_callback.call_count == 0
 
                 assert complete_callback.call_count == 1
@@ -607,20 +265,52 @@ class TestObservableTask:
                 assert complete_callback.call_count == 0
 
                 assert error_callback.call_count == 1
-                assert error_callback.last_args == (tc.raise_exception,)
+                assert error_callback.last_args == (tc.callback.exception,)
                 assert error_callback.last_kwargs == {}
         else:
             assert next_callback.call_count == 1
-            assert next_callback.last_args == (tc.return_value,)
+            assert next_callback.last_args == (tc.callback.return_value,)
             assert next_callback.last_kwargs == {}
 
             assert error_callback.call_count == 0
 
-            assert complete_callback.call_count == (
-                1 if isinstance(main_callback, CallableMock.Sync | CallableMock.Async) else 0
-            )
+            assert complete_callback.call_count == (1 if tc.auto_complete else 0)
             assert complete_callback.last_args == ()
             assert complete_callback.last_kwargs == {}
+
+    # =================================
+
+    @pytest.mark.parametrize(
+        ["tc"],
+        [
+            pytest.param(tc, id=tc.id)
+            for tc in chain(
+                ExecutionTestCase.next_test_cases(),
+                ExecutionTestCase.error_test_cases(),
+                ExecutionTestCase.complete_test_cases(),
+            )
+        ],
+    )
+    def test_execution_in_sync_context(self, tc: ExecutionTestCase) -> None:
+        with self.run_execution_test_case(tc):
+            pass
+
+    # =================================
+
+    @pytest.mark.parametrize(
+        ["tc"],
+        [
+            pytest.param(tc, id=tc.id)
+            for tc in chain(
+                ExecutionTestCase.next_test_cases(),
+                ExecutionTestCase.error_test_cases(),
+                ExecutionTestCase.complete_test_cases(),
+            )
+        ],
+    )
+    async def test_execution_in_async_context(self, tc: ExecutionTestCase) -> None:
+        with self.run_execution_test_case(tc) as obs:
+            await obs.wait_for_tasks()
 
     # =================================
 
@@ -631,20 +321,6 @@ class TestObservableTask:
         # Act/Assert
         with pytest.raises(PyventusException):
             observable_task(executor=ProcessPoolExecutor())  # type: ignore[arg-type]
-
-    # =================================
-
-    @pytest.mark.parametrize(["tc"], EXECUTION_TEST_CASES)
-    def test_execution_in_sync_context(self, tc: ExecutionTestCase) -> None:
-        with self.execution_test(tc):
-            pass
-
-    # =================================
-
-    @pytest.mark.parametrize(["tc"], EXECUTION_TEST_CASES)
-    async def test_execution_in_async_context(self, tc: ExecutionTestCase) -> None:
-        with self.execution_test(tc) as obs:
-            await obs.wait_for_tasks()
 
     # =================================
     # Test Cases for to_thread()
@@ -669,8 +345,8 @@ class TestObservableTask:
     @pytest.mark.parametrize(
         ["shutdown"],
         [
-            (True,),
-            (False,),
+            pytest.param(True),
+            pytest.param(False),
         ],
     )
     def test_to_thread_with_shutdown_argument(self, shutdown: bool) -> None:

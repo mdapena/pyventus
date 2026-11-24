@@ -26,7 +26,7 @@ class TestObservableStream:
     # =================================
 
     @contextmanager
-    def run_next_test_case(self) -> Generator[ObservableStream[Any], None, None]:
+    def _test_next(self) -> Generator[ObservableStream[Any], None, None]:
         # Arrange
         value1: Any = object()
         value2: Any = object()
@@ -66,13 +66,13 @@ class TestObservableStream:
     # =================================
 
     def test_next_in_sync_context(self) -> None:
-        with self.run_next_test_case():
+        with self._test_next():
             pass
 
     # =================================
 
     async def test_next_in_async_context(self) -> None:
-        with self.run_next_test_case() as obss:
+        with self._test_next() as obss:
             await obss.wait_for_tasks()
 
     # =================================
@@ -80,7 +80,7 @@ class TestObservableStream:
     # =================================
 
     @contextmanager
-    def run_error_test_case(self) -> Generator[ObservableStream[Any], None, None]:
+    def _test_error(self) -> Generator[ObservableStream[Any], None, None]:
         # Arrange
         error1: Exception = Exception("Exception message")
         error2: Exception = Exception("Exception message")
@@ -120,13 +120,13 @@ class TestObservableStream:
     # =================================
 
     def test_error_in_sync_context(self) -> None:
-        with self.run_error_test_case():
+        with self._test_error():
             pass
 
     # =================================
 
     async def test_error_in_async_context(self) -> None:
-        with self.run_error_test_case() as obss:
+        with self._test_error() as obss:
             await obss.wait_for_tasks()
 
     # =================================
@@ -134,7 +134,7 @@ class TestObservableStream:
     # =================================
 
     @contextmanager
-    def run_complete_test_case(self) -> Generator[ObservableStream[Any], None, None]:
+    def _test_complete(self) -> Generator[ObservableStream[Any], None, None]:
         # Arrange
         callback1: CallableMock.Base = CallableMock.Sync()
         callback2: CallableMock.Base = CallableMock.Async()
@@ -170,13 +170,13 @@ class TestObservableStream:
     # =================================
 
     def test_complete_in_sync_context(self) -> None:
-        with self.run_complete_test_case():
+        with self._test_complete():
             pass
 
     # =================================
 
     async def test_complete_in_async_context(self) -> None:
-        with self.run_complete_test_case() as obss:
+        with self._test_complete() as obss:
             await obss.wait_for_tasks()
 
     # =================================
@@ -184,7 +184,7 @@ class TestObservableStream:
     # =================================
 
     @contextmanager
-    def run_notification_order_test_case(self) -> Generator[ObservableStream[float], None, None]:
+    def _test_notification_order(self) -> Generator[ObservableStream[float], None, None]:
         # Arrange
         error1 = Exception("Error 1")
         error2 = Exception("Error 2")
@@ -248,11 +248,11 @@ class TestObservableStream:
     # =================================
 
     def test_notification_order_in_sync_context(self) -> None:
-        with self.run_notification_order_test_case():
+        with self._test_notification_order():
             pass
 
     # =================================
 
     async def test_notification_order_in_async_context(self) -> None:
-        with self.run_notification_order_test_case() as obss:
+        with self._test_notification_order() as obss:
             await obss.wait_for_tasks()

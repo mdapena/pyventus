@@ -96,7 +96,7 @@ class TestObservableValue:
     # Tests Cases for Value retrieval
     # =================================
 
-    def run_value_retrieval_test_case(self) -> ObservableValue[Any]:
+    def _test_value_retrieval(self) -> ObservableValue[Any]:
         # Arrange
         seed: Any = object()
         value: Any = object()
@@ -120,27 +120,36 @@ class TestObservableValue:
             )
         )
 
-        with pytest.raises(PyventusException):
-            obsv.get_value(DummyCallable.Invalid())  # type: ignore[arg-type]
-
-        with pytest.raises(PyventusException):
-            obsv.get_value(DummyCallable.Sync.Generator())  # type: ignore[arg-type]
-
-        with pytest.raises(PyventusException):
-            obsv.get_value(DummyCallable.Async.Generator())  # type: ignore[arg-type]
-
         # Return obsv for any additional processing.
         return obsv
 
     # =================================
 
     def test_value_retrieval_in_sync_context(self) -> None:
-        self.run_value_retrieval_test_case()
+        self._test_value_retrieval()
 
     # =================================
 
     async def test_value_retrieval_in_async_context(self) -> None:
-        await self.run_value_retrieval_test_case().wait_for_tasks()
+        await self._test_value_retrieval().wait_for_tasks()
+
+    # =================================
+
+    @pytest.mark.parametrize(
+        ["callback", "exception"],
+        [
+            pytest.param(DummyCallable.Invalid(), PyventusException),
+            pytest.param(DummyCallable.Sync.Generator(), PyventusException),
+            pytest.param(DummyCallable.Async.Generator(), PyventusException),
+        ],
+    )
+    def test_value_retrieval_with_invalid_input(self, callback: Any, exception: type[Exception]) -> None:
+        # Arrange
+        obsv = ObservableValue[int](seed=1)
+
+        # Act/Assert
+        with pytest.raises(exception):
+            obsv.get_value(callback)
 
     # =================================
 
@@ -165,7 +174,7 @@ class TestObservableValue:
     # Tests Cases for Error retrieval
     # =================================
 
-    def run_error_retrieval_test_case(self) -> ObservableValue[Any]:
+    def _test_error_retrieval(self) -> ObservableValue[Any]:
         # Arrange
         exception: Any = ValueError("Invalid")
         validator: CallableMock.Base = CallableMock.Sync(raise_exception=exception)
@@ -188,27 +197,36 @@ class TestObservableValue:
             )
         )
 
-        with pytest.raises(PyventusException):
-            obsv.get_error(DummyCallable.Invalid())  # type: ignore[arg-type]
-
-        with pytest.raises(PyventusException):
-            obsv.get_error(DummyCallable.Sync.Generator())  # type: ignore[arg-type]
-
-        with pytest.raises(PyventusException):
-            obsv.get_error(DummyCallable.Async.Generator())  # type: ignore[arg-type]
-
         # Return obsv for any additional processing.
         return obsv
 
     # =================================
 
     def test_error_retrieval_in_sync_context(self) -> None:
-        self.run_error_retrieval_test_case()
+        self._test_error_retrieval()
 
     # =================================
 
     async def test_error_retrieval_in_async_context(self) -> None:
-        await self.run_error_retrieval_test_case().wait_for_tasks()
+        await self._test_error_retrieval().wait_for_tasks()
+
+    # =================================
+
+    @pytest.mark.parametrize(
+        ["callback", "exception"],
+        [
+            pytest.param(DummyCallable.Invalid(), PyventusException),
+            pytest.param(DummyCallable.Sync.Generator(), PyventusException),
+            pytest.param(DummyCallable.Async.Generator(), PyventusException),
+        ],
+    )
+    def test_error_retrieval_with_invalid_input(self, callback: Any, exception: type[Exception]) -> None:
+        # Arrange
+        obsv = ObservableValue[int](seed=1)
+
+        # Act/Assert
+        with pytest.raises(exception):
+            obsv.get_error(callback)
 
     # =================================
 
@@ -234,7 +252,7 @@ class TestObservableValue:
     # =================================
 
     @contextmanager
-    def run_validator_execution_test_case(self) -> Generator[ObservableValue[Any], None, None]:
+    def _test_validator_execution(self) -> Generator[ObservableValue[Any], None, None]:
         # Arrange
         value1: Any = object()
         value2: Any = object()
@@ -264,20 +282,20 @@ class TestObservableValue:
     # =================================
 
     def test_validator_execution_in_sync_context(self) -> None:
-        with self.run_validator_execution_test_case():
+        with self._test_validator_execution():
             pass
 
     # =================================
 
     async def test_validator_execution_in_async_context(self) -> None:
-        with self.run_validator_execution_test_case() as obsv:
+        with self._test_validator_execution() as obsv:
             await obsv.wait_for_tasks()
 
     # =================================
     # Test Cases for value update
     # =================================
 
-    def run_value_update_without_validators_test_case(self) -> ObservableValue[Any]:
+    def _test_value_update_without_validators(self) -> ObservableValue[Any]:
         # Arrange
         value1: Any = object()
         value2: Any = object()
@@ -315,16 +333,16 @@ class TestObservableValue:
     # =================================
 
     def test_value_update_without_validators_in_sync_context(self) -> None:
-        self.run_value_update_without_validators_test_case()
+        self._test_value_update_without_validators()
 
     # =================================
 
     async def test_value_update_without_validators_in_async_context(self) -> None:
-        await self.run_value_update_without_validators_test_case().wait_for_tasks()
+        await self._test_value_update_without_validators().wait_for_tasks()
 
     # =================================
 
-    def run_value_update_with_validators_test_case(self) -> ObservableValue[Any]:
+    def _test_value_update_with_validators(self) -> ObservableValue[Any]:
         # Arrange
         value1: Any = object()
         value2: Any = object()
@@ -433,18 +451,18 @@ class TestObservableValue:
     # =================================
 
     def test_value_update_with_validators_in_sync_context(self) -> None:
-        self.run_value_update_with_validators_test_case()
+        self._test_value_update_with_validators()
 
     # =================================
 
     async def test_value_update_with_validators_in_async_context(self) -> None:
-        await self.run_value_update_with_validators_test_case().wait_for_tasks()
+        await self._test_value_update_with_validators().wait_for_tasks()
 
     # =================================
     # Test Cases for value update order
     # =================================
 
-    def run_value_update_order_test_case(self) -> ObservableValue[float]:
+    def _test_value_update_order(self) -> ObservableValue[float]:
         # Arrange
         obsv = ObservableValue[float](
             seed=0.0,
@@ -480,18 +498,18 @@ class TestObservableValue:
     # =================================
 
     def test_value_update_order_in_sync_context(self) -> None:
-        self.run_value_update_order_test_case()
+        self._test_value_update_order()
 
     # =================================
 
     async def test_value_update_order_in_async_context(self) -> None:
-        await self.run_value_update_order_test_case().wait_for_tasks()
+        await self._test_value_update_order().wait_for_tasks()
 
     # =================================
     # Test Cases for clear value
     # =================================
 
-    def run_clear_value_without_validators_test_case(self) -> ObservableValue[int]:
+    def _test_clear_value_without_validators(self) -> ObservableValue[int]:
         # Arrange
         obsv = ObservableValue[int](seed=-1)
         obsv.subscribe(print)
@@ -521,16 +539,16 @@ class TestObservableValue:
     # =================================
 
     def test_clear_value_without_validators_in_sync_context(self) -> None:
-        self.run_clear_value_without_validators_test_case()
+        self._test_clear_value_without_validators()
 
     # =================================
 
     async def test_clear_value_without_validators_in_async_context(self) -> None:
-        await self.run_clear_value_without_validators_test_case().wait_for_tasks()
+        await self._test_clear_value_without_validators().wait_for_tasks()
 
     # =================================
 
-    def run_clear_value_with_validators_test_case(self) -> ObservableValue[int]:
+    def _test_clear_value_with_validators(self) -> ObservableValue[int]:
         # Arrange
         obsv = ObservableValue[int](seed=-1, validators=[Validators.choices([0, 1])])
         obsv.subscribe(next_callback=lambda value: None)
@@ -560,18 +578,18 @@ class TestObservableValue:
     # =================================
 
     def test_clear_value_with_validators_in_sync_context(self) -> None:
-        self.run_clear_value_with_validators_test_case()
+        self._test_clear_value_with_validators()
 
     # =================================
 
     async def test_clear_value_with_validators_in_async_context(self) -> None:
-        await self.run_clear_value_with_validators_test_case().wait_for_tasks()
+        await self._test_clear_value_with_validators().wait_for_tasks()
 
     # =================================
     # Test Cases for clear value order
     # =================================
 
-    def run_clear_value_order_test_case(self) -> ObservableValue[float]:
+    def _test_clear_value_order(self) -> ObservableValue[float]:
         # Arrange
         obsv = ObservableValue[float](
             seed=0.0,
@@ -612,19 +630,19 @@ class TestObservableValue:
     # =================================
 
     def test_clear_value_order_in_sync_context(self) -> None:
-        self.run_clear_value_order_test_case()
+        self._test_clear_value_order()
 
     # =================================
 
     async def test_clear_value_order_in_async_context(self) -> None:
-        await self.run_clear_value_order_test_case().wait_for_tasks()
+        await self._test_clear_value_order().wait_for_tasks()
 
     # =================================
     # Test Cases for prime subscriber
     # =================================
 
     @contextmanager
-    def run_prime_subscriber_test_case(self) -> Generator[ObservableValue[float], None, None]:
+    def _test_prime_subscriber(self) -> Generator[ObservableValue[float], None, None]:
         # Arrange
         next_callback = CallableMock.Async()
         error_callback = CallableMock.Sync()
@@ -679,9 +697,6 @@ class TestObservableValue:
         sub2.unsubscribe()
         sub1 = obsv.prime_subscribers(sub1)
 
-        with pytest.raises(PyventusException):
-            obsv.prime_subscribers()
-
         # Yield control for any additional processing.
         yield obsv
 
@@ -702,21 +717,55 @@ class TestObservableValue:
     # =================================
 
     def test_prime_subscriber_in_sync_context(self) -> None:
-        with self.run_prime_subscriber_test_case():
+        with self._test_prime_subscriber():
             pass
 
     # =================================
 
     async def test_prime_subscriber_in_async_context(self) -> None:
-        with self.run_prime_subscriber_test_case() as obsv:
+        with self._test_prime_subscriber() as obsv:
             await obsv.wait_for_tasks()
+
+    # =================================
+
+    @pytest.mark.parametrize(
+        ["subscribers", "exception"],
+        [
+            pytest.param((), PyventusException),
+            pytest.param((0,), PyventusException),
+            pytest.param(([],), PyventusException),
+            pytest.param((None,), PyventusException),
+            pytest.param(
+                (
+                    Subscriber(
+                        teardown_callback=lambda sub: True,
+                        next_callback=lambda val: None,
+                        error_callback=None,
+                        complete_callback=None,
+                        force_async=False,
+                    ),
+                    None,
+                ),
+                PyventusException,
+            ),
+        ],
+    )
+    def test_prime_subscriber_with_invalid_input(
+        self, subscribers: tuple[Any, ...], exception: type[Exception]
+    ) -> None:
+        # Arrange
+        obsv = ObservableValue[int](seed=1)
+
+        # Act/Assert
+        with pytest.raises(exception):
+            obsv.prime_subscribers(*subscribers)
 
     # =================================
     # Test Cases for notifications
     # =================================
 
     @contextmanager
-    def run_notification_test_case(self) -> Generator[ObservableValue[float], None, None]:
+    def _test_notification(self) -> Generator[ObservableValue[float], None, None]:
         # Arrange
         value1: Any = object()
         value2: Any = object()
@@ -768,13 +817,13 @@ class TestObservableValue:
     # =================================
 
     def test_notification_in_sync_context(self) -> None:
-        with self.run_notification_test_case():
+        with self._test_notification():
             pass
 
     # =================================
 
     async def test_notification_in_async_context(self) -> None:
-        with self.run_notification_test_case() as obsv:
+        with self._test_notification() as obsv:
             await obsv.wait_for_tasks()
 
     # =================================
@@ -782,7 +831,7 @@ class TestObservableValue:
     # =================================
 
     @contextmanager
-    def run_notification_order_test_case(self) -> Generator[ObservableValue[float], None, None]:
+    def _test_notification_order(self) -> Generator[ObservableValue[float], None, None]:
         # Arrange
         next_callback = CallableMock.Async()
         error_callback = CallableMock.Sync()
@@ -857,11 +906,11 @@ class TestObservableValue:
     # =================================
 
     def test_notification_order_in_sync_context(self) -> None:
-        with self.run_notification_order_test_case():
+        with self._test_notification_order():
             pass
 
     # =================================
 
     async def test_notification_order_in_async_context(self) -> None:
-        with self.run_notification_order_test_case() as obsv:
+        with self._test_notification_order() as obsv:
             await obsv.wait_for_tasks()

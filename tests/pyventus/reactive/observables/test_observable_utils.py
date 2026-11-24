@@ -16,10 +16,10 @@ class TestObservableUtils:
     @pytest.mark.parametrize(
         ["callback", "args", "kwargs"],
         [
-            (CallableMock.Sync(), (), {}),
-            (CallableMock.SyncGenerator(), ("pi", 3.14), {}),
-            (CallableMock.Async(), (), {"...": ...}),
-            (CallableMock.AsyncGenerator(), ("pi", 3.14), {"...": ...}),
+            pytest.param(CallableMock.Sync(), (), {}),
+            pytest.param(CallableMock.SyncGenerator(), ("pi", 3.14), {}),
+            pytest.param(CallableMock.Async(), (), {"ellipsis": ...}),
+            pytest.param(CallableMock.AsyncGenerator(), ("pi", 3.14), {"ellipsis": ...}),
         ],
     )
     def test_as_observable_task_decorator(

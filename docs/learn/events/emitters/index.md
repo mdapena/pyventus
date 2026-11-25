@@ -100,7 +100,7 @@ from pyventus.events import EventEmitter, EventLinker
 
 
 class CustomProcessingService(ProcessingService):
-    def submit(self, callback, *args, **kwargs):  # (1)!
+    def submit(self, callback, /, *args, **kwargs):  # (1)!
         coro = callback(*args, **kwargs)  # (2)!
         if asyncio.iscoroutine(coro):
             asyncio.run(coro)

@@ -383,7 +383,7 @@ class AsyncIOProcessingService(ProcessingService):
                 submission.callback(*submission.args, **submission.kwargs)
 
     @override
-    def submit(self, callback: ProcessingServiceCallbackType, *args: Any, **kwargs: Any) -> None:
+    def submit(self, callback: ProcessingServiceCallbackType, /, *args: Any, **kwargs: Any) -> None:
         # Get the class type to access class-level methods.
         cls: type[AsyncIOProcessingService] = type(self)
 

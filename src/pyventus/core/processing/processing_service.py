@@ -21,7 +21,7 @@ class ProcessingService(ABC):
     __slots__ = ()
 
     @abstractmethod
-    def submit(self, callback: ProcessingServiceCallbackType, *args: Any, **kwargs: Any) -> None:
+    def submit(self, callback: ProcessingServiceCallbackType, /, *args: Any, **kwargs: Any) -> None:
         """
         Submit a callback along with its arguments for execution.
 

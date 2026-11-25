@@ -348,11 +348,11 @@ class TestObservable:
         subctx = subject.subscribe(force_async=tc.force_async, stateful_subctx=stateful_subctx)
 
         # Act
-        results = subctx(tc.next_callback)  # type: ignore[arg-type]
+        results: Any = subctx(tc.next_callback)  # type: ignore[arg-type]
 
         # Assert
         if stateful_subctx:
-            next_callback, ctx = results  # type: ignore[misc]
+            next_callback, ctx = results
             obs, subscriber = ctx.unpack()
 
             assert next_callback is tc.next_callback

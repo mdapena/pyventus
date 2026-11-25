@@ -1,3 +1,4 @@
+from itertools import product
 from typing import Any
 
 import pytest
@@ -15,10 +16,10 @@ class TestObservableUtils:
     @pytest.mark.parametrize(
         ["callback", "args", "kwargs"],
         [
-            (CallableMock.Sync(), (), {}),
-            (CallableMock.SyncGenerator(), ("pi", 3.14), {}),
-            (CallableMock.Async(), (), {"...": ...}),
-            (CallableMock.AsyncGenerator(), ("pi", 3.14), {"...": ...}),
+            pytest.param(CallableMock.Sync(), (), {}),
+            pytest.param(CallableMock.SyncGenerator(), ("pi", 3.14), {}),
+            pytest.param(CallableMock.Async(), (), {"ellipsis": ...}),
+            pytest.param(CallableMock.AsyncGenerator(), ("pi", 3.14), {"ellipsis": ...}),
         ],
     )
     def test_as_observable_task_decorator(
@@ -37,17 +38,24 @@ class TestObservableUtils:
         assert get_private_attr(observable_task_callback, "__callable") is callback
         assert get_private_attr(observable_task, "__args") == args
         assert get_private_attr(observable_task, "__kwargs") == kwargs
+        assert get_private_attr(observable_task, "__auto_complete")
 
     # =================================
 
     @pytest.mark.parametrize(
-        ["debug"],
-        [(False,), (True,)],
+        ["auto_complete", "debug"],
+        [
+            pytest.param(auto_complete, debug)
+            for auto_complete, debug in product(
+                (False, True),
+                (False, True),
+            )
+        ],
     )
-    def test_as_observable_task_decorator_with_parameters(self, debug: bool) -> None:
+    def test_as_observable_task_decorator_with_parameters(self, auto_complete: bool, debug: bool) -> None:
         # Arrange
         callback = CallableMock.Sync()
-        decorated_callback = as_observable_task(debug=debug)(callback)
+        decorated_callback = as_observable_task(auto_complete=auto_complete, debug=debug)(callback)
 
         # Act
         observable_task = decorated_callback()
@@ -55,3 +63,4 @@ class TestObservableUtils:
         # Assert
         assert isinstance(observable_task, ObservableTask)
         assert getattr(observable_task, "_Observable__logger").debug_enabled is debug  # noqa: B009
+        assert get_private_attr(observable_task, "__auto_complete") is auto_complete

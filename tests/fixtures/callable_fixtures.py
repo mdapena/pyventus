@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 from collections.abc import AsyncGenerator, Awaitable, Callable, Generator
 from typing import Any, Final
 
+from typing_extensions import override
+
 
 class CallableMock:
     """
@@ -69,6 +71,7 @@ class CallableMock:
     class Sync(Base):
         """Synchronous callable mock."""
 
+        @override
         def __call__(self, *args: Any, **kwargs: Any) -> Any:
             """
             Invokes the synchronous callable, tracking call details.
@@ -89,6 +92,7 @@ class CallableMock:
     class Async(Base):
         """Asynchronous callable mock."""
 
+        @override
         async def __call__(self, *args: Any, **kwargs: Any) -> Any:
             """
             Invokes the asynchronous callable, tracking call details.
@@ -109,6 +113,7 @@ class CallableMock:
     class SyncGenerator(Base):
         """Sync generator callable mock."""
 
+        @override
         def __call__(self, *args: Any, **kwargs: Any) -> Generator[Any, None, None]:
             """
             Call the generator and yield the return value.
@@ -130,6 +135,7 @@ class CallableMock:
     class AsyncGenerator(Base):
         """Async generator callable mock."""
 
+        @override
         async def __call__(self, *args: Any, **kwargs: Any) -> AsyncGenerator[Any, None]:
             """
             Call the async generator and yield the return value.

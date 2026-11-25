@@ -64,6 +64,6 @@ class RedisProcessingService(ProcessingService):
         )
 
     @override
-    def submit(self, callback: ProcessingServiceCallbackType, *args: Any, **kwargs: Any) -> None:
+    def submit(self, callback: ProcessingServiceCallbackType, /, *args: Any, **kwargs: Any) -> None:
         # Send the callback and its arguments to Redis for asynchronous execution.
         self.__queue.enqueue(callback, *args, **kwargs, **self.__options)

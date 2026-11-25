@@ -82,7 +82,7 @@ class ExecutorProcessingService(ProcessingService):
         )
 
     @override
-    def submit(self, callback: ProcessingServiceCallbackType, *args: Any, **kwargs: Any) -> None:
+    def submit(self, callback: ProcessingServiceCallbackType, /, *args: Any, **kwargs: Any) -> None:
         # Submit the callback to the executor along with its arguments.
         self.__executor.submit(self.__class__._execute, callback, args, kwargs)
 

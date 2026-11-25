@@ -54,6 +54,6 @@ class FastAPIProcessingService(ProcessingService):
         )
 
     @override
-    def submit(self, callback: ProcessingServiceCallbackType, *args: Any, **kwargs: Any) -> None:
+    def submit(self, callback: ProcessingServiceCallbackType, /, *args: Any, **kwargs: Any) -> None:
         # Add the callback to the background_tasks instance as a new task to be executed.
         self.__background_tasks.add_task(callback, *args, **kwargs)

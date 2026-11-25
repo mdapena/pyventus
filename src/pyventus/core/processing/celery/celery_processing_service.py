@@ -145,7 +145,7 @@ class CeleryProcessingService(ProcessingService):
         )
 
     @override
-    def submit(self, callback: ProcessingServiceCallbackType, *args: Any, **kwargs: Any) -> None:
+    def submit(self, callback: ProcessingServiceCallbackType, /, *args: Any, **kwargs: Any) -> None:
         # Create the Celery payload to encapsulate the callback and its arguments.
         payload = CeleryProcessingService.CeleryPayload(callback=callback, args=args, kwargs=kwargs)
 

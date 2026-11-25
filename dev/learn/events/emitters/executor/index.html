@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../../../images/favicon/pyventus-logo.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -33,10 +33,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -2663,11 +2663,11 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 </span><a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventEmitter</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5"></a>
 <a id="__codelineno-0-6" name="__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
 <a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="hll">    <span class="n">executor</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span><span class="p">()</span>
 </span><a id="__codelineno-0-9" name="__codelineno-0-9"></a>
 <a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="hll">    <span class="n">event_emitter</span> <span class="o">=</span> <span class="n">EventEmitter</span><span class="p">(</span><span class="n">event_processor</span><span class="o">=</span><span class="n">ExecutorProcessingService</span><span class="p">(</span><span class="n">executor</span><span class="p">))</span>
-</span><a id="__codelineno-0-11" name="__codelineno-0-11"></a>    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-0-11" name="__codelineno-0-11"></a>    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">)</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12"></a>
 <a id="__codelineno-0-13" name="__codelineno-0-13"></a>    <span class="n">executor</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
@@ -2691,11 +2691,11 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 </span><a id="__codelineno-1-4" name="__codelineno-1-4"></a>
 <a id="__codelineno-1-5" name="__codelineno-1-5"></a>
 <a id="__codelineno-1-6" name="__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="hll">    <span class="n">executor</span> <span class="o">=</span> <span class="n">ThreadPoolExecutor</span><span class="p">()</span>
 </span><a id="__codelineno-1-9" name="__codelineno-1-9"></a>
 <a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="hll">    <span class="n">event_emitter</span> <span class="o">=</span> <span class="n">ExecutorEventEmitter</span><span class="p">(</span><span class="n">executor</span><span class="p">)</span>
-</span><a id="__codelineno-1-11" name="__codelineno-1-11"></a>    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-1-11" name="__codelineno-1-11"></a>    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">)</span>
 <a id="__codelineno-1-12" name="__codelineno-1-12"></a>
 <a id="__codelineno-1-13" name="__codelineno-1-13"></a>    <span class="n">executor</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
 </code></pre></div></td></tr></table></div>
@@ -2713,9 +2713,9 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="hll"><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExecutorEventEmitterCtx</span>
 </span><a id="__codelineno-2-4" name="__codelineno-2-4"></a>
 <a id="__codelineno-2-5" name="__codelineno-2-5"></a>
-<a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="hll">    <span class="k">with</span> <span class="n">ExecutorEventEmitterCtx</span><span class="p">(</span><span class="n">executor</span><span class="o">=</span><span class="n">ThreadPoolExecutor</span><span class="p">())</span> <span class="k">as</span> <span class="n">event_emitter</span><span class="p">:</span>
-</span><a id="__codelineno-2-8" name="__codelineno-2-8"></a>        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-2-8" name="__codelineno-2-8"></a>        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </div>
 </div>
@@ -2762,21 +2762,21 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-3-6" name="__codelineno-3-6"></a>
 <a id="__codelineno-3-7" name="__codelineno-3-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_event_with_delay</span><span class="p">():</span>
 <a id="__codelineno-3-8" name="__codelineno-3-8"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.5</span><span class="p">)</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Done!&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Done!"</span><span class="p">)</span>
 <a id="__codelineno-3-10" name="__codelineno-3-10"></a>
 <a id="__codelineno-3-11" name="__codelineno-3-11"></a>
-<a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Starting...&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Starting..."</span><span class="p">)</span>
 <a id="__codelineno-3-14" name="__codelineno-3-14"></a>
-<a id="__codelineno-3-15" name="__codelineno-3-15"></a>    <span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_event_with_delay</span><span class="p">)</span>
-<a id="__codelineno-3-16" name="__codelineno-3-16"></a>    <span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_event_with_delay</span><span class="p">)</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15"></a>    <span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_event_with_delay</span><span class="p">)</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16"></a>    <span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_event_with_delay</span><span class="p">)</span>
 <a id="__codelineno-3-17" name="__codelineno-3-17"></a>
 <a id="__codelineno-3-18" name="__codelineno-3-18"></a><span class="hll">    <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
 </span><a id="__codelineno-3-19" name="__codelineno-3-19"></a><span class="hll">        <span class="n">event_emitter</span> <span class="o">=</span> <span class="n">ExecutorEventEmitter</span><span class="p">(</span><span class="n">executor</span><span class="p">)</span>
-</span><a id="__codelineno-3-20" name="__codelineno-3-20"></a><span class="hll">        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
-</span><a id="__codelineno-3-21" name="__codelineno-3-21"></a><span class="hll">        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-3-20" name="__codelineno-3-20"></a><span class="hll">        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">)</span>
+</span><a id="__codelineno-3-21" name="__codelineno-3-21"></a><span class="hll">        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">)</span>
 </span><a id="__codelineno-3-22" name="__codelineno-3-22"></a>
-<a id="__codelineno-3-23" name="__codelineno-3-23"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Closing...&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-23" name="__codelineno-3-23"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Closing..."</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -2812,21 +2812,21 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-4-7" name="__codelineno-4-7"></a>        <span class="k">return</span> <span class="n">n</span>
 <a id="__codelineno-4-8" name="__codelineno-4-8"></a>    <span class="k">return</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span>
 <a id="__codelineno-4-9" name="__codelineno-4-9"></a>
-<a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Starting...&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10"></a><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Starting..."</span><span class="p">)</span>
 <a id="__codelineno-4-12" name="__codelineno-4-12"></a>
 <a id="__codelineno-4-13" name="__codelineno-4-13"></a>    <span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
-<a id="__codelineno-4-14" name="__codelineno-4-14"></a>        <span class="s2">&quot;Fibonacci&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14"></a>        <span class="s2">"Fibonacci"</span><span class="p">,</span>
 <a id="__codelineno-4-15" name="__codelineno-4-15"></a>        <span class="n">event_callback</span><span class="o">=</span><span class="n">fibonacci</span><span class="p">,</span>
 <a id="__codelineno-4-16" name="__codelineno-4-16"></a>        <span class="n">success_callback</span><span class="o">=</span><span class="nb">print</span><span class="p">,</span>
 <a id="__codelineno-4-17" name="__codelineno-4-17"></a>    <span class="p">)</span>
 <a id="__codelineno-4-18" name="__codelineno-4-18"></a>
 <a id="__codelineno-4-19" name="__codelineno-4-19"></a><span class="hll">    <span class="k">with</span> <span class="n">ProcessPoolExecutor</span><span class="p">()</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
 </span><a id="__codelineno-4-20" name="__codelineno-4-20"></a><span class="hll">        <span class="n">event_emitter</span> <span class="o">=</span> <span class="n">ExecutorEventEmitter</span><span class="p">(</span><span class="n">executor</span><span class="p">)</span>
-</span><a id="__codelineno-4-21" name="__codelineno-4-21"></a><span class="hll">        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;Fibonacci&quot;</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
-</span><a id="__codelineno-4-22" name="__codelineno-4-22"></a><span class="hll">        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;Fibonacci&quot;</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+</span><a id="__codelineno-4-21" name="__codelineno-4-21"></a><span class="hll">        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">"Fibonacci"</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
+</span><a id="__codelineno-4-22" name="__codelineno-4-22"></a><span class="hll">        <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">"Fibonacci"</span><span class="p">,</span> <span class="mi">35</span><span class="p">)</span>
 </span><a id="__codelineno-4-23" name="__codelineno-4-23"></a>
-<a id="__codelineno-4-24" name="__codelineno-4-24"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Closing...&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Closing..."</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <div class="admonition warning">
 <p class="admonition-title">Picklable Objects Required for <code>ProcessPoolExecutor</code></p>
@@ -3156,10 +3156,10 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
         <script src="../../../../js/timeago.min.js"></script>
       

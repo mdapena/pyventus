@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../../images/favicon/pyventus-logo.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -33,10 +33,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -2544,12 +2544,12 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
   <a href="#pyventus.core.processing.ProcessingService-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2619,59 +2619,59 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>pyventus/core/processing/processing_service.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-0-10">10</a></span>
-<span class="normal"><a href="#__codelineno-0-11">11</a></span>
-<span class="normal"><a href="#__codelineno-0-12">12</a></span>
-<span class="normal"><a href="#__codelineno-0-13">13</a></span>
-<span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span>
-<span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span>
-<span class="normal"><a href="#__codelineno-0-27">27</a></span>
-<span class="normal"><a href="#__codelineno-0-28">28</a></span>
-<span class="normal"><a href="#__codelineno-0-29">29</a></span>
-<span class="normal"><a href="#__codelineno-0-30">30</a></span>
-<span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span>
-<span class="normal"><a href="#__codelineno-0-35">35</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">ProcessingService</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="sd">    A base class that defines a common interface for processing calls.</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13"></a><span class="sd">    **Notes:**</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14"></a>
-<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="sd">    -   The main goal of this class is to decouple the process of executing calls from</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">        the underlying implementation, thereby establishing a template for defining a</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">        variety of strategies to manage the execution.</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a>    <span class="c1"># Allow subclasses to define __slots__</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a>    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a>    <span class="nd">@abstractmethod</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">ProcessingServiceCallbackType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">        Submit a callback along with its arguments for execution.</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27"></a>
-<a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">        Subclasses must implement this method to define the specific execution strategy.</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29"></a>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">        :param callback: The callback to be executed.</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">        :param args: Positional arguments to be passed to the callback.</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">        :param kwargs: Keyword arguments to be passed to the callback.</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        :return: None.</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a>        <span class="k">pass</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService--source--__codelineno-0-35">35</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-9" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">ProcessingService</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-10" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-10"></a><span class="w">    </span><span class="sd">"""</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-11" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-11"></a><span class="sd">    A base class that defines a common interface for processing calls.</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-12" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-12"></a>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-13" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-13"></a><span class="sd">    **Notes:**</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-14" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-14"></a>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-15" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-15"></a><span class="sd">    -   The main goal of this class is to decouple the process of executing calls from</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-16" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-16"></a><span class="sd">        the underlying implementation, thereby establishing a template for defining a</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-17" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-17"></a><span class="sd">        variety of strategies to manage the execution.</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-18" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-18"></a><span class="sd">    """</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-19" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-19"></a>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-20" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-20"></a>    <span class="c1"># Allow subclasses to define __slots__</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-21" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-21"></a>    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">()</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-22" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-22"></a>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-23" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-23"></a>    <span class="nd">@abstractmethod</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-24" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-24"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">ProcessingServiceCallbackType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-25" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-25"></a><span class="w">        </span><span class="sd">"""</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-26" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-26"></a><span class="sd">        Submit a callback along with its arguments for execution.</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-27" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-27"></a>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-28" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-28"></a><span class="sd">        Subclasses must implement this method to define the specific execution strategy.</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-29" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-29"></a>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-30" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-30"></a><span class="sd">        :param callback: The callback to be executed.</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-31" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-31"></a><span class="sd">        :param args: Positional arguments to be passed to the callback.</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-32" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-32"></a><span class="sd">        :param kwargs: Keyword arguments to be passed to the callback.</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-33" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-33"></a><span class="sd">        :return: None.</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-34" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-34"></a><span class="sd">        """</span>
+<a id="pyventus.core.processing.ProcessingService--source--__codelineno-0-35" name="pyventus.core.processing.ProcessingService--source--__codelineno-0-35"></a>        <span class="k">pass</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -2686,7 +2686,7 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 
 
 
-<h2 id="pyventus.core.processing.ProcessingService-functions">Functions<a href="#pyventus.core.processing.ProcessingService-functions" class="headerlink" title="Permanent link">&para;</a></h2>
+<h2 id="pyventus.core.processing.ProcessingService-functions">Methods:<a href="#pyventus.core.processing.ProcessingService-functions" class="headerlink" title="Permanent link">&para;</a></h2>
 
 <div class="doc doc-object doc-function">
 
@@ -2803,31 +2803,31 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>pyventus/core/processing/processing_service.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span>
-<span class="normal"><a href="#__codelineno-0-27">27</a></span>
-<span class="normal"><a href="#__codelineno-0-28">28</a></span>
-<span class="normal"><a href="#__codelineno-0-29">29</a></span>
-<span class="normal"><a href="#__codelineno-0-30">30</a></span>
-<span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span>
-<span class="normal"><a href="#__codelineno-0-35">35</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="nd">@abstractmethod</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="k">def</span><span class="w"> </span><span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">ProcessingServiceCallbackType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26"></a><span class="sd">    Submit a callback along with its arguments for execution.</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27"></a>
-<a id="__codelineno-0-28" name="__codelineno-0-28"></a><span class="sd">    Subclasses must implement this method to define the specific execution strategy.</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29"></a>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="sd">    :param callback: The callback to be executed.</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">    :param args: Positional arguments to be passed to the callback.</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a><span class="sd">    :param kwargs: Keyword arguments to be passed to the callback.</span>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">    :return: None.</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a>    <span class="k">pass</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-35">35</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-23" name="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-23"></a><span class="nd">@abstractmethod</span>
+<a id="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-24" name="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-24"></a><span class="k">def</span><span class="w"> </span><span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">ProcessingServiceCallbackType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-25" name="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-25"></a><span class="w">    </span><span class="sd">"""</span>
+<a id="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-26" name="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-26"></a><span class="sd">    Submit a callback along with its arguments for execution.</span>
+<a id="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-27" name="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-27"></a>
+<a id="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-28" name="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-28"></a><span class="sd">    Subclasses must implement this method to define the specific execution strategy.</span>
+<a id="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-29" name="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-29"></a>
+<a id="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-30" name="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-30"></a><span class="sd">    :param callback: The callback to be executed.</span>
+<a id="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-31" name="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-31"></a><span class="sd">    :param args: Positional arguments to be passed to the callback.</span>
+<a id="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-32" name="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-32"></a><span class="sd">    :param kwargs: Keyword arguments to be passed to the callback.</span>
+<a id="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-33" name="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-33"></a><span class="sd">    :return: None.</span>
+<a id="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-34" name="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-34"></a><span class="sd">    """</span>
+<a id="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-35" name="pyventus.core.processing.ProcessingService.submit--source--__codelineno-0-35"></a>    <span class="k">pass</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -3100,10 +3100,10 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
         <script src="../../../js/timeago.min.js"></script>
       

@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../../../images/favicon/pyventus-logo.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -33,10 +33,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -1492,12 +1492,12 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
   <a href="#pyventus.core.exceptions.PyventusException-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2686,12 +2686,12 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
   <a href="#pyventus.core.exceptions.PyventusException-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2766,47 +2766,47 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>pyventus/core/exceptions/pyventus_exception.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1"> 1</a></span>
-<span class="normal"><a href="#__codelineno-0-2"> 2</a></span>
-<span class="normal"><a href="#__codelineno-0-3"> 3</a></span>
-<span class="normal"><a href="#__codelineno-0-4"> 4</a></span>
-<span class="normal"><a href="#__codelineno-0-5"> 5</a></span>
-<span class="normal"><a href="#__codelineno-0-6"> 6</a></span>
-<span class="normal"><a href="#__codelineno-0-7"> 7</a></span>
-<span class="normal"><a href="#__codelineno-0-8"> 8</a></span>
-<span class="normal"><a href="#__codelineno-0-9"> 9</a></span>
-<span class="normal"><a href="#__codelineno-0-10">10</a></span>
-<span class="normal"><a href="#__codelineno-0-11">11</a></span>
-<span class="normal"><a href="#__codelineno-0-12">12</a></span>
-<span class="normal"><a href="#__codelineno-0-13">13</a></span>
-<span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">PyventusException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3"></a><span class="sd">    A custom exception class for the Pyventus package.</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="sd">    **Notes:**</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7"></a><span class="sd">    -   This class provides a robust mechanism for handling and identifying potential</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="sd">        exceptions within the Pyventus package.</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9"></a>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="sd">    -   This class inherits from the base `Exception` class in Python, allowing it to be</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11"></a><span class="sd">        raised as needed.</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13"></a>
-<a id="__codelineno-0-14" name="__codelineno-0-14"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">errors</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">        Initialize an instance of `PyventusException`.</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17"></a>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">        :param errors: The error messages associated with the exception. Defaults to `None`.</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">errors</span> <span class="k">if</span> <span class="n">errors</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-1"> 1</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-2"> 2</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-3"> 3</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-4"> 4</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-5"> 5</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-6"> 6</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-7"> 7</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-8"> 8</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-9"> 9</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-10">10</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-11">11</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-12">12</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-13">13</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException--source--__codelineno-0-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-1" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">PyventusException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-2" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-2"></a><span class="w">    </span><span class="sd">"""</span>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-3" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-3"></a><span class="sd">    A custom exception class for the Pyventus package.</span>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-4" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-4"></a>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-5" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-5"></a><span class="sd">    **Notes:**</span>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-6" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-6"></a>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-7" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-7"></a><span class="sd">    -   This class provides a robust mechanism for handling and identifying potential</span>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-8" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-8"></a><span class="sd">        exceptions within the Pyventus package.</span>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-9" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-9"></a>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-10" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-10"></a><span class="sd">    -   This class inherits from the base `Exception` class in Python, allowing it to be</span>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-11" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-11"></a><span class="sd">        raised as needed.</span>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-12" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-12"></a><span class="sd">    """</span>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-13" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-13"></a>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-14" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-14"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">errors</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-15" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-15"></a><span class="w">        </span><span class="sd">"""</span>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-16" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-16"></a><span class="sd">        Initialize an instance of `PyventusException`.</span>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-17" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-17"></a>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-18" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-18"></a><span class="sd">        :param errors: The error messages associated with the exception. Defaults to `None`.</span>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-19" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-19"></a><span class="sd">        """</span>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-20" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-20"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">errors</span> <span class="k">if</span> <span class="n">errors</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+<a id="pyventus.core.exceptions.PyventusException--source--__codelineno-0-21" name="pyventus.core.exceptions.PyventusException--source--__codelineno-0-21"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -2833,7 +2833,7 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
   </span>
 
 <a href="#pyventus.core.exceptions.PyventusException.errors" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">errors</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">]</span> <span class="o">=</span> <span class="n"><span title="pyventus.core.exceptions.pyventus_exception.PyventusException(errors)">errors</span></span> <span class="k">if</span> <span class="n"><span title="pyventus.core.exceptions.pyventus_exception.PyventusException(errors)">errors</span></span> <span class="k">else</span> <span class="n"><span title="pyventus.core.exceptions.pyventus_exception.PyventusException(self).__class__.__name__">__name__</span></span>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">errors</span><span class="p">:</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">]</span> <span class="o">=</span> <span class="n"><span title="pyventus.core.exceptions.pyventus_exception.PyventusException(errors)">errors</span></span> <span class="k">if</span> <span class="n"><span title="pyventus.core.exceptions.pyventus_exception.PyventusException(errors)">errors</span></span> <span class="k">else</span> <span class="n"><span title="pyventus.core.exceptions.pyventus_exception.PyventusException(self)">self</span></span><span class="o">.</span><span class="n"><span title="pyventus.core.exceptions.pyventus_exception.PyventusException(self).__class__">__class__</span></span><span class="o">.</span><span class="n"><span title="pyventus.core.exceptions.pyventus_exception.PyventusException(self).__class__.__name__">__name__</span></span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -2843,7 +2843,7 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 </div>
 
 
-<h2 id="pyventus.core.exceptions.PyventusException-functions">Functions<a href="#pyventus.core.exceptions.PyventusException-functions" class="headerlink" title="Permanent link">&para;</a></h2>
+<h2 id="pyventus.core.exceptions.PyventusException-functions">Methods:<a href="#pyventus.core.exceptions.PyventusException-functions" class="headerlink" title="Permanent link">&para;</a></h2>
 
 <div class="doc doc-object doc-function">
 
@@ -2895,21 +2895,21 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>pyventus/core/exceptions/pyventus_exception.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-14">14</a></span>
-<span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-14" name="__codelineno-0-14"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">errors</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="sd">    Initialize an instance of `PyventusException`.</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17"></a>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a><span class="sd">    :param errors: The error messages associated with the exception. Defaults to `None`.</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">errors</span> <span class="k">if</span> <span class="n">errors</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-14">14</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-21">21</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-14" name="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-14"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">errors</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<a id="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-15" name="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-15"></a><span class="w">    </span><span class="sd">"""</span>
+<a id="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-16" name="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-16"></a><span class="sd">    Initialize an instance of `PyventusException`.</span>
+<a id="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-17" name="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-17"></a>
+<a id="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-18" name="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-18"></a><span class="sd">    :param errors: The error messages associated with the exception. Defaults to `None`.</span>
+<a id="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-19" name="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-19"></a><span class="sd">    """</span>
+<a id="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-20" name="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-20"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">errors</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">errors</span> <span class="k">if</span> <span class="n">errors</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+<a id="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-21" name="pyventus.core.exceptions.PyventusException.__init__--source--__codelineno-0-21"></a>    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">errors</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -3182,10 +3182,10 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
         <script src="../../../../js/timeago.min.js"></script>
       

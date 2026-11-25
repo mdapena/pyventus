@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../../images/favicon/pyventus-logo.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -33,10 +33,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -3068,18 +3068,18 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-0-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">)</span>
 </span><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_my_event</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># (1)!</span>
-</span><a id="__codelineno-0-6" name="__codelineno-0-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling &#39;MyEvent&#39;!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-0-6" name="__codelineno-0-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling 'MyEvent'!"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <ol>
 <li>
 <p>You can also work with <code>async</code> functions:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
 <span class="normal"><a href="#__codelineno-1-2">2</a></span>
-<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">)</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_my_event</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><a id="__codelineno-1-3" name="__codelineno-1-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling &#39;MyEvent&#39;!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-1-3" name="__codelineno-1-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling 'MyEvent'!"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </li>
 </ol>
@@ -3093,9 +3093,9 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-2-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2"></a>
 <a id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_my_event</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># (1)!</span>
-</span><a id="__codelineno-2-4" name="__codelineno-2-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling &#39;MyEvent&#39;!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-2-4" name="__codelineno-2-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling 'MyEvent'!"</span><span class="p">)</span>
 <a id="__codelineno-2-5" name="__codelineno-2-5"></a>
-<a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_my_event</span><span class="p">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_my_event</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
 <ol>
 <li>
@@ -3104,9 +3104,9 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-3-2">2</a></span>
 <span class="normal"><a href="#__codelineno-3-3">3</a></span>
 <span class="normal"><a href="#__codelineno-3-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_my_event</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><a id="__codelineno-3-2" name="__codelineno-3-2"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling &#39;MyEvent&#39;!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-3-2" name="__codelineno-3-2"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling 'MyEvent'!"</span><span class="p">)</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3"></a>
-<a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_my_event</span><span class="p">)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4"></a><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_my_event</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </li>
 </ol>
@@ -3129,18 +3129,18 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-4-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2"></a>
 <a id="__codelineno-4-3" name="__codelineno-4-3"></a>
-<a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">)</span>
 </span><a id="__codelineno-4-5" name="__codelineno-4-5"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_my_event_once</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># (1)!</span>
-</span><a id="__codelineno-4-6" name="__codelineno-4-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling &#39;MyEvent&#39; once!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-4-6" name="__codelineno-4-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling 'MyEvent' once!"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <ol>
 <li>
 <p>You can also work with <code>async</code> functions:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1">1</a></span>
 <span class="normal"><a href="#__codelineno-5-2">2</a></span>
-<span class="normal"><a href="#__codelineno-5-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-5-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">)</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_my_event_once</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><a id="__codelineno-5-3" name="__codelineno-5-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling &#39;MyEvent&#39; once!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-5-3" name="__codelineno-5-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling 'MyEvent' once!"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </li>
 </ol>
@@ -3154,9 +3154,9 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-6-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2"></a>
 <a id="__codelineno-6-3" name="__codelineno-6-3"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_my_event_once</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># (1)!</span>
-</span><a id="__codelineno-6-4" name="__codelineno-6-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling &#39;MyEvent&#39; once!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-6-4" name="__codelineno-6-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling 'MyEvent' once!"</span><span class="p">)</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5"></a>
-<a id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_my_event_once</span><span class="p">,</span> <span class="n">once</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_my_event_once</span><span class="p">,</span> <span class="n">once</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
 <ol>
 <li>
@@ -3165,9 +3165,9 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-7-2">2</a></span>
 <span class="normal"><a href="#__codelineno-7-3">3</a></span>
 <span class="normal"><a href="#__codelineno-7-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_my_event_once</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><a id="__codelineno-7-2" name="__codelineno-7-2"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling &#39;MyEvent&#39; once!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-7-2" name="__codelineno-7-2"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling 'MyEvent' once!"</span><span class="p">)</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3"></a>
-<a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_my_event_once</span><span class="p">,</span> <span class="n">once</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4"></a><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_my_event_once</span><span class="p">,</span> <span class="n">once</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </li>
 </ol>
@@ -3195,32 +3195,32 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-8-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2"></a>
 <a id="__codelineno-8-3" name="__codelineno-8-3"></a>
-<a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;SecondEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"FirstEvent"</span><span class="p">,</span> <span class="s2">"SecondEvent"</span><span class="p">)</span>
 </span><a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_events</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># (1)!</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling multiple events!&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling multiple events!"</span><span class="p">)</span>
 <a id="__codelineno-8-7" name="__codelineno-8-7"></a>
 <a id="__codelineno-8-8" name="__codelineno-8-8"></a>
-<a id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;SecondEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="s2">"FirstEvent"</span><span class="p">,</span> <span class="s2">"SecondEvent"</span><span class="p">)</span>
 </span><a id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_events_once</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># (2)!</span>
-<a id="__codelineno-8-11" name="__codelineno-8-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling multiple events once!&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling multiple events once!"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <ol>
 <li>
 <p>You can also work with <code>async</code> functions:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-9-1">1</a></span>
 <span class="normal"><a href="#__codelineno-9-2">2</a></span>
-<span class="normal"><a href="#__codelineno-9-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;SecondEvent&quot;</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-9-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"FirstEvent"</span><span class="p">,</span> <span class="s2">"SecondEvent"</span><span class="p">)</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_events</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><a id="__codelineno-9-3" name="__codelineno-9-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling multiple events!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-9-3" name="__codelineno-9-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling multiple events!"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </li>
 <li>
 <p>You can also work with <code>async</code> functions:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-10-1">1</a></span>
 <span class="normal"><a href="#__codelineno-10-2">2</a></span>
-<span class="normal"><a href="#__codelineno-10-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;SecondEvent&quot;</span><span class="p">)</span>
+<span class="normal"><a href="#__codelineno-10-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="s2">"FirstEvent"</span><span class="p">,</span> <span class="s2">"SecondEvent"</span><span class="p">)</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_events_once</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><a id="__codelineno-10-3" name="__codelineno-10-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling multiple events once!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-10-3" name="__codelineno-10-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling multiple events once!"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </li>
 </ol>
@@ -3240,13 +3240,13 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-11-2" name="__codelineno-11-2"></a>
 <a id="__codelineno-11-3" name="__codelineno-11-3"></a>
 <a id="__codelineno-11-4" name="__codelineno-11-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_events</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># (1)!</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling multiple events!&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling multiple events!"</span><span class="p">)</span>
 <a id="__codelineno-11-6" name="__codelineno-11-6"></a>
 <a id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_events_once</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># (2)!</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling multiple events once!&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling multiple events once!"</span><span class="p">)</span>
 <a id="__codelineno-11-9" name="__codelineno-11-9"></a>
-<a id="__codelineno-11-10" name="__codelineno-11-10"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;SecondEvent&quot;</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_events</span><span class="p">)</span>
-</span><a id="__codelineno-11-11" name="__codelineno-11-11"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;SecondEvent&quot;</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_events_once</span><span class="p">,</span> <span class="n">once</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">"FirstEvent"</span><span class="p">,</span> <span class="s2">"SecondEvent"</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_events</span><span class="p">)</span>
+</span><a id="__codelineno-11-11" name="__codelineno-11-11"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">"FirstEvent"</span><span class="p">,</span> <span class="s2">"SecondEvent"</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_events_once</span><span class="p">,</span> <span class="n">once</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
 <ol>
 <li>
@@ -3255,9 +3255,9 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-12-2">2</a></span>
 <span class="normal"><a href="#__codelineno-12-3">3</a></span>
 <span class="normal"><a href="#__codelineno-12-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_events</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><a id="__codelineno-12-2" name="__codelineno-12-2"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling multiple events!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-12-2" name="__codelineno-12-2"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling multiple events!"</span><span class="p">)</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3"></a>
-<a id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;SecondEvent&quot;</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_events</span><span class="p">)</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4"></a><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">"FirstEvent"</span><span class="p">,</span> <span class="s2">"SecondEvent"</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_events</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </li>
 <li>
@@ -3266,9 +3266,9 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-13-2">2</a></span>
 <span class="normal"><a href="#__codelineno-13-3">3</a></span>
 <span class="normal"><a href="#__codelineno-13-4">4</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1"></a><span class="hll"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_events_once</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><a id="__codelineno-13-2" name="__codelineno-13-2"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling multiple events once!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-13-2" name="__codelineno-13-2"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling multiple events once!"</span><span class="p">)</span>
 <a id="__codelineno-13-3" name="__codelineno-13-3"></a>
-<a id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;SecondEvent&quot;</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_events_once</span><span class="p">,</span> <span class="n">once</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4"></a><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">"FirstEvent"</span><span class="p">,</span> <span class="s2">"SecondEvent"</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="n">handle_events_once</span><span class="p">,</span> <span class="n">once</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </li>
 </ol>
@@ -3305,8 +3305,8 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-14-15">15</a></span>
 <span class="normal"><a href="#__codelineno-14-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2"></a>
-<a id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="c1"># Create a subscription context for the &quot;DivisionEvent&quot; event</span>
-<a id="__codelineno-14-4" name="__codelineno-14-4"></a><span class="hll"><span class="k">with</span> <span class="n">EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;DivisionEvent&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">subctx</span><span class="p">:</span>  <span class="c1"># (1)!</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3"></a><span class="c1"># Create a subscription context for the "DivisionEvent" event</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4"></a><span class="hll"><span class="k">with</span> <span class="n">EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"DivisionEvent"</span><span class="p">)</span> <span class="k">as</span> <span class="n">subctx</span><span class="p">:</span>  <span class="c1"># (1)!</span>
 </span><a id="__codelineno-14-5" name="__codelineno-14-5"></a>
 <a id="__codelineno-14-6" name="__codelineno-14-6"></a><span class="hll">    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_event</span>  <span class="c1"># (2)!</span>
 </span><a id="__codelineno-14-7" name="__codelineno-14-7"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>  <span class="c1"># (3)!</span>
@@ -3314,11 +3314,11 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-14-9" name="__codelineno-14-9"></a>
 <a id="__codelineno-14-10" name="__codelineno-14-10"></a><span class="hll">    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_success</span>  <span class="c1"># (4)!</span>
 </span><a id="__codelineno-14-11" name="__codelineno-14-11"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">handle_success</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># (5)!</span>
-</span><a id="__codelineno-14-12" name="__codelineno-14-12"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Division result: </span><span class="si">{</span><span class="n">result</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-14-12" name="__codelineno-14-12"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Division result: </span><span class="si">{</span><span class="n">result</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-14-13" name="__codelineno-14-13"></a>
 <a id="__codelineno-14-14" name="__codelineno-14-14"></a><span class="hll">    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_failure</span>  <span class="c1"># (6)!</span>
 </span><a id="__codelineno-14-15" name="__codelineno-14-15"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">handle_failure</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># (7)!</span>
-</span><a id="__codelineno-14-16" name="__codelineno-14-16"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Oops, something went wrong: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-14-16" name="__codelineno-14-16"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Oops, something went wrong: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <ol>
 <li>
@@ -3339,7 +3339,7 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-15-14">14</a></span>
 <span class="normal"><a href="#__codelineno-15-15">15</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2"></a>
-<a id="__codelineno-15-3" name="__codelineno-15-3"></a><span class="hll"><span class="k">with</span> <span class="n">EventLinker</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="s2">&quot;DivisionEvent&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">subctx</span><span class="p">:</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3"></a><span class="hll"><span class="k">with</span> <span class="n">EventLinker</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="s2">"DivisionEvent"</span><span class="p">)</span> <span class="k">as</span> <span class="n">subctx</span><span class="p">:</span>
 </span><a id="__codelineno-15-4" name="__codelineno-15-4"></a>
 <a id="__codelineno-15-5" name="__codelineno-15-5"></a>    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_event</span>
 <a id="__codelineno-15-6" name="__codelineno-15-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -3347,11 +3347,11 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-15-8" name="__codelineno-15-8"></a>
 <a id="__codelineno-15-9" name="__codelineno-15-9"></a>    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_success</span>
 <a id="__codelineno-15-10" name="__codelineno-15-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">handle_success</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-15-11" name="__codelineno-15-11"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Division result: </span><span class="si">{</span><span class="n">result</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Division result: </span><span class="si">{</span><span class="n">result</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-15-12" name="__codelineno-15-12"></a>
 <a id="__codelineno-15-13" name="__codelineno-15-13"></a>    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_failure</span>
 <a id="__codelineno-15-14" name="__codelineno-15-14"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">handle_failure</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-15-15" name="__codelineno-15-15"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Oops, something went wrong: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-15-15" name="__codelineno-15-15"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Oops, something went wrong: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </li>
 <li>
@@ -3397,10 +3397,10 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-19-8">8</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
 <a id="__codelineno-19-2" name="__codelineno-19-2"></a>
 <a id="__codelineno-19-3" name="__codelineno-19-3"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>  <span class="c1"># (1)!</span>
-</span><a id="__codelineno-19-4" name="__codelineno-19-4"></a><span class="hll">    <span class="s2">&quot;DivisionEvent&quot;</span><span class="p">,</span>
+</span><a id="__codelineno-19-4" name="__codelineno-19-4"></a><span class="hll">    <span class="s2">"DivisionEvent"</span><span class="p">,</span>
 </span><a id="__codelineno-19-5" name="__codelineno-19-5"></a><span class="hll">    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span><span class="p">,</span>  <span class="c1"># (2)!</span>
-</span><a id="__codelineno-19-6" name="__codelineno-19-6"></a><span class="hll">    <span class="n">success_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">result</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Division result: </span><span class="si">{</span><span class="n">result</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>  <span class="c1"># (3)!</span>
-</span><a id="__codelineno-19-7" name="__codelineno-19-7"></a><span class="hll">    <span class="n">failure_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Oops, something went wrong: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>  <span class="c1"># (4)!</span>
+</span><a id="__codelineno-19-6" name="__codelineno-19-6"></a><span class="hll">    <span class="n">success_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">result</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Division result: </span><span class="si">{</span><span class="n">result</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>  <span class="c1"># (3)!</span>
+</span><a id="__codelineno-19-7" name="__codelineno-19-7"></a><span class="hll">    <span class="n">failure_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Oops, something went wrong: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>  <span class="c1"># (4)!</span>
 </span><a id="__codelineno-19-8" name="__codelineno-19-8"></a><span class="hll"><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
 <ol>
@@ -3417,10 +3417,10 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-20-9">9</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
 <a id="__codelineno-20-2" name="__codelineno-20-2"></a>
 <a id="__codelineno-20-3" name="__codelineno-20-3"></a><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
-<a id="__codelineno-20-4" name="__codelineno-20-4"></a>    <span class="s2">&quot;DivisionEvent&quot;</span><span class="p">,</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4"></a>    <span class="s2">"DivisionEvent"</span><span class="p">,</span>
 <a id="__codelineno-20-5" name="__codelineno-20-5"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">a</span> <span class="o">/</span> <span class="n">b</span><span class="p">,</span>
-<a id="__codelineno-20-6" name="__codelineno-20-6"></a>    <span class="n">success_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">result</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Division result: </span><span class="si">{</span><span class="n">result</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
-<a id="__codelineno-20-7" name="__codelineno-20-7"></a>    <span class="n">failure_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Oops, something went wrong: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6"></a>    <span class="n">success_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">result</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Division result: </span><span class="si">{</span><span class="n">result</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7"></a>    <span class="n">failure_callback</span><span class="o">=</span><span class="k">lambda</span> <span class="n">e</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Oops, something went wrong: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
 <a id="__codelineno-20-8" name="__codelineno-20-8"></a><span class="hll">    <span class="n">once</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><a id="__codelineno-20-9" name="__codelineno-20-9"></a><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -3455,13 +3455,13 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-21-2" name="__codelineno-21-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
 <a id="__codelineno-21-3" name="__codelineno-21-3"></a>
 <a id="__codelineno-21-4" name="__codelineno-21-4"></a>
-<a id="__codelineno-21-5" name="__codelineno-21-5"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;BlockingIO&quot;</span><span class="p">,</span> <span class="n">force_async</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># (1)!</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"BlockingIO"</span><span class="p">,</span> <span class="n">force_async</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># (1)!</span>
 </span><a id="__codelineno-21-6" name="__codelineno-21-6"></a><span class="k">def</span><span class="w"> </span><span class="nf">blocking_io</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-21-7" name="__codelineno-21-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;start blocking_io at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%X</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"start blocking_io at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'</span><span class="si">%X</span><span class="s1">'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-21-8" name="__codelineno-21-8"></a>    <span class="c1"># Note that time.sleep() can be replaced with any blocking</span>
 <a id="__codelineno-21-9" name="__codelineno-21-9"></a>    <span class="c1"># IO-bound operation, such as file operations.</span>
 <a id="__codelineno-21-10" name="__codelineno-21-10"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a id="__codelineno-21-11" name="__codelineno-21-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;blocking_io complete at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%X</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-21-11" name="__codelineno-21-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"blocking_io complete at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'</span><span class="si">%X</span><span class="s1">'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <ol>
 <li>
@@ -3480,13 +3480,13 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-22-2" name="__codelineno-22-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
 <a id="__codelineno-22-3" name="__codelineno-22-3"></a>
 <a id="__codelineno-22-4" name="__codelineno-22-4"></a>
-<a id="__codelineno-22-5" name="__codelineno-22-5"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="s2">&quot;BlockingIO&quot;</span><span class="p">,</span> <span class="n">force_async</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">once</span><span class="p">(</span><span class="s2">"BlockingIO"</span><span class="p">,</span> <span class="n">force_async</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span><a id="__codelineno-22-6" name="__codelineno-22-6"></a><span class="k">def</span><span class="w"> </span><span class="nf">blocking_io</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-22-7" name="__codelineno-22-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;start blocking_io at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%X</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"start blocking_io at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'</span><span class="si">%X</span><span class="s1">'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-22-8" name="__codelineno-22-8"></a>    <span class="c1"># Note that time.sleep() can be replaced with any blocking</span>
 <a id="__codelineno-22-9" name="__codelineno-22-9"></a>    <span class="c1"># IO-bound operation, such as file operations.</span>
 <a id="__codelineno-22-10" name="__codelineno-22-10"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a id="__codelineno-22-11" name="__codelineno-22-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;blocking_io complete at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%X</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-22-11" name="__codelineno-22-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"blocking_io complete at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'</span><span class="si">%X</span><span class="s1">'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </li>
 </ol>
@@ -3513,15 +3513,15 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-23-3" name="__codelineno-23-3"></a>
 <a id="__codelineno-23-4" name="__codelineno-23-4"></a>
 <a id="__codelineno-23-5" name="__codelineno-23-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">blocking_io</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-23-6" name="__codelineno-23-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;start blocking_io at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%X</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-23-6" name="__codelineno-23-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"start blocking_io at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'</span><span class="si">%X</span><span class="s1">'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-23-7" name="__codelineno-23-7"></a>    <span class="c1"># Note that time.sleep() can be replaced with any blocking</span>
 <a id="__codelineno-23-8" name="__codelineno-23-8"></a>    <span class="c1"># IO-bound operation, such as file operations.</span>
 <a id="__codelineno-23-9" name="__codelineno-23-9"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a id="__codelineno-23-10" name="__codelineno-23-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;blocking_io complete at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%X</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-23-10" name="__codelineno-23-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"blocking_io complete at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'</span><span class="si">%X</span><span class="s1">'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-23-11" name="__codelineno-23-11"></a>
 <a id="__codelineno-23-12" name="__codelineno-23-12"></a>
 <a id="__codelineno-23-13" name="__codelineno-23-13"></a><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>  <span class="c1"># (1)!</span>
-<a id="__codelineno-23-14" name="__codelineno-23-14"></a>    <span class="s2">&quot;BlockingIO&quot;</span><span class="p">,</span>
+<a id="__codelineno-23-14" name="__codelineno-23-14"></a>    <span class="s2">"BlockingIO"</span><span class="p">,</span>
 <a id="__codelineno-23-15" name="__codelineno-23-15"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="n">blocking_io</span><span class="p">,</span>
 <a id="__codelineno-23-16" name="__codelineno-23-16"></a><span class="hll">    <span class="n">force_async</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 </span><a id="__codelineno-23-17" name="__codelineno-23-17"></a><span class="p">)</span>
@@ -3551,15 +3551,15 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-24-3" name="__codelineno-24-3"></a>
 <a id="__codelineno-24-4" name="__codelineno-24-4"></a>
 <a id="__codelineno-24-5" name="__codelineno-24-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">blocking_io</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-24-6" name="__codelineno-24-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;start blocking_io at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%X</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-24-6" name="__codelineno-24-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"start blocking_io at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'</span><span class="si">%X</span><span class="s1">'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-24-7" name="__codelineno-24-7"></a>    <span class="c1"># Note that time.sleep() can be replaced with any blocking</span>
 <a id="__codelineno-24-8" name="__codelineno-24-8"></a>    <span class="c1"># IO-bound operation, such as file operations.</span>
 <a id="__codelineno-24-9" name="__codelineno-24-9"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-<a id="__codelineno-24-10" name="__codelineno-24-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;blocking_io complete at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%X</span><span class="s1">&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-24-10" name="__codelineno-24-10"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"blocking_io complete at </span><span class="si">{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">'</span><span class="si">%X</span><span class="s1">'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-24-11" name="__codelineno-24-11"></a>
 <a id="__codelineno-24-12" name="__codelineno-24-12"></a>
 <a id="__codelineno-24-13" name="__codelineno-24-13"></a><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
-<a id="__codelineno-24-14" name="__codelineno-24-14"></a>    <span class="s2">&quot;BlockingIO&quot;</span><span class="p">,</span>
+<a id="__codelineno-24-14" name="__codelineno-24-14"></a>    <span class="s2">"BlockingIO"</span><span class="p">,</span>
 <a id="__codelineno-24-15" name="__codelineno-24-15"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="n">blocking_io</span><span class="p">,</span>
 <a id="__codelineno-24-16" name="__codelineno-24-16"></a>    <span class="n">force_async</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <a id="__codelineno-24-17" name="__codelineno-24-17"></a><span class="hll">    <span class="n">once</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -3589,9 +3589,9 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-25-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
 <a id="__codelineno-25-2" name="__codelineno-25-2"></a>
 <a id="__codelineno-25-3" name="__codelineno-25-3"></a>
-<a id="__codelineno-25-4" name="__codelineno-25-4"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">,</span> <span class="n">stateful_subctx</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># (1)!</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">,</span> <span class="n">stateful_subctx</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># (1)!</span>
 </span><a id="__codelineno-25-5" name="__codelineno-25-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_my_event</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-25-6" name="__codelineno-25-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling &#39;MyEvent&#39;!&quot;</span><span class="p">)</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling 'MyEvent'!"</span><span class="p">)</span>
 <a id="__codelineno-25-7" name="__codelineno-25-7"></a>
 <a id="__codelineno-25-8" name="__codelineno-25-8"></a>
 <a id="__codelineno-25-9" name="__codelineno-25-9"></a><span class="hll"><span class="n">handle_my_event</span><span class="p">,</span> <span class="n">subctx</span> <span class="o">=</span> <span class="n">handle_my_event</span>
@@ -3611,7 +3611,7 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-26-2" name="__codelineno-26-2"></a>
 <a id="__codelineno-26-3" name="__codelineno-26-3"></a>
 <a id="__codelineno-26-4" name="__codelineno-26-4"></a><span class="hll"><span class="n">event_subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
-</span><a id="__codelineno-26-5" name="__codelineno-26-5"></a>    <span class="s2">&quot;MyEvent&quot;</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling &#39;MyEvent&#39;!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-26-5" name="__codelineno-26-5"></a>    <span class="s2">"MyEvent"</span><span class="p">,</span> <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling 'MyEvent'!"</span><span class="p">)</span>
 <a id="__codelineno-26-6" name="__codelineno-26-6"></a><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 </div>
@@ -3635,8 +3635,8 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-27-17">17</a></span>
 <span class="normal"><a href="#__codelineno-27-18">18</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventLinker</span>
 <a id="__codelineno-27-2" name="__codelineno-27-2"></a>
-<a id="__codelineno-27-3" name="__codelineno-27-3"></a><span class="c1"># Create a subscription context for the &quot;DivisionEvent&quot; event</span>
-<a id="__codelineno-27-4" name="__codelineno-27-4"></a><span class="hll"><span class="k">with</span> <span class="n">EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;DivisionEvent&quot;</span><span class="p">,</span> <span class="n">stateful_subctx</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">subctx</span><span class="p">:</span>  <span class="c1"># (1)!</span>
+<a id="__codelineno-27-3" name="__codelineno-27-3"></a><span class="c1"># Create a subscription context for the "DivisionEvent" event</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4"></a><span class="hll"><span class="k">with</span> <span class="n">EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"DivisionEvent"</span><span class="p">,</span> <span class="n">stateful_subctx</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">subctx</span><span class="p">:</span>  <span class="c1"># (1)!</span>
 </span><a id="__codelineno-27-5" name="__codelineno-27-5"></a>
 <a id="__codelineno-27-6" name="__codelineno-27-6"></a>    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_event</span>
 <a id="__codelineno-27-7" name="__codelineno-27-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">divide</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
@@ -3644,11 +3644,11 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-27-9" name="__codelineno-27-9"></a>
 <a id="__codelineno-27-10" name="__codelineno-27-10"></a>    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_success</span>
 <a id="__codelineno-27-11" name="__codelineno-27-11"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">handle_success</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-27-12" name="__codelineno-27-12"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Division result: </span><span class="si">{</span><span class="n">result</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-27-12" name="__codelineno-27-12"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Division result: </span><span class="si">{</span><span class="n">result</span><span class="si">:</span><span class="s2">.3g</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-27-13" name="__codelineno-27-13"></a>
 <a id="__codelineno-27-14" name="__codelineno-27-14"></a>    <span class="nd">@subctx</span><span class="o">.</span><span class="n">on_failure</span>
 <a id="__codelineno-27-15" name="__codelineno-27-15"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">handle_failure</span><span class="p">(</span><span class="n">e</span><span class="p">:</span> <span class="ne">Exception</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-27-16" name="__codelineno-27-16"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Oops, something went wrong: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-27-16" name="__codelineno-27-16"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Oops, something went wrong: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-27-17" name="__codelineno-27-17"></a>
 <a id="__codelineno-27-18" name="__codelineno-27-18"></a><span class="hll"><span class="n">event_linker</span><span class="p">,</span> <span class="n">event_subscriber</span> <span class="o">=</span> <span class="n">subctx</span><span class="o">.</span><span class="n">unpack</span><span class="p">()</span>
 </span></code></pre></div></td></tr></table></div>
@@ -3679,8 +3679,8 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-28-2" name="__codelineno-28-2"></a>
 <a id="__codelineno-28-3" name="__codelineno-28-3"></a>
 <a id="__codelineno-28-4" name="__codelineno-28-4"></a><span class="n">event_subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
-<a id="__codelineno-28-5" name="__codelineno-28-5"></a>    <span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;SecondEvent&quot;</span><span class="p">,</span>
-<a id="__codelineno-28-6" name="__codelineno-28-6"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling two events!&quot;</span><span class="p">)</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5"></a>    <span class="s2">"FirstEvent"</span><span class="p">,</span> <span class="s2">"SecondEvent"</span><span class="p">,</span>
+<a id="__codelineno-28-6" name="__codelineno-28-6"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling two events!"</span><span class="p">)</span>
 <a id="__codelineno-28-7" name="__codelineno-28-7"></a><span class="p">)</span>
 <a id="__codelineno-28-8" name="__codelineno-28-8"></a>
 <a id="__codelineno-28-9" name="__codelineno-28-9"></a><span class="hll"><span class="n">event_subscriber</span><span class="o">.</span><span class="n">unsubscribe</span><span class="p">()</span>  <span class="c1"># (1)!</span>
@@ -3702,8 +3702,8 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-29-2" name="__codelineno-29-2"></a>
 <a id="__codelineno-29-3" name="__codelineno-29-3"></a>
 <a id="__codelineno-29-4" name="__codelineno-29-4"></a><span class="n">event_subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
-<a id="__codelineno-29-5" name="__codelineno-29-5"></a>    <span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;SecondEvent&quot;</span><span class="p">,</span>
-<a id="__codelineno-29-6" name="__codelineno-29-6"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling two events!&quot;</span><span class="p">)</span>
+<a id="__codelineno-29-5" name="__codelineno-29-5"></a>    <span class="s2">"FirstEvent"</span><span class="p">,</span> <span class="s2">"SecondEvent"</span><span class="p">,</span>
+<a id="__codelineno-29-6" name="__codelineno-29-6"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling two events!"</span><span class="p">)</span>
 <a id="__codelineno-29-7" name="__codelineno-29-7"></a><span class="p">)</span>
 <a id="__codelineno-29-8" name="__codelineno-29-8"></a>
 <a id="__codelineno-29-9" name="__codelineno-29-9"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">remove_subscriber</span><span class="p">(</span><span class="n">event_subscriber</span><span class="p">)</span>  <span class="c1"># (1)!</span>
@@ -3727,11 +3727,11 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-30-2" name="__codelineno-30-2"></a>
 <a id="__codelineno-30-3" name="__codelineno-30-3"></a>
 <a id="__codelineno-30-4" name="__codelineno-30-4"></a><span class="n">event_subscriber</span><span class="p">:</span> <span class="n">EventSubscriber</span> <span class="o">=</span> <span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
-<a id="__codelineno-30-5" name="__codelineno-30-5"></a><span class="hll">    <span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;SecondEvent&quot;</span><span class="p">,</span>
-</span><a id="__codelineno-30-6" name="__codelineno-30-6"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling two events!&quot;</span><span class="p">)</span>
+<a id="__codelineno-30-5" name="__codelineno-30-5"></a><span class="hll">    <span class="s2">"FirstEvent"</span><span class="p">,</span> <span class="s2">"SecondEvent"</span><span class="p">,</span>
+</span><a id="__codelineno-30-6" name="__codelineno-30-6"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling two events!"</span><span class="p">)</span>
 <a id="__codelineno-30-7" name="__codelineno-30-7"></a><span class="p">)</span>
 <a id="__codelineno-30-8" name="__codelineno-30-8"></a>
-<a id="__codelineno-30-9" name="__codelineno-30-9"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span> <span class="n">event_subscriber</span><span class="p">)</span>  <span class="c1"># (1)!</span>
+<a id="__codelineno-30-9" name="__codelineno-30-9"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">"FirstEvent"</span><span class="p">,</span> <span class="n">event_subscriber</span><span class="p">)</span>  <span class="c1"># (1)!</span>
 </span></code></pre></div></td></tr></table></div>
 <ol>
 <li>This will remove the <code>FirstEvent</code> from the <code>event_subscriber</code>, but it will not be fully unsubscribed since it is still subscribed to the <code>SecondEvent</code>.</li>
@@ -3753,15 +3753,15 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-31-2" name="__codelineno-31-2"></a>
 <a id="__codelineno-31-3" name="__codelineno-31-3"></a>
 <a id="__codelineno-31-4" name="__codelineno-31-4"></a><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
-<a id="__codelineno-31-5" name="__codelineno-31-5"></a>    <span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span>
-<a id="__codelineno-31-6" name="__codelineno-31-6"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling one event!&quot;</span><span class="p">)</span>
+<a id="__codelineno-31-5" name="__codelineno-31-5"></a>    <span class="s2">"FirstEvent"</span><span class="p">,</span>
+<a id="__codelineno-31-6" name="__codelineno-31-6"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling one event!"</span><span class="p">)</span>
 <a id="__codelineno-31-7" name="__codelineno-31-7"></a><span class="p">)</span>
 <a id="__codelineno-31-8" name="__codelineno-31-8"></a><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
-<a id="__codelineno-31-9" name="__codelineno-31-9"></a>    <span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;SecondEvent&quot;</span><span class="p">,</span>
-<a id="__codelineno-31-10" name="__codelineno-31-10"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling two events!&quot;</span><span class="p">)</span>
+<a id="__codelineno-31-9" name="__codelineno-31-9"></a>    <span class="s2">"FirstEvent"</span><span class="p">,</span> <span class="s2">"SecondEvent"</span><span class="p">,</span>
+<a id="__codelineno-31-10" name="__codelineno-31-10"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling two events!"</span><span class="p">)</span>
 <a id="__codelineno-31-11" name="__codelineno-31-11"></a><span class="p">)</span>
 <a id="__codelineno-31-12" name="__codelineno-31-12"></a>
-<a id="__codelineno-31-13" name="__codelineno-31-13"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">remove_event</span><span class="p">(</span><span class="s2">&quot;FirstEvent&quot;</span><span class="p">)</span>  <span class="c1"># (1)!</span>
+<a id="__codelineno-31-13" name="__codelineno-31-13"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">remove_event</span><span class="p">(</span><span class="s2">"FirstEvent"</span><span class="p">)</span>  <span class="c1"># (1)!</span>
 </span></code></pre></div></td></tr></table></div>
 <ol>
 <li>This will remove the <code>FirstEvent</code> from both subscribers. However, only the first subscriber will be fully unsubscribed, as it was exclusively subscribed to the <code>FirstEvent</code>. The second subscriber will continue to be subscribed to the <code>SecondEvent</code>.</li>
@@ -3783,12 +3783,12 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-32-2" name="__codelineno-32-2"></a>
 <a id="__codelineno-32-3" name="__codelineno-32-3"></a>
 <a id="__codelineno-32-4" name="__codelineno-32-4"></a><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
-<a id="__codelineno-32-5" name="__codelineno-32-5"></a>    <span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span>
-<a id="__codelineno-32-6" name="__codelineno-32-6"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling one event!&quot;</span><span class="p">)</span>
+<a id="__codelineno-32-5" name="__codelineno-32-5"></a>    <span class="s2">"FirstEvent"</span><span class="p">,</span>
+<a id="__codelineno-32-6" name="__codelineno-32-6"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling one event!"</span><span class="p">)</span>
 <a id="__codelineno-32-7" name="__codelineno-32-7"></a><span class="p">)</span>
 <a id="__codelineno-32-8" name="__codelineno-32-8"></a><span class="n">EventLinker</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span>
-<a id="__codelineno-32-9" name="__codelineno-32-9"></a>    <span class="s2">&quot;FirstEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;SecondEvent&quot;</span><span class="p">,</span>
-<a id="__codelineno-32-10" name="__codelineno-32-10"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Handling two events!&quot;</span><span class="p">)</span>
+<a id="__codelineno-32-9" name="__codelineno-32-9"></a>    <span class="s2">"FirstEvent"</span><span class="p">,</span> <span class="s2">"SecondEvent"</span><span class="p">,</span>
+<a id="__codelineno-32-10" name="__codelineno-32-10"></a>    <span class="n">event_callback</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">"Handling two events!"</span><span class="p">)</span>
 <a id="__codelineno-32-11" name="__codelineno-32-11"></a><span class="p">)</span>
 <a id="__codelineno-32-12" name="__codelineno-32-12"></a>
 <a id="__codelineno-32-13" name="__codelineno-32-13"></a><span class="hll"><span class="n">EventLinker</span><span class="o">.</span><span class="n">remove_all</span><span class="p">()</span>  <span class="c1"># (1)!</span>
@@ -3824,18 +3824,18 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-33-2" name="__codelineno-33-2"></a>
 <a id="__codelineno-33-3" name="__codelineno-33-3"></a>
 <a id="__codelineno-33-4" name="__codelineno-33-4"></a><span class="hll"><span class="k">class</span><span class="w"> </span><span class="nc">UserEventLinker</span><span class="p">(</span><span class="n">EventLinker</span><span class="p">,</span> <span class="n">max_subscribers</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>  <span class="c1"># (1)!</span>
-</span><a id="__codelineno-33-5" name="__codelineno-33-5"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;EventLinker for User&#39;s events only&quot;&quot;&quot;</span>
+</span><a id="__codelineno-33-5" name="__codelineno-33-5"></a><span class="w">    </span><span class="sd">"""EventLinker for User's events only"""</span>
 <a id="__codelineno-33-6" name="__codelineno-33-6"></a>    <span class="k">pass</span>  <span class="c1"># Additional logic can be added here if needed...</span>
 <a id="__codelineno-33-7" name="__codelineno-33-7"></a>
 <a id="__codelineno-33-8" name="__codelineno-33-8"></a>
-<a id="__codelineno-33-9" name="__codelineno-33-9"></a><span class="hll"><span class="nd">@UserEventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;PasswordResetEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-33-9" name="__codelineno-33-9"></a><span class="hll"><span class="nd">@UserEventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"PasswordResetEvent"</span><span class="p">)</span>
 </span><a id="__codelineno-33-10" name="__codelineno-33-10"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_password_reset_event</span><span class="p">(</span><span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-33-11" name="__codelineno-33-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;PasswordResetEvent received!&quot;</span><span class="p">)</span>
+<a id="__codelineno-33-11" name="__codelineno-33-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"PasswordResetEvent received!"</span><span class="p">)</span>
 <a id="__codelineno-33-12" name="__codelineno-33-12"></a>
 <a id="__codelineno-33-13" name="__codelineno-33-13"></a>
-<a id="__codelineno-33-14" name="__codelineno-33-14"></a><span class="hll"><span class="nd">@UserEventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;EmailVerifiedEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-33-14" name="__codelineno-33-14"></a><span class="hll"><span class="nd">@UserEventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"EmailVerifiedEvent"</span><span class="p">)</span>
 </span><a id="__codelineno-33-15" name="__codelineno-33-15"></a><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handle_email_verified_event</span><span class="p">(</span><span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-33-16" name="__codelineno-33-16"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;EmailVerifiedEvent received!&quot;</span><span class="p">)</span>
+<a id="__codelineno-33-16" name="__codelineno-33-16"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"EmailVerifiedEvent received!"</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
 <ol>
 <li>The <code>max_subscribers</code> property determines the maximum number of subscribers allowed for each event. By default, it is set to <code>None</code> (infinity).</li>
@@ -4200,10 +4200,10 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
         <script src="../../../js/timeago.min.js"></script>
       

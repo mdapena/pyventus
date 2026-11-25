@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../../images/favicon/pyventus-logo.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -33,10 +33,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -2723,13 +2723,13 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-0-10">10</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3"></a>
-<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;GreetEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"GreetEvent"</span><span class="p">)</span>
 </span><a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_greet_event</span><span class="p">():</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hello, World!&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Hello, World!"</span><span class="p">)</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7"></a>
 <a id="__codelineno-0-8" name="__codelineno-0-8"></a>
 <a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">()</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="hll"><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;GreetEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="hll"><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">"GreetEvent"</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
 <details class="tip">
 <summary>Sending Data with String Events</summary>
@@ -2749,14 +2749,14 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-1-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncIOEventEmitter</span><span class="p">,</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2"></a>
 <a id="__codelineno-1-3" name="__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;GreetEvent&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"GreetEvent"</span><span class="p">)</span>
 <a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_greet_event</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">formal</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-</span><a id="__codelineno-1-6" name="__codelineno-1-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;Hello&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">formal</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;Hey&#39;</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-1-6" name="__codelineno-1-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'Hello'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">formal</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'Hey'</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">!"</span><span class="p">)</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7"></a>
 <a id="__codelineno-1-8" name="__codelineno-1-8"></a>
 <a id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">()</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="hll"><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;GreetEvent&quot;</span><span class="p">,</span> <span class="s2">&quot;Pyventus&quot;</span><span class="p">,</span> <span class="n">formal</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="hll"><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;GreetEvent&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Pyventus&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="hll"><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">"GreetEvent"</span><span class="p">,</span> <span class="s2">"Pyventus"</span><span class="p">,</span> <span class="n">formal</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><a id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="hll"><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">"GreetEvent"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Pyventus"</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
 </details>
 <h2 id="event-objects">Event Objects<a class="headerlink" href="#event-objects" title="Permanent link">&para;</a></h2>
@@ -2803,7 +2803,7 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 </span><a id="__codelineno-2-13" name="__codelineno-2-13"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_order_created_event</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">OrderCreatedEvent</span><span class="p">):</span>
 </span><a id="__codelineno-2-14" name="__codelineno-2-14"></a>    <span class="c1"># The event instance is automatically passed as the first argument.</span>
 <a id="__codelineno-2-15" name="__codelineno-2-15"></a>    <span class="c1"># In methods with self or cls, the event is passed after those arguments.</span>
-<a id="__codelineno-2-16" name="__codelineno-2-16"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Event Object: </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Event Object: </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-2-17" name="__codelineno-2-17"></a>
 <a id="__codelineno-2-18" name="__codelineno-2-18"></a>
 <a id="__codelineno-2-19" name="__codelineno-2-19"></a><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">()</span>
@@ -2841,8 +2841,8 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-4-3" name="__codelineno-4-3"></a>        <span class="n">order_id</span><span class="o">=</span><span class="mi">6452879</span><span class="p">,</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4"></a>        <span class="n">payload</span><span class="o">=</span><span class="p">{},</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5"></a>    <span class="p">),</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="hll">    <span class="s2">&quot;param1&quot;</span><span class="p">,</span>
-</span><a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="hll">    <span class="n">param2</span><span class="o">=</span><span class="s2">&quot;param2&quot;</span><span class="p">,</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6"></a><span class="hll">    <span class="s2">"param1"</span><span class="p">,</span>
+</span><a id="__codelineno-4-7" name="__codelineno-4-7"></a><span class="hll">    <span class="n">param2</span><span class="o">=</span><span class="s2">"param2"</span><span class="p">,</span>
 </span><a id="__codelineno-4-8" name="__codelineno-4-8"></a><span class="p">)</span>
 </code></pre></div></td></tr></table></div></li>
 </ol>
@@ -2867,9 +2867,9 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-5-5" name="__codelineno-5-5"></a>
 <a id="__codelineno-5-6" name="__codelineno-5-6"></a><span class="hll">    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 </span><a id="__codelineno-5-7" name="__codelineno-5-7"></a><span class="hll">        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">order_id</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-</span><a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="hll">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Error: &#39;order_id&#39; must be a valid int number!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-5-8" name="__codelineno-5-8"></a><span class="hll">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Error: 'order_id' must be a valid int number!"</span><span class="p">)</span>
 </span><a id="__codelineno-5-9" name="__codelineno-5-9"></a><span class="hll">        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">payload</span><span class="p">:</span>
-</span><a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="hll">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Error: &#39;payload&#39; cannot be empty!&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-5-10" name="__codelineno-5-10"></a><span class="hll">            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Error: 'payload' cannot be empty!"</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
 </details>
 <h2 id="exception-events">Exception Events<a class="headerlink" href="#exception-events" title="Permanent link">&para;</a></h2>
@@ -2894,11 +2894,11 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-6-3" name="__codelineno-6-3"></a>
 <a id="__codelineno-6-4" name="__codelineno-6-4"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">)</span>
 </span><a id="__codelineno-6-5" name="__codelineno-6-5"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_validation_error</span><span class="p">(</span><span class="n">exc</span><span class="p">:</span> <span class="ne">ValueError</span><span class="p">):</span>
-</span><a id="__codelineno-6-6" name="__codelineno-6-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Validation failed for: &#39;</span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-6-6" name="__codelineno-6-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Validation failed for: '</span><span class="si">{</span><span class="n">exc</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
 <a id="__codelineno-6-7" name="__codelineno-6-7"></a>
 <a id="__codelineno-6-8" name="__codelineno-6-8"></a>
 <a id="__codelineno-6-9" name="__codelineno-6-9"></a><span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="hll">    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;`username`, already in use.&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10"></a><span class="hll">    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"`username`, already in use."</span><span class="p">)</span>
 </span><a id="__codelineno-6-11" name="__codelineno-6-11"></a><span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <a id="__codelineno-6-12" name="__codelineno-6-12"></a><span class="hll">    <span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">()</span>
 </span><a id="__codelineno-6-13" name="__codelineno-6-13"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
@@ -2921,18 +2921,18 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <span class="normal"><a href="#__codelineno-7-14">14</a></span>
 <span class="normal"><a href="#__codelineno-7-15">15</a></span>
 <span class="normal"><a href="#__codelineno-7-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1"></a><span class="hll"><span class="k">class</span><span class="w"> </span><span class="nc">UserValidationError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
-</span><a id="__codelineno-7-2" name="__codelineno-7-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Validation Error&quot;</span><span class="p">):</span>
+</span><a id="__codelineno-7-2" name="__codelineno-7-2"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"Validation Error"</span><span class="p">):</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
 <a id="__codelineno-7-4" name="__codelineno-7-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">error</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">error</span>
 <a id="__codelineno-7-5" name="__codelineno-7-5"></a>
 <a id="__codelineno-7-6" name="__codelineno-7-6"></a>
 <a id="__codelineno-7-7" name="__codelineno-7-7"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">UserValidationError</span><span class="p">)</span>
 </span><a id="__codelineno-7-8" name="__codelineno-7-8"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_validation_error</span><span class="p">(</span><span class="n">exc</span><span class="p">:</span> <span class="n">UserValidationError</span><span class="p">):</span>
-</span><a id="__codelineno-7-9" name="__codelineno-7-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Validation failed for: &#39;</span><span class="si">{</span><span class="n">exc</span><span class="o">.</span><span class="n">error</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-7-9" name="__codelineno-7-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Validation failed for: '</span><span class="si">{</span><span class="n">exc</span><span class="o">.</span><span class="n">error</span><span class="si">}</span><span class="s2">'"</span><span class="p">)</span>
 <a id="__codelineno-7-10" name="__codelineno-7-10"></a>
 <a id="__codelineno-7-11" name="__codelineno-7-11"></a>
 <a id="__codelineno-7-12" name="__codelineno-7-12"></a><span class="k">try</span><span class="p">:</span>
-<a id="__codelineno-7-13" name="__codelineno-7-13"></a><span class="hll">    <span class="k">raise</span> <span class="n">UserValidationError</span><span class="p">(</span><span class="s2">&quot;`username`, already in use.&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13"></a><span class="hll">    <span class="k">raise</span> <span class="n">UserValidationError</span><span class="p">(</span><span class="s2">"`username`, already in use."</span><span class="p">)</span>
 </span><a id="__codelineno-7-14" name="__codelineno-7-14"></a><span class="k">except</span> <span class="n">UserValidationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
 <a id="__codelineno-7-15" name="__codelineno-7-15"></a><span class="hll">    <span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">()</span>
 </span><a id="__codelineno-7-16" name="__codelineno-7-16"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
@@ -2956,11 +2956,11 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-8-3" name="__codelineno-8-3"></a>
 <a id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 </span><a id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">logging</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>  <span class="c1"># (1)!</span>
-</span><a id="__codelineno-8-6" name="__codelineno-8-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Logging:</span><span class="se">\n</span><span class="s2">- Args: </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="se">\n</span><span class="s2">- Kwargs: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-8-6" name="__codelineno-8-6"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Logging:</span><span class="se">\n</span><span class="s2">- Args: </span><span class="si">{</span><span class="n">args</span><span class="si">}</span><span class="se">\n</span><span class="s2">- Kwargs: </span><span class="si">{</span><span class="n">kwargs</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-8-7" name="__codelineno-8-7"></a>
 <a id="__codelineno-8-8" name="__codelineno-8-8"></a>
 <a id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">()</span>
-<a id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="hll"><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;AnyEvent&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Pyventus&quot;</span><span class="p">)</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="hll"><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">"AnyEvent"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"Pyventus"</span><span class="p">)</span>
 </span></code></pre></div></td></tr></table></div>
 <ol>
 <li>This event callback will be triggered by any event type that occurs within the specific context of that <code>EventLinker</code>.</li>
@@ -3020,7 +3020,7 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-9-18" name="__codelineno-9-18"></a>
 <a id="__codelineno-9-19" name="__codelineno-9-19"></a><span class="hll"><span class="nd">@CustomEventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="n">OrderCreatedEvent</span><span class="p">)</span>
 </span><a id="__codelineno-9-20" name="__codelineno-9-20"></a><span class="k">def</span><span class="w"> </span><span class="nf">handle_greet_event</span><span class="p">(</span><span class="n">event</span><span class="p">:</span> <span class="n">OrderCreatedEvent</span><span class="p">):</span>
-<a id="__codelineno-9-21" name="__codelineno-9-21"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Event Object: </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Event Object: </span><span class="si">{</span><span class="n">event</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-9-22" name="__codelineno-9-22"></a>
 <a id="__codelineno-9-23" name="__codelineno-9-23"></a>
 <a id="__codelineno-9-24" name="__codelineno-9-24"></a><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">AsyncIOEventEmitter</span><span class="p">(</span>
@@ -3029,7 +3029,7 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-9-27" name="__codelineno-9-27"></a><span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span>
 <a id="__codelineno-9-28" name="__codelineno-9-28"></a><span class="hll">    <span class="n">event</span><span class="o">=</span><span class="n">OrderCreatedEvent</span><span class="p">(</span>
 </span><a id="__codelineno-9-29" name="__codelineno-9-29"></a><span class="hll">        <span class="n">order_id</span><span class="o">=</span><span class="mi">6452879</span><span class="p">,</span>
-</span><a id="__codelineno-9-30" name="__codelineno-9-30"></a><span class="hll">        <span class="n">payload</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;t-shirt&quot;</span><span class="p">:</span> <span class="mf">29.99</span><span class="p">},</span>
+</span><a id="__codelineno-9-30" name="__codelineno-9-30"></a><span class="hll">        <span class="n">payload</span><span class="o">=</span><span class="p">{</span><span class="s2">"t-shirt"</span><span class="p">:</span> <span class="mf">29.99</span><span class="p">},</span>
 </span><a id="__codelineno-9-31" name="__codelineno-9-31"></a><span class="hll">    <span class="p">),</span>
 </span><a id="__codelineno-9-32" name="__codelineno-9-32"></a><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
@@ -3352,10 +3352,10 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
         <script src="../../../js/timeago.min.js"></script>
       

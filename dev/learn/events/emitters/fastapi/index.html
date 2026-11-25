@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../../../images/favicon/pyventus-logo.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -33,10 +33,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -2650,11 +2650,11 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-0-5" name="__codelineno-0-5"></a><span class="hll"><span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
 </span><a id="__codelineno-0-6" name="__codelineno-0-6"></a>
 <a id="__codelineno-0-7" name="__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
 <a id="__codelineno-0-9" name="__codelineno-0-9"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">read_root</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">):</span>
 </span><a id="__codelineno-0-10" name="__codelineno-0-10"></a><span class="hll">    <span class="n">event_emitter</span> <span class="o">=</span> <span class="n">EventEmitter</span><span class="p">(</span><span class="n">event_processor</span><span class="o">=</span><span class="n">FastAPIProcessingService</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">))</span>
-</span><a id="__codelineno-0-11" name="__codelineno-0-11"></a>    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;Event&quot;</span><span class="p">:</span> <span class="s2">&quot;Emitted&quot;</span><span class="p">}</span>
+</span><a id="__codelineno-0-11" name="__codelineno-0-11"></a>    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">)</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">"Event"</span><span class="p">:</span> <span class="s2">"Emitted"</span><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -2673,10 +2673,10 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="hll"><span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
 </span><a id="__codelineno-1-5" name="__codelineno-1-5"></a>
 <a id="__codelineno-1-6" name="__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span>
 <a id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">read_root</span><span class="p">(</span><span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">FastAPIEventEmitter</span><span class="p">())):</span>
-</span><a id="__codelineno-1-9" name="__codelineno-1-9"></a>    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;MyEvent&quot;</span><span class="p">)</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;Event&quot;</span><span class="p">:</span> <span class="s2">&quot;Emitted&quot;</span><span class="p">}</span>
+</span><a id="__codelineno-1-9" name="__codelineno-1-9"></a>    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">"MyEvent"</span><span class="p">)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">"Event"</span><span class="p">:</span> <span class="s2">"Emitted"</span><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 </div>
 </div>
@@ -2728,23 +2728,23 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 </span><a id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="hll"><span class="kn">from</span><span class="w"> </span><span class="nn">pyventus.events</span><span class="w"> </span><span class="kn">import</span> <span class="n">EventEmitter</span><span class="p">,</span> <span class="n">EventLinker</span><span class="p">,</span> <span class="n">FastAPIEventEmitter</span>
 </span><a id="__codelineno-2-5" name="__codelineno-2-5"></a>
 <a id="__codelineno-2-6" name="__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">&quot;SendEmail&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="hll"><span class="nd">@EventLinker</span><span class="o">.</span><span class="n">on</span><span class="p">(</span><span class="s2">"SendEmail"</span><span class="p">)</span>
 </span><a id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="hll"><span class="k">def</span><span class="w"> </span><span class="nf">handle_email_notification</span><span class="p">(</span><span class="n">email</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-</span><a id="__codelineno-2-9" name="__codelineno-2-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sending email to: </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-2-9" name="__codelineno-2-9"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Sending email to: </span><span class="si">{</span><span class="n">email</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 <a id="__codelineno-2-10" name="__codelineno-2-10"></a>    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">2.5</span><span class="p">)</span>  <span class="c1"># Simulate sending delay.</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Email sent successfully!&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">"Email sent successfully!"</span><span class="p">)</span>
 <a id="__codelineno-2-12" name="__codelineno-2-12"></a>
 <a id="__codelineno-2-13" name="__codelineno-2-13"></a>
 <a id="__codelineno-2-14" name="__codelineno-2-14"></a><span class="hll"><span class="n">app</span> <span class="o">=</span> <span class="n">FastAPI</span><span class="p">()</span>
 </span><a id="__codelineno-2-15" name="__codelineno-2-15"></a>
 <a id="__codelineno-2-16" name="__codelineno-2-16"></a>
-<a id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;/email&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17"></a><span class="nd">@app</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"/email"</span><span class="p">)</span>
 <a id="__codelineno-2-18" name="__codelineno-2-18"></a><span class="k">def</span><span class="w"> </span><span class="nf">send_email</span><span class="p">(</span>
 <a id="__codelineno-2-19" name="__codelineno-2-19"></a>    <span class="n">email_to</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <a id="__codelineno-2-20" name="__codelineno-2-20"></a><span class="hll">    <span class="n">event_emitter</span><span class="p">:</span> <span class="n">EventEmitter</span> <span class="o">=</span> <span class="n">Depends</span><span class="p">(</span><span class="n">FastAPIEventEmitter</span><span class="p">()),</span>
 </span><a id="__codelineno-2-21" name="__codelineno-2-21"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-2-22" name="__codelineno-2-22"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;SendEmail&quot;</span><span class="p">,</span> <span class="n">email_to</span><span class="p">)</span>
-</span><a id="__codelineno-2-23" name="__codelineno-2-23"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;message&quot;</span><span class="p">:</span> <span class="s2">&quot;Email sent!&quot;</span><span class="p">}</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22"></a><span class="hll">    <span class="n">event_emitter</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">"SendEmail"</span><span class="p">,</span> <span class="n">email_to</span><span class="p">)</span>
+</span><a id="__codelineno-2-23" name="__codelineno-2-23"></a>    <span class="k">return</span> <span class="p">{</span><span class="s2">"message"</span><span class="p">:</span> <span class="s2">"Email sent!"</span><span class="p">}</span>
 </code></pre></div></td></tr></table></div>
 <p>To start the FastAPI server, run the following command:</p>
 <p><div class="terminal-command">
@@ -2752,7 +2752,7 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 </code></pre></div>
 </div></p>
 <p>Open your browser and navigate to <a href="http://127.0.0.1:8000/email?email_to=email@email.com" target="_blank">http://127.0.0.1:8000/email?email_to=email@email.com</a>. You should see the following JSON response:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Email sent!&quot;</span><span class="w"> </span><span class="p">}</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{</span><span class="w"> </span><span class="nt">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Email sent!"</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
 <p>Additionally, you will be able to view the output of the functions in the console logs.</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="go">INFO   Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)</span>
@@ -2760,7 +2760,7 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="go">INFO   Started server process [7008]</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="go">INFO   Waiting for application startup.</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="go">INFO   Application startup complete.</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="go">INFO   127.0.0.1:49763 - &quot;GET /email?email_to=email@email.com HTTP/1.1&quot; 200</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="go">INFO   127.0.0.1:49763 - "GET /email?email_to=email@email.com HTTP/1.1" 200</span>
 <a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="go">Sending email to: email@email.com</span>
 <a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="go">Email sent successfully!</span>
 </code></pre></div>
@@ -3085,10 +3085,10 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
         <script src="../../../../js/timeago.min.js"></script>
       

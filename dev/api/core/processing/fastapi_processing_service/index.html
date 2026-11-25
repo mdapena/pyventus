@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../../../images/favicon/pyventus-logo.ico">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.8.2">
     
     
       
@@ -33,10 +33,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.57a0d79d.min.css">
       
         
-        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.fb2fffe2.min.css">
       
       
 
@@ -1689,12 +1689,12 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
   <a href="#pyventus.core.processing.fastapi.FastAPIProcessingService-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2641,12 +2641,12 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
   <a href="#pyventus.core.processing.fastapi.FastAPIProcessingService-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -2727,95 +2727,95 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 
               <details class="mkdocstrings-source">
                 <summary>Source code in <code>pyventus/core/processing/fastapi/fastapi_processing_service.py</code></summary>
-                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-15">15</a></span>
-<span class="normal"><a href="#__codelineno-0-16">16</a></span>
-<span class="normal"><a href="#__codelineno-0-17">17</a></span>
-<span class="normal"><a href="#__codelineno-0-18">18</a></span>
-<span class="normal"><a href="#__codelineno-0-19">19</a></span>
-<span class="normal"><a href="#__codelineno-0-20">20</a></span>
-<span class="normal"><a href="#__codelineno-0-21">21</a></span>
-<span class="normal"><a href="#__codelineno-0-22">22</a></span>
-<span class="normal"><a href="#__codelineno-0-23">23</a></span>
-<span class="normal"><a href="#__codelineno-0-24">24</a></span>
-<span class="normal"><a href="#__codelineno-0-25">25</a></span>
-<span class="normal"><a href="#__codelineno-0-26">26</a></span>
-<span class="normal"><a href="#__codelineno-0-27">27</a></span>
-<span class="normal"><a href="#__codelineno-0-28">28</a></span>
-<span class="normal"><a href="#__codelineno-0-29">29</a></span>
-<span class="normal"><a href="#__codelineno-0-30">30</a></span>
-<span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span>
-<span class="normal"><a href="#__codelineno-0-35">35</a></span>
-<span class="normal"><a href="#__codelineno-0-36">36</a></span>
-<span class="normal"><a href="#__codelineno-0-37">37</a></span>
-<span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span>
-<span class="normal"><a href="#__codelineno-0-41">41</a></span>
-<span class="normal"><a href="#__codelineno-0-42">42</a></span>
-<span class="normal"><a href="#__codelineno-0-43">43</a></span>
-<span class="normal"><a href="#__codelineno-0-44">44</a></span>
-<span class="normal"><a href="#__codelineno-0-45">45</a></span>
-<span class="normal"><a href="#__codelineno-0-46">46</a></span>
-<span class="normal"><a href="#__codelineno-0-47">47</a></span>
-<span class="normal"><a href="#__codelineno-0-48">48</a></span>
-<span class="normal"><a href="#__codelineno-0-49">49</a></span>
-<span class="normal"><a href="#__codelineno-0-50">50</a></span>
-<span class="normal"><a href="#__codelineno-0-51">51</a></span>
-<span class="normal"><a href="#__codelineno-0-52">52</a></span>
-<span class="normal"><a href="#__codelineno-0-53">53</a></span>
-<span class="normal"><a href="#__codelineno-0-54">54</a></span>
-<span class="normal"><a href="#__codelineno-0-55">55</a></span>
-<span class="normal"><a href="#__codelineno-0-56">56</a></span>
-<span class="normal"><a href="#__codelineno-0-57">57</a></span>
-<span class="normal"><a href="#__codelineno-0-58">58</a></span>
-<span class="normal"><a href="#__codelineno-0-59">59</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-15" name="__codelineno-0-15"></a><span class="k">class</span><span class="w"> </span><span class="nc">FastAPIProcessingService</span><span class="p">(</span><span class="n">ProcessingService</span><span class="p">):</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17"></a><span class="sd">    A processing service that utilizes the FastAPI&#39;s `BackgroundTasks` to handle the execution of calls.</span>
-<a id="__codelineno-0-18" name="__codelineno-0-18"></a>
-<a id="__codelineno-0-19" name="__codelineno-0-19"></a><span class="sd">    **Notes:**</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20"></a>
-<a id="__codelineno-0-21" name="__codelineno-0-21"></a><span class="sd">    -   This service is specifically designed for FastAPI applications and leverages FastAPI&#39;s `BackgroundTasks`</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22"></a><span class="sd">        to handle the callbacks&#39; execution. This is useful for operations that need to happen after a request, but</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23"></a><span class="sd">        that the client doesn&#39;t really have to be waiting for the operation to complete before receiving the response.</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-25" name="__codelineno-0-25"></a>
-<a id="__codelineno-0-26" name="__codelineno-0-26"></a>    <span class="c1"># Attributes for the FastAPIProcessingService</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27"></a>    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;__background_tasks&quot;</span><span class="p">,)</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28"></a>
-<a id="__codelineno-0-29" name="__codelineno-0-29"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">        Initialize an instance of `FastAPIProcessingService`.</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">        :param background_tasks: The FastAPI `BackgroundTasks` object used to handle callbacks&#39; execution.</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">        :return: None.</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>        <span class="c1"># Validate the background_tasks instance.</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a>        <span class="k">if</span> <span class="n">background_tasks</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">,</span> <span class="n">BackgroundTasks</span><span class="p">):</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a>            <span class="k">raise</span> <span class="n">PyventusException</span><span class="p">(</span><span class="s2">&quot;The &#39;background_tasks&#39; argument must be an instance of the BackgroundTasks.&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a>        <span class="c1"># Store the BackgroundTasks instance.</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span> <span class="o">=</span> <span class="n">background_tasks</span>
-<a id="__codelineno-0-42" name="__codelineno-0-42"></a>
-<a id="__codelineno-0-43" name="__codelineno-0-43"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a id="__codelineno-0-44" name="__codelineno-0-44"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-45" name="__codelineno-0-45"></a><span class="sd">        Retrieve a string representation of the instance.</span>
-<a id="__codelineno-0-46" name="__codelineno-0-46"></a>
-<a id="__codelineno-0-47" name="__codelineno-0-47"></a><span class="sd">        :return: A string representation of the instance.</span>
-<a id="__codelineno-0-48" name="__codelineno-0-48"></a><span class="sd">        &quot;&quot;&quot;</span>
-<a id="__codelineno-0-49" name="__codelineno-0-49"></a>        <span class="k">return</span> <span class="n">formatted_repr</span><span class="p">(</span>
-<a id="__codelineno-0-50" name="__codelineno-0-50"></a>            <span class="n">instance</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
-<a id="__codelineno-0-51" name="__codelineno-0-51"></a>            <span class="n">info</span><span class="o">=</span><span class="n">attributes_repr</span><span class="p">(</span>
-<a id="__codelineno-0-52" name="__codelineno-0-52"></a>                <span class="n">background_tasks</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__background_tasks</span><span class="p">,</span>
-<a id="__codelineno-0-53" name="__codelineno-0-53"></a>            <span class="p">),</span>
-<a id="__codelineno-0-54" name="__codelineno-0-54"></a>        <span class="p">)</span>
-<a id="__codelineno-0-55" name="__codelineno-0-55"></a>
-<a id="__codelineno-0-56" name="__codelineno-0-56"></a>    <span class="nd">@override</span>
-<a id="__codelineno-0-57" name="__codelineno-0-57"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">ProcessingServiceCallbackType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-58" name="__codelineno-0-58"></a>        <span class="c1"># Add the callback to the background_tasks instance as a new task to be executed.</span>
-<a id="__codelineno-0-59" name="__codelineno-0-59"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__background_tasks</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-15">15</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-16">16</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-17">17</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-18">18</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-19">19</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-20">20</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-21">21</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-22">22</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-23">23</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-24">24</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-25">25</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-26">26</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-27">27</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-28">28</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-41">41</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-42">42</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-43">43</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-44">44</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-45">45</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-46">46</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-47">47</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-48">48</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-49">49</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-50">50</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-51">51</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-52">52</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-53">53</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-54">54</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-55">55</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-59">59</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-15" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-15"></a><span class="k">class</span><span class="w"> </span><span class="nc">FastAPIProcessingService</span><span class="p">(</span><span class="n">ProcessingService</span><span class="p">):</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-16" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-16"></a><span class="w">    </span><span class="sd">"""</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-17" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-17"></a><span class="sd">    A processing service that utilizes the FastAPI's `BackgroundTasks` to handle the execution of calls.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-18" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-18"></a>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-19" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-19"></a><span class="sd">    **Notes:**</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-20" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-20"></a>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-21" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-21"></a><span class="sd">    -   This service is specifically designed for FastAPI applications and leverages FastAPI's `BackgroundTasks`</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-22" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-22"></a><span class="sd">        to handle the callbacks' execution. This is useful for operations that need to happen after a request, but</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-23" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-23"></a><span class="sd">        that the client doesn't really have to be waiting for the operation to complete before receiving the response.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-24" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-24"></a><span class="sd">    """</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-25" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-25"></a>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-26" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-26"></a>    <span class="c1"># Attributes for the FastAPIProcessingService</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-27" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-27"></a>    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">"__background_tasks"</span><span class="p">,)</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-28" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-28"></a>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-29" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-29"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-30" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-30"></a><span class="w">        </span><span class="sd">"""</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-31" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-31"></a><span class="sd">        Initialize an instance of `FastAPIProcessingService`.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-32" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-32"></a>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-33" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-33"></a><span class="sd">        :param background_tasks: The FastAPI `BackgroundTasks` object used to handle callbacks' execution.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-34" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-34"></a><span class="sd">        :return: None.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-35" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-35"></a><span class="sd">        """</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-36" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-36"></a>        <span class="c1"># Validate the background_tasks instance.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-37" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-37"></a>        <span class="k">if</span> <span class="n">background_tasks</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">,</span> <span class="n">BackgroundTasks</span><span class="p">):</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-38" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-38"></a>            <span class="k">raise</span> <span class="n">PyventusException</span><span class="p">(</span><span class="s2">"The 'background_tasks' argument must be an instance of the BackgroundTasks."</span><span class="p">)</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-39" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-39"></a>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-40" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-40"></a>        <span class="c1"># Store the BackgroundTasks instance.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-41" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-41"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span> <span class="o">=</span> <span class="n">background_tasks</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-42" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-42"></a>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-43" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-43"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-44" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-44"></a><span class="w">        </span><span class="sd">"""</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-45" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-45"></a><span class="sd">        Retrieve a string representation of the instance.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-46" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-46"></a>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-47" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-47"></a><span class="sd">        :return: A string representation of the instance.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-48" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-48"></a><span class="sd">        """</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-49" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-49"></a>        <span class="k">return</span> <span class="n">formatted_repr</span><span class="p">(</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-50" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-50"></a>            <span class="n">instance</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-51" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-51"></a>            <span class="n">info</span><span class="o">=</span><span class="n">attributes_repr</span><span class="p">(</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-52" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-52"></a>                <span class="n">background_tasks</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__background_tasks</span><span class="p">,</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-53" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-53"></a>            <span class="p">),</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-54" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-54"></a>        <span class="p">)</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-55" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-55"></a>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-56" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-56"></a>    <span class="nd">@override</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-57" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-57"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">ProcessingServiceCallbackType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-58" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-58"></a>        <span class="c1"># Add the callback to the background_tasks instance as a new task to be executed.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-59" name="pyventus.core.processing.fastapi.FastAPIProcessingService--source--__codelineno-0-59"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">__background_tasks</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
               </details>
 
@@ -2830,7 +2830,7 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 
 
 
-<h2 id="pyventus.core.processing.fastapi.FastAPIProcessingService-functions">Functions<a href="#pyventus.core.processing.fastapi.FastAPIProcessingService-functions" class="headerlink" title="Permanent link">&para;</a></h2>
+<h2 id="pyventus.core.processing.fastapi.FastAPIProcessingService-functions">Methods:<a href="#pyventus.core.processing.fastapi.FastAPIProcessingService-functions" class="headerlink" title="Permanent link">&para;</a></h2>
 
 <div class="doc doc-object doc-function">
 
@@ -2902,31 +2902,31 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>pyventus/core/processing/fastapi/fastapi_processing_service.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-29">29</a></span>
-<span class="normal"><a href="#__codelineno-0-30">30</a></span>
-<span class="normal"><a href="#__codelineno-0-31">31</a></span>
-<span class="normal"><a href="#__codelineno-0-32">32</a></span>
-<span class="normal"><a href="#__codelineno-0-33">33</a></span>
-<span class="normal"><a href="#__codelineno-0-34">34</a></span>
-<span class="normal"><a href="#__codelineno-0-35">35</a></span>
-<span class="normal"><a href="#__codelineno-0-36">36</a></span>
-<span class="normal"><a href="#__codelineno-0-37">37</a></span>
-<span class="normal"><a href="#__codelineno-0-38">38</a></span>
-<span class="normal"><a href="#__codelineno-0-39">39</a></span>
-<span class="normal"><a href="#__codelineno-0-40">40</a></span>
-<span class="normal"><a href="#__codelineno-0-41">41</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-29" name="__codelineno-0-29"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-30" name="__codelineno-0-30"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<a id="__codelineno-0-31" name="__codelineno-0-31"></a><span class="sd">    Initialize an instance of `FastAPIProcessingService`.</span>
-<a id="__codelineno-0-32" name="__codelineno-0-32"></a>
-<a id="__codelineno-0-33" name="__codelineno-0-33"></a><span class="sd">    :param background_tasks: The FastAPI `BackgroundTasks` object used to handle callbacks&#39; execution.</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34"></a><span class="sd">    :return: None.</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35"></a><span class="sd">    &quot;&quot;&quot;</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36"></a>    <span class="c1"># Validate the background_tasks instance.</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37"></a>    <span class="k">if</span> <span class="n">background_tasks</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">,</span> <span class="n">BackgroundTasks</span><span class="p">):</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38"></a>        <span class="k">raise</span> <span class="n">PyventusException</span><span class="p">(</span><span class="s2">&quot;The &#39;background_tasks&#39; argument must be an instance of the BackgroundTasks.&quot;</span><span class="p">)</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39"></a>
-<a id="__codelineno-0-40" name="__codelineno-0-40"></a>    <span class="c1"># Store the BackgroundTasks instance.</span>
-<a id="__codelineno-0-41" name="__codelineno-0-41"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">__background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span> <span class="o">=</span> <span class="n">background_tasks</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-29">29</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-30">30</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-31">31</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-32">32</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-33">33</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-34">34</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-35">35</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-36">36</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-37">37</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-38">38</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-39">39</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-40">40</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-41">41</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-29" name="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-29"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-30" name="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-30"></a><span class="w">    </span><span class="sd">"""</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-31" name="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-31"></a><span class="sd">    Initialize an instance of `FastAPIProcessingService`.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-32" name="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-32"></a>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-33" name="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-33"></a><span class="sd">    :param background_tasks: The FastAPI `BackgroundTasks` object used to handle callbacks' execution.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-34" name="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-34"></a><span class="sd">    :return: None.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-35" name="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-35"></a><span class="sd">    """</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-36" name="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-36"></a>    <span class="c1"># Validate the background_tasks instance.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-37" name="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-37"></a>    <span class="k">if</span> <span class="n">background_tasks</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">background_tasks</span><span class="p">,</span> <span class="n">BackgroundTasks</span><span class="p">):</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-38" name="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-38"></a>        <span class="k">raise</span> <span class="n">PyventusException</span><span class="p">(</span><span class="s2">"The 'background_tasks' argument must be an instance of the BackgroundTasks."</span><span class="p">)</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-39" name="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-39"></a>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-40" name="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-40"></a>    <span class="c1"># Store the BackgroundTasks instance.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-41" name="pyventus.core.processing.fastapi.FastAPIProcessingService.__init__--source--__codelineno-0-41"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">__background_tasks</span><span class="p">:</span> <span class="n">BackgroundTasks</span> <span class="o">=</span> <span class="n">background_tasks</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -2949,13 +2949,13 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
 
             <details class="mkdocstrings-source">
               <summary>Source code in <code>pyventus/core/processing/fastapi/fastapi_processing_service.py</code></summary>
-              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-56">56</a></span>
-<span class="normal"><a href="#__codelineno-0-57">57</a></span>
-<span class="normal"><a href="#__codelineno-0-58">58</a></span>
-<span class="normal"><a href="#__codelineno-0-59">59</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="__codelineno-0-56" name="__codelineno-0-56"></a><span class="nd">@override</span>
-<a id="__codelineno-0-57" name="__codelineno-0-57"></a><span class="k">def</span><span class="w"> </span><span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">ProcessingServiceCallbackType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-58" name="__codelineno-0-58"></a>    <span class="c1"># Add the callback to the background_tasks instance as a new task to be executed.</span>
-<a id="__codelineno-0-59" name="__codelineno-0-59"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">__background_tasks</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+              <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.submit--source--__codelineno-0-56">56</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.submit--source--__codelineno-0-57">57</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.submit--source--__codelineno-0-58">58</a></span>
+<span class="normal"><a href="#pyventus.core.processing.fastapi.FastAPIProcessingService.submit--source--__codelineno-0-59">59</a></span></pre></div></td><td class="code"><div><pre><span></span><code><a id="pyventus.core.processing.fastapi.FastAPIProcessingService.submit--source--__codelineno-0-56" name="pyventus.core.processing.fastapi.FastAPIProcessingService.submit--source--__codelineno-0-56"></a><span class="nd">@override</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService.submit--source--__codelineno-0-57" name="pyventus.core.processing.fastapi.FastAPIProcessingService.submit--source--__codelineno-0-57"></a><span class="k">def</span><span class="w"> </span><span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">ProcessingServiceCallbackType</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService.submit--source--__codelineno-0-58" name="pyventus.core.processing.fastapi.FastAPIProcessingService.submit--source--__codelineno-0-58"></a>    <span class="c1"># Add the callback to the background_tasks instance as a new task to be executed.</span>
+<a id="pyventus.core.processing.fastapi.FastAPIProcessingService.submit--source--__codelineno-0-59" name="pyventus.core.processing.fastapi.FastAPIProcessingService.submit--source--__codelineno-0-59"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">__background_tasks</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre></div></td></tr></table></div>
             </details>
     </div>
@@ -3228,10 +3228,10 @@ Don't miss the <b>latest updates</b>, featuring <b>new observable types</b>, <b>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.progress", "navigation.tracking", "navigation.tabs", "navigation.indexes", "navigation.top", "navigation.sections", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.tabs.link", "content.code.annotation", "content.code.copy", "content.tooltips", "content.code.annotate", "announce.dismiss"], "search": "../../../../assets/javascripts/workers/search.a7633da7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"default": ["latest", "dev"], "provider": "mike"}}</script>
     
     
-      <script src="../../../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../../assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
         <script src="../../../../js/timeago.min.js"></script>
       

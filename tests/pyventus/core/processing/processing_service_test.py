@@ -41,7 +41,13 @@ class ProcessingServiceTest(ABC):
             processing_service.submit(callback1, *self.args, **self.kwargs)
             processing_service.submit(callback2, *self.args, **self.kwargs)
             processing_service.submit(callback3, *self.args, **self.kwargs)
-            yield None  # Yield control for any additional processing.
+
+            # Ensure callback cannot be passed by keyword.
+            with pytest.raises(TypeError):
+                processing_service.submit(callback=callback1)  # type: ignore[call-arg]
+
+            # Yield control for any additional processing.
+            yield None
 
             # Assert: Verify that each callback was called exactly once with the specified arguments.
             assert callback1.call_count == callback2.call_count == callback3.call_count == 1
